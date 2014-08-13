@@ -1,0 +1,903 @@
+Word_testGet();
+#item input.docx
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:pPr>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+      </w:pPr>
+      <w:bookmarkStart w:id="0" w:name="_Toc220840145"/>
+      <w:r>
+        <w:t>Before</w:t>
+      </w:r>
+      <w:r>
+        <w:fldChar w:fldCharType="begin"/>
+      </w:r>
+      <w:r>
+        <w:instrText xml:space="preserve"> TOC \o &quot;1-3&quot; </w:instrText>
+      </w:r>
+      <w:r>
+        <w:fldChar w:fldCharType="separate"/>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="TOC1"/>
+        <w:tabs>
+          <w:tab w:leader="dot" w:pos="8290" w:val="right"/>
+        </w:tabs>
+        <w:rPr>
+          <w:noProof/>
+          <w:lang w:eastAsia="ja-JP" w:val="en-US"/>
+        </w:rPr>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:t>Heading 1 A</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:tab/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:fldChar w:fldCharType="begin"/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:instrText xml:space="preserve"> PAGEREF _Toc220840244 \h </w:instrText>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:fldChar w:fldCharType="separate"/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:t>1</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:fldChar w:fldCharType="end"/>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="TOC1"/>
+        <w:tabs>
+          <w:tab w:leader="dot" w:pos="8290" w:val="right"/>
+        </w:tabs>
+        <w:rPr>
+          <w:noProof/>
+          <w:lang w:eastAsia="ja-JP" w:val="en-US"/>
+        </w:rPr>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:t>Heading 1 B</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:tab/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:fldChar w:fldCharType="begin"/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:instrText xml:space="preserve"> PAGEREF _Toc220840245 \h </w:instrText>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:fldChar w:fldCharType="separate"/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:t>1</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:fldChar w:fldCharType="end"/>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="TOC1"/>
+        <w:tabs>
+          <w:tab w:leader="dot" w:pos="8290" w:val="right"/>
+        </w:tabs>
+        <w:rPr>
+          <w:noProof/>
+          <w:lang w:eastAsia="ja-JP" w:val="en-US"/>
+        </w:rPr>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:t>Heading 1 C</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:tab/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:fldChar w:fldCharType="begin"/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:instrText xml:space="preserve"> PAGEREF _Toc220840246 \h </w:instrText>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:fldChar w:fldCharType="separate"/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:t>1</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:fldChar w:fldCharType="end"/>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="TOC2"/>
+        <w:tabs>
+          <w:tab w:leader="dot" w:pos="8290" w:val="right"/>
+        </w:tabs>
+        <w:rPr>
+          <w:noProof/>
+          <w:lang w:eastAsia="ja-JP" w:val="en-US"/>
+        </w:rPr>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:t>Heading 2 A</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:tab/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:fldChar w:fldCharType="begin"/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:instrText xml:space="preserve"> PAGEREF _Toc220840247 \h </w:instrText>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:fldChar w:fldCharType="separate"/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:t>1</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:fldChar w:fldCharType="end"/>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="TOC2"/>
+        <w:tabs>
+          <w:tab w:leader="dot" w:pos="8290" w:val="right"/>
+        </w:tabs>
+        <w:rPr>
+          <w:noProof/>
+          <w:lang w:eastAsia="ja-JP" w:val="en-US"/>
+        </w:rPr>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:t>Heading 2 B</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:tab/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:fldChar w:fldCharType="begin"/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:instrText xml:space="preserve"> PAGEREF _Toc220840248 \h </w:instrText>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:fldChar w:fldCharType="separate"/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:t>1</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:fldChar w:fldCharType="end"/>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="TOC2"/>
+        <w:tabs>
+          <w:tab w:leader="dot" w:pos="8290" w:val="right"/>
+        </w:tabs>
+        <w:rPr>
+          <w:noProof/>
+          <w:lang w:eastAsia="ja-JP" w:val="en-US"/>
+        </w:rPr>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:t>Heading 2 C</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:tab/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:fldChar w:fldCharType="begin"/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:instrText xml:space="preserve"> PAGEREF _Toc220840249 \h </w:instrText>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:fldChar w:fldCharType="separate"/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:t>1</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof/>
+        </w:rPr>
+        <w:fldChar w:fldCharType="end"/>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:fldChar w:fldCharType="end"/>
+      </w:r>
+      <w:r>
+        <w:t>After</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading1"/>
+      </w:pPr>
+      <w:bookmarkStart w:id="1" w:name="_Toc220840244"/>
+      <w:r>
+        <w:t>Heading 1 A</w:t>
+      </w:r>
+      <w:bookmarkEnd w:id="0"/>
+      <w:bookmarkEnd w:id="1"/>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading1"/>
+      </w:pPr>
+      <w:bookmarkStart w:id="2" w:name="_Toc220840146"/>
+      <w:bookmarkStart w:id="3" w:name="_Toc220840245"/>
+      <w:r>
+        <w:t>Heading 1 B</w:t>
+      </w:r>
+      <w:bookmarkEnd w:id="2"/>
+      <w:bookmarkEnd w:id="3"/>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading1"/>
+      </w:pPr>
+      <w:bookmarkStart w:id="4" w:name="_Toc220840147"/>
+      <w:bookmarkStart w:id="5" w:name="_Toc220840246"/>
+      <w:r>
+        <w:t>Heading 1 C</w:t>
+      </w:r>
+      <w:bookmarkEnd w:id="4"/>
+      <w:bookmarkEnd w:id="5"/>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading2"/>
+      </w:pPr>
+      <w:bookmarkStart w:id="6" w:name="_Toc220840148"/>
+      <w:bookmarkStart w:id="7" w:name="_Toc220840247"/>
+      <w:r>
+        <w:t>Heading 2 A</w:t>
+      </w:r>
+      <w:bookmarkEnd w:id="6"/>
+      <w:bookmarkEnd w:id="7"/>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading2"/>
+      </w:pPr>
+      <w:bookmarkStart w:id="8" w:name="_Toc220840149"/>
+      <w:bookmarkStart w:id="9" w:name="_Toc220840248"/>
+      <w:r>
+        <w:t>Heading 2 B</w:t>
+      </w:r>
+      <w:bookmarkEnd w:id="8"/>
+      <w:bookmarkEnd w:id="9"/>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading2"/>
+      </w:pPr>
+      <w:bookmarkStart w:id="10" w:name="_Toc220840150"/>
+      <w:bookmarkStart w:id="11" w:name="_Toc220840249"/>
+      <w:r>
+        <w:t>Heading 2 C</w:t>
+      </w:r>
+      <w:bookmarkStart w:id="12" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="10"/>
+      <w:bookmarkEnd w:id="11"/>
+      <w:bookmarkEnd w:id="12"/>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:footer="708" w:gutter="0" w:header="708" w:left="1800" w:right="1800" w:top="1440"/>
+      <w:cols w:space="708"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:docDefaults>
+    <w:rPrDefault>
+      <w:rPr>
+        <w:rFonts w:asciiTheme="minorHAnsi" w:cstheme="minorBidi" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorHAnsi"/>
+        <w:sz w:val="24"/>
+        <w:szCs w:val="24"/>
+        <w:lang w:bidi="ar-SA" w:eastAsia="en-US" w:val="en-AU"/>
+      </w:rPr>
+    </w:rPrDefault>
+    <w:pPrDefault/>
+  </w:docDefaults>
+  <w:style w:default="1" w:styleId="Normal" w:type="paragraph">
+    <w:name w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:spacing w:after="100" w:afterAutospacing="1" w:before="100" w:beforeAutospacing="1"/>
+    </w:pPr>
+  </w:style>
+  <w:style w:styleId="Heading1" w:type="paragraph">
+    <w:name w:val="heading 1"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:link w:val="Heading1Char"/>
+    <w:uiPriority w:val="9"/>
+    <w:qFormat/>
+    <w:rsid w:val="005E2BD7"/>
+    <w:pPr>
+      <w:keepNext/>
+      <w:keepLines/>
+      <w:spacing w:before="480"/>
+      <w:outlineLvl w:val="0"/>
+    </w:pPr>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:b/>
+      <w:bCs/>
+      <w:color w:themeColor="accent1" w:themeShade="B5" w:val="345A8A"/>
+      <w:sz w:val="32"/>
+      <w:szCs w:val="32"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading2" w:type="paragraph">
+    <w:name w:val="heading 2"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:link w:val="Heading2Char"/>
+    <w:uiPriority w:val="9"/>
+    <w:unhideWhenUsed/>
+    <w:qFormat/>
+    <w:rsid w:val="005E2BD7"/>
+    <w:pPr>
+      <w:keepNext/>
+      <w:keepLines/>
+      <w:spacing w:before="200"/>
+      <w:outlineLvl w:val="1"/>
+    </w:pPr>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:b/>
+      <w:bCs/>
+      <w:color w:themeColor="accent1" w:val="4F81BD"/>
+      <w:sz w:val="26"/>
+      <w:szCs w:val="26"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="DefaultParagraphFont" w:type="character">
+    <w:name w:val="Default Paragraph Font"/>
+    <w:uiPriority w:val="1"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+  <w:style w:default="1" w:styleId="TableNormal" w:type="table">
+    <w:name w:val="Normal Table"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+    <w:tblPr>
+      <w:tblInd w:type="dxa" w:w="0"/>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="NoList" w:type="numbering">
+    <w:name w:val="No List"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Heading1Char" w:type="character">
+    <w:name w:val="Heading 1 Char"/>
+    <w:basedOn w:val="DefaultParagraphFont"/>
+    <w:link w:val="Heading1"/>
+    <w:uiPriority w:val="9"/>
+    <w:rsid w:val="005E2BD7"/>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:b/>
+      <w:bCs/>
+      <w:color w:themeColor="accent1" w:themeShade="B5" w:val="345A8A"/>
+      <w:sz w:val="32"/>
+      <w:szCs w:val="32"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="DocumentMap" w:type="paragraph">
+    <w:name w:val="Document Map"/>
+    <w:basedOn w:val="Normal"/>
+    <w:link w:val="DocumentMapChar"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+    <w:rsid w:val="005E2BD7"/>
+    <w:rPr>
+      <w:rFonts w:ascii="Lucida Grande" w:hAnsi="Lucida Grande"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="DocumentMapChar" w:type="character">
+    <w:name w:val="Document Map Char"/>
+    <w:basedOn w:val="DefaultParagraphFont"/>
+    <w:link w:val="DocumentMap"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:rsid w:val="005E2BD7"/>
+    <w:rPr>
+      <w:rFonts w:ascii="Lucida Grande" w:hAnsi="Lucida Grande"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Heading2Char" w:type="character">
+    <w:name w:val="Heading 2 Char"/>
+    <w:basedOn w:val="DefaultParagraphFont"/>
+    <w:link w:val="Heading2"/>
+    <w:uiPriority w:val="9"/>
+    <w:rsid w:val="005E2BD7"/>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:b/>
+      <w:bCs/>
+      <w:color w:themeColor="accent1" w:val="4F81BD"/>
+      <w:sz w:val="26"/>
+      <w:szCs w:val="26"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="TOC1" w:type="paragraph">
+    <w:name w:val="toc 1"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:autoRedefine/>
+    <w:uiPriority w:val="39"/>
+    <w:unhideWhenUsed/>
+    <w:rsid w:val="005E2BD7"/>
+  </w:style>
+  <w:style w:styleId="TOC2" w:type="paragraph">
+    <w:name w:val="toc 2"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:autoRedefine/>
+    <w:uiPriority w:val="39"/>
+    <w:unhideWhenUsed/>
+    <w:rsid w:val="005E2BD7"/>
+    <w:pPr>
+      <w:ind w:left="240"/>
+    </w:pPr>
+  </w:style>
+  <w:style w:styleId="TOC3" w:type="paragraph">
+    <w:name w:val="toc 3"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:autoRedefine/>
+    <w:uiPriority w:val="39"/>
+    <w:unhideWhenUsed/>
+    <w:rsid w:val="005E2BD7"/>
+    <w:pPr>
+      <w:ind w:left="480"/>
+    </w:pPr>
+  </w:style>
+  <w:style w:styleId="TOC4" w:type="paragraph">
+    <w:name w:val="toc 4"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:autoRedefine/>
+    <w:uiPriority w:val="39"/>
+    <w:unhideWhenUsed/>
+    <w:rsid w:val="005E2BD7"/>
+    <w:pPr>
+      <w:ind w:left="720"/>
+    </w:pPr>
+  </w:style>
+  <w:style w:styleId="TOC5" w:type="paragraph">
+    <w:name w:val="toc 5"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:autoRedefine/>
+    <w:uiPriority w:val="39"/>
+    <w:unhideWhenUsed/>
+    <w:rsid w:val="005E2BD7"/>
+    <w:pPr>
+      <w:ind w:left="960"/>
+    </w:pPr>
+  </w:style>
+  <w:style w:styleId="TOC6" w:type="paragraph">
+    <w:name w:val="toc 6"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:autoRedefine/>
+    <w:uiPriority w:val="39"/>
+    <w:unhideWhenUsed/>
+    <w:rsid w:val="005E2BD7"/>
+    <w:pPr>
+      <w:ind w:left="1200"/>
+    </w:pPr>
+  </w:style>
+  <w:style w:styleId="TOC7" w:type="paragraph">
+    <w:name w:val="toc 7"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:autoRedefine/>
+    <w:uiPriority w:val="39"/>
+    <w:unhideWhenUsed/>
+    <w:rsid w:val="005E2BD7"/>
+    <w:pPr>
+      <w:ind w:left="1440"/>
+    </w:pPr>
+  </w:style>
+  <w:style w:styleId="TOC8" w:type="paragraph">
+    <w:name w:val="toc 8"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:autoRedefine/>
+    <w:uiPriority w:val="39"/>
+    <w:unhideWhenUsed/>
+    <w:rsid w:val="005E2BD7"/>
+    <w:pPr>
+      <w:ind w:left="1680"/>
+    </w:pPr>
+  </w:style>
+  <w:style w:styleId="TOC9" w:type="paragraph">
+    <w:name w:val="toc 9"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:autoRedefine/>
+    <w:uiPriority w:val="39"/>
+    <w:unhideWhenUsed/>
+    <w:rsid w:val="005E2BD7"/>
+    <w:pPr>
+      <w:ind w:left="1920"/>
+    </w:pPr>
+  </w:style>
+</w:styles>
+#item expected
+<!DOCTYPE html>
+<html id="word1">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+@page {
+    size: A4 portrait;
+}
+
+body {
+    counter-reset: h1 h2 h3 h4 h5 h6 figure table;
+    margin-bottom: 12.10084%;
+    margin-left: 15.12605%;
+    margin-right: 15.12605%;
+    margin-top: 12.10084%;
+}
+
+h1.heading_1 {
+    -uxwrite-display-name: "heading 1";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #345A8A;
+    font-size: 16pt;
+    font-weight: bold;
+    margin-top: 24pt;
+}
+
+h2.heading_2 {
+    -uxwrite-display-name: "heading 2";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #4F81BD;
+    font-size: 13pt;
+    font-weight: bold;
+    margin-top: 10pt;
+}
+
+p.Document_Map {
+    -uxwrite-display-name: "Document Map";
+    -uxwrite-parent: "p.Normal";
+    font-family: "Lucida Grande";
+}
+
+p.Normal {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal";
+}
+
+p.toc_1 {
+    -uxwrite-display-name: "toc 1";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+}
+
+p.toc_2 {
+    -uxwrite-display-name: "toc 2";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    margin-left: 2.891566%;
+}
+
+p.toc_3 {
+    -uxwrite-display-name: "toc 3";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    margin-left: 5.783133%;
+}
+
+p.toc_4 {
+    -uxwrite-display-name: "toc 4";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    margin-left: 8.674699%;
+}
+
+p.toc_5 {
+    -uxwrite-display-name: "toc 5";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    margin-left: 11.566265%;
+}
+
+p.toc_6 {
+    -uxwrite-display-name: "toc 6";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    margin-left: 14.457831%;
+}
+
+p.toc_7 {
+    -uxwrite-display-name: "toc 7";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    margin-left: 17.349398%;
+}
+
+p.toc_8 {
+    -uxwrite-display-name: "toc 8";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    margin-left: 20.240964%;
+}
+
+p.toc_9 {
+    -uxwrite-display-name: "toc 9";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    margin-left: 23.13253%;
+}
+
+span.Default_Paragraph_Font {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Default Paragraph Font";
+}
+
+span.Document_Map_Char {
+    -uxwrite-display-name: "Document Map Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    font-family: "Lucida Grande";
+}
+
+span.Heading_1_Char {
+    -uxwrite-display-name: "Heading 1 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #345A8A;
+    font-size: 16pt;
+    font-weight: bold;
+}
+
+span.Heading_2_Char {
+    -uxwrite-display-name: "Heading 2 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #4F81BD;
+    font-size: 13pt;
+    font-weight: bold;
+}
+
+table.Normal_Table {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal Table";
+}
+
+table.Normal_Table > * > tr > td {
+    padding-bottom: 0pt;
+    padding-left: 5.4pt;
+    padding-right: 5.4pt;
+    padding-top: 0pt;
+}
+    </style>
+  </head>
+  <body id="word2">
+    <p>
+      <span id="word8">Before</span>
+    </p>
+    <nav class="tableofcontents" id="word345">
+    </nav>
+    <p class="Normal" id="word274">
+      <span id="word277">After</span>
+    </p>
+    <h1 class="heading_1" id="word280">
+      <span id="word284">Heading 1 A</span>
+    </h1>
+    <h1 class="heading_1" id="word289">
+      <span id="word294">Heading 1 B</span>
+    </h1>
+    <h1 class="heading_1" id="word299">
+      <span id="word304">Heading 1 C</span>
+    </h1>
+    <h2 class="heading_2" id="word309">
+      <span id="word314">Heading 2 A</span>
+    </h2>
+    <h2 class="heading_2" id="word319">
+      <span id="word324">Heading 2 B</span>
+    </h2>
+    <h2 class="heading_2" id="word329">
+      <span id="word334">Heading 2 C</span>
+    </h2>
+  </body>
+</html>

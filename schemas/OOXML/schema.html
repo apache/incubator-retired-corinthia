@@ -1,0 +1,3101 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta name="generator" content="UX Write 1.0.3 (build 3468); iOS 6.0">
+  <meta charset="utf-8">
+  <link href="../schema.css" rel="stylesheet">
+  <title>OOXML Schema</title>
+</head>
+
+<body>
+  <p class="Title">OOXML Schema</p>
+
+  <nav class="tableofcontents">
+    <h1>Contents</h1>
+
+    <div class="toc1">
+      <a href="#item10">Content</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item11">Document</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item16">Block-level elements</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item17">Run-level elements</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item13">Paragraph</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item14">Run</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item15">Table</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item18">Fields</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item19">Graphics</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item5">Footnotes and Endnotes</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item3">Headers and footers</a>
+    </div>
+
+    <div class="toc1">
+      <a href="#item20">Formatting</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item21">Styles</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item22">Borders and shading</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item23">Paragraph formatting</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item24">Run formatting</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item25">Table formatting</a>
+    </div>
+
+    <div class="toc1">
+      <a href="#item1">General</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item9">Settings</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item6">Section properties</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item4">Numbering</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item7">Fonts</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item2">Comments</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item8">Change tracking</a>
+    </div>
+
+    <div class="toc1">
+      <a href="#item26">Special features</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item27">Glossary</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item28">Custom XML</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item29">Web settings</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item30">Structured data</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item31">Mail merge</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item32">Conditional formatting</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item33">Annotations</a>
+    </div>
+
+    <div class="toc1">
+      <a href="#item34">Common types</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item35">Numeric types</a>
+    </div>
+
+    <div class="toc2">
+      <a href="#item36">Non-numeric types</a>
+    </div>
+
+    <div class="toc1">
+      <a href="#item37">Uncategorised</a>
+    </div>
+  </nav>
+
+  <p><br></p>
+
+  <h1 id="item10">Content</h1>
+
+  <h2 id="item11">Document</h2>
+<pre id="w_document">
+w_document = element document {
+    element background { <a href="#w_CT_Background">w_CT_Background</a> }?,
+    element body { <a href="#w_CT_Body">w_CT_Body</a> }?,
+    attribute w:conformance { s_ST_ConformanceClass }?
+}
+</pre>
+
+<pre id="w_CT_Background">
+w_CT_Background =
+    attribute w:color { w_ST_HexColor }?,
+    attribute w:themeColor { w_ST_ThemeColor }?,
+    attribute w:themeTint { w_ST_UcharHexNumber }?,
+    attribute w:themeShade { w_ST_UcharHexNumber }?,
+    (<a href="#w_any_vml_vml">w_any_vml_vml</a>*, <a href="#w_any_vml_office">w_any_vml_office</a>*)+,
+    element drawing { <a href="#w_CT_Drawing">w_CT_Drawing</a> }?
+</pre>
+
+  <pre>
+w_CT_Body =
+    <a href="#w_EG_BlockLevelElts">w_EG_BlockLevelElts</a>*,
+    element sectPr { <a href="#w_CT_SectPr">w_CT_SectPr</a> }?
+</pre>
+
+  <h2 id="item16">Block-level elements</h2>
+<pre id="w_EG_BlockLevelElts">
+w_EG_BlockLevelElts =
+    <a href="#w_EG_ContentBlockContent">w_EG_ContentBlockContent</a>*
+    | element altChunk { <a href="#w_CT_AltChunk">w_CT_AltChunk</a> }*
+</pre>
+
+<pre id="w_EG_ContentBlockContent">
+w_EG_ContentBlockContent =
+    element customXml { <a href="#w_CT_CustomXmlBlock">w_CT_CustomXmlBlock</a> }
+    | element sdt { <a href="#w_CT_SdtBlock">w_CT_SdtBlock</a> }
+    | element p { <a href="#w_CT_P">w_CT_P</a> }*
+    | element tbl { <a href="#w_CT_Tbl">w_CT_Tbl</a>  }*
+    | <a href="#w_EG_RunLevelElts">w_EG_RunLevelElts</a>*
+</pre>
+
+<pre id="w_CT_AltChunk">
+w_CT_AltChunk =
+    r_id?,
+    element altChunkPr { element matchSrc { w_CT_OnOff }? }?
+</pre>
+
+  <h2 id="item17">Run-level elements</h2>
+<pre id="w_EG_RunLevelElts">
+w_EG_RunLevelElts =
+    element proofErr { attribute w:type { "spellStart" | "spellEnd" | "gramStart" | "gramEnd" } }? |
+    element permStart { <a href="#w_CT_PermStart">w_CT_PermStart</a> }? |
+    element permEnd { <a href="#w_CT_Perm">w_CT_Perm</a> }? |
+    <a href="#w_EG_RangeMarkupElements">w_EG_RangeMarkupElements</a>* |
+    element ins { <a href="#w_CT_RunTrackChange">w_CT_RunTrackChange</a> }? |
+    element del { <a href="#w_CT_RunTrackChange">w_CT_RunTrackChange</a> }? |
+    element moveFrom { <a href="#w_CT_RunTrackChange">w_CT_RunTrackChange</a> } |
+    element moveTo { <a href="#w_CT_RunTrackChange">w_CT_RunTrackChange</a> } |
+    (m_oMathPara | m_oMath)*
+</pre>
+
+<pre id="w_CT_Perm">
+w_CT_Perm =
+    attribute w:id { s_ST_String },
+    attribute w:displacedByCustomXml { "next" | "prev" }?
+</pre>
+
+<pre id="w_CT_PermStart">
+w_CT_PermStart =
+    <a href="#w_CT_Perm">w_CT_Perm</a>,
+    attribute w:edGrp {
+        "none" | "everyone" | "administrators" | "contributors" | "editors" | "owners" | "current"
+    }?,
+    attribute w:ed { s_ST_String }?,
+    attribute w:colFirst { xsd:integer }?,
+    attribute w:colLast { xsd:integer }?
+</pre>
+
+  <h2 id="item13">Paragraph</h2>
+  <pre id="w_CT_P">
+w_CT_P =
+    attribute w:rsidRPr { w_ST_LongHexNumber }?,
+    attribute w:rsidR { w_ST_LongHexNumber }?,
+    attribute w:rsidDel { w_ST_LongHexNumber }?,
+    attribute w:rsidP { w_ST_LongHexNumber }?,
+    attribute w:rsidRDefault { w_ST_LongHexNumber }?,
+    element pPr { <a href="#w_CT_PPr">w_CT_PPr</a> }?,
+    <a href="#w_EG_PContent">w_EG_PContent</a>*
+</pre>
+
+<pre id="w_EG_PContent">
+w_EG_PContent =
+    <a href="#w_EG_ContentRunContent">w_EG_ContentRunContent</a>* |
+    element fldSimple { <a href="#w_CT_SimpleField">w_CT_SimpleField</a> }* |
+    element hyperlink { <a href="#w_CT_Hyperlink">w_CT_Hyperlink</a> } |
+    element subDoc { <a href="#w_CT_Rel">w_CT_Rel</a> }
+</pre>
+
+<pre id="w_EG_ContentRunContent">
+w_EG_ContentRunContent =
+    element customXml { <a href="#w_CT_CustomXmlRun">w_CT_CustomXmlRun</a> } |
+    element smartTag { <a href="#w_CT_SmartTagRun">w_CT_SmartTagRun</a> } |
+    element sdt { <a href="#w_CT_SdtRun">w_CT_SdtRun</a> } |
+    element dir { <a href="#w_CT_DirContentRun">w_CT_DirContentRun</a> } |
+    element bdo { <a href="#w_CT_BdoContentRun">w_CT_BdoContentRun</a> } |
+    element r { <a href="#w_CT_R">w_CT_R</a> } |
+    <a href="#w_EG_RunLevelElts">w_EG_RunLevelElts</a>*
+</pre>
+
+<pre id="w_EG_ContentRunContentBase">
+w_EG_ContentRunContentBase =
+    element smartTag { <a href="#w_CT_SmartTagRun">w_CT_SmartTagRun</a> } |
+    element sdt { <a href="#w_CT_SdtRun">w_CT_SdtRun</a> } |
+    <a href="#w_EG_RunLevelElts">w_EG_RunLevelElts</a>*
+</pre>
+
+<pre id="w_CT_DirContentRun">
+w_CT_DirContentRun =
+    attribute w:val { "ltr" | "rtl" }?,
+    <a href="#w_EG_PContent">w_EG_PContent</a>*
+</pre>
+
+<pre id="w_CT_BdoContentRun">
+w_CT_BdoContentRun =
+    attribute w:val { "ltr" | "rtl" }?,
+    <a href="#w_EG_PContent">w_EG_PContent</a>*
+</pre>
+
+<pre id="w_EG_PContentMath">
+w_EG_PContentMath = <a href="#w_EG_PContentBase">w_EG_PContentBase</a>* | <a href="#w_EG_ContentRunContentBase">w_EG_ContentRunContentBase</a>*
+</pre>
+
+<pre id="w_EG_PContentBase">
+w_EG_PContentBase =
+    element customXml { <a href="#w_CT_CustomXmlRun">w_CT_CustomXmlRun</a> } |
+    element fldSimple { <a href="#w_CT_SimpleField">w_CT_SimpleField</a> }* 
+    element hyperlink { <a href="#w_CT_Hyperlink">w_CT_Hyperlink</a> }
+</pre>
+
+<pre id="w_CT_Hyperlink">
+w_CT_Hyperlink =
+    attribute w:tgtFrame { s_ST_String }?,
+    attribute w:tooltip { s_ST_String }?,
+    attribute w:docLocation { s_ST_String }?,
+    attribute w:history { s_ST_OnOff }?,
+    attribute w:anchor { s_ST_String }?,
+    r_id?,
+    <a href="#w_EG_PContent">w_EG_PContent</a>*
+</pre>
+
+<pre id="w_CT_SimpleField">
+w_CT_SimpleField =
+    attribute w:instr { s_ST_String },
+    attribute w:fldLock { s_ST_OnOff }?,
+    attribute w:dirty { s_ST_OnOff }?,
+    element fldData { <a href="#w_CT_Text">w_CT_Text</a> }?,
+    <a href="#w_EG_PContent">w_EG_PContent</a>*
+</pre>
+
+  <h2 id="item14">Run</h2>
+<pre id="w_CT_R">
+w_CT_R =
+    attribute w:rsidRPr { w_ST_LongHexNumber }?,
+    attribute w:rsidDel { w_ST_LongHexNumber }?,
+    attribute w:rsidR { w_ST_LongHexNumber }?,
+    <a href="#w_EG_RPr">w_EG_RPr</a>?,
+    <a href="#w_EG_RunInnerContent">w_EG_RunInnerContent</a>*
+</pre>
+
+<pre id="w_EG_RunInnerContent">
+w_EG_RunInnerContent =
+    element br { <a href="#w_CT_Br">w_CT_Br</a> } |
+    element t { <a href="#w_CT_Text">w_CT_Text</a> } |
+    element contentPart { <a href="#w_CT_Rel">w_CT_Rel</a> } |
+    element delText { <a href="#w_CT_Text">w_CT_Text</a> } |
+    element instrText { <a href="#w_CT_Text">w_CT_Text</a> } |
+    element delInstrText { <a href="#w_CT_Text">w_CT_Text</a> } |
+    element noBreakHyphen { w_CT_Empty } |
+    element softHyphen { w_CT_Empty }? |
+    element dayShort { w_CT_Empty }? |
+    element monthShort { w_CT_Empty }? |
+    element yearShort { w_CT_Empty }? |
+    element dayLong { w_CT_Empty }? |
+    element monthLong { w_CT_Empty }? |
+    element yearLong { w_CT_Empty }? |
+    element annotationRef { w_CT_Empty }? |
+    element footnoteRef { w_CT_Empty }? |
+    element endnoteRef { w_CT_Empty }? |
+    element separator { w_CT_Empty }? |
+    element continuationSeparator { w_CT_Empty }? |
+    element sym { <a href="#w_CT_Sym">w_CT_Sym</a> }? |
+    element pgNum { w_CT_Empty }? |
+    element cr { w_CT_Empty }? |
+    element tab { w_CT_Empty }? |
+    element object { <a href="#w_CT_Object">w_CT_Object</a> } |
+    element pict { <a href="#w_CT_Picture">w_CT_Picture</a> } |
+    element fldChar { <a href="#w_CT_FldChar">w_CT_FldChar</a> } |
+    element ruby { <a href="#w_CT_Ruby">w_CT_Ruby</a> } |
+    element footnoteReference { <a href="#w_CT_FtnEdnRef">w_CT_FtnEdnRef</a> } |
+    element endnoteReference { <a href="#w_CT_FtnEdnRef">w_CT_FtnEdnRef</a> } |
+    element commentReference { attribute w:id { xsd:integer } } |
+    element drawing { <a href="#w_CT_Drawing">w_CT_Drawing</a> } |
+    element ptab { <a href="#w_CT_PTab">w_CT_PTab</a> }? |
+    element lastRenderedPageBreak { w_CT_Empty }?
+</pre>
+
+<pre id="w_CT_Ruby">
+w_CT_Ruby =
+    element rubyPr { <a href="#w_CT_RubyPr">w_CT_RubyPr</a> },
+    element rt { <a href="#w_EG_RubyContent">w_EG_RubyContent</a>* },
+    element rubyBase { <a href="#w_EG_RubyContent">w_EG_RubyContent</a>* }
+</pre>
+
+<pre id="w_CT_RubyPr">
+w_CT_RubyPr =
+    element rubyAlign {
+        attribute w:val {
+            "center" | "distributeLetter" | "distributeSpace" | "left" | "right" | "rightVertical"
+        }
+    },
+    element hps { attribute w:val { w_ST_HpsMeasure } },
+    element hpsRaise { attribute w:val { w_ST_HpsMeasure } },
+    element hpsBaseText { attribute w:val { w_ST_HpsMeasure } },
+    element lid { attribute w:val { s_ST_Lang } },
+    element dirty { w_CT_OnOff }?
+</pre>
+
+<pre id="w_EG_RubyContent">
+w_EG_RubyContent =
+    element r { <a href="#w_CT_R">w_CT_R</a> } |
+    <a href="#w_EG_RunLevelElts">w_EG_RunLevelElts</a>*
+</pre>
+
+<pre id="w_CT_Sym">
+w_CT_Sym =
+    attribute w:font { s_ST_String }?,
+    attribute w:char { w_ST_ShortHexNumber }?
+</pre>
+
+<pre id="w_CT_Br">
+w_CT_Br =
+    attribute w:type { "page" |"column" |"textWrapping" }?,
+    attribute w:clear { "none" |"left" |"right" |"all" }?
+</pre>
+
+<pre id="w_CT_PTab">
+w_CT_PTab =
+    attribute w:alignment { "left" | "center" | "right" },
+    attribute w:relativeTo { "margin" | "indent" },
+    attribute w:leader { "none" | "dot" | "hyphen" | "underscore" | "middleDot" }  
+</pre>
+
+<pre id="w_CT_Text">
+w_CT_Text = s_ST_String, xml_space?
+</pre>
+
+<pre id="w_CT_FtnEdnRef">
+w_CT_FtnEdnRef =
+    attribute w:customMarkFollows { s_ST_OnOff }?,
+    attribute w:id { xsd:integer }
+</pre>
+
+  <h2 id="item15">Table</h2>
+  <pre id="w_CT_Tbl">
+w_CT_Tbl =
+    <a href="#w_EG_RangeMarkupElements">w_EG_RangeMarkupElements</a>*,
+    element tblPr { <a href="#w_CT_TblPr">w_CT_TblPr</a> },
+    element tblGrid { <a href="#w_CT_TblGrid">w_CT_TblGrid</a> },
+    <a href="#w_EG_ContentRowContent">w_EG_ContentRowContent</a>*
+</pre>
+
+<pre id="w_EG_ContentRowContent">
+w_EG_ContentRowContent =
+    element tr { <a href="#w_CT_Row">w_CT_Row</a> }*
+    | element customXml { <a href="#w_CT_CustomXmlRow">w_CT_CustomXmlRow</a> }
+    | element sdt { <a href="#w_CT_SdtRow">w_CT_SdtRow</a> }
+    | <a href="#w_EG_RunLevelElts">w_EG_RunLevelElts</a>*
+</pre>
+
+<pre id="w_CT_Row">
+w_CT_Row =
+    attribute w:rsidRPr { w_ST_LongHexNumber }?,
+    attribute w:rsidR { w_ST_LongHexNumber }?,
+    attribute w:rsidDel { w_ST_LongHexNumber }?,
+    attribute w:rsidTr { w_ST_LongHexNumber }?,
+    element tblPrEx { <a href="#w_CT_TblPrEx">w_CT_TblPrEx</a> }?,
+    element trPr { <a href="#w_CT_TrPr">w_CT_TrPr</a> }?,
+    <a href="#w_EG_ContentCellContent">w_EG_ContentCellContent</a>*
+</pre>
+
+<pre id="w_EG_ContentCellContent">
+w_EG_ContentCellContent =
+    element tc { <a href="#w_CT_Tc">w_CT_Tc</a> }*
+    | element customXml { <a href="#w_CT_CustomXmlCell">w_CT_CustomXmlCell</a> }
+    | element sdt { <a href="#w_CT_SdtCell">w_CT_SdtCell</a> }
+    | <a href="#w_EG_RunLevelElts">w_EG_RunLevelElts</a>*
+</pre>
+
+<pre id="w_CT_Tc">
+w_CT_Tc =
+    attribute w:id { s_ST_String }?,
+    element tcPr { <a href="#w_CT_TcPr">w_CT_TcPr</a> }?,
+    <a href="#w_EG_BlockLevelElts">w_EG_BlockLevelElts</a>+
+</pre>
+
+  <h2 id="item18">Fields</h2>
+<pre id="w_CT_FldChar">
+w_CT_FldChar =
+    attribute w:fldCharType { "begin" | "separate" | "end" },
+    attribute w:fldLock { s_ST_OnOff }?,
+    attribute w:dirty { s_ST_OnOff }?,
+    (element fldData { <a href="#w_CT_Text">w_CT_Text</a> }?
+     | element ffData { <a href="#w_CT_FFData">w_CT_FFData</a> }?
+     | element numberingChange { <a href="#w_CT_TrackChangeNumbering">w_CT_TrackChangeNumbering</a> }?)
+</pre>
+
+<pre id="w_CT_FFData">
+w_CT_FFData =
+    (element name { attribute w:val { xsd:string { maxLength = "65" } }? }
+     | element label { attribute w:val { xsd:integer } }?
+     | element tabIndex { w_CT_UnsignedDecimalNumber }?
+     | element enabled { w_CT_OnOff }
+     | element calcOnExit { w_CT_OnOff }
+     | element entryMacro { attribute w:val { xsd:string { maxLength = "33" } } }?
+     | element exitMacro { attribute w:val { xsd:string { maxLength = "33" } } }?
+     | element helpText {
+           attribute w:type { "text" | "autoText" }?,
+           attribute w:val { xsd:string { maxLength = "256" } }?
+       }?
+     | element statusText {
+           attribute w:type { "text" | "autoText" }?,
+           attribute w:val { xsd:string { maxLength = "140" } }?
+     }?
+     | (element checkBox { <a href="#w_CT_FFCheckBox">w_CT_FFCheckBox</a> } |
+        element ddList { <a href="#w_CT_FFDDList">w_CT_FFDDList</a> } |
+        element textInput { <a href="#w_CT_FFTextInput">w_CT_FFTextInput</a> }))+
+</pre>
+
+<pre id="w_CT_FFCheckBox">
+w_CT_FFCheckBox =
+    (element size { attribute w:val { w_ST_HpsMeasure } }
+     | element sizeAuto { w_CT_OnOff }),
+    element default { w_CT_OnOff }?,
+    element checked { w_CT_OnOff }?
+</pre>
+
+<pre id="w_CT_FFDDList">
+w_CT_FFDDList =
+    element result { attribute w:val { xsd:integer } }?,
+    element default { attribute w:val { xsd:integer } }?,
+    element listEntry { attribute w:val { s_ST_String } }*
+</pre>
+
+<pre id="w_CT_FFTextInput">
+w_CT_FFTextInput =
+    element type { "regular" | "number" | "date" | "currentTime" | "currentDate" | "calculated" }?,
+    element default { attribute w:val { s_ST_String } }?,
+    element maxLength { attribute w:val { xsd:integer } }?,
+    element format { attribute w:val { s_ST_String } }?
+</pre>
+
+  <h2 id="item19">Graphics</h2>
+<pre id="w_CT_Object">
+w_CT_Object =
+    attribute w:dxaOrig { s_ST_TwipsMeasure }?,
+    attribute w:dyaOrig { s_ST_TwipsMeasure }?,
+    (<a href="#w_any_vml_vml">w_any_vml_vml</a>*, <a href="#w_any_vml_office">w_any_vml_office</a>*)+,
+    element drawing { <a href="#w_CT_Drawing">w_CT_Drawing</a> }?,
+    (element control { <a href="#w_CT_Control">w_CT_Control</a> }
+     | element objectLink { <a href="#w_CT_ObjectLink">w_CT_ObjectLink</a> }
+     | element objectEmbed { <a href="#w_CT_ObjectEmbed">w_CT_ObjectEmbed</a> }
+     | element movie { <a href="#w_CT_Rel">w_CT_Rel</a> })?
+</pre>
+
+<pre id="w_CT_Picture">
+w_CT_Picture =
+    (<a href="#w_any_vml_vml">w_any_vml_vml</a>*, <a href="#w_any_vml_office">w_any_vml_office</a>*)+,
+    element movie { <a href="#w_CT_Rel">w_CT_Rel</a> }?,
+    element control { <a href="#w_CT_Control">w_CT_Control</a> }?
+</pre>
+
+<pre id="w_CT_Drawing">
+w_CT_Drawing = (wp_anchor? | wp_inline?)+
+</pre>
+
+<pre id="w_CT_Control">
+w_CT_Control =
+    attribute w:name { s_ST_String }?,
+    attribute w:shapeid { s_ST_String }?,
+    r_id?
+</pre>
+
+<pre id="w_CT_ObjectLink">
+w_CT_ObjectLink =
+    <a href="#w_CT_ObjectEmbed">w_CT_ObjectEmbed</a>,
+    attribute w:updateMode { "always" | "onCall" },
+    attribute w:lockedField { s_ST_OnOff }?
+</pre>
+
+<pre id="w_CT_ObjectEmbed">
+w_CT_ObjectEmbed =
+    attribute w:drawAspect { "content" | "icon" }?,
+    r_id,
+    attribute w:progId { s_ST_String }?,
+    attribute w:shapeId { s_ST_String }?,
+    attribute w:fieldCodes { s_ST_String }?
+</pre>
+
+  <h2 id="item5">Footnotes and Endnotes</h2>
+<pre id="w_footnotes">
+w_footnotes = element footnotes {
+    element footnote { <a href="#w_CT_FtnEdn">w_CT_FtnEdn</a> }*
+}
+</pre>
+
+<pre id="w_endnotes">
+w_endnotes = element endnotes {
+    element endnote { <a href="#w_CT_FtnEdn">w_CT_FtnEdn</a> }*
+}
+</pre>
+
+<pre id="w_CT_FtnEdn">
+w_CT_FtnEdn =
+    attribute w:type { "normal" | "separator" | "continuationSeparator" | "continuationNotice" }?,
+    attribute w:id { xsd:integer },
+    <a href="#w_EG_BlockLevelElts">w_EG_BlockLevelElts</a>+
+</pre>
+
+<pre id="w_CT_FtnProps">
+w_CT_FtnProps =
+    element pos { attribute w:val { "pageBottom" | "beneathText" | "sectEnd" | "docEnd" } }?,
+    element numFmt { <a href="#w_CT_NumFmt">w_CT_NumFmt</a> }?,
+    <a href="#w_EG_FtnEdnNumProps">w_EG_FtnEdnNumProps</a>?
+</pre>
+
+<pre id="w_CT_EdnProps">
+w_CT_EdnProps =
+    element pos { attribute w:val { "sectEnd" | "docEnd" } }?,
+    element numFmt { <a href="#w_CT_NumFmt">w_CT_NumFmt</a> }?,
+    <a href="#w_EG_FtnEdnNumProps">w_EG_FtnEdnNumProps</a>?
+</pre>
+
+<pre id="w_EG_FtnEdnNumProps">
+w_EG_FtnEdnNumProps =
+    element numStart { attribute w:val { xsd:integer } }?,
+    element numRestart { attribute w:val { "continuous" | "eachSect" | "eachPage" } }?
+</pre>
+
+  <h2 id="item3">Headers and footers</h2>
+<pre id="w_hdr">
+w_hdr = element hdr { <a href="#w_EG_BlockLevelElts">w_EG_BlockLevelElts</a>+ }
+</pre>
+
+<pre id="w_ftr">
+w_ftr = element ftr { <a href="#w_EG_BlockLevelElts">w_EG_BlockLevelElts</a>+ }
+</pre>
+
+  <h1 id="item20">Formatting</h1>
+
+  <h2 id="item21">Styles</h2>
+<pre id="w_styles">
+w_styles = element styles {
+    element docDefaults {
+        element rPrDefault {
+            element rPr { <a href="#w_CT_RPr">w_CT_RPr</a> }?
+        }?,
+        element pPrDefault {
+            element pPr { <a href="#w_CT_PPrGeneral">w_CT_PPrGeneral</a> }?
+        }?
+    }?,
+    element latentStyles { <a href="#w_CT_LatentStyles">w_CT_LatentStyles</a> }?,
+    element style { <a href="#w_CT_Style">w_CT_Style</a> }*
+}
+</pre>
+
+<pre id="w_CT_LatentStyles">
+w_CT_LatentStyles =
+    attribute w:defLockedState { s_ST_OnOff }?,
+    attribute w:defUIPriority { xsd:integer }?,
+    attribute w:defSemiHidden { s_ST_OnOff }?,
+    attribute w:defUnhideWhenUsed { s_ST_OnOff }?,
+    attribute w:defQFormat { s_ST_OnOff }?,
+    attribute w:count { xsd:integer }?,
+    element lsdException { <a href="#w_CT_LsdException">w_CT_LsdException</a> }*
+</pre>
+
+<pre id="w_CT_LsdException">
+w_CT_LsdException =
+    attribute w:name { s_ST_String },
+    attribute w:locked { s_ST_OnOff }?,
+    attribute w:uiPriority { xsd:integer }?,
+    attribute w:semiHidden { s_ST_OnOff }?,
+    attribute w:unhideWhenUsed { s_ST_OnOff }?,
+    attribute w:qFormat { s_ST_OnOff }?
+</pre>
+
+<pre id="w_CT_Style">
+w_CT_Style =
+    attribute w:type { "paragraph" | "character" | "table" | "numbering" }?,
+    attribute w:styleId { s_ST_String }?,
+    attribute w:default { s_ST_OnOff }?,
+    attribute w:customStyle { s_ST_OnOff }?,
+    element name { attribute w:val { s_ST_String } }?,
+    element aliases { attribute w:val { s_ST_String } }?,
+    element basedOn { attribute w:val { s_ST_String } }?,
+    element next { attribute w:val { s_ST_String } }?,
+    element link { attribute w:val { s_ST_String } }?,
+    element autoRedefine { w_CT_OnOff }?,
+    element hidden { w_CT_OnOff }?,
+    element uiPriority { attribute w:val { xsd:integer } }?,
+    element semiHidden { w_CT_OnOff }?,
+    element unhideWhenUsed { w_CT_OnOff }?,
+    element qFormat { w_CT_OnOff }?,
+    element locked { w_CT_OnOff }?,
+    element personal { w_CT_OnOff }?,
+    element personalCompose { w_CT_OnOff }?,
+    element personalReply { w_CT_OnOff }?,
+    element rsid { w_CT_LongHexNumber }?,
+    element pPr { <a href="#w_CT_PPrGeneral">w_CT_PPrGeneral</a> }?,
+    element rPr { <a href="#w_CT_RPr">w_CT_RPr</a> }?,
+    element tblPr { <a href="#w_CT_TblPrBase">w_CT_TblPrBase</a> }?,
+    element trPr { <a href="#w_CT_TrPr">w_CT_TrPr</a> }?,
+    element tcPr { <a href="#w_CT_TcPr">w_CT_TcPr</a> }?,
+    element tblStylePr { <a href="#w_CT_TblStylePr">w_CT_TblStylePr</a> }*
+</pre>
+
+<pre id="w_CT_TblStylePr">
+w_CT_TblStylePr =
+    attribute w:type { <a href="#w_ST_TblStyleOverrideType">w_ST_TblStyleOverrideType</a> },
+    element pPr { <a href="#w_CT_PPrGeneral">w_CT_PPrGeneral</a> }?,
+    element rPr { <a href="#w_CT_RPr">w_CT_RPr</a> }?,
+    element tblPr { <a href="#w_CT_TblPrBase">w_CT_TblPrBase</a> }?,
+    element trPr { <a href="#w_CT_TrPr">w_CT_TrPr</a> }?,
+    element tcPr { <a href="#w_CT_TcPr">w_CT_TcPr</a> }?
+</pre>
+
+<pre id="w_ST_TblStyleOverrideType">
+w_ST_TblStyleOverrideType =
+      "wholeTable"
+    | "firstRow"
+    | "lastRow"
+    | "firstCol"
+    | "lastCol"
+    | "band1Vert"
+    | "band2Vert"
+    | "band1Horz"
+    | "band2Horz"
+    | "neCell"
+    | "nwCell"
+    | "seCell"
+    | "swCell"
+</pre>
+
+  <h2 id="item22">Borders and shading</h2>
+<pre id="w_CT_Border">
+w_CT_Border =
+    attribute w:val { w_ST_Border },
+    attribute w:color { w_ST_HexColor }?,
+    attribute w:themeColor { w_ST_ThemeColor }?,
+    attribute w:themeTint { w_ST_UcharHexNumber }?,
+    attribute w:themeShade { w_ST_UcharHexNumber }?,
+    attribute w:sz { w_ST_EighthPointMeasure }?,
+    attribute w:space { w_ST_PointMeasure }?,
+    attribute w:shadow { s_ST_OnOff }?,
+    attribute w:frame { s_ST_OnOff }?
+</pre>
+
+<pre id="w_CT_Shd">
+w_CT_Shd =
+    attribute w:val { w_ST_Shd },
+    attribute w:color { w_ST_HexColor }?,
+    attribute w:themeColor { w_ST_ThemeColor }?,
+    attribute w:themeTint { w_ST_UcharHexNumber }?,
+    attribute w:themeShade { w_ST_UcharHexNumber }?,
+    attribute w:fill { w_ST_HexColor }?,
+    attribute w:themeFill { w_ST_ThemeColor }?,
+    attribute w:themeFillTint { w_ST_UcharHexNumber }?,
+    attribute w:themeFillShade { w_ST_UcharHexNumber }?
+</pre>
+
+<pre>
+w_ST_Shd =
+      "nil"
+    | "clear"
+    | "solid"
+    | "horzStripe"
+    | "vertStripe"
+    | "reverseDiagStripe"
+    | "diagStripe"
+    | "horzCross"
+    | "diagCross"
+    | "thinHorzStripe"
+    | "thinVertStripe"
+    | "thinReverseDiagStripe"
+    | "thinDiagStripe"
+    | "thinHorzCross"
+    | "thinDiagCross"
+    | "pct5"
+    | "pct10"
+    | "pct12"
+    | "pct15"
+    | "pct20"
+    | "pct25"
+    | "pct30"
+    | "pct35"
+    | "pct37"
+    | "pct40"
+    | "pct45"
+    | "pct50"
+    | "pct55"
+    | "pct60"
+    | "pct62"
+    | "pct65"
+    | "pct70"
+    | "pct75"
+    | "pct80"
+    | "pct85"
+    | "pct87"
+    | "pct90"
+    | "pct95"
+</pre>
+
+<pre>
+w_ST_Border =
+      "nil"
+    | "none"
+    | "single"
+    | "thick"
+    | "double"
+    | "dotted"
+    | "dashed"
+    | "dotDash"
+    | "dotDotDash"
+    | "triple"
+    | "thinThickSmallGap"
+    | "thickThinSmallGap"
+    | "thinThickThinSmallGap"
+    | "thinThickMediumGap"
+    | "thickThinMediumGap"
+    | "thinThickThinMediumGap"
+    | "thinThickLargeGap"
+    | "thickThinLargeGap"
+    | "thinThickThinLargeGap"
+    | "wave"
+    | "doubleWave"
+    | "dashSmallGap"
+    | "dashDotStroked"
+    | "threeDEmboss"
+    | "threeDEngrave"
+    | "outset"
+    | "inset"
+    | "apples"
+    | "archedScallops"
+    | "babyPacifier"
+    | "babyRattle"
+    | "balloons3Colors"
+    | "balloonsHotAir"
+    | "basicBlackDashes"
+    | "basicBlackDots"
+    | "basicBlackSquares"
+    | "basicThinLines"
+    | "basicWhiteDashes"
+    | "basicWhiteDots"
+    | "basicWhiteSquares"
+    | "basicWideInline"
+    | "basicWideMidline"
+    | "basicWideOutline"
+    | "bats"
+    | "birds"
+    | "birdsFlight"
+    | "cabins"
+    | "cakeSlice"
+    | "candyCorn"
+    | "celticKnotwork"
+    | "certificateBanner"
+    | "chainLink"
+    | "champagneBottle"
+    | "checkedBarBlack"
+    | "checkedBarColor"
+    | "checkered"
+    | "christmasTree"
+    | "circlesLines"
+    | "circlesRectangles"
+    | "classicalWave"
+    | "clocks"
+    | "compass"
+    | "confetti"
+    | "confettiGrays"
+    | "confettiOutline"
+    | "confettiStreamers"
+    | "confettiWhite"
+    | "cornerTriangles"
+    | "couponCutoutDashes"
+    | "couponCutoutDots"
+    | "crazyMaze"
+    | "creaturesButterfly"
+    | "creaturesFish"
+    | "creaturesInsects"
+    | "creaturesLadyBug"
+    | "crossStitch"
+    | "cup"
+    | "decoArch"
+    | "decoArchColor"
+    | "decoBlocks"
+    | "diamondsGray"
+    | "doubleD"
+    | "doubleDiamonds"
+    | "earth1"
+    | "earth2"
+    | "earth3"
+    | "eclipsingSquares1"
+    | "eclipsingSquares2"
+    | "eggsBlack"
+    | "fans"
+    | "film"
+    | "firecrackers"
+    | "flowersBlockPrint"
+    | "flowersDaisies"
+    | "flowersModern1"
+    | "flowersModern2"
+    | "flowersPansy"
+    | "flowersRedRose"
+    | "flowersRoses"
+    | "flowersTeacup"
+    | "flowersTiny"
+    | "gems"
+    | "gingerbreadMan"
+    | "gradient"
+    | "handmade1"
+    | "handmade2"
+    | "heartBalloon"
+    | "heartGray"
+    | "hearts"
+    | "heebieJeebies"
+    | "holly"
+    | "houseFunky"
+    | "hypnotic"
+    | "iceCreamCones"
+    | "lightBulb"
+    | "lightning1"
+    | "lightning2"
+    | "mapPins"
+    | "mapleLeaf"
+    | "mapleMuffins"
+    | "marquee"
+    | "marqueeToothed"
+    | "moons"
+    | "mosaic"
+    | "musicNotes"
+    | "northwest"
+    | "ovals"
+    | "packages"
+    | "palmsBlack"
+    | "palmsColor"
+    | "paperClips"
+    | "papyrus"
+    | "partyFavor"
+    | "partyGlass"
+    | "pencils"
+    | "people"
+    | "peopleWaving"
+    | "peopleHats"
+    | "poinsettias"
+    | "postageStamp"
+    | "pumpkin1"
+    | "pushPinNote2"
+    | "pushPinNote1"
+    | "pyramids"
+    | "pyramidsAbove"
+    | "quadrants"
+    | "rings"
+    | "safari"
+    | "sawtooth"
+    | "sawtoothGray"
+    | "scaredCat"
+    | "seattle"
+    | "shadowedSquares"
+    | "sharksTeeth"
+    | "shorebirdTracks"
+    | "skyrocket"
+    | "snowflakeFancy"
+    | "snowflakes"
+    | "sombrero"
+    | "southwest"
+    | "stars"
+    | "starsTop"
+    | "stars3d"
+    | "starsBlack"
+    | "starsShadowed"
+    | "sun"
+    | "swirligig"
+    | "tornPaper"
+    | "tornPaperBlack"
+    | "trees"
+    | "triangleParty"
+    | "triangles"
+    | "triangle1"
+    | "triangle2"
+    | "triangleCircle1"
+    | "triangleCircle2"
+    | "shapes1"
+    | "shapes2"
+    | "twistedLines1"
+    | "twistedLines2"
+    | "vine"
+    | "waveline"
+    | "weavingAngles"
+    | "weavingBraid"
+    | "weavingRibbon"
+    | "weavingStrips"
+    | "whiteFlowers"
+    | "woodwork"
+    | "xIllusions"
+    | "zanyTriangles"
+    | "zigZag"
+    | "zigZagStitch"
+    | "custom"
+</pre>
+
+  <h2 id="item23">Paragraph formatting</h2>
+<pre id="w_CT_PPr">
+w_CT_PPr =
+    <a href="#w_CT_PPrBase">w_CT_PPrBase</a>,
+    element rPr { <a href="#w_CT_ParaRPr">w_CT_ParaRPr</a> }?,
+    element sectPr { <a href="#w_CT_SectPr">w_CT_SectPr</a> }?,
+    element pPrChange { <a href="#w_CT_PPrChange">w_CT_PPrChange</a> }?
+</pre>
+
+<pre id="w_CT_PPrBase">
+w_CT_PPrBase =
+    element pStyle { attribute w:val { s_ST_String } }?,
+    element keepNext { w_CT_OnOff }?,
+    element keepLines { w_CT_OnOff }?,
+    element pageBreakBefore { w_CT_OnOff }?,
+    element framePr { <a href="#w_CT_FramePr">w_CT_FramePr</a> }?,
+    element widowControl { w_CT_OnOff }?,
+    element numPr { <a href="#w_CT_NumPr">w_CT_NumPr</a> }?,
+    element suppressLineNumbers { w_CT_OnOff }?,
+    element pBdr { <a href="#w_CT_PBdr">w_CT_PBdr</a> }?,
+    element shd { <a href="#w_CT_Shd">w_CT_Shd</a> }?,
+    element tabs { <a href="#w_CT_Tabs">w_CT_Tabs</a> }?,
+    element suppressAutoHyphens { w_CT_OnOff }?,
+    element kinsoku { w_CT_OnOff }?,
+    element wordWrap { w_CT_OnOff }?,
+    element overflowPunct { w_CT_OnOff }?,
+    element topLinePunct { w_CT_OnOff }?,
+    element autoSpaceDE { w_CT_OnOff }?,
+    element autoSpaceDN { w_CT_OnOff }?,
+    element bidi { w_CT_OnOff }?,
+    element adjustRightInd { w_CT_OnOff }?,
+    element snapToGrid { w_CT_OnOff }?,
+    element spacing { <a href="#w_CT_Spacing">w_CT_Spacing</a> }?,
+    element ind { <a href="#w_CT_Ind">w_CT_Ind</a> }?,
+    element contextualSpacing { w_CT_OnOff }?,
+    element mirrorIndents { w_CT_OnOff }?,
+    element suppressOverlap { w_CT_OnOff }?,
+    element jc { <a href="#w_CT_Jc">w_CT_Jc</a> }?,
+    element textDirection { <a href="#w_CT_TextDirection">w_CT_TextDirection</a> }?,
+    element textAlignment { <a href="#w_CT_TextAlignment">w_CT_TextAlignment</a> }?,
+    element textboxTightWrap { <a href="#w_CT_TextboxTightWrap">w_CT_TextboxTightWrap</a> }?,
+    element outlineLvl { attribute w:val { xsd:integer } }?,
+    element divId { attribute w:val { xsd:integer } }?,
+    element cnfStyle { <a href="#w_CT_Cnf">w_CT_Cnf</a> }?
+</pre>
+
+<pre id="w_CT_TextboxTightWrap">
+w_CT_TextboxTightWrap = attribute w:val {
+    "none" | "allLines" | "firstAndLastLine" | "firstLineOnly" | "lastLineOnly"
+}
+</pre>
+
+<pre id="w_CT_TextAlignment">
+w_CT_TextAlignment = attribute w:val {
+    "top" | "center" | "baseline" | "bottom" | "auto"
+}
+</pre>
+
+<pre id="w_CT_Ind">
+w_CT_Ind =
+    attribute w:start { w_ST_SignedTwipsMeasure }?,
+    attribute w:startChars { xsd:integer }?,
+    attribute w:end { w_ST_SignedTwipsMeasure }?,
+    attribute w:endChars { xsd:integer }?,
+    attribute w:left { w_ST_SignedTwipsMeasure }?,
+    attribute w:leftChars { xsd:integer }?,
+    attribute w:right { w_ST_SignedTwipsMeasure }?,
+    attribute w:rightChars { xsd:integer }?,
+    attribute w:hanging { s_ST_TwipsMeasure }?,
+    attribute w:hangingChars { xsd:integer }?,
+    attribute w:firstLine { s_ST_TwipsMeasure }?,
+    attribute w:firstLineChars { xsd:integer }?
+</pre>
+
+<pre id="w_CT_Spacing">
+w_CT_Spacing =
+    attribute w:before { s_ST_TwipsMeasure }?,
+    attribute w:beforeLines { xsd:integer }?,
+    attribute w:beforeAutospacing { s_ST_OnOff }?,
+    attribute w:after { s_ST_TwipsMeasure }?,
+    attribute w:afterLines { xsd:integer }?,
+    attribute w:afterAutospacing { s_ST_OnOff }?,
+    attribute w:line { w_ST_SignedTwipsMeasure }?,
+    attribute w:lineRule { "auto" | "exact" | "atLeast" }?
+</pre>
+
+<pre id="w_CT_Tabs">
+w_CT_Tabs = element tab { <a href="#w_CT_TabStop">w_CT_TabStop</a> }+
+</pre>
+
+<pre id="w_CT_TabStop">
+w_CT_TabStop =
+    attribute w:val {
+        "clear" | "start" | "center" | "end" | "decimal" | "bar" | "num" | "left" | "right"
+    },
+    attribute w:leader {
+        "none" | "dot" | "hyphen" | "underscore" | "heavy" | "middleDot"
+    }?,
+    attribute w:pos { w_ST_SignedTwipsMeasure }
+</pre>
+
+<pre id="w_CT_FramePr">
+w_CT_FramePr =
+    attribute w:dropCap { "none" | "drop" | "margin" }?,
+    attribute w:lines { xsd:integer }?,
+    attribute w:w { s_ST_TwipsMeasure }?,
+    attribute w:h { s_ST_TwipsMeasure }?,
+    attribute w:vSpace { s_ST_TwipsMeasure }?,
+    attribute w:hSpace { s_ST_TwipsMeasure }?,
+    attribute w:wrap { "auto" | "notBeside" | "around" | "tight" | "through" | "none" }?,
+    attribute w:hAnchor { "text" | "margin" | "page" }?,
+    attribute w:vAnchor { "text" | "margin" | "page" }?,
+    attribute w:x { w_ST_SignedTwipsMeasure }?,
+    attribute w:xAlign { s_ST_XAlign }?,
+    attribute w:y { w_ST_SignedTwipsMeasure }?,
+    attribute w:yAlign { s_ST_YAlign }?,
+    attribute w:hRule { "auto" | "exact" | "atLeast" }?,
+    attribute w:anchorLock { s_ST_OnOff }?
+</pre>
+
+<pre id="w_CT_PBdr">
+w_CT_PBdr =
+    element top { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element left { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element bottom { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element right { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element between { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element bar { <a href="#w_CT_Border">w_CT_Border</a> }?
+</pre>
+
+<pre id="w_CT_ParaRPr">
+w_CT_ParaRPr =
+    <a href="#w_EG_ParaRPrTrackChanges">w_EG_ParaRPrTrackChanges</a>?,
+    <a href="#w_EG_RPrBase">w_EG_RPrBase</a>?,
+    element rPrChange { <a href="#w_CT_ParaRPrChange">w_CT_ParaRPrChange</a> }?
+</pre>
+
+<pre id="w_CT_NumPr">
+w_CT_NumPr =
+    element ilvl { attribute w:val { xsd:integer } }?,
+    element numId { attribute w:val { xsd:integer } }?,
+    element numberingChange { <a href="#w_CT_TrackChangeNumbering">w_CT_TrackChangeNumbering</a> }?,
+    element ins { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> }?
+</pre>
+
+<pre id="w_CT_PPrGeneral">
+w_CT_PPrGeneral =
+    <a href="#w_CT_PPrBase">w_CT_PPrBase</a>,
+    element pPrChange { <a href="#w_CT_PPrChange">w_CT_PPrChange</a> }?
+</pre>
+
+  <h2 id="item24">Run formatting</h2>
+<pre id="w_EG_RPrBase">
+w_EG_RPrBase =
+    element rStyle { attribute w:val { s_ST_String } }?
+    element rFonts { <a href="#w_CT_Fonts">w_CT_Fonts</a> }?
+    element b { w_CT_OnOff }?
+    element bCs { w_CT_OnOff }?
+    element i { w_CT_OnOff }?
+    element iCs { w_CT_OnOff }?
+    element caps { w_CT_OnOff }?
+    element smallCaps { w_CT_OnOff }?
+    element strike { w_CT_OnOff }?
+    element dstrike { w_CT_OnOff }?
+    element outline { w_CT_OnOff }?
+    element shadow { w_CT_OnOff }?
+    element emboss { w_CT_OnOff }?
+    element imprint { w_CT_OnOff }?
+    element noProof { w_CT_OnOff }?
+    element snapToGrid { w_CT_OnOff }?
+    element vanish { w_CT_OnOff }?
+    element webHidden { w_CT_OnOff }?
+    element color { <a href="#w_CT_Color">w_CT_Color</a> }?
+    element spacing { w_CT_SignedTwipsMeasure }?
+    element w { <a href="#w_CT_TextScale">w_CT_TextScale</a> }?
+    element kern { attribute w:val { w_ST_HpsMeasure } }?
+    element position { w_CT_SignedHpsMeasure }?
+    element sz { attribute w:val { w_ST_HpsMeasure } }?
+    element szCs { attribute w:val { w_ST_HpsMeasure } }?
+    element highlight { <a href="#w_CT_Highlight">w_CT_Highlight</a> }?
+    element u { <a href="#w_CT_Underline">w_CT_Underline</a> }?
+    element effect { <a href="#w_CT_TextEffect">w_CT_TextEffect</a> }?
+    element bdr { <a href="#w_CT_Border">w_CT_Border</a> }?
+    element shd { <a href="#w_CT_Shd">w_CT_Shd</a> }?
+    element fitText { <a href="#w_CT_FitText">w_CT_FitText</a> }?
+    element vertAlign { <a href="#w_CT_VerticalAlignRun">w_CT_VerticalAlignRun</a> }?
+    element rtl { w_CT_OnOff }?
+    element cs { w_CT_OnOff }?
+    element em { <a href="#w_CT_Em">w_CT_Em</a> }?
+    element lang { <a href="#w_CT_Language">w_CT_Language</a> }?
+    element eastAsianLayout { <a href="#w_CT_EastAsianLayout">w_CT_EastAsianLayout</a> }?
+    element specVanish { w_CT_OnOff }?
+    element oMath { w_CT_OnOff }?
+</pre>
+
+<pre id="w_CT_Fonts">
+w_CT_Fonts =
+    attribute w:hint { "default" | "eastAsia" | "cs" }?,
+    attribute w:ascii { s_ST_String }?,
+    attribute w:hAnsi { s_ST_String }?,
+    attribute w:eastAsia { s_ST_String }?,
+    attribute w:cs { s_ST_String }?,
+    attribute w:asciiTheme { w_ST_Theme }?,
+    attribute w:hAnsiTheme { w_ST_Theme }?,
+    attribute w:eastAsiaTheme { w_ST_Theme }?,
+    attribute w:cstheme { w_ST_Theme }?
+</pre>
+
+<pre id="w_ST_Theme">
+w_ST_Theme =
+      "majorEastAsia"
+    | "majorBidi"
+    | "majorAscii"
+    | "majorHAnsi"
+    | "minorEastAsia"
+    | "minorBidi"
+    | "minorAscii"
+    | "minorHAnsi"
+</pre>
+
+<pre id="w_EG_RPrContent">
+w_EG_RPrContent =
+    <a href="#w_EG_RPrBase">w_EG_RPrBase</a>?,
+    element rPrChange { <a href="#w_CT_RPrChange">w_CT_RPrChange</a> }?
+</pre>
+
+<pre id="w_CT_RPr">
+w_CT_RPr = <a href="#w_EG_RPrContent">w_EG_RPrContent</a>?
+</pre>
+
+<pre id="w_EG_RPr">
+w_EG_RPr = element rPr { <a href="#w_CT_RPr">w_CT_RPr</a> }?
+</pre>
+
+<pre id="w_CT_Highlight">
+w_CT_Highlight = attribute w:val {
+      "black"
+    | "blue"
+    | "cyan"
+    | "green"
+    | "magenta"
+    | "red"
+    | "yellow"
+    | "white"
+    | "darkBlue"
+    | "darkCyan"
+    | "darkGreen"
+    | "darkMagenta"
+    | "darkRed"
+    | "darkYellow"
+    | "darkGray"
+    | "lightGray"
+    | "none"
+}
+</pre>
+
+<pre id="w_CT_Underline">
+w_CT_Underline =
+    attribute w:val { w_ST_Underline }?,
+    attribute w:color { w_ST_HexColor }?,
+    attribute w:themeColor { w_ST_ThemeColor }?,
+    attribute w:themeTint { w_ST_UcharHexNumber }?,
+    attribute w:themeShade { w_ST_UcharHexNumber }?
+</pre>
+
+<pre id="w_ST_Underline">
+w_ST_Underline =
+      "single"
+    | "words"
+    | "double"
+    | "thick"
+    | "dotted"
+    | "dottedHeavy"
+    | "dash"
+    | "dashedHeavy"
+    | "dashLong"
+    | "dashLongHeavy"
+    | "dotDash"
+    | "dashDotHeavy"
+    | "dotDotDash"
+    | "dashDotDotHeavy"
+    | "wave"
+    | "wavyHeavy"
+    | "wavyDouble"
+    | "none"
+</pre>
+
+<pre id="w_CT_TextEffect">
+w_CT_TextEffect = attribute w:val {
+      "blinkBackground"
+    | "lights"
+    | "antsBlack"
+    | "antsRed"
+    | "shimmer"
+    | "sparkle"
+    | "none"
+}
+</pre>
+
+<pre id="w_CT_FitText">
+w_CT_FitText =
+    attribute w:val { s_ST_TwipsMeasure },
+    attribute w:id { xsd:integer }?
+</pre>
+
+<pre id="w_CT_VerticalAlignRun">
+w_CT_VerticalAlignRun = attribute w:val { s_ST_VerticalAlignRun }
+</pre>
+
+<pre id="w_CT_Em">
+w_CT_Em = attribute w:val {
+      "none"
+    | "dot"
+    | "comma"
+    | "circle"
+    | "underDot"
+}
+</pre>
+
+<pre id="w_CT_EastAsianLayout">
+w_CT_EastAsianLayout =
+    attribute w:id { xsd:integer }?,
+    attribute w:combine { s_ST_OnOff }?,
+    attribute w:combineBrackets { "none" | "round" | "square" | "angle" | "curly" }?,
+    attribute w:vert { s_ST_OnOff }?,
+    attribute w:vertCompress { s_ST_OnOff }?
+</pre>
+
+<pre id="w_EG_RPrMath">
+w_EG_RPrMath =
+    <a href="#w_EG_RPr">w_EG_RPr</a>
+    | element ins { <a href="#w_CT_MathCtrlIns">w_CT_MathCtrlIns</a> }
+    | element del { <a href="#w_CT_MathCtrlDel">w_CT_MathCtrlDel</a> }
+</pre>
+
+  <h2 id="item25">Table formatting</h2>
+<pre id="w_CT_TrPrBase">
+w_CT_TrPrBase =
+    (element cnfStyle { <a href="#w_CT_Cnf">w_CT_Cnf</a> }?
+     | element divId { attribute w:val { xsd:integer } }?
+     | element gridBefore { attribute w:val { xsd:integer } }?
+     | element gridAfter { attribute w:val { xsd:integer } }?
+     | element wBefore { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?
+     | element wAfter { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?
+     | element cantSplit { w_CT_OnOff }?
+     | element trHeight { w_CT_Height }?
+     | element tblHeader { w_CT_OnOff }?
+     | element tblCellSpacing { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?
+     | element jc { attribute w:val { "center" | "end" | "left" | "right" | "start" } }?
+     | element hidden { w_CT_OnOff }?)+
+</pre>
+
+<pre id="w_CT_Height">
+w_CT_Height =
+    attribute w:val { s_ST_TwipsMeasure }?,
+    attribute w:hRule { "auto" | "exact" | "atLeast" }?
+</pre>
+
+<pre id="w_CT_TrPr">
+w_CT_TrPr =
+    <a href="#w_CT_TrPrBase">w_CT_TrPrBase</a>,
+    element ins { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> }?,
+    element del { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> }?,
+    element trPrChange { <a href="#w_CT_TrPrChange">w_CT_TrPrChange</a> }?
+</pre>
+<pre id="w_CT_TblPPr">
+w_CT_TblPPr =
+    attribute w:leftFromText { s_ST_TwipsMeasure }?,
+    attribute w:rightFromText { s_ST_TwipsMeasure }?,
+    attribute w:topFromText { s_ST_TwipsMeasure }?,
+    attribute w:bottomFromText { s_ST_TwipsMeasure }?,
+    attribute w:vertAnchor { "text" | "margin" | "page" }?,
+    attribute w:horzAnchor { "text" | "margin" | "page" }?,
+    attribute w:tblpXSpec { s_ST_XAlign }?,
+    attribute w:tblpX { w_ST_SignedTwipsMeasure }?,
+    attribute w:tblpYSpec { s_ST_YAlign }?,
+    attribute w:tblpY { w_ST_SignedTwipsMeasure }?
+</pre>
+
+<pre id="w_CT_TblCellMar">
+w_CT_TblCellMar =
+    element top { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?,
+    element start { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?,
+    element left { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?,
+    element bottom { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?,
+    element end { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?,
+    element right { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?
+</pre>
+
+<pre id="w_CT_TblBorders">
+w_CT_TblBorders =
+    element top { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element start { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element left { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element bottom { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element end { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element right { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element insideH { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element insideV { <a href="#w_CT_Border">w_CT_Border</a> }?
+</pre>
+
+<pre id="w_CT_TblPrBase">
+w_CT_TblPrBase =
+    element tblStyle { attribute w:val { s_ST_String } }?,
+    element tblpPr { <a href="#w_CT_TblPPr">w_CT_TblPPr</a> }?,
+    element tblOverlap { attribute w:val { "never" | "overlap" } }?,
+    element bidiVisual { w_CT_OnOff }?,
+    element tblStyleRowBandSize { attribute w:val { xsd:integer } }?,
+    element tblStyleColBandSize { attribute w:val { xsd:integer } }?,
+    element tblW { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?,
+    element jc { attribute w:val { "center" | "end" | "left" | "right" | "start" } }?,
+    element tblCellSpacing { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?,
+    element tblInd { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?,
+    element tblBorders { <a href="#w_CT_TblBorders">w_CT_TblBorders</a> }?,
+    element shd { <a href="#w_CT_Shd">w_CT_Shd</a> }?,
+    element tblLayout { attribute w:type { "fixed" | "autofit" }? }?,
+    element tblCellMar { <a href="#w_CT_TblCellMar">w_CT_TblCellMar</a> }?,
+    element tblLook { <a href="#w_CT_TblLook">w_CT_TblLook</a> }?,
+    element tblCaption { attribute w:val { s_ST_String } }?,
+    element tblDescription { attribute w:val { s_ST_String } }?
+</pre>
+
+<pre id="w_CT_TblPr">
+w_CT_TblPr =
+    <a href="#w_CT_TblPrBase">w_CT_TblPrBase</a>,
+    element tblPrChange { <a href="#w_CT_TblPrChange">w_CT_TblPrChange</a> }?
+</pre>
+
+<pre id="w_CT_TblPrExBase">
+w_CT_TblPrExBase =
+    element tblW { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?,
+    element jc { attribute w:val { "center" | "end" | "left" | "right" | "start" } }?,
+    element tblCellSpacing { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?,
+    element tblInd { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?,
+    element tblBorders { <a href="#w_CT_TblBorders">w_CT_TblBorders</a> }?,
+    element shd { <a href="#w_CT_Shd">w_CT_Shd</a> }?,
+    element tblLayout { attribute w:type { "fixed" | "autofit" }? }?,
+    element tblCellMar { <a href="#w_CT_TblCellMar">w_CT_TblCellMar</a> }?,
+    element tblLook { <a href="#w_CT_TblLook">w_CT_TblLook</a> }?
+</pre>
+
+<pre id="w_CT_TblPrEx">
+w_CT_TblPrEx =
+    <a href="#w_CT_TblPrExBase">w_CT_TblPrExBase</a>,
+    element tblPrExChange { <a href="#w_CT_TblPrExChange">w_CT_TblPrExChange</a> }?
+</pre>
+
+<pre id="w_CT_TblLook">
+w_CT_TblLook =
+    attribute w:firstRow { s_ST_OnOff }?,
+    attribute w:lastRow { s_ST_OnOff }?,
+    attribute w:firstColumn { s_ST_OnOff }?,
+    attribute w:lastColumn { s_ST_OnOff }?,
+    attribute w:noHBand { s_ST_OnOff }?,
+    attribute w:noVBand { s_ST_OnOff }?,
+    attribute w:val { w_ST_ShortHexNumber }?
+</pre>
+
+<pre id="w_CT_TblWidth">
+w_CT_TblWidth =
+    attribute w:w { w_ST_MeasurementOrPercent }?,
+    attribute w:type { "nil" | "pct" | "dxa" | "auto" }?
+</pre>
+
+<pre id="w_CT_TblGridCol">
+w_CT_TblGridCol = attribute w:w { s_ST_TwipsMeasure }?
+</pre>
+
+<pre id="w_CT_TblGridBase">
+w_CT_TblGridBase = element gridCol { <a href="#w_CT_TblGridCol">w_CT_TblGridCol</a> }*
+</pre>
+
+<pre id="w_CT_TblGrid">
+w_CT_TblGrid =
+    <a href="#w_CT_TblGridBase">w_CT_TblGridBase</a>,
+    element tblGridChange { <a href="#w_CT_TblGridChange">w_CT_TblGridChange</a> }?
+</pre>
+
+<pre id="w_CT_TcBorders">
+w_CT_TcBorders =
+    element top { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element start { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element left { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element bottom { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element end { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element right { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element insideH { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element insideV { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element tl2br { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element tr2bl { <a href="#w_CT_Border">w_CT_Border</a> }?
+</pre>
+
+<pre id="w_CT_TcMar">
+w_CT_TcMar =
+    element top { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?,
+    element start { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?,
+    element left { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?,
+    element bottom { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?,
+    element end { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?,
+    element right { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?
+</pre>
+
+<pre id="w_CT_TcPrBase">
+w_CT_TcPrBase =
+    element cnfStyle { <a href="#w_CT_Cnf">w_CT_Cnf</a> }?,
+    element tcW { <a href="#w_CT_TblWidth">w_CT_TblWidth</a> }?,
+    element gridSpan { attribute w:val { xsd:integer } }?,
+    element hMerge { attribute w:val { "continue" | "restart" }? }?,
+    element vMerge { attribute w:val { "continue" | "restart" }? }?,
+    element tcBorders { <a href="#w_CT_TcBorders">w_CT_TcBorders</a> }?,
+    element shd { <a href="#w_CT_Shd">w_CT_Shd</a> }?,
+    element noWrap { w_CT_OnOff }?,
+    element tcMar { <a href="#w_CT_TcMar">w_CT_TcMar</a> }?,
+    element textDirection { <a href="#w_CT_TextDirection">w_CT_TextDirection</a> }?,
+    element tcFitText { w_CT_OnOff }?,
+    element vAlign { w_CT_VerticalJc }?,
+    element hideMark { w_CT_OnOff }?,
+    element headers { <a href="#w_CT_Headers">w_CT_Headers</a> }?
+</pre>
+
+<pre id="w_CT_Headers">
+w_CT_Headers = element header { attribute w:val { s_ST_String } }*
+</pre>
+
+<pre id="w_CT_TcPr">
+w_CT_TcPr =
+    <a href="#w_CT_TcPrInner">w_CT_TcPrInner</a>,
+    element tcPrChange { <a href="#w_CT_TcPrChange">w_CT_TcPrChange</a> }?
+</pre>
+
+<pre id="w_CT_TcPrInner">
+w_CT_TcPrInner = <a href="#w_CT_TcPrBase">w_CT_TcPrBase</a>, <a href="#w_EG_CellMarkupElements">w_EG_CellMarkupElements</a>?
+</pre>
+
+  <h1 id="item1">General</h1>
+
+  <h2 id="item9">Settings</h2>
+<pre id="w_settings">
+w_settings = element settings {
+    element writeProtection { <a href="#w_CT_WriteProtection">w_CT_WriteProtection</a> }?,
+    element view { <a href="#w_CT_View">w_CT_View</a> }?,
+    element zoom { <a href="#w_CT_Zoom">w_CT_Zoom</a> }?,
+    element removePersonalInformation { w_CT_OnOff }?,
+    element removeDateAndTime { w_CT_OnOff }?,
+    element doNotDisplayPageBoundaries { w_CT_OnOff }?,
+    element displayBackgroundShape { w_CT_OnOff }?,
+    element printPostScriptOverText { w_CT_OnOff }?,
+    element printFractionalCharacterWidth { w_CT_OnOff }?,
+    element printFormsData { w_CT_OnOff }?,
+    element embedTrueTypeFonts { w_CT_OnOff }?,
+    element embedSystemFonts { w_CT_OnOff }?,
+    element saveSubsetFonts { w_CT_OnOff }?,
+    element saveFormsData { w_CT_OnOff }?,
+    element mirrorMargins { w_CT_OnOff }?,
+    element alignBordersAndEdges { w_CT_OnOff }?,
+    element bordersDoNotSurroundHeader { w_CT_OnOff }?,
+    element bordersDoNotSurroundFooter { w_CT_OnOff }?,
+    element gutterAtTop { w_CT_OnOff }?,
+    element hideSpellingErrors { w_CT_OnOff }?,
+    element hideGrammaticalErrors { w_CT_OnOff }?,
+    element activeWritingStyle { <a href="#w_CT_WritingStyle">w_CT_WritingStyle</a> }*,
+    element proofState { <a href="#w_CT_Proof">w_CT_Proof</a> }?,
+    element formsDesign { w_CT_OnOff }?,
+    element attachedTemplate { <a href="#w_CT_Rel">w_CT_Rel</a> }?,
+    element linkStyles { w_CT_OnOff }?,
+    element stylePaneFormatFilter { <a href="#w_CT_StylePaneFilter">w_CT_StylePaneFilter</a> }?,
+    element stylePaneSortMethod { <a href="#w_CT_StyleSort">w_CT_StyleSort</a> }?,
+    element documentType { <a href="#w_CT_DocType">w_CT_DocType</a> }?,
+    element mailMerge { <a href="#w_CT_MailMerge">w_CT_MailMerge</a> }?,
+    element revisionView { <a href="#w_CT_TrackChangesView">w_CT_TrackChangesView</a> }?,
+    element trackRevisions { w_CT_OnOff }?,
+    element doNotTrackMoves { w_CT_OnOff }?,
+    element doNotTrackFormatting { w_CT_OnOff }?,
+    element documentProtection { <a href="#w_CT_DocProtect">w_CT_DocProtect</a> }?,
+    element autoFormatOverride { w_CT_OnOff }?,
+    element styleLockTheme { w_CT_OnOff }?,
+    element styleLockQFSet { w_CT_OnOff }?,
+    element defaultTabStop { w_CT_TwipsMeasure }?,
+    element autoHyphenation { w_CT_OnOff }?,
+    element consecutiveHyphenLimit { attribute w:val { xsd:integer } }?,
+    element hyphenationZone { w_CT_TwipsMeasure }?,
+    element doNotHyphenateCaps { w_CT_OnOff }?,
+    element showEnvelope { w_CT_OnOff }?,
+    element summaryLength { w_CT_DecimalNumberOrPrecent }?,
+    element clickAndTypeStyle { attribute w:val { s_ST_String } }?,
+    element defaultTableStyle { attribute w:val { s_ST_String } }?,
+    element evenAndOddHeaders { w_CT_OnOff }?,
+    element bookFoldRevPrinting { w_CT_OnOff }?,
+    element bookFoldPrinting { w_CT_OnOff }?,
+    element bookFoldPrintingSheets { attribute w:val { xsd:integer } }?,
+    element drawingGridHorizontalSpacing { w_CT_TwipsMeasure }?,
+    element drawingGridVerticalSpacing { w_CT_TwipsMeasure }?,
+    element displayHorizontalDrawingGridEvery { attribute w:val { xsd:integer } }?,
+    element displayVerticalDrawingGridEvery { attribute w:val { xsd:integer } }?,
+    element doNotUseMarginsForDrawingGridOrigin { w_CT_OnOff }?,
+    element drawingGridHorizontalOrigin { w_CT_TwipsMeasure }?,
+    element drawingGridVerticalOrigin { w_CT_TwipsMeasure }?,
+    element doNotShadeFormData { w_CT_OnOff }?,
+    element noPunctuationKerning { w_CT_OnOff }?,
+    element characterSpacingControl { <a href="#w_CT_CharacterSpacing">w_CT_CharacterSpacing</a> }?,
+    element printTwoOnOne { w_CT_OnOff }?,
+    element strictFirstAndLastChars { w_CT_OnOff }?,
+    element noLineBreaksAfter { <a href="#w_CT_Kinsoku">w_CT_Kinsoku</a> }?,
+    element noLineBreaksBefore { <a href="#w_CT_Kinsoku">w_CT_Kinsoku</a> }?,
+    element savePreviewPicture { w_CT_OnOff }?,
+    element doNotValidateAgainstSchema { w_CT_OnOff }?,
+    element saveInvalidXml { w_CT_OnOff }?,
+    element ignoreMixedContent { w_CT_OnOff }?,
+    element alwaysShowPlaceholderText { w_CT_OnOff }?,
+    element doNotDemarcateInvalidXml { w_CT_OnOff }?,
+    element saveXmlDataOnly { w_CT_OnOff }?,
+    element useXSLTWhenSaving { w_CT_OnOff }?,
+    element saveThroughXslt { w_CT_SaveThroughXslt }?,
+    element showXMLTags { w_CT_OnOff }?,
+    element alwaysMergeEmptyNamespace { w_CT_OnOff }?,
+    element updateFields { w_CT_OnOff }?,
+    element hdrShapeDefaults { <a href="#w_CT_ShapeDefaults">w_CT_ShapeDefaults</a> }?,
+    element footnotePr { <a href="#w_CT_FtnDocProps">w_CT_FtnDocProps</a> }?,
+    element endnotePr { <a href="#w_CT_EdnDocProps">w_CT_EdnDocProps</a> }?,
+    element compat { <a href="#w_CT_Compat">w_CT_Compat</a> }?,
+    element docVars { <a href="#w_CT_DocVars">w_CT_DocVars</a> }?,
+    element rsids { <a href="#w_CT_DocRsids">w_CT_DocRsids</a> }?,
+    m_mathPr?,
+    element attachedSchema { attribute w:val { s_ST_String } }*,
+    element themeFontLang { <a href="#w_CT_Language">w_CT_Language</a> }?,
+    element clrSchemeMapping { <a href="#w_CT_ColorSchemeMapping">w_CT_ColorSchemeMapping</a> }?,
+    element doNotIncludeSubdocsInStats { w_CT_OnOff }?,
+    element doNotAutoCompressPictures { w_CT_OnOff }?,
+    element forceUpgrade { w_CT_Empty }?,
+    element captions { <a href="#w_CT_Captions">w_CT_Captions</a> }?,
+    element readModeInkLockDown { <a href="#w_CT_ReadingModeInkLockDown">w_CT_ReadingModeInkLockDown</a> }?,
+    element smartTagType { <a href="#w_CT_SmartTagType">w_CT_SmartTagType</a> }*,
+    sl_schemaLibrary?,
+    element shapeDefaults { <a href="#w_CT_ShapeDefaults">w_CT_ShapeDefaults</a> }?,
+    element doNotEmbedSmartTags { w_CT_OnOff }?,
+    element decimalSymbol { attribute w:val { s_ST_String } }?,
+    element listSeparator { attribute w:val { s_ST_String } }?
+}
+</pre>
+
+<pre id="w_CT_WriteProtection">
+w_CT_WriteProtection =
+    attribute w:recommended { s_ST_OnOff }?,
+    w_AG_Password,
+    w_AG_TransitionalPassword
+</pre>
+
+<pre id="w_CT_DocProtect">
+w_CT_DocProtect =
+    attribute w:edit { "none" | "readOnly" | "comments" | "trackedChanges" | "forms" }?,
+    attribute w:formatting { s_ST_OnOff }?,
+    attribute w:enforcement { s_ST_OnOff }?,
+    w_AG_Password,
+    w_AG_TransitionalPassword
+</pre>
+
+<pre id="w_AG_Password">
+w_AG_Password =
+    attribute w:algorithmName { s_ST_String }?,
+    attribute w:hashValue { xsd:base64Binary }?,
+    attribute w:saltValue { xsd:base64Binary }?,
+    attribute w:spinCount { xsd:integer }?
+</pre>
+
+<pre id="w_AG_TransitionalPassword">
+w_AG_TransitionalPassword =
+    attribute w:cryptProviderType { s_ST_CryptProv }?,
+    attribute w:cryptAlgorithmClass { s_ST_AlgClass }?,
+    attribute w:cryptAlgorithmType { s_ST_AlgType }?,
+    attribute w:cryptAlgorithmSid { xsd:integer }?,
+    attribute w:cryptSpinCount { xsd:integer }?,
+    attribute w:cryptProvider { s_ST_String }?,
+    attribute w:algIdExt { w_ST_LongHexNumber }?,
+    attribute w:algIdExtSource { s_ST_String }?,
+    attribute w:cryptProviderTypeExt { w_ST_LongHexNumber }?,
+    attribute w:cryptProviderTypeExtSource { s_ST_String }?,
+    attribute w:hash { xsd:base64Binary }?,
+    attribute w:salt { xsd:base64Binary }?
+</pre>
+
+<pre id="w_CT_View">
+w_CT_View = attribute w:val { "none" | "print" | "outline" | "masterPages" | "normal" | "web" }
+</pre>
+
+<pre id="w_CT_Zoom">
+w_CT_Zoom =
+    attribute w:val { "none" | "fullPage" | "bestFit" | "textFit" }?,
+    attribute w:percent { w_ST_DecimalNumberOrPercent }
+</pre>
+
+<pre id="w_CT_WritingStyle">
+w_CT_WritingStyle =
+    attribute w:lang { s_ST_Lang },
+    attribute w:vendorID { s_ST_String },
+    attribute w:dllVersion { s_ST_String },
+    attribute w:nlCheck { s_ST_OnOff }?,
+    attribute w:checkStyle { s_ST_OnOff },
+    attribute w:appName { s_ST_String }
+</pre>
+
+<pre id="w_CT_Proof">
+w_CT_Proof =
+    attribute w:spelling { "clean" | "dirty" }?,
+    attribute w:grammar { "clean" | "dirty" }?
+</pre>
+
+<pre id="w_CT_StylePaneFilter">
+w_CT_StylePaneFilter =
+    attribute w:allStyles { s_ST_OnOff }?,
+    attribute w:customStyles { s_ST_OnOff }?,
+    attribute w:latentStyles { s_ST_OnOff }?,
+    attribute w:stylesInUse { s_ST_OnOff }?,
+    attribute w:headingStyles { s_ST_OnOff }?,
+    attribute w:numberingStyles { s_ST_OnOff }?,
+    attribute w:tableStyles { s_ST_OnOff }?,
+    attribute w:directFormattingOnRuns { s_ST_OnOff }?,
+    attribute w:directFormattingOnParagraphs { s_ST_OnOff }?,
+    attribute w:directFormattingOnNumbering { s_ST_OnOff }?,
+    attribute w:directFormattingOnTables { s_ST_OnOff }?,
+    attribute w:clearFormatting { s_ST_OnOff }?,
+    attribute w:top3HeadingStyles { s_ST_OnOff }?,
+    attribute w:visibleStyles { s_ST_OnOff }?,
+    attribute w:alternateStyleNames { s_ST_OnOff }?,
+    attribute w:val { w_ST_ShortHexNumber }?
+</pre>
+
+<pre id="w_CT_StyleSort">
+w_CT_StyleSort = attribute w:val {
+      "name" | "priority" | "default" | "font" | "basedOn" | "type"
+    | "0000" | "0001"     | "0002"    | "0003" | "0004"    | "0005"
+}
+</pre>
+
+<pre id="w_CT_DocType">
+w_CT_DocType = attribute w:val { xsd:string }
+</pre>
+
+<pre id="w_CT_TrackChangesView">
+w_CT_TrackChangesView =
+    attribute w:markup { s_ST_OnOff }?,
+    attribute w:comments { s_ST_OnOff }?,
+    attribute w:insDel { s_ST_OnOff }?,
+    attribute w:formatting { s_ST_OnOff }?,
+    attribute w:inkAnnotations { s_ST_OnOff }?
+</pre>
+
+<pre id="w_CT_CharacterSpacing">
+w_CT_CharacterSpacing = attribute w:val {
+    "doNotCompress" | "compressPunctuation" | "compressPunctuationAndJapaneseKana"
+}
+</pre>
+
+<pre id="w_CT_Kinsoku">
+w_CT_Kinsoku =
+    attribute w:lang { s_ST_Lang },
+    attribute w:val { s_ST_String }
+</pre>
+
+<pre id="w_CT_SaveThroughXslt">
+w_CT_SaveThroughXslt =
+    r_id?,
+    attribute w:solutionID { s_ST_String }?
+</pre>
+
+<pre id="w_CT_ShapeDefaults">
+w_CT_ShapeDefaults = (<a href="#w_any_vml_office">w_any_vml_office</a>*)+
+</pre>
+
+<pre id="w_CT_FtnDocProps">
+w_CT_FtnDocProps =
+    <a href="#w_CT_FtnProps">w_CT_FtnProps</a>,
+    element footnote { w_CT_FtnEdnSepRef }*
+</pre>
+
+<pre id="w_CT_EdnDocProps">
+w_CT_EdnDocProps =
+    <a href="#w_CT_EdnProps">w_CT_EdnProps</a>,
+    element endnote { w_CT_FtnEdnSepRef }*
+</pre>
+
+<pre id="w_CT_FtnEdnSepRef">
+w_CT_FtnEdnSepRef = attribute w:id { xsd:integer }
+</pre>
+
+<pre id="w_CT_Compat">
+w_CT_Compat =
+    element useSingleBorderforContiguousCells { w_CT_OnOff }?,
+    element wpJustification { w_CT_OnOff }?,
+    element noTabHangInd { w_CT_OnOff }?,
+    element noLeading { w_CT_OnOff }?,
+    element spaceForUL { w_CT_OnOff }?,
+    element noColumnBalance { w_CT_OnOff }?,
+    element balanceSingleByteDoubleByteWidth { w_CT_OnOff }?,
+    element noExtraLineSpacing { w_CT_OnOff }?,
+    element doNotLeaveBackslashAlone { w_CT_OnOff }?,
+    element ulTrailSpace { w_CT_OnOff }?,
+    element doNotExpandShiftReturn { w_CT_OnOff }?,
+    element spacingInWholePoints { w_CT_OnOff }?,
+    element lineWrapLikeWord6 { w_CT_OnOff }?,
+    element printBodyTextBeforeHeader { w_CT_OnOff }?,
+    element printColBlack { w_CT_OnOff }?,
+    element wpSpaceWidth { w_CT_OnOff }?,
+    element showBreaksInFrames { w_CT_OnOff }?,
+    element subFontBySize { w_CT_OnOff }?,
+    element suppressBottomSpacing { w_CT_OnOff }?,
+    element suppressTopSpacing { w_CT_OnOff }?,
+    element suppressSpacingAtTopOfPage { w_CT_OnOff }?,
+    element suppressTopSpacingWP { w_CT_OnOff }?,
+    element suppressSpBfAfterPgBrk { w_CT_OnOff }?,
+    element swapBordersFacingPages { w_CT_OnOff }?,
+    element convMailMergeEsc { w_CT_OnOff }?,
+    element truncateFontHeightsLikeWP6 { w_CT_OnOff }?,
+    element mwSmallCaps { w_CT_OnOff }?,
+    element usePrinterMetrics { w_CT_OnOff }?,
+    element doNotSuppressParagraphBorders { w_CT_OnOff }?,
+    element wrapTrailSpaces { w_CT_OnOff }?,
+    element footnoteLayoutLikeWW8 { w_CT_OnOff }?,
+    element shapeLayoutLikeWW8 { w_CT_OnOff }?,
+    element alignTablesRowByRow { w_CT_OnOff }?,
+    element forgetLastTabAlignment { w_CT_OnOff }?,
+    element adjustLineHeightInTable { w_CT_OnOff }?,
+    element autoSpaceLikeWord95 { w_CT_OnOff }?,
+    element noSpaceRaiseLower { w_CT_OnOff }?,
+    element doNotUseHTMLParagraphAutoSpacing { w_CT_OnOff }?,
+    element layoutRawTableWidth { w_CT_OnOff }?,
+    element layoutTableRowsApart { w_CT_OnOff }?,
+    element useWord97LineBreakRules { w_CT_OnOff }?,
+    element doNotBreakWrappedTables { w_CT_OnOff }?,
+    element doNotSnapToGridInCell { w_CT_OnOff }?,
+    element selectFldWithFirstOrLastChar { w_CT_OnOff }?,
+    element applyBreakingRules { w_CT_OnOff }?,
+    element doNotWrapTextWithPunct { w_CT_OnOff }?,
+    element doNotUseEastAsianBreakRules { w_CT_OnOff }?,
+    element useWord2002TableStyleRules { w_CT_OnOff }?,
+    element growAutofit { w_CT_OnOff }?,
+    element useFELayout { w_CT_OnOff }?,
+    element useNormalStyleForList { w_CT_OnOff }?,
+    element doNotUseIndentAsNumberingTabStop { w_CT_OnOff }?,
+    element useAltKinsokuLineBreakRules { w_CT_OnOff }?,
+    element allowSpaceOfSameStyleInTable { w_CT_OnOff }?,
+    element doNotSuppressIndentation { w_CT_OnOff }?,
+    element doNotAutofitConstrainedTables { w_CT_OnOff }?,
+    element autofitToFirstFixedWidthCell { w_CT_OnOff }?,
+    element underlineTabInNumList { w_CT_OnOff }?,
+    element displayHangulFixedWidth { w_CT_OnOff }?,
+    element splitPgBreakAndParaMark { w_CT_OnOff }?,
+    element doNotVertAlignCellWithSp { w_CT_OnOff }?,
+    element doNotBreakConstrainedForcedTable { w_CT_OnOff }?,
+    element doNotVertAlignInTxbx { w_CT_OnOff }?,
+    element useAnsiKerningPairs { w_CT_OnOff }?,
+    element cachedColBalance { w_CT_OnOff }?,
+    element compatSetting { w_CT_CompatSetting }*
+</pre>
+
+<pre id="w_CT_CompatSetting">
+w_CT_CompatSetting =
+    attribute w:name { s_ST_String }?,
+    attribute w:uri { s_ST_String }?,
+    attribute w:val { s_ST_String }?
+</pre>
+
+<pre id="w_CT_DocVar">
+w_CT_DocVar =
+    attribute w:name { s_ST_String },
+    attribute w:val { s_ST_String }
+</pre>
+
+<pre id="w_CT_DocVars">
+w_CT_DocVars = element docVar { w_CT_DocVar }*
+</pre>
+
+<pre id="w_CT_DocRsids">
+w_CT_DocRsids =
+    element rsidRoot { w_CT_LongHexNumber }?,
+    element rsid { w_CT_LongHexNumber }*
+</pre>
+
+<pre id="w_CT_ColorSchemeMapping">
+w_CT_ColorSchemeMapping =
+    attribute w:bg1 { w_ST_WmlColorSchemeIndex }?,
+    attribute w:t1 { w_ST_WmlColorSchemeIndex }?,
+    attribute w:bg2 { w_ST_WmlColorSchemeIndex }?,
+    attribute w:t2 { w_ST_WmlColorSchemeIndex }?,
+    attribute w:accent1 { w_ST_WmlColorSchemeIndex }?,
+    attribute w:accent2 { w_ST_WmlColorSchemeIndex }?,
+    attribute w:accent3 { w_ST_WmlColorSchemeIndex }?,
+    attribute w:accent4 { w_ST_WmlColorSchemeIndex }?,
+    attribute w:accent5 { w_ST_WmlColorSchemeIndex }?,
+    attribute w:accent6 { w_ST_WmlColorSchemeIndex }?,
+    attribute w:hyperlink { w_ST_WmlColorSchemeIndex }?,
+    attribute w:followedHyperlink { w_ST_WmlColorSchemeIndex }?
+</pre>
+
+<pre id="w_ST_WmlColorSchemeIndex">
+w_ST_WmlColorSchemeIndex =
+      "dark1"
+    | "light1"
+    | "dark2"
+    | "light2"
+    | "accent1"
+    | "accent2"
+    | "accent3"
+    | "accent4"
+    | "accent5"
+    | "accent6"
+    | "hyperlink"
+    | "followedHyperlink"
+</pre>
+
+<pre id="w_CT_Caption">
+w_CT_Caption =
+    attribute w:name { s_ST_String },
+    attribute w:pos { "above" | "below" | "left" | "right" }?,
+    attribute w:chapNum { s_ST_OnOff }?,
+    attribute w:heading { xsd:integer }?,
+    attribute w:noLabel { s_ST_OnOff }?,
+    attribute w:numFmt { w_ST_NumberFormat }?,
+    attribute w:sep { "hyphen" | "period" | "colon" | "emDash" | "enDash" }?
+</pre>
+
+<pre id="w_CT_AutoCaption">
+w_CT_AutoCaption =
+    attribute w:name { s_ST_String },
+    attribute w:caption { s_ST_String }
+</pre>
+
+<pre id="w_CT_AutoCaptions">
+w_CT_AutoCaptions = element autoCaption { w_CT_AutoCaption }+
+</pre>
+
+<pre id="w_CT_Captions">
+w_CT_Captions =
+    element caption { w_CT_Caption }+,
+    element autoCaptions { w_CT_AutoCaptions }?
+</pre>
+
+<pre id="w_CT_ReadingModeInkLockDown">
+w_CT_ReadingModeInkLockDown =
+    attribute w:actualPg { s_ST_OnOff },
+    attribute w:w { w_ST_PixelsMeasure },
+    attribute w:h { w_ST_PixelsMeasure },
+    attribute w:fontSz { w_ST_DecimalNumberOrPercent }
+</pre>
+
+<pre id="w_CT_SmartTagType">
+w_CT_SmartTagType =
+    attribute w:namespaceuri { s_ST_String }?,
+    attribute w:name { s_ST_String }?,
+    attribute w:url { s_ST_String }?
+</pre>
+
+  <h2 id="item6">Section properties</h2>
+<pre id="w_CT_SectPr">
+w_CT_SectPr =
+    <a href="#w_AG_SectPrAttributes">w_AG_SectPrAttributes</a>,
+    <a href="#w_EG_HdrFtrReferences">w_EG_HdrFtrReferences</a>*,
+    <a href="#w_EG_SectPrContents">w_EG_SectPrContents</a>?,
+    element sectPrChange { <a href="#w_CT_SectPrChange">w_CT_SectPrChange</a> }?
+</pre>
+
+<pre id="w_AG_SectPrAttributes">
+w_AG_SectPrAttributes =
+    attribute w:rsidRPr { w_ST_LongHexNumber }?,
+    attribute w:rsidDel { w_ST_LongHexNumber }?,
+    attribute w:rsidR { w_ST_LongHexNumber }?,
+    attribute w:rsidSect { w_ST_LongHexNumber }?
+</pre>
+
+<pre id="w_EG_HdrFtrReferences">
+w_EG_HdrFtrReferences =
+    element headerReference { <a href="#w_CT_HdrFtrRef">w_CT_HdrFtrRef</a> }?
+    | element footerReference { <a href="#w_CT_HdrFtrRef">w_CT_HdrFtrRef</a> }?
+</pre>
+
+<pre id="w_CT_HdrFtrRef">
+w_CT_HdrFtrRef =
+    <a href="#w_CT_Rel">w_CT_Rel</a>,
+    attribute w:type { "even" | "default" | "first" }
+</pre>
+
+<pre id="w_EG_SectPrContents">
+w_EG_SectPrContents =
+    element footnotePr { <a href="#w_CT_FtnProps">w_CT_FtnProps</a> }?,
+    element endnotePr { <a href="#w_CT_EdnProps">w_CT_EdnProps</a> }?,
+    element type { <a href="#w_CT_SectType">w_CT_SectType</a> }?,
+    element pgSz { <a href="#w_CT_PageSz">w_CT_PageSz</a> }?,
+    element pgMar { <a href="#w_CT_PageMar">w_CT_PageMar</a> }?,
+    element paperSrc { <a href="#w_CT_PaperSource">w_CT_PaperSource</a> }?,
+    element pgBorders { <a href="#w_CT_PageBorders">w_CT_PageBorders</a> }?,
+    element lnNumType { <a href="#w_CT_LineNumber">w_CT_LineNumber</a> }?,
+    element pgNumType { <a href="#w_CT_PageNumber">w_CT_PageNumber</a> }?,
+    element cols { <a href="#w_CT_Columns">w_CT_Columns</a> }?,
+    element formProt { w_CT_OnOff }?,
+    element vAlign { w_CT_VerticalJc }?,
+    element noEndnote { w_CT_OnOff }?,
+    element titlePg { w_CT_OnOff }?,
+    element textDirection { <a href="#w_CT_TextDirection">w_CT_TextDirection</a> }?,
+    element bidi { w_CT_OnOff }?,
+    element rtlGutter { w_CT_OnOff }?,
+    element docGrid { <a href="#w_CT_DocGrid">w_CT_DocGrid</a> }?,
+    element printerSettings { <a href="#w_CT_Rel">w_CT_Rel</a> }?
+</pre>
+
+<pre id="w_CT_SectType">
+w_CT_SectType = attribute w:val {
+    "nextPage" | "nextColumn" | "continuous" | "evenPage" | "oddPage"
+}?
+</pre>
+
+<pre id="w_CT_PageSz">
+w_CT_PageSz =
+    attribute w:w { s_ST_TwipsMeasure }?,
+    attribute w:h { s_ST_TwipsMeasure }?,
+    attribute w:orient { "portrait" | "landscape" }?,
+    attribute w:code { xsd:integer }?
+</pre>
+
+<pre id="w_CT_PageMar">
+w_CT_PageMar =
+    attribute w:top { w_ST_SignedTwipsMeasure },
+    attribute w:right { s_ST_TwipsMeasure },
+    attribute w:bottom { w_ST_SignedTwipsMeasure },
+    attribute w:left { s_ST_TwipsMeasure },
+    attribute w:header { s_ST_TwipsMeasure },
+    attribute w:footer { s_ST_TwipsMeasure },
+    attribute w:gutter { s_ST_TwipsMeasure }
+</pre>
+
+<pre id="w_CT_PaperSource">
+w_CT_PaperSource =
+    attribute w:first { xsd:integer }?,
+    attribute w:other { xsd:integer }?
+</pre>
+
+<pre id="w_CT_PageBorders">
+w_CT_PageBorders =
+    attribute w:zOrder { "front" | "back" }?,
+    attribute w:display { "allPages" | "firstPage" | "notFirstPage" }?,
+    attribute w:offsetFrom { "page" | "text" }?,
+    element top { <a href="#w_CT_Border">w_CT_Border</a>, r_id?, r_topLeft?, r_topRight? }?,
+    element left { <a href="#w_CT_Border">w_CT_Border</a>, r_id? }?,
+    element bottom { <a href="#w_CT_Border">w_CT_Border</a>, r_id?, r_bottomLeft?, r_bottomRight? }?,
+    element right { <a href="#w_CT_Border">w_CT_Border</a>, r_id? }?
+</pre>
+
+<pre id="w_CT_LineNumber">
+w_CT_LineNumber =
+    attribute w:countBy { xsd:integer }?,
+    attribute w:start { xsd:integer }?,
+    attribute w:distance { s_ST_TwipsMeasure }?,
+    attribute w:restart { "newPage" | "newSection" | "continuous" }?
+</pre>
+
+<pre id="w_CT_PageNumber">
+w_CT_PageNumber =
+    attribute w:fmt { w_ST_NumberFormat }?,
+    attribute w:start { xsd:integer }?,
+    attribute w:chapStyle { xsd:integer }?,
+    attribute w:chapSep { "hyphen" | "period" | "colon" | "emDash" | "enDash" }?
+</pre>
+
+<pre id="w_CT_Columns">
+w_CT_Columns =
+    attribute w:equalWidth { s_ST_OnOff }?,
+    attribute w:space { s_ST_TwipsMeasure }?,
+    attribute w:num { xsd:integer }?,
+    attribute w:sep { s_ST_OnOff }?,
+    element col { w_CT_Column }*
+</pre>
+
+<pre id="w_CT_Column">
+w_CT_Column =
+    attribute w:w { s_ST_TwipsMeasure }?,
+    attribute w:space { s_ST_TwipsMeasure }?
+</pre>
+
+<pre id="w_CT_DocGrid">
+w_CT_DocGrid =
+    attribute w:type { "default" | "lines" | "linesAndChars" | "snapToChars" }?,
+    attribute w:linePitch { xsd:integer }?,
+    attribute w:charSpace { xsd:integer }?
+</pre>
+
+  <h2 id="item4">Numbering</h2>
+<pre id="w_numbering">
+w_numbering = element numbering {
+    element numPicBullet { <a href="#w_CT_NumPicBullet">w_CT_NumPicBullet</a> }*,
+    element abstractNum { <a href="#w_CT_AbstractNum">w_CT_AbstractNum</a> }*,
+    element num { <a href="#w_CT_Num">w_CT_Num</a> }*,
+    element numIdMacAtCleanup { attribute w:val { xsd:integer } }?
+}
+</pre>
+
+<pre id="w_CT_NumPicBullet">
+w_CT_NumPicBullet =
+    attribute w:numPicBulletId { xsd:integer },
+    (element pict { <a href="#w_CT_Picture">w_CT_Picture</a> } | element drawing { <a href="#w_CT_Drawing">w_CT_Drawing</a> })
+</pre>
+
+<pre id="w_CT_AbstractNum">
+w_CT_AbstractNum =
+    attribute w:abstractNumId { xsd:integer },
+    element nsid { w_CT_LongHexNumber }?,
+    element multiLevelType { attribute w:val { "singleLevel" | "multilevel" | "hybridMultilevel" } }?,
+    element tmpl { w_CT_LongHexNumber }?,
+    element name { attribute w:val { s_ST_String } }?,
+    element styleLink { attribute w:val { s_ST_String } }?,
+    element numStyleLink { attribute w:val { s_ST_String } }?,
+    element lvl { <a href="#w_CT_Lvl">w_CT_Lvl</a> }*
+</pre>
+
+<pre id="w_CT_Num">
+w_CT_Num =
+    attribute w:numId { xsd:integer },
+    element abstractNumId { attribute w:val { xsd:integer } },
+    element lvlOverride { <a href="#w_CT_NumLvl">w_CT_NumLvl</a> }*
+</pre>
+
+<pre id="w_CT_NumLvl">
+w_CT_NumLvl =
+    attribute w:ilvl { xsd:integer },
+    element startOverride { attribute w:val { xsd:integer } }?,
+    element lvl { <a href="#w_CT_Lvl">w_CT_Lvl</a> }?
+</pre>
+
+<pre id="w_CT_Lvl">
+w_CT_Lvl =
+    attribute w:ilvl { xsd:integer },
+    attribute w:tplc { w_ST_LongHexNumber }?,
+    attribute w:tentative { s_ST_OnOff }?,
+    element start { attribute w:val { xsd:integer } }?,
+    element numFmt { <a href="#w_CT_NumFmt">w_CT_NumFmt</a> }?,
+    element lvlRestart { attribute w:val { xsd:integer } }?,
+    element pStyle { attribute w:val { s_ST_String } }?,
+    element isLgl { w_CT_OnOff }?,
+    element suff { attribute w:val { "tab" | "space" | "nothing" } }?,
+    element lvlText {
+        attribute w:val { s_ST_String }?,
+        attribute w:null { s_ST_OnOff }?
+    }?,
+    element lvlPicBulletId { attribute w:val { xsd:integer } }?,
+    element legacy {
+        attribute w:legacy { s_ST_OnOff }?,
+        attribute w:legacySpace { s_ST_TwipsMeasure }?,
+        attribute w:legacyIndent { w_ST_SignedTwipsMeasure }?
+    }?,
+    element lvlJc { <a href="#w_CT_Jc">w_CT_Jc</a> }?,
+    element pPr { <a href="#w_CT_PPrGeneral">w_CT_PPrGeneral</a> }?,
+    element rPr { <a href="#w_CT_RPr">w_CT_RPr</a> }?
+</pre>
+
+  <h2 id="item7">Fonts</h2>
+<pre id="w_fonts">
+w_fonts = element fonts { element font { <a href="#w_CT_Font">w_CT_Font</a> }* }
+</pre>
+
+<pre id="w_CT_Font">
+w_CT_Font =
+    attribute w:name { s_ST_String },
+    element altName { attribute w:val { s_ST_String } }?,
+    element panose1 { <a href="#w_CT_Panose">w_CT_Panose</a> }?,
+    element charset { <a href="#w_CT_Charset">w_CT_Charset</a> }?,
+    element family { <a href="#w_CT_FontFamily">w_CT_FontFamily</a> }?,
+    element notTrueType { w_CT_OnOff }?,
+    element pitch { <a href="#w_CT_Pitch">w_CT_Pitch</a> }?,
+    element sig { <a href="#w_CT_FontSig">w_CT_FontSig</a> }?,
+    element embedRegular { <a href="#w_CT_FontRel">w_CT_FontRel</a> }?,
+    element embedBold { <a href="#w_CT_FontRel">w_CT_FontRel</a> }?,
+    element embedItalic { <a href="#w_CT_FontRel">w_CT_FontRel</a> }?,
+    element embedBoldItalic { <a href="#w_CT_FontRel">w_CT_FontRel</a> }?
+</pre>
+
+<pre id="w_CT_Panose">
+w_CT_Panose = attribute w:val { s_ST_Panose }
+</pre>
+
+<pre id="w_CT_Charset">
+w_CT_Charset =
+    attribute w:val { w_ST_UcharHexNumber }?,
+    attribute w:characterSet { s_ST_String }?
+</pre>
+
+<pre id="w_CT_FontFamily">
+w_CT_FontFamily = attribute w:val {
+    "decorative" | "modern" | "roman" | "script" | "swiss" | "auto"
+}
+</pre>
+
+<pre id="w_CT_Pitch">
+w_CT_Pitch = attribute w:val { "fixed" | "variable" | "default" }
+</pre>
+
+<pre id="w_CT_FontSig">
+w_CT_FontSig =
+    attribute w:usb0 { w_ST_LongHexNumber },
+    attribute w:usb1 { w_ST_LongHexNumber },
+    attribute w:usb2 { w_ST_LongHexNumber },
+    attribute w:usb3 { w_ST_LongHexNumber },
+    attribute w:csb0 { w_ST_LongHexNumber },
+    attribute w:csb1 { w_ST_LongHexNumber }
+</pre>
+
+<pre id="w_CT_FontRel">
+w_CT_FontRel =
+    w_CT_Rel,
+    attribute w:fontKey { s_ST_Guid }?,
+    attribute w:subsetted { s_ST_OnOff }?
+</pre>
+
+  <h2 id="item2">Comments</h2>
+<pre id="w_comments">
+w_comments =
+    element comments {
+        element comment { <a href="#w_CT_Comment">w_CT_Comment</a> }*
+    }
+</pre>
+
+<pre id="w_CT_Comment">
+w_CT_Comment =
+    <a href="#w_CT_TrackChange">w_CT_TrackChange</a>,
+    <a href="#w_EG_BlockLevelElts">w_EG_BlockLevelElts</a>*,
+    attribute w:initials { s_ST_String }?
+</pre>
+
+  <h2 id="item8">Change tracking</h2>
+<pre id="w_CT_TrackChange">
+w_CT_TrackChange =
+    attribute w:id { xsd:integer },
+    attribute w:author { s_ST_String },
+    attribute w:date { w_ST_DateTime }?
+</pre>
+
+<pre id="w_CT_CellMergeTrackChange">
+w_CT_CellMergeTrackChange =
+    <a href="#w_CT_TrackChange">w_CT_TrackChange</a>,
+    attribute w:vMerge { "cont" | "rest" }?,
+    attribute w:vMergeOrig { "cont" | "rest" }?
+</pre>
+
+<pre id="w_CT_TrackChangeRange">
+w_CT_TrackChangeRange =
+    <a href="#w_CT_TrackChange">w_CT_TrackChange</a>,
+    attribute w:displacedByCustomXml { "next" | "prev" }?
+</pre>
+
+<pre id="w_CT_TrackChangeNumbering">
+w_CT_TrackChangeNumbering =
+    <a href="#w_CT_TrackChange">w_CT_TrackChange</a>,
+    attribute w:original { s_ST_String }?
+</pre>
+
+<pre id="w_CT_TblPrExChange">
+w_CT_TblPrExChange =
+    <a href="#w_CT_TrackChange">w_CT_TrackChange</a>,
+    element tblPrEx { <a href="#w_CT_TblPrExBase">w_CT_TblPrExBase</a> }
+</pre>
+
+<pre id="w_CT_TcPrChange">
+w_CT_TcPrChange =
+    <a href="#w_CT_TrackChange">w_CT_TrackChange</a>,
+    element tcPr { <a href="#w_CT_TcPrInner">w_CT_TcPrInner</a> }
+</pre>
+
+<pre id="w_CT_TrPrChange">
+w_CT_TrPrChange =
+    <a href="#w_CT_TrackChange">w_CT_TrackChange</a>,
+    element trPr { <a href="#w_CT_TrPrBase">w_CT_TrPrBase</a> }
+</pre>
+
+<pre id="w_CT_TblGridChange">
+w_CT_TblGridChange =
+    attribute w:id { xsd:integer },
+    element tblGrid { <a href="#w_CT_TblGridBase">w_CT_TblGridBase</a> }
+</pre>
+
+<pre id="w_CT_TblPrChange">
+w_CT_TblPrChange =
+    <a href="#w_CT_TrackChange">w_CT_TrackChange</a>,
+    element tblPr { <a href="#w_CT_TblPrBase">w_CT_TblPrBase</a> }
+</pre>
+
+<pre id="w_CT_SectPrChange">
+w_CT_SectPrChange =
+    <a href="#w_CT_TrackChange">w_CT_TrackChange</a>,
+    element sectPr {
+      <a href="#w_AG_SectPrAttributes">w_AG_SectPrAttributes</a>,
+      <a href="#w_EG_SectPrContents">w_EG_SectPrContents</a>?
+    }?
+</pre>
+
+<pre id="w_CT_PPrChange">
+w_CT_PPrChange =
+    <a href="#w_CT_TrackChange">w_CT_TrackChange</a>,
+    element pPr { <a href="#w_CT_PPrBase">w_CT_PPrBase</a> }
+</pre>
+
+<pre id="w_CT_RPrChange">
+w_CT_RPrChange =
+    <a href="#w_CT_TrackChange">w_CT_TrackChange</a>,
+    element rPr { <a href="#w_CT_RPrOriginal">w_CT_RPrOriginal</a> }
+</pre>
+
+<pre id="w_CT_RPrOriginal">
+w_CT_RPrOriginal = <a href="#w_EG_RPrBase">w_EG_RPrBase</a>*
+</pre>
+
+<pre id="w_CT_ParaRPrChange">
+w_CT_ParaRPrChange =
+    <a href="#w_CT_TrackChange">w_CT_TrackChange</a>,
+    element rPr { <a href="#w_CT_ParaRPrOriginal">w_CT_ParaRPrOriginal</a> }
+</pre>
+
+<pre id="w_CT_ParaRPrOriginal">
+w_CT_ParaRPrOriginal = <a href="#w_EG_ParaRPrTrackChanges">w_EG_ParaRPrTrackChanges</a>?, <a href="#w_EG_RPrBase">w_EG_RPrBase</a>*
+</pre>
+
+<pre id="w_CT_RunTrackChange">
+w_CT_RunTrackChange =
+    <a href="#w_CT_TrackChange">w_CT_TrackChange</a>,
+   (<a href="#w_EG_ContentRunContent">w_EG_ContentRunContent</a> | m_EG_OMathMathElements)*
+</pre>
+
+<pre id="w_CT_MathCtrlIns">
+w_CT_MathCtrlIns =
+    <a href="#w_CT_TrackChange">w_CT_TrackChange</a>,
+    (element del { <a href="#w_CT_RPrChange">w_CT_RPrChange</a> }
+     | element rPr { <a href="#w_CT_RPr">w_CT_RPr</a> })?
+</pre>
+
+<pre id="w_CT_MathCtrlDel">
+w_CT_MathCtrlDel =
+    <a href="#w_CT_TrackChange">w_CT_TrackChange</a>,
+    (element rPr { <a href="#w_CT_RPr">w_CT_RPr</a> })?
+</pre>
+
+<pre id="w_EG_ParaRPrTrackChanges">
+w_EG_ParaRPrTrackChanges =
+    element ins { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> }?,
+    element del { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> }?,
+    element moveFrom { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> }?,
+    element moveTo { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> }?
+</pre>
+
+  <h1 id="item26">Special features</h1>
+
+  <h2 id="item27">Glossary</h2>
+<pre id="w_glossaryDocument">
+w_glossaryDocument = element glossaryDocument { w_CT_GlossaryDocument }
+</pre>
+
+<pre id="w_CT_GlossaryDocument">
+w_CT_GlossaryDocument =
+    element background { <a href="#w_CT_Background">w_CT_Background</a> }?,
+    element docParts { <a href="#w_CT_DocParts">w_CT_DocParts</a> }?
+</pre>
+
+<pre id="w_CT_DocParts">
+w_CT_DocParts = element docPart { <a href="#w_CT_DocPart">w_CT_DocPart</a> }+
+</pre>
+
+<pre id="w_CT_DocPart">
+w_CT_DocPart =
+    element docPartPr { <a href="#w_CT_DocPartPr">w_CT_DocPartPr</a> }?,
+    element docPartBody { <a href="#w_CT_Body">w_CT_Body</a> }?
+</pre>
+
+<pre id="w_CT_DocPartPr">
+w_CT_DocPartPr =
+    element name {
+        attribute w:val { s_ST_String },
+        attribute w:decorated { s_ST_OnOff }?
+    }
+    element style { attribute w:val { s_ST_String } }?
+    element category {
+        element name { attribute w:val { s_ST_String } },
+        element gallery { <a href="#w_CT_DocPartGallery">w_CT_DocPartGallery</a> }
+    }?
+    element types {
+        attribute w:all { s_ST_OnOff }?,
+        (element type { <a href="#w_CT_DocPartType">w_CT_DocPartType</a> }+)
+    }?
+    element behaviors {
+        element behavior { attribute w:val { "content" | "p" | "pg" } }+
+    }?
+    element description { attribute w:val { s_ST_String } }?
+    element guid { w_CT_Guid }?
+</pre>
+
+<pre id="w_CT_DocPartType">
+w_CT_DocPartType = attribute w:val {
+    "none" | "normal" | "autoExp" | "toolbar" | "speller" | "formFld" | "bbPlcHdr"
+}
+</pre>
+
+<pre id="w_ST_DocPartGallery">
+w_ST_DocPartGallery =
+      "placeholder"
+    | "any"
+    | "default"
+    | "docParts"
+    | "coverPg"
+    | "eq"
+    | "ftrs"
+    | "hdrs"
+    | "pgNum"
+    | "tbls"
+    | "watermarks"
+    | "autoTxt"
+    | "txtBox"
+    | "pgNumT"
+    | "pgNumB"
+    | "pgNumMargins"
+    | "tblOfContents"
+    | "bib"
+    | "custQuickParts"
+    | "custCoverPg"
+    | "custEq"
+    | "custFtrs"
+    | "custHdrs"
+    | "custPgNum"
+    | "custTbls"
+    | "custWatermarks"
+    | "custAutoTxt"
+    | "custTxtBox"
+    | "custPgNumT"
+    | "custPgNumB"
+    | "custPgNumMargins"
+    | "custTblOfContents"
+    | "custBib"
+    | "custom1"
+    | "custom2"
+    | "custom3"
+    | "custom4"
+    | "custom5"
+</pre>
+
+<pre id="w_CT_DocPartGallery">
+w_CT_DocPartGallery = attribute w:val { w_ST_DocPartGallery }
+</pre>
+
+  <h2 id="item28">Custom XML</h2>
+<pre id="w_CT_CustomXmlRun">
+w_CT_CustomXmlRun =
+    attribute w:uri { s_ST_String }?,
+    attribute w:element { s_ST_XmlName },
+    element customXmlPr { <a href="#w_CT_CustomXmlPr">w_CT_CustomXmlPr</a> }?,
+    <a href="#w_EG_PContent">w_EG_PContent</a>*
+</pre>
+
+<pre id="w_CT_CustomXmlBlock">
+w_CT_CustomXmlBlock =
+    attribute w:uri { s_ST_String }?,
+    attribute w:element { s_ST_XmlName },
+    element customXmlPr { <a href="#w_CT_CustomXmlPr">w_CT_CustomXmlPr</a> }?,
+    <a href="#w_EG_ContentBlockContent">w_EG_ContentBlockContent</a>*
+</pre>
+
+<pre id="w_CT_CustomXmlPr">
+w_CT_CustomXmlPr =
+    element placeholder { attribute w:val { s_ST_String } }?,
+    element attr { <a href="#w_CT_Attr">w_CT_Attr</a> }*
+</pre>
+
+<pre id="w_CT_Attr">
+w_CT_Attr =
+    attribute w:uri { s_ST_String }?,
+    attribute w:name { s_ST_String },
+    attribute w:val { s_ST_String }
+</pre>
+
+<pre id="w_CT_CustomXmlRow">
+w_CT_CustomXmlRow =
+    attribute w:uri { s_ST_String }?,
+    attribute w:element { s_ST_XmlName },
+    element customXmlPr { <a href="#w_CT_CustomXmlPr">w_CT_CustomXmlPr</a> }?,
+    <a href="#w_EG_ContentRowContent">w_EG_ContentRowContent</a>*
+</pre>
+
+<pre id=w_CT_CustomXmlCell">
+w_CT_CustomXmlCell =
+    attribute w:uri { s_ST_String }?,
+    attribute w:element { s_ST_XmlName },
+    element customXmlPr { <a href="#w_CT_CustomXmlPr">w_CT_CustomXmlPr</a> }?,
+    <a href="#w_EG_ContentCellContent">w_EG_ContentCellContent</a>*
+</pre>
+
+  <h2 id="item29">Web settings</h2>
+<pre id="w_webSettings">
+w_webSettings = element webSettings { w_CT_WebSettings }
+</pre>
+
+<pre id="w_CT_WebSettings">
+w_CT_WebSettings =
+    element frameset { w_CT_Frameset }?,
+    element divs { w_CT_Divs }?,
+    element encoding { attribute w:val { s_ST_String } }?,
+    element optimizeForBrowser { w_CT_OptimizeForBrowser }?,
+    element relyOnVML { w_CT_OnOff }?,
+    element allowPNG { w_CT_OnOff }?,
+    element doNotRelyOnCSS { w_CT_OnOff }?,
+    element doNotSaveAsSingleFile { w_CT_OnOff }?,
+    element doNotOrganizeInFolder { w_CT_OnOff }?,
+    element doNotUseLongFileNames { w_CT_OnOff }?,
+    element pixelsPerInch { attribute w:val { xsd:integer } }?,
+    element targetScreenSz { w_CT_TargetScreenSz }?,
+    element saveSmartTagsAsXml { w_CT_OnOff }?
+</pre>
+
+<pre id="w_CT_FramesetSplitbar">
+w_CT_FramesetSplitbar =
+    element w { w_CT_TwipsMeasure }?,
+    element color { <a href="#w_CT_Color">w_CT_Color</a> }?,
+    element noBorder { w_CT_OnOff }?,
+    element flatBorders { w_CT_OnOff }?
+</pre>
+
+<pre id="w_CT_Frameset">
+w_CT_Frameset =
+    element sz { attribute w:val { s_ST_String } }?,
+    element framesetSplitbar { w_CT_FramesetSplitbar }?,
+    element frameLayout { w_CT_FrameLayout }?,
+    element title { attribute w:val { s_ST_String } }?,
+    (element frameset { w_CT_Frameset }*
+     | element frame { w_CT_Frame }*)*
+</pre>
+
+<pre id="w_CT_Frame">
+w_CT_Frame =
+    element sz { attribute w:val { s_ST_String } }?,
+    element name { attribute w:val { s_ST_String } }?,
+    element title { attribute w:val { s_ST_String } }?,
+    element longDesc { <a href="#w_CT_Rel">w_CT_Rel</a> }?,
+    element sourceFileName { <a href="#w_CT_Rel">w_CT_Rel</a> }?,
+    element marW { w_CT_PixelsMeasure }?,
+    element marH { w_CT_PixelsMeasure }?,
+    element scrollbar { w_CT_FrameScrollbar }?,
+    element noResizeAllowed { w_CT_OnOff }?,
+    element linkedToFile { w_CT_OnOff }?
+</pre>
+
+<pre id="w_CT_FrameScrollbar">
+w_CT_FrameScrollbar = attribute w:val { "on" | "off" | "auto" }
+</pre>
+
+<pre id="w_CT_FrameLayout">
+w_CT_FrameLayout = attribute w:val { "rows" | "cols" | "none" }
+</pre>
+
+<pre id="w_CT_Divs">
+w_CT_Divs = element div { w_CT_Div }+
+</pre>
+
+<pre id="w_CT_Div">
+w_CT_Div =
+    attribute w:id { xsd:integer },
+    element blockQuote { w_CT_OnOff }?,
+    element bodyDiv { w_CT_OnOff }?,
+    element marLeft { w_CT_SignedTwipsMeasure },
+    element marRight { w_CT_SignedTwipsMeasure },
+    element marTop { w_CT_SignedTwipsMeasure },
+    element marBottom { w_CT_SignedTwipsMeasure },
+    element divBdr { w_CT_DivBdr }?,
+    element divsChild { w_CT_Divs }*
+</pre>
+
+<pre id="w_CT_DivBdr">
+w_CT_DivBdr =
+    element top { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element left { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element bottom { <a href="#w_CT_Border">w_CT_Border</a> }?,
+    element right { <a href="#w_CT_Border">w_CT_Border</a> }?
+</pre>
+
+<pre id="w_CT_OptimizeForBrowser">
+w_CT_OptimizeForBrowser =
+    w_CT_OnOff,
+    attribute w:target { s_ST_String }?
+</pre>
+
+<pre id="w_CT_TargetScreenSz">
+w_CT_TargetScreenSz = attribute w:val {
+      "544x376"
+    | "640x480"
+    | "720x512"
+    | "800x600"
+    | "1024x768"
+    | "1152x882"
+    | "1152x900"
+    | "1280x1024"
+    | "1600x1200"
+    | "1800x1440"
+    | "1920x1200"
+}
+</pre>
+
+  <h2 id="item30">Structured data</h2>
+<pre id="w_CT_SdtListItem">
+w_CT_SdtListItem =
+    attribute w:displayText { s_ST_String }?,
+    attribute w:value { s_ST_String }?
+</pre>
+
+<pre id="w_CT_CalendarType">
+w_CT_CalendarType = attribute w:val { s_ST_CalendarType }?
+</pre>
+
+<pre id="w_CT_SdtDate">
+w_CT_SdtDate =
+    attribute w:fullDate { w_ST_DateTime }?,
+    element dateFormat { attribute w:val { s_ST_String } }?,
+    element lid { attribute w:val { s_ST_Lang } }?,
+    element storeMappedDataAs { <a href="#w_CT_SdtDateMappingType">w_CT_SdtDateMappingType</a> }?,
+    element calendar { <a href="#w_CT_CalendarType">w_CT_CalendarType</a> }?
+</pre>
+
+<pre id="w_CT_SdtDateMappingType">
+w_CT_SdtDateMappingType = attribute w:val { "text" | "date" | "dateTime" }?
+</pre>
+
+<pre id="w_CT_SdtComboBox">
+w_CT_SdtComboBox =
+    attribute w:lastValue { s_ST_String }?,
+    element listItem { <a href="#w_CT_SdtListItem">w_CT_SdtListItem</a> }*
+</pre>
+
+<pre id="w_CT_SdtDocPart">
+w_CT_SdtDocPart =
+    element docPartGallery { attribute w:val { s_ST_String } }?,
+    element docPartCategory { attribute w:val { s_ST_String } }?,
+    element docPartUnique { w_CT_OnOff }?
+</pre>
+
+<pre id="w_CT_SdtDropDownList">
+w_CT_SdtDropDownList =
+    attribute w:lastValue { s_ST_String }?,
+    element listItem { <a href="#w_CT_SdtListItem">w_CT_SdtListItem</a> }*
+</pre>
+
+<pre id="w_CT_SdtPr">
+w_CT_SdtPr =
+    element rPr { <a href="#w_CT_RPr">w_CT_RPr</a> }?,
+    element alias { attribute w:val { s_ST_String } }?,
+    element tag { attribute w:val { s_ST_String } }?,
+    element id { attribute w:val { xsd:integer } }?,
+    element lock { attribute w:val { "sdtLocked" | "contentLocked" | "unlocked" | "sdtContentLocked" }? }?,
+    element placeholder { element docPart { attribute w:val { s_ST_String } } }?,
+    element temporary { w_CT_OnOff }?,
+    element showingPlcHdr { w_CT_OnOff }?,
+    element dataBinding { <a href="#w_CT_DataBinding">w_CT_DataBinding</a> }?,
+    element label { attribute w:val { xsd:integer } }?,
+    element tabIndex { w_CT_UnsignedDecimalNumber }?,
+    (element equation { w_CT_Empty }
+        | element comboBox { <a href="#w_CT_SdtComboBox">w_CT_SdtComboBox</a> }
+         | element date { <a href="#w_CT_SdtDate">w_CT_SdtDate</a> }
+         | element docPartObj { <a href="#w_CT_SdtDocPart">w_CT_SdtDocPart</a> }
+         | element docPartList { <a href="#w_CT_SdtDocPart">w_CT_SdtDocPart</a> }
+         | element dropDownList { <a href="#w_CT_SdtDropDownList">w_CT_SdtDropDownList</a> }
+         | element picture { w_CT_Empty }
+         | element richText { w_CT_Empty }
+         | element text { w_CT_SdtText }
+         | element citation { w_CT_Empty }
+         | element group { w_CT_Empty }
+         | element bibliography { w_CT_Empty })?
+</pre>
+
+<pre id="w_CT_DataBinding">
+w_CT_DataBinding =
+    attribute w:prefixMappings { s_ST_String }?,
+    attribute w:xpath { s_ST_String },
+    attribute w:storeItemID { s_ST_String }
+</pre>
+
+<pre id="w_CT_SdtText">
+w_CT_SdtText = attribute w:multiLine { s_ST_OnOff }?
+</pre>
+
+<pre id="w_CT_SdtEndPr">
+w_CT_SdtEndPr = (element rPr { <a href="#w_CT_RPr">w_CT_RPr</a> }?)+
+</pre>
+
+<pre id="w_CT_SdtContentRun">
+w_CT_SdtContentRun = <a href="#w_EG_PContent">w_EG_PContent</a>*
+</pre>
+
+<pre id="w_CT_SdtContentBlock">
+w_CT_SdtContentBlock = <a href="#w_EG_ContentBlockContent">w_EG_ContentBlockContent</a>*
+</pre>
+
+<pre id="w_CT_SdtContentRow">
+w_CT_SdtContentRow = <a href="#w_EG_ContentRowContent">w_EG_ContentRowContent</a>*
+</pre>
+
+<pre id="w_CT_SdtContentCell">
+w_CT_SdtContentCell = <a href="#w_EG_ContentCellContent">w_EG_ContentCellContent</a>*
+</pre>
+
+<pre id="w_CT_SdtBlock">
+w_CT_SdtBlock =
+    element sdtPr { <a href="#w_CT_SdtPr">w_CT_SdtPr</a> }?,
+    element sdtEndPr { <a href="#w_CT_SdtEndPr">w_CT_SdtEndPr</a> }?,
+    element sdtContent { <a href="#w_CT_SdtContentBlock">w_CT_SdtContentBlock</a> }?
+</pre>
+
+<pre id="w_CT_SdtRun">
+w_CT_SdtRun =
+    element sdtPr { <a href="#w_CT_SdtPr">w_CT_SdtPr</a> }?,
+    element sdtEndPr { <a href="#w_CT_SdtEndPr">w_CT_SdtEndPr</a> }?,
+    element sdtContent { <a href="#w_CT_SdtContentRun">w_CT_SdtContentRun</a> }?
+</pre>
+
+<pre id="w_CT_SdtCell">
+w_CT_SdtCell =
+    element sdtPr { <a href="#w_CT_SdtPr">w_CT_SdtPr</a> }?,
+    element sdtEndPr { <a href="#w_CT_SdtEndPr">w_CT_SdtEndPr</a> }?,
+    element sdtContent { <a href="#w_CT_SdtContentCell">w_CT_SdtContentCell</a> }?
+</pre>
+
+<pre id="w_CT_SdtRow">
+w_CT_SdtRow =
+    element sdtPr { <a href="#w_CT_SdtPr">w_CT_SdtPr</a> }?,
+    element sdtEndPr { <a href="#w_CT_SdtEndPr">w_CT_SdtEndPr</a> }?,
+    element sdtContent { <a href="#w_CT_SdtContentRow">w_CT_SdtContentRow</a> }?
+</pre>
+
+  <h2 id="item31">Mail merge</h2>
+<pre id="w_CT_MailMerge">
+w_CT_MailMerge =
+    element mainDocumentType {
+        attribute w:val {
+            "catalog" | "envelopes" | "mailingLabels" | "formLetters" | "email" | "fax"
+        }    
+    },
+    element linkToQuery { w_CT_OnOff }?,
+    element dataType { attribute w:val { xsd:string } },
+    element connectString { attribute w:val { s_ST_String } }?,
+    element query { attribute w:val { s_ST_String } }?,
+    element dataSource { <a href="#w_CT_Rel">w_CT_Rel</a> }?,
+    element headerSource { <a href="#w_CT_Rel">w_CT_Rel</a> }?,
+    element doNotSuppressBlankLines { w_CT_OnOff }?,
+    element destination { "newDocument" | "printer" | "email" | "fax" }?,
+    element addressFieldName { attribute w:val { s_ST_String } }?,
+    element mailSubject { attribute w:val { s_ST_String } }?,
+    element mailAsAttachment { w_CT_OnOff }?,
+    element viewMergedData { w_CT_OnOff }?,
+    element activeRecord { attribute w:val { xsd:integer } }?,
+    element checkErrors { attribute w:val { xsd:integer } }?,
+    element odso { w_CT_Odso }?
+</pre>
+
+<pre id="w_CT_Odso">
+w_CT_Odso =
+    element udl { attribute w:val { s_ST_String } }?,
+    element table { attribute w:val { s_ST_String } }?,
+    element src { <a href="#w_CT_Rel">w_CT_Rel</a> }?,
+    element colDelim { attribute w:val { xsd:integer } }?,
+    element type { w_CT_MailMergeSourceType }?,
+    element fHdr { w_CT_OnOff }?,
+    element fieldMapData { w_CT_OdsoFieldMapData }*,
+    element recipientData { <a href="#w_CT_Rel">w_CT_Rel</a> }*
+</pre>
+
+<pre id="w_CT_OdsoFieldMapData">
+w_CT_OdsoFieldMapData =
+    element type { attribute w:val { "null" | "dbColumn" } }?,
+    element name { attribute w:val { s_ST_String } }?,
+    element mappedName { attribute w:val { s_ST_String } }?,
+    element column { attribute w:val { xsd:integer } }?,
+    element lid { attribute w:val { s_ST_Lang } }?,
+    element dynamicAddress { w_CT_OnOff }?
+</pre>
+
+<pre id="w_CT_MailMergeSourceType">
+w_CT_MailMergeSourceType = attribute w:val {
+    "database" | "addressBook" | "document1" | "document2" |
+    "text" | "email" | "native" | "legacy" | "master"
+}
+</pre>
+
+<pre id="w_recipients">
+w_recipients = element recipients {
+    element recipientData {
+        element active { w_CT_OnOff }?,
+        element column { attribute w:val { xsd:integer } },
+        element uniqueTag { w_CT_Base64Binary }
+    }+
+}
+</pre>
+
+  <h2 id="item32">Conditional formatting</h2>
+  <pre>
+w_CT_Cnf =
+    attribute w:val { xsd:string { length = "12" pattern = "[01]*" } }?,
+    attribute w:firstRow { s_ST_OnOff }?,
+    attribute w:lastRow { s_ST_OnOff }?,
+    attribute w:firstColumn { s_ST_OnOff }?,
+    attribute w:lastColumn { s_ST_OnOff }?,
+    attribute w:oddVBand { s_ST_OnOff }?,
+    attribute w:evenVBand { s_ST_OnOff }?,
+    attribute w:oddHBand { s_ST_OnOff }?,
+    attribute w:evenHBand { s_ST_OnOff }?,
+    attribute w:firstRowFirstColumn { s_ST_OnOff }?,
+    attribute w:firstRowLastColumn { s_ST_OnOff }?,
+    attribute w:lastRowFirstColumn { s_ST_OnOff }?,
+    attribute w:lastRowLastColumn { s_ST_OnOff }?
+</pre>
+
+  <h2 id="item33">Annotations</h2>
+<pre id="w_CT_MarkupRange">
+w_CT_MarkupRange =
+    attribute w:id { xsd:integer },
+    attribute w:displacedByCustomXml { "next" | "prev" }?
+</pre>
+
+<pre id="w_CT_BookmarkRange">
+w_CT_BookmarkRange =
+    <a href="#w_CT_MarkupRange">w_CT_MarkupRange</a>,
+    attribute w:colFirst { xsd:integer }?,
+    attribute w:colLast { xsd:integer }?
+</pre>
+
+<pre id="w_CT_Bookmark">
+w_CT_Bookmark =
+    <a href="#w_CT_BookmarkRange">w_CT_BookmarkRange</a>,
+    attribute w:name { s_ST_String }
+</pre>
+
+<pre id="w_CT_MoveBookmark">
+w_CT_MoveBookmark =
+    <a href="#w_CT_Bookmark">w_CT_Bookmark</a>,
+    attribute w:author { s_ST_String },
+    attribute w:date { w_ST_DateTime }
+</pre>
+
+<pre id="w_CT_SmartTagRun">
+w_CT_SmartTagRun =
+    attribute w:uri { s_ST_String }?,
+    attribute w:element { s_ST_XmlName },
+    element smartTagPr { <a href="#w_CT_SmartTagPr">w_CT_SmartTagPr</a> }?,
+    <a href="#w_EG_PContent">w_EG_PContent</a>*
+</pre>
+
+<pre id="w_CT_SmartTagPr">
+w_CT_SmartTagPr = element attr { <a href="#w_CT_Attr">w_CT_Attr</a> }*
+</pre>
+
+<pre id="w_EG_CellMarkupElements">
+w_EG_CellMarkupElements =
+    element cellIns { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> }?
+    | element cellDel { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> }?
+    | element cellMerge { <a href="#w_CT_CellMergeTrackChange">w_CT_CellMergeTrackChange</a> }?
+</pre>
+
+<pre id="w_EG_RangeMarkupElements">
+w_EG_RangeMarkupElements =
+    element bookmarkStart { <a href="#w_CT_Bookmark">w_CT_Bookmark</a> } |
+    element bookmarkEnd { <a href="#w_CT_MarkupRange">w_CT_MarkupRange</a> } |
+    element moveFromRangeStart { <a href="#w_CT_MoveBookmark">w_CT_MoveBookmark</a> } |
+    element moveFromRangeEnd { <a href="#w_CT_MarkupRange">w_CT_MarkupRange</a> } |
+    element moveToRangeStart { <a href="#w_CT_MoveBookmark">w_CT_MoveBookmark</a> } |
+    element moveToRangeEnd { <a href="#w_CT_MarkupRange">w_CT_MarkupRange</a> } |
+    element commentRangeStart { <a href="#w_CT_MarkupRange">w_CT_MarkupRange</a> } |
+    element commentRangeEnd { <a href="#w_CT_MarkupRange">w_CT_MarkupRange</a> } |
+    element customXmlInsRangeStart { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> } |
+    element customXmlInsRangeEnd { attribute w:id { xsd:integer } } |
+    element customXmlDelRangeStart { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> } |
+    element customXmlDelRangeEnd { attribute w:id { xsd:integer } } |
+    element customXmlMoveFromRangeStart { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> } |
+    element customXmlMoveFromRangeEnd { attribute w:id { xsd:integer } } |
+    element customXmlMoveToRangeStart { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> } |
+    element customXmlMoveToRangeEnd { attribute w:id { xsd:integer } }
+</pre>
+
+  <h1 id="item34">Common types</h1>
+
+  <h2 id="item35">Numeric types</h2>
+  <pre>
+w_CT_OnOff = attribute w:val { s_ST_OnOff }?
+w_ST_LongHexNumber = xsd:hexBinary { length = "4" }
+w_CT_LongHexNumber = attribute w:val { w_ST_LongHexNumber }
+w_ST_ShortHexNumber = xsd:hexBinary { length = "2" }
+w_ST_UcharHexNumber = xsd:hexBinary { length = "1" }
+w_ST_DecimalNumberOrPercent =
+    w_ST_UnqualifiedPercentage | s_ST_Percentage
+w_ST_UnqualifiedPercentage = xsd:integer
+w_CT_UnsignedDecimalNumber =
+    attribute w:val { s_ST_UnsignedDecimalNumber }
+w_CT_DecimalNumberOrPrecent =
+    attribute w:val { w_ST_DecimalNumberOrPercent }
+w_CT_TwipsMeasure = attribute w:val { s_ST_TwipsMeasure }
+w_ST_SignedTwipsMeasure = xsd:integer | s_ST_UniversalMeasure
+w_CT_SignedTwipsMeasure = attribute w:val { w_ST_SignedTwipsMeasure }
+w_ST_PixelsMeasure = s_ST_UnsignedDecimalNumber
+w_CT_PixelsMeasure = attribute w:val { w_ST_PixelsMeasure }
+w_ST_HpsMeasure =
+    s_ST_UnsignedDecimalNumber | s_ST_PositiveUniversalMeasure
+w_ST_SignedHpsMeasure = xsd:integer | s_ST_UniversalMeasure
+w_CT_SignedHpsMeasure = attribute w:val { w_ST_SignedHpsMeasure }
+w_ST_DateTime = xsd:dateTime
+w_ST_EighthPointMeasure = s_ST_UnsignedDecimalNumber
+w_ST_PointMeasure = s_ST_UnsignedDecimalNumber
+w_ST_TextScale = w_ST_TextScalePercent | w_ST_TextScaleDecimal
+w_ST_TextScalePercent =
+    xsd:string { pattern = "0*(600|([0-5]?[0-9]?[0-9]))%" }
+w_ST_TextScaleDecimal =
+    xsd:integer { minInclusive = "0" maxInclusive = "600" }
+w_CT_TextScale = attribute w:val { w_ST_TextScale }?
+w_CT_Base64Binary = attribute w:val { xsd:base64Binary }
+w_ST_MeasurementOrPercent =
+w_ST_DecimalNumberOrPercent | s_ST_UniversalMeasure
+</pre>
+
+  <h2 id="item36">Non-numeric types</h2>
+<pre id="w_CT_Empty">
+w_CT_Empty = empty
+</pre>
+
+<pre id="w_ST_HexColorAuto">
+w_ST_HexColorAuto = "auto"
+</pre>
+
+<pre id="w_ST_HexColor">
+w_ST_HexColor = w_ST_HexColorAuto | s_ST_HexColorRGB
+</pre>
+
+<pre id="w_CT_Color">
+w_CT_Color =
+    attribute w:val { w_ST_HexColor },
+    attribute w:themeColor { w_ST_ThemeColor }?,
+    attribute w:themeTint { w_ST_UcharHexNumber }?,
+    attribute w:themeShade { w_ST_UcharHexNumber }?
+</pre>
+
+<pre id="w_ST_ThemeColor">
+w_ST_ThemeColor =
+      "dark1"
+    | "light1"
+    | "dark2"
+    | "light2"
+    | "accent1"
+    | "accent2"
+    | "accent3"
+    | "accent4"
+    | "accent5"
+    | "accent6"
+    | "hyperlink"
+    | "followedHyperlink"
+    | "none"
+    | "background1"
+    | "text1"
+    | "background2"
+    | "text2"
+</pre>
+
+<pre id="w_CT_Guid">
+w_CT_Guid = attribute w:val { s_ST_Guid }?
+</pre>
+
+<pre id="w_CT_Language">
+w_CT_Language =
+    attribute w:val { s_ST_Lang }?,
+    attribute w:eastAsia { s_ST_Lang }?,
+    attribute w:bidi { s_ST_Lang }?
+</pre>
+
+<pre id="w_CT_Rel">
+w_CT_Rel = r_id
+</pre>
+
+<pre id="w_CT_VerticalJc">
+w_CT_VerticalJc = attribute w:val { "top" | "center" | "both" | "bottom" }
+</pre>
+
+<pre id="w_CT_Jc">
+w_CT_Jc = attribute w:val {
+    "start" | "center" | "end" | "both" | "left" | "right"
+    "mediumKashida" | "distribute" | "numTab" | "highKashida" |
+    "lowKashida" | "thaiDistribute"
+}
+</pre>
+
+<pre id="w_CT_TextDirection">
+w_CT_TextDirection = attribute w:val {
+    "tb" | "rl" | "lr" | "tbV" | "rlV" | "lrV" |
+    "btLr" | "lrTb" | "lrTbV" |"tbLrV" | "tbRl" | "tbRlV"
+}
+</pre>
+
+<pre id="w_CT_NumFmt">
+w_CT_NumFmt =
+    attribute w:val { w_ST_NumberFormat },
+    attribute w:format { s_ST_String }?
+</pre>
+
+<pre id="w_ST_NumberFormat">
+w_ST_NumberFormat =
+      "decimal"
+    | "upperRoman"
+    | "lowerRoman"
+    | "upperLetter"
+    | "lowerLetter"
+    | "ordinal"
+    | "cardinalText"
+    | "ordinalText"
+    | "hex"
+    | "chicago"
+    | "ideographDigital"
+    | "japaneseCounting"
+    | "aiueo"
+    | "iroha"
+    | "decimalFullWidth"
+    | "decimalHalfWidth"
+    | "japaneseLegal"
+    | "japaneseDigitalTenThousand"
+    | "decimalEnclosedCircle"
+    | "decimalFullWidth2"
+    | "aiueoFullWidth"
+    | "irohaFullWidth"
+    | "decimalZero"
+    | "bullet"
+    | "ganada"
+    | "chosung"
+    | "decimalEnclosedFullstop"
+    | "decimalEnclosedParen"
+    | "decimalEnclosedCircleChinese"
+    | "ideographEnclosedCircle"
+    | "ideographTraditional"
+    | "ideographZodiac"
+    | "ideographZodiacTraditional"
+    | "taiwaneseCounting"
+    | "ideographLegalTraditional"
+    | "taiwaneseCountingThousand"
+    | "taiwaneseDigital"
+    | "chineseCounting"
+    | "chineseLegalSimplified"
+    | "chineseCountingThousand"
+    | "koreanDigital"
+    | "koreanCounting"
+    | "koreanLegal"
+    | "koreanDigital2"
+    | "vietnameseCounting"
+    | "russianLower"
+    | "russianUpper"
+    | "none"
+    | "numberInDash"
+    | "hebrew1"
+    | "hebrew2"
+    | "arabicAlpha"
+    | "arabicAbjad"
+    | "hindiVowels"
+    | "hindiConsonants"
+    | "hindiNumbers"
+    | "hindiCounting"
+    | "thaiLetters"
+    | "thaiNumbers"
+    | "thaiCounting"
+    | "bahtText"
+    | "dollarText"
+    | "custom"
+</pre>
+
+  <h1 id="item37">Uncategorised</h1>
+<pre id="w_txbxContent">
+w_txbxContent =
+    element txbxContent {
+        <a href="#w_EG_BlockLevelElts">w_EG_BlockLevelElts</a>+
+    }
+</pre>
+
+<pre id="w_any_vml_office">
+w_any_vml_office =
+    o_shapedefaults
+    | o_shapelayout
+    | o_signatureline
+    | o_ink
+    | o_diagram
+    | o_skew
+    | o_extrusion
+    | o_callout
+    | o_lock
+    | o_OLEObject
+    | o_complex
+    | o_left
+    | o_top
+    | o_right
+    | o_bottom
+    | o_column
+    | o_clippath
+    | o_fill
+</pre>
+
+<pre id="w_any_vml_vml">
+w_any_vml_vml =
+    v_shape
+    | v_shapetype
+    | v_group
+    | v_background
+    | v_fill
+    | v_formulas
+    | v_handles
+    | v_imagedata
+    | v_path
+    | v_textbox
+    | v_shadow
+    | v_stroke
+    | v_textpath
+    | v_arc
+    | v_curve
+    | v_image
+    | v_line
+    | v_oval
+    | v_polyline
+    | v_rect
+    | v_roundrect
+</pre>
+
+</body>
+</html>

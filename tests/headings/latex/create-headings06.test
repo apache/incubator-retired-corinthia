@@ -1,0 +1,59 @@
+// Default numbering - h1 to h6
+LaTeX_testCreate();
+#item input.html
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body { counter-reset: h1 h2 h3 h4 h5 h6; }
+
+h1 { counter-increment: h1; counter-reset: h2 h3 h4 h5 h6; }
+h2 { counter-increment: h2; counter-reset: h3 h4 h5 h6; }
+h3 { counter-increment: h3; counter-reset: h4 h5 h6; }
+h4 { counter-increment: h4; counter-reset: h5 h6; }
+h5 { counter-increment: h5; counter-reset: h6; }
+h6 { counter-increment: h6; }
+
+h1::before { content: counter(h1) " "; }
+h2::before { content: counter(h1) "." counter(h2) " "; }
+h3::before { content: counter(h1) "." counter(h2) "." counter(h3) " "; }
+h4::before { content: counter(h1) "." counter(h2) "." counter(h3) "."
+             counter(h4) " "; }
+h5::before { content: counter(h1) "." counter(h2) "." counter(h3) "."
+             counter(h4) "." counter(h5) " "; }
+h6::before { content: counter(h1) "." counter(h2) "." counter(h3) "."
+             counter(h4) "." counter(h5) "." counter(h6) " "; }
+</style>
+</head>
+<body>
+
+<h1>Heading 1</h1>
+<h2>Heading 2</h2>
+<h3>Heading 3</h3>
+<h4>Heading 4</h4>
+<h5>Heading 5</h5>
+<h6>Heading 6</h6>
+
+</body>
+</html>
+#item expected
+\documentclass[a4paper,12pt]{article}
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\section{Heading 1}
+
+\subsection{Heading 2}
+
+\subsubsection{Heading 3}
+
+\paragraph{Heading 4}
+
+\subparagraph{Heading 5}
+
+Heading 6
+
+\end{document}

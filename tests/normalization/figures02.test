@@ -1,0 +1,31 @@
+HTML_testNormalize();
+#item input.html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+  <figure>
+    <img src="test.png">
+    <figcaption>A figure</figcaption>
+  </figure>
+</body>
+</html>
+#item expected
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+  </head>
+  <body>
+    <figure>
+      <p>
+        <span><img src="test.png"/></span>
+      </p>
+      <figcaption>
+        <span>A figure</span>
+      </figcaption>
+    </figure>
+  </body>
+</html>

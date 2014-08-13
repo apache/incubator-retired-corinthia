@@ -1,0 +1,82 @@
+CSS_test();
+#item input.css
+p.test1 {
+    padding-bottom: 10px;
+    padding-left: 1px;
+    padding-right: 1px;
+    padding-top: 1px;
+}
+
+p.test2 {
+    padding-bottom: 1px;
+    padding-left: 10px;
+    padding-right: 1px;
+    padding-top: 1px;
+}
+
+p.test3 {
+    padding-bottom: 1px;
+    padding-left: 1px;
+    padding-right: 10px;
+    padding-top: 1px;
+}
+
+p.test4 {
+    padding-bottom: 1px;
+    padding-left: 1px;
+    padding-right: 1px;
+    padding-top: 10px;
+}
+#item expected
+p.test1
+    ""
+        padding-bottom = 10px
+        padding-left = 1px
+        padding-right = 1px
+        padding-top = 1px
+p.test2
+    ""
+        padding-bottom = 1px
+        padding-left = 10px
+        padding-right = 1px
+        padding-top = 1px
+p.test3
+    ""
+        padding-bottom = 1px
+        padding-left = 1px
+        padding-right = 10px
+        padding-top = 1px
+p.test4
+    ""
+        padding-bottom = 1px
+        padding-left = 1px
+        padding-right = 1px
+        padding-top = 10px
+================================================================================
+p.test1 {
+    padding-bottom: 10px;
+    padding-left: 1px;
+    padding-right: 1px;
+    padding-top: 1px;
+}
+
+p.test2 {
+    padding-bottom: 1px;
+    padding-left: 10px;
+    padding-right: 1px;
+    padding-top: 1px;
+}
+
+p.test3 {
+    padding-bottom: 1px;
+    padding-left: 1px;
+    padding-right: 10px;
+    padding-top: 1px;
+}
+
+p.test4 {
+    padding-bottom: 1px;
+    padding-left: 1px;
+    padding-right: 1px;
+    padding-top: 10px;
+}

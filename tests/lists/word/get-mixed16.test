@@ -1,0 +1,271 @@
+Word_testGet();
+#item input.docx
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="ListParagraph"/>
+        <w:numPr>
+          <w:ilvl w:val="0"/>
+          <w:numId w:val="1"/>
+        </w:numPr>
+      </w:pPr>
+      <w:r>
+        <w:t>Item [1]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:left="720"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Text [2]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:left="720"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Text [3]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="ListParagraph"/>
+        <w:numPr>
+          <w:ilvl w:val="1"/>
+          <w:numId w:val="1"/>
+        </w:numPr>
+      </w:pPr>
+      <w:r>
+        <w:t>Item [4]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:left="1440"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Text [5]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:left="720"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Text [6]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t>Text [7]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:left="720"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Text [8]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:left="1440"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Text [9]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="ListParagraph"/>
+        <w:numPr>
+          <w:ilvl w:val="1"/>
+          <w:numId w:val="1"/>
+        </w:numPr>
+      </w:pPr>
+      <w:r>
+        <w:t>Item [10]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:left="1440"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Text [11]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:left="720"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Text [12]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t>Text [13]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:left="720"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Text</w:t>
+      </w:r>
+      <w:r>
+        <w:t xml:space="preserve"> [14]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:left="1440"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Text [15]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:left="720"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Text [16]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="ListParagraph"/>
+        <w:numPr>
+          <w:ilvl w:val="0"/>
+          <w:numId w:val="1"/>
+        </w:numPr>
+      </w:pPr>
+      <w:r>
+        <w:t>Item [17]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:left="720"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Text [18]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t>Text [19]</w:t>
+      </w:r>
+      <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="0"/>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:footer="708" w:gutter="0" w:header="708" w:left="1800" w:right="1800" w:top="1440"/>
+      <w:cols w:space="708"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+#include "styles.xml"
+##item numbering.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:numbering xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:abstractNum w:abstractNumId="0">
+#include "abstract.inc"
+  </w:abstractNum>
+  <w:num w:numId="1">
+    <w:abstractNumId w:val="0"/>
+  </w:num>
+</w:numbering>
+#item expected
+<!DOCTYPE html>
+<html id="word1">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+#include "common.css"
+    </style>
+  </head>
+  <body id="word2">
+    <ol style="list-style-type: decimal">
+      <li>
+        <p class="List_Paragraph" id="word3">
+          <span id="word9">Item [1]</span>
+        </p>
+        <p class="Normal" id="word12">
+          <span id="word15">Text [2]</span>
+        </p>
+        <p class="Normal" id="word18">
+          <span id="word21">Text [3]</span>
+        </p>
+        <ol style="list-style-type: lower-alpha">
+          <li>
+            <p class="List_Paragraph" id="word24">
+              <span id="word30">Item [4]</span>
+            </p>
+            <p class="Normal" id="word33">
+              <span id="word36">Text [5]</span>
+            </p>
+            <p class="Normal" id="word39">
+              <span id="word42">Text [6]</span>
+            </p>
+            <p class="Normal" id="word45">
+              <span id="word46">Text [7]</span>
+            </p>
+            <p class="Normal" id="word49">
+              <span id="word52">Text [8]</span>
+            </p>
+            <p class="Normal" id="word55">
+              <span id="word58">Text [9]</span>
+            </p>
+          </li>
+          <li>
+            <p class="List_Paragraph" id="word61">
+              <span id="word67">Item [10]</span>
+            </p>
+            <p class="Normal" id="word70">
+              <span id="word73">Text [11]</span>
+            </p>
+          </li>
+        </ol>
+        <p class="Normal" id="word76">
+          <span id="word79">Text [12]</span>
+        </p>
+        <p class="Normal" id="word82">
+          <span id="word83">Text [13]</span>
+        </p>
+        <p class="Normal" id="word86">
+          <span id="word89">Text [14]</span>
+        </p>
+        <p class="Normal" id="word95" style="margin-left: 8.674699%">
+          <span id="word98">Text [15]</span>
+        </p>
+        <p class="Normal" id="word101">
+          <span id="word104">Text [16]</span>
+        </p>
+      </li>
+      <li>
+        <p class="List_Paragraph" id="word107">
+          <span id="word113">Item [17]</span>
+        </p>
+        <p class="Normal" id="word116">
+          <span id="word119">Text [18]</span>
+        </p>
+      </li>
+    </ol>
+    <p class="Normal" id="word122">
+      <span id="word123">Text [19]</span>
+    </p>
+  </body>
+</html>

@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="http://purl.oclc.org/ooxml/officeDocument/docPropsVTypes" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <define name="vt_ST_VectorBaseType">
+    <choice>
+      <value type="string" datatypeLibrary="">variant</value>
+      <value type="string" datatypeLibrary="">i1</value>
+      <value type="string" datatypeLibrary="">i2</value>
+      <value type="string" datatypeLibrary="">i4</value>
+      <value type="string" datatypeLibrary="">i8</value>
+      <value type="string" datatypeLibrary="">ui1</value>
+      <value type="string" datatypeLibrary="">ui2</value>
+      <value type="string" datatypeLibrary="">ui4</value>
+      <value type="string" datatypeLibrary="">ui8</value>
+      <value type="string" datatypeLibrary="">r4</value>
+      <value type="string" datatypeLibrary="">r8</value>
+      <value type="string" datatypeLibrary="">lpstr</value>
+      <value type="string" datatypeLibrary="">lpwstr</value>
+      <value type="string" datatypeLibrary="">bstr</value>
+      <value type="string" datatypeLibrary="">date</value>
+      <value type="string" datatypeLibrary="">filetime</value>
+      <value type="string" datatypeLibrary="">bool</value>
+      <value type="string" datatypeLibrary="">cy</value>
+      <value type="string" datatypeLibrary="">error</value>
+      <value type="string" datatypeLibrary="">clsid</value>
+    </choice>
+  </define>
+  <define name="vt_ST_ArrayBaseType">
+    <choice>
+      <value type="string" datatypeLibrary="">variant</value>
+      <value type="string" datatypeLibrary="">i1</value>
+      <value type="string" datatypeLibrary="">i2</value>
+      <value type="string" datatypeLibrary="">i4</value>
+      <value type="string" datatypeLibrary="">int</value>
+      <value type="string" datatypeLibrary="">ui1</value>
+      <value type="string" datatypeLibrary="">ui2</value>
+      <value type="string" datatypeLibrary="">ui4</value>
+      <value type="string" datatypeLibrary="">uint</value>
+      <value type="string" datatypeLibrary="">r4</value>
+      <value type="string" datatypeLibrary="">r8</value>
+      <value type="string" datatypeLibrary="">decimal</value>
+      <value type="string" datatypeLibrary="">bstr</value>
+      <value type="string" datatypeLibrary="">date</value>
+      <value type="string" datatypeLibrary="">bool</value>
+      <value type="string" datatypeLibrary="">cy</value>
+      <value type="string" datatypeLibrary="">error</value>
+    </choice>
+  </define>
+  <define name="vt_ST_Cy">
+    <data type="string">
+      <param name="pattern">\s*[0-9]*\.[0-9]{4}\s*</param>
+    </data>
+  </define>
+  <define name="vt_ST_Error">
+    <data type="string">
+      <param name="pattern">\s*0x[0-9A-Za-z]{8}\s*</param>
+    </data>
+  </define>
+  <define name="vt_CT_Empty">
+    <empty/>
+  </define>
+  <define name="vt_CT_Null">
+    <empty/>
+  </define>
+  <define name="vt_CT_Vector">
+    <attribute name="baseType">
+      <ref name="vt_ST_VectorBaseType"/>
+    </attribute>
+    <attribute name="size">
+      <data type="unsignedInt"/>
+    </attribute>
+    <oneOrMore>
+      <choice>
+        <ref name="vt_variant"/>
+        <ref name="vt_i1"/>
+        <ref name="vt_i2"/>
+        <ref name="vt_i4"/>
+        <ref name="vt_i8"/>
+        <ref name="vt_ui1"/>
+        <ref name="vt_ui2"/>
+        <ref name="vt_ui4"/>
+        <ref name="vt_ui8"/>
+        <ref name="vt_r4"/>
+        <ref name="vt_r8"/>
+        <ref name="vt_lpstr"/>
+        <ref name="vt_lpwstr"/>
+        <ref name="vt_bstr"/>
+        <ref name="vt_date"/>
+        <ref name="vt_filetime"/>
+        <ref name="vt_bool"/>
+        <ref name="vt_cy"/>
+        <ref name="vt_error"/>
+        <ref name="vt_clsid"/>
+      </choice>
+    </oneOrMore>
+  </define>
+  <define name="vt_CT_Array">
+    <attribute name="lBounds">
+      <data type="int"/>
+    </attribute>
+    <attribute name="uBounds">
+      <data type="int"/>
+    </attribute>
+    <attribute name="baseType">
+      <ref name="vt_ST_ArrayBaseType"/>
+    </attribute>
+    <oneOrMore>
+      <choice>
+        <ref name="vt_variant"/>
+        <ref name="vt_i1"/>
+        <ref name="vt_i2"/>
+        <ref name="vt_i4"/>
+        <ref name="vt_int"/>
+        <ref name="vt_ui1"/>
+        <ref name="vt_ui2"/>
+        <ref name="vt_ui4"/>
+        <ref name="vt_uint"/>
+        <ref name="vt_r4"/>
+        <ref name="vt_r8"/>
+        <ref name="vt_decimal"/>
+        <ref name="vt_bstr"/>
+        <ref name="vt_date"/>
+        <ref name="vt_bool"/>
+        <ref name="vt_error"/>
+        <ref name="vt_cy"/>
+      </choice>
+    </oneOrMore>
+  </define>
+  <define name="vt_CT_Variant">
+    <choice>
+      <ref name="vt_variant"/>
+      <ref name="vt_vector"/>
+      <ref name="vt_array"/>
+      <ref name="vt_blob"/>
+      <ref name="vt_oblob"/>
+      <ref name="vt_empty"/>
+      <ref name="vt_null"/>
+      <ref name="vt_i1"/>
+      <ref name="vt_i2"/>
+      <ref name="vt_i4"/>
+      <ref name="vt_i8"/>
+      <ref name="vt_int"/>
+      <ref name="vt_ui1"/>
+      <ref name="vt_ui2"/>
+      <ref name="vt_ui4"/>
+      <ref name="vt_ui8"/>
+      <ref name="vt_uint"/>
+      <ref name="vt_r4"/>
+      <ref name="vt_r8"/>
+      <ref name="vt_decimal"/>
+      <ref name="vt_lpstr"/>
+      <ref name="vt_lpwstr"/>
+      <ref name="vt_bstr"/>
+      <ref name="vt_date"/>
+      <ref name="vt_filetime"/>
+      <ref name="vt_bool"/>
+      <ref name="vt_cy"/>
+      <ref name="vt_error"/>
+      <ref name="vt_stream"/>
+      <ref name="vt_ostream"/>
+      <ref name="vt_storage"/>
+      <ref name="vt_ostorage"/>
+      <ref name="vt_vstream"/>
+      <ref name="vt_clsid"/>
+    </choice>
+  </define>
+  <define name="vt_CT_Vstream">
+    <data type="base64Binary"/>
+    <optional>
+      <attribute name="version">
+        <ref name="s_ST_Guid"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="vt_variant">
+    <element name="variant">
+      <ref name="vt_CT_Variant"/>
+    </element>
+  </define>
+  <define name="vt_vector">
+    <element name="vector">
+      <ref name="vt_CT_Vector"/>
+    </element>
+  </define>
+  <define name="vt_array">
+    <element name="array">
+      <ref name="vt_CT_Array"/>
+    </element>
+  </define>
+  <define name="vt_blob">
+    <element name="blob">
+      <data type="base64Binary"/>
+    </element>
+  </define>
+  <define name="vt_oblob">
+    <element name="oblob">
+      <data type="base64Binary"/>
+    </element>
+  </define>
+  <define name="vt_empty">
+    <element name="empty">
+      <ref name="vt_CT_Empty"/>
+    </element>
+  </define>
+  <define name="vt_null">
+    <element name="null">
+      <ref name="vt_CT_Null"/>
+    </element>
+  </define>
+  <define name="vt_i1">
+    <element name="i1">
+      <data type="byte"/>
+    </element>
+  </define>
+  <define name="vt_i2">
+    <element name="i2">
+      <data type="short"/>
+    </element>
+  </define>
+  <define name="vt_i4">
+    <element name="i4">
+      <data type="int"/>
+    </element>
+  </define>
+  <define name="vt_i8">
+    <element name="i8">
+      <data type="long"/>
+    </element>
+  </define>
+  <define name="vt_int">
+    <element name="int">
+      <data type="int"/>
+    </element>
+  </define>
+  <define name="vt_ui1">
+    <element name="ui1">
+      <data type="unsignedByte"/>
+    </element>
+  </define>
+  <define name="vt_ui2">
+    <element name="ui2">
+      <data type="unsignedShort"/>
+    </element>
+  </define>
+  <define name="vt_ui4">
+    <element name="ui4">
+      <data type="unsignedInt"/>
+    </element>
+  </define>
+  <define name="vt_ui8">
+    <element name="ui8">
+      <data type="unsignedLong"/>
+    </element>
+  </define>
+  <define name="vt_uint">
+    <element name="uint">
+      <data type="unsignedInt"/>
+    </element>
+  </define>
+  <define name="vt_r4">
+    <element name="r4">
+      <data type="float"/>
+    </element>
+  </define>
+  <define name="vt_r8">
+    <element name="r8">
+      <data type="double"/>
+    </element>
+  </define>
+  <define name="vt_decimal">
+    <element name="decimal">
+      <data type="decimal"/>
+    </element>
+  </define>
+  <define name="vt_lpstr">
+    <element name="lpstr">
+      <data type="string"/>
+    </element>
+  </define>
+  <define name="vt_lpwstr">
+    <element name="lpwstr">
+      <data type="string"/>
+    </element>
+  </define>
+  <define name="vt_bstr">
+    <element name="bstr">
+      <data type="string"/>
+    </element>
+  </define>
+  <define name="vt_date">
+    <element name="date">
+      <data type="dateTime"/>
+    </element>
+  </define>
+  <define name="vt_filetime">
+    <element name="filetime">
+      <data type="dateTime"/>
+    </element>
+  </define>
+  <define name="vt_bool">
+    <element name="bool">
+      <data type="boolean"/>
+    </element>
+  </define>
+  <define name="vt_cy">
+    <element name="cy">
+      <ref name="vt_ST_Cy"/>
+    </element>
+  </define>
+  <define name="vt_error">
+    <element name="error">
+      <ref name="vt_ST_Error"/>
+    </element>
+  </define>
+  <define name="vt_stream">
+    <element name="stream">
+      <data type="base64Binary"/>
+    </element>
+  </define>
+  <define name="vt_ostream">
+    <element name="ostream">
+      <data type="base64Binary"/>
+    </element>
+  </define>
+  <define name="vt_storage">
+    <element name="storage">
+      <data type="base64Binary"/>
+    </element>
+  </define>
+  <define name="vt_ostorage">
+    <element name="ostorage">
+      <data type="base64Binary"/>
+    </element>
+  </define>
+  <define name="vt_vstream">
+    <element name="vstream">
+      <ref name="vt_CT_Vstream"/>
+    </element>
+  </define>
+  <define name="vt_clsid">
+    <element name="clsid">
+      <ref name="s_ST_Guid"/>
+    </element>
+  </define>
+</grammar>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="urn:schemas-microsoft-com:office:word" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <define name="w10_bordertop">
+    <element name="bordertop">
+      <ref name="w10_CT_Border"/>
+    </element>
+  </define>
+  <define name="w10_borderleft">
+    <element name="borderleft">
+      <ref name="w10_CT_Border"/>
+    </element>
+  </define>
+  <define name="w10_borderright">
+    <element name="borderright">
+      <ref name="w10_CT_Border"/>
+    </element>
+  </define>
+  <define name="w10_borderbottom">
+    <element name="borderbottom">
+      <ref name="w10_CT_Border"/>
+    </element>
+  </define>
+  <define name="w10_CT_Border">
+    <optional>
+      <attribute name="type">
+        <ref name="w10_ST_BorderType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="width">
+        <data type="positiveInteger"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="shadow">
+        <ref name="w10_ST_BorderShadow"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="w10_wrap">
+    <element name="wrap">
+      <ref name="w10_CT_Wrap"/>
+    </element>
+  </define>
+  <define name="w10_CT_Wrap">
+    <optional>
+      <attribute name="type">
+        <ref name="w10_ST_WrapType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="side">
+        <ref name="w10_ST_WrapSide"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="anchorx">
+        <ref name="w10_ST_HorizontalAnchor"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="anchory">
+        <ref name="w10_ST_VerticalAnchor"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="w10_anchorlock">
+    <element name="anchorlock">
+      <ref name="w10_CT_AnchorLock"/>
+    </element>
+  </define>
+  <define name="w10_CT_AnchorLock">
+    <empty/>
+  </define>
+  <define name="w10_ST_BorderType">
+    <choice>
+      <value type="string" datatypeLibrary="">none</value>
+      <value type="string" datatypeLibrary="">single</value>
+      <value type="string" datatypeLibrary="">thick</value>
+      <value type="string" datatypeLibrary="">double</value>
+      <value type="string" datatypeLibrary="">hairline</value>
+      <value type="string" datatypeLibrary="">dot</value>
+      <value type="string" datatypeLibrary="">dash</value>
+      <value type="string" datatypeLibrary="">dotDash</value>
+      <value type="string" datatypeLibrary="">dashDotDot</value>
+      <value type="string" datatypeLibrary="">triple</value>
+      <value type="string" datatypeLibrary="">thinThickSmall</value>
+      <value type="string" datatypeLibrary="">thickThinSmall</value>
+      <value type="string" datatypeLibrary="">thickBetweenThinSmall</value>
+      <value type="string" datatypeLibrary="">thinThick</value>
+      <value type="string" datatypeLibrary="">thickThin</value>
+      <value type="string" datatypeLibrary="">thickBetweenThin</value>
+      <value type="string" datatypeLibrary="">thinThickLarge</value>
+      <value type="string" datatypeLibrary="">thickThinLarge</value>
+      <value type="string" datatypeLibrary="">thickBetweenThinLarge</value>
+      <value type="string" datatypeLibrary="">wave</value>
+      <value type="string" datatypeLibrary="">doubleWave</value>
+      <value type="string" datatypeLibrary="">dashedSmall</value>
+      <value type="string" datatypeLibrary="">dashDotStroked</value>
+      <value type="string" datatypeLibrary="">threeDEmboss</value>
+      <value type="string" datatypeLibrary="">threeDEngrave</value>
+      <value type="string" datatypeLibrary="">HTMLOutset</value>
+      <value type="string" datatypeLibrary="">HTMLInset</value>
+    </choice>
+  </define>
+  <define name="w10_ST_BorderShadow">
+    <choice>
+      <value type="string" datatypeLibrary="">t</value>
+      <value type="string" datatypeLibrary="">true</value>
+      <value type="string" datatypeLibrary="">f</value>
+      <value type="string" datatypeLibrary="">false</value>
+    </choice>
+  </define>
+  <define name="w10_ST_WrapType">
+    <choice>
+      <value type="string" datatypeLibrary="">topAndBottom</value>
+      <value type="string" datatypeLibrary="">square</value>
+      <value type="string" datatypeLibrary="">none</value>
+      <value type="string" datatypeLibrary="">tight</value>
+      <value type="string" datatypeLibrary="">through</value>
+    </choice>
+  </define>
+  <define name="w10_ST_WrapSide">
+    <choice>
+      <value type="string" datatypeLibrary="">both</value>
+      <value type="string" datatypeLibrary="">left</value>
+      <value type="string" datatypeLibrary="">right</value>
+      <value type="string" datatypeLibrary="">largest</value>
+    </choice>
+  </define>
+  <define name="w10_ST_HorizontalAnchor">
+    <choice>
+      <value type="string" datatypeLibrary="">margin</value>
+      <value type="string" datatypeLibrary="">page</value>
+      <value type="string" datatypeLibrary="">text</value>
+      <value type="string" datatypeLibrary="">char</value>
+    </choice>
+  </define>
+  <define name="w10_ST_VerticalAnchor">
+    <choice>
+      <value type="string" datatypeLibrary="">margin</value>
+      <value type="string" datatypeLibrary="">page</value>
+      <value type="string" datatypeLibrary="">text</value>
+      <value type="string" datatypeLibrary="">line</value>
+    </choice>
+  </define>
+</grammar>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+<style>
+
+
+
+div.content, pre {
+    border: 1px solid #c0c0c0;
+    background: #f0f0f0;
+    padding: 4px;
+}
+
+ins { color: blue; text-decoration: none; }
+del { color: red; text-decoration: line-through; }
+
+h1 {
+    background-color: #c0c0c0;
+    border-radius: 10px;
+    padding: 10px;
+    font-family: sans-serif;
+}
+
+</style>
+<script>
+
+
+</script>
+</head>
+<body>
+
+<h1>Insertion - single line</h1>
+
+<p>Old text:</p>
+
+<div class="content">
+one two
+</div>
+
+<p>New text:</p>
+
+<div class="content">
+one <ins>inserted</ins> two
+</div>
+
+<p>Code:</p>
+
+<pre>
+&lt;p&gt;
+  &lt;r&gt;
+    &lt;t&gt;one&lt;/t&gt;
+  &lt;/r&gt;
+  &lt;ins id="0" author="Peter Kelly" date="2012-10-14T16:40:00Z"&gt;
+    &lt;r&gt;
+      &lt;t xml:space="preserve"&gt; inserted&lt;/t&gt;
+    &lt;/r&gt;
+  &lt;/ins&gt;
+  &lt;r&gt;
+    &lt;t xml:space="preserve"&gt; two&lt;/t&gt;
+  &lt;/r&gt;
+&lt;/p&gt;
+</pre>
+
+<h1>Insertion - multiple lines</h1>
+
+<p>Old text:</p>
+
+<div class="content">
+one two
+</div>
+
+<p>New text:</p>
+
+<div class="content">
+one <ins>first<br>
+second</ins> two
+</div>
+
+<p>Code:</p>
+
+<pre>
+&lt;p&gt;
+  &lt;pPr&gt;
+    &lt;rPr&gt;
+      &lt;ins id="0" author="Peter Kelly" date="2012-10-14T16:47:00Z"/&gt;
+    &lt;/rPr&gt;
+  &lt;/pPr&gt;
+  &lt;r&gt;
+    &lt;t xml:space="preserve"&gt;one &lt;/t&gt;
+  &lt;/r&gt;
+  &lt;ins id="1" author="Peter Kelly" date="2012-10-14T16:47:00Z"&gt;
+    &lt;r&gt;
+      &lt;t&gt;first&lt;/t&gt;
+    &lt;/r&gt;
+  &lt;/ins&gt;
+&lt;/p&gt;
+&lt;p&gt;
+  &lt;ins id="2" author="Peter Kelly" date="2012-10-14T16:47:00Z"&gt;
+    &lt;r&gt;
+      &lt;t xml:space="preserve"&gt;second &lt;/t&gt;
+    &lt;/r&gt;
+  &lt;/ins&gt;
+  &lt;r&gt;
+    &lt;t&gt;two&lt;/t&gt;
+  &lt;/r&gt;
+&lt;/p&gt;
+</pre>
+
+<h1>Insertion - new paragraph from above</h1>
+
+<p>Old text:</p>
+
+<div class="content">
+one two<br>
+three four
+</div>
+
+<p>New text:</p>
+
+<div class="content">
+one two<ins><br>
+new line</ins><br>
+three four
+</div>
+
+<p>Code:</p>
+
+<pre>
+&lt;p&gt;
+  &lt;pPr&gt;
+    &lt;rPr&gt;
+      &lt;ins id="0" author="Peter Kelly" date="2012-10-14T16:52:00Z"/&gt;
+    &lt;/rPr&gt;
+  &lt;/pPr&gt;
+  &lt;r&gt;
+    &lt;t&gt;one two&lt;/t&gt;
+  &lt;/r&gt;
+&lt;/p&gt;
+&lt;p&gt;
+  &lt;ins id="1" author="Peter Kelly" date="2012-10-14T16:52:00Z"&gt;
+    &lt;r&gt;
+      &lt;t&gt;new line&lt;/t&gt;
+    &lt;/r&gt;
+  &lt;/ins&gt;
+&lt;/p&gt;
+&lt;p&gt;
+  &lt;r&gt;
+    &lt;t&gt;three four&lt;/t&gt;
+  &lt;/r&gt;
+&lt;/p&gt;
+</pre>
+
+<h1>Insertion - new paragraph from below</h1>
+
+<p>Old text:</p>
+
+<div class="content">
+one two<br>
+three four
+</div>
+
+<p>New text:</p>
+
+<div class="content">
+one two<br>
+<ins>new line<br></ins>
+three four
+</div>
+
+<p>Code:</p>
+
+<pre class="code">
+&lt;p&gt;
+  &lt;r&gt;
+    &lt;t&gt;one two&lt;/t&gt;
+  &lt;/r&gt;
+&lt;/p&gt;
+&lt;p&gt;
+  &lt;pPr&gt;
+    &lt;rPr&gt;
+      &lt;ins id="0" author="Peter Kelly" date="2012-10-14T16:55:00Z"/&gt;
+    &lt;/rPr&gt;
+  &lt;/pPr&gt;
+  &lt;ins id="1" author="Peter Kelly" date="2012-10-14T16:55:00Z"&gt;
+    &lt;r&gt;
+      &lt;t&gt;new line&lt;/t&gt;
+    &lt;/r&gt;
+  &lt;/ins&gt;
+&lt;/p&gt;
+&lt;p&gt;
+  &lt;r&gt;
+    &lt;t&gt;three four&lt;/t&gt;
+  &lt;/r&gt;
+&lt;/p&gt;
+</pre>
+
+<h1>Deletion - single line</h1>
+
+<p>Old text:</p>
+
+<div class="content">
+one two three
+</div>
+
+<p>New text:</p>
+
+<div class="content">
+one<del> two</del> three
+</div>
+
+<p>Code:</p>
+
+<pre>
+&lt;p&gt;
+  &lt;r&gt;
+    &lt;t&gt;one&lt;/t&gt;
+  &lt;/r&gt;
+  &lt;del id="0" author="Peter Kelly" date="2012-10-14T17:01:00Z"&gt;
+    &lt;r rsidDel="005113D3"&gt;
+      &lt;delText xml:space="preserve"&gt; two&lt;/delText&gt;
+    &lt;/r&gt;
+  &lt;/del&gt;
+  &lt;r&gt;
+    &lt;t xml:space="preserve"&gt; three&lt;/t&gt;
+  &lt;/r&gt;
+&lt;/p&gt;
+</pre>
+
+<h1>Deletion - multiple lines</h1>
+
+<p>Old text:</p>
+
+<div class="content">
+one two<br>
+three four
+</div>
+
+<p>New text:</p>
+
+<div class="content">
+one<del> two\nthree</del> four
+</div>
+
+<p>Code:</p>
+
+<pre>
+&lt;p&gt;
+  &lt;pPr&gt;
+    &lt;rPr&gt;
+      &lt;del id="0" author="Peter Kelly" date="2012-10-14T17:04:00Z"/&gt;
+    &lt;/rPr&gt;
+    &lt;pPrChange id="1" author="Peter Kelly" date="2012-10-14T17:04:00Z"&gt;
+      &lt;pPr/&gt;
+    &lt;/pPrChange&gt;
+  &lt;/pPr&gt;
+  &lt;r&gt;
+    &lt;t&gt;one&lt;/t&gt;
+  &lt;/r&gt;
+  &lt;del id="3" author="Peter Kelly" date="2012-10-14T17:04:00Z"&gt;
+    &lt;r&gt;
+      &lt;delText xml:space="preserve"&gt; two&lt;/delText&gt;
+    &lt;/r&gt;
+  &lt;/del&gt;
+&lt;/p&gt;
+&lt;p&gt;
+  &lt;del id="4" author="Peter Kelly" date="2012-10-14T17:04:00Z"&gt;
+    &lt;r&gt;
+      &lt;delText&gt;three&lt;/delText&gt;
+    &lt;/r&gt;
+  &lt;/del&gt;
+  &lt;r&gt;
+    &lt;t xml:space="preserve"&gt; four&lt;/t&gt;
+  &lt;/r&gt;
+&lt;/p&gt;
+</pre>
+
+<h1>Delete - separate deletions on adjacent lines</h1>
+
+<p>Old text:</p>
+
+<div class="content">
+one two<br>
+three four
+</div>
+
+<p>New text:</p>
+
+<div class="content">
+one<del> two</del><br>
+<del>three</del> four
+</div>
+
+<p>Code:</p>
+
+<pre>
+&lt;p&gt;
+  &lt;r&gt;
+    &lt;t&gt;one&lt;/t&gt;
+  &lt;/r&gt;
+  &lt;del id="0" author="Peter Kelly" date="2012-10-14T17:08:00Z"&gt;
+    &lt;r&gt;
+      &lt;delText xml:space="preserve"&gt; two&lt;/delText&gt;
+    &lt;/r&gt;
+  &lt;/del&gt;
+&lt;/p&gt;
+&lt;p&gt;
+  &lt;del id="2" author="Peter Kelly" date="2012-10-14T17:08:00Z"&gt;
+    &lt;r&gt;
+      &lt;delText xml:space="preserve"&gt;three &lt;/delText&gt;
+    &lt;/r&gt;
+  &lt;/del&gt;
+  &lt;r&gt;
+    &lt;t&gt;four&lt;/t&gt;
+  &lt;/r&gt;
+&lt;/p&gt;
+</pre>
+
+<h1>Delete - entire paragraph</h1>
+
+<p>Old text:</p>
+
+<div class="content">
+one two<br>
+three four<br>
+five six
+</div>
+
+<p>New text:</p>
+
+<div class="content">
+one two<br>
+<del>three four<br></del>
+five six
+</div>
+
+<p>Code:</p>
+
+<pre>
+&lt;p&gt;
+  &lt;r&gt;
+    &lt;t&gt;one two&lt;/t&gt;
+  &lt;/r&gt;
+&lt;/p&gt;
+&lt;p&gt;
+  &lt;pPr&gt;
+    &lt;rPr&gt;
+      &lt;del id="0" author="Peter Kelly" date="2012-10-14T17:11:00Z"/&gt;
+    &lt;/rPr&gt;
+  &lt;/pPr&gt;
+  &lt;del id="2" author="Peter Kelly" date="2012-10-14T17:11:00Z"&gt;
+    &lt;r&gt;
+      &lt;delText&gt;three four&lt;/delText&gt;
+    &lt;/r&gt;
+  &lt;/del&gt;
+&lt;/p&gt;
+&lt;p&gt;
+  &lt;r&gt;
+    &lt;t&gt;five six&lt;/t&gt;
+  &lt;/r&gt;
+&lt;/p&gt;
+</pre>
+
+</body>
+</html>

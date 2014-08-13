@@ -1,0 +1,384 @@
+Word_testGet();
+#item input.docx
+##item document.xml
+#include "headingnum-document.xml"
+##item styles.xml
+#include "headingnum-styles.xml"
+##item numbering.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:numbering xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:abstractNum w:abstractNumId="0">
+    <w:nsid w:val="2F591F72"/>
+    <w:multiLevelType w:val="multilevel"/>
+    <w:tmpl w:val="FC2CCD80"/>
+    <w:lvl w:ilvl="0">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="upperRoman"/>
+      <w:pStyle w:val="Heading1"/>
+      <w:lvlText w:val="%1"/>
+      <w:lvlJc w:val="left"/>
+      <w:pPr>
+        <w:ind w:hanging="432" w:left="432"/>
+      </w:pPr>
+      <w:rPr>
+        <w:rFonts w:hint="default"/>
+      </w:rPr>
+    </w:lvl>
+    <w:lvl w:ilvl="1">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:pStyle w:val="Heading2"/>
+      <w:lvlText w:val="%1.%2"/>
+      <w:lvlJc w:val="left"/>
+      <w:pPr>
+        <w:ind w:hanging="576" w:left="576"/>
+      </w:pPr>
+      <w:rPr>
+        <w:rFonts w:hint="default"/>
+      </w:rPr>
+    </w:lvl>
+    <w:lvl w:ilvl="2">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:pStyle w:val="Heading3"/>
+      <w:lvlText w:val="%1.%2.%3"/>
+      <w:lvlJc w:val="left"/>
+      <w:pPr>
+        <w:ind w:hanging="720" w:left="720"/>
+      </w:pPr>
+      <w:rPr>
+        <w:rFonts w:hint="default"/>
+      </w:rPr>
+    </w:lvl>
+    <w:lvl w:ilvl="3">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:pStyle w:val="Heading4"/>
+      <w:lvlText w:val="%1.%2.%3.%4"/>
+      <w:lvlJc w:val="left"/>
+      <w:pPr>
+        <w:ind w:hanging="864" w:left="864"/>
+      </w:pPr>
+      <w:rPr>
+        <w:rFonts w:hint="default"/>
+      </w:rPr>
+    </w:lvl>
+    <w:lvl w:ilvl="4">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:pStyle w:val="Heading5"/>
+      <w:lvlText w:val="%1.%2.%3.%4.%5"/>
+      <w:lvlJc w:val="left"/>
+      <w:pPr>
+        <w:ind w:hanging="1008" w:left="1008"/>
+      </w:pPr>
+      <w:rPr>
+        <w:rFonts w:hint="default"/>
+      </w:rPr>
+    </w:lvl>
+    <w:lvl w:ilvl="5">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:pStyle w:val="Heading6"/>
+      <w:lvlText w:val="%1.%2.%3.%4.%5.%6"/>
+      <w:lvlJc w:val="left"/>
+      <w:pPr>
+        <w:ind w:hanging="1152" w:left="1152"/>
+      </w:pPr>
+      <w:rPr>
+        <w:rFonts w:hint="default"/>
+      </w:rPr>
+    </w:lvl>
+    <w:lvl w:ilvl="6">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:pStyle w:val="Heading7"/>
+      <w:lvlText w:val="%1.%2.%3.%4.%5.%6.%7"/>
+      <w:lvlJc w:val="left"/>
+      <w:pPr>
+        <w:ind w:hanging="1296" w:left="1296"/>
+      </w:pPr>
+      <w:rPr>
+        <w:rFonts w:hint="default"/>
+      </w:rPr>
+    </w:lvl>
+    <w:lvl w:ilvl="7">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:pStyle w:val="Heading8"/>
+      <w:lvlText w:val="%1.%2.%3.%4.%5.%6.%7.%8"/>
+      <w:lvlJc w:val="left"/>
+      <w:pPr>
+        <w:ind w:hanging="1440" w:left="1440"/>
+      </w:pPr>
+      <w:rPr>
+        <w:rFonts w:hint="default"/>
+      </w:rPr>
+    </w:lvl>
+    <w:lvl w:ilvl="8">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:pStyle w:val="Heading9"/>
+      <w:lvlText w:val="%1.%2.%3.%4.%5.%6.%7.%8.%9"/>
+      <w:lvlJc w:val="left"/>
+      <w:pPr>
+        <w:ind w:hanging="1584" w:left="1584"/>
+      </w:pPr>
+      <w:rPr>
+        <w:rFonts w:hint="default"/>
+      </w:rPr>
+    </w:lvl>
+  </w:abstractNum>
+  <w:num w:numId="1">
+    <w:abstractNumId w:val="0"/>
+  </w:num>
+</w:numbering>
+#item expected
+<!DOCTYPE html>
+<html id="word1">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+@page {
+    size: A4 portrait;
+}
+
+body {
+    counter-reset: h1 h2 h3 h4 h5 h6 figure table;
+    margin-bottom: 12.10084%;
+    margin-left: 15.12605%;
+    margin-right: 15.12605%;
+    margin-top: 12.10084%;
+}
+
+h1.heading_1 {
+    -uxwrite-display-name: "heading 1";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #345A8A;
+    counter-increment: h1;
+    counter-reset: h2 h3 h4 h5 h6;
+    font-size: 16pt;
+    font-weight: bold;
+    margin-top: 24pt;
+}
+
+h1.heading_1::before {
+    content: counter(h1,upper-roman) " ";
+}
+
+h2.heading_2 {
+    -uxwrite-display-name: "heading 2";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #4F81BD;
+    counter-increment: h2;
+    counter-reset: h3 h4 h5 h6;
+    font-size: 13pt;
+    font-weight: bold;
+    margin-top: 10pt;
+}
+
+h2.heading_2::before {
+    content: counter(h1,upper-roman) "." counter(h2) " ";
+}
+
+h3.heading_3 {
+    -uxwrite-display-name: "heading 3";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #4F81BD;
+    counter-increment: h3;
+    counter-reset: h4 h5 h6;
+    font-weight: bold;
+    margin-top: 10pt;
+}
+
+h3.heading_3::before {
+    content: counter(h1,upper-roman) "." counter(h2) "." counter(h3) " ";
+}
+
+h4.heading_4 {
+    -uxwrite-display-name: "heading 4";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #4F81BD;
+    counter-increment: h4;
+    counter-reset: h5 h6;
+    font-style: italic;
+    font-weight: bold;
+    margin-top: 10pt;
+}
+
+h4.heading_4::before {
+    content: counter(h1,upper-roman) "." counter(h2) "." counter(h3) "." counter(h4) " ";
+}
+
+h5.heading_5 {
+    -uxwrite-display-name: "heading 5";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #243F60;
+    counter-increment: h5;
+    counter-reset: h6;
+    margin-top: 10pt;
+}
+
+h5.heading_5::before {
+    content: counter(h1,upper-roman) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) " ";
+}
+
+h6.heading_6 {
+    -uxwrite-display-name: "heading 6";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #243F60;
+    counter-increment: h6;
+    counter-reset: ;
+    font-style: italic;
+    margin-top: 10pt;
+}
+
+h6.heading_6::before {
+    content: counter(h1,upper-roman) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "." counter(h6) " ";
+}
+
+p.heading_7 {
+    -uxwrite-display-name: "heading 7";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #404040;
+    font-style: italic;
+    margin-top: 10pt;
+}
+
+p.heading_8 {
+    -uxwrite-display-name: "heading 8";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #404040;
+    font-size: 10pt;
+    margin-top: 10pt;
+}
+
+p.heading_9 {
+    -uxwrite-display-name: "heading 9";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #404040;
+    font-size: 10pt;
+    font-style: italic;
+    margin-top: 10pt;
+}
+
+p.Normal {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal";
+}
+
+span.Default_Paragraph_Font {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Default Paragraph Font";
+}
+
+span.Heading_1_Char {
+    -uxwrite-display-name: "Heading 1 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #345A8A;
+    font-size: 16pt;
+    font-weight: bold;
+}
+
+span.Heading_2_Char {
+    -uxwrite-display-name: "Heading 2 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #4F81BD;
+    font-size: 13pt;
+    font-weight: bold;
+}
+
+span.Heading_3_Char {
+    -uxwrite-display-name: "Heading 3 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #4F81BD;
+    font-weight: bold;
+}
+
+span.Heading_4_Char {
+    -uxwrite-display-name: "Heading 4 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #4F81BD;
+    font-style: italic;
+    font-weight: bold;
+}
+
+span.Heading_5_Char {
+    -uxwrite-display-name: "Heading 5 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #243F60;
+}
+
+span.Heading_6_Char {
+    -uxwrite-display-name: "Heading 6 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #243F60;
+    font-style: italic;
+}
+
+span.Heading_7_Char {
+    -uxwrite-display-name: "Heading 7 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #404040;
+    font-style: italic;
+}
+
+span.Heading_8_Char {
+    -uxwrite-display-name: "Heading 8 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #404040;
+    font-size: 10pt;
+}
+
+span.Heading_9_Char {
+    -uxwrite-display-name: "Heading 9 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #404040;
+    font-size: 10pt;
+    font-style: italic;
+}
+
+table.Normal_Table {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal Table";
+}
+
+table.Normal_Table > * > tr > td {
+    padding-bottom: 0pt;
+    padding-left: 5.4pt;
+    padding-right: 5.4pt;
+    padding-top: 0pt;
+}
+    </style>
+  </head>
+  <body id="word2">
+    <h1 class="heading_1" id="word3">
+      <span id="word6">One</span>
+    </h1>
+    <h1 class="heading_1" id="word9">
+      <span id="word12">Two</span>
+    </h1>
+    <h2 class="heading_2" id="word15">
+      <span id="word18">Three</span>
+    </h2>
+    <h2 class="heading_2" id="word21">
+      <span id="word24">Four</span>
+    </h2>
+    <h3 class="heading_3" id="word27">
+      <span id="word30">Five</span>
+    </h3>
+    <h3 class="heading_3" id="word33">
+      <span id="word36">Six</span>
+    </h3>
+  </body>
+</html>

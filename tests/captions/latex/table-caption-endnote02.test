@@ -1,0 +1,65 @@
+LaTeX_testCreate();
+#item input.html
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>First paragraph<span class="endnote">Endnote in first paragraph</span></p>
+
+<table>
+  <caption>Test table<span class="endnote">Endnote in caption</span></caption>
+  <tr>
+    <td>1,1</td>
+    <td>1,2</td>
+    <td>1,3</td>
+  </tr>
+  <tr>
+    <td>2,1</td>
+    <td>2,2</td>
+    <td>2,3</td>
+  </tr>
+  <tr>
+    <td>3,1</td>
+    <td>3,2</td>
+    <td>3,3</td>
+  </tr>
+</table>
+
+<p>Last paragraph<span class="endnote">Endnote in last paragraph</span></p>
+
+</body>
+</html>
+#item expected
+\documentclass[a4paper,12pt]{article}
+
+\usepackage{endnotes}
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+First paragraph\endnote{Endnote in first paragraph}
+
+\begin{table}
+\begin{minipage}{\textwidth}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+1,1 & 1,2 & 1,3 \\
+\hline
+2,1 & 2,2 & 2,3 \\
+\hline
+3,1 & 3,2 & 3,3 \\
+\hline
+\end{tabular}
+\end{center}
+\caption[Test table]{Test table\endnote{Endnote in caption}}
+\end{minipage}
+\end{table}
+
+Last paragraph\endnote{Endnote in last paragraph}
+
+\theendnotes
+
+\end{document}

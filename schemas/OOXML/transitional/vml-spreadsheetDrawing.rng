@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="urn:schemas-microsoft-com:office:excel" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <define name="x_ClientData">
+    <element name="ClientData">
+      <ref name="x_CT_ClientData"/>
+    </element>
+  </define>
+  <define name="x_CT_ClientData">
+    <attribute name="ObjectType">
+      <ref name="x_ST_ObjectType"/>
+    </attribute>
+    <zeroOrMore>
+      <choice>
+        <element name="MoveWithCells">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="SizeWithCells">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="Anchor">
+          <data type="string"/>
+        </element>
+        <element name="Locked">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="DefaultSize">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="PrintObject">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="Disabled">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="AutoFill">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="AutoLine">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="AutoPict">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="FmlaMacro">
+          <data type="string"/>
+        </element>
+        <element name="TextHAlign">
+          <data type="string"/>
+        </element>
+        <element name="TextVAlign">
+          <data type="string"/>
+        </element>
+        <element name="LockText">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="JustLastX">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="SecretEdit">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="Default">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="Help">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="Cancel">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="Dismiss">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="Accel">
+          <data type="integer"/>
+        </element>
+        <element name="Accel2">
+          <data type="integer"/>
+        </element>
+        <element name="Row">
+          <data type="integer"/>
+        </element>
+        <element name="Column">
+          <data type="integer"/>
+        </element>
+        <element name="Visible">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="RowHidden">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="ColHidden">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="VTEdit">
+          <data type="integer"/>
+        </element>
+        <element name="MultiLine">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="VScroll">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="ValidIds">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="FmlaRange">
+          <data type="string"/>
+        </element>
+        <element name="WidthMin">
+          <data type="integer"/>
+        </element>
+        <element name="Sel">
+          <data type="integer"/>
+        </element>
+        <element name="NoThreeD2">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="SelType">
+          <data type="string"/>
+        </element>
+        <element name="MultiSel">
+          <data type="string"/>
+        </element>
+        <element name="LCT">
+          <data type="string"/>
+        </element>
+        <element name="ListItem">
+          <data type="string"/>
+        </element>
+        <element name="DropStyle">
+          <data type="string"/>
+        </element>
+        <element name="Colored">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="DropLines">
+          <data type="integer"/>
+        </element>
+        <element name="Checked">
+          <data type="integer"/>
+        </element>
+        <element name="FmlaLink">
+          <data type="string"/>
+        </element>
+        <element name="FmlaPict">
+          <data type="string"/>
+        </element>
+        <element name="NoThreeD">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="FirstButton">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="FmlaGroup">
+          <data type="string"/>
+        </element>
+        <element name="Val">
+          <data type="integer"/>
+        </element>
+        <element name="Min">
+          <data type="integer"/>
+        </element>
+        <element name="Max">
+          <data type="integer"/>
+        </element>
+        <element name="Inc">
+          <data type="integer"/>
+        </element>
+        <element name="Page">
+          <data type="integer"/>
+        </element>
+        <element name="Horiz">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="Dx">
+          <data type="integer"/>
+        </element>
+        <element name="MapOCX">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="CF">
+          <ref name="x_ST_CF"/>
+        </element>
+        <element name="Camera">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="RecalcAlways">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="AutoScale">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="DDE">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="UIObj">
+          <ref name="s_ST_TrueFalseBlank"/>
+        </element>
+        <element name="ScriptText">
+          <data type="string"/>
+        </element>
+        <element name="ScriptExtended">
+          <data type="string"/>
+        </element>
+        <element name="ScriptLanguage">
+          <data type="nonNegativeInteger"/>
+        </element>
+        <element name="ScriptLocation">
+          <data type="nonNegativeInteger"/>
+        </element>
+        <element name="FmlaTxbx">
+          <data type="string"/>
+        </element>
+      </choice>
+    </zeroOrMore>
+  </define>
+  <define name="x_ST_CF">
+    <data type="string"/>
+  </define>
+  <define name="x_ST_ObjectType">
+    <choice>
+      <value type="string" datatypeLibrary="">Button</value>
+      <value type="string" datatypeLibrary="">Checkbox</value>
+      <value type="string" datatypeLibrary="">Dialog</value>
+      <value type="string" datatypeLibrary="">Drop</value>
+      <value type="string" datatypeLibrary="">Edit</value>
+      <value type="string" datatypeLibrary="">GBox</value>
+      <value type="string" datatypeLibrary="">Label</value>
+      <value type="string" datatypeLibrary="">LineA</value>
+      <value type="string" datatypeLibrary="">List</value>
+      <value type="string" datatypeLibrary="">Movie</value>
+      <value type="string" datatypeLibrary="">Note</value>
+      <value type="string" datatypeLibrary="">Pict</value>
+      <value type="string" datatypeLibrary="">Radio</value>
+      <value type="string" datatypeLibrary="">RectA</value>
+      <value type="string" datatypeLibrary="">Scroll</value>
+      <value type="string" datatypeLibrary="">Spin</value>
+      <value type="string" datatypeLibrary="">Shape</value>
+      <value type="string" datatypeLibrary="">Group</value>
+      <value type="string" datatypeLibrary="">Rect</value>
+    </choice>
+  </define>
+</grammar>

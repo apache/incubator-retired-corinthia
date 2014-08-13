@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <define name="shdDcEP_Properties">
+    <element name="Properties">
+      <ref name="shdDcEP_CT_Properties"/>
+    </element>
+  </define>
+  <define name="shdDcEP_CT_Properties">
+    <interleave>
+      <optional>
+        <element name="Template">
+          <data type="string"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="Manager">
+          <data type="string"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="Company">
+          <data type="string"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="Pages">
+          <data type="int"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="Words">
+          <data type="int"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="Characters">
+          <data type="int"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="PresentationFormat">
+          <data type="string"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="Lines">
+          <data type="int"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="Paragraphs">
+          <data type="int"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="Slides">
+          <data type="int"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="Notes">
+          <data type="int"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="TotalTime">
+          <data type="int"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="HiddenSlides">
+          <data type="int"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="MMClips">
+          <data type="int"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="ScaleCrop">
+          <data type="boolean"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="HeadingPairs">
+          <ref name="shdDcEP_CT_VectorVariant"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="TitlesOfParts">
+          <ref name="shdDcEP_CT_VectorLpstr"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="LinksUpToDate">
+          <data type="boolean"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="CharactersWithSpaces">
+          <data type="int"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="SharedDoc">
+          <data type="boolean"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="HyperlinkBase">
+          <data type="string"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="HLinks">
+          <ref name="shdDcEP_CT_VectorVariant"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="HyperlinksChanged">
+          <data type="boolean"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="DigSig">
+          <ref name="shdDcEP_CT_DigSigBlob"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="Application">
+          <data type="string"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="AppVersion">
+          <data type="string"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="DocSecurity">
+          <data type="int"/>
+        </element>
+      </optional>
+    </interleave>
+  </define>
+  <define name="shdDcEP_CT_VectorVariant">
+    <ref name="vt_vector"/>
+  </define>
+  <define name="shdDcEP_CT_VectorLpstr">
+    <ref name="vt_vector"/>
+  </define>
+  <define name="shdDcEP_CT_DigSigBlob">
+    <ref name="vt_blob"/>
+  </define>
+</grammar>

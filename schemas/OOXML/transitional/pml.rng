@@ -1,0 +1,3488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="http://schemas.openxmlformats.org/presentationml/2006/main" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:s="http://schemas.openxmlformats.org/officeDocument/2006/sharedTypes" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:aa="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <define name="p_ST_TransitionSideDirectionType">
+    <choice>
+      <value>l</value>
+      <value>u</value>
+      <value>r</value>
+      <value>d</value>
+    </choice>
+  </define>
+  <define name="p_ST_TransitionCornerDirectionType">
+    <choice>
+      <value>lu</value>
+      <value>ru</value>
+      <value>ld</value>
+      <value>rd</value>
+    </choice>
+  </define>
+  <define name="p_ST_TransitionInOutDirectionType">
+    <choice>
+      <value>out</value>
+      <value>in</value>
+    </choice>
+  </define>
+  <define name="p_CT_SideDirectionTransition">
+    <optional>
+      <attribute name="dir">
+        <aa:documentation>default value: l</aa:documentation>
+        <ref name="p_ST_TransitionSideDirectionType"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_CT_CornerDirectionTransition">
+    <optional>
+      <attribute name="dir">
+        <aa:documentation>default value: lu</aa:documentation>
+        <ref name="p_ST_TransitionCornerDirectionType"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_ST_TransitionEightDirectionType">
+    <choice>
+      <ref name="p_ST_TransitionSideDirectionType"/>
+      <ref name="p_ST_TransitionCornerDirectionType"/>
+    </choice>
+  </define>
+  <define name="p_CT_EightDirectionTransition">
+    <optional>
+      <attribute name="dir">
+        <aa:documentation>default value: l</aa:documentation>
+        <ref name="p_ST_TransitionEightDirectionType"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_CT_OrientationTransition">
+    <optional>
+      <attribute name="dir">
+        <aa:documentation>default value: horz</aa:documentation>
+        <ref name="p_ST_Direction"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_CT_InOutTransition">
+    <optional>
+      <attribute name="dir">
+        <aa:documentation>default value: out</aa:documentation>
+        <ref name="p_ST_TransitionInOutDirectionType"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_CT_OptionalBlackTransition">
+    <optional>
+      <attribute name="thruBlk">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_CT_SplitTransition">
+    <optional>
+      <attribute name="orient">
+        <aa:documentation>default value: horz</aa:documentation>
+        <ref name="p_ST_Direction"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="dir">
+        <aa:documentation>default value: out</aa:documentation>
+        <ref name="p_ST_TransitionInOutDirectionType"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_CT_WheelTransition">
+    <optional>
+      <attribute name="spokes">
+        <aa:documentation>default value: 4</aa:documentation>
+        <data type="unsignedInt"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_CT_TransitionStartSoundAction">
+    <optional>
+      <attribute name="loop">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <element name="snd">
+      <ref name="a_CT_EmbeddedWAVAudioFile"/>
+    </element>
+  </define>
+  <define name="p_CT_TransitionSoundAction">
+    <choice>
+      <element name="stSnd">
+        <ref name="p_CT_TransitionStartSoundAction"/>
+      </element>
+      <element name="endSnd">
+        <ref name="p_CT_Empty"/>
+      </element>
+    </choice>
+  </define>
+  <define name="p_ST_TransitionSpeed">
+    <choice>
+      <value>slow</value>
+      <value>med</value>
+      <value>fast</value>
+    </choice>
+  </define>
+  <define name="p_CT_SlideTransition">
+    <optional>
+      <attribute name="spd">
+        <aa:documentation>default value: fast</aa:documentation>
+        <ref name="p_ST_TransitionSpeed"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="advClick">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="advTm">
+        <data type="unsignedInt"/>
+      </attribute>
+    </optional>
+    <optional>
+      <choice>
+        <element name="blinds">
+          <ref name="p_CT_OrientationTransition"/>
+        </element>
+        <element name="checker">
+          <ref name="p_CT_OrientationTransition"/>
+        </element>
+        <element name="circle">
+          <ref name="p_CT_Empty"/>
+        </element>
+        <element name="dissolve">
+          <ref name="p_CT_Empty"/>
+        </element>
+        <element name="comb">
+          <ref name="p_CT_OrientationTransition"/>
+        </element>
+        <element name="cover">
+          <ref name="p_CT_EightDirectionTransition"/>
+        </element>
+        <element name="cut">
+          <ref name="p_CT_OptionalBlackTransition"/>
+        </element>
+        <element name="diamond">
+          <ref name="p_CT_Empty"/>
+        </element>
+        <element name="fade">
+          <ref name="p_CT_OptionalBlackTransition"/>
+        </element>
+        <element name="newsflash">
+          <ref name="p_CT_Empty"/>
+        </element>
+        <element name="plus">
+          <ref name="p_CT_Empty"/>
+        </element>
+        <element name="pull">
+          <ref name="p_CT_EightDirectionTransition"/>
+        </element>
+        <element name="push">
+          <ref name="p_CT_SideDirectionTransition"/>
+        </element>
+        <element name="random">
+          <ref name="p_CT_Empty"/>
+        </element>
+        <element name="randomBar">
+          <ref name="p_CT_OrientationTransition"/>
+        </element>
+        <element name="split">
+          <ref name="p_CT_SplitTransition"/>
+        </element>
+        <element name="strips">
+          <ref name="p_CT_CornerDirectionTransition"/>
+        </element>
+        <element name="wedge">
+          <ref name="p_CT_Empty"/>
+        </element>
+        <element name="wheel">
+          <ref name="p_CT_WheelTransition"/>
+        </element>
+        <element name="wipe">
+          <ref name="p_CT_SideDirectionTransition"/>
+        </element>
+        <element name="zoom">
+          <ref name="p_CT_InOutTransition"/>
+        </element>
+      </choice>
+    </optional>
+    <optional>
+      <element name="sndAc">
+        <ref name="p_CT_TransitionSoundAction"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionListModify"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_ST_TLTimeIndefinite">
+    <value>indefinite</value>
+  </define>
+  <define name="p_ST_TLTime">
+    <choice>
+      <data type="unsignedInt"/>
+      <ref name="p_ST_TLTimeIndefinite"/>
+    </choice>
+  </define>
+  <define name="p_ST_TLTimeNodeID">
+    <data type="unsignedInt"/>
+  </define>
+  <define name="p_CT_TLIterateIntervalTime">
+    <attribute name="val">
+      <ref name="p_ST_TLTime"/>
+    </attribute>
+  </define>
+  <define name="p_CT_TLIterateIntervalPercentage">
+    <attribute name="val">
+      <ref name="a_ST_PositivePercentage"/>
+    </attribute>
+  </define>
+  <define name="p_ST_IterateType">
+    <choice>
+      <value>el</value>
+      <value>wd</value>
+      <value>lt</value>
+    </choice>
+  </define>
+  <define name="p_CT_TLIterateData">
+    <optional>
+      <attribute name="type">
+        <aa:documentation>default value: el</aa:documentation>
+        <ref name="p_ST_IterateType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="backwards">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <choice>
+      <element name="tmAbs">
+        <ref name="p_CT_TLIterateIntervalTime"/>
+      </element>
+      <element name="tmPct">
+        <ref name="p_CT_TLIterateIntervalPercentage"/>
+      </element>
+    </choice>
+  </define>
+  <define name="p_CT_TLSubShapeId">
+    <attribute name="spid">
+      <ref name="a_ST_ShapeID"/>
+    </attribute>
+  </define>
+  <define name="p_CT_TLTextTargetElement">
+    <optional>
+      <choice>
+        <element name="charRg">
+          <ref name="p_CT_IndexRange"/>
+        </element>
+        <element name="pRg">
+          <ref name="p_CT_IndexRange"/>
+        </element>
+      </choice>
+    </optional>
+  </define>
+  <define name="p_ST_TLChartSubelementType">
+    <choice>
+      <value>gridLegend</value>
+      <value>series</value>
+      <value>category</value>
+      <value>ptInSeries</value>
+      <value>ptInCategory</value>
+    </choice>
+  </define>
+  <define name="p_CT_TLOleChartTargetElement">
+    <attribute name="type">
+      <ref name="p_ST_TLChartSubelementType"/>
+    </attribute>
+    <optional>
+      <attribute name="lvl">
+        <aa:documentation>default value: 0</aa:documentation>
+        <data type="unsignedInt"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_CT_TLShapeTargetElement">
+    <attribute name="spid">
+      <ref name="a_ST_DrawingElementId"/>
+    </attribute>
+    <optional>
+      <choice>
+        <element name="bg">
+          <ref name="p_CT_Empty"/>
+        </element>
+        <element name="subSp">
+          <ref name="p_CT_TLSubShapeId"/>
+        </element>
+        <element name="oleChartEl">
+          <ref name="p_CT_TLOleChartTargetElement"/>
+        </element>
+        <element name="txEl">
+          <ref name="p_CT_TLTextTargetElement"/>
+        </element>
+        <element name="graphicEl">
+          <ref name="a_CT_AnimationElementChoice"/>
+        </element>
+      </choice>
+    </optional>
+  </define>
+  <define name="p_CT_TLTimeTargetElement">
+    <choice>
+      <element name="sldTgt">
+        <ref name="p_CT_Empty"/>
+      </element>
+      <element name="sndTgt">
+        <ref name="a_CT_EmbeddedWAVAudioFile"/>
+      </element>
+      <element name="spTgt">
+        <ref name="p_CT_TLShapeTargetElement"/>
+      </element>
+      <element name="inkTgt">
+        <ref name="p_CT_TLSubShapeId"/>
+      </element>
+    </choice>
+  </define>
+  <define name="p_CT_TLTriggerTimeNodeID">
+    <attribute name="val">
+      <ref name="p_ST_TLTimeNodeID"/>
+    </attribute>
+  </define>
+  <define name="p_ST_TLTriggerRuntimeNode">
+    <choice>
+      <value>first</value>
+      <value>last</value>
+      <value>all</value>
+    </choice>
+  </define>
+  <define name="p_CT_TLTriggerRuntimeNode">
+    <attribute name="val">
+      <ref name="p_ST_TLTriggerRuntimeNode"/>
+    </attribute>
+  </define>
+  <define name="p_ST_TLTriggerEvent">
+    <choice>
+      <value>onBegin</value>
+      <value>onEnd</value>
+      <value>begin</value>
+      <value>end</value>
+      <value>onClick</value>
+      <value>onDblClick</value>
+      <value>onMouseOver</value>
+      <value>onMouseOut</value>
+      <value>onNext</value>
+      <value>onPrev</value>
+      <value>onStopAudio</value>
+    </choice>
+  </define>
+  <define name="p_CT_TLTimeCondition">
+    <optional>
+      <attribute name="evt">
+        <ref name="p_ST_TLTriggerEvent"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="delay">
+        <ref name="p_ST_TLTime"/>
+      </attribute>
+    </optional>
+    <optional>
+      <choice>
+        <element name="tgtEl">
+          <ref name="p_CT_TLTimeTargetElement"/>
+        </element>
+        <element name="tn">
+          <ref name="p_CT_TLTriggerTimeNodeID"/>
+        </element>
+        <element name="rtn">
+          <ref name="p_CT_TLTriggerRuntimeNode"/>
+        </element>
+      </choice>
+    </optional>
+  </define>
+  <define name="p_CT_TLTimeConditionList">
+    <oneOrMore>
+      <element name="cond">
+        <ref name="p_CT_TLTimeCondition"/>
+      </element>
+    </oneOrMore>
+  </define>
+  <define name="p_CT_TimeNodeList">
+    <oneOrMore>
+      <choice>
+        <element name="par">
+          <ref name="p_CT_TLTimeNodeParallel"/>
+        </element>
+        <element name="seq">
+          <ref name="p_CT_TLTimeNodeSequence"/>
+        </element>
+        <element name="excl">
+          <ref name="p_CT_TLTimeNodeExclusive"/>
+        </element>
+        <element name="anim">
+          <ref name="p_CT_TLAnimateBehavior"/>
+        </element>
+        <element name="animClr">
+          <ref name="p_CT_TLAnimateColorBehavior"/>
+        </element>
+        <element name="animEffect">
+          <ref name="p_CT_TLAnimateEffectBehavior"/>
+        </element>
+        <element name="animMotion">
+          <ref name="p_CT_TLAnimateMotionBehavior"/>
+        </element>
+        <element name="animRot">
+          <ref name="p_CT_TLAnimateRotationBehavior"/>
+        </element>
+        <element name="animScale">
+          <ref name="p_CT_TLAnimateScaleBehavior"/>
+        </element>
+        <element name="cmd">
+          <ref name="p_CT_TLCommandBehavior"/>
+        </element>
+        <element name="set">
+          <ref name="p_CT_TLSetBehavior"/>
+        </element>
+        <element name="audio">
+          <ref name="p_CT_TLMediaNodeAudio"/>
+        </element>
+        <element name="video">
+          <ref name="p_CT_TLMediaNodeVideo"/>
+        </element>
+      </choice>
+    </oneOrMore>
+  </define>
+  <define name="p_ST_TLTimeNodePresetClassType">
+    <choice>
+      <value>entr</value>
+      <value>exit</value>
+      <value>emph</value>
+      <value>path</value>
+      <value>verb</value>
+      <value>mediacall</value>
+    </choice>
+  </define>
+  <define name="p_ST_TLTimeNodeRestartType">
+    <choice>
+      <value>always</value>
+      <value>whenNotActive</value>
+      <value>never</value>
+    </choice>
+  </define>
+  <define name="p_ST_TLTimeNodeFillType">
+    <choice>
+      <value>remove</value>
+      <value>freeze</value>
+      <value>hold</value>
+      <value>transition</value>
+    </choice>
+  </define>
+  <define name="p_ST_TLTimeNodeSyncType">
+    <choice>
+      <value>canSlip</value>
+      <value>locked</value>
+    </choice>
+  </define>
+  <define name="p_ST_TLTimeNodeMasterRelation">
+    <choice>
+      <value>sameClick</value>
+      <value>lastClick</value>
+      <value>nextClick</value>
+    </choice>
+  </define>
+  <define name="p_ST_TLTimeNodeType">
+    <choice>
+      <value>clickEffect</value>
+      <value>withEffect</value>
+      <value>afterEffect</value>
+      <value>mainSeq</value>
+      <value>interactiveSeq</value>
+      <value>clickPar</value>
+      <value>withGroup</value>
+      <value>afterGroup</value>
+      <value>tmRoot</value>
+    </choice>
+  </define>
+  <define name="p_CT_TLCommonTimeNodeData">
+    <optional>
+      <attribute name="id">
+        <ref name="p_ST_TLTimeNodeID"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="presetID">
+        <data type="int"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="presetClass">
+        <ref name="p_ST_TLTimeNodePresetClassType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="presetSubtype">
+        <data type="int"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="dur">
+        <ref name="p_ST_TLTime"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="repeatCount">
+        <aa:documentation>default value: 1000</aa:documentation>
+        <ref name="p_ST_TLTime"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="repeatDur">
+        <ref name="p_ST_TLTime"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="spd">
+        <aa:documentation>default value: 100%</aa:documentation>
+        <ref name="a_ST_Percentage"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="accel">
+        <aa:documentation>default value: 0%</aa:documentation>
+        <ref name="a_ST_PositiveFixedPercentage"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="decel">
+        <aa:documentation>default value: 0%</aa:documentation>
+        <ref name="a_ST_PositiveFixedPercentage"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="autoRev">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="restart">
+        <ref name="p_ST_TLTimeNodeRestartType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="fill">
+        <ref name="p_ST_TLTimeNodeFillType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="syncBehavior">
+        <ref name="p_ST_TLTimeNodeSyncType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="tmFilter">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="evtFilter">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="display">
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="masterRel">
+        <ref name="p_ST_TLTimeNodeMasterRelation"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="bldLvl">
+        <data type="int"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="grpId">
+        <data type="unsignedInt"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="afterEffect">
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="nodeType">
+        <ref name="p_ST_TLTimeNodeType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="nodePh">
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="stCondLst">
+        <ref name="p_CT_TLTimeConditionList"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="endCondLst">
+        <ref name="p_CT_TLTimeConditionList"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="endSync">
+        <ref name="p_CT_TLTimeCondition"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="iterate">
+        <ref name="p_CT_TLIterateData"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="childTnLst">
+        <ref name="p_CT_TimeNodeList"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="subTnLst">
+        <ref name="p_CT_TimeNodeList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_TLTimeNodeParallel">
+    <element name="cTn">
+      <ref name="p_CT_TLCommonTimeNodeData"/>
+    </element>
+  </define>
+  <define name="p_ST_TLNextActionType">
+    <choice>
+      <value>none</value>
+      <value>seek</value>
+    </choice>
+  </define>
+  <define name="p_ST_TLPreviousActionType">
+    <choice>
+      <value>none</value>
+      <value>skipTimed</value>
+    </choice>
+  </define>
+  <define name="p_CT_TLTimeNodeSequence">
+    <optional>
+      <attribute name="concurrent">
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="prevAc">
+        <ref name="p_ST_TLPreviousActionType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="nextAc">
+        <ref name="p_ST_TLNextActionType"/>
+      </attribute>
+    </optional>
+    <element name="cTn">
+      <ref name="p_CT_TLCommonTimeNodeData"/>
+    </element>
+    <optional>
+      <element name="prevCondLst">
+        <ref name="p_CT_TLTimeConditionList"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="nextCondLst">
+        <ref name="p_CT_TLTimeConditionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_TLTimeNodeExclusive">
+    <element name="cTn">
+      <ref name="p_CT_TLCommonTimeNodeData"/>
+    </element>
+  </define>
+  <define name="p_CT_TLBehaviorAttributeNameList">
+    <oneOrMore>
+      <element name="attrName">
+        <data type="string"/>
+      </element>
+    </oneOrMore>
+  </define>
+  <define name="p_ST_TLBehaviorAdditiveType">
+    <choice>
+      <value>base</value>
+      <value>sum</value>
+      <value>repl</value>
+      <value>mult</value>
+      <value>none</value>
+    </choice>
+  </define>
+  <define name="p_ST_TLBehaviorAccumulateType">
+    <choice>
+      <value>none</value>
+      <value>always</value>
+    </choice>
+  </define>
+  <define name="p_ST_TLBehaviorTransformType">
+    <choice>
+      <value>pt</value>
+      <value>img</value>
+    </choice>
+  </define>
+  <define name="p_ST_TLBehaviorOverrideType">
+    <choice>
+      <value>normal</value>
+      <value>childStyle</value>
+    </choice>
+  </define>
+  <define name="p_CT_TLCommonBehaviorData">
+    <optional>
+      <attribute name="additive">
+        <ref name="p_ST_TLBehaviorAdditiveType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="accumulate">
+        <ref name="p_ST_TLBehaviorAccumulateType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="xfrmType">
+        <ref name="p_ST_TLBehaviorTransformType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="from">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="to">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="by">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="rctx">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="override">
+        <ref name="p_ST_TLBehaviorOverrideType"/>
+      </attribute>
+    </optional>
+    <element name="cTn">
+      <ref name="p_CT_TLCommonTimeNodeData"/>
+    </element>
+    <element name="tgtEl">
+      <ref name="p_CT_TLTimeTargetElement"/>
+    </element>
+    <optional>
+      <element name="attrNameLst">
+        <ref name="p_CT_TLBehaviorAttributeNameList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_TLAnimVariantBooleanVal">
+    <attribute name="val">
+      <data type="boolean"/>
+    </attribute>
+  </define>
+  <define name="p_CT_TLAnimVariantIntegerVal">
+    <attribute name="val">
+      <data type="int"/>
+    </attribute>
+  </define>
+  <define name="p_CT_TLAnimVariantFloatVal">
+    <attribute name="val">
+      <data type="float"/>
+    </attribute>
+  </define>
+  <define name="p_CT_TLAnimVariantStringVal">
+    <attribute name="val">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="p_CT_TLAnimVariant">
+    <choice>
+      <element name="boolVal">
+        <ref name="p_CT_TLAnimVariantBooleanVal"/>
+      </element>
+      <element name="intVal">
+        <ref name="p_CT_TLAnimVariantIntegerVal"/>
+      </element>
+      <element name="fltVal">
+        <ref name="p_CT_TLAnimVariantFloatVal"/>
+      </element>
+      <element name="strVal">
+        <ref name="p_CT_TLAnimVariantStringVal"/>
+      </element>
+      <element name="clrVal">
+        <ref name="a_CT_Color"/>
+      </element>
+    </choice>
+  </define>
+  <define name="p_ST_TLTimeAnimateValueTime">
+    <choice>
+      <ref name="a_ST_PositiveFixedPercentage"/>
+      <ref name="p_ST_TLTimeIndefinite"/>
+    </choice>
+  </define>
+  <define name="p_CT_TLTimeAnimateValue">
+    <optional>
+      <attribute name="tm">
+        <aa:documentation>default value: indefinite</aa:documentation>
+        <ref name="p_ST_TLTimeAnimateValueTime"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="fmla">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="val">
+        <ref name="p_CT_TLAnimVariant"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_TLTimeAnimateValueList">
+    <zeroOrMore>
+      <element name="tav">
+        <ref name="p_CT_TLTimeAnimateValue"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="p_ST_TLAnimateBehaviorCalcMode">
+    <choice>
+      <value>discrete</value>
+      <value>lin</value>
+      <value>fmla</value>
+    </choice>
+  </define>
+  <define name="p_ST_TLAnimateBehaviorValueType">
+    <choice>
+      <value>str</value>
+      <value>num</value>
+      <value>clr</value>
+    </choice>
+  </define>
+  <define name="p_CT_TLAnimateBehavior">
+    <optional>
+      <attribute name="by">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="from">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="to">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="calcmode">
+        <ref name="p_ST_TLAnimateBehaviorCalcMode"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="valueType">
+        <ref name="p_ST_TLAnimateBehaviorValueType"/>
+      </attribute>
+    </optional>
+    <element name="cBhvr">
+      <ref name="p_CT_TLCommonBehaviorData"/>
+    </element>
+    <optional>
+      <element name="tavLst">
+        <ref name="p_CT_TLTimeAnimateValueList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_TLByRgbColorTransform">
+    <attribute name="r">
+      <ref name="a_ST_FixedPercentage"/>
+    </attribute>
+    <attribute name="g">
+      <ref name="a_ST_FixedPercentage"/>
+    </attribute>
+    <attribute name="b">
+      <ref name="a_ST_FixedPercentage"/>
+    </attribute>
+  </define>
+  <define name="p_CT_TLByHslColorTransform">
+    <attribute name="h">
+      <ref name="a_ST_Angle"/>
+    </attribute>
+    <attribute name="s">
+      <ref name="a_ST_FixedPercentage"/>
+    </attribute>
+    <attribute name="l">
+      <ref name="a_ST_FixedPercentage"/>
+    </attribute>
+  </define>
+  <define name="p_CT_TLByAnimateColorTransform">
+    <choice>
+      <element name="rgb">
+        <ref name="p_CT_TLByRgbColorTransform"/>
+      </element>
+      <element name="hsl">
+        <ref name="p_CT_TLByHslColorTransform"/>
+      </element>
+    </choice>
+  </define>
+  <define name="p_ST_TLAnimateColorSpace">
+    <choice>
+      <value>rgb</value>
+      <value>hsl</value>
+    </choice>
+  </define>
+  <define name="p_ST_TLAnimateColorDirection">
+    <choice>
+      <value>cw</value>
+      <value>ccw</value>
+    </choice>
+  </define>
+  <define name="p_CT_TLAnimateColorBehavior">
+    <optional>
+      <attribute name="clrSpc">
+        <ref name="p_ST_TLAnimateColorSpace"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="dir">
+        <ref name="p_ST_TLAnimateColorDirection"/>
+      </attribute>
+    </optional>
+    <element name="cBhvr">
+      <ref name="p_CT_TLCommonBehaviorData"/>
+    </element>
+    <optional>
+      <element name="by">
+        <ref name="p_CT_TLByAnimateColorTransform"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="from">
+        <ref name="a_CT_Color"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="to">
+        <ref name="a_CT_Color"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_ST_TLAnimateEffectTransition">
+    <choice>
+      <value>in</value>
+      <value>out</value>
+      <value>none</value>
+    </choice>
+  </define>
+  <define name="p_CT_TLAnimateEffectBehavior">
+    <optional>
+      <attribute name="transition">
+        <ref name="p_ST_TLAnimateEffectTransition"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="filter">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="prLst">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <element name="cBhvr">
+      <ref name="p_CT_TLCommonBehaviorData"/>
+    </element>
+    <optional>
+      <element name="progress">
+        <ref name="p_CT_TLAnimVariant"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_ST_TLAnimateMotionBehaviorOrigin">
+    <choice>
+      <value>parent</value>
+      <value>layout</value>
+    </choice>
+  </define>
+  <define name="p_ST_TLAnimateMotionPathEditMode">
+    <choice>
+      <value>relative</value>
+      <value>fixed</value>
+    </choice>
+  </define>
+  <define name="p_CT_TLPoint">
+    <attribute name="x">
+      <ref name="a_ST_Percentage"/>
+    </attribute>
+    <attribute name="y">
+      <ref name="a_ST_Percentage"/>
+    </attribute>
+  </define>
+  <define name="p_CT_TLAnimateMotionBehavior">
+    <optional>
+      <attribute name="origin">
+        <ref name="p_ST_TLAnimateMotionBehaviorOrigin"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="path">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="pathEditMode">
+        <ref name="p_ST_TLAnimateMotionPathEditMode"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="rAng">
+        <ref name="a_ST_Angle"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="ptsTypes">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <element name="cBhvr">
+      <ref name="p_CT_TLCommonBehaviorData"/>
+    </element>
+    <optional>
+      <element name="by">
+        <ref name="p_CT_TLPoint"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="from">
+        <ref name="p_CT_TLPoint"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="to">
+        <ref name="p_CT_TLPoint"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="rCtr">
+        <ref name="p_CT_TLPoint"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_TLAnimateRotationBehavior">
+    <optional>
+      <attribute name="by">
+        <ref name="a_ST_Angle"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="from">
+        <ref name="a_ST_Angle"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="to">
+        <ref name="a_ST_Angle"/>
+      </attribute>
+    </optional>
+    <element name="cBhvr">
+      <ref name="p_CT_TLCommonBehaviorData"/>
+    </element>
+  </define>
+  <define name="p_CT_TLAnimateScaleBehavior">
+    <optional>
+      <attribute name="zoomContents">
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <element name="cBhvr">
+      <ref name="p_CT_TLCommonBehaviorData"/>
+    </element>
+    <optional>
+      <element name="by">
+        <ref name="p_CT_TLPoint"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="from">
+        <ref name="p_CT_TLPoint"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="to">
+        <ref name="p_CT_TLPoint"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_ST_TLCommandType">
+    <choice>
+      <value>evt</value>
+      <value>call</value>
+      <value>verb</value>
+    </choice>
+  </define>
+  <define name="p_CT_TLCommandBehavior">
+    <optional>
+      <attribute name="type">
+        <ref name="p_ST_TLCommandType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="cmd">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <element name="cBhvr">
+      <ref name="p_CT_TLCommonBehaviorData"/>
+    </element>
+  </define>
+  <define name="p_CT_TLSetBehavior">
+    <element name="cBhvr">
+      <ref name="p_CT_TLCommonBehaviorData"/>
+    </element>
+    <optional>
+      <element name="to">
+        <ref name="p_CT_TLAnimVariant"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_TLCommonMediaNodeData">
+    <optional>
+      <attribute name="vol">
+        <aa:documentation>default value: 50%</aa:documentation>
+        <ref name="a_ST_PositiveFixedPercentage"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="mute">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="numSld">
+        <aa:documentation>default value: 1</aa:documentation>
+        <data type="unsignedInt"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="showWhenStopped">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <element name="cTn">
+      <ref name="p_CT_TLCommonTimeNodeData"/>
+    </element>
+    <element name="tgtEl">
+      <ref name="p_CT_TLTimeTargetElement"/>
+    </element>
+  </define>
+  <define name="p_CT_TLMediaNodeAudio">
+    <optional>
+      <attribute name="isNarration">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <element name="cMediaNode">
+      <ref name="p_CT_TLCommonMediaNodeData"/>
+    </element>
+  </define>
+  <define name="p_CT_TLMediaNodeVideo">
+    <optional>
+      <attribute name="fullScrn">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <element name="cMediaNode">
+      <ref name="p_CT_TLCommonMediaNodeData"/>
+    </element>
+  </define>
+  <define name="p_AG_TLBuild">
+    <attribute name="spid">
+      <ref name="a_ST_DrawingElementId"/>
+    </attribute>
+    <attribute name="grpId">
+      <data type="unsignedInt"/>
+    </attribute>
+    <optional>
+      <attribute name="uiExpand">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_CT_TLTemplate">
+    <optional>
+      <attribute name="lvl">
+        <aa:documentation>default value: 0</aa:documentation>
+        <data type="unsignedInt"/>
+      </attribute>
+    </optional>
+    <element name="tnLst">
+      <ref name="p_CT_TimeNodeList"/>
+    </element>
+  </define>
+  <define name="p_CT_TLTemplateList">
+    <zeroOrMore>
+      <element name="tmpl">
+        <ref name="p_CT_TLTemplate"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="p_ST_TLParaBuildType">
+    <choice>
+      <value>allAtOnce</value>
+      <value>p</value>
+      <value>cust</value>
+      <value>whole</value>
+    </choice>
+  </define>
+  <define name="p_CT_TLBuildParagraph">
+    <ref name="p_AG_TLBuild"/>
+    <optional>
+      <attribute name="build">
+        <aa:documentation>default value: whole</aa:documentation>
+        <ref name="p_ST_TLParaBuildType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="bldLvl">
+        <aa:documentation>default value: 1</aa:documentation>
+        <data type="unsignedInt"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="animBg">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="autoUpdateAnimBg">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="rev">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="advAuto">
+        <aa:documentation>default value: indefinite</aa:documentation>
+        <ref name="p_ST_TLTime"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="tmplLst">
+        <ref name="p_CT_TLTemplateList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_ST_TLDiagramBuildType">
+    <choice>
+      <value>whole</value>
+      <value>depthByNode</value>
+      <value>depthByBranch</value>
+      <value>breadthByNode</value>
+      <value>breadthByLvl</value>
+      <value>cw</value>
+      <value>cwIn</value>
+      <value>cwOut</value>
+      <value>ccw</value>
+      <value>ccwIn</value>
+      <value>ccwOut</value>
+      <value>inByRing</value>
+      <value>outByRing</value>
+      <value>up</value>
+      <value>down</value>
+      <value>allAtOnce</value>
+      <value>cust</value>
+    </choice>
+  </define>
+  <define name="p_CT_TLBuildDiagram">
+    <ref name="p_AG_TLBuild"/>
+    <optional>
+      <attribute name="bld">
+        <aa:documentation>default value: whole</aa:documentation>
+        <ref name="p_ST_TLDiagramBuildType"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_ST_TLOleChartBuildType">
+    <choice>
+      <value>allAtOnce</value>
+      <value>series</value>
+      <value>category</value>
+      <value>seriesEl</value>
+      <value>categoryEl</value>
+    </choice>
+  </define>
+  <define name="p_CT_TLOleBuildChart">
+    <ref name="p_AG_TLBuild"/>
+    <optional>
+      <attribute name="bld">
+        <aa:documentation>default value: allAtOnce</aa:documentation>
+        <ref name="p_ST_TLOleChartBuildType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="animBg">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_CT_TLGraphicalObjectBuild">
+    <ref name="p_AG_TLBuild"/>
+    <choice>
+      <element name="bldAsOne">
+        <ref name="p_CT_Empty"/>
+      </element>
+      <element name="bldSub">
+        <ref name="a_CT_AnimationGraphicalObjectBuildProperties"/>
+      </element>
+    </choice>
+  </define>
+  <define name="p_CT_BuildList">
+    <oneOrMore>
+      <choice>
+        <element name="bldP">
+          <ref name="p_CT_TLBuildParagraph"/>
+        </element>
+        <element name="bldDgm">
+          <ref name="p_CT_TLBuildDiagram"/>
+        </element>
+        <element name="bldOleChart">
+          <ref name="p_CT_TLOleBuildChart"/>
+        </element>
+        <element name="bldGraphic">
+          <ref name="p_CT_TLGraphicalObjectBuild"/>
+        </element>
+      </choice>
+    </oneOrMore>
+  </define>
+  <define name="p_CT_SlideTiming">
+    <optional>
+      <element name="tnLst">
+        <ref name="p_CT_TimeNodeList"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="bldLst">
+        <ref name="p_CT_BuildList"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionListModify"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_Empty">
+    <empty/>
+  </define>
+  <define name="p_ST_Name">
+    <data type="string"/>
+  </define>
+  <define name="p_ST_Direction">
+    <choice>
+      <value>horz</value>
+      <value>vert</value>
+    </choice>
+  </define>
+  <define name="p_ST_Index">
+    <data type="unsignedInt"/>
+  </define>
+  <define name="p_CT_IndexRange">
+    <attribute name="st">
+      <ref name="p_ST_Index"/>
+    </attribute>
+    <attribute name="end">
+      <ref name="p_ST_Index"/>
+    </attribute>
+  </define>
+  <define name="p_CT_SlideRelationshipListEntry">
+    <ref name="r_id"/>
+  </define>
+  <define name="p_CT_SlideRelationshipList">
+    <zeroOrMore>
+      <element name="sld">
+        <ref name="p_CT_SlideRelationshipListEntry"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="p_CT_CustomShowId">
+    <attribute name="id">
+      <data type="unsignedInt"/>
+    </attribute>
+  </define>
+  <define name="p_EG_SlideListChoice">
+    <choice>
+      <element name="sldAll">
+        <ref name="p_CT_Empty"/>
+      </element>
+      <element name="sldRg">
+        <ref name="p_CT_IndexRange"/>
+      </element>
+      <element name="custShow">
+        <ref name="p_CT_CustomShowId"/>
+      </element>
+    </choice>
+  </define>
+  <define name="p_CT_CustomerData">
+    <ref name="r_id"/>
+  </define>
+  <define name="p_CT_TagsData">
+    <ref name="r_id"/>
+  </define>
+  <define name="p_CT_CustomerDataList">
+    <optional>
+      <zeroOrMore>
+        <element name="custData">
+          <ref name="p_CT_CustomerData"/>
+        </element>
+      </zeroOrMore>
+      <optional>
+        <element name="tags">
+          <ref name="p_CT_TagsData"/>
+        </element>
+      </optional>
+    </optional>
+  </define>
+  <define name="p_CT_Extension">
+    <attribute name="uri">
+      <data type="token"/>
+    </attribute>
+    <zeroOrMore>
+      <ref name="p_CT_Extension_any"/>
+    </zeroOrMore>
+  </define>
+  <define name="p_CT_Extension_any">
+    <element>
+      <anyName>
+        <except>
+          <nsName ns="urn:schemas-microsoft-com:office:office"/>
+          <nsName ns="urn:schemas-microsoft-com:vml"/>
+          <nsName ns="urn:schemas-microsoft-com:office:word"/>
+          <nsName ns="urn:schemas-microsoft-com:office:excel"/>
+        </except>
+      </anyName>
+      <zeroOrMore>
+        <ref name="anyAttribute"/>
+      </zeroOrMore>
+      <mixed>
+        <zeroOrMore>
+          <ref name="anyElement"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="p_EG_ExtensionList">
+    <zeroOrMore>
+      <element name="ext">
+        <ref name="p_CT_Extension"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="p_CT_ExtensionList">
+    <optional>
+      <ref name="p_EG_ExtensionList"/>
+    </optional>
+  </define>
+  <define name="p_CT_ExtensionListModify">
+    <optional>
+      <attribute name="mod">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <ref name="p_EG_ExtensionList"/>
+    </optional>
+  </define>
+  <define name="p_CT_CommentAuthor">
+    <attribute name="id">
+      <data type="unsignedInt"/>
+    </attribute>
+    <attribute name="name">
+      <ref name="p_ST_Name"/>
+    </attribute>
+    <attribute name="initials">
+      <ref name="p_ST_Name"/>
+    </attribute>
+    <attribute name="lastIdx">
+      <data type="unsignedInt"/>
+    </attribute>
+    <attribute name="clrIdx">
+      <data type="unsignedInt"/>
+    </attribute>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_CommentAuthorList">
+    <zeroOrMore>
+      <element name="cmAuthor">
+        <ref name="p_CT_CommentAuthor"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="p_cmAuthorLst">
+    <element name="cmAuthorLst">
+      <ref name="p_CT_CommentAuthorList"/>
+    </element>
+  </define>
+  <define name="p_CT_Comment">
+    <attribute name="authorId">
+      <data type="unsignedInt"/>
+    </attribute>
+    <optional>
+      <attribute name="dt">
+        <data type="dateTime"/>
+      </attribute>
+    </optional>
+    <attribute name="idx">
+      <ref name="p_ST_Index"/>
+    </attribute>
+    <element name="pos">
+      <ref name="a_CT_Point2D"/>
+    </element>
+    <element name="text">
+      <data type="string"/>
+    </element>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionListModify"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_CommentList">
+    <zeroOrMore>
+      <element name="cm">
+        <ref name="p_CT_Comment"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="p_cmLst">
+    <element name="cmLst">
+      <ref name="p_CT_CommentList"/>
+    </element>
+  </define>
+  <define name="p_AG_Ole">
+    <optional>
+      <attribute name="name">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="showAsIcon">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <ref name="r_id"/>
+    </optional>
+    <optional>
+      <attribute name="imgW">
+        <ref name="a_ST_PositiveCoordinate32"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="imgH">
+        <ref name="a_ST_PositiveCoordinate32"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_ST_OleObjectFollowColorScheme">
+    <choice>
+      <value>none</value>
+      <value>full</value>
+      <value>textAndBackground</value>
+    </choice>
+  </define>
+  <define name="p_CT_OleObjectEmbed">
+    <optional>
+      <attribute name="followColorScheme">
+        <aa:documentation>default value: none</aa:documentation>
+        <ref name="p_ST_OleObjectFollowColorScheme"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_OleObjectLink">
+    <optional>
+      <attribute name="updateAutomatic">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_OleObject">
+    <ref name="p_AG_Ole"/>
+    <optional>
+      <attribute name="progId">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <choice>
+      <element name="embed">
+        <ref name="p_CT_OleObjectEmbed"/>
+      </element>
+      <element name="link">
+        <ref name="p_CT_OleObjectLink"/>
+      </element>
+    </choice>
+    <choice>
+      <attribute name="spid">
+        <ref name="a_ST_ShapeID"/>
+      </attribute>
+      <element name="pic">
+        <ref name="p_CT_Picture"/>
+      </element>
+    </choice>
+  </define>
+  <define name="p_oleObj">
+    <element name="oleObj">
+      <ref name="p_CT_OleObject"/>
+    </element>
+  </define>
+  <define name="p_CT_Control">
+    <ref name="p_AG_Ole"/>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+    <choice>
+      <attribute name="spid">
+        <ref name="a_ST_ShapeID"/>
+      </attribute>
+      <element name="pic">
+        <ref name="p_CT_Picture"/>
+      </element>
+    </choice>
+  </define>
+  <define name="p_CT_ControlList">
+    <zeroOrMore>
+      <element name="control">
+        <ref name="p_CT_Control"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="p_ST_SlideId">
+    <data type="unsignedInt">
+      <param name="minInclusive">256</param>
+      <param name="maxExclusive">2147483648</param>
+    </data>
+  </define>
+  <define name="p_CT_SlideIdListEntry">
+    <attribute name="id">
+      <ref name="p_ST_SlideId"/>
+    </attribute>
+    <ref name="r_id"/>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_SlideIdList">
+    <zeroOrMore>
+      <element name="sldId">
+        <ref name="p_CT_SlideIdListEntry"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="p_ST_SlideMasterId">
+    <data type="unsignedInt">
+      <param name="minInclusive">2147483648</param>
+    </data>
+  </define>
+  <define name="p_CT_SlideMasterIdListEntry">
+    <optional>
+      <attribute name="id">
+        <ref name="p_ST_SlideMasterId"/>
+      </attribute>
+    </optional>
+    <ref name="r_id"/>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_SlideMasterIdList">
+    <zeroOrMore>
+      <element name="sldMasterId">
+        <ref name="p_CT_SlideMasterIdListEntry"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="p_CT_NotesMasterIdListEntry">
+    <ref name="r_id"/>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_NotesMasterIdList">
+    <optional>
+      <element name="notesMasterId">
+        <ref name="p_CT_NotesMasterIdListEntry"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_HandoutMasterIdListEntry">
+    <ref name="r_id"/>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_HandoutMasterIdList">
+    <optional>
+      <element name="handoutMasterId">
+        <ref name="p_CT_HandoutMasterIdListEntry"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_EmbeddedFontDataId">
+    <ref name="r_id"/>
+  </define>
+  <define name="p_CT_EmbeddedFontListEntry">
+    <element name="font">
+      <ref name="a_CT_TextFont"/>
+    </element>
+    <optional>
+      <element name="regular">
+        <ref name="p_CT_EmbeddedFontDataId"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="bold">
+        <ref name="p_CT_EmbeddedFontDataId"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="italic">
+        <ref name="p_CT_EmbeddedFontDataId"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="boldItalic">
+        <ref name="p_CT_EmbeddedFontDataId"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_EmbeddedFontList">
+    <zeroOrMore>
+      <element name="embeddedFont">
+        <ref name="p_CT_EmbeddedFontListEntry"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="p_CT_SmartTags">
+    <ref name="r_id"/>
+  </define>
+  <define name="p_CT_CustomShow">
+    <attribute name="name">
+      <ref name="p_ST_Name"/>
+    </attribute>
+    <attribute name="id">
+      <data type="unsignedInt"/>
+    </attribute>
+    <element name="sldLst">
+      <ref name="p_CT_SlideRelationshipList"/>
+    </element>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_CustomShowList">
+    <zeroOrMore>
+      <element name="custShow">
+        <ref name="p_CT_CustomShow"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="p_ST_PhotoAlbumLayout">
+    <choice>
+      <value>fitToSlide</value>
+      <value>1pic</value>
+      <value>2pic</value>
+      <value>4pic</value>
+      <value>1picTitle</value>
+      <value>2picTitle</value>
+      <value>4picTitle</value>
+    </choice>
+  </define>
+  <define name="p_ST_PhotoAlbumFrameShape">
+    <choice>
+      <value>frameStyle1</value>
+      <value>frameStyle2</value>
+      <value>frameStyle3</value>
+      <value>frameStyle4</value>
+      <value>frameStyle5</value>
+      <value>frameStyle6</value>
+      <value>frameStyle7</value>
+    </choice>
+  </define>
+  <define name="p_CT_PhotoAlbum">
+    <optional>
+      <attribute name="bw">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="showCaptions">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="layout">
+        <aa:documentation>default value: fitToSlide</aa:documentation>
+        <ref name="p_ST_PhotoAlbumLayout"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="frame">
+        <aa:documentation>default value: frameStyle1</aa:documentation>
+        <ref name="p_ST_PhotoAlbumFrameShape"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_ST_SlideSizeCoordinate">
+    <data type="int">
+      <param name="minInclusive">914400</param>
+      <param name="maxInclusive">51206400</param>
+    </data>
+  </define>
+  <define name="p_ST_SlideSizeType">
+    <choice>
+      <value>screen4x3</value>
+      <value>letter</value>
+      <value>A4</value>
+      <value>35mm</value>
+      <value>overhead</value>
+      <value>banner</value>
+      <value>custom</value>
+      <value>ledger</value>
+      <value>A3</value>
+      <value>B4ISO</value>
+      <value>B5ISO</value>
+      <value>B4JIS</value>
+      <value>B5JIS</value>
+      <value>hagakiCard</value>
+      <value>screen16x9</value>
+      <value>screen16x10</value>
+    </choice>
+  </define>
+  <define name="p_CT_SlideSize">
+    <attribute name="cx">
+      <ref name="p_ST_SlideSizeCoordinate"/>
+    </attribute>
+    <attribute name="cy">
+      <ref name="p_ST_SlideSizeCoordinate"/>
+    </attribute>
+    <optional>
+      <attribute name="type">
+        <aa:documentation>default value: custom</aa:documentation>
+        <ref name="p_ST_SlideSizeType"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_CT_Kinsoku">
+    <optional>
+      <attribute name="lang">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <attribute name="invalStChars">
+      <data type="string"/>
+    </attribute>
+    <attribute name="invalEndChars">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="p_ST_BookmarkIdSeed">
+    <data type="unsignedInt">
+      <param name="minInclusive">1</param>
+      <param name="maxExclusive">2147483648</param>
+    </data>
+  </define>
+  <define name="p_CT_ModifyVerifier">
+    <optional>
+      <attribute name="algorithmName">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="hashValue">
+        <data type="base64Binary"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="saltValue">
+        <data type="base64Binary"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="spinValue">
+        <data type="unsignedInt"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="cryptProviderType">
+        <ref name="s_ST_CryptProv"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="cryptAlgorithmClass">
+        <ref name="s_ST_AlgClass"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="cryptAlgorithmType">
+        <ref name="s_ST_AlgType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="cryptAlgorithmSid">
+        <data type="unsignedInt"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="spinCount">
+        <data type="unsignedInt"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="saltData">
+        <data type="base64Binary"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="hashData">
+        <data type="base64Binary"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="cryptProvider">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="algIdExt">
+        <data type="unsignedInt"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="algIdExtSource">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="cryptProviderTypeExt">
+        <data type="unsignedInt"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="cryptProviderTypeExtSource">
+        <data type="string"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_CT_Presentation">
+    <optional>
+      <attribute name="serverZoom">
+        <aa:documentation>default value: 50%</aa:documentation>
+        <ref name="a_ST_Percentage"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="firstSlideNum">
+        <aa:documentation>default value: 1</aa:documentation>
+        <data type="int"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="showSpecialPlsOnTitleSld">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="rtl">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="removePersonalInfoOnSave">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="compatMode">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="strictFirstAndLastChars">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="embedTrueTypeFonts">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="saveSubsetFonts">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="autoCompressPictures">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="bookmarkIdSeed">
+        <aa:documentation>default value: 1</aa:documentation>
+        <ref name="p_ST_BookmarkIdSeed"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="conformance">
+        <ref name="s_ST_ConformanceClass"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="sldMasterIdLst">
+        <ref name="p_CT_SlideMasterIdList"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="notesMasterIdLst">
+        <ref name="p_CT_NotesMasterIdList"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="handoutMasterIdLst">
+        <ref name="p_CT_HandoutMasterIdList"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="sldIdLst">
+        <ref name="p_CT_SlideIdList"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="sldSz">
+        <ref name="p_CT_SlideSize"/>
+      </element>
+    </optional>
+    <element name="notesSz">
+      <ref name="a_CT_PositiveSize2D"/>
+    </element>
+    <optional>
+      <element name="smartTags">
+        <ref name="p_CT_SmartTags"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="embeddedFontLst">
+        <ref name="p_CT_EmbeddedFontList"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="custShowLst">
+        <ref name="p_CT_CustomShowList"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="photoAlbum">
+        <ref name="p_CT_PhotoAlbum"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="custDataLst">
+        <ref name="p_CT_CustomerDataList"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="kinsoku">
+        <ref name="p_CT_Kinsoku"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="defaultTextStyle">
+        <ref name="a_CT_TextListStyle"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="modifyVerifier">
+        <ref name="p_CT_ModifyVerifier"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_presentation">
+    <element name="presentation">
+      <ref name="p_CT_Presentation"/>
+    </element>
+  </define>
+  <define name="p_CT_HtmlPublishProperties">
+    <optional>
+      <attribute name="showSpeakerNotes">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="target">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="title">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <ref name="r_id"/>
+    <ref name="p_EG_SlideListChoice"/>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_ST_WebColorType">
+    <choice>
+      <value>none</value>
+      <value>browser</value>
+      <value>presentationText</value>
+      <value>presentationAccent</value>
+      <value>whiteTextOnBlack</value>
+      <value>blackTextOnWhite</value>
+    </choice>
+  </define>
+  <define name="p_ST_WebScreenSize">
+    <choice>
+      <value>544x376</value>
+      <value>640x480</value>
+      <value>720x512</value>
+      <value>800x600</value>
+      <value>1024x768</value>
+      <value>1152x882</value>
+      <value>1152x900</value>
+      <value>1280x1024</value>
+      <value>1600x1200</value>
+      <value>1800x1400</value>
+      <value>1920x1200</value>
+    </choice>
+  </define>
+  <define name="p_ST_WebEncoding">
+    <data type="string"/>
+  </define>
+  <define name="p_CT_WebProperties">
+    <optional>
+      <attribute name="showAnimation">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="resizeGraphics">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="allowPng">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="relyOnVml">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="organizeInFolders">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="useLongFilenames">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="imgSz">
+        <aa:documentation>default value: 800x600</aa:documentation>
+        <ref name="p_ST_WebScreenSize"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="encoding">
+        <ref name="p_ST_WebEncoding"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="clr">
+        <aa:documentation>default value: whiteTextOnBlack</aa:documentation>
+        <ref name="p_ST_WebColorType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_ST_PrintWhat">
+    <choice>
+      <value>slides</value>
+      <value>handouts1</value>
+      <value>handouts2</value>
+      <value>handouts3</value>
+      <value>handouts4</value>
+      <value>handouts6</value>
+      <value>handouts9</value>
+      <value>notes</value>
+      <value>outline</value>
+    </choice>
+  </define>
+  <define name="p_ST_PrintColorMode">
+    <choice>
+      <value>bw</value>
+      <value>gray</value>
+      <value>clr</value>
+    </choice>
+  </define>
+  <define name="p_CT_PrintProperties">
+    <optional>
+      <attribute name="prnWhat">
+        <aa:documentation>default value: slides</aa:documentation>
+        <ref name="p_ST_PrintWhat"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="clrMode">
+        <aa:documentation>default value: clr</aa:documentation>
+        <ref name="p_ST_PrintColorMode"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="hiddenSlides">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="scaleToFitPaper">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="frameSlides">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_ShowInfoBrowse">
+    <optional>
+      <attribute name="showScrollbar">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_CT_ShowInfoKiosk">
+    <optional>
+      <attribute name="restart">
+        <aa:documentation>default value: 300000</aa:documentation>
+        <data type="unsignedInt"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_EG_ShowType">
+    <choice>
+      <element name="present">
+        <ref name="p_CT_Empty"/>
+      </element>
+      <element name="browse">
+        <ref name="p_CT_ShowInfoBrowse"/>
+      </element>
+      <element name="kiosk">
+        <ref name="p_CT_ShowInfoKiosk"/>
+      </element>
+    </choice>
+  </define>
+  <define name="p_CT_ShowProperties">
+    <optional>
+      <attribute name="loop">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="showNarration">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="showAnimation">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="useTimings">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <optional>
+        <ref name="p_EG_ShowType"/>
+      </optional>
+      <optional>
+        <ref name="p_EG_SlideListChoice"/>
+      </optional>
+      <optional>
+        <element name="penClr">
+          <ref name="a_CT_Color"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="extLst">
+          <ref name="p_CT_ExtensionList"/>
+        </element>
+      </optional>
+    </optional>
+  </define>
+  <define name="p_CT_PresentationProperties">
+    <optional>
+      <element name="htmlPubPr">
+        <ref name="p_CT_HtmlPublishProperties"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="webPr">
+        <ref name="p_CT_WebProperties"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="prnPr">
+        <ref name="p_CT_PrintProperties"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="showPr">
+        <ref name="p_CT_ShowProperties"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="clrMru">
+        <ref name="a_CT_ColorMRU"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_presentationPr">
+    <element name="presentationPr">
+      <ref name="p_CT_PresentationProperties"/>
+    </element>
+  </define>
+  <define name="p_CT_HeaderFooter">
+    <optional>
+      <attribute name="sldNum">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="hdr">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="ftr">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="dt">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionListModify"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_ST_PlaceholderType">
+    <choice>
+      <value>title</value>
+      <value>body</value>
+      <value>ctrTitle</value>
+      <value>subTitle</value>
+      <value>dt</value>
+      <value>sldNum</value>
+      <value>ftr</value>
+      <value>hdr</value>
+      <value>obj</value>
+      <value>chart</value>
+      <value>tbl</value>
+      <value>clipArt</value>
+      <value>dgm</value>
+      <value>media</value>
+      <value>sldImg</value>
+      <value>pic</value>
+    </choice>
+  </define>
+  <define name="p_ST_PlaceholderSize">
+    <choice>
+      <value>full</value>
+      <value>half</value>
+      <value>quarter</value>
+    </choice>
+  </define>
+  <define name="p_CT_Placeholder">
+    <optional>
+      <attribute name="type">
+        <aa:documentation>default value: obj</aa:documentation>
+        <ref name="p_ST_PlaceholderType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="orient">
+        <aa:documentation>default value: horz</aa:documentation>
+        <ref name="p_ST_Direction"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="sz">
+        <aa:documentation>default value: full</aa:documentation>
+        <ref name="p_ST_PlaceholderSize"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="idx">
+        <aa:documentation>default value: 0</aa:documentation>
+        <data type="unsignedInt"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="hasCustomPrompt">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionListModify"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_ApplicationNonVisualDrawingProps">
+    <optional>
+      <attribute name="isPhoto">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="userDrawn">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="ph">
+        <ref name="p_CT_Placeholder"/>
+      </element>
+    </optional>
+    <optional>
+      <ref name="a_EG_Media"/>
+    </optional>
+    <optional>
+      <element name="custDataLst">
+        <ref name="p_CT_CustomerDataList"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_ShapeNonVisual">
+    <element name="cNvPr">
+      <ref name="a_CT_NonVisualDrawingProps"/>
+    </element>
+    <element name="cNvSpPr">
+      <ref name="a_CT_NonVisualDrawingShapeProps"/>
+    </element>
+    <element name="nvPr">
+      <ref name="p_CT_ApplicationNonVisualDrawingProps"/>
+    </element>
+  </define>
+  <define name="p_CT_Shape">
+    <optional>
+      <attribute name="useBgFill">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <element name="nvSpPr">
+      <ref name="p_CT_ShapeNonVisual"/>
+    </element>
+    <element name="spPr">
+      <ref name="a_CT_ShapeProperties"/>
+    </element>
+    <optional>
+      <element name="style">
+        <ref name="a_CT_ShapeStyle"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="txBody">
+        <ref name="a_CT_TextBody"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionListModify"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_ConnectorNonVisual">
+    <element name="cNvPr">
+      <ref name="a_CT_NonVisualDrawingProps"/>
+    </element>
+    <element name="cNvCxnSpPr">
+      <ref name="a_CT_NonVisualConnectorProperties"/>
+    </element>
+    <element name="nvPr">
+      <ref name="p_CT_ApplicationNonVisualDrawingProps"/>
+    </element>
+  </define>
+  <define name="p_CT_Connector">
+    <element name="nvCxnSpPr">
+      <ref name="p_CT_ConnectorNonVisual"/>
+    </element>
+    <element name="spPr">
+      <ref name="a_CT_ShapeProperties"/>
+    </element>
+    <optional>
+      <element name="style">
+        <ref name="a_CT_ShapeStyle"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionListModify"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_PictureNonVisual">
+    <element name="cNvPr">
+      <ref name="a_CT_NonVisualDrawingProps"/>
+    </element>
+    <element name="cNvPicPr">
+      <ref name="a_CT_NonVisualPictureProperties"/>
+    </element>
+    <element name="nvPr">
+      <ref name="p_CT_ApplicationNonVisualDrawingProps"/>
+    </element>
+  </define>
+  <define name="p_CT_Picture">
+    <element name="nvPicPr">
+      <ref name="p_CT_PictureNonVisual"/>
+    </element>
+    <element name="blipFill">
+      <ref name="a_CT_BlipFillProperties"/>
+    </element>
+    <element name="spPr">
+      <ref name="a_CT_ShapeProperties"/>
+    </element>
+    <optional>
+      <element name="style">
+        <ref name="a_CT_ShapeStyle"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionListModify"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_GraphicalObjectFrameNonVisual">
+    <element name="cNvPr">
+      <ref name="a_CT_NonVisualDrawingProps"/>
+    </element>
+    <element name="cNvGraphicFramePr">
+      <ref name="a_CT_NonVisualGraphicFrameProperties"/>
+    </element>
+    <element name="nvPr">
+      <ref name="p_CT_ApplicationNonVisualDrawingProps"/>
+    </element>
+  </define>
+  <define name="p_CT_GraphicalObjectFrame">
+    <optional>
+      <attribute name="bwMode">
+        <ref name="a_ST_BlackWhiteMode"/>
+      </attribute>
+    </optional>
+    <element name="nvGraphicFramePr">
+      <ref name="p_CT_GraphicalObjectFrameNonVisual"/>
+    </element>
+    <element name="xfrm">
+      <ref name="a_CT_Transform2D"/>
+    </element>
+    <ref name="a_graphic"/>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionListModify"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_GroupShapeNonVisual">
+    <element name="cNvPr">
+      <ref name="a_CT_NonVisualDrawingProps"/>
+    </element>
+    <element name="cNvGrpSpPr">
+      <ref name="a_CT_NonVisualGroupDrawingShapeProps"/>
+    </element>
+    <element name="nvPr">
+      <ref name="p_CT_ApplicationNonVisualDrawingProps"/>
+    </element>
+  </define>
+  <define name="p_CT_GroupShape">
+    <element name="nvGrpSpPr">
+      <ref name="p_CT_GroupShapeNonVisual"/>
+    </element>
+    <element name="grpSpPr">
+      <ref name="a_CT_GroupShapeProperties"/>
+    </element>
+    <zeroOrMore>
+      <choice>
+        <element name="sp">
+          <ref name="p_CT_Shape"/>
+        </element>
+        <element name="grpSp">
+          <ref name="p_CT_GroupShape"/>
+        </element>
+        <element name="graphicFrame">
+          <ref name="p_CT_GraphicalObjectFrame"/>
+        </element>
+        <element name="cxnSp">
+          <ref name="p_CT_Connector"/>
+        </element>
+        <element name="pic">
+          <ref name="p_CT_Picture"/>
+        </element>
+        <element name="contentPart">
+          <ref name="p_CT_Rel"/>
+        </element>
+      </choice>
+    </zeroOrMore>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionListModify"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_Rel">
+    <ref name="r_id"/>
+  </define>
+  <define name="p_EG_TopLevelSlide">
+    <element name="clrMap">
+      <ref name="a_CT_ColorMapping"/>
+    </element>
+  </define>
+  <define name="p_EG_ChildSlide">
+    <optional>
+      <element name="clrMapOvr">
+        <ref name="a_CT_ColorMappingOverride"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_AG_ChildSlide">
+    <optional>
+      <attribute name="showMasterSp">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="showMasterPhAnim">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_CT_BackgroundProperties">
+    <optional>
+      <attribute name="shadeToTitle">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <ref name="a_EG_FillProperties"/>
+    <optional>
+      <ref name="a_EG_EffectProperties"/>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_EG_Background">
+    <choice>
+      <element name="bgPr">
+        <ref name="p_CT_BackgroundProperties"/>
+      </element>
+      <element name="bgRef">
+        <ref name="a_CT_StyleMatrixReference"/>
+      </element>
+    </choice>
+  </define>
+  <define name="p_CT_Background">
+    <optional>
+      <attribute name="bwMode">
+        <aa:documentation>default value: white</aa:documentation>
+        <ref name="a_ST_BlackWhiteMode"/>
+      </attribute>
+    </optional>
+    <ref name="p_EG_Background"/>
+  </define>
+  <define name="p_CT_CommonSlideData">
+    <optional>
+      <attribute name="name">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="bg">
+        <ref name="p_CT_Background"/>
+      </element>
+    </optional>
+    <element name="spTree">
+      <ref name="p_CT_GroupShape"/>
+    </element>
+    <optional>
+      <element name="custDataLst">
+        <ref name="p_CT_CustomerDataList"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="controls">
+        <ref name="p_CT_ControlList"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_Slide">
+    <ref name="p_AG_ChildSlide"/>
+    <optional>
+      <attribute name="show">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <element name="cSld">
+      <ref name="p_CT_CommonSlideData"/>
+    </element>
+    <optional>
+      <ref name="p_EG_ChildSlide"/>
+    </optional>
+    <optional>
+      <element name="transition">
+        <ref name="p_CT_SlideTransition"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="timing">
+        <ref name="p_CT_SlideTiming"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionListModify"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_sld">
+    <element name="sld">
+      <ref name="p_CT_Slide"/>
+    </element>
+  </define>
+  <define name="p_ST_SlideLayoutType">
+    <choice>
+      <value>title</value>
+      <value>tx</value>
+      <value>twoColTx</value>
+      <value>tbl</value>
+      <value>txAndChart</value>
+      <value>chartAndTx</value>
+      <value>dgm</value>
+      <value>chart</value>
+      <value>txAndClipArt</value>
+      <value>clipArtAndTx</value>
+      <value>titleOnly</value>
+      <value>blank</value>
+      <value>txAndObj</value>
+      <value>objAndTx</value>
+      <value>objOnly</value>
+      <value>obj</value>
+      <value>txAndMedia</value>
+      <value>mediaAndTx</value>
+      <value>objOverTx</value>
+      <value>txOverObj</value>
+      <value>txAndTwoObj</value>
+      <value>twoObjAndTx</value>
+      <value>twoObjOverTx</value>
+      <value>fourObj</value>
+      <value>vertTx</value>
+      <value>clipArtAndVertTx</value>
+      <value>vertTitleAndTx</value>
+      <value>vertTitleAndTxOverChart</value>
+      <value>twoObj</value>
+      <value>objAndTwoObj</value>
+      <value>twoObjAndObj</value>
+      <value>cust</value>
+      <value>secHead</value>
+      <value>twoTxTwoObj</value>
+      <value>objTx</value>
+      <value>picTx</value>
+    </choice>
+  </define>
+  <define name="p_CT_SlideLayout">
+    <ref name="p_AG_ChildSlide"/>
+    <optional>
+      <attribute name="matchingName">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="type">
+        <aa:documentation>default value: cust</aa:documentation>
+        <ref name="p_ST_SlideLayoutType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="preserve">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="userDrawn">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <element name="cSld">
+      <ref name="p_CT_CommonSlideData"/>
+    </element>
+    <optional>
+      <ref name="p_EG_ChildSlide"/>
+    </optional>
+    <optional>
+      <element name="transition">
+        <ref name="p_CT_SlideTransition"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="timing">
+        <ref name="p_CT_SlideTiming"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="hf">
+        <ref name="p_CT_HeaderFooter"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionListModify"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_sldLayout">
+    <element name="sldLayout">
+      <ref name="p_CT_SlideLayout"/>
+    </element>
+  </define>
+  <define name="p_CT_SlideMasterTextStyles">
+    <optional>
+      <element name="titleStyle">
+        <ref name="a_CT_TextListStyle"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="bodyStyle">
+        <ref name="a_CT_TextListStyle"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="otherStyle">
+        <ref name="a_CT_TextListStyle"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_ST_SlideLayoutId">
+    <data type="unsignedInt">
+      <param name="minInclusive">2147483648</param>
+    </data>
+  </define>
+  <define name="p_CT_SlideLayoutIdListEntry">
+    <optional>
+      <attribute name="id">
+        <ref name="p_ST_SlideLayoutId"/>
+      </attribute>
+    </optional>
+    <ref name="r_id"/>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_SlideLayoutIdList">
+    <zeroOrMore>
+      <element name="sldLayoutId">
+        <ref name="p_CT_SlideLayoutIdListEntry"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="p_CT_SlideMaster">
+    <optional>
+      <attribute name="preserve">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <element name="cSld">
+      <ref name="p_CT_CommonSlideData"/>
+    </element>
+    <ref name="p_EG_TopLevelSlide"/>
+    <optional>
+      <element name="sldLayoutIdLst">
+        <ref name="p_CT_SlideLayoutIdList"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="transition">
+        <ref name="p_CT_SlideTransition"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="timing">
+        <ref name="p_CT_SlideTiming"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="hf">
+        <ref name="p_CT_HeaderFooter"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="txStyles">
+        <ref name="p_CT_SlideMasterTextStyles"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionListModify"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_sldMaster">
+    <element name="sldMaster">
+      <ref name="p_CT_SlideMaster"/>
+    </element>
+  </define>
+  <define name="p_CT_HandoutMaster">
+    <element name="cSld">
+      <ref name="p_CT_CommonSlideData"/>
+    </element>
+    <ref name="p_EG_TopLevelSlide"/>
+    <optional>
+      <element name="hf">
+        <ref name="p_CT_HeaderFooter"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionListModify"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_handoutMaster">
+    <element name="handoutMaster">
+      <ref name="p_CT_HandoutMaster"/>
+    </element>
+  </define>
+  <define name="p_CT_NotesMaster">
+    <element name="cSld">
+      <ref name="p_CT_CommonSlideData"/>
+    </element>
+    <ref name="p_EG_TopLevelSlide"/>
+    <optional>
+      <element name="hf">
+        <ref name="p_CT_HeaderFooter"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="notesStyle">
+        <ref name="a_CT_TextListStyle"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionListModify"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_notesMaster">
+    <element name="notesMaster">
+      <ref name="p_CT_NotesMaster"/>
+    </element>
+  </define>
+  <define name="p_CT_NotesSlide">
+    <ref name="p_AG_ChildSlide"/>
+    <element name="cSld">
+      <ref name="p_CT_CommonSlideData"/>
+    </element>
+    <optional>
+      <ref name="p_EG_ChildSlide"/>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionListModify"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_notes">
+    <element name="notes">
+      <ref name="p_CT_NotesSlide"/>
+    </element>
+  </define>
+  <define name="p_CT_SlideSyncProperties">
+    <attribute name="serverSldId">
+      <data type="string"/>
+    </attribute>
+    <attribute name="serverSldModifiedTime">
+      <data type="dateTime"/>
+    </attribute>
+    <attribute name="clientInsertedTime">
+      <data type="dateTime"/>
+    </attribute>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_sldSyncPr">
+    <element name="sldSyncPr">
+      <ref name="p_CT_SlideSyncProperties"/>
+    </element>
+  </define>
+  <define name="p_CT_StringTag">
+    <attribute name="name">
+      <data type="string"/>
+    </attribute>
+    <attribute name="val">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="p_CT_TagList">
+    <zeroOrMore>
+      <element name="tag">
+        <ref name="p_CT_StringTag"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="p_tagLst">
+    <element name="tagLst">
+      <ref name="p_CT_TagList"/>
+    </element>
+  </define>
+  <define name="p_ST_SplitterBarState">
+    <choice>
+      <value>minimized</value>
+      <value>restored</value>
+      <value>maximized</value>
+    </choice>
+  </define>
+  <define name="p_ST_ViewType">
+    <choice>
+      <value>sldView</value>
+      <value>sldMasterView</value>
+      <value>notesView</value>
+      <value>handoutView</value>
+      <value>notesMasterView</value>
+      <value>outlineView</value>
+      <value>sldSorterView</value>
+      <value>sldThumbnailView</value>
+    </choice>
+  </define>
+  <define name="p_CT_NormalViewPortion">
+    <attribute name="sz">
+      <ref name="a_ST_PositiveFixedPercentage"/>
+    </attribute>
+    <optional>
+      <attribute name="autoAdjust">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_CT_NormalViewProperties">
+    <optional>
+      <attribute name="showOutlineIcons">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="snapVertSplitter">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="vertBarState">
+        <aa:documentation>default value: restored</aa:documentation>
+        <ref name="p_ST_SplitterBarState"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="horzBarState">
+        <aa:documentation>default value: restored</aa:documentation>
+        <ref name="p_ST_SplitterBarState"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="preferSingleView">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <element name="restoredLeft">
+      <ref name="p_CT_NormalViewPortion"/>
+    </element>
+    <element name="restoredTop">
+      <ref name="p_CT_NormalViewPortion"/>
+    </element>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_CommonViewProperties">
+    <optional>
+      <attribute name="varScale">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <element name="scale">
+      <ref name="a_CT_Scale2D"/>
+    </element>
+    <element name="origin">
+      <ref name="a_CT_Point2D"/>
+    </element>
+  </define>
+  <define name="p_CT_NotesTextViewProperties">
+    <element name="cViewPr">
+      <ref name="p_CT_CommonViewProperties"/>
+    </element>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_OutlineViewSlideEntry">
+    <ref name="r_id"/>
+    <optional>
+      <attribute name="collapse">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_CT_OutlineViewSlideList">
+    <zeroOrMore>
+      <element name="sld">
+        <ref name="p_CT_OutlineViewSlideEntry"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="p_CT_OutlineViewProperties">
+    <element name="cViewPr">
+      <ref name="p_CT_CommonViewProperties"/>
+    </element>
+    <optional>
+      <element name="sldLst">
+        <ref name="p_CT_OutlineViewSlideList"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_SlideSorterViewProperties">
+    <optional>
+      <attribute name="showFormatting">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <element name="cViewPr">
+      <ref name="p_CT_CommonViewProperties"/>
+    </element>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_Guide">
+    <optional>
+      <attribute name="orient">
+        <aa:documentation>default value: vert</aa:documentation>
+        <ref name="p_ST_Direction"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="pos">
+        <aa:documentation>default value: 0</aa:documentation>
+        <ref name="a_ST_Coordinate32"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="p_CT_GuideList">
+    <zeroOrMore>
+      <element name="guide">
+        <ref name="p_CT_Guide"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="p_CT_CommonSlideViewProperties">
+    <optional>
+      <attribute name="snapToGrid">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="snapToObjects">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="showGuides">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <element name="cViewPr">
+      <ref name="p_CT_CommonViewProperties"/>
+    </element>
+    <optional>
+      <element name="guideLst">
+        <ref name="p_CT_GuideList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_SlideViewProperties">
+    <element name="cSldViewPr">
+      <ref name="p_CT_CommonSlideViewProperties"/>
+    </element>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_NotesViewProperties">
+    <element name="cSldViewPr">
+      <ref name="p_CT_CommonSlideViewProperties"/>
+    </element>
+    <optional>
+      <element name="extLst">
+        <ref name="p_CT_ExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="p_CT_ViewProperties">
+    <optional>
+      <attribute name="lastView">
+        <aa:documentation>default value: sldView</aa:documentation>
+        <ref name="p_ST_ViewType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="showComments">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <optional>
+        <element name="normalViewPr">
+          <ref name="p_CT_NormalViewProperties"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="slideViewPr">
+          <ref name="p_CT_SlideViewProperties"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="outlineViewPr">
+          <ref name="p_CT_OutlineViewProperties"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="notesTextViewPr">
+          <ref name="p_CT_NotesTextViewProperties"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="sorterViewPr">
+          <ref name="p_CT_SlideSorterViewProperties"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="notesViewPr">
+          <ref name="p_CT_NotesViewProperties"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="gridSpacing">
+          <ref name="a_CT_PositiveSize2D"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="extLst">
+          <ref name="p_CT_ExtensionList"/>
+        </element>
+      </optional>
+    </optional>
+  </define>
+  <define name="p_viewPr">
+    <element name="viewPr">
+      <ref name="p_CT_ViewProperties"/>
+    </element>
+  </define>
+</grammar>

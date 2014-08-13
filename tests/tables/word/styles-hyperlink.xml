@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:docDefaults>
+    <w:rPrDefault>
+      <w:rPr>
+        <w:rFonts w:asciiTheme="minorHAnsi" w:cstheme="minorBidi" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorHAnsi"/>
+        <w:sz w:val="24"/>
+        <w:szCs w:val="24"/>
+        <w:lang w:bidi="ar-SA" w:eastAsia="en-US" w:val="en-AU"/>
+      </w:rPr>
+    </w:rPrDefault>
+    <w:pPrDefault/>
+  </w:docDefaults>
+  <w:style w:default="1" w:styleId="Normal" w:type="paragraph">
+    <w:name w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:spacing w:after="100" w:afterAutospacing="1" w:before="100" w:beforeAutospacing="1"/>
+    </w:pPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="DefaultParagraphFont" w:type="character">
+    <w:name w:val="Default Paragraph Font"/>
+    <w:uiPriority w:val="1"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+  <w:style w:default="1" w:styleId="TableNormal" w:type="table">
+    <w:name w:val="Normal Table"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+    <w:tblPr>
+      <w:tblInd w:type="dxa" w:w="0"/>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="NoList" w:type="numbering">
+    <w:name w:val="No List"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+  <w:style w:styleId="TableGrid" w:type="table">
+    <w:name w:val="Table Grid"/>
+    <w:basedOn w:val="TableNormal"/>
+    <w:uiPriority w:val="59"/>
+    <w:tblPr>
+      <w:tblInd w:type="dxa" w:w="0"/>
+      <w:tblBorders>
+        <w:top w:color="auto" w:space="0" w:sz="4" w:val="single"/>
+        <w:left w:color="auto" w:space="0" w:sz="4" w:val="single"/>
+        <w:bottom w:color="auto" w:space="0" w:sz="4" w:val="single"/>
+        <w:right w:color="auto" w:space="0" w:sz="4" w:val="single"/>
+        <w:insideH w:color="auto" w:space="0" w:sz="4" w:val="single"/>
+        <w:insideV w:color="auto" w:space="0" w:sz="4" w:val="single"/>
+      </w:tblBorders>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+  <w:style w:styleId="Hyperlink" w:type="character">
+    <w:name w:val="Hyperlink"/>
+    <w:basedOn w:val="DefaultParagraphFont"/>
+    <w:uiPriority w:val="99"/>
+    <w:unhideWhenUsed/>
+    <w:rPr>
+      <w:color w:themeColor="hyperlink" w:val="0000FF"/>
+      <w:u w:val="single"/>
+    </w:rPr>
+  </w:style>
+</w:styles>

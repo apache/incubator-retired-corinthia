@@ -1,0 +1,19 @@
+CSS_test();
+#item input.css
+p.test1 {
+    padding-bottom: 1px;
+    padding-left: 1px;
+    padding-right: 1px;
+    padding-top: 1px;
+}
+#item expected
+p.test1
+    ""
+        padding-bottom = 1px
+        padding-left = 1px
+        padding-right = 1px
+        padding-top = 1px
+================================================================================
+p.test1 {
+    padding: 1px;
+}

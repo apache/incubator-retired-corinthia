@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0">
+  <include href="sml.rng"/>
+  <include href="shared-relationshipReference.rng"/>
+  <include href="any.rng"/>
+  <include href="shared-commonSimpleTypes.rng"/>
+  <include href="dml-spreadsheetDrawing.rng"/>
+  <include href="dml-main.rng"/>
+  <include href="dml-diagram.rng"/>
+  <include href="dml-lockedCanvas.rng"/>
+  <include href="dml-chart.rng"/>
+  <include href="dml-chartDrawing.rng"/>
+  <include href="dml-picture.rng"/>
+  <start>
+    <ref name="sml_singleXmlCells"/>
+  </start>
+</grammar>

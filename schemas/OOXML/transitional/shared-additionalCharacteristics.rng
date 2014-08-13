@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="http://schemas.openxmlformats.org/officeDocument/2006/characteristics" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <define name="shrdChr_CT_AdditionalCharacteristics">
+    <zeroOrMore>
+      <element name="characteristic">
+        <ref name="shrdChr_CT_Characteristic"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="shrdChr_CT_Characteristic">
+    <attribute name="name">
+      <data type="string"/>
+    </attribute>
+    <attribute name="relation">
+      <ref name="shrdChr_ST_Relation"/>
+    </attribute>
+    <attribute name="val">
+      <data type="string"/>
+    </attribute>
+    <optional>
+      <attribute name="vocabulary">
+        <data type="anyURI"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="shrdChr_ST_Relation">
+    <choice>
+      <value type="string" datatypeLibrary="">ge</value>
+      <value type="string" datatypeLibrary="">le</value>
+      <value type="string" datatypeLibrary="">gt</value>
+      <value type="string" datatypeLibrary="">lt</value>
+      <value type="string" datatypeLibrary="">eq</value>
+    </choice>
+  </define>
+  <define name="shrdChr_additionalCharacteristics">
+    <element name="additionalCharacteristics">
+      <ref name="shrdChr_CT_AdditionalCharacteristics"/>
+    </element>
+  </define>
+</grammar>

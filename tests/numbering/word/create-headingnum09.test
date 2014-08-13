@@ -1,0 +1,227 @@
+Word_testCreate();
+#item input.html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+body {
+    counter-reset: h1 h2 h3 h4 h5 h6 figure table;
+    margin: 10%;
+}
+
+h1 {
+    counter-increment: h1;
+    counter-reset: h2 h3 h4 h5 h6;
+}
+
+h1.Custom1 {
+    color: blue;
+    text-align: center;
+}
+
+h1.Custom2 {
+    counter-increment: h1 0;
+    counter-reset: null;
+}
+
+h1.Custom2::before {
+    content: "";
+}
+
+h1.Custom3 {
+    color: blue;
+    text-align: center;
+    counter-increment: h1 0;
+    counter-reset: null;
+}
+
+h1.Custom3::before {
+    content: "";
+}
+
+h1::before {
+    content: counter(h1) " ";
+}
+  </style>
+</head>
+<body>
+  <h1>One</h1>
+  <h1 class="Custom1">Two</h1>
+  <h1 class="Custom2">Three</h1>
+  <h1 class="Custom3">Four</h1>
+</body>
+</html>
+#item expected
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading1"/>
+      </w:pPr>
+      <w:r>
+        <w:t>One</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading1Custom1"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Two</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading1Custom2"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Three</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading1Custom3"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Four</w:t>
+      </w:r>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1190" w:left="1190" w:right="1190" w:top="1190"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:style w:styleId="Heading1" w:type="paragraph">
+    <w:name w:val="heading 1"/>
+    <w:next w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:numPr>
+        <w:numId w:val="1"/>
+      </w:numPr>
+      <w:outlineLvl w:val="0"/>
+    </w:pPr>
+    <w:rPr>
+      <w:b/>
+      <w:bCs/>
+      <w:sz w:val="48"/>
+      <w:szCs w:val="48"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading1Custom1" w:type="paragraph">
+    <w:name w:val="Heading 1 (Custom1)"/>
+    <w:basedOn w:val="Heading1"/>
+    <w:next w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:jc w:val="center"/>
+      <w:outlineLvl w:val="0"/>
+    </w:pPr>
+    <w:rPr>
+      <w:color w:val="0000FF"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading1Custom2" w:type="paragraph">
+    <w:name w:val="Heading 1 (Custom2)"/>
+    <w:basedOn w:val="Heading1"/>
+    <w:next w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:numPr>
+        <w:numId w:val="0"/>
+      </w:numPr>
+      <w:outlineLvl w:val="0"/>
+    </w:pPr>
+  </w:style>
+  <w:style w:styleId="Heading1Custom3" w:type="paragraph">
+    <w:name w:val="Heading 1 (Custom3)"/>
+    <w:basedOn w:val="Heading1"/>
+    <w:next w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:numPr>
+        <w:numId w:val="0"/>
+      </w:numPr>
+      <w:jc w:val="center"/>
+      <w:outlineLvl w:val="0"/>
+    </w:pPr>
+    <w:rPr>
+      <w:color w:val="0000FF"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="Normal" w:type="paragraph">
+    <w:name w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:spacing w:after="100" w:afterAutospacing="1" w:before="100" w:beforeAutospacing="1"/>
+    </w:pPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="DefaultParagraphFont" w:type="character">
+    <w:name w:val="Default Paragraph Font"/>
+    <w:qFormat/>
+  </w:style>
+  <w:style w:default="1" w:styleId="TableNormal" w:type="table">
+    <w:name w:val="Normal Table"/>
+    <w:qFormat/>
+    <w:tblPr>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+</w:styles>
+##item numbering.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:numbering xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:abstractNum w:abstractNumId="1">
+    <w:lvl w:ilvl="0">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:lvlText w:val="%1"/>
+      <w:lvlJc w:val="left"/>
+    </w:lvl>
+    <w:lvl w:ilvl="1">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:lvlText w:val="%1.%2"/>
+      <w:lvlJc w:val="left"/>
+    </w:lvl>
+    <w:lvl w:ilvl="2">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:lvlText w:val="%1.%2.%3"/>
+      <w:lvlJc w:val="left"/>
+    </w:lvl>
+    <w:lvl w:ilvl="3">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:lvlText w:val="%1.%2.%3.%4"/>
+      <w:lvlJc w:val="left"/>
+    </w:lvl>
+    <w:lvl w:ilvl="4">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:lvlText w:val="%1.%2.%3.%4.%5"/>
+      <w:lvlJc w:val="left"/>
+    </w:lvl>
+    <w:lvl w:ilvl="5">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:lvlText w:val="%1.%2.%3.%4.%5.%6"/>
+      <w:lvlJc w:val="left"/>
+    </w:lvl>
+  </w:abstractNum>
+  <w:num w:numId="1">
+    <w:abstractNumId w:val="1"/>
+  </w:num>
+</w:numbering>

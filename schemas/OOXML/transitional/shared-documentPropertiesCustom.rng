@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="http://schemas.openxmlformats.org/officeDocument/2006/custom-properties" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <define name="shdCstm_Properties">
+    <element name="Properties">
+      <ref name="shdCstm_CT_Properties"/>
+    </element>
+  </define>
+  <define name="shdCstm_CT_Properties">
+    <zeroOrMore>
+      <element name="property">
+        <ref name="shdCstm_CT_Property"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="shdCstm_CT_Property">
+    <attribute name="fmtid">
+      <ref name="s_ST_Guid"/>
+    </attribute>
+    <attribute name="pid">
+      <data type="int"/>
+    </attribute>
+    <optional>
+      <attribute name="name">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="linkTarget">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <choice>
+      <ref name="vt_vector"/>
+      <ref name="vt_array"/>
+      <ref name="vt_blob"/>
+      <ref name="vt_oblob"/>
+      <ref name="vt_empty"/>
+      <ref name="vt_null"/>
+      <ref name="vt_i1"/>
+      <ref name="vt_i2"/>
+      <ref name="vt_i4"/>
+      <ref name="vt_i8"/>
+      <ref name="vt_int"/>
+      <ref name="vt_ui1"/>
+      <ref name="vt_ui2"/>
+      <ref name="vt_ui4"/>
+      <ref name="vt_ui8"/>
+      <ref name="vt_uint"/>
+      <ref name="vt_r4"/>
+      <ref name="vt_r8"/>
+      <ref name="vt_decimal"/>
+      <ref name="vt_lpstr"/>
+      <ref name="vt_lpwstr"/>
+      <ref name="vt_bstr"/>
+      <ref name="vt_date"/>
+      <ref name="vt_filetime"/>
+      <ref name="vt_bool"/>
+      <ref name="vt_cy"/>
+      <ref name="vt_error"/>
+      <ref name="vt_stream"/>
+      <ref name="vt_ostream"/>
+      <ref name="vt_storage"/>
+      <ref name="vt_ostorage"/>
+      <ref name="vt_vstream"/>
+      <ref name="vt_clsid"/>
+    </choice>
+  </define>
+</grammar>

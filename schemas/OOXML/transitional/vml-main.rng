@@ -1,0 +1,1319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="urn:schemas-microsoft-com:vml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <define name="v_AG_Id">
+    <optional>
+      <attribute name="id">
+        <data type="string"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="v_AG_Style">
+    <optional>
+      <attribute name="style">
+        <data type="string"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="v_AG_Type">
+    <optional>
+      <attribute name="type">
+        <data type="string"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="v_AG_Adj">
+    <optional>
+      <attribute name="adj">
+        <data type="string"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="v_AG_Path">
+    <optional>
+      <attribute name="path">
+        <data type="string"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="v_AG_Fill">
+    <optional>
+      <attribute name="filled">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="fillcolor">
+        <ref name="s_ST_ColorType"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="v_AG_Chromakey">
+    <optional>
+      <attribute name="chromakey">
+        <ref name="s_ST_ColorType"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="v_AG_Ext">
+    <optional>
+      <attribute name="v:ext">
+        <ref name="v_ST_Ext"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="v_AG_CoreAttributes">
+    <ref name="v_AG_Id"/>
+    <ref name="v_AG_Style"/>
+    <optional>
+      <attribute name="href">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="target">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="class">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="title">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="alt">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="coordsize">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="coordorigin">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="wrapcoords">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="print">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="v_AG_ShapeAttributes">
+    <ref name="v_AG_Chromakey"/>
+    <ref name="v_AG_Fill"/>
+    <optional>
+      <attribute name="opacity">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="stroked">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="strokecolor">
+        <ref name="s_ST_ColorType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="strokeweight">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="insetpen">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="v_AG_OfficeCoreAttributes">
+    <optional>
+      <ref name="o_spid"/>
+    </optional>
+    <optional>
+      <ref name="o_oned"/>
+    </optional>
+    <optional>
+      <ref name="o_regroupid"/>
+    </optional>
+    <optional>
+      <ref name="o_doubleclicknotify"/>
+    </optional>
+    <optional>
+      <ref name="o_button"/>
+    </optional>
+    <optional>
+      <ref name="o_userhidden"/>
+    </optional>
+    <optional>
+      <ref name="o_bullet"/>
+    </optional>
+    <optional>
+      <ref name="o_hr"/>
+    </optional>
+    <optional>
+      <ref name="o_hrstd"/>
+    </optional>
+    <optional>
+      <ref name="o_hrnoshade"/>
+    </optional>
+    <optional>
+      <ref name="o_hrpct"/>
+    </optional>
+    <optional>
+      <ref name="o_hralign"/>
+    </optional>
+    <optional>
+      <ref name="o_allowincell"/>
+    </optional>
+    <optional>
+      <ref name="o_allowoverlap"/>
+    </optional>
+    <optional>
+      <ref name="o_userdrawn"/>
+    </optional>
+    <optional>
+      <ref name="o_bordertopcolor"/>
+    </optional>
+    <optional>
+      <ref name="o_borderleftcolor"/>
+    </optional>
+    <optional>
+      <ref name="o_borderbottomcolor"/>
+    </optional>
+    <optional>
+      <ref name="o_borderrightcolor"/>
+    </optional>
+    <optional>
+      <ref name="o_dgmlayout"/>
+    </optional>
+    <optional>
+      <ref name="o_dgmnodekind"/>
+    </optional>
+    <optional>
+      <ref name="o_dgmlayoutmru"/>
+    </optional>
+    <optional>
+      <ref name="o_insetmode"/>
+    </optional>
+  </define>
+  <define name="v_AG_OfficeShapeAttributes">
+    <optional>
+      <ref name="o_spt"/>
+    </optional>
+    <optional>
+      <ref name="o_connectortype"/>
+    </optional>
+    <optional>
+      <ref name="o_bwmode"/>
+    </optional>
+    <optional>
+      <ref name="o_bwpure"/>
+    </optional>
+    <optional>
+      <ref name="o_bwnormal"/>
+    </optional>
+    <optional>
+      <ref name="o_forcedash"/>
+    </optional>
+    <optional>
+      <ref name="o_oleicon"/>
+    </optional>
+    <optional>
+      <ref name="o_ole"/>
+    </optional>
+    <optional>
+      <ref name="o_preferrelative"/>
+    </optional>
+    <optional>
+      <ref name="o_cliptowrap"/>
+    </optional>
+    <optional>
+      <ref name="o_clip"/>
+    </optional>
+  </define>
+  <define name="v_AG_AllCoreAttributes">
+    <ref name="v_AG_CoreAttributes"/>
+    <ref name="v_AG_OfficeCoreAttributes"/>
+  </define>
+  <define name="v_AG_AllShapeAttributes">
+    <ref name="v_AG_ShapeAttributes"/>
+    <ref name="v_AG_OfficeShapeAttributes"/>
+  </define>
+  <define name="v_AG_ImageAttributes">
+    <optional>
+      <attribute name="src">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="cropleft">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="croptop">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="cropright">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="cropbottom">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="gain">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="blacklevel">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="gamma">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="grayscale">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="bilevel">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="v_AG_StrokeAttributes">
+    <optional>
+      <attribute name="on">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="weight">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="color">
+        <ref name="s_ST_ColorType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="opacity">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="linestyle">
+        <ref name="v_ST_StrokeLineStyle"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="miterlimit">
+        <data type="decimal"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="joinstyle">
+        <ref name="v_ST_StrokeJoinStyle"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="endcap">
+        <ref name="v_ST_StrokeEndCap"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="dashstyle">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="filltype">
+        <ref name="v_ST_FillType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="src">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="imageaspect">
+        <ref name="v_ST_ImageAspect"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="imagesize">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="imagealignshape">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="color2">
+        <ref name="s_ST_ColorType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="startarrow">
+        <ref name="v_ST_StrokeArrowType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="startarrowwidth">
+        <ref name="v_ST_StrokeArrowWidth"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="startarrowlength">
+        <ref name="v_ST_StrokeArrowLength"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="endarrow">
+        <ref name="v_ST_StrokeArrowType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="endarrowwidth">
+        <ref name="v_ST_StrokeArrowWidth"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="endarrowlength">
+        <ref name="v_ST_StrokeArrowLength"/>
+      </attribute>
+    </optional>
+    <optional>
+      <ref name="o_href"/>
+    </optional>
+    <optional>
+      <ref name="o_althref"/>
+    </optional>
+    <optional>
+      <ref name="o_title"/>
+    </optional>
+    <optional>
+      <ref name="o_forcedash"/>
+    </optional>
+    <optional>
+      <ref name="r_id"/>
+    </optional>
+    <optional>
+      <attribute name="insetpen">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <ref name="o_relid"/>
+    </optional>
+  </define>
+  <define name="v_EG_ShapeElements">
+    <choice>
+      <ref name="v_path"/>
+      <ref name="v_formulas"/>
+      <ref name="v_handles"/>
+      <ref name="v_fill"/>
+      <ref name="v_stroke"/>
+      <ref name="v_shadow"/>
+      <ref name="v_textbox"/>
+      <ref name="v_textpath"/>
+      <ref name="v_imagedata"/>
+      <ref name="o_skew"/>
+      <ref name="o_extrusion"/>
+      <ref name="o_callout"/>
+      <ref name="o_lock"/>
+      <ref name="o_clippath"/>
+      <ref name="o_signatureline"/>
+      <ref name="w10_wrap"/>
+      <ref name="w10_anchorlock"/>
+      <ref name="w10_bordertop"/>
+      <ref name="w10_borderbottom"/>
+      <ref name="w10_borderleft"/>
+      <ref name="w10_borderright"/>
+      <optional>
+        <ref name="x_ClientData"/>
+      </optional>
+      <optional>
+        <ref name="pvml_textdata"/>
+      </optional>
+    </choice>
+  </define>
+  <define name="v_shape">
+    <element name="shape">
+      <ref name="v_CT_Shape"/>
+    </element>
+  </define>
+  <define name="v_shapetype">
+    <element name="shapetype">
+      <ref name="v_CT_Shapetype"/>
+    </element>
+  </define>
+  <define name="v_group">
+    <element name="group">
+      <ref name="v_CT_Group"/>
+    </element>
+  </define>
+  <define name="v_background">
+    <element name="background">
+      <ref name="v_CT_Background"/>
+    </element>
+  </define>
+  <define name="v_CT_Shape">
+    <ref name="v_AG_AllCoreAttributes"/>
+    <ref name="v_AG_AllShapeAttributes"/>
+    <ref name="v_AG_Type"/>
+    <ref name="v_AG_Adj"/>
+    <ref name="v_AG_Path"/>
+    <optional>
+      <ref name="o_gfxdata"/>
+    </optional>
+    <optional>
+      <attribute name="equationxml">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <oneOrMore>
+      <choice>
+        <ref name="v_EG_ShapeElements"/>
+        <ref name="o_ink"/>
+        <ref name="pvml_iscomment"/>
+        <ref name="o_equationxml"/>
+      </choice>
+    </oneOrMore>
+  </define>
+  <define name="v_CT_Shapetype">
+    <ref name="v_AG_AllCoreAttributes"/>
+    <ref name="v_AG_AllShapeAttributes"/>
+    <ref name="v_AG_Adj"/>
+    <ref name="v_AG_Path"/>
+    <optional>
+      <ref name="o_master"/>
+    </optional>
+    <zeroOrMore>
+      <ref name="v_EG_ShapeElements"/>
+    </zeroOrMore>
+    <optional>
+      <ref name="o_complex"/>
+    </optional>
+  </define>
+  <define name="v_CT_Group">
+    <ref name="v_AG_AllCoreAttributes"/>
+    <ref name="v_AG_Fill"/>
+    <optional>
+      <attribute name="editas">
+        <ref name="v_ST_EditAs"/>
+      </attribute>
+    </optional>
+    <optional>
+      <ref name="o_tableproperties"/>
+    </optional>
+    <optional>
+      <ref name="o_tablelimits"/>
+    </optional>
+    <oneOrMore>
+      <choice>
+        <ref name="v_EG_ShapeElements"/>
+        <ref name="v_group"/>
+        <ref name="v_shape"/>
+        <ref name="v_shapetype"/>
+        <ref name="v_arc"/>
+        <ref name="v_curve"/>
+        <ref name="v_image"/>
+        <ref name="v_line"/>
+        <ref name="v_oval"/>
+        <ref name="v_polyline"/>
+        <ref name="v_rect"/>
+        <ref name="v_roundrect"/>
+        <ref name="o_diagram"/>
+      </choice>
+    </oneOrMore>
+  </define>
+  <define name="v_CT_Background">
+    <ref name="v_AG_Id"/>
+    <ref name="v_AG_Fill"/>
+    <optional>
+      <ref name="o_bwmode"/>
+    </optional>
+    <optional>
+      <ref name="o_bwpure"/>
+    </optional>
+    <optional>
+      <ref name="o_bwnormal"/>
+    </optional>
+    <optional>
+      <ref name="o_targetscreensize"/>
+    </optional>
+    <optional>
+      <ref name="v_fill"/>
+    </optional>
+  </define>
+  <define name="v_fill">
+    <element name="fill">
+      <ref name="v_CT_Fill"/>
+    </element>
+  </define>
+  <define name="v_formulas">
+    <element name="formulas">
+      <ref name="v_CT_Formulas"/>
+    </element>
+  </define>
+  <define name="v_handles">
+    <element name="handles">
+      <ref name="v_CT_Handles"/>
+    </element>
+  </define>
+  <define name="v_imagedata">
+    <element name="imagedata">
+      <ref name="v_CT_ImageData"/>
+    </element>
+  </define>
+  <define name="v_path">
+    <element name="path">
+      <ref name="v_CT_Path"/>
+    </element>
+  </define>
+  <define name="v_textbox">
+    <element name="textbox">
+      <ref name="v_CT_Textbox"/>
+    </element>
+  </define>
+  <define name="v_shadow">
+    <element name="shadow">
+      <ref name="v_CT_Shadow"/>
+    </element>
+  </define>
+  <define name="v_stroke">
+    <element name="stroke">
+      <ref name="v_CT_Stroke"/>
+    </element>
+  </define>
+  <define name="v_textpath">
+    <element name="textpath">
+      <ref name="v_CT_TextPath"/>
+    </element>
+  </define>
+  <define name="v_CT_Fill">
+    <ref name="v_AG_Id"/>
+    <optional>
+      <attribute name="type">
+        <ref name="v_ST_FillType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="on">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="color">
+        <ref name="s_ST_ColorType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="opacity">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="color2">
+        <ref name="s_ST_ColorType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="src">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <ref name="o_href"/>
+    </optional>
+    <optional>
+      <ref name="o_althref"/>
+    </optional>
+    <optional>
+      <attribute name="size">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="origin">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="position">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="aspect">
+        <ref name="v_ST_ImageAspect"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="colors">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="angle">
+        <data type="decimal"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="alignshape">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="focus">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="focussize">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="focusposition">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="method">
+        <ref name="v_ST_FillMethod"/>
+      </attribute>
+    </optional>
+    <optional>
+      <ref name="o_detectmouseclick"/>
+    </optional>
+    <optional>
+      <ref name="o_title"/>
+    </optional>
+    <optional>
+      <ref name="o_opacity2"/>
+    </optional>
+    <optional>
+      <attribute name="recolor">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="rotate">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <ref name="r_id"/>
+    </optional>
+    <optional>
+      <ref name="o_relid"/>
+    </optional>
+    <optional>
+      <ref name="o_fill"/>
+    </optional>
+  </define>
+  <define name="v_CT_Formulas">
+    <zeroOrMore>
+      <element name="f">
+        <ref name="v_CT_F"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="v_CT_F">
+    <optional>
+      <attribute name="eqn">
+        <data type="string"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="v_CT_Handles">
+    <zeroOrMore>
+      <element name="h">
+        <ref name="v_CT_H"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="v_CT_H">
+    <optional>
+      <attribute name="position">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="polar">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="map">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="invx">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="invy">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="switch">
+        <ref name="s_ST_TrueFalseBlank"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="xrange">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="yrange">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="radiusrange">
+        <data type="string"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="v_CT_ImageData">
+    <ref name="v_AG_Id"/>
+    <ref name="v_AG_ImageAttributes"/>
+    <ref name="v_AG_Chromakey"/>
+    <optional>
+      <attribute name="embosscolor">
+        <ref name="s_ST_ColorType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="recolortarget">
+        <ref name="s_ST_ColorType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <ref name="o_href"/>
+    </optional>
+    <optional>
+      <ref name="o_althref"/>
+    </optional>
+    <optional>
+      <ref name="o_title"/>
+    </optional>
+    <optional>
+      <ref name="o_oleid"/>
+    </optional>
+    <optional>
+      <ref name="o_detectmouseclick"/>
+    </optional>
+    <optional>
+      <ref name="o_movie"/>
+    </optional>
+    <optional>
+      <ref name="o_relid"/>
+    </optional>
+    <optional>
+      <ref name="r_id"/>
+    </optional>
+    <optional>
+      <ref name="r_pict"/>
+    </optional>
+    <optional>
+      <ref name="r_href"/>
+    </optional>
+  </define>
+  <define name="v_CT_Path">
+    <ref name="v_AG_Id"/>
+    <optional>
+      <attribute name="v">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="limo">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="textboxrect">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="fillok">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="strokeok">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="shadowok">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="arrowok">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="gradientshapeok">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="textpathok">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="insetpenok">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <ref name="o_connecttype"/>
+    </optional>
+    <optional>
+      <ref name="o_connectlocs"/>
+    </optional>
+    <optional>
+      <ref name="o_connectangles"/>
+    </optional>
+    <optional>
+      <ref name="o_extrusionok"/>
+    </optional>
+  </define>
+  <define name="v_CT_Shadow">
+    <ref name="v_AG_Id"/>
+    <optional>
+      <attribute name="on">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="type">
+        <ref name="v_ST_ShadowType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="obscured">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="color">
+        <ref name="s_ST_ColorType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="opacity">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="offset">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="color2">
+        <ref name="s_ST_ColorType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="offset2">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="origin">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="matrix">
+        <data type="string"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="v_CT_Stroke">
+    <ref name="v_AG_Id"/>
+    <ref name="v_AG_StrokeAttributes"/>
+    <optional>
+      <ref name="o_left"/>
+    </optional>
+    <optional>
+      <ref name="o_top"/>
+    </optional>
+    <optional>
+      <ref name="o_right"/>
+    </optional>
+    <optional>
+      <ref name="o_bottom"/>
+    </optional>
+    <optional>
+      <ref name="o_column"/>
+    </optional>
+  </define>
+  <define name="v_CT_Textbox">
+    <ref name="v_AG_Id"/>
+    <ref name="v_AG_Style"/>
+    <optional>
+      <attribute name="inset">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <ref name="o_singleclick"/>
+    </optional>
+    <optional>
+      <ref name="o_insetmode"/>
+    </optional>
+    <choice>
+      <optional>
+        <ref name="w_txbxContent"/>
+      </optional>
+      <ref name="anyHTMLElementAsLocalElement"/>
+    </choice>
+  </define>
+  <define name="anyHTMLElementAsLocalElement">
+    <element>
+      <nsName ns=""/>
+      <zeroOrMore>
+        <ref name="anyAttribute"/>
+      </zeroOrMore>
+      <optional>
+        <text/>
+      </optional>
+      <zeroOrMore>
+        <ref name="anyHTMLElementAsLocalElement"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="v_CT_TextPath">
+    <ref name="v_AG_Id"/>
+    <ref name="v_AG_Style"/>
+    <optional>
+      <attribute name="on">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="fitshape">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="fitpath">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="trim">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="xscale">
+        <ref name="s_ST_TrueFalse"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="string">
+        <data type="string"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="v_arc">
+    <element name="arc">
+      <ref name="v_CT_Arc"/>
+    </element>
+  </define>
+  <define name="v_curve">
+    <element name="curve">
+      <ref name="v_CT_Curve"/>
+    </element>
+  </define>
+  <define name="v_image">
+    <element name="image">
+      <ref name="v_CT_Image"/>
+    </element>
+  </define>
+  <define name="v_line">
+    <element name="line">
+      <ref name="v_CT_Line"/>
+    </element>
+  </define>
+  <define name="v_oval">
+    <element name="oval">
+      <ref name="v_CT_Oval"/>
+    </element>
+  </define>
+  <define name="v_polyline">
+    <element name="polyline">
+      <ref name="v_CT_PolyLine"/>
+    </element>
+  </define>
+  <define name="v_rect">
+    <element name="rect">
+      <ref name="v_CT_Rect"/>
+    </element>
+  </define>
+  <define name="v_roundrect">
+    <element name="roundrect">
+      <ref name="v_CT_RoundRect"/>
+    </element>
+  </define>
+  <define name="v_CT_Arc">
+    <ref name="v_AG_AllCoreAttributes"/>
+    <ref name="v_AG_AllShapeAttributes"/>
+    <optional>
+      <attribute name="startAngle">
+        <data type="decimal"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="endAngle">
+        <data type="decimal"/>
+      </attribute>
+    </optional>
+    <zeroOrMore>
+      <ref name="v_EG_ShapeElements"/>
+    </zeroOrMore>
+  </define>
+  <define name="v_CT_Curve">
+    <ref name="v_AG_AllCoreAttributes"/>
+    <ref name="v_AG_AllShapeAttributes"/>
+    <optional>
+      <attribute name="from">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="control1">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="control2">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="to">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <zeroOrMore>
+      <ref name="v_EG_ShapeElements"/>
+    </zeroOrMore>
+  </define>
+  <define name="v_CT_Image">
+    <ref name="v_AG_AllCoreAttributes"/>
+    <ref name="v_AG_AllShapeAttributes"/>
+    <ref name="v_AG_ImageAttributes"/>
+    <zeroOrMore>
+      <ref name="v_EG_ShapeElements"/>
+    </zeroOrMore>
+  </define>
+  <define name="v_CT_Line">
+    <ref name="v_AG_AllCoreAttributes"/>
+    <ref name="v_AG_AllShapeAttributes"/>
+    <optional>
+      <attribute name="from">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="to">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <zeroOrMore>
+      <ref name="v_EG_ShapeElements"/>
+    </zeroOrMore>
+  </define>
+  <define name="v_CT_Oval">
+    <ref name="v_AG_AllCoreAttributes"/>
+    <ref name="v_AG_AllShapeAttributes"/>
+    <oneOrMore>
+      <zeroOrMore>
+        <ref name="v_EG_ShapeElements"/>
+      </zeroOrMore>
+    </oneOrMore>
+  </define>
+  <define name="v_CT_PolyLine">
+    <ref name="v_AG_AllCoreAttributes"/>
+    <ref name="v_AG_AllShapeAttributes"/>
+    <optional>
+      <attribute name="points">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <zeroOrMore>
+      <choice>
+        <ref name="v_EG_ShapeElements"/>
+        <ref name="o_ink"/>
+      </choice>
+    </zeroOrMore>
+  </define>
+  <define name="v_CT_Rect">
+    <ref name="v_AG_AllCoreAttributes"/>
+    <ref name="v_AG_AllShapeAttributes"/>
+    <oneOrMore>
+      <zeroOrMore>
+        <ref name="v_EG_ShapeElements"/>
+      </zeroOrMore>
+    </oneOrMore>
+  </define>
+  <define name="v_CT_RoundRect">
+    <ref name="v_AG_AllCoreAttributes"/>
+    <ref name="v_AG_AllShapeAttributes"/>
+    <optional>
+      <attribute name="arcsize">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <oneOrMore>
+      <zeroOrMore>
+        <ref name="v_EG_ShapeElements"/>
+      </zeroOrMore>
+    </oneOrMore>
+  </define>
+  <define name="v_ST_Ext">
+    <choice>
+      <value type="string" datatypeLibrary="">view</value>
+      <value type="string" datatypeLibrary="">edit</value>
+      <value type="string" datatypeLibrary="">backwardCompatible</value>
+    </choice>
+  </define>
+  <define name="v_ST_FillType">
+    <choice>
+      <value type="string" datatypeLibrary="">solid</value>
+      <value type="string" datatypeLibrary="">gradient</value>
+      <value type="string" datatypeLibrary="">gradientRadial</value>
+      <value type="string" datatypeLibrary="">tile</value>
+      <value type="string" datatypeLibrary="">pattern</value>
+      <value type="string" datatypeLibrary="">frame</value>
+    </choice>
+  </define>
+  <define name="v_ST_FillMethod">
+    <choice>
+      <value type="string" datatypeLibrary="">none</value>
+      <value type="string" datatypeLibrary="">linear</value>
+      <value type="string" datatypeLibrary="">sigma</value>
+      <value type="string" datatypeLibrary="">any</value>
+      <value type="string" datatypeLibrary="">linear sigma</value>
+    </choice>
+  </define>
+  <define name="v_ST_ShadowType">
+    <choice>
+      <value type="string" datatypeLibrary="">single</value>
+      <value type="string" datatypeLibrary="">double</value>
+      <value type="string" datatypeLibrary="">emboss</value>
+      <value type="string" datatypeLibrary="">perspective</value>
+    </choice>
+  </define>
+  <define name="v_ST_StrokeLineStyle">
+    <choice>
+      <value type="string" datatypeLibrary="">single</value>
+      <value type="string" datatypeLibrary="">thinThin</value>
+      <value type="string" datatypeLibrary="">thinThick</value>
+      <value type="string" datatypeLibrary="">thickThin</value>
+      <value type="string" datatypeLibrary="">thickBetweenThin</value>
+    </choice>
+  </define>
+  <define name="v_ST_StrokeJoinStyle">
+    <choice>
+      <value type="string" datatypeLibrary="">round</value>
+      <value type="string" datatypeLibrary="">bevel</value>
+      <value type="string" datatypeLibrary="">miter</value>
+    </choice>
+  </define>
+  <define name="v_ST_StrokeEndCap">
+    <choice>
+      <value type="string" datatypeLibrary="">flat</value>
+      <value type="string" datatypeLibrary="">square</value>
+      <value type="string" datatypeLibrary="">round</value>
+    </choice>
+  </define>
+  <define name="v_ST_StrokeArrowLength">
+    <choice>
+      <value type="string" datatypeLibrary="">short</value>
+      <value type="string" datatypeLibrary="">medium</value>
+      <value type="string" datatypeLibrary="">long</value>
+    </choice>
+  </define>
+  <define name="v_ST_StrokeArrowWidth">
+    <choice>
+      <value type="string" datatypeLibrary="">narrow</value>
+      <value type="string" datatypeLibrary="">medium</value>
+      <value type="string" datatypeLibrary="">wide</value>
+    </choice>
+  </define>
+  <define name="v_ST_StrokeArrowType">
+    <choice>
+      <value type="string" datatypeLibrary="">none</value>
+      <value type="string" datatypeLibrary="">block</value>
+      <value type="string" datatypeLibrary="">classic</value>
+      <value type="string" datatypeLibrary="">oval</value>
+      <value type="string" datatypeLibrary="">diamond</value>
+      <value type="string" datatypeLibrary="">open</value>
+    </choice>
+  </define>
+  <define name="v_ST_ImageAspect">
+    <choice>
+      <value type="string" datatypeLibrary="">ignore</value>
+      <value type="string" datatypeLibrary="">atMost</value>
+      <value type="string" datatypeLibrary="">atLeast</value>
+    </choice>
+  </define>
+  <define name="v_ST_EditAs">
+    <choice>
+      <value type="string" datatypeLibrary="">canvas</value>
+      <value type="string" datatypeLibrary="">orgchart</value>
+      <value type="string" datatypeLibrary="">radial</value>
+      <value type="string" datatypeLibrary="">cycle</value>
+      <value type="string" datatypeLibrary="">stacked</value>
+      <value type="string" datatypeLibrary="">venn</value>
+      <value type="string" datatypeLibrary="">bullseye</value>
+    </choice>
+  </define>
+</grammar>

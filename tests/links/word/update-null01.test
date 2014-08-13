@@ -1,0 +1,149 @@
+Word_testUpdate();
+#item input.docx
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:r>
+        <w:t xml:space="preserve">First link: </w:t>
+      </w:r>
+      <w:hyperlink r:id="rId5" w:history="1">
+        <w:r>
+          <w:rPr>
+            <w:rStyle w:val="Hyperlink"/>
+          </w:rPr>
+          <w:t>UX Productivity</w:t>
+        </w:r>
+      </w:hyperlink>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t xml:space="preserve">Second link: </w:t>
+      </w:r>
+      <w:hyperlink r:id="rId6" w:history="1">
+        <w:r>
+          <w:rPr>
+            <w:rStyle w:val="Hyperlink"/>
+          </w:rPr>
+          <w:t>UX Write</w:t>
+        </w:r>
+      </w:hyperlink>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t xml:space="preserve">Third link: </w:t>
+      </w:r>
+      <w:hyperlink r:id="rId7" w:history="1">
+        <w:r>
+          <w:rPr>
+            <w:rStyle w:val="Hyperlink"/>
+          </w:rPr>
+          <w:t>Blog</w:t>
+        </w:r>
+      </w:hyperlink>
+      <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="0"/>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:footer="708" w:gutter="0" w:header="708" w:left="1800" w:right="1800" w:top="1440"/>
+      <w:cols w:space="708"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+#include "styles.xml"
+##item document.xml.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rel:Relationships xmlns:rel="http://schemas.openxmlformats.org/package/2006/relationships">
+  <rel:Relationship Id="rId1" Target="/word/styles.xml" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles"/>
+  <rel:Relationship Id="rId6" Target="http://www.uxproductivity.com" TargetMode="External" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink"/>
+  <rel:Relationship Id="rId7" Target="http://blog.uxproductivity.com" TargetMode="External" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink"/>
+  <rel:Relationship Id="rId5" Target="http://www.uxproductivity.com" TargetMode="External" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink"/>
+</rel:Relationships>
+#item input.html
+<!DOCTYPE html>
+<html id="word1">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+#include "common.css"
+    </style>
+  </head>
+  <body id="word2">
+    <p class="Normal" id="word3">
+      <span id="word4">First link: </span><a href="http://www.uxproductivity.com" id="word7"><span class="Hyperlink" id="word8">UX Productivity</span></a>
+    </p>
+    <p class="Normal" id="word13">
+      <span id="word14">Second link: </span><a href="http://www.uxproductivity.com" id="word17"><span class="Hyperlink" id="word18">UX Write</span></a>
+    </p>
+    <p class="Normal" id="word23">
+      <span id="word24">Third link: </span><a href="http://blog.uxproductivity.com" id="word27"><span class="Hyperlink" id="word28">Blog</span></a>
+    </p>
+  </body>
+</html>
+#item expected
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:r>
+        <w:t xml:space="preserve">First link: </w:t>
+      </w:r>
+      <w:hyperlink r:id="rId5" w:history="1">
+        <w:r>
+          <w:rPr>
+            <w:rStyle w:val="Hyperlink"/>
+          </w:rPr>
+          <w:t>UX Productivity</w:t>
+        </w:r>
+      </w:hyperlink>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t xml:space="preserve">Second link: </w:t>
+      </w:r>
+      <w:hyperlink r:id="rId6" w:history="1">
+        <w:r>
+          <w:rPr>
+            <w:rStyle w:val="Hyperlink"/>
+          </w:rPr>
+          <w:t>UX Write</w:t>
+        </w:r>
+      </w:hyperlink>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t xml:space="preserve">Third link: </w:t>
+      </w:r>
+      <w:hyperlink r:id="rId7" w:history="1">
+        <w:r>
+          <w:rPr>
+            <w:rStyle w:val="Hyperlink"/>
+          </w:rPr>
+          <w:t>Blog</w:t>
+        </w:r>
+      </w:hyperlink>
+      <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="0"/>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:footer="708" w:gutter="0" w:header="708" w:left="1800" w:right="1800" w:top="1440"/>
+      <w:cols w:space="708"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+#include "styles.xml"
+##item document.xml.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rel:Relationships xmlns:rel="http://schemas.openxmlformats.org/package/2006/relationships">
+  <rel:Relationship Id="rId1" Target="/word/styles.xml" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles"/>
+  <rel:Relationship Id="rId5" Target="http://www.uxproductivity.com" TargetMode="External" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink"/>
+  <rel:Relationship Id="rId6" Target="http://www.uxproductivity.com" TargetMode="External" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink"/>
+  <rel:Relationship Id="rId7" Target="http://blog.uxproductivity.com" TargetMode="External" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink"/>
+</rel:Relationships>

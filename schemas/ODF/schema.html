@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link href="../schema.css" rel="stylesheet">
+  <title>ODF Schema</title>
+<style>
+
+</style>
+<script>
+
+</script>
+</head>
+<body>
+
+<h1>Parts</h1>
+
+<pre id="start">
+start =
+  <a href="#office-document">office-document</a>
+  | <a href="#office-document-content">office-document-content</a>
+  | <a href="office-document-styles">office-document-styles</a>
+  | <a href="office-document-meta">office-document-meta</a>
+  | <a href="office-document-settings">office-document-settings</a>
+</pre>
+
+<pre id="office-document">
+office-document =
+  element office:document {
+    office-document-attrs,
+    <a href="#office-document-common-attrs">office-document-common-attrs</a>,
+    office-meta,
+    office-settings,
+    <a href="#office-scripts">office-scripts</a>,
+    <a href="#office-font-face-decls">office-font-face-decls</a>,
+    <a href="#office-styles">office-styles</a>,
+    <a href="#office-automatic-styles">office-automatic-styles</a>,
+    <a href="#office-master-styles">office-master-styles</a>,
+    <a href="#office-body">office-body</a>
+  }
+</pre>
+
+<pre id="office-document-common-attrs">
+office-document-common-attrs =
+  attribute office:version { "1.2" }
+  & attribute grddl:transformation {
+      list { anyIRI* }
+    }?
+</pre>
+
+<h1>Content</h1>
+
+<pre id="office-document-content">
+office-document-content =
+  element office:document-content {
+    <a href="#office-document-common-attrs">office-document-common-attrs</a>,
+    <a href="#office-scripts">office-scripts</a>,
+    <a href="#office-font-face-decls">office-font-face-decls</a>,
+    <a href="#office-automatic-styles">office-automatic-styles</a>,
+    <a href="#office-body">office-body</a>
+  }
+</pre>
+
+<pre id="office-body">
+office-body = element office:body {
+  element office:text {
+    attribute text:global { boolean }? &
+    attribute text:use-soft-page-breaks { boolean }?,
+    office-forms,
+    text-tracked-changes,
+    <a href="#text-decls">text-decls</a>,
+    <a href="#table-decls">table-decls</a>,
+    <a href="#text-content">text-content</a>* | (<a href="#text-page-sequence">text-page-sequence</a>, (shape)*),
+    table-functions
+  }
+}
+</pre>
+
+<pre id="text-decls">
+text-decls =
+  element text:variable-decls { text-variable-decl* }?,
+  element text:sequence-decls { text-sequence-decl* }?,
+  element text:user-field-decls { text-user-field-decl* }?,
+  element text:dde-connection-decls { text-dde-connection-decl* }?,
+  <a href="#text-alphabetical-index-auto-mark-file">text-alphabetical-index-auto-mark-file</a>?
+</pre>
+
+<pre id="table-decls">
+table-decls =
+  table-calculation-settings?,
+  table-content-validations?,
+  table-label-ranges?
+</pre>
+
+<pre id="text-page-sequence">
+text-page-sequence =
+  element text:page-sequence {
+    <a href="#text-page">text-page</a>+
+  }
+</pre>
+
+<pre id="text-page">
+text-page =
+  element text:page {
+    attribute text:master-page-name { styleNameRef },
+    empty
+  }
+</pre>
+
+<pre id="text-content">
+text-content =
+  <a href="#text-h">text-h</a> |
+  <a href="#text-p">text-p</a> |
+  <a href="#text-list">text-list</a> |
+  <a href="#text-numbered-paragraph">text-numbered-paragraph</a> |
+  <a href="#table-table">table-table</a> |
+  <a href="#text-section">text-section</a> |
+  <a href="#text-soft-page-break">text-soft-page-break</a> |
+  <a href="#text-table-of-content">text-table-of-content</a> |
+  <a href="#text-illustration-index">text-illustration-index</a> |
+  <a href="#text-table-index">text-table-index</a> |
+  <a href="#text-object-index">text-object-index</a> |
+  <a href="#text-user-index">text-user-index</a> |
+  <a href="#text-alphabetical-index">text-alphabetical-index</a> |
+  <a href="#text-bibliography">text-bibliography</a> |
+  shape |
+  change-marks
+</pre>
+
+<h2>Paragraphs</h2>
+
+<pre id="text-h">
+text-h =
+  element text:h {
+    <a href="#heading-attrs">heading-attrs</a>,
+    <a href="#paragraph-attrs">paragraph-attrs</a>,
+    element text:number { \string }?,
+    (<a href="#paragraph-content">paragraph-content</a> | <a href="#text-a">text-a</a>)*
+  }
+</pre>
+
+<pre id="text-p">
+text-p =
+  element text:p {
+    <a href="#paragraph-attrs">paragraph-attrs</a>,
+    (<a href="#paragraph-content">paragraph-content</a> | <a href="#text-a">text-a</a>)*
+  }
+</pre>
+
+<pre id="heading-attrs">
+heading-attrs =
+  attribute text:outline-level { positiveInteger } &
+  attribute text:restart-numbering { boolean }? &
+  attribute text:start-value { nonNegativeInteger }? &
+  attribute text:is-list-header { boolean }?
+</pre>
+
+<pre id="paragraph-attrs">
+paragraph-attrs =
+  attribute text:style-name { styleNameRef }? &
+  attribute text:class-names { styleNameRefs }? &
+  attribute text:cond-style-name { styleNameRef }? &
+  (attribute xml:id { ID }, attribute text:id { NCName }?)? &
+  <a href="#common-in-content-meta-attlist">common-in-content-meta-attlist</a>?
+</pre>
+
+<pre id="common-in-content-meta-attlist">
+common-in-content-meta-attlist =
+  attribute xhtml:about { URIorSafeCURIE },
+  attribute xhtml:property { CURIEs },
+  <a href="#common-meta-literal-attlist">common-meta-literal-attlist</a>
+</pre>
+
+<pre id="common-meta-literal-attlist">
+common-meta-literal-attlist =
+  attribute xhtml:datatype { CURIE }?,
+  attribute xhtml:content { \string }?
+</pre>
+
+<pre id="paragraph-content">
+paragraph-content =
+  text |
+  element text:s { attribute text:c { nonNegativeInteger }? } |
+  element text:tab { text-tab-attr } |
+  element text:line-break { empty } |
+  text-soft-page-break
+  element text:span {
+      attribute text:style-name { styleNameRef }?,
+      attribute text:class-names { styleNameRefs }?,
+      (<a href="#paragraph-content">paragraph-content</a> | <a href="#text-a">text-a</a>)*
+    } |
+  element text:meta {
+      common-in-content-meta-attlist? &
+      attribute xml:id { ID }?,
+      (<a href="#paragraph-content">paragraph-content</a> | <a href="#text-a">text-a</a>)*
+    } |
+  (text-bookmark | text-bookmark-start | text-bookmark-end) |
+  element text:reference-mark { attribute text:name { \string } } |
+  element text:reference-mark-start { attribute text:name { \string } } |
+  element text:reference-mark-end { attribute text:name { \string } } |
+  element text:note {
+      text-note-class,
+      attribute text:id { \string }?,
+      element text:note-citation {
+        attribute text:label { \string }?,
+        text
+      },
+      element text:note-body { text-content* }
+    } |
+  element text:ruby {
+      attribute text:style-name { styleNameRef }?,
+      element text:ruby-base { (<a href="#paragraph-content">paragraph-content</a> | <a href="#text-a">text-a</a>)* },
+      element text:ruby-text {
+        attribute text:style-name { styleNameRef }?,
+        text
+      }
+    } |
+  (office-annotation | office-annotation-end) |
+  change-marks |
+  shape |
+  element text:date { text-date-attlist, text } |
+  element text:time { text-time-attlist, text } |
+  element text:page-number { text-page-number-attlist, text } |
+  element text:page-continuation { text-page-continuation-attlist, text } |
+  element text:author-name { common-field-fixed-attlist, text } |
+  element text:author-initials { common-field-fixed-attlist, text } |
+  element text:chapter { text-chapter-attlist, text } |
+  element text:title { common-field-fixed-attlist, text } |
+  element text:subject { common-field-fixed-attlist, text } |
+  element text:keywords { common-field-fixed-attlist, text } |
+  element text:hidden-text { text-hidden-text-attlist, text } |
+  element text:reference-ref | text:bookmark-ref { |
+      text-common-ref-content & text-bookmark-ref-content
+    } |
+  element text:hidden-paragraph {
+      text-hidden-paragraph-attlist, text
+    } |
+  element text:meta-field { text-meta-field-attlist, (<a href="#paragraph-content">paragraph-content</a> | <a href="#text-a">text-a</a>)* } |
+  element text:toc-mark-start { text-toc-mark-start-attrs } |
+  element text:toc-mark-end { text-id } |
+  element text:toc-mark { attribute text:string-value { \string }, text-outline-level } |
+  element text:user-index-mark-start { text-id, text-outline-level, text-index-name } |
+  element text:user-index-mark-end { text-id } |
+  element text:user-index-mark {
+      attribute text:string-value { \string },
+      text-outline-level,
+      text-index-name
+    } |
+  element text:alphabetical-index-mark-start {
+      text-id, text-alphabetical-index-mark-attrs
+    } |
+  element text:alphabetical-index-mark-end { text-id } |
+  element text:alphabetical-index-mark {
+      attribute text:string-value { \string },
+      text-alphabetical-index-mark-attrs
+    } |
+  element text:bibliography-mark {
+      attribute text:bibliography-type { text-bibliography-types },
+      attribute text:identifier
+                | text:address
+                | text:annote
+                | text:author
+                | text:booktitle
+                | text:chapter
+                | text:edition
+                | text:editor
+                | text:howpublished
+                | text:institution
+                | text:journal
+                | text:month
+                | text:note
+                | text:number
+                | text:organizations
+                | text:pages
+                | text:publisher
+                | text:school
+                | text:series
+                | text:title
+                | text:report-type
+                | text:volume
+                | text:year
+                | text:url
+                | text:custom1
+                | text:custom2
+                | text:custom3
+                | text:custom4
+                | text:custom5
+                | text:isbn
+                | text:issn { \string }*,
+      text
+    }
+</pre>
+
+<pre id="text-a">
+text-a =
+  element text:a {
+    attribute office:name { \string }? &
+    attribute office:title { \string }? &
+    attribute xlink:type { "simple" } &
+    attribute xlink:href { anyIRI } &
+    attribute xlink:actuate { "onRequest" }? &
+    attribute office:target-frame-name { targetFrameName }? &
+    attribute xlink:show { "new" | "replace" }? &
+    attribute text:style-name { styleNameRef }? &
+    attribute text:visited-style-name { styleNameRef }?,
+    office-event-listeners?,
+    <a href="#paragraph-content">paragraph-content</a>*
+  }
+</pre>
+
+<h2>Lists</h2>
+
+<pre id="text-list">
+text-list =
+  element text:list {
+    attribute text:style-name { styleNameRef }? &
+    attribute text:continue-numbering { boolean }? &
+    attribute text:continue-list { IDREF }? &
+    attribute xml:id { ID }?
+    <a href="#text-list-header">text-list-header</a>?,
+    <a href="#text-list-item">text-list-item</a>*
+  }
+</pre>
+
+<pre id="text-list-header">
+text-list-header =
+  element text:list-header {
+    attribute xml:id { ID }?,
+    <a href="#text-list-item-content">text-list-item-content</a>
+  }
+</pre>
+
+<pre id="text-list-item">
+text-list-item =
+  element text:list-item {
+    attribute text:start-value { nonNegativeInteger }? &
+    attribute text:style-override { styleNameRef }? &
+    attribute xml:id { ID }?,
+    <a href="#text-list-item-content">text-list-item-content</a>
+  }
+</pre>
+
+<pre id="text-list-item-content">
+text-list-item-content =
+  element text:number { \string }?,
+  (<a href="#text-p">text-p</a> | <a href="#text-h">text-h</a> | <a href="#text-list">text-list</a> | <a href="#text-soft-page-break">text-soft-page-break</a>)*
+</pre>
+
+<h2>Numbered paragraphs</h2>
+
+<pre id="text-numbered-paragraph">
+text-numbered-paragraph =
+  element text:numbered-paragraph {
+    text-numbered-paragraph-attr,
+    element text:number { \string }?,
+    (<a href="#text-p">text-p</a>| <a href="#text-h">text-h</a>)
+  }
+</pre>
+
+<pre id="text-numbered-paragraph-attr">
+text-numbered-paragraph-attr =
+  attribute text:list-id { NCName }
+  & attribute text:level { positiveInteger }?
+  & (attribute text:style-name { styleNameRef },
+     attribute text:continue-numbering { boolean },
+     attribute text:start-value { nonNegativeInteger })?
+  & attribute xml:id { ID }?
+</pre>
+
+<h2>Sections</h2>
+
+<pre id="text-section">
+text-section =
+  element text:section {
+    <a href="#text-section-attlist">text-section-attlist</a>,
+    (<a href="#text-section-source">text-section-source</a> | office-dde-source | empty),
+    <a href="#text-content">text-content</a>*
+  }
+</pre>
+
+<pre id="text-section-attlist">
+text-section-attlist =
+  <a href="#common-section-attlist">common-section-attlist</a>
+  & (attribute text:display { "true" | "none" }
+     | (attribute text:display { "condition" },
+        attribute text:condition { \string })
+     | empty)
+</pre>
+
+<pre id="text-section-source">
+text-section-source =
+  element text:section-source {
+    text-section-source-attr =
+      (attribute xlink:type { "simple" },
+       attribute xlink:href { anyIRI },
+       attribute xlink:show { "embed" }?)?
+      & attribute text:section-name { \string }?
+      & attribute text:filter-name { \string }?
+  }
+</pre>
+
+<pre id="text-soft-page-break">
+text-soft-page-break = element text:soft-page-break { empty }
+</pre>
+
+<pre id="common-section-attlist">
+common-section-attlist =
+  attribute text:style-name { styleNameRef }?
+  & attribute text:name { \string }
+  & attribute text:protected { boolean }?
+  & attribute text:protection-key { \string }?
+  & attribute text:protection-key-digest-algorithm { anyIRI }?
+  & attribute xml:id { ID }?
+</pre>
+
+<h1>Tables</h1>
+
+<pre id="table-table">
+table-table =
+  element table:table {
+    attribute table:name { \string }? &
+    attribute table:style-name { styleNameRef }? &
+    attribute table:template-name { \string }? &
+    attribute table:use-first-row-styles { boolean }? &
+    attribute table:use-last-row-styles { boolean }? &
+    attribute table:use-first-column-styles { boolean }? &
+    attribute table:use-last-column-styles { boolean }? &
+    attribute table:use-banding-rows-styles { boolean }? &
+    attribute table:use-banding-columns-styles { boolean }? &
+    attribute table:protected { boolean }? &
+    attribute table:protection-key { \string }? &
+    attribute table:protection-key-digest-algorithm { anyIRI }? &
+    attribute table:print { boolean }? &
+    attribute table:print-ranges { cellRangeAddressList }? &
+    attribute xml:id { ID }? &
+    attribute table:is-sub-table { boolean }?,
+    element table:title { text }?,
+    element table:desc { text }?,
+    table-table-source?,
+    office-dde-source?,
+    table-scenario?,
+    office-forms?,
+    table-shapes?,
+    <a href="#table-columns-and-groups">table-columns-and-groups</a>,
+    <a href="#table-rows-and-groups">table-rows-and-groups</a>,
+    table-named-expressions?
+  }
+</pre>
+
+<pre id="table-columns-and-groups">
+table-columns-and-groups =
+  (<a href="#table-table-column-group">table-table-column-group</a> | <a href="#table-columns-no-group">table-columns-no-group</a>)+
+</pre>
+
+<pre id="table-columns-no-group">
+table-columns-no-group =
+  (<a href="#table-columns">table-columns</a>, (<a href="#table-table-header-columns">table-table-header-columns</a>, <a href="#table-columns">table-columns</a>?)?)
+  | (<a href="#table-table-header-columns">table-table-header-columns</a>, <a href="#table-columns">table-columns</a>?)
+</pre>
+
+<pre id="table-columns">
+table-columns =
+  <a href="#table-table-columns">table-table-columns</a> | <a href="#table-table-column">table-table-column</a>+
+</pre>
+
+<pre id="table-rows-and-groups">
+table-rows-and-groups =
+  (<a href="#table-table-row-group">table-table-row-group</a> | <a href="#table-rows-no-group">table-rows-no-group</a>)+
+</pre>
+
+<pre id="table-rows-no-group">
+table-rows-no-group =
+  (<a href="#table-rows">table-rows</a>, (<a href="#table-table-header-rows">table-table-header-rows</a>, <a href="#table-rows">table-rows</a>?)?) |
+  (<a href="#table-table-header-rows">table-table-header-rows</a>, <a href="#table-rows">table-rows</a>?)
+</pre>
+
+<pre id="table-rows">
+table-rows =
+  <a href="#table-table-rows">table-table-rows</a> |
+  (<a href="#text-soft-page-break">text-soft-page-break</a>?, <a href="#table-table-row">table-table-row</a>)+
+</pre>
+
+<pre id="table-table-row">
+table-table-row =
+  element table:table-row {
+    attribute table:number-rows-repeated { positiveInteger }? &
+    attribute table:style-name { styleNameRef }? &
+    attribute table:default-cell-style-name { styleNameRef }? &
+    attribute table:visibility { "visible" | "collapse" | "filter" }? &
+    attribute xml:id { ID }?,
+    (<a href="#table-table-cell">table-table-cell</a> | <a href="#table-covered-table-cell">table-covered-table-cell</a>)+
+  }
+</pre>
+
+<pre id="table-table-cell">
+table-table-cell =
+  element table:table-cell {
+    <a href="#table-table-cell-attlist">table-table-cell-attlist</a>,
+    <a href="#table-table-cell-attlist-extra">table-table-cell-attlist-extra</a>,
+    <a href="#table-table-cell-content">table-table-cell-content</a>
+  }
+</pre>
+
+<pre id="table-covered-table-cell">
+table-covered-table-cell =
+  element table:covered-table-cell {
+    <a href="#table-table-cell-attlist">table-table-cell-attlist</a>,
+    <a href="#table-table-cell-content">table-table-cell-content</a>
+  }
+</pre>
+
+<pre id="table-table-cell-content">
+table-table-cell-content =
+  table-cell-range-source?,
+  office-annotation?,
+  table-detective?,
+  <a href="#text-content">text-content</a>*
+</pre>
+
+<pre id="table-table-cell-attlist">
+table-table-cell-attlist =
+  attribute table:number-columns-repeated { positiveInteger }? &
+  attribute table:style-name { styleNameRef }? &
+  attribute table:content-validation-name { \string }? &
+  attribute table:formula { \string }? &
+  common-value-and-type-attlist? &
+  attribute table:protect { boolean }? &
+  attribute table:protected { boolean }? &
+  attribute xml:id { ID }? &
+  <a href="#common-in-content-meta-attlist">common-in-content-meta-attlist</a>?
+</pre>
+
+<pre id="table-table-cell-attlist-extra">
+table-table-cell-attlist-extra =
+  attribute table:number-columns-spanned { positiveInteger }? &
+  attribute table:number-rows-spanned { positiveInteger }? &
+  attribute table:number-matrix-columns-spanned { positiveInteger }? &
+  attribute table:number-matrix-rows-spanned { positiveInteger }?
+</pre>
+
+<pre id="table-table-column">
+table-table-column =
+  element table:table-column {
+    attribute table:number-columns-repeated { positiveInteger }? &
+    attribute table:style-name { styleNameRef }? &
+    attribute table:visibility { "visible" | "collapse" | "filter" }? &
+    attribute table:default-cell-style-name { styleNameRef }? &
+    attribute xml:id { ID }?,
+    <a href="#table-table-column-attlist">table-table-column-attlist</a>,
+    empty
+  }
+</pre>
+
+<pre id="table-table-header-columns">
+table-table-header-columns =
+  element table:table-header-columns {
+    <a href="#table-table-column">table-table-column</a>+
+  }
+</pre>
+
+<pre id="table-table-columns">
+table-table-columns =
+  element table:table-columns {
+    <a href="#table-table-column">table-table-column</a>+
+  }
+</pre>
+
+<pre id="table-table-column-group">
+table-table-column-group =
+  element table:table-column-group {
+    attribute table:display { boolean }?,
+    <a href="#table-columns-and-groups">table-columns-and-groups</a>
+  }
+</pre>
+
+<pre id="table-table-header-rows">
+table-table-header-rows =
+  element table:table-header-rows {
+    (<a href="#text-soft-page-break">text-soft-page-break</a>?, <a href="#table-table-row">table-table-row</a>)+
+  }
+</pre>
+
+<pre id="table-table-rows">
+table-table-rows =
+  element table:table-rows {
+    (<a href="#text-soft-page-break">text-soft-page-break</a>?, <a href="#table-table-row">table-table-row</a>)+
+  }
+</pre>
+
+<pre id="table-table-row-group">
+table-table-row-group =
+  element table:table-row-group {
+    attribute table:display { boolean }?,
+    <a href="#table-rows-and-groups">table-rows-and-groups</a>
+  }
+</pre>
+
+<h1>Indexes</h1>
+
+<h2>Table of contents</h2>
+
+<pre id="text-table-of-content">
+text-table-of-content =
+  element text:table-of-content {
+    <a href="#common-section-attlist">common-section-attlist</a>,
+    element text:table-of-content-source {
+      <a href="text-table-of-content-source-attlist">text-table-of-content-source-attlist</a>,
+      <a href="#text-index-title-template">text-index-title-template</a>?,
+      <a href="#text-table-of-content-entry-template">text-table-of-content-entry-template</a>*,
+      <a href="#text-index-source-styles">text-index-source-styles</a>*
+    },
+    <a href="#text-index-body">text-index-body</a>
+  }
+</pre>
+
+<pre id="text-table-of-content-source-attlist">
+text-table-of-content-source-attlist =
+  attribute text:outline-level { positiveInteger }? &
+  attribute text:use-outline-level { boolean }? &
+  attribute text:use-index-marks { boolean }? &
+  attribute text:use-index-source-styles { boolean }? &
+  attribute text:index-scope { "document" | "chapter" }? &
+  attribute text:relative-tab-stop-position { boolean }?
+</pre>
+
+<pre id="text-table-of-content-entry-template">
+text-table-of-content-entry-template =
+  element text:table-of-content-entry-template {
+    attribute text:outline-level { positiveInteger } &
+    attribute text:style-name { styleNameRef },
+    (<a href="#text-index-entry-chapter">text-index-entry-chapter</a> |
+     <a href="#text-index-entry-page-number">text-index-entry-page-number</a> |
+     <a href="#text-index-entry-text">text-index-entry-text</a> |
+     <a href="#text-index-entry-span">text-index-entry-span</a> |
+     <a href="#text-index-entry-tab-stop">text-index-entry-tab-stop</a> |
+     <a href="#text-index-entry-link-start">text-index-entry-link-start</a> |
+     <a href="#text-index-entry-link-end">text-index-entry-link-end</a>)*
+  }
+</pre>
+
+<h2>Illustration index</h2>
+
+<pre id="text-illustration-index">
+text-illustration-index =
+  element text:illustration-index {
+    <a href="#common-section-attlist">common-section-attlist</a>,
+    element text:illustration-index-source {
+      <a href="#text-illustration-index-source-attrs">text-illustration-index-source-attrs</a>,
+      <a href="#text-index-title-template">text-index-title-template</a>?,
+      <a href="#text-illustration-index-entry-template">text-illustration-index-entry-template</a>?
+    },
+    <a href="#text-index-body">text-index-body</a>
+  }
+</pre>
+
+<pre id="text-illustration-index-source-attrs">
+text-illustration-index-source-attrs =
+  attribute text:index-scope { "document" | "chapter" }? &
+  attribute text:relative-tab-stop-position { boolean }? &
+  attribute text:use-caption { boolean }? &
+  attribute text:caption-sequence-name { \string }? &
+  attribute text:caption-sequence-format { "text" | "category-and-value" | "caption" }?
+</pre>
+
+<pre id="text-illustration-index-entry-template">
+text-illustration-index-entry-template =
+  element text:illustration-index-entry-template {
+    <a href="#text-illustration-index-entry-content">text-illustration-index-entry-content</a>
+  }
+</pre>
+
+<pre id="text-illustration-index-entry-content">
+text-illustration-index-entry-content =
+  attribute text:style-name { styleNameRef },
+  (<a href="#text-index-entry-chapter">text-index-entry-chapter</a> |
+   <a href="#text-index-entry-page-number">text-index-entry-page-number</a> |
+   <a href="#text-index-entry-text">text-index-entry-text</a> |
+   <a href="#text-index-entry-span">text-index-entry-span</a> |
+   <a href="#text-index-entry-tab-stop">text-index-entry-tab-stop</a>)*
+</pre>
+
+<h2>Table index</h2>
+
+<pre id="text-table-index">
+text-table-index =
+  element text:table-index {
+    <a href="#common-section-attlist">common-section-attlist</a>,
+    element text:table-index-source {
+      <a href="#text-illustration-index-source-attrs">text-illustration-index-source-attrs</a>,
+      <a href="#text-index-title-template">text-index-title-template</a>?,
+      <a href="#text-table-index-entry-template">text-table-index-entry-template</a>?
+    },
+    <a href="#text-index-body">text-index-body</a>
+  }
+</pre>
+
+<pre id="text-table-index-entry-template">
+text-table-index-entry-template =
+  element text:table-index-entry-template {
+    <a href="#text-illustration-index-entry-content">text-illustration-index-entry-content</a>
+  }
+</pre>
+
+<h2>Object index</h2>
+
+<pre id="text-object-index">
+text-object-index =
+  element text:object-index {
+    <a href="#common-section-attlist">common-section-attlist</a>,
+    element text:object-index-source {
+      attribute text:index-scope { "document" | "chapter" }? &
+      attribute text:relative-tab-stop-position { boolean }? &
+      attribute text:use-spreadsheet-objects { boolean }? &
+      attribute text:use-math-objects { boolean }? &
+      attribute text:use-draw-objects { boolean }? &
+      attribute text:use-chart-objects { boolean }? &
+      attribute text:use-other-objects { boolean }?,
+      <a href="#text-index-title-template">text-index-title-template</a>?,
+      <a href="#text-object-index-entry-template">text-object-index-entry-template</a>?
+    },
+    <a href="#text-index-body">text-index-body</a>
+  }
+</pre>
+
+<pre id="text-object-index-entry-template">
+text-object-index-entry-template =
+  element text:object-index-entry-template {
+    <a href="#text-illustration-index-entry-content">text-illustration-index-entry-content</a>
+  }
+</pre>
+
+<h2>User index</h2>
+
+<pre id="text-user-index">
+text-user-index =
+  element text:user-index {
+    <a href="#common-section-attlist">common-section-attlist</a>,
+    element text:user-index-source {
+      <a href="#text-user-index-source-attr">text-user-index-source-attr</a>,
+      <a href="#text-index-title-template">text-index-title-template</a>?,
+      <a href="#text-user-index-entry-template">text-user-index-entry-template</a>*,
+      <a href="#text-index-source-styles">text-index-source-styles</a>*
+    },
+    <a href="#text-index-body">text-index-body</a>
+  }
+</pre>
+
+<pre id="text-user-index-source-attr">
+text-user-index-source-attr =
+  attribute text:index-scope { "document" | "chapter" }? &
+  attribute text:relative-tab-stop-position { boolean }? &
+  attribute text:use-index-marks { boolean }? &
+  attribute text:use-index-source-styles { boolean }? &
+  attribute text:use-graphics { boolean }? &
+  attribute text:use-tables { boolean }? &
+  attribute text:use-floating-frames { boolean }? &
+  attribute text:use-objects { boolean }? &
+  attribute text:copy-outline-levels { boolean }? &
+  attribute text:index-name { \string } &
+</pre>
+
+<pre id="text-user-index-entry-template">
+text-user-index-entry-template =
+  element text:user-index-entry-template {
+    attribute text:outline-level { positiveInteger } &
+    attribute text:style-name { styleNameRef },
+    (<a href="#text-index-entry-chapter">text-index-entry-chapter</a> |
+     <a href="#text-index-entry-page-number">text-index-entry-page-number</a> |
+     <a href="#text-index-entry-text">text-index-entry-text</a> |
+     <a href="#text-index-entry-span">text-index-entry-span</a> |
+     <a href="#text-index-entry-tab-stop">text-index-entry-tab-stop</a>)*
+  }
+</pre>
+
+<h2>Alphabetical index</h2>
+
+<pre id="text-alphabetical-index">
+text-alphabetical-index =
+  element text:alphabetical-index {
+    <a href="#common-section-attlist">common-section-attlist</a>,
+    text-alphabetical-index-source,
+    <a href="#text-index-body">text-index-body</a>
+  }
+</pre>
+
+<pre id="text-alphabetical-index-source">
+text-alphabetical-index-source =
+  element text:alphabetical-index-source {
+    <a href="#text-alphabetical-index-source-attrs">text-alphabetical-index-source-attrs</a>,
+    <a href="#text-index-title-template">text-index-title-template</a>?,
+    <a href="#text-alphabetical-index-entry-template">text-alphabetical-index-entry-template</a>*
+  }
+</pre>
+
+<pre id="text-alphabetical-index-source-attrs">
+text-alphabetical-index-source-attrs =
+  attribute text:index-scope { "document" | "chapter" }? &
+  attribute text:relative-tab-stop-position { boolean }? &
+  attribute text:ignore-case { boolean }? &
+  attribute text:main-entry-style-name { styleNameRef }? &
+  attribute text:alphabetical-separators { boolean }? &
+  attribute text:combine-entries { boolean }? &
+  attribute text:combine-entries-with-dash { boolean }? &
+  attribute text:combine-entries-with-pp { boolean }? &
+  attribute text:use-keys-as-entries { boolean }? &
+  attribute text:capitalize-entries { boolean }? &
+  attribute text:comma-separated { boolean }? &
+  attribute fo:language { languageCode }? &
+  attribute fo:country { countryCode }? &
+  attribute fo:script { scriptCode }? &
+  attribute style:rfc-language-tag { language }? &
+  attribute text:sort-algorithm { \string }? &
+</pre>
+
+<pre id="text-alphabetical-index-auto-mark-file">
+text-alphabetical-index-auto-mark-file =
+  element text:alphabetical-index-auto-mark-file {
+    attribute xlink:type { "simple" },
+    attribute xlink:href { anyIRI }
+  }
+</pre>
+
+<pre id="text-alphabetical-index-entry-template">
+text-alphabetical-index-entry-template =
+  element text:alphabetical-index-entry-template {
+    attribute text:outline-level { "1" | "2" | "3" | "separator" } &
+    attribute text:style-name { styleNameRef },
+    (<a href="#text-index-entry-chapter">text-index-entry-chapter</a> |
+     <a href="#text-index-entry-page-number">text-index-entry-page-number</a> |
+     <a href="#text-index-entry-text">text-index-entry-text</a> |
+     <a href="#text-index-entry-span">text-index-entry-span</a> |
+     <a href="#text-index-entry-tab-stop">text-index-entry-tab-stop</a> )*
+  }
+</pre>
+
+<h2>Bibliography</h2>
+
+<pre id="text-bibliography">
+text-bibliography =
+  element text:bibliography {
+    <a href="#common-section-attlist">common-section-attlist</a>, text-bibliography-source, <a href="#text-index-body">text-index-body</a>
+  }
+</pre>
+
+<pre id="text-bibliography-source">
+text-bibliography-source =
+  element text:bibliography-source {
+    <a href="#text-index-title-template">text-index-title-template</a>?, text-bibliography-entry-template*
+  }
+</pre>
+
+<pre id="text-bibliography-entry-template">
+text-bibliography-entry-template =
+  element text:bibliography-entry-template {
+    text-bibliography-entry-template-attrs,
+    (text-index-entry-span
+     | text-index-entry-tab-stop
+     | text-index-entry-bibliography)*
+  }
+</pre>
+
+<pre id="text-bibliography-entry-template-attrs">
+text-bibliography-entry-template-attrs =
+  attribute text:bibliography-type { text-bibliography-types }
+  & attribute text:style-name { styleNameRef }
+</pre>
+
+<h2>Index entries</h2>
+
+<pre id="text-index-entry-chapter">
+text-index-entry-chapter =
+  element text:index-entry-chapter {
+    attribute text:style-name { styleNameRef }?,
+    text-index-entry-chapter-attrs
+  }
+</pre>
+
+<pre id="text-index-entry-chapter-attrs">
+text-index-entry-chapter-attrs =
+  attribute text:display {
+    "name"
+    | "number"
+    | "number-and-name"
+    | "plain-number"
+    | "plain-number-and-name"
+  }?
+  & attribute text:outline-level { positiveInteger }?
+</pre>
+
+<pre id="text-index-entry-page-number">
+text-index-entry-page-number =
+  element text:index-entry-page-number {
+    attribute text:style-name { styleNameRef }?
+  }
+</pre>
+
+<pre id="text-index-entry-text">
+text-index-entry-text =
+  element text:index-entry-text {
+    attribute text:style-name { styleNameRef }?
+  }
+</pre>
+
+<pre id="text-index-entry-span">
+text-index-entry-span =
+  element text:index-entry-span {
+    attribute text:style-name { styleNameRef }?,
+    text
+  }
+</pre>
+
+<pre id="text-index-entry-tab-stop">
+text-index-entry-tab-stop =
+  element text:index-entry-tab-stop {
+    attribute text:style-name { styleNameRef }?,
+    text-index-entry-tab-stop-attrs
+  }
+</pre>
+
+<pre id="text-index-entry-tab-stop-attrs">
+text-index-entry-tab-stop-attrs =
+  attribute style:leader-char { character }?
+  & (attribute style:type { "right" }
+     | (attribute style:type { "left" },
+        attribute style:position { length }))
+</pre>
+
+<pre id="text-index-entry-link-start">
+text-index-entry-link-start =
+  element text:index-entry-link-start {
+    attribute text:style-name { styleNameRef }?
+  }
+</pre>
+
+<pre id="text-index-entry-link-end">
+text-index-entry-link-end =
+  element text:index-entry-link-end {
+    attribute text:style-name { styleNameRef }?
+  }
+</pre>
+
+<pre id="text-index-entry-bibliography">
+text-index-entry-bibliography =
+  element text:index-entry-bibliography {
+    text-index-entry-bibliography-attrs
+  }
+</pre>
+
+<pre id="text-index-entry-bibliography-attrs">
+text-index-entry-bibliography-attrs =
+  attribute text:style-name { styleNameRef }?
+  & attribute text:bibliography-data-field {
+      "address"
+      | "annote"
+      | "author"
+      | "bibliography-type"
+      | "booktitle"
+      | "chapter"
+      | "custom1"
+      | "custom2"
+      | "custom3"
+      | "custom4"
+      | "custom5"
+      | "edition"
+      | "editor"
+      | "howpublished"
+      | "identifier"
+      | "institution"
+      | "isbn"
+      | "issn"
+      | "journal"
+      | "month"
+      | "note"
+      | "number"
+      | "organizations"
+      | "pages"
+      | "publisher"
+      | "report-type"
+      | "school"
+      | "series"
+      | "title"
+      | "url"
+      | "volume"
+      | "year"
+    }
+</pre>
+
+<h2>Misc index properties</h2>
+
+<pre id="text-index-source-styles">
+text-index-source-styles =
+  element text:index-source-styles {
+    attribute text:outline-level { positiveInteger },
+    text-index-source-style*
+  }
+</pre>
+
+<pre id="text-index-source-style">
+text-index-source-style =
+  element text:index-source-style {
+    attribute text:style-name { styleName },
+    empty
+  }
+</pre>
+
+<pre id="text-index-title-template">
+text-index-title-template =
+  element text:index-title-template {
+    attribute text:style-name { styleNameRef }?,
+    text
+  }
+</pre>
+
+<pre id="text-index-body">
+text-index-body = element text:index-body { index-content-main* }
+</pre>
+
+<pre id="index-content-main">
+index-content-main = text-content | text-index-title
+</pre>
+
+<pre id="text-index-title">
+text-index-title =
+  element text:index-title {
+    common-section-attlist, index-content-main*
+  }
+</pre>
+
+<h1>Styles</h1>
+
+<pre id="office-document-styles">
+office-document-styles =
+  element office:document-styles {
+    <a href="#office-document-common-attrs">office-document-common-attrs</a>,
+    <a href="#office-font-face-decls">office-font-face-decls</a>,
+    <a href="#office-styles">office-styles</a>,
+    <a href="#office-automatic-styles">office-automatic-styles</a>,
+    <a href="#office-master-styles">office-master-styles</a>
+  }
+</pre>
+
+<pre id="office-styles">
+office-styles =
+  element office:styles {
+    <a href="#styles">styles</a> &
+    style-default-style* &
+    style-default-page-layout? &
+    text-outline-style? &
+    text-notes-configuration* &
+    text-bibliography-configuration? &
+    text-linenumbering-configuration? &
+    draw-gradient* &
+    svg-linearGradient* &
+    svg-radialGradient* &
+    draw-hatch* &
+    draw-fill-image* &
+    draw-marker* &
+    draw-stroke-dash* &
+    draw-opacity* &
+    style-presentation-page-layout* &
+    <a href="#table-table-template">table-table-template</a>*
+  }?
+</pre>
+
+<pre id="office-font-face-decls">
+office-font-face-decls =
+  element office:font-face-decls { style-font-face* }?
+</pre>
+
+<pre id="office-automatic-styles">
+office-automatic-styles =
+  element office:automatic-styles { styles & style-page-layout* }?
+</pre>
+
+<pre id="office-master-styles">
+office-master-styles =
+  element office:master-styles {
+    style-master-page* & style-handout-master? & draw-layer-set?
+  }?
+</pre>
+
+<pre id="styles">
+styles =
+  <a href="#style-style">style-style</a>* &
+  text-list-style* &
+  number-number-style* &
+  number-currency-style* &
+  number-percentage-style* &
+  number-date-style* &
+  number-time-style* &
+  number-boolean-style* &
+  number-text-style*
+</pre>
+
+<pre id="style-style">
+style-style =
+  element style:style {
+    <a href="#style-style-attlist">style-style-attlist</a>,
+    <a href="#style-style-content">style-style-content</a>,
+    <a href="#style-map">style-map</a>*
+  }
+</pre>
+
+<pre id="style-style-attlist">
+style-style-attlist =
+  attribute style:name { styleName } &
+  attribute style:display-name { \string }? &
+  attribute style:parent-style-name { styleNameRef }? &
+  attribute style:next-style-name { styleNameRef }? &
+  attribute style:list-level { positiveInteger | empty }? &
+  attribute style:list-style-name { styleName | empty }? &
+  attribute style:master-page-name { styleNameRef }? &
+  attribute style:auto-update { boolean }? &
+  attribute style:data-style-name { styleNameRef }? &
+  attribute style:percentage-data-style-name { styleNameRef }? &
+  attribute style:class { \string }? &
+  attribute style:default-outline-level { positiveInteger | empty }?
+</pre>
+
+<pre id="style-style-content">
+style-style-content =
+  (attribute style:family { "text" },
+   <a href="#style-text-properties">style-text-properties</a>?) |
+  (attribute style:family { "paragraph" },
+   <a href="#style-paragraph-properties">style-paragraph-properties</a>?,
+   <a href="#style-text-properties">style-text-properties</a>?) |
+  (attribute style:family { "section" },
+   style-section-properties?) |
+  (attribute style:family { "ruby" },
+   style-ruby-properties?) |
+  (attribute style:family { "table" },
+   <a href="#style-table-properties">style-table-properties</a>?) |
+  (attribute style:family { "table-column" },
+   style-table-column-properties?) |
+  (attribute style:family { "table-row" },
+   <a href="#style-table-row-properties">style-table-row-properties</a>?) |
+  (attribute style:family { "table-cell" },
+   <a href="#style-table-cell-properties">style-table-cell-properties</a>?,
+   <a href="#style-paragraph-properties">style-paragraph-properties</a>?,
+   <a href="#style-text-properties">style-text-properties</a>?) |
+  (attribute style:family { "graphic" | "presentation" },
+   style-graphic-properties?,
+   <a href="#style-paragraph-properties">style-paragraph-properties</a>?,
+   <a href="#style-text-properties">style-text-properties</a>?) |
+  (attribute style:family { "drawing-page" },
+   style-drawing-page-properties?) |
+  (attribute style:family { "chart" },
+   style-chart-properties?,
+   style-graphic-properties?,
+   <a href="#style-paragraph-properties">style-paragraph-properties</a>?,
+   <a href="#style-text-properties">style-text-properties</a>?)
+</pre>
+
+<pre id="style-text-properties">
+style-text-properties =
+  element style:text-properties { style-text-properties-content-strict }
+</pre>
+
+<pre id="style-text-properties-content-strict">
+style-text-properties-content-strict =
+  style-text-properties-attlist, style-text-properties-elements
+</pre>
+
+<pre id="style-text-properties-elements">
+style-text-properties-elements = empty
+</pre>
+
+<pre id="style-text-properties-attlist">
+style-text-properties-attlist =
+  attribute fo:font-variant { "normal" | "small-caps" }?
+  & attribute fo:text-transform { "none" | "lowercase" | "uppercase" | "capitalize" }?
+  & attribute fo:color { color }?
+  & attribute style:use-window-font-color { boolean }?
+  & attribute style:text-outline { boolean }?
+  & attribute style:text-underline-type { "none" | "single" | "double" }?
+  & attribute style:text-underline-style { lineStyle }?
+  & attribute style:text-underline-width { lineWidth }?
+  & attribute style:text-underline-color { "font-color" | color }?
+  & attribute style:text-underline-mode { "continuous" | "skip-white-space" }?
+  & attribute style:text-overline-type { "none" | "single" | "double" }?
+  & attribute style:text-overline-style { lineStyle }?
+  & attribute style:text-overline-width { lineWidth }?
+  & attribute style:text-overline-color { "font-color" | color }?
+  & attribute style:text-overline-mode { "continuous" | "skip-white-space" }?
+  & attribute style:text-line-through-type { "none" | "single" | "double" }?
+  & attribute style:text-line-through-style { lineStyle }?
+  & attribute style:text-line-through-width { lineWidth }?
+  & attribute style:text-line-through-color { "font-color" | color }?
+  & attribute style:text-line-through-text { \string }?
+  & attribute style:text-line-through-text-style { styleNameRef }?
+  & attribute style:text-line-through-mode { "continuous" | "skip-white-space" }?
+  & attribute style:text-position { list { (percent | "super" | "sub"), percent? } }?
+  & attribute style:font-name { \string }?
+  & attribute style:font-name-asian { \string }?
+  & attribute style:font-name-complex { \string }?
+  & attribute fo:font-family { \string }?
+  & attribute style:font-family-asian { \string }?
+  & attribute style:font-family-complex { \string }?
+  & attribute style:font-family-generic { "roman" | "swiss" | "modern" | "decorative" | "script" | "system" }?
+  & attribute style:font-family-generic-asian { "roman" | "swiss" | "modern" | "decorative" | "script" | "system" }?
+  & attribute style:font-family-generic-complex { "roman" | "swiss" | "modern" | "decorative" | "script" | "system" }?
+  & attribute style:font-style-name { \string }?
+  & attribute style:font-style-name-asian { \string }?
+  & attribute style:font-style-name-complex { \string }?
+  & attribute style:font-pitch { "fixed" | "variable" }?
+  & attribute style:font-pitch-asian { "fixed" | "variable" }?
+  & attribute style:font-pitch-complex { "fixed" | "variable" }?
+  & attribute style:font-charset { textEncoding }?
+  & attribute style:font-charset-asian { textEncoding }?
+  & attribute style:font-charset-complex { textEncoding }?
+  & attribute fo:font-size { positiveLength | percent }?
+  & attribute style:font-size-asian { positiveLength | percent }?
+  & attribute style:font-size-complex { positiveLength | percent }?
+  & attribute style:font-size-rel { length }?
+  & attribute style:font-size-rel-asian { length }?
+  & attribute style:font-size-rel-complex { length }?
+  & attribute style:script-type { "latin" | "asian" | "complex" | "ignore" }?
+  & attribute fo:letter-spacing { length | "normal" }?
+  & attribute fo:language { languageCode }?
+  & attribute style:language-asian { languageCode }?
+  & attribute style:language-complex { languageCode }?
+  & attribute fo:country { countryCode }?
+  & attribute style:country-asian { countryCode }?
+  & attribute style:country-complex { countryCode }?
+  & attribute fo:script { scriptCode }?
+  & attribute style:script-asian { scriptCode }?
+  & attribute style:script-complex { scriptCode }?
+  & attribute style:rfc-language-tag { language }?
+  & attribute style:rfc-language-tag-asian { language }?
+  & attribute style:rfc-language-tag-complex { language }?
+  & attribute fo:font-style { "normal" | "italic" | "oblique" }?
+  & attribute style:font-style-asian { "normal" | "italic" | "oblique" }?
+  & attribute style:font-style-complex { "normal" | "italic" | "oblique" }?
+  & attribute style:font-relief { "none" | "embossed" | "engraved" }?
+  & attribute fo:text-shadow { "none" | \string }?
+  & attribute fo:font-weight { fontWeight }?
+  & attribute style:font-weight-asian { fontWeight }?
+  & attribute style:font-weight-complex { fontWeight }?
+  & attribute style:letter-kerning { boolean }?
+  & attribute style:text-blinking { boolean }?
+  & common-background-color-attlist
+  & attribute style:text-combine { "none" | "letters" | "lines" }?
+  & attribute style:text-combine-start-char { character }?
+  & attribute style:text-combine-end-char { character }?
+  & attribute style:text-emphasize {
+      "none"
+      | list {
+          ("none" | "accent" | "dot" | "circle" | "disc"),
+          ("above" | "below")
+        }
+    }?
+  & attribute style:text-scale { percent }?
+  & attribute style:text-rotation-angle { angle }?
+  & attribute style:text-rotation-scale { "fixed" | "line-height" }?
+  & attribute fo:hyphenate { boolean }?
+  & attribute fo:hyphenation-remain-char-count { positiveInteger }?
+  & attribute fo:hyphenation-push-char-count { positiveInteger }?
+  & (attribute text:display { "true" }
+     | attribute text:display { "none" }
+     | (attribute text:display { "condition" },
+        attribute text:condition { "none" })
+     | empty)
+</pre>
+
+
+<pre id="style-paragraph-properties">
+style-paragraph-properties =
+  element style:paragraph-properties {
+    style-paragraph-properties-content-strict
+  }
+</pre>
+
+<pre id="style-paragraph-properties-content-strict">
+style-paragraph-properties-content-strict =
+  style-paragraph-properties-attlist,
+  style-paragraph-properties-elements
+</pre>
+
+<pre id="style-paragraph-properties-attlist">
+style-paragraph-properties-attlist =
+  attribute fo:line-height { "normal" | nonNegativeLength | percent }?
+  & attribute style:line-height-at-least { nonNegativeLength }?
+  & attribute style:line-spacing { length }?
+  & attribute style:font-independent-line-spacing { boolean }?
+  & common-text-align
+  & attribute fo:text-align-last { "start" | "center" | "justify" }?
+  & attribute style:justify-single-word { boolean }?
+  & attribute fo:keep-together { "auto" | "always" }?
+  & attribute fo:widows { nonNegativeInteger }?
+  & attribute fo:orphans { nonNegativeInteger }?
+  & attribute style:tab-stop-distance { nonNegativeLength }?
+  & attribute fo:hyphenation-keep { "auto" | "page" }?
+  & attribute fo:hyphenation-ladder-count {
+      "no-limit" | positiveInteger
+    }?
+  & attribute style:register-true { boolean }?
+  & common-horizontal-margin-attlist
+  & attribute fo:text-indent { length | percent }?
+  & attribute style:auto-text-indent { boolean }?
+  & common-vertical-margin-attlist
+  & common-margin-attlist
+  & common-break-attlist
+  & common-background-color-attlist
+  & common-border-attlist
+  & common-border-line-width-attlist
+  & attribute style:join-border { boolean }?
+  & common-padding-attlist
+  & common-shadow-attlist
+  & common-keep-with-next-attlist
+  & attribute text:number-lines { boolean }?
+  & attribute text:line-number { nonNegativeInteger }?
+  & attribute style:text-autospace { "none" | "ideograph-alpha" }?
+  & attribute style:punctuation-wrap { "simple" | "hanging" }?
+  & attribute style:line-break { "normal" | "strict" }?
+  & attribute style:vertical-align {
+      "top" | "middle" | "bottom" | "auto" | "baseline"
+    }?
+  & common-writing-mode-attlist
+  & attribute style:writing-mode-automatic { boolean }?
+  & attribute style:snap-to-layout-grid { boolean }?
+  & common-page-number-attlist
+  & common-background-transparency-attlist
+</pre>
+
+<pre id="style-paragraph-properties-elements">
+style-paragraph-properties-elements =
+  style-tab-stops & style-drop-cap & style-background-image
+</pre>
+
+
+<pre id="style-table-properties">
+style-table-properties =
+  element style:table-properties {
+    style-table-properties-content-strict
+  }
+</pre>
+
+<pre id="style-table-properties-content-strict">
+style-table-properties-content-strict =
+  style-table-properties-attlist, style-table-properties-elements
+</pre>
+
+<pre id="style-table-properties-attlist">
+style-table-properties-attlist =
+  attribute style:width { positiveLength }?
+  & attribute style:rel-width { percent }?
+  & attribute table:align { "left" | "center" | "right" | "margins" }?
+  & common-horizontal-margin-attlist
+  & common-vertical-margin-attlist
+  & common-margin-attlist
+  & common-page-number-attlist
+  & common-break-attlist
+  & common-background-color-attlist
+  & common-shadow-attlist
+  & common-keep-with-next-attlist
+  & attribute style:may-break-between-rows { boolean }?
+  & attribute table:border-model { "collapsing" | "separating" }?
+  & common-writing-mode-attlist
+  & attribute table:display { boolean }?
+</pre>
+
+<pre id="style-table-properties-elements">
+style-table-properties-elements = style-background-image
+</pre>
+
+<pre id="style-table-column-properties">
+style-table-column-properties =
+  element style:table-column-properties {
+    style-table-column-properties-content-strict
+  }
+</pre>
+
+<pre id="style-table-column-properties-content-strict">
+style-table-column-properties-content-strict =
+  style-table-column-properties-attlist,
+  style-table-column-properties-elements
+</pre>
+
+<pre id="style-table-column-properties-elements">
+style-table-column-properties-elements = empty
+</pre>
+
+<pre id="style-table-column-properties-attlist">
+style-table-column-properties-attlist =
+  attribute style:column-width { positiveLength }?
+  & attribute style:rel-column-width { relativeLength }?
+  & attribute style:use-optimal-column-width { boolean }?
+  & common-break-attlist
+</pre>
+
+<pre id="style-table-row-properties">
+style-table-row-properties =
+  element style:table-row-properties {
+    style-table-row-properties-content-strict
+  }
+</pre>
+
+<pre id="style-table-row-properties-content-strict">
+style-table-row-properties-content-strict =
+  style-table-row-properties-attlist,
+  style-table-row-properties-elements
+</pre>
+
+<pre id="style-table-row-properties-attlist">
+style-table-row-properties-attlist =
+  attribute style:row-height { positiveLength }?
+  & attribute style:min-row-height { nonNegativeLength }?
+  & attribute style:use-optimal-row-height { boolean }?
+  & common-background-color-attlist
+  & common-break-attlist
+  & attribute fo:keep-together { "auto" | "always" }?
+</pre>
+
+<pre id="style-table-row-properties-elements">
+style-table-row-properties-elements = style-background-image
+</pre>
+
+<pre id="style-table-cell-properties">
+style-table-cell-properties =
+  element style:table-cell-properties {
+    style-table-cell-properties-content-strict
+  }
+</pre>
+
+<pre id="style-table-cell-properties-content-strict">
+style-table-cell-properties-content-strict =
+  style-table-cell-properties-attlist,
+  style-table-cell-properties-elements
+</pre>
+
+<pre id="style-table-cell-properties-attlist">
+style-table-cell-properties-attlist =
+  attribute style:vertical-align {
+    "top" | "middle" | "bottom" | "automatic"
+  }?
+  & attribute style:text-align-source { "fix" | "value-type" }?
+  & common-style-direction-attlist
+  & attribute style:glyph-orientation-vertical {
+      "auto" | "0" | "0deg" | "0rad" | "0grad"
+    }?
+  & common-writing-mode-attlist
+  & common-shadow-attlist
+  & common-background-color-attlist
+  & common-border-attlist
+  & attribute style:diagonal-tl-br { \string }?
+  & attribute style:diagonal-tl-br-widths { borderWidths }?
+  & attribute style:diagonal-bl-tr { \string }?
+  & attribute style:diagonal-bl-tr-widths { borderWidths }?
+  & common-border-line-width-attlist
+  & common-padding-attlist
+  & attribute fo:wrap-option { "no-wrap" | "wrap" }?
+  & common-rotation-angle-attlist
+  & attribute style:rotation-align {
+      "none" | "bottom" | "top" | "center"
+    }?
+  & attribute style:cell-protect {
+      "none"
+      | "hidden-and-protected"
+      | list { ("protected" | "formula-hidden")+ }
+    }?
+  & attribute style:print-content { boolean }?
+  & attribute style:decimal-places { nonNegativeInteger }?
+  & attribute style:repeat-content { boolean }?
+  & attribute style:shrink-to-fit { boolean }?
+</pre>
+
+<pre id="table-table-template">
+table-table-template =
+  element table:table-template {
+    attribute table:name { \string } &
+    attribute table:first-row-start-column { "row" | "column" } &
+    attribute table:first-row-end-column { "row" | "column" } &
+    attribute table:last-row-start-column { "row" | "column" } &
+    attribute table:last-row-end-column { "row" | "column" },
+    element table:first-row { <a href="#common-table-template-attlist">common-table-template-attlist</a>, empty }?,
+    element table:last-row { <a href="#common-table-template-attlist">common-table-template-attlist</a>, empty }?,
+    element table:first-column { <a href="#common-table-template-attlist">common-table-template-attlist</a>, empty }?,
+    element table:last-column { <a href="#common-table-template-attlist">common-table-template-attlist</a>, empty }?,
+    element table:body { <a href="#common-table-template-attlist">common-table-template-attlist</a>, empty },
+    element table:even-rows { <a href="#common-table-template-attlist">common-table-template-attlist</a>, empty }?,
+    element table:odd-rows { <a href="#common-table-template-attlist">common-table-template-attlist</a>, empty }?,
+    element table:even-columns { <a href="#common-table-template-attlist">common-table-template-attlist</a>, empty }?,
+    element table:odd-columns { <a href="#common-table-template-attlist">common-table-template-attlist</a>, empty }?,
+    element table:background { attribute table:style-name { styleNameRef }, empty }?
+  }
+</pre>
+
+<pre id="common-table-template-attlist">
+common-table-template-attlist =
+  attribute table:style-name { styleNameRef },
+  attribute table:paragraph-style-name { styleNameRef }?
+</pre>
+
+<h1>Meta</h1>
+
+<pre id="office-document-meta">
+office-document-meta =
+  element office:document-meta {
+    <a href="#office-document-common-attrs">office-document-common-attrs</a>,
+    <a href="#office-meta">office-meta</a>
+  }
+</pre>
+
+<pre id="office-meta">
+office-meta = element office:meta {
+  <a href="#office-meta-data">office-meta-data</a>*
+}?
+</pre>
+
+<pre id="office-meta-data">
+office-meta-data =
+  element meta:generator { \string } |
+  element dc:title { \string } |
+  element dc:description { \string } |
+  element dc:subject { \string } |
+  element dc:creator { \string } |
+  element dc:date { dateTime } |
+  element dc:language { language } |
+  element meta:keyword { \string } |
+  element meta:initial-creator { \string } |
+  element meta:printed-by { \string } |
+  element meta:creation-date { dateTime } |
+  element meta:print-date { dateTime } |
+  element meta:template {
+    attribute xlink:type { "simple" },
+    attribute xlink:href { anyIRI },
+    attribute xlink:actuate { "onRequest" }?,
+    attribute xlink:title { \string }?,
+    attribute meta:date { dateTime }?
+  } |
+  element meta:auto-reload {
+    (attribute xlink:type { "simple" },
+     attribute xlink:href { anyIRI },
+     attribute xlink:show { "replace" }?,
+     attribute xlink:actuate { "onLoad" }?)?,
+    attribute meta:delay { duration }?
+  } |
+  element meta:hyperlink-behaviour {
+    attribute office:target-frame-name { targetFrameName }?,
+    attribute xlink:show { "new" | "replace" }?
+  } |
+  element meta:editing-cycles { nonNegativeInteger } |
+  element meta:editing-duration { duration } |
+  element meta:document-statistic {
+    attribute meta:page-count { nonNegativeInteger }?,
+    attribute meta:table-count { nonNegativeInteger }?,
+    attribute meta:draw-count { nonNegativeInteger }?,
+    attribute meta:image-count { nonNegativeInteger }?,
+    attribute meta:ole-object-count { nonNegativeInteger }?,
+    attribute meta:object-count { nonNegativeInteger }?,
+    attribute meta:paragraph-count { nonNegativeInteger }?,
+    attribute meta:word-count { nonNegativeInteger }?,
+    attribute meta:character-count { nonNegativeInteger }?,
+    attribute meta:frame-count { nonNegativeInteger }?,
+    attribute meta:sentence-count { nonNegativeInteger }?,
+    attribute meta:syllable-count { nonNegativeInteger }?,
+    attribute meta:non-whitespace-character-count {
+      nonNegativeInteger
+    }?,
+    attribute meta:row-count { nonNegativeInteger }?,
+    attribute meta:cell-count { nonNegativeInteger }?
+  } |
+  element meta:user-defined {
+    attribute meta:name { \string },
+    ((attribute meta:value-type { "float" },
+      double)
+     | (attribute meta:value-type { "date" },
+        dateOrDateTime)
+     | (attribute meta:value-type { "time" },
+        duration)
+     | (attribute meta:value-type { "boolean" },
+        boolean)
+     | (attribute meta:value-type { "string" },
+        \string)
+     | text)
+  } |
+</pre>
+
+<h1>Settings</h1>
+
+<pre id="office-document-settings">
+office-document-settings =
+  element office:document-settings {
+    <a href="#office-document-common-attrs">office-document-common-attrs</a>, office-settings
+  }
+</pre>
+
+<h1>Scripts</h1>
+
+<pre id="office-scripts">
+office-scripts =
+  element office:scripts {
+    <a href="#office-script">office-script</a>*,
+    office-event-listeners?
+  }?
+</pre>
+
+<pre id="office-script">
+office-script =
+  element office:script {
+    attribute script:language { \string },
+    mixed { anyElements }
+  }
+</pre>
+
+</body>
+</html>

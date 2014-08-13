@@ -1,0 +1,29 @@
+LaTeX_testCreate();
+#item input.html
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>This is a test</p>
+
+<p>Here is some more text</p>
+
+<p>And a third paragraph</p>
+
+</body>
+</html>
+#item expected
+\documentclass[a4paper,12pt]{article}
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+This is a test
+
+Here is some more text
+
+And a third paragraph
+
+\end{document}

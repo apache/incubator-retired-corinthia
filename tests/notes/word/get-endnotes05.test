@@ -1,0 +1,64 @@
+Word_testGet();
+#item input.docx
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:r>
+        <w:t>Endnote paragraph</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:rStyle w:val="EndnoteReference"/>
+        </w:rPr>
+        <w:endnoteReference w:id="0"/>
+      </w:r>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1190" w:left="1190" w:right="1190" w:top="1190"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+#include "styles-endnotes.xml"
+##item endnotes.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:endnotes xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:endnote w:id="0">
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="EndnoteText"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rStyle w:val="EndnoteReference"/>
+        </w:rPr>
+        <w:endnoteRef/>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:u w:val="double"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> Content of the endnote</w:t>
+      </w:r>
+    </w:p>
+  </w:endnote>
+</w:endnotes>
+#item expected
+<!DOCTYPE html>
+<html id="word1">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+#include "styles.css"
+    </style>
+  </head>
+  <body id="word2">
+    <p class="Normal" id="word3">
+      <span id="word4">Endnote paragraph</span><span class="endnote" id="word7"><span id="word10-endnotes" style="text-decoration: underline">Content of the endnote</span></span>
+    </p>
+  </body>
+</html>

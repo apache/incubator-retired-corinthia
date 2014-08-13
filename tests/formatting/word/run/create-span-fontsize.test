@@ -1,0 +1,40 @@
+Word_testCreate();
+#item input.html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+#include "common.css"
+    </style>
+  </head>
+  <body>
+    <p>Here is some <span style="font-size: 18pt">sample text</p>
+  </body>
+</html>
+#item expected
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:r>
+        <w:t xml:space="preserve">Here is some </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="36"/>
+          <w:szCs w:val="36"/>
+        </w:rPr>
+        <w:t>sample text</w:t>
+      </w:r>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:left="1800" w:right="1800" w:top="1440"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+#include "styles-created.xml"

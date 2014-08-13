@@ -1,0 +1,375 @@
+Word_testGet();
+#item input.docx
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:r>
+        <w:t>First paragraph</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:rStyle w:val="FootnoteReference"/>
+        </w:rPr>
+        <w:footnoteReference w:id="1"/>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t>Second paragraph</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:rStyle w:val="FootnoteReference"/>
+        </w:rPr>
+        <w:footnoteReference w:id="2"/>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t>Third paragraph</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:rStyle w:val="EndnoteReference"/>
+        </w:rPr>
+        <w:endnoteReference w:id="1"/>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t>Fourth paragraph</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:rStyle w:val="EndnoteReference"/>
+        </w:rPr>
+        <w:endnoteReference w:id="2"/>
+      </w:r>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="15840" w:w="12240"/>
+      <w:pgMar w:bottom="1440" w:footer="720" w:gutter="0" w:header="720" w:left="1440" w:right="1440" w:top="1440"/>
+      <w:cols w:space="720"/>
+      <w:docGrid w:linePitch="360"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:docDefaults>
+    <w:rPrDefault>
+      <w:rPr>
+        <w:rFonts w:asciiTheme="minorHAnsi" w:cstheme="minorBidi" w:eastAsiaTheme="minorHAnsi" w:hAnsiTheme="minorHAnsi"/>
+        <w:sz w:val="22"/>
+        <w:szCs w:val="22"/>
+        <w:lang w:bidi="ar-SA" w:eastAsia="en-US" w:val="en-US"/>
+      </w:rPr>
+    </w:rPrDefault>
+    <w:pPrDefault>
+      <w:pPr>
+        <w:spacing w:after="160" w:line="259" w:lineRule="auto"/>
+      </w:pPr>
+    </w:pPrDefault>
+  </w:docDefaults>
+  <w:style w:default="1" w:styleId="Normal" w:type="paragraph">
+    <w:name w:val="Normal"/>
+    <w:qFormat/>
+  </w:style>
+  <w:style w:default="1" w:styleId="DefaultParagraphFont" w:type="character">
+    <w:name w:val="Default Paragraph Font"/>
+    <w:uiPriority w:val="1"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+  <w:style w:default="1" w:styleId="TableNormal" w:type="table">
+    <w:name w:val="Normal Table"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+    <w:tblPr>
+      <w:tblInd w:type="dxa" w:w="0"/>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="NoList" w:type="numbering">
+    <w:name w:val="No List"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+  <w:style w:styleId="FootnoteText" w:type="paragraph">
+    <w:name w:val="footnote text"/>
+    <w:basedOn w:val="Normal"/>
+    <w:link w:val="FootnoteTextChar"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+    <w:rsid w:val="00E927B1"/>
+    <w:pPr>
+      <w:spacing w:after="0" w:line="240" w:lineRule="auto"/>
+    </w:pPr>
+    <w:rPr>
+      <w:sz w:val="20"/>
+      <w:szCs w:val="20"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="FootnoteTextChar" w:type="character">
+    <w:name w:val="Footnote Text Char"/>
+    <w:basedOn w:val="DefaultParagraphFont"/>
+    <w:link w:val="FootnoteText"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:rsid w:val="00E927B1"/>
+    <w:rPr>
+      <w:sz w:val="20"/>
+      <w:szCs w:val="20"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="FootnoteReference" w:type="character">
+    <w:name w:val="footnote reference"/>
+    <w:basedOn w:val="DefaultParagraphFont"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+    <w:rsid w:val="00E927B1"/>
+    <w:rPr>
+      <w:vertAlign w:val="superscript"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="EndnoteText" w:type="paragraph">
+    <w:name w:val="endnote text"/>
+    <w:basedOn w:val="Normal"/>
+    <w:link w:val="EndnoteTextChar"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+    <w:rsid w:val="00E927B1"/>
+    <w:pPr>
+      <w:spacing w:after="0" w:line="240" w:lineRule="auto"/>
+    </w:pPr>
+    <w:rPr>
+      <w:sz w:val="20"/>
+      <w:szCs w:val="20"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="EndnoteTextChar" w:type="character">
+    <w:name w:val="Endnote Text Char"/>
+    <w:basedOn w:val="DefaultParagraphFont"/>
+    <w:link w:val="EndnoteText"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:rsid w:val="00E927B1"/>
+    <w:rPr>
+      <w:sz w:val="20"/>
+      <w:szCs w:val="20"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="EndnoteReference" w:type="character">
+    <w:name w:val="endnote reference"/>
+    <w:basedOn w:val="DefaultParagraphFont"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+    <w:rsid w:val="00E927B1"/>
+    <w:rPr>
+      <w:vertAlign w:val="superscript"/>
+    </w:rPr>
+  </w:style>
+</w:styles>
+##item footnotes.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:footnotes xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:footnote w:id="-1" w:type="separator">
+    <w:p w:rsidP="00E927B1" w:rsidR="00E927B1" w:rsidRDefault="00E927B1">
+      <w:pPr>
+        <w:spacing w:after="0" w:line="240" w:lineRule="auto"/>
+      </w:pPr>
+      <w:r>
+        <w:separator/>
+      </w:r>
+    </w:p>
+  </w:footnote>
+  <w:footnote w:id="0" w:type="continuationSeparator">
+    <w:p w:rsidP="00E927B1" w:rsidR="00E927B1" w:rsidRDefault="00E927B1">
+      <w:pPr>
+        <w:spacing w:after="0" w:line="240" w:lineRule="auto"/>
+      </w:pPr>
+      <w:r>
+        <w:continuationSeparator/>
+      </w:r>
+    </w:p>
+  </w:footnote>
+  <w:footnote w:id="1">
+    <w:p w:rsidR="00E927B1" w:rsidRDefault="00E927B1">
+      <w:pPr>
+        <w:pStyle w:val="FootnoteText"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rStyle w:val="FootnoteReference"/>
+        </w:rPr>
+        <w:footnoteRef/>
+      </w:r>
+      <w:r>
+        <w:t xml:space="preserve"> First footnote</w:t>
+      </w:r>
+    </w:p>
+  </w:footnote>
+  <w:footnote w:id="2">
+    <w:p w:rsidR="00E927B1" w:rsidRDefault="00E927B1">
+      <w:pPr>
+        <w:pStyle w:val="FootnoteText"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rStyle w:val="FootnoteReference"/>
+        </w:rPr>
+        <w:footnoteRef/>
+      </w:r>
+      <w:r>
+        <w:t xml:space="preserve"> Second footnote</w:t>
+      </w:r>
+    </w:p>
+  </w:footnote>
+</w:footnotes>
+##item endnotes.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:endnotes xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:endnote w:id="-1" w:type="separator">
+    <w:p w:rsidP="00E927B1" w:rsidR="00E927B1" w:rsidRDefault="00E927B1">
+      <w:pPr>
+        <w:spacing w:after="0" w:line="240" w:lineRule="auto"/>
+      </w:pPr>
+      <w:r>
+        <w:separator/>
+      </w:r>
+    </w:p>
+  </w:endnote>
+  <w:endnote w:id="0" w:type="continuationSeparator">
+    <w:p w:rsidP="00E927B1" w:rsidR="00E927B1" w:rsidRDefault="00E927B1">
+      <w:pPr>
+        <w:spacing w:after="0" w:line="240" w:lineRule="auto"/>
+      </w:pPr>
+      <w:r>
+        <w:continuationSeparator/>
+      </w:r>
+    </w:p>
+  </w:endnote>
+  <w:endnote w:id="1">
+    <w:p w:rsidR="00E927B1" w:rsidRDefault="00E927B1">
+      <w:pPr>
+        <w:pStyle w:val="EndnoteText"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rStyle w:val="EndnoteReference"/>
+        </w:rPr>
+        <w:endnoteRef/>
+      </w:r>
+      <w:r>
+        <w:t xml:space="preserve"> First endnote</w:t>
+      </w:r>
+    </w:p>
+  </w:endnote>
+  <w:endnote w:id="2">
+    <w:p w:rsidR="00E927B1" w:rsidRDefault="00E927B1">
+      <w:pPr>
+        <w:pStyle w:val="EndnoteText"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rStyle w:val="EndnoteReference"/>
+        </w:rPr>
+        <w:endnoteRef/>
+      </w:r>
+      <w:r>
+        <w:t xml:space="preserve"> Second </w:t>
+      </w:r>
+      <w:r>
+        <w:t>endnote</w:t>
+      </w:r>
+      <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="0"/>
+    </w:p>
+  </w:endnote>
+</w:endnotes>
+#item expected
+<!DOCTYPE html>
+<html id="word1">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+@page {
+    size: letter portrait;
+}
+
+body {
+    counter-reset: h1 h2 h3 h4 h5 h6 figure table;
+    line-height: 107.916667%;
+    margin-bottom: 8pt;
+    margin-left: 11.764706%;
+    margin-right: 11.764706%;
+    margin-top: 11.764706%;
+}
+
+p.Normal {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal";
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+span.Default_Paragraph_Font {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Default Paragraph Font";
+}
+
+span.Endnote_Text_Char {
+    -uxwrite-display-name: "Endnote Text Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    font-size: 10pt;
+}
+
+span.Footnote_Text_Char {
+    -uxwrite-display-name: "Footnote Text Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    font-size: 10pt;
+}
+
+table.Normal_Table {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal Table";
+}
+
+table.Normal_Table > * > tr > td {
+    padding-bottom: 0pt;
+    padding-left: 5.4pt;
+    padding-right: 5.4pt;
+    padding-top: 0pt;
+}
+    </style>
+  </head>
+  <body id="word2">
+    <p class="Normal" id="word3">
+      <span id="word4">First paragraph</span><span class="footnote" id="word7"><span id="word22-footnotes">First footnote</span></span>
+    </p>
+    <p class="Normal" id="word11">
+      <span id="word12">Second paragraph</span><span class="footnote" id="word15"><span id="word33-footnotes">Second footnote</span></span>
+    </p>
+    <p class="Normal" id="word19">
+      <span id="word20">Third paragraph</span><span class="endnote" id="word23"><span id="word22-endnotes">First endnote</span></span>
+    </p>
+    <p class="Normal" id="word27">
+      <span id="word28">Fourth paragraph</span><span class="endnote" id="word31"><span id="word33-endnotes">Second </span><span id="word36-endnotes">endnote</span></span>
+    </p>
+  </body>
+</html>

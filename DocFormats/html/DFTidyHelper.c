@@ -1,0 +1,74 @@
+//
+//  DFTidyHelper.c
+//  DocFormats
+//
+//  Created by Peter Kelly on 6/12/12.
+//  Copyright (c) 2012-2014 UX Productivity Pty Ltd. All rights reserved.
+//
+
+#include "DFTidyHelper.h"
+#include "buffio.h"
+#include "streamio.h"
+#include "DFFilesystem.h"
+#include "DFNameMap.h"
+#include "DFCommon.h"
+
+char *copyTidyNodeValue(TidyNode tnode, TidyDoc tdoc)
+{
+    TidyBuffer buf;
+    tidyBufInit(&buf);
+    tidyNodeGetValue(tdoc,tnode,&buf);
+
+    char *str = (char *)malloc(buf.size+1);
+    memcpy(str,buf.bp,buf.size);
+    str[buf.size] = '\0';
+
+    tidyBufFree(&buf);
+    return str;
+}
+
+DFNode *fromTidyNode(DFDocument *htmlDoc, TidyDoc tdoc, TidyNode tnode)
+{
+    switch (tidyNodeGetType(tnode)) {
+        case TidyNode_Text: {
+            char *value = copyTidyNodeValue(tnode,tdoc);
+            DFNode *result = DFCreateTextNode(htmlDoc,value);
+            free(value);
+            return result;
+        }
+        case TidyNode_CDATA:
+            break;
+        case TidyNode_Comment:
+            break;
+        case TidyNode_Root:
+            printf("Have root\n");
+            break;
+        default: {
+            const char *name = tidyNodeGetName(tnode);
+            if (name == NULL) {
+                printf("NULL name for %p, type %d\n",tnode,tidyNodeGetType(tnode));
+                return NULL;
+            }
+            const NamespaceDecl *namespaceDecl = DFNameMapNamespaceForID(htmlDoc->map,NAMESPACE_HTML);
+            Tag tag = DFNameMapTagForName(htmlDoc->map,(xmlChar *)namespaceDecl->namespaceURI,(xmlChar *)name);
+            DFNode *element = DFCreateElement(htmlDoc,tag);
+
+            for (TidyAttr tattr = tidyAttrFirst(tnode); tattr != NULL; tattr = tidyAttrNext(tattr)) {
+                const char *name = tidyAttrName(tattr);
+                const char *value = tidyAttrValue(tattr);
+                if (value == NULL) // Can happen in case of the empty string
+                    value = "";
+                Tag attrTag = DFNameMapTagForName(htmlDoc->map,(xmlChar *)namespaceDecl->namespaceURI,(xmlChar *)name);
+                DFSetAttribute(element,attrTag,value);
+            }
+
+            for (TidyNode tchild = tidyGetChild(tnode); tchild != NULL; tchild = tidyGetNext(tchild)) {
+                DFNode *child = fromTidyNode(htmlDoc,tdoc,tchild);
+                if (child != NULL)
+                    DFAppendChild(element,child);
+            }
+            return element;
+        }
+    }
+    return NULL;
+}

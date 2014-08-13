@@ -1,0 +1,50 @@
+Word_testCollapseBookmarks();
+#item input.docx
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:r>
+        <w:t>one</w:t>
+      </w:r>
+      <w:r>
+        <w:t>two</w:t>
+      </w:r>
+      <w:bookmarkStart w:id="0" w:name="test0"/>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t>three</w:t>
+      </w:r>
+      <w:r>
+        <w:t>four</w:t>
+      </w:r>
+    </w:p>
+    <w:bookmarkEnd w:id="0"/>
+  </w:body>
+</w:document>
+#item expected
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:r>
+        <w:t>one</w:t>
+      </w:r>
+      <w:r>
+        <w:t>two</w:t>
+      </w:r>
+      <w:bookmark w:id="0" w:name="test0"/>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t>three</w:t>
+      </w:r>
+      <w:r>
+        <w:t>four</w:t>
+      </w:r>
+    </w:p>
+  </w:body>
+</w:document>

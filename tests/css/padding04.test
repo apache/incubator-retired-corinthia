@@ -1,0 +1,67 @@
+CSS_test();
+#item input.css
+p.test1 {
+    padding: 1px;
+}
+
+p.test2 {
+    padding: 1px 2px;
+}
+
+p.test3 {
+    padding: 1px 2px 3px;
+}
+
+p.test4 {
+    padding: 1px 2px 3px 4px;
+}
+#item expected
+p.test1
+    ""
+        padding-bottom = 1px
+        padding-left = 1px
+        padding-right = 1px
+        padding-top = 1px
+p.test2
+    ""
+        padding-bottom = 1px
+        padding-left = 2px
+        padding-right = 2px
+        padding-top = 1px
+p.test3
+    ""
+        padding-bottom = 3px
+        padding-left = 2px
+        padding-right = 2px
+        padding-top = 1px
+p.test4
+    ""
+        padding-bottom = 3px
+        padding-left = 4px
+        padding-right = 2px
+        padding-top = 1px
+================================================================================
+p.test1 {
+    padding: 1px;
+}
+
+p.test2 {
+    padding-bottom: 1px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 1px;
+}
+
+p.test3 {
+    padding-bottom: 3px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 1px;
+}
+
+p.test4 {
+    padding-bottom: 3px;
+    padding-left: 4px;
+    padding-right: 2px;
+    padding-top: 1px;
+}

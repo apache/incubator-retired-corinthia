@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="http://purl.oclc.org/ooxml/drawingml/spreadsheetDrawing" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:r="http://purl.oclc.org/ooxml/officeDocument/relationships" xmlns:xdr="http://purl.oclc.org/ooxml/drawingml/spreadsheetDrawing" xmlns:a="http://purl.oclc.org/ooxml/drawingml/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:aa="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <define name="xdr_from">
+    <element name="from">
+      <ref name="xdr_CT_Marker"/>
+    </element>
+  </define>
+  <define name="xdr_to">
+    <element name="to">
+      <ref name="xdr_CT_Marker"/>
+    </element>
+  </define>
+  <define name="xdr_CT_AnchorClientData">
+    <optional>
+      <attribute name="fLocksWithSheet">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="fPrintsWithSheet">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="xdr_CT_ShapeNonVisual">
+    <element name="cNvPr">
+      <ref name="a_CT_NonVisualDrawingProps"/>
+    </element>
+    <element name="cNvSpPr">
+      <ref name="a_CT_NonVisualDrawingShapeProps"/>
+    </element>
+  </define>
+  <define name="xdr_CT_Shape">
+    <optional>
+      <attribute name="macro">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="textlink">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="fLocksText">
+        <aa:documentation>default value: true</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="fPublished">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <element name="nvSpPr">
+      <ref name="xdr_CT_ShapeNonVisual"/>
+    </element>
+    <element name="spPr">
+      <ref name="a_CT_ShapeProperties"/>
+    </element>
+    <optional>
+      <element name="style">
+        <ref name="a_CT_ShapeStyle"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="txBody">
+        <ref name="a_CT_TextBody"/>
+      </element>
+    </optional>
+  </define>
+  <define name="xdr_CT_ConnectorNonVisual">
+    <element name="cNvPr">
+      <ref name="a_CT_NonVisualDrawingProps"/>
+    </element>
+    <element name="cNvCxnSpPr">
+      <ref name="a_CT_NonVisualConnectorProperties"/>
+    </element>
+  </define>
+  <define name="xdr_CT_Connector">
+    <optional>
+      <attribute name="macro">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="fPublished">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <element name="nvCxnSpPr">
+      <ref name="xdr_CT_ConnectorNonVisual"/>
+    </element>
+    <element name="spPr">
+      <ref name="a_CT_ShapeProperties"/>
+    </element>
+    <optional>
+      <element name="style">
+        <ref name="a_CT_ShapeStyle"/>
+      </element>
+    </optional>
+  </define>
+  <define name="xdr_CT_PictureNonVisual">
+    <element name="cNvPr">
+      <ref name="a_CT_NonVisualDrawingProps"/>
+    </element>
+    <element name="cNvPicPr">
+      <ref name="a_CT_NonVisualPictureProperties"/>
+    </element>
+  </define>
+  <define name="xdr_CT_Picture">
+    <optional>
+      <attribute name="macro">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="fPublished">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <element name="nvPicPr">
+      <ref name="xdr_CT_PictureNonVisual"/>
+    </element>
+    <element name="blipFill">
+      <ref name="a_CT_BlipFillProperties"/>
+    </element>
+    <element name="spPr">
+      <ref name="a_CT_ShapeProperties"/>
+    </element>
+    <optional>
+      <element name="style">
+        <ref name="a_CT_ShapeStyle"/>
+      </element>
+    </optional>
+  </define>
+  <define name="xdr_CT_GraphicalObjectFrameNonVisual">
+    <element name="cNvPr">
+      <ref name="a_CT_NonVisualDrawingProps"/>
+    </element>
+    <element name="cNvGraphicFramePr">
+      <ref name="a_CT_NonVisualGraphicFrameProperties"/>
+    </element>
+  </define>
+  <define name="xdr_CT_GraphicalObjectFrame">
+    <optional>
+      <attribute name="macro">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="fPublished">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <element name="nvGraphicFramePr">
+      <ref name="xdr_CT_GraphicalObjectFrameNonVisual"/>
+    </element>
+    <element name="xfrm">
+      <ref name="a_CT_Transform2D"/>
+    </element>
+    <ref name="a_graphic"/>
+  </define>
+  <define name="xdr_CT_GroupShapeNonVisual">
+    <element name="cNvPr">
+      <ref name="a_CT_NonVisualDrawingProps"/>
+    </element>
+    <element name="cNvGrpSpPr">
+      <ref name="a_CT_NonVisualGroupDrawingShapeProps"/>
+    </element>
+  </define>
+  <define name="xdr_CT_GroupShape">
+    <element name="nvGrpSpPr">
+      <ref name="xdr_CT_GroupShapeNonVisual"/>
+    </element>
+    <element name="grpSpPr">
+      <ref name="a_CT_GroupShapeProperties"/>
+    </element>
+    <zeroOrMore>
+      <choice>
+        <element name="sp">
+          <ref name="xdr_CT_Shape"/>
+        </element>
+        <element name="grpSp">
+          <ref name="xdr_CT_GroupShape"/>
+        </element>
+        <element name="graphicFrame">
+          <ref name="xdr_CT_GraphicalObjectFrame"/>
+        </element>
+        <element name="cxnSp">
+          <ref name="xdr_CT_Connector"/>
+        </element>
+        <element name="pic">
+          <ref name="xdr_CT_Picture"/>
+        </element>
+      </choice>
+    </zeroOrMore>
+  </define>
+  <define name="xdr_EG_ObjectChoices">
+    <choice>
+      <element name="sp">
+        <ref name="xdr_CT_Shape"/>
+      </element>
+      <element name="grpSp">
+        <ref name="xdr_CT_GroupShape"/>
+      </element>
+      <element name="graphicFrame">
+        <ref name="xdr_CT_GraphicalObjectFrame"/>
+      </element>
+      <element name="cxnSp">
+        <ref name="xdr_CT_Connector"/>
+      </element>
+      <element name="pic">
+        <ref name="xdr_CT_Picture"/>
+      </element>
+      <element name="contentPart">
+        <ref name="xdr_CT_Rel"/>
+      </element>
+    </choice>
+  </define>
+  <define name="xdr_CT_Rel">
+    <ref name="r_id"/>
+  </define>
+  <define name="xdr_ST_ColID">
+    <data type="int">
+      <param name="minInclusive">0</param>
+    </data>
+  </define>
+  <define name="xdr_ST_RowID">
+    <data type="int">
+      <param name="minInclusive">0</param>
+    </data>
+  </define>
+  <define name="xdr_CT_Marker">
+    <element name="col">
+      <ref name="xdr_ST_ColID"/>
+    </element>
+    <element name="colOff">
+      <ref name="a_ST_Coordinate"/>
+    </element>
+    <element name="row">
+      <ref name="xdr_ST_RowID"/>
+    </element>
+    <element name="rowOff">
+      <ref name="a_ST_Coordinate"/>
+    </element>
+  </define>
+  <define name="xdr_ST_EditAs">
+    <choice>
+      <value>twoCell</value>
+      <value>oneCell</value>
+      <value>absolute</value>
+    </choice>
+  </define>
+  <define name="xdr_CT_TwoCellAnchor">
+    <optional>
+      <attribute name="editAs">
+        <aa:documentation>default value: twoCell</aa:documentation>
+        <ref name="xdr_ST_EditAs"/>
+      </attribute>
+    </optional>
+    <element name="from">
+      <ref name="xdr_CT_Marker"/>
+    </element>
+    <element name="to">
+      <ref name="xdr_CT_Marker"/>
+    </element>
+    <ref name="xdr_EG_ObjectChoices"/>
+    <element name="clientData">
+      <ref name="xdr_CT_AnchorClientData"/>
+    </element>
+  </define>
+  <define name="xdr_CT_OneCellAnchor">
+    <element name="from">
+      <ref name="xdr_CT_Marker"/>
+    </element>
+    <element name="ext">
+      <ref name="a_CT_PositiveSize2D"/>
+    </element>
+    <ref name="xdr_EG_ObjectChoices"/>
+    <element name="clientData">
+      <ref name="xdr_CT_AnchorClientData"/>
+    </element>
+  </define>
+  <define name="xdr_CT_AbsoluteAnchor">
+    <element name="pos">
+      <ref name="a_CT_Point2D"/>
+    </element>
+    <element name="ext">
+      <ref name="a_CT_PositiveSize2D"/>
+    </element>
+    <ref name="xdr_EG_ObjectChoices"/>
+    <element name="clientData">
+      <ref name="xdr_CT_AnchorClientData"/>
+    </element>
+  </define>
+  <define name="xdr_EG_Anchor">
+    <choice>
+      <element name="twoCellAnchor">
+        <ref name="xdr_CT_TwoCellAnchor"/>
+      </element>
+      <element name="oneCellAnchor">
+        <ref name="xdr_CT_OneCellAnchor"/>
+      </element>
+      <element name="absoluteAnchor">
+        <ref name="xdr_CT_AbsoluteAnchor"/>
+      </element>
+    </choice>
+  </define>
+  <define name="xdr_CT_Drawing">
+    <zeroOrMore>
+      <ref name="xdr_EG_Anchor"/>
+    </zeroOrMore>
+  </define>
+  <define name="xdr_wsDr">
+    <element name="wsDr">
+      <ref name="xdr_CT_Drawing"/>
+    </element>
+  </define>
+</grammar>

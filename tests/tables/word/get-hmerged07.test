@@ -1,0 +1,206 @@
+Word_testGet();
+#item input.docx
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblStyle w:val="TableGrid"/>
+        <w:tblW w:type="pct" w:w="5000"/>
+        <w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="2838"/>
+        <w:gridCol w:w="2839"/>
+        <w:gridCol w:w="2839"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="pct" w:w="3333"/>
+            <w:gridSpan w:val="2"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:tabs>
+                <w:tab w:pos="20" w:val="left"/>
+              </w:tabs>
+            </w:pPr>
+            <w:r>
+              <w:t>0,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:kern w:val="2"/>
+              </w:rPr>
+              <w:t>0</w:t>
+            </w:r>
+          </w:p>
+          <w:p>
+            <w:pPr>
+              <w:tabs>
+                <w:tab w:pos="40" w:val="left"/>
+              </w:tabs>
+            </w:pPr>
+            <w:r>
+              <w:t>0,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:kern w:val="4"/>
+              </w:rPr>
+              <w:t>1</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="pct" w:w="1667"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:tabs>
+                <w:tab w:pos="60" w:val="left"/>
+              </w:tabs>
+            </w:pPr>
+            <w:r>
+              <w:t>0,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:kern w:val="6"/>
+              </w:rPr>
+              <w:t>2</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="pct" w:w="1666"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:tabs>
+                <w:tab w:pos="80" w:val="left"/>
+              </w:tabs>
+            </w:pPr>
+            <w:r>
+              <w:t>1,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:kern w:val="8"/>
+              </w:rPr>
+              <w:t>0</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="pct" w:w="3334"/>
+            <w:gridSpan w:val="2"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:tabs>
+                <w:tab w:pos="100" w:val="left"/>
+              </w:tabs>
+            </w:pPr>
+            <w:r>
+              <w:t>1,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:kern w:val="10"/>
+              </w:rPr>
+              <w:t>1</w:t>
+            </w:r>
+          </w:p>
+          <w:p>
+            <w:pPr>
+              <w:tabs>
+                <w:tab w:pos="120" w:val="left"/>
+              </w:tabs>
+            </w:pPr>
+            <w:r>
+              <w:t>1,</w:t>
+            </w:r>
+            <w:r>
+              <w:rPr>
+                <w:kern w:val="12"/>
+              </w:rPr>
+              <w:t>2</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+    <w:p>
+      <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="0"/>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:footer="708" w:gutter="0" w:header="708" w:left="1800" w:right="1800" w:top="1440"/>
+      <w:cols w:space="708"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+#include "styles.xml"
+#item expected
+<!DOCTYPE html>
+<html id="word1">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+#include "common.css"
+    </style>
+  </head>
+  <body id="word2">
+    <table class="Table_Grid" id="word3" style="width: 100%">
+      <colgroup>
+        <col width="33.325505%"/>
+        <col width="33.337248%"/>
+        <col width="33.337248%"/>
+      </colgroup>
+      <tr id="word12">
+        <td colspan="2" id="word13">
+          <p class="Normal" id="word17">
+            <span id="word21">0,</span><span id="word24">0</span>
+          </p>
+          <p class="Normal" id="word29">
+            <span id="word33">0,</span><span id="word36">1</span>
+          </p>
+        </td>
+        <td id="word41">
+          <p class="Normal" id="word44">
+            <span id="word48">0,</span><span id="word51">2</span>
+          </p>
+        </td>
+      </tr>
+      <tr id="word56">
+        <td id="word57">
+          <p class="Normal" id="word60">
+            <span id="word64">1,</span><span id="word67">0</span>
+          </p>
+        </td>
+        <td colspan="2" id="word72">
+          <p class="Normal" id="word76">
+            <span id="word80">1,</span><span id="word83">1</span>
+          </p>
+          <p class="Normal" id="word88">
+            <span id="word92">1,</span><span id="word95">2</span>
+          </p>
+        </td>
+      </tr>
+    </table>
+    <p class="Normal" id="word100">
+      <br/>
+    </p>
+  </body>
+</html>

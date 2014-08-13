@@ -1,0 +1,147 @@
+Word_testGet();
+#item input.docx
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:r>
+        <w:t>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at lorem augue, at molestie risus. Sed bibendum augue metus, sed cursus tortor. Aenean semper consectetur pulvinar. Aliquam ultrices tempus nibh, ut mollis ligula ultrices nec. Curabitur vel eros in mi mattis vulputate in nec lorem. Nam auctor faucibus diam, eget accumsan lorem auctor eu. Maecenas imperdiet tristique nisi. Sed sed metus lacus. In consectetur tempus justo, vitae porta urna dapibus nec. Duis vitae lorem sit amet quam suscipit mollis eget non orci. Praesent porta neque et mauris molestie nec sagittis nulla volutpat.</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t>Vivamus nec cursus massa. Aenean hendrerit sagittis volutpat. Donec diam erat, vehicula at ultrices vel, aliquet ac mauris. Nam vitae lectus eu eros sagittis sollicitudin. Mauris consequat, est suscipit feugiat eleifend, leo erat rutrum dui, at volutpat metus metus vitae leo. Fusce dictum tincidunt dignissim. Vestibulum eu est purus, eu aliquam quam. Aenean ultricies ante sit amet libero sodales eu feugiat velit ornare.</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t>Proin facilisis cursus elementum. Proin ac lorem ut odio ultricies vehicula sit amet in diam. Proin ut nunc et nisl tristique sagittis. Aenean aliquet eleifend enim non molestie. Vivamus tincidunt augue nec erat suscipit ullamcorper. Nulla ornare risus odio. Nullam vestibulum tellus ac odio mattis quis sollicitudin arcu interdum. Donec convallis malesuada ultricies. Sed sodales porta commodo. Ut nec fringilla est. Nulla aliquet feugiat orci in lobortis. Duis adipiscing aliquam orci, ac tempus leo posuere id. Nam neque enim, faucibus id luctus ut, blandit eu est. Nullam non convallis mauris.</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t>Nunc tincidunt, ante vel hendrerit cursus, lectus quam dapibus ipsum, eget vestibulum odio turpis eleifend augue. Ut pharetra ultricies risus, id gravida risus tincidunt eget. Nam eros massa, condimentum quis aliquet nec, aliquam id enim. Integer diam justo, sagittis at faucibus eget, vestibulum id lectus. Suspendisse pharetra lobortis diam sit amet fermentum. Donec nisl ipsum, faucibus et bibendum a, viverra nec nunc. Cras vel arcu mauris. In hac habitasse platea dictumst.</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="0"/>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:footer="708" w:gutter="0" w:header="708" w:left="1800" w:right="1800" w:top="1440"/>
+      <w:cols w:space="708"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:docDefaults>
+    <w:rPrDefault>
+      <w:rPr>
+        <w:rFonts w:asciiTheme="minorHAnsi" w:cstheme="minorBidi" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorHAnsi"/>
+        <w:sz w:val="24"/>
+        <w:szCs w:val="24"/>
+        <w:lang w:bidi="ar-SA" w:eastAsia="en-US" w:val="en-AU"/>
+      </w:rPr>
+    </w:rPrDefault>
+    <w:pPrDefault/>
+  </w:docDefaults>
+  <w:style w:default="1" w:styleId="Normal" w:type="paragraph">
+    <w:name w:val="Normal"/>
+    <w:qFormat/>
+    <w:rsid w:val="002412A8"/>
+    <w:pPr>
+      <w:spacing w:after="100" w:afterAutospacing="1" w:before="100" w:beforeAutospacing="1"/>
+    </w:pPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="DefaultParagraphFont" w:type="character">
+    <w:name w:val="Default Paragraph Font"/>
+    <w:uiPriority w:val="1"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+  <w:style w:default="1" w:styleId="TableNormal" w:type="table">
+    <w:name w:val="Normal Table"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+    <w:tblPr>
+      <w:tblInd w:type="dxa" w:w="0"/>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="NoList" w:type="numbering">
+    <w:name w:val="No List"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+</w:styles>
+#item expected
+<!DOCTYPE html>
+<html id="word1">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+@page {
+    size: A4 portrait;
+}
+
+body {
+    counter-reset: h1 h2 h3 h4 h5 h6 figure table;
+    margin-bottom: 12.10084%;
+    margin-left: 15.12605%;
+    margin-right: 15.12605%;
+    margin-top: 12.10084%;
+}
+
+p.Normal {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal";
+}
+
+span.Default_Paragraph_Font {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Default Paragraph Font";
+}
+
+table.Normal_Table {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal Table";
+}
+
+table.Normal_Table > * > tr > td {
+    padding-bottom: 0pt;
+    padding-left: 5.4pt;
+    padding-right: 5.4pt;
+    padding-top: 0pt;
+}
+    </style>
+  </head>
+  <body id="word2">
+    <p class="Normal" id="word3">
+      <span id="word4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at lorem augue, at molestie risus. Sed bibendum augue metus, sed cursus tortor. Aenean semper consectetur pulvinar. Aliquam ultrices tempus nibh, ut mollis ligula ultrices nec. Curabitur vel eros in mi mattis vulputate in nec lorem. Nam auctor faucibus diam, eget accumsan lorem auctor eu. Maecenas imperdiet tristique nisi. Sed sed metus lacus. In consectetur tempus justo, vitae porta urna dapibus nec. Duis vitae lorem sit amet quam suscipit mollis eget non orci. Praesent porta neque et mauris molestie nec sagittis nulla volutpat.</span>
+    </p>
+    <p class="Normal" id="word7">
+      <span id="word8">Vivamus nec cursus massa. Aenean hendrerit sagittis volutpat. Donec diam erat, vehicula at ultrices vel, aliquet ac mauris. Nam vitae lectus eu eros sagittis sollicitudin. Mauris consequat, est suscipit feugiat eleifend, leo erat rutrum dui, at volutpat metus metus vitae leo. Fusce dictum tincidunt dignissim. Vestibulum eu est purus, eu aliquam quam. Aenean ultricies ante sit amet libero sodales eu feugiat velit ornare.</span>
+    </p>
+    <p class="Normal" id="word11">
+      <span id="word12">Proin facilisis cursus elementum. Proin ac lorem ut odio ultricies vehicula sit amet in diam. Proin ut nunc et nisl tristique sagittis. Aenean aliquet eleifend enim non molestie. Vivamus tincidunt augue nec erat suscipit ullamcorper. Nulla ornare risus odio. Nullam vestibulum tellus ac odio mattis quis sollicitudin arcu interdum. Donec convallis malesuada ultricies. Sed sodales porta commodo. Ut nec fringilla est. Nulla aliquet feugiat orci in lobortis. Duis adipiscing aliquam orci, ac tempus leo posuere id. Nam neque enim, faucibus id luctus ut, blandit eu est. Nullam non convallis mauris.</span>
+    </p>
+    <p class="Normal" id="word15">
+      <span id="word16">Nunc tincidunt, ante vel hendrerit cursus, lectus quam dapibus ipsum, eget vestibulum odio turpis eleifend augue. Ut pharetra ultricies risus, id gravida risus tincidunt eget. Nam eros massa, condimentum quis aliquet nec, aliquam id enim. Integer diam justo, sagittis at faucibus eget, vestibulum id lectus. Suspendisse pharetra lobortis diam sit amet fermentum. Donec nisl ipsum, faucibus et bibendum a, viverra nec nunc. Cras vel arcu mauris. In hac habitasse platea dictumst.</span>
+    </p>
+    <p class="Normal" id="word19">
+      <br/>
+    </p>
+  </body>
+</html>

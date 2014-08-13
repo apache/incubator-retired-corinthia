@@ -1,0 +1,91 @@
+Word_testCreate();
+#item input.html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+@page {
+    size: A4 portrait;
+}
+
+body {
+    counter-reset: h1 h2 h3 h4 h5 h6 figure table;
+    margin-bottom: 12.10084%;
+    margin-left: 15.12605%;
+    margin-right: 15.12605%;
+    margin-top: 12.10084%;
+}
+
+p.Normal {
+    -uxwrite-default: true;
+    text-align: justify;
+}
+   </style>
+  </head>
+  <body>
+    <p style="margin-right: 10%">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi elit mi, euismod eu posuere a, fermentum a arcu. Ut massa elit, condimentum sed ornare eget, vulputate blandit lorem. Proin imperdiet, mi non malesuada ultrices, magna orci feugiat tortor, et porttitor eros metus vel velit. Proin id tincidunt lectus. Praesent sit amet neque eget erat facilisis posuere vel eget risus.
+    </p>
+    <p>
+      <br/>
+    </p>
+    <p>
+      Quisque elementum libero eu mi interdum pretium. Nullam sed leo id erat congue vestibulum. Ut fermentum, massa at venenatis semper, risus nisl vestibulum arcu, a volutpat lorem nisl vitae lacus. Sed at nulla nulla, et bibendum mauris.
+    </p>
+  </body>
+</html>
+#item expected
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:pPr>
+        <w:ind w:right="830"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi elit mi, euismod eu posuere a, fermentum a arcu. Ut massa elit, condimentum sed ornare eget, vulputate blandit lorem. Proin imperdiet, mi non malesuada ultrices, magna orci feugiat tortor, et porttitor eros metus vel velit. Proin id tincidunt lectus. Praesent sit amet neque eget erat facilisis posuere vel eget risus.</w:t>
+      </w:r>
+    </w:p>
+    <w:p/>
+    <w:p>
+      <w:r>
+        <w:t>Quisque elementum libero eu mi interdum pretium. Nullam sed leo id erat congue vestibulum. Ut fermentum, massa at venenatis semper, risus nisl vestibulum arcu, a volutpat lorem nisl vitae lacus. Sed at nulla nulla, et bibendum mauris.</w:t>
+      </w:r>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:left="1800" w:right="1800" w:top="1440"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:style w:default="1" w:styleId="Normal" w:type="paragraph">
+    <w:name w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:spacing w:after="100" w:afterAutospacing="1" w:before="100" w:beforeAutospacing="1"/>
+      <w:jc w:val="both"/>
+    </w:pPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="DefaultParagraphFont" w:type="character">
+    <w:name w:val="Default Paragraph Font"/>
+    <w:qFormat/>
+  </w:style>
+  <w:style w:default="1" w:styleId="TableNormal" w:type="table">
+    <w:name w:val="Normal Table"/>
+    <w:qFormat/>
+    <w:tblPr>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+</w:styles>

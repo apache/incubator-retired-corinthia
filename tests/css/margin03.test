@@ -1,0 +1,70 @@
+CSS_test();
+#item input.css
+p.test1 {
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-top: 1px;
+}
+
+p.test2 {
+    margin-bottom: 1px;
+    margin-right: 1px;
+    margin-top: 1px;
+}
+
+p.test3 {
+    margin-bottom: 1px;
+    margin-left: 1px;
+    margin-top: 1px;
+}
+
+p.test4 {
+    margin-bottom: 1px;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+#item expected
+p.test1
+    ""
+        margin-left = 1px
+        margin-right = 1px
+        margin-top = 1px
+p.test2
+    ""
+        margin-bottom = 1px
+        margin-right = 1px
+        margin-top = 1px
+p.test3
+    ""
+        margin-bottom = 1px
+        margin-left = 1px
+        margin-top = 1px
+p.test4
+    ""
+        margin-bottom = 1px
+        margin-left = 1px
+        margin-right = 1px
+================================================================================
+p.test1 {
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-top: 1px;
+}
+
+p.test2 {
+    margin-bottom: 1px;
+    margin-right: 1px;
+    margin-top: 1px;
+}
+
+p.test3 {
+    margin-bottom: 1px;
+    margin-left: 1px;
+    margin-top: 1px;
+}
+
+p.test4 {
+    margin-bottom: 1px;
+    margin-left: 1px;
+    margin-right: 1px;
+}

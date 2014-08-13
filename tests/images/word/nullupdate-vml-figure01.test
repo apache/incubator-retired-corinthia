@@ -1,0 +1,132 @@
+Word_testUpdate();
+#item input.docx
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
+  <w:body>
+    <w:p>
+      <w:r>
+        <w:pict>
+          <v:shapetype id="_x0000_t75" coordsize="21600,21600" o:spt="75" o:preferrelative="t" path="m@4@5l@4@11@9@11@9@5xe" filled="f" stroked="f">
+            <v:stroke joinstyle="miter"/>
+            <v:formulas>
+              <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+              <v:f eqn="sum @0 1 0"/>
+              <v:f eqn="sum 0 0 @1"/>
+              <v:f eqn="prod @2 1 2"/>
+              <v:f eqn="prod @3 21600 pixelWidth"/>
+              <v:f eqn="prod @3 21600 pixelHeight"/>
+              <v:f eqn="sum @0 0 1"/>
+              <v:f eqn="prod @6 1 2"/>
+              <v:f eqn="prod @7 21600 pixelWidth"/>
+              <v:f eqn="sum @8 21600 0"/>
+              <v:f eqn="prod @7 21600 pixelHeight"/>
+              <v:f eqn="sum @10 21600 0"/>
+            </v:formulas>
+            <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+            <o:lock v:ext="edit" aspectratio="t"/>
+          </v:shapetype>
+          <v:shape id="_x0000_i1025" style="width:96pt;height:64pt" type="#_x0000_t75">
+            <v:imagedata r:id="rId4" o:title="min"/>
+          </v:shape>
+        </w:pict>
+      </w:r>
+      <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="0"/>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:footer="708" w:gutter="0" w:header="708" w:left="1800" w:right="1800" w:top="1440"/>
+      <w:cols w:space="708"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+#include "styles.xml"
+##item document.xml.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rel:Relationships xmlns:rel="http://schemas.openxmlformats.org/package/2006/relationships">
+  <rel:Relationship Id="rId1" Target="/word/styles.xml" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles"/>
+  <rel:Relationship Id="rId4" Target="/word/media/image1.png" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image"/>
+</rel:Relationships>
+##item /word/media/image1.png
+89504E470D0A1A0A0000000D4948445200000060000000400103000000DFFAE04D00000003504C54
+45001EFF5E39ED880000001749444154785EEDC03101000000C220FBA7B6C36E58061C034000011C
+4ED8260000000049454E44AE426082
+#item input.html
+<!DOCTYPE html>
+<html id="word1">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+#include "common.css"
+    </style>
+  </head>
+  <body id="word2">
+    <figure id="word3">
+      <span id="word4"><img id="word5" src="images/image1.png" style="width: 23.13253%"/></span>
+    </figure>
+  </body>
+</html>
+##item images/image1.png
+89504E470D0A1A0A0000000D4948445200000060000000400103000000DFFAE04D00000003504C54
+45001EFF5E39ED880000001749444154785EEDC03101000000C220FBA7B6C36E58061C034000011C
+4ED8260000000049454E44AE426082
+#item expected
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
+  <w:body>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Figure"/>
+      </w:pPr>
+      <w:r>
+        <w:pict>
+          <v:shapetype o:preferrelative="t" o:spt="75" id="_x0000_t75" coordsize="21600,21600" path="m@4@5l@4@11@9@11@9@5xe" filled="f" stroked="f">
+            <v:stroke joinstyle="miter"/>
+            <v:formulas>
+              <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+              <v:f eqn="sum @0 1 0"/>
+              <v:f eqn="sum 0 0 @1"/>
+              <v:f eqn="prod @2 1 2"/>
+              <v:f eqn="prod @3 21600 pixelWidth"/>
+              <v:f eqn="prod @3 21600 pixelHeight"/>
+              <v:f eqn="sum @0 0 1"/>
+              <v:f eqn="prod @6 1 2"/>
+              <v:f eqn="prod @7 21600 pixelWidth"/>
+              <v:f eqn="sum @8 21600 0"/>
+              <v:f eqn="prod @7 21600 pixelHeight"/>
+              <v:f eqn="sum @10 21600 0"/>
+            </v:formulas>
+            <v:path o:connecttype="rect" o:extrusionok="f" gradientshapeok="t"/>
+            <o:lock v:ext="edit" aspectratio="t"/>
+          </v:shapetype>
+          <v:shape id="_x0000_i1025" style="width:96pt;height:64pt" type="#_x0000_t75">
+            <v:imagedata o:title="min" r:id="rId4"/>
+          </v:shape>
+        </w:pict>
+      </w:r>
+      <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="0"/>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:footer="708" w:gutter="0" w:header="708" w:left="1800" w:right="1800" w:top="1440"/>
+      <w:cols w:space="708"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+#include "styles.xml"
+##item document.xml.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rel:Relationships xmlns:rel="http://schemas.openxmlformats.org/package/2006/relationships">
+  <rel:Relationship Id="rId1" Target="/word/styles.xml" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles"/>
+  <rel:Relationship Id="rId4" Target="/word/media/image1.png" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image"/>
+</rel:Relationships>
+##item /word/media/image1.png
+89504E470D0A1A0A0000000D4948445200000060000000400103000000DFFAE04D00000003504C54
+45001EFF5E39ED880000001749444154785EEDC03101000000C220FBA7B6C36E58061C034000011C
+4ED8260000000049454E44AE426082

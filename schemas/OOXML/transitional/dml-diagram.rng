@@ -1,0 +1,2109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="http://schemas.openxmlformats.org/drawingml/2006/diagram" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:s="http://schemas.openxmlformats.org/officeDocument/2006/sharedTypes" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:ddgrm="http://schemas.openxmlformats.org/drawingml/2006/diagram" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:aa="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <define name="ddgrm_CT_CTName">
+    <optional>
+      <attribute name="lang">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <attribute name="val">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="ddgrm_CT_CTDescription">
+    <optional>
+      <attribute name="lang">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <attribute name="val">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="ddgrm_CT_CTCategory">
+    <attribute name="type">
+      <data type="anyURI"/>
+    </attribute>
+    <attribute name="pri">
+      <data type="unsignedInt"/>
+    </attribute>
+  </define>
+  <define name="ddgrm_CT_CTCategories">
+    <zeroOrMore>
+      <element name="cat">
+        <ref name="ddgrm_CT_CTCategory"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="ddgrm_ST_ClrAppMethod">
+    <choice>
+      <value>span</value>
+      <value>cycle</value>
+      <value>repeat</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_HueDir">
+    <choice>
+      <value>cw</value>
+      <value>ccw</value>
+    </choice>
+  </define>
+  <define name="ddgrm_CT_Colors">
+    <optional>
+      <attribute name="meth">
+        <aa:documentation>default value: span</aa:documentation>
+        <ref name="ddgrm_ST_ClrAppMethod"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="hueDir">
+        <aa:documentation>default value: cw</aa:documentation>
+        <ref name="ddgrm_ST_HueDir"/>
+      </attribute>
+    </optional>
+    <zeroOrMore>
+      <ref name="a_EG_ColorChoice"/>
+    </zeroOrMore>
+  </define>
+  <define name="ddgrm_CT_CTStyleLabel">
+    <attribute name="name">
+      <data type="string"/>
+    </attribute>
+    <optional>
+      <element name="fillClrLst">
+        <ref name="ddgrm_CT_Colors"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="linClrLst">
+        <ref name="ddgrm_CT_Colors"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="effectClrLst">
+        <ref name="ddgrm_CT_Colors"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="txLinClrLst">
+        <ref name="ddgrm_CT_Colors"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="txFillClrLst">
+        <ref name="ddgrm_CT_Colors"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="txEffectClrLst">
+        <ref name="ddgrm_CT_Colors"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_ColorTransform">
+    <optional>
+      <attribute name="uniqueId">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="minVer">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <zeroOrMore>
+      <element name="title">
+        <ref name="ddgrm_CT_CTName"/>
+      </element>
+    </zeroOrMore>
+    <zeroOrMore>
+      <element name="desc">
+        <ref name="ddgrm_CT_CTDescription"/>
+      </element>
+    </zeroOrMore>
+    <optional>
+      <element name="catLst">
+        <ref name="ddgrm_CT_CTCategories"/>
+      </element>
+    </optional>
+    <zeroOrMore>
+      <element name="styleLbl">
+        <ref name="ddgrm_CT_CTStyleLabel"/>
+      </element>
+    </zeroOrMore>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_colorsDef">
+    <element name="colorsDef">
+      <ref name="ddgrm_CT_ColorTransform"/>
+    </element>
+  </define>
+  <define name="ddgrm_CT_ColorTransformHeader">
+    <attribute name="uniqueId">
+      <data type="string"/>
+    </attribute>
+    <optional>
+      <attribute name="minVer">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="resId">
+        <aa:documentation>default value: 0</aa:documentation>
+        <data type="int"/>
+      </attribute>
+    </optional>
+    <oneOrMore>
+      <element name="title">
+        <ref name="ddgrm_CT_CTName"/>
+      </element>
+    </oneOrMore>
+    <oneOrMore>
+      <element name="desc">
+        <ref name="ddgrm_CT_CTDescription"/>
+      </element>
+    </oneOrMore>
+    <optional>
+      <element name="catLst">
+        <ref name="ddgrm_CT_CTCategories"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_colorsDefHdr">
+    <element name="colorsDefHdr">
+      <ref name="ddgrm_CT_ColorTransformHeader"/>
+    </element>
+  </define>
+  <define name="ddgrm_CT_ColorTransformHeaderLst">
+    <zeroOrMore>
+      <element name="colorsDefHdr">
+        <ref name="ddgrm_CT_ColorTransformHeader"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="ddgrm_colorsDefHdrLst">
+    <element name="colorsDefHdrLst">
+      <ref name="ddgrm_CT_ColorTransformHeaderLst"/>
+    </element>
+  </define>
+  <define name="ddgrm_ST_PtType">
+    <choice>
+      <value>node</value>
+      <value>asst</value>
+      <value>doc</value>
+      <value>pres</value>
+      <value>parTrans</value>
+      <value>sibTrans</value>
+    </choice>
+  </define>
+  <define name="ddgrm_CT_Pt">
+    <attribute name="modelId">
+      <ref name="ddgrm_ST_ModelId"/>
+    </attribute>
+    <optional>
+      <attribute name="type">
+        <aa:documentation>default value: node</aa:documentation>
+        <ref name="ddgrm_ST_PtType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="cxnId">
+        <aa:documentation>default value: 0</aa:documentation>
+        <ref name="ddgrm_ST_ModelId"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="prSet">
+        <ref name="ddgrm_CT_ElemPropSet"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="spPr">
+        <ref name="a_CT_ShapeProperties"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="t">
+        <ref name="a_CT_TextBody"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_PtList">
+    <zeroOrMore>
+      <element name="pt">
+        <ref name="ddgrm_CT_Pt"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="ddgrm_ST_CxnType">
+    <choice>
+      <value>parOf</value>
+      <value>presOf</value>
+      <value>presParOf</value>
+      <value>unknownRelationship</value>
+    </choice>
+  </define>
+  <define name="ddgrm_CT_Cxn">
+    <attribute name="modelId">
+      <ref name="ddgrm_ST_ModelId"/>
+    </attribute>
+    <optional>
+      <attribute name="type">
+        <aa:documentation>default value: parOf</aa:documentation>
+        <ref name="ddgrm_ST_CxnType"/>
+      </attribute>
+    </optional>
+    <attribute name="srcId">
+      <ref name="ddgrm_ST_ModelId"/>
+    </attribute>
+    <attribute name="destId">
+      <ref name="ddgrm_ST_ModelId"/>
+    </attribute>
+    <attribute name="srcOrd">
+      <data type="unsignedInt"/>
+    </attribute>
+    <attribute name="destOrd">
+      <data type="unsignedInt"/>
+    </attribute>
+    <optional>
+      <attribute name="parTransId">
+        <aa:documentation>default value: 0</aa:documentation>
+        <ref name="ddgrm_ST_ModelId"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="sibTransId">
+        <aa:documentation>default value: 0</aa:documentation>
+        <ref name="ddgrm_ST_ModelId"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="presId">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_CxnList">
+    <zeroOrMore>
+      <element name="cxn">
+        <ref name="ddgrm_CT_Cxn"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="ddgrm_CT_DataModel">
+    <element name="ptLst">
+      <ref name="ddgrm_CT_PtList"/>
+    </element>
+    <optional>
+      <element name="cxnLst">
+        <ref name="ddgrm_CT_CxnList"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="bg">
+        <ref name="a_CT_BackgroundFormatting"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="whole">
+        <ref name="a_CT_WholeE2oFormatting"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_dataModel">
+    <element name="dataModel">
+      <ref name="ddgrm_CT_DataModel"/>
+    </element>
+  </define>
+  <define name="ddgrm_AG_IteratorAttributes">
+    <optional>
+      <attribute name="axis">
+        <aa:documentation>default value: none</aa:documentation>
+        <ref name="ddgrm_ST_AxisTypes"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="ptType">
+        <aa:documentation>default value: all</aa:documentation>
+        <ref name="ddgrm_ST_ElementTypes"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="hideLastTrans">
+        <aa:documentation>default value: true</aa:documentation>
+        <ref name="ddgrm_ST_Booleans"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="st">
+        <aa:documentation>default value: 1</aa:documentation>
+        <ref name="ddgrm_ST_Ints"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="cnt">
+        <aa:documentation>default value: 0</aa:documentation>
+        <ref name="ddgrm_ST_UnsignedInts"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="step">
+        <aa:documentation>default value: 1</aa:documentation>
+        <ref name="ddgrm_ST_Ints"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="ddgrm_AG_ConstraintAttributes">
+    <attribute name="type">
+      <ref name="ddgrm_ST_ConstraintType"/>
+    </attribute>
+    <optional>
+      <attribute name="for">
+        <aa:documentation>default value: self</aa:documentation>
+        <ref name="ddgrm_ST_ConstraintRelationship"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="forName">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="ptType">
+        <aa:documentation>default value: all</aa:documentation>
+        <ref name="ddgrm_ST_ElementType"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="ddgrm_AG_ConstraintRefAttributes">
+    <optional>
+      <attribute name="refType">
+        <aa:documentation>default value: none</aa:documentation>
+        <ref name="ddgrm_ST_ConstraintType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="refFor">
+        <aa:documentation>default value: self</aa:documentation>
+        <ref name="ddgrm_ST_ConstraintRelationship"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="refForName">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="refPtType">
+        <aa:documentation>default value: all</aa:documentation>
+        <ref name="ddgrm_ST_ElementType"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_Constraint">
+    <ref name="ddgrm_AG_ConstraintAttributes"/>
+    <ref name="ddgrm_AG_ConstraintRefAttributes"/>
+    <optional>
+      <attribute name="op">
+        <aa:documentation>default value: none</aa:documentation>
+        <ref name="ddgrm_ST_BoolOperator"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="val">
+        <aa:documentation>default value: 0</aa:documentation>
+        <data type="double"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="fact">
+        <aa:documentation>default value: 1</aa:documentation>
+        <data type="double"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_Constraints">
+    <zeroOrMore>
+      <element name="constr">
+        <ref name="ddgrm_CT_Constraint"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="ddgrm_CT_NumericRule">
+    <ref name="ddgrm_AG_ConstraintAttributes"/>
+    <optional>
+      <attribute name="val">
+        <aa:documentation>default value: NaN</aa:documentation>
+        <data type="double"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="fact">
+        <aa:documentation>default value: NaN</aa:documentation>
+        <data type="double"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="max">
+        <aa:documentation>default value: NaN</aa:documentation>
+        <data type="double"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_Rules">
+    <zeroOrMore>
+      <element name="rule">
+        <ref name="ddgrm_CT_NumericRule"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="ddgrm_CT_PresentationOf">
+    <ref name="ddgrm_AG_IteratorAttributes"/>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_ST_LayoutShapeType">
+    <choice>
+      <ref name="a_ST_ShapeType"/>
+      <ref name="ddgrm_ST_OutputShapeType"/>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_Index1">
+    <data type="unsignedInt">
+      <param name="minInclusive">1</param>
+    </data>
+  </define>
+  <define name="ddgrm_CT_Adj">
+    <attribute name="idx">
+      <ref name="ddgrm_ST_Index1"/>
+    </attribute>
+    <attribute name="val">
+      <data type="double"/>
+    </attribute>
+  </define>
+  <define name="ddgrm_CT_AdjLst">
+    <zeroOrMore>
+      <element name="adj">
+        <ref name="ddgrm_CT_Adj"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="ddgrm_CT_Shape">
+    <optional>
+      <attribute name="rot">
+        <aa:documentation>default value: 0</aa:documentation>
+        <data type="double"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="type">
+        <aa:documentation>default value: none</aa:documentation>
+        <ref name="ddgrm_ST_LayoutShapeType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <ref name="r_blip"/>
+    </optional>
+    <optional>
+      <attribute name="zOrderOff">
+        <aa:documentation>default value: 0</aa:documentation>
+        <data type="int"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="hideGeom">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="lkTxEntry">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="blipPhldr">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="adjLst">
+        <ref name="ddgrm_CT_AdjLst"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_Parameter">
+    <attribute name="type">
+      <ref name="ddgrm_ST_ParameterId"/>
+    </attribute>
+    <attribute name="val">
+      <ref name="ddgrm_ST_ParameterVal"/>
+    </attribute>
+  </define>
+  <define name="ddgrm_CT_Algorithm">
+    <attribute name="type">
+      <ref name="ddgrm_ST_AlgorithmType"/>
+    </attribute>
+    <optional>
+      <attribute name="rev">
+        <aa:documentation>default value: 0</aa:documentation>
+        <data type="unsignedInt"/>
+      </attribute>
+    </optional>
+    <zeroOrMore>
+      <element name="param">
+        <ref name="ddgrm_CT_Parameter"/>
+      </element>
+    </zeroOrMore>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_LayoutNode">
+    <optional>
+      <attribute name="name">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="styleLbl">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="chOrder">
+        <aa:documentation>default value: b</aa:documentation>
+        <ref name="ddgrm_ST_ChildOrderType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="moveWith">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <zeroOrMore>
+      <choice>
+        <optional>
+          <element name="alg">
+            <ref name="ddgrm_CT_Algorithm"/>
+          </element>
+        </optional>
+        <optional>
+          <element name="shape">
+            <ref name="ddgrm_CT_Shape"/>
+          </element>
+        </optional>
+        <optional>
+          <element name="presOf">
+            <ref name="ddgrm_CT_PresentationOf"/>
+          </element>
+        </optional>
+        <optional>
+          <element name="constrLst">
+            <ref name="ddgrm_CT_Constraints"/>
+          </element>
+        </optional>
+        <optional>
+          <element name="ruleLst">
+            <ref name="ddgrm_CT_Rules"/>
+          </element>
+        </optional>
+        <optional>
+          <element name="varLst">
+            <ref name="ddgrm_CT_LayoutVariablePropertySet"/>
+          </element>
+        </optional>
+        <element name="forEach">
+          <ref name="ddgrm_CT_ForEach"/>
+        </element>
+        <element name="layoutNode">
+          <ref name="ddgrm_CT_LayoutNode"/>
+        </element>
+        <element name="choose">
+          <ref name="ddgrm_CT_Choose"/>
+        </element>
+        <optional>
+          <element name="extLst">
+            <ref name="a_CT_OfficeArtExtensionList"/>
+          </element>
+        </optional>
+      </choice>
+    </zeroOrMore>
+  </define>
+  <define name="ddgrm_CT_ForEach">
+    <optional>
+      <attribute name="name">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="ref">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <ref name="ddgrm_AG_IteratorAttributes"/>
+    <zeroOrMore>
+      <choice>
+        <optional>
+          <element name="alg">
+            <ref name="ddgrm_CT_Algorithm"/>
+          </element>
+        </optional>
+        <optional>
+          <element name="shape">
+            <ref name="ddgrm_CT_Shape"/>
+          </element>
+        </optional>
+        <optional>
+          <element name="presOf">
+            <ref name="ddgrm_CT_PresentationOf"/>
+          </element>
+        </optional>
+        <optional>
+          <element name="constrLst">
+            <ref name="ddgrm_CT_Constraints"/>
+          </element>
+        </optional>
+        <optional>
+          <element name="ruleLst">
+            <ref name="ddgrm_CT_Rules"/>
+          </element>
+        </optional>
+        <element name="forEach">
+          <ref name="ddgrm_CT_ForEach"/>
+        </element>
+        <element name="layoutNode">
+          <ref name="ddgrm_CT_LayoutNode"/>
+        </element>
+        <element name="choose">
+          <ref name="ddgrm_CT_Choose"/>
+        </element>
+        <optional>
+          <element name="extLst">
+            <ref name="a_CT_OfficeArtExtensionList"/>
+          </element>
+        </optional>
+      </choice>
+    </zeroOrMore>
+  </define>
+  <define name="ddgrm_CT_When">
+    <optional>
+      <attribute name="name">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <ref name="ddgrm_AG_IteratorAttributes"/>
+    <attribute name="func">
+      <ref name="ddgrm_ST_FunctionType"/>
+    </attribute>
+    <optional>
+      <attribute name="arg">
+        <aa:documentation>default value: none</aa:documentation>
+        <ref name="ddgrm_ST_FunctionArgument"/>
+      </attribute>
+    </optional>
+    <attribute name="op">
+      <ref name="ddgrm_ST_FunctionOperator"/>
+    </attribute>
+    <attribute name="val">
+      <ref name="ddgrm_ST_FunctionValue"/>
+    </attribute>
+    <zeroOrMore>
+      <choice>
+        <optional>
+          <element name="alg">
+            <ref name="ddgrm_CT_Algorithm"/>
+          </element>
+        </optional>
+        <optional>
+          <element name="shape">
+            <ref name="ddgrm_CT_Shape"/>
+          </element>
+        </optional>
+        <optional>
+          <element name="presOf">
+            <ref name="ddgrm_CT_PresentationOf"/>
+          </element>
+        </optional>
+        <optional>
+          <element name="constrLst">
+            <ref name="ddgrm_CT_Constraints"/>
+          </element>
+        </optional>
+        <optional>
+          <element name="ruleLst">
+            <ref name="ddgrm_CT_Rules"/>
+          </element>
+        </optional>
+        <element name="forEach">
+          <ref name="ddgrm_CT_ForEach"/>
+        </element>
+        <element name="layoutNode">
+          <ref name="ddgrm_CT_LayoutNode"/>
+        </element>
+        <element name="choose">
+          <ref name="ddgrm_CT_Choose"/>
+        </element>
+        <optional>
+          <element name="extLst">
+            <ref name="a_CT_OfficeArtExtensionList"/>
+          </element>
+        </optional>
+      </choice>
+    </zeroOrMore>
+  </define>
+  <define name="ddgrm_CT_Otherwise">
+    <optional>
+      <attribute name="name">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <zeroOrMore>
+      <choice>
+        <optional>
+          <element name="alg">
+            <ref name="ddgrm_CT_Algorithm"/>
+          </element>
+        </optional>
+        <optional>
+          <element name="shape">
+            <ref name="ddgrm_CT_Shape"/>
+          </element>
+        </optional>
+        <optional>
+          <element name="presOf">
+            <ref name="ddgrm_CT_PresentationOf"/>
+          </element>
+        </optional>
+        <optional>
+          <element name="constrLst">
+            <ref name="ddgrm_CT_Constraints"/>
+          </element>
+        </optional>
+        <optional>
+          <element name="ruleLst">
+            <ref name="ddgrm_CT_Rules"/>
+          </element>
+        </optional>
+        <element name="forEach">
+          <ref name="ddgrm_CT_ForEach"/>
+        </element>
+        <element name="layoutNode">
+          <ref name="ddgrm_CT_LayoutNode"/>
+        </element>
+        <element name="choose">
+          <ref name="ddgrm_CT_Choose"/>
+        </element>
+        <optional>
+          <element name="extLst">
+            <ref name="a_CT_OfficeArtExtensionList"/>
+          </element>
+        </optional>
+      </choice>
+    </zeroOrMore>
+  </define>
+  <define name="ddgrm_CT_Choose">
+    <optional>
+      <attribute name="name">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <oneOrMore>
+      <element name="if">
+        <ref name="ddgrm_CT_When"/>
+      </element>
+    </oneOrMore>
+    <optional>
+      <element name="else">
+        <ref name="ddgrm_CT_Otherwise"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_SampleData">
+    <optional>
+      <attribute name="useDef">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="dataModel">
+        <ref name="ddgrm_CT_DataModel"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_Category">
+    <attribute name="type">
+      <data type="anyURI"/>
+    </attribute>
+    <attribute name="pri">
+      <data type="unsignedInt"/>
+    </attribute>
+  </define>
+  <define name="ddgrm_CT_Categories">
+    <zeroOrMore>
+      <element name="cat">
+        <ref name="ddgrm_CT_Category"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="ddgrm_CT_Name">
+    <optional>
+      <attribute name="lang">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <attribute name="val">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="ddgrm_CT_Description">
+    <optional>
+      <attribute name="lang">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <attribute name="val">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="ddgrm_CT_DiagramDefinition">
+    <optional>
+      <attribute name="uniqueId">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="minVer">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="defStyle">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <zeroOrMore>
+      <element name="title">
+        <ref name="ddgrm_CT_Name"/>
+      </element>
+    </zeroOrMore>
+    <zeroOrMore>
+      <element name="desc">
+        <ref name="ddgrm_CT_Description"/>
+      </element>
+    </zeroOrMore>
+    <optional>
+      <element name="catLst">
+        <ref name="ddgrm_CT_Categories"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="sampData">
+        <ref name="ddgrm_CT_SampleData"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="styleData">
+        <ref name="ddgrm_CT_SampleData"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="clrData">
+        <ref name="ddgrm_CT_SampleData"/>
+      </element>
+    </optional>
+    <element name="layoutNode">
+      <ref name="ddgrm_CT_LayoutNode"/>
+    </element>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_layoutDef">
+    <element name="layoutDef">
+      <ref name="ddgrm_CT_DiagramDefinition"/>
+    </element>
+  </define>
+  <define name="ddgrm_CT_DiagramDefinitionHeader">
+    <attribute name="uniqueId">
+      <data type="string"/>
+    </attribute>
+    <optional>
+      <attribute name="minVer">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="defStyle">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="resId">
+        <aa:documentation>default value: 0</aa:documentation>
+        <data type="int"/>
+      </attribute>
+    </optional>
+    <oneOrMore>
+      <element name="title">
+        <ref name="ddgrm_CT_Name"/>
+      </element>
+    </oneOrMore>
+    <oneOrMore>
+      <element name="desc">
+        <ref name="ddgrm_CT_Description"/>
+      </element>
+    </oneOrMore>
+    <optional>
+      <element name="catLst">
+        <ref name="ddgrm_CT_Categories"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_layoutDefHdr">
+    <element name="layoutDefHdr">
+      <ref name="ddgrm_CT_DiagramDefinitionHeader"/>
+    </element>
+  </define>
+  <define name="ddgrm_CT_DiagramDefinitionHeaderLst">
+    <zeroOrMore>
+      <element name="layoutDefHdr">
+        <ref name="ddgrm_CT_DiagramDefinitionHeader"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="ddgrm_layoutDefHdrLst">
+    <element name="layoutDefHdrLst">
+      <ref name="ddgrm_CT_DiagramDefinitionHeaderLst"/>
+    </element>
+  </define>
+  <define name="ddgrm_CT_RelIds">
+    <ref name="r_dm"/>
+    <ref name="r_lo"/>
+    <ref name="r_qs"/>
+    <ref name="r_cs"/>
+  </define>
+  <define name="ddgrm_relIds">
+    <element name="relIds">
+      <ref name="ddgrm_CT_RelIds"/>
+    </element>
+  </define>
+  <define name="ddgrm_ST_ParameterVal">
+    <choice>
+      <ref name="ddgrm_ST_DiagramHorizontalAlignment"/>
+      <ref name="ddgrm_ST_VerticalAlignment"/>
+      <ref name="ddgrm_ST_ChildDirection"/>
+      <ref name="ddgrm_ST_ChildAlignment"/>
+      <ref name="ddgrm_ST_SecondaryChildAlignment"/>
+      <ref name="ddgrm_ST_LinearDirection"/>
+      <ref name="ddgrm_ST_SecondaryLinearDirection"/>
+      <ref name="ddgrm_ST_StartingElement"/>
+      <ref name="ddgrm_ST_BendPoint"/>
+      <ref name="ddgrm_ST_ConnectorRouting"/>
+      <ref name="ddgrm_ST_ArrowheadStyle"/>
+      <ref name="ddgrm_ST_ConnectorDimension"/>
+      <ref name="ddgrm_ST_RotationPath"/>
+      <ref name="ddgrm_ST_CenterShapeMapping"/>
+      <ref name="ddgrm_ST_NodeHorizontalAlignment"/>
+      <ref name="ddgrm_ST_NodeVerticalAlignment"/>
+      <ref name="ddgrm_ST_FallbackDimension"/>
+      <ref name="ddgrm_ST_TextDirection"/>
+      <ref name="ddgrm_ST_PyramidAccentPosition"/>
+      <ref name="ddgrm_ST_PyramidAccentTextMargin"/>
+      <ref name="ddgrm_ST_TextBlockDirection"/>
+      <ref name="ddgrm_ST_TextAnchorHorizontal"/>
+      <ref name="ddgrm_ST_TextAnchorVertical"/>
+      <ref name="ddgrm_ST_DiagramTextAlignment"/>
+      <ref name="ddgrm_ST_AutoTextRotation"/>
+      <ref name="ddgrm_ST_GrowDirection"/>
+      <ref name="ddgrm_ST_FlowDirection"/>
+      <ref name="ddgrm_ST_ContinueDirection"/>
+      <ref name="ddgrm_ST_Breakpoint"/>
+      <ref name="ddgrm_ST_Offset"/>
+      <ref name="ddgrm_ST_HierarchyAlignment"/>
+      <data type="int"/>
+      <data type="double"/>
+      <data type="boolean"/>
+      <data type="string"/>
+      <ref name="ddgrm_ST_ConnectorPoint"/>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_ModelId">
+    <choice>
+      <data type="int"/>
+      <ref name="s_ST_Guid"/>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_PrSetCustVal">
+    <choice>
+      <ref name="s_ST_Percentage"/>
+      <data type="int"/>
+    </choice>
+  </define>
+  <define name="ddgrm_CT_ElemPropSet">
+    <optional>
+      <attribute name="presAssocID">
+        <ref name="ddgrm_ST_ModelId"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="presName">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="presStyleLbl">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="presStyleIdx">
+        <data type="int"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="presStyleCnt">
+        <data type="int"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="loTypeId">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="loCatId">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="qsTypeId">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="qsCatId">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="csTypeId">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="csCatId">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="coherent3DOff">
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="phldrT">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="phldr">
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="custAng">
+        <data type="int"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="custFlipVert">
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="custFlipHor">
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="custSzX">
+        <data type="int"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="custSzY">
+        <data type="int"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="custScaleX">
+        <ref name="ddgrm_ST_PrSetCustVal"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="custScaleY">
+        <ref name="ddgrm_ST_PrSetCustVal"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="custT">
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="custLinFactX">
+        <ref name="ddgrm_ST_PrSetCustVal"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="custLinFactY">
+        <ref name="ddgrm_ST_PrSetCustVal"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="custLinFactNeighborX">
+        <ref name="ddgrm_ST_PrSetCustVal"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="custLinFactNeighborY">
+        <ref name="ddgrm_ST_PrSetCustVal"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="custRadScaleRad">
+        <ref name="ddgrm_ST_PrSetCustVal"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="custRadScaleInc">
+        <ref name="ddgrm_ST_PrSetCustVal"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="presLayoutVars">
+        <ref name="ddgrm_CT_LayoutVariablePropertySet"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="style">
+        <ref name="a_CT_ShapeStyle"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_ST_Direction">
+    <choice>
+      <value>norm</value>
+      <value>rev</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_HierBranchStyle">
+    <choice>
+      <value>l</value>
+      <value>r</value>
+      <value>hang</value>
+      <value>std</value>
+      <value>init</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_AnimOneStr">
+    <choice>
+      <value>none</value>
+      <value>one</value>
+      <value>branch</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_AnimLvlStr">
+    <choice>
+      <value>none</value>
+      <value>lvl</value>
+      <value>ctr</value>
+    </choice>
+  </define>
+  <define name="ddgrm_CT_OrgChart">
+    <optional>
+      <attribute name="val">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="ddgrm_ST_NodeCount">
+    <data type="int">
+      <param name="minInclusive">-1</param>
+    </data>
+  </define>
+  <define name="ddgrm_CT_ChildMax">
+    <optional>
+      <attribute name="val">
+        <aa:documentation>default value: -1</aa:documentation>
+        <ref name="ddgrm_ST_NodeCount"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_ChildPref">
+    <optional>
+      <attribute name="val">
+        <aa:documentation>default value: -1</aa:documentation>
+        <ref name="ddgrm_ST_NodeCount"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_BulletEnabled">
+    <optional>
+      <attribute name="val">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_Direction">
+    <optional>
+      <attribute name="val">
+        <aa:documentation>default value: norm</aa:documentation>
+        <ref name="ddgrm_ST_Direction"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_HierBranchStyle">
+    <optional>
+      <attribute name="val">
+        <aa:documentation>default value: std</aa:documentation>
+        <ref name="ddgrm_ST_HierBranchStyle"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_AnimOne">
+    <optional>
+      <attribute name="val">
+        <aa:documentation>default value: one</aa:documentation>
+        <ref name="ddgrm_ST_AnimOneStr"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_AnimLvl">
+    <optional>
+      <attribute name="val">
+        <aa:documentation>default value: none</aa:documentation>
+        <ref name="ddgrm_ST_AnimLvlStr"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="ddgrm_ST_ResizeHandlesStr">
+    <choice>
+      <value>exact</value>
+      <value>rel</value>
+    </choice>
+  </define>
+  <define name="ddgrm_CT_ResizeHandles">
+    <optional>
+      <attribute name="val">
+        <aa:documentation>default value: rel</aa:documentation>
+        <ref name="ddgrm_ST_ResizeHandlesStr"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_LayoutVariablePropertySet">
+    <optional>
+      <element name="orgChart">
+        <ref name="ddgrm_CT_OrgChart"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="chMax">
+        <ref name="ddgrm_CT_ChildMax"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="chPref">
+        <ref name="ddgrm_CT_ChildPref"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="bulletEnabled">
+        <ref name="ddgrm_CT_BulletEnabled"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="dir">
+        <ref name="ddgrm_CT_Direction"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="hierBranch">
+        <ref name="ddgrm_CT_HierBranchStyle"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="animOne">
+        <ref name="ddgrm_CT_AnimOne"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="animLvl">
+        <ref name="ddgrm_CT_AnimLvl"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="resizeHandles">
+        <ref name="ddgrm_CT_ResizeHandles"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_SDName">
+    <optional>
+      <attribute name="lang">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <attribute name="val">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="ddgrm_CT_SDDescription">
+    <optional>
+      <attribute name="lang">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <attribute name="val">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="ddgrm_CT_SDCategory">
+    <attribute name="type">
+      <data type="anyURI"/>
+    </attribute>
+    <attribute name="pri">
+      <data type="unsignedInt"/>
+    </attribute>
+  </define>
+  <define name="ddgrm_CT_SDCategories">
+    <zeroOrMore>
+      <element name="cat">
+        <ref name="ddgrm_CT_SDCategory"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="ddgrm_CT_TextProps">
+    <optional>
+      <ref name="a_EG_Text3D"/>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_StyleLabel">
+    <attribute name="name">
+      <data type="string"/>
+    </attribute>
+    <optional>
+      <element name="scene3d">
+        <ref name="a_CT_Scene3D"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="sp3d">
+        <ref name="a_CT_Shape3D"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="txPr">
+        <ref name="ddgrm_CT_TextProps"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="style">
+        <ref name="a_CT_ShapeStyle"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_CT_StyleDefinition">
+    <optional>
+      <attribute name="uniqueId">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="minVer">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <zeroOrMore>
+      <element name="title">
+        <ref name="ddgrm_CT_SDName"/>
+      </element>
+    </zeroOrMore>
+    <zeroOrMore>
+      <element name="desc">
+        <ref name="ddgrm_CT_SDDescription"/>
+      </element>
+    </zeroOrMore>
+    <optional>
+      <element name="catLst">
+        <ref name="ddgrm_CT_SDCategories"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="scene3d">
+        <ref name="a_CT_Scene3D"/>
+      </element>
+    </optional>
+    <oneOrMore>
+      <element name="styleLbl">
+        <ref name="ddgrm_CT_StyleLabel"/>
+      </element>
+    </oneOrMore>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_styleDef">
+    <element name="styleDef">
+      <ref name="ddgrm_CT_StyleDefinition"/>
+    </element>
+  </define>
+  <define name="ddgrm_CT_StyleDefinitionHeader">
+    <attribute name="uniqueId">
+      <data type="string"/>
+    </attribute>
+    <optional>
+      <attribute name="minVer">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="resId">
+        <aa:documentation>default value: 0</aa:documentation>
+        <data type="int"/>
+      </attribute>
+    </optional>
+    <oneOrMore>
+      <element name="title">
+        <ref name="ddgrm_CT_SDName"/>
+      </element>
+    </oneOrMore>
+    <oneOrMore>
+      <element name="desc">
+        <ref name="ddgrm_CT_SDDescription"/>
+      </element>
+    </oneOrMore>
+    <optional>
+      <element name="catLst">
+        <ref name="ddgrm_CT_SDCategories"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ddgrm_styleDefHdr">
+    <element name="styleDefHdr">
+      <ref name="ddgrm_CT_StyleDefinitionHeader"/>
+    </element>
+  </define>
+  <define name="ddgrm_CT_StyleDefinitionHeaderLst">
+    <zeroOrMore>
+      <element name="styleDefHdr">
+        <ref name="ddgrm_CT_StyleDefinitionHeader"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="ddgrm_styleDefHdrLst">
+    <element name="styleDefHdrLst">
+      <ref name="ddgrm_CT_StyleDefinitionHeaderLst"/>
+    </element>
+  </define>
+  <define name="ddgrm_ST_AlgorithmType">
+    <choice>
+      <value>composite</value>
+      <value>conn</value>
+      <value>cycle</value>
+      <value>hierChild</value>
+      <value>hierRoot</value>
+      <value>pyra</value>
+      <value>lin</value>
+      <value>sp</value>
+      <value>tx</value>
+      <value>snake</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_AxisType">
+    <choice>
+      <value>self</value>
+      <value>ch</value>
+      <value>des</value>
+      <value>desOrSelf</value>
+      <value>par</value>
+      <value>ancst</value>
+      <value>ancstOrSelf</value>
+      <value>followSib</value>
+      <value>precedSib</value>
+      <value>follow</value>
+      <value>preced</value>
+      <value>root</value>
+      <value>none</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_AxisTypes">
+    <list>
+      <zeroOrMore>
+        <ref name="ddgrm_ST_AxisType"/>
+      </zeroOrMore>
+    </list>
+  </define>
+  <define name="ddgrm_ST_BoolOperator">
+    <choice>
+      <value>none</value>
+      <value>equ</value>
+      <value>gte</value>
+      <value>lte</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_ChildOrderType">
+    <choice>
+      <value>b</value>
+      <value>t</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_ConstraintType">
+    <choice>
+      <value>none</value>
+      <value>alignOff</value>
+      <value>begMarg</value>
+      <value>bendDist</value>
+      <value>begPad</value>
+      <value>b</value>
+      <value>bMarg</value>
+      <value>bOff</value>
+      <value>ctrX</value>
+      <value>ctrXOff</value>
+      <value>ctrY</value>
+      <value>ctrYOff</value>
+      <value>connDist</value>
+      <value>diam</value>
+      <value>endMarg</value>
+      <value>endPad</value>
+      <value>h</value>
+      <value>hArH</value>
+      <value>hOff</value>
+      <value>l</value>
+      <value>lMarg</value>
+      <value>lOff</value>
+      <value>r</value>
+      <value>rMarg</value>
+      <value>rOff</value>
+      <value>primFontSz</value>
+      <value>pyraAcctRatio</value>
+      <value>secFontSz</value>
+      <value>sibSp</value>
+      <value>secSibSp</value>
+      <value>sp</value>
+      <value>stemThick</value>
+      <value>t</value>
+      <value>tMarg</value>
+      <value>tOff</value>
+      <value>userA</value>
+      <value>userB</value>
+      <value>userC</value>
+      <value>userD</value>
+      <value>userE</value>
+      <value>userF</value>
+      <value>userG</value>
+      <value>userH</value>
+      <value>userI</value>
+      <value>userJ</value>
+      <value>userK</value>
+      <value>userL</value>
+      <value>userM</value>
+      <value>userN</value>
+      <value>userO</value>
+      <value>userP</value>
+      <value>userQ</value>
+      <value>userR</value>
+      <value>userS</value>
+      <value>userT</value>
+      <value>userU</value>
+      <value>userV</value>
+      <value>userW</value>
+      <value>userX</value>
+      <value>userY</value>
+      <value>userZ</value>
+      <value>w</value>
+      <value>wArH</value>
+      <value>wOff</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_ConstraintRelationship">
+    <choice>
+      <value>self</value>
+      <value>ch</value>
+      <value>des</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_ElementType">
+    <choice>
+      <value>all</value>
+      <value>doc</value>
+      <value>node</value>
+      <value>norm</value>
+      <value>nonNorm</value>
+      <value>asst</value>
+      <value>nonAsst</value>
+      <value>parTrans</value>
+      <value>pres</value>
+      <value>sibTrans</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_ElementTypes">
+    <list>
+      <zeroOrMore>
+        <ref name="ddgrm_ST_ElementType"/>
+      </zeroOrMore>
+    </list>
+  </define>
+  <define name="ddgrm_ST_ParameterId">
+    <choice>
+      <value>horzAlign</value>
+      <value>vertAlign</value>
+      <value>chDir</value>
+      <value>chAlign</value>
+      <value>secChAlign</value>
+      <value>linDir</value>
+      <value>secLinDir</value>
+      <value>stElem</value>
+      <value>bendPt</value>
+      <value>connRout</value>
+      <value>begSty</value>
+      <value>endSty</value>
+      <value>dim</value>
+      <value>rotPath</value>
+      <value>ctrShpMap</value>
+      <value>nodeHorzAlign</value>
+      <value>nodeVertAlign</value>
+      <value>fallback</value>
+      <value>txDir</value>
+      <value>pyraAcctPos</value>
+      <value>pyraAcctTxMar</value>
+      <value>txBlDir</value>
+      <value>txAnchorHorz</value>
+      <value>txAnchorVert</value>
+      <value>txAnchorHorzCh</value>
+      <value>txAnchorVertCh</value>
+      <value>parTxLTRAlign</value>
+      <value>parTxRTLAlign</value>
+      <value>shpTxLTRAlignCh</value>
+      <value>shpTxRTLAlignCh</value>
+      <value>autoTxRot</value>
+      <value>grDir</value>
+      <value>flowDir</value>
+      <value>contDir</value>
+      <value>bkpt</value>
+      <value>off</value>
+      <value>hierAlign</value>
+      <value>bkPtFixedVal</value>
+      <value>stBulletLvl</value>
+      <value>stAng</value>
+      <value>spanAng</value>
+      <value>ar</value>
+      <value>lnSpPar</value>
+      <value>lnSpAfParP</value>
+      <value>lnSpCh</value>
+      <value>lnSpAfChP</value>
+      <value>rtShortDist</value>
+      <value>alignTx</value>
+      <value>pyraLvlNode</value>
+      <value>pyraAcctBkgdNode</value>
+      <value>pyraAcctTxNode</value>
+      <value>srcNode</value>
+      <value>dstNode</value>
+      <value>begPts</value>
+      <value>endPts</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_Ints">
+    <list>
+      <zeroOrMore>
+        <data type="int"/>
+      </zeroOrMore>
+    </list>
+  </define>
+  <define name="ddgrm_ST_UnsignedInts">
+    <list>
+      <zeroOrMore>
+        <data type="unsignedInt"/>
+      </zeroOrMore>
+    </list>
+  </define>
+  <define name="ddgrm_ST_Booleans">
+    <list>
+      <zeroOrMore>
+        <data type="boolean"/>
+      </zeroOrMore>
+    </list>
+  </define>
+  <define name="ddgrm_ST_FunctionType">
+    <choice>
+      <value>cnt</value>
+      <value>pos</value>
+      <value>revPos</value>
+      <value>posEven</value>
+      <value>posOdd</value>
+      <value>var</value>
+      <value>depth</value>
+      <value>maxDepth</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_FunctionOperator">
+    <choice>
+      <value>equ</value>
+      <value>neq</value>
+      <value>gt</value>
+      <value>lt</value>
+      <value>gte</value>
+      <value>lte</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_DiagramHorizontalAlignment">
+    <choice>
+      <value>l</value>
+      <value>ctr</value>
+      <value>r</value>
+      <value>none</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_VerticalAlignment">
+    <choice>
+      <value>t</value>
+      <value>mid</value>
+      <value>b</value>
+      <value>none</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_ChildDirection">
+    <choice>
+      <value>horz</value>
+      <value>vert</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_ChildAlignment">
+    <choice>
+      <value>t</value>
+      <value>b</value>
+      <value>l</value>
+      <value>r</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_SecondaryChildAlignment">
+    <choice>
+      <value>none</value>
+      <value>t</value>
+      <value>b</value>
+      <value>l</value>
+      <value>r</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_LinearDirection">
+    <choice>
+      <value>fromL</value>
+      <value>fromR</value>
+      <value>fromT</value>
+      <value>fromB</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_SecondaryLinearDirection">
+    <choice>
+      <value>none</value>
+      <value>fromL</value>
+      <value>fromR</value>
+      <value>fromT</value>
+      <value>fromB</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_StartingElement">
+    <choice>
+      <value>node</value>
+      <value>trans</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_RotationPath">
+    <choice>
+      <value>none</value>
+      <value>alongPath</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_CenterShapeMapping">
+    <choice>
+      <value>none</value>
+      <value>fNode</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_BendPoint">
+    <choice>
+      <value>beg</value>
+      <value>def</value>
+      <value>end</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_ConnectorRouting">
+    <choice>
+      <value>stra</value>
+      <value>bend</value>
+      <value>curve</value>
+      <value>longCurve</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_ArrowheadStyle">
+    <choice>
+      <value>auto</value>
+      <value>arr</value>
+      <value>noArr</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_ConnectorDimension">
+    <choice>
+      <value>1D</value>
+      <value>2D</value>
+      <value>cust</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_ConnectorPoint">
+    <choice>
+      <value>auto</value>
+      <value>bCtr</value>
+      <value>ctr</value>
+      <value>midL</value>
+      <value>midR</value>
+      <value>tCtr</value>
+      <value>bL</value>
+      <value>bR</value>
+      <value>tL</value>
+      <value>tR</value>
+      <value>radial</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_NodeHorizontalAlignment">
+    <choice>
+      <value>l</value>
+      <value>ctr</value>
+      <value>r</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_NodeVerticalAlignment">
+    <choice>
+      <value>t</value>
+      <value>mid</value>
+      <value>b</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_FallbackDimension">
+    <choice>
+      <value>1D</value>
+      <value>2D</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_TextDirection">
+    <choice>
+      <value>fromT</value>
+      <value>fromB</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_PyramidAccentPosition">
+    <choice>
+      <value>bef</value>
+      <value>aft</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_PyramidAccentTextMargin">
+    <choice>
+      <value>step</value>
+      <value>stack</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_TextBlockDirection">
+    <choice>
+      <value>horz</value>
+      <value>vert</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_TextAnchorHorizontal">
+    <choice>
+      <value>none</value>
+      <value>ctr</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_TextAnchorVertical">
+    <choice>
+      <value>t</value>
+      <value>mid</value>
+      <value>b</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_DiagramTextAlignment">
+    <choice>
+      <value>l</value>
+      <value>ctr</value>
+      <value>r</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_AutoTextRotation">
+    <choice>
+      <value>none</value>
+      <value>upr</value>
+      <value>grav</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_GrowDirection">
+    <choice>
+      <value>tL</value>
+      <value>tR</value>
+      <value>bL</value>
+      <value>bR</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_FlowDirection">
+    <choice>
+      <value>row</value>
+      <value>col</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_ContinueDirection">
+    <choice>
+      <value>revDir</value>
+      <value>sameDir</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_Breakpoint">
+    <choice>
+      <value>endCnv</value>
+      <value>bal</value>
+      <value>fixed</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_Offset">
+    <choice>
+      <value>ctr</value>
+      <value>off</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_HierarchyAlignment">
+    <choice>
+      <value>tL</value>
+      <value>tR</value>
+      <value>tCtrCh</value>
+      <value>tCtrDes</value>
+      <value>bL</value>
+      <value>bR</value>
+      <value>bCtrCh</value>
+      <value>bCtrDes</value>
+      <value>lT</value>
+      <value>lB</value>
+      <value>lCtrCh</value>
+      <value>lCtrDes</value>
+      <value>rT</value>
+      <value>rB</value>
+      <value>rCtrCh</value>
+      <value>rCtrDes</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_FunctionValue">
+    <choice>
+      <data type="int"/>
+      <data type="boolean"/>
+      <ref name="ddgrm_ST_Direction"/>
+      <ref name="ddgrm_ST_HierBranchStyle"/>
+      <ref name="ddgrm_ST_AnimOneStr"/>
+      <ref name="ddgrm_ST_AnimLvlStr"/>
+      <ref name="ddgrm_ST_ResizeHandlesStr"/>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_VariableType">
+    <choice>
+      <value>none</value>
+      <value>orgChart</value>
+      <value>chMax</value>
+      <value>chPref</value>
+      <value>bulEnabled</value>
+      <value>dir</value>
+      <value>hierBranch</value>
+      <value>animOne</value>
+      <value>animLvl</value>
+      <value>resizeHandles</value>
+    </choice>
+  </define>
+  <define name="ddgrm_ST_FunctionArgument">
+    <ref name="ddgrm_ST_VariableType"/>
+  </define>
+  <define name="ddgrm_ST_OutputShapeType">
+    <choice>
+      <value>none</value>
+      <value>conn</value>
+    </choice>
+  </define>
+</grammar>

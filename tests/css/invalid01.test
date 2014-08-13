@@ -1,0 +1,55 @@
+CSS_test();
+#item input.css
+h1::before {
+                border-left-color: red;
+                border-right-color: blue;
+                content: counter(h1) ' 
+                margin-bottom: 4px;
+                margin-left: 1px;
+                margin-right: 2px;
+                margin-top: 3px;
+}
+
+h2::before {
+                border-left-color: red;
+                border-right-color: blue;
+                margin-bottom: 4px;
+                margin-left: 1px;
+                margin-right: 2px;
+                margin-top: 3px;
+}
+#item expected
+h1
+    ""
+    "::before"
+        border-left-color = red
+        border-right-color = blue
+        margin-left = 1px
+        margin-right = 2px
+        margin-top = 3px
+h2
+    ""
+    "::before"
+        border-left-color = red
+        border-right-color = blue
+        margin-bottom = 4px
+        margin-left = 1px
+        margin-right = 2px
+        margin-top = 3px
+================================================================================
+h1::before {
+    border-left: red;
+    border-right: blue;
+    margin-left: 1px;
+    margin-right: 2px;
+    margin-top: 3px;
+}
+
+h2::before {
+    border-left: red;
+    border-right: blue;
+    margin-bottom: 4px;
+    margin-left: 1px;
+    margin-right: 2px;
+    margin-top: 3px;
+}

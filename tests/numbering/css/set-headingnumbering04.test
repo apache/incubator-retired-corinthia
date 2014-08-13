@@ -1,0 +1,75 @@
+// Two styles at each level, one with a class name and one
+// without. Only those without a class name should get numbering information set,
+// since the ones that do have a class name implicitly inherit all
+// properties from the former.
+CSS_setHeadingNumbering(true);
+#item input.css
+h1 { }
+h2 { }
+h3 { }
+h4 { }
+h5 { }
+h6 { }
+
+h1.Foo1 { }
+h2.Foo2 { }
+h3.Foo3 { }
+h4.Foo4 { }
+h5.Foo5 { }
+h6.Foo6 { }
+#item expected
+h1 {
+    counter-increment: h1;
+    counter-reset: h2 h3 h4 h5 h6;
+}
+
+h1.Foo1, h2.Foo2, h3.Foo3, h4.Foo4, h5.Foo5, h6.Foo6 {
+}
+
+h1::before {
+    content: counter(h1) " ";
+}
+
+h2 {
+    counter-increment: h2;
+    counter-reset: h3 h4 h5 h6;
+}
+
+h2::before {
+    content: counter(h1) "." counter(h2) " ";
+}
+
+h3 {
+    counter-increment: h3;
+    counter-reset: h4 h5 h6;
+}
+
+h3::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) " ";
+}
+
+h4 {
+    counter-increment: h4;
+    counter-reset: h5 h6;
+}
+
+h4::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) " ";
+}
+
+h5 {
+    counter-increment: h5;
+    counter-reset: h6;
+}
+
+h5::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) " ";
+}
+
+h6 {
+    counter-increment: h6;
+}
+
+h6::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "." counter(h6) " ";
+}

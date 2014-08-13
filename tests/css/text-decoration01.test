@@ -1,0 +1,84 @@
+CSS_test();
+#item input.css
+p.test1 {
+    text-decoration: underline
+}
+
+p.test2 {
+    text-decoration: overline
+}
+
+p.test3 {
+    text-decoration: line-through
+}
+
+p.test4 {
+    text-decoration: overline underline
+}
+
+p.test5 {
+    text-decoration: line-through overline
+}
+
+p.test6 {
+    text-decoration: line-through underline
+}
+
+p.test7 {
+    text-decoration: line-through overline underline
+}
+#item expected
+p.test1
+    ""
+        text-decoration-underline = underline
+p.test2
+    ""
+        text-decoration-overline = overline
+p.test3
+    ""
+        text-decoration-line-through = line-through
+p.test4
+    ""
+        text-decoration-overline = overline
+        text-decoration-underline = underline
+p.test5
+    ""
+        text-decoration-line-through = line-through
+        text-decoration-overline = overline
+p.test6
+    ""
+        text-decoration-line-through = line-through
+        text-decoration-underline = underline
+p.test7
+    ""
+        text-decoration-line-through = line-through
+        text-decoration-overline = overline
+        text-decoration-underline = underline
+================================================================================
+p.test1 {
+    text-decoration: underline;
+}
+
+p.test2 {
+    text-decoration: overline;
+}
+
+p.test3 {
+    text-decoration: line-through;
+}
+
+p.test4 {
+    text-decoration: underline overline;
+}
+
+p.test5 {
+    text-decoration: overline line-through;
+}
+
+p.test6 {
+    text-decoration: underline line-through;
+}
+
+p.test7 {
+    text-decoration: underline overline line-through;
+}

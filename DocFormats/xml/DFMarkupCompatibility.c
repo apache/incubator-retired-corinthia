@@ -1,0 +1,183 @@
+//
+//  DFMarkupCompatibility.c
+//  DocFormats
+//
+//  Created by Peter Kelly on 2/10/12.
+//  Copyright (c) 2012-2014 UX Productivity Pty Ltd. All rights reserved.
+//
+
+#include "DFMarkupCompatibility.h"
+#include "DFNameMap.h"
+#include "DFFilesystem.h"
+#include "DFString.h"
+#include "DFCommon.h"
+
+#define MAX_DEPTH 256
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                //
+//                                      DFMarkupCompatibility                                     //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+typedef struct MCDecl {
+    NamespaceID nsId;
+    Tag tag;
+    MCAction action;
+} MCDecl;
+
+typedef struct MCRecord {
+    MCDecl *decls;
+    int count;
+    int alloc;
+    DFHashTable *namespaces;
+} MCRecord;
+
+struct MCStack {
+    MCRecord records[MAX_DEPTH];
+    int depth;
+};
+
+struct DFMarkupCompatibility {
+    MCRecord records[MAX_DEPTH];
+    int depth;
+};
+
+DFMarkupCompatibility *DFMarkupCompatibilityNew(void)
+{
+    DFMarkupCompatibility *mc = (DFMarkupCompatibility *)calloc(1,sizeof(DFMarkupCompatibility));
+    return mc;
+}
+
+void DFMarkupCompatibilityFree(DFMarkupCompatibility *mc)
+{
+    while (mc->depth > 0)
+        DFMarkupCompatibilityPop(mc);
+    free(mc);
+}
+
+static void addDeclToRecord(MCRecord *record, NamespaceID nsId, Tag tag, MCAction action)
+{
+    record->count++;
+    record->decls = (MCDecl *)realloc(record->decls,record->count*sizeof(MCDecl));
+    record->decls[record->count-1].nsId = nsId;
+    record->decls[record->count-1].tag = tag;
+    record->decls[record->count-1].action = action;
+}
+
+void DFMarkupCompatibilityPush(DFMarkupCompatibility *mc, int nb_namespaces, const xmlChar **namespaces, DFNameMap *map)
+{
+    mc->depth++;
+    if (mc->depth < MAX_DEPTH) {
+        MCRecord *record = &mc->records[mc->depth-1];
+        bzero(record,sizeof(MCRecord));
+        if (nb_namespaces > 0) {
+            record->namespaces = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+            for (int i = 0; i < nb_namespaces; i++) {
+                const xmlChar *nsPrefix = namespaces[i*2];
+                const xmlChar *nsURI = namespaces[i*2+1];
+                NamespaceID nsId = DFNameMapFoundNamespace(map,nsURI,nsPrefix);
+                char nsIdStr[20];
+                snprintf(nsIdStr,20,"%u",nsId);
+                const char *prefix = "";
+                if (nsPrefix != NULL)
+                    prefix = (const char *)nsPrefix;
+                DFHashTableAdd(record->namespaces,prefix,nsIdStr);
+            }
+        }
+    }
+}
+
+void DFMarkupCompatibilityPop(DFMarkupCompatibility *mc)
+{
+    assert(mc->depth > 0);
+    if (mc->depth < MAX_DEPTH) {
+        MCRecord *record = &mc->records[mc->depth-1];
+        free(record->decls);
+        DFHashTableRelease(record->namespaces);
+    }
+    mc->depth--;
+}
+
+MCAction DFMarkupCompatibilityLookup(DFMarkupCompatibility *mc, NamespaceID nsId, Tag tag, int isElement)
+{
+    MCAction action = MCActionDefault;
+    for (int recordIndex = mc->depth-1; recordIndex >= 0; recordIndex--) {
+        MCRecord *record = &mc->records[recordIndex];
+        for (int declIndex = 0; declIndex < record->count; declIndex++) {
+            MCDecl *decl = &record->decls[declIndex];
+            if (decl->nsId == nsId) {
+                switch (decl->action) {
+                    case MCActionIgnore:
+                        return MCActionIgnore;
+                    case MCActionProcessContent:
+                        if ((decl->tag == 0) || ((decl->tag == tag) && isElement))
+                            return MCActionProcessContent;
+                        break;
+                    case MCActionMustUnderstand:
+                        return MCActionMustUnderstand;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+    return action;
+}
+
+// FIXME: Not covered by tests
+void DFMarkupCompatibilityProcessAttr(DFMarkupCompatibility *mc, Tag attr, const char *value, DFNameMap *map)
+{
+    const char **tokens = DFStringTokenize(value,isspace);
+    for (int tokIndex = 0; tokens[tokIndex]; tokIndex++) {
+        const char *component = tokens[tokIndex];
+
+        char *prefix = NULL;
+        char *localName = NULL;
+        const char *colon = strchr(component,':');
+        if (colon != NULL) {
+            size_t colonPos = colon - component;
+            prefix = DFSubstring(component,0,colonPos);
+            localName = DFSubstring(component,colonPos+1,strlen(component));
+        }
+        else {
+            prefix = strdup(component);
+            localName = NULL;
+        }
+
+        const char *nsIdStr = NULL;
+
+        // Find namespace ID for prefix
+        for (int recordIndex = mc->depth-1; recordIndex >= 0; recordIndex--) {
+            MCRecord *record = &mc->records[recordIndex];
+            if (record->namespaces != NULL)
+                nsIdStr = DFHashTableLookup(record->namespaces,prefix);
+        }
+
+        if (nsIdStr != NULL) {
+
+            NamespaceID nsId = atoi(nsIdStr);
+            Tag tag = 0;
+
+            const NamespaceDecl *nsDecl = DFNameMapNamespaceForID(map,nsId);
+
+            if (localName != NULL)
+                tag = DFNameMapTagForName(map,(xmlChar *)nsDecl->namespaceURI,(xmlChar *)localName);
+
+            switch (attr) {
+                case MC_IGNORABLE:
+                    addDeclToRecord(&mc->records[mc->depth-1],nsId,tag,MCActionIgnore);
+                    break;
+                case MC_PROCESSCONTENT:
+                    addDeclToRecord(&mc->records[mc->depth-1],nsId,tag,MCActionProcessContent);
+                    break;
+                case MC_MUSTUNDERSTAND:
+                    addDeclToRecord(&mc->records[mc->depth-1],nsId,tag,MCActionMustUnderstand);
+                    break;
+            }
+        }
+        free(prefix);
+        free(localName);
+    }
+    free(tokens);
+}

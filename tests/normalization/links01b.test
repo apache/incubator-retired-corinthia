@@ -1,0 +1,23 @@
+HTML_testNormalize();
+#item input.html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+  <a href="#x">one</a> two
+</body>
+</html>
+#item expected
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+  </head>
+  <body>
+    <p>
+      <a href="#x"><span>one</span></a><span> two</span>
+    </p>
+  </body>
+</html>

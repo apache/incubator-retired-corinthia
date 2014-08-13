@@ -1,0 +1,125 @@
+// Turn heading numbering off on a stylesheet containing the
+// "Unnumbered" styles that we used to add in previous versions of UX
+// Write. None of the styles have any properties.
+CSS_setHeadingNumbering(false);
+#item input.css
+h1.heading_1 {
+    counter-increment: h1;
+    counter-reset: h2 h3 h4 h5 h6;
+}
+
+h1.heading_1::before {
+    content: counter(h1) " ";
+}
+
+h1.heading_1Unnumbered {
+    -uxwrite-parent: "h1.heading_1";
+    counter-increment: h1 0;
+    counter-reset: null;
+}
+
+h1.heading_1Unnumbered::before, h2.heading_2Unnumbered::before, h3.heading_3Unnumbered::before, h4.heading_4Unnumbered::before, h5.heading_5Unnumbered::before, h6.heading_6Unnumbered::before {
+    content: none;
+}
+
+h2.heading_2 {
+    counter-increment: h2;
+    counter-reset: h3 h4 h5 h6;
+}
+
+h2.heading_2::before {
+    content: counter(h1) "." counter(h2) " ";
+}
+
+h2.heading_2Unnumbered {
+    -uxwrite-parent: "h2.heading_2";
+    counter-increment: h2 0;
+    counter-reset: null;
+}
+
+h3.heading_3 {
+    counter-increment: h3;
+    counter-reset: h4 h5 h6;
+}
+
+h3.heading_3::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) " ";
+}
+
+h3.heading_3Unnumbered {
+    -uxwrite-parent: "h3.heading_3";
+    counter-increment: h3 0;
+    counter-reset: null;
+}
+
+h4.heading_4 {
+    counter-increment: h4;
+    counter-reset: h5 h6;
+}
+
+h4.heading_4::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) " ";
+}
+
+h4.heading_4Unnumbered {
+    -uxwrite-parent: "h4.heading_4";
+    counter-increment: h4 0;
+    counter-reset: null;
+}
+
+h5.heading_5 {
+    counter-increment: h5;
+    counter-reset: h6;
+}
+
+h5.heading_5::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) " ";
+}
+
+h5.heading_5Unnumbered {
+    -uxwrite-parent: "h5.heading_5";
+    counter-increment: h5 0;
+    counter-reset: null;
+}
+
+h6.heading_6 {
+    counter-increment: h6;
+    counter-reset: ;
+}
+
+h6.heading_6::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "." counter(h6) " ";
+}
+
+h6.heading_6Unnumbered {
+    -uxwrite-parent: "h6.heading_6";
+    counter-increment: h6 0;
+    counter-reset: null;
+}
+#item expected
+h1.heading_1, h2.heading_2, h3.heading_3, h4.heading_4, h5.heading_5, h6.heading_6 {
+}
+
+h1.heading_1Unnumbered {
+    -uxwrite-parent: "h1.heading_1";
+}
+
+h2.heading_2Unnumbered {
+    -uxwrite-parent: "h2.heading_2";
+}
+
+h3.heading_3Unnumbered {
+    -uxwrite-parent: "h3.heading_3";
+}
+
+h4.heading_4Unnumbered {
+    -uxwrite-parent: "h4.heading_4";
+}
+
+h5.heading_5Unnumbered {
+    -uxwrite-parent: "h5.heading_5";
+}
+
+h6.heading_6Unnumbered {
+    -uxwrite-parent: "h6.heading_6";
+}

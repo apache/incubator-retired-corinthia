@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="http://schemas.openxmlformats.org/drawingml/2006/lockedCanvas" xmlns="http://relaxng.org/ns/structure/1.0">
+  <define name="dlckcnv_lockedCanvas">
+    <element name="lockedCanvas">
+      <ref name="a_CT_GvmlGroupShape"/>
+    </element>
+  </define>
+</grammar>

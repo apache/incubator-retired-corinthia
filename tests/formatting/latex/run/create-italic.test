@@ -1,0 +1,21 @@
+LaTeX_testCreate();
+#item input.html
+<!DOCTYPE html>
+<html>
+<body>
+
+Some <i>italic</i> text
+
+</body>
+</html>
+#item expected
+\documentclass[a4paper,12pt]{article}
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+Some \emph{italic} text
+
+\end{document}

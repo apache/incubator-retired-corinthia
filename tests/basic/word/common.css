@@ -1,0 +1,25 @@
+body {
+    counter-reset: h1 h2 h3 h4 h5 h6 figure table;
+}
+
+p.Normal {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal";
+}
+
+span.Default_Paragraph_Font {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Default Paragraph Font";
+}
+
+table.Normal_Table {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal Table";
+}
+
+table.Normal_Table > * > tr > td {
+    padding-bottom: 0pt;
+    padding-left: 5.4pt;
+    padding-right: 5.4pt;
+    padding-top: 0pt;
+}

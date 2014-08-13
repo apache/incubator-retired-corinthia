@@ -1,0 +1,288 @@
+Word_testCreate();
+#item input.html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+@page {
+    size: A4 portrait;
+}
+
+body {
+    counter-reset: h1 h2 h3 h4 h5 h6 figure table;
+    margin-bottom: 12.10084%;
+    margin-left: 15.12605%;
+    margin-right: 15.12605%;
+    margin-top: 12.10084%;
+}
+
+p.Normal {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal";
+}
+
+span.Default_Paragraph_Font {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Default Paragraph Font";
+}
+
+table.Normal_Table {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal Table";
+}
+
+table.Normal_Table > * > tr > td {
+    padding-bottom: 0pt;
+    padding-left: 5.4pt;
+    padding-right: 5.4pt;
+    padding-top: 0pt;
+}
+
+table.Table_Grid {
+    -uxwrite-display-name: "Table Grid";
+    -uxwrite-parent: "table.Normal_Table";
+    border: thin solid black;
+}
+
+table.Table_Grid > * > tr > td {
+    border-left: thin solid black;
+    border-right: thin solid black;
+    padding-bottom: 0pt;
+    padding-left: 5.4pt;
+    padding-right: 5.4pt;
+    padding-top: 0pt;
+}
+    </style>
+  </head>
+  <body>
+    <table class="Table_Grid" style="width: 100%">
+      <colgroup>
+        <col width="33%"/>
+        <col width="33%"/>
+        <col width="33%"/>
+      </colgroup>
+      <tr>
+        <td>
+          <p class="Normal">
+            <span>A</span>
+          </p>
+        </td>
+        <td>
+          <p class="Normal">
+            <span>B</span>
+          </p>
+        </td>
+        <td>
+          <p class="Normal">
+            <span>C</span>
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="Normal">
+            <span>D</span>
+          </p>
+        </td>
+        <td>
+          <p class="Normal">
+            <span>E</span>
+          </p>
+        </td>
+        <td>
+          <p class="Normal">
+            <span>F</span>
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="Normal">
+            <span>G</span>
+          </p>
+        </td>
+        <td>
+          <p class="Normal">
+            <span>H</span>
+          </p>
+        </td>
+        <td>
+          <p class="Normal">
+            <span>I</span>
+          </p>
+        </td>
+      </tr>
+    </table>
+    <p class="Normal">
+      <br/>
+    </p>
+  </body>
+</html>
+#item expected
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblStyle w:val="TableGrid"/>
+        <w:tblW w:type="pct" w:w="5000"/>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="2839"/>
+        <w:gridCol w:w="2839"/>
+        <w:gridCol w:w="2839"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="pct" w:w="1667"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>A</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="pct" w:w="1667"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>B</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="pct" w:w="1667"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>C</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="pct" w:w="1667"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>D</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="pct" w:w="1667"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>E</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="pct" w:w="1667"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>F</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="pct" w:w="1667"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>G</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="pct" w:w="1667"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>H</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="pct" w:w="1667"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>I</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+    <w:p/>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:left="1800" w:right="1800" w:top="1440"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:style w:default="1" w:styleId="Normal" w:type="paragraph">
+    <w:name w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:spacing w:after="100" w:afterAutospacing="1" w:before="100" w:beforeAutospacing="1"/>
+    </w:pPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="DefaultParagraphFont" w:type="character">
+    <w:name w:val="Default Paragraph Font"/>
+    <w:qFormat/>
+  </w:style>
+  <w:style w:default="1" w:styleId="TableNormal" w:type="table">
+    <w:name w:val="Normal Table"/>
+    <w:qFormat/>
+    <w:tblPr>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+  <w:style w:styleId="TableGrid" w:type="table">
+    <w:name w:val="Table Grid"/>
+    <w:basedOn w:val="TableNormal"/>
+    <w:qFormat/>
+    <w:tblPr>
+      <w:tblBorders>
+        <w:top w:color="000000" w:sz="4" w:val="single"/>
+        <w:left w:color="000000" w:sz="4" w:val="single"/>
+        <w:bottom w:color="000000" w:sz="4" w:val="single"/>
+        <w:right w:color="000000" w:sz="4" w:val="single"/>
+        <w:insideV w:color="000000" w:sz="4" w:val="single"/>
+      </w:tblBorders>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+</w:styles>

@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns:w="http://purl.oclc.org/ooxml/wordprocessingml/main" ns="http://purl.oclc.org/ooxml/drawingml/wordprocessingDrawing" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:dpct="http://purl.oclc.org/ooxml/drawingml/picture" xmlns:r="http://purl.oclc.org/ooxml/officeDocument/relationships" xmlns:a="http://purl.oclc.org/ooxml/drawingml/main" xmlns:wp="http://purl.oclc.org/ooxml/drawingml/wordprocessingDrawing" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:aa="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <define name="wp_CT_EffectExtent">
+    <attribute name="l">
+      <ref name="a_ST_Coordinate"/>
+    </attribute>
+    <attribute name="t">
+      <ref name="a_ST_Coordinate"/>
+    </attribute>
+    <attribute name="r">
+      <ref name="a_ST_Coordinate"/>
+    </attribute>
+    <attribute name="b">
+      <ref name="a_ST_Coordinate"/>
+    </attribute>
+  </define>
+  <define name="wp_ST_WrapDistance">
+    <data type="unsignedInt"/>
+  </define>
+  <define name="wp_CT_Inline">
+    <optional>
+      <attribute name="distT">
+        <ref name="wp_ST_WrapDistance"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="distB">
+        <ref name="wp_ST_WrapDistance"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="distL">
+        <ref name="wp_ST_WrapDistance"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="distR">
+        <ref name="wp_ST_WrapDistance"/>
+      </attribute>
+    </optional>
+    <element name="extent">
+      <ref name="a_CT_PositiveSize2D"/>
+    </element>
+    <optional>
+      <element name="effectExtent">
+        <ref name="wp_CT_EffectExtent"/>
+      </element>
+    </optional>
+    <element name="docPr">
+      <ref name="a_CT_NonVisualDrawingProps"/>
+    </element>
+    <optional>
+      <element name="cNvGraphicFramePr">
+        <ref name="a_CT_NonVisualGraphicFrameProperties"/>
+      </element>
+    </optional>
+    <ref name="a_graphic"/>
+  </define>
+  <define name="wp_ST_WrapText">
+    <choice>
+      <value>bothSides</value>
+      <value>left</value>
+      <value>right</value>
+      <value>largest</value>
+    </choice>
+  </define>
+  <define name="wp_CT_WrapPath">
+    <optional>
+      <attribute name="edited">
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <element name="start">
+      <ref name="a_CT_Point2D"/>
+    </element>
+    <oneOrMore>
+      <element name="lineTo">
+        <ref name="a_CT_Point2D"/>
+      </element>
+    </oneOrMore>
+  </define>
+  <define name="wp_CT_WrapNone">
+    <empty/>
+  </define>
+  <define name="wp_CT_WrapSquare">
+    <attribute name="wrapText">
+      <ref name="wp_ST_WrapText"/>
+    </attribute>
+    <optional>
+      <attribute name="distT">
+        <ref name="wp_ST_WrapDistance"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="distB">
+        <ref name="wp_ST_WrapDistance"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="distL">
+        <ref name="wp_ST_WrapDistance"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="distR">
+        <ref name="wp_ST_WrapDistance"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="effectExtent">
+        <ref name="wp_CT_EffectExtent"/>
+      </element>
+    </optional>
+  </define>
+  <define name="wp_CT_WrapTight">
+    <attribute name="wrapText">
+      <ref name="wp_ST_WrapText"/>
+    </attribute>
+    <optional>
+      <attribute name="distL">
+        <ref name="wp_ST_WrapDistance"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="distR">
+        <ref name="wp_ST_WrapDistance"/>
+      </attribute>
+    </optional>
+    <element name="wrapPolygon">
+      <ref name="wp_CT_WrapPath"/>
+    </element>
+  </define>
+  <define name="wp_CT_WrapThrough">
+    <attribute name="wrapText">
+      <ref name="wp_ST_WrapText"/>
+    </attribute>
+    <optional>
+      <attribute name="distL">
+        <ref name="wp_ST_WrapDistance"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="distR">
+        <ref name="wp_ST_WrapDistance"/>
+      </attribute>
+    </optional>
+    <element name="wrapPolygon">
+      <ref name="wp_CT_WrapPath"/>
+    </element>
+  </define>
+  <define name="wp_CT_WrapTopBottom">
+    <optional>
+      <attribute name="distT">
+        <ref name="wp_ST_WrapDistance"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="distB">
+        <ref name="wp_ST_WrapDistance"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="effectExtent">
+        <ref name="wp_CT_EffectExtent"/>
+      </element>
+    </optional>
+  </define>
+  <define name="wp_EG_WrapType">
+    <choice>
+      <element name="wrapNone">
+        <ref name="wp_CT_WrapNone"/>
+      </element>
+      <element name="wrapSquare">
+        <ref name="wp_CT_WrapSquare"/>
+      </element>
+      <element name="wrapTight">
+        <ref name="wp_CT_WrapTight"/>
+      </element>
+      <element name="wrapThrough">
+        <ref name="wp_CT_WrapThrough"/>
+      </element>
+      <element name="wrapTopAndBottom">
+        <ref name="wp_CT_WrapTopBottom"/>
+      </element>
+    </choice>
+  </define>
+  <define name="wp_ST_PositionOffset">
+    <data type="int"/>
+  </define>
+  <define name="wp_ST_AlignH">
+    <choice>
+      <value>left</value>
+      <value>right</value>
+      <value>center</value>
+      <value>inside</value>
+      <value>outside</value>
+    </choice>
+  </define>
+  <define name="wp_ST_RelFromH">
+    <choice>
+      <value>margin</value>
+      <value>page</value>
+      <value>column</value>
+      <value>character</value>
+      <value>leftMargin</value>
+      <value>rightMargin</value>
+      <value>insideMargin</value>
+      <value>outsideMargin</value>
+    </choice>
+  </define>
+  <define name="wp_CT_PosH">
+    <attribute name="relativeFrom">
+      <ref name="wp_ST_RelFromH"/>
+    </attribute>
+    <choice>
+      <element name="align">
+        <ref name="wp_ST_AlignH"/>
+      </element>
+      <element name="posOffset">
+        <ref name="wp_ST_PositionOffset"/>
+      </element>
+    </choice>
+  </define>
+  <define name="wp_ST_AlignV">
+    <choice>
+      <value>top</value>
+      <value>bottom</value>
+      <value>center</value>
+      <value>inside</value>
+      <value>outside</value>
+    </choice>
+  </define>
+  <define name="wp_ST_RelFromV">
+    <choice>
+      <value>margin</value>
+      <value>page</value>
+      <value>paragraph</value>
+      <value>line</value>
+      <value>topMargin</value>
+      <value>bottomMargin</value>
+      <value>insideMargin</value>
+      <value>outsideMargin</value>
+    </choice>
+  </define>
+  <define name="wp_CT_PosV">
+    <attribute name="relativeFrom">
+      <ref name="wp_ST_RelFromV"/>
+    </attribute>
+    <choice>
+      <element name="align">
+        <ref name="wp_ST_AlignV"/>
+      </element>
+      <element name="posOffset">
+        <ref name="wp_ST_PositionOffset"/>
+      </element>
+    </choice>
+  </define>
+  <define name="wp_CT_Anchor">
+    <optional>
+      <attribute name="distT">
+        <ref name="wp_ST_WrapDistance"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="distB">
+        <ref name="wp_ST_WrapDistance"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="distL">
+        <ref name="wp_ST_WrapDistance"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="distR">
+        <ref name="wp_ST_WrapDistance"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="simplePos">
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <attribute name="relativeHeight">
+      <data type="unsignedInt"/>
+    </attribute>
+    <attribute name="behindDoc">
+      <data type="boolean"/>
+    </attribute>
+    <attribute name="locked">
+      <data type="boolean"/>
+    </attribute>
+    <attribute name="layoutInCell">
+      <data type="boolean"/>
+    </attribute>
+    <optional>
+      <attribute name="hidden">
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <attribute name="allowOverlap">
+      <data type="boolean"/>
+    </attribute>
+    <element name="simplePos">
+      <ref name="a_CT_Point2D"/>
+    </element>
+    <element name="positionH">
+      <ref name="wp_CT_PosH"/>
+    </element>
+    <element name="positionV">
+      <ref name="wp_CT_PosV"/>
+    </element>
+    <element name="extent">
+      <ref name="a_CT_PositiveSize2D"/>
+    </element>
+    <optional>
+      <element name="effectExtent">
+        <ref name="wp_CT_EffectExtent"/>
+      </element>
+    </optional>
+    <ref name="wp_EG_WrapType"/>
+    <element name="docPr">
+      <ref name="a_CT_NonVisualDrawingProps"/>
+    </element>
+    <optional>
+      <element name="cNvGraphicFramePr">
+        <ref name="a_CT_NonVisualGraphicFrameProperties"/>
+      </element>
+    </optional>
+    <ref name="a_graphic"/>
+  </define>
+  <define name="wp_CT_TxbxContent">
+    <oneOrMore>
+      <ref name="w_EG_BlockLevelElts"/>
+    </oneOrMore>
+  </define>
+  <define name="wp_CT_TextboxInfo">
+    <optional>
+      <attribute name="id">
+        <aa:documentation>default value: 0</aa:documentation>
+        <data type="unsignedShort"/>
+      </attribute>
+    </optional>
+    <element name="txbxContent">
+      <ref name="wp_CT_TxbxContent"/>
+    </element>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="wp_CT_LinkedTextboxInformation">
+    <attribute name="id">
+      <data type="unsignedShort"/>
+    </attribute>
+    <attribute name="seq">
+      <data type="unsignedShort"/>
+    </attribute>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="wp_CT_WordprocessingShape">
+    <optional>
+      <attribute name="normalEastAsianFlow">
+        <aa:documentation>default value: false</aa:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <element name="cNvPr">
+        <ref name="a_CT_NonVisualDrawingProps"/>
+      </element>
+    </optional>
+    <choice>
+      <element name="cNvSpPr">
+        <ref name="a_CT_NonVisualDrawingShapeProps"/>
+      </element>
+      <element name="cNvCnPr">
+        <ref name="a_CT_NonVisualConnectorProperties"/>
+      </element>
+    </choice>
+    <element name="spPr">
+      <ref name="a_CT_ShapeProperties"/>
+    </element>
+    <optional>
+      <element name="style">
+        <ref name="a_CT_ShapeStyle"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+    <optional>
+      <choice>
+        <element name="txbx">
+          <ref name="wp_CT_TextboxInfo"/>
+        </element>
+        <element name="linkedTxbx">
+          <ref name="wp_CT_LinkedTextboxInformation"/>
+        </element>
+      </choice>
+    </optional>
+    <element name="bodyPr">
+      <ref name="a_CT_TextBodyProperties"/>
+    </element>
+  </define>
+  <define name="wp_CT_GraphicFrame">
+    <element name="cNvPr">
+      <ref name="a_CT_NonVisualDrawingProps"/>
+    </element>
+    <element name="cNvFrPr">
+      <ref name="a_CT_NonVisualGraphicFrameProperties"/>
+    </element>
+    <element name="xfrm">
+      <ref name="a_CT_Transform2D"/>
+    </element>
+    <ref name="a_graphic"/>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="wp_CT_WordprocessingContentPartNonVisual">
+    <optional>
+      <element name="cNvPr">
+        <ref name="a_CT_NonVisualDrawingProps"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="cNvContentPartPr">
+        <ref name="a_CT_NonVisualContentPartProperties"/>
+      </element>
+    </optional>
+  </define>
+  <define name="wp_CT_WordprocessingContentPart">
+    <optional>
+      <attribute name="bwMode">
+        <ref name="a_ST_BlackWhiteMode"/>
+      </attribute>
+    </optional>
+    <ref name="r_id"/>
+    <optional>
+      <element name="nvContentPartPr">
+        <ref name="wp_CT_WordprocessingContentPartNonVisual"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="xfrm">
+        <ref name="a_CT_Transform2D"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="wp_CT_WordprocessingGroup">
+    <optional>
+      <element name="cNvPr">
+        <ref name="a_CT_NonVisualDrawingProps"/>
+      </element>
+    </optional>
+    <element name="cNvGrpSpPr">
+      <ref name="a_CT_NonVisualGroupDrawingShapeProps"/>
+    </element>
+    <element name="grpSpPr">
+      <ref name="a_CT_GroupShapeProperties"/>
+    </element>
+    <zeroOrMore>
+      <choice>
+        <ref name="wp_wsp"/>
+        <element name="grpSp">
+          <ref name="wp_CT_WordprocessingGroup"/>
+        </element>
+        <element name="graphicFrame">
+          <ref name="wp_CT_GraphicFrame"/>
+        </element>
+        <ref name="dpct_pic"/>
+        <element name="contentPart">
+          <ref name="wp_CT_WordprocessingContentPart"/>
+        </element>
+      </choice>
+    </zeroOrMore>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="wp_CT_WordprocessingCanvas">
+    <optional>
+      <element name="bg">
+        <ref name="a_CT_BackgroundFormatting"/>
+      </element>
+    </optional>
+    <optional>
+      <element name="whole">
+        <ref name="a_CT_WholeE2oFormatting"/>
+      </element>
+    </optional>
+    <zeroOrMore>
+      <choice>
+        <ref name="wp_wsp"/>
+        <ref name="dpct_pic"/>
+        <element name="contentPart">
+          <ref name="wp_CT_WordprocessingContentPart"/>
+        </element>
+        <ref name="wp_wgp"/>
+        <element name="graphicFrame">
+          <ref name="wp_CT_GraphicFrame"/>
+        </element>
+      </choice>
+    </zeroOrMore>
+    <optional>
+      <element name="extLst">
+        <ref name="a_CT_OfficeArtExtensionList"/>
+      </element>
+    </optional>
+  </define>
+  <define name="wp_wpc">
+    <element name="wpc">
+      <ref name="wp_CT_WordprocessingCanvas"/>
+    </element>
+  </define>
+  <define name="wp_wgp">
+    <element name="wgp">
+      <ref name="wp_CT_WordprocessingGroup"/>
+    </element>
+  </define>
+  <define name="wp_wsp">
+    <element name="wsp">
+      <ref name="wp_CT_WordprocessingShape"/>
+    </element>
+  </define>
+  <define name="wp_inline">
+    <element name="inline">
+      <ref name="wp_CT_Inline"/>
+    </element>
+  </define>
+  <define name="wp_anchor">
+    <element name="anchor">
+      <ref name="wp_CT_Anchor"/>
+    </element>
+  </define>
+</grammar>

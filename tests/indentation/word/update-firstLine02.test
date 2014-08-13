@@ -1,0 +1,237 @@
+Word_testUpdate();
+#item input.docx
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Indent"/>
+      </w:pPr>
+      <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="0"/>
+      <w:r>
+        <w:t>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi elit mi, euismod eu posuere a, fermentum a arcu. Ut massa elit, condimentum sed ornare eget, vulputate blandit lorem. Proin imperdiet, mi non malesuada ultrices, magna orci feugiat tortor, et porttitor eros metus vel velit. Proin id tincidunt lectus. Praesent sit amet neque eget erat facilisis posuere vel eget risus.</w:t>
+      </w:r>
+    </w:p>
+    <w:p/>
+    <w:p>
+      <w:r>
+        <w:t>Quisque elementum libero eu mi interdum pretium. Nullam sed leo id erat congue vestibulum. Ut fermentum, massa at venenatis semper, risus nisl vestibulum arcu, a volutpat lorem nisl vitae lacus. Sed at nulla nulla, et bibendum mauris.</w:t>
+      </w:r>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:footer="708" w:gutter="0" w:header="708" w:left="1800" w:right="1800" w:top="1440"/>
+      <w:cols w:space="708"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:docDefaults>
+    <w:rPrDefault>
+      <w:rPr>
+        <w:rFonts w:asciiTheme="minorHAnsi" w:cstheme="minorBidi" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorHAnsi"/>
+        <w:sz w:val="24"/>
+        <w:szCs w:val="24"/>
+        <w:lang w:bidi="ar-SA" w:eastAsia="en-US" w:val="en-AU"/>
+      </w:rPr>
+    </w:rPrDefault>
+    <w:pPrDefault/>
+  </w:docDefaults>
+  <w:style w:default="1" w:styleId="Normal" w:type="paragraph">
+    <w:name w:val="Normal"/>
+    <w:qFormat/>
+    <w:rsid w:val="00397857"/>
+    <w:pPr>
+      <w:spacing w:after="100" w:afterAutospacing="1" w:before="100" w:beforeAutospacing="1"/>
+      <w:jc w:val="both"/>
+    </w:pPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="DefaultParagraphFont" w:type="character">
+    <w:name w:val="Default Paragraph Font"/>
+    <w:uiPriority w:val="1"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+  <w:style w:default="1" w:styleId="TableNormal" w:type="table">
+    <w:name w:val="Normal Table"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+    <w:tblPr>
+      <w:tblInd w:type="dxa" w:w="0"/>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="NoList" w:type="numbering">
+    <w:name w:val="No List"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Indent" w:type="paragraph">
+    <w:name w:val="Indent"/>
+    <w:basedOn w:val="Normal"/>
+    <w:qFormat/>
+    <w:rsid w:val="00397857"/>
+    <w:pPr>
+      <w:ind w:firstLine="830"/>
+    </w:pPr>
+  </w:style>
+</w:styles>
+#item input.html
+<!DOCTYPE html>
+<html id="word1">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+@page {
+    size: A4 portrait;
+}
+
+body {
+    counter-reset: h1 h2 h3 h4 h5 h6 figure table;
+    margin-bottom: 12.10084%;
+    margin-left: 15.12605%;
+    margin-right: 15.12605%;
+    margin-top: 12.10084%;
+}
+
+p.Indent {
+    -uxwrite-parent: "p.Normal";
+    text-align: justify;
+    text-indent: 3.000000%;
+}
+
+p.Normal {
+    -uxwrite-default: true;
+    text-align: justify;
+}
+
+span.Default_Paragraph_Font {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Default Paragraph Font";
+}
+
+table.Normal_Table {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal Table";
+}
+
+table.Normal_Table > * > tr > td {
+    padding-bottom: 0pt;
+    padding-left: 5.4pt;
+    padding-right: 5.4pt;
+    padding-top: 0pt;
+}
+    </style>
+  </head>
+  <body id="word2">
+    <p class="Indent" id="word3">
+      <span id="word8">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi elit mi, euismod eu posuere a, fermentum a arcu. Ut massa elit, condimentum sed ornare eget, vulputate blandit lorem. Proin imperdiet, mi non malesuada ultrices, magna orci feugiat tortor, et porttitor eros metus vel velit. Proin id tincidunt lectus. Praesent sit amet neque eget erat facilisis posuere vel eget risus.</span>
+    </p>
+    <p class="Normal" id="word11">
+      <br/>
+    </p>
+    <p class="Normal" id="word12">
+      <span id="word13">Quisque elementum libero eu mi interdum pretium. Nullam sed leo id erat congue vestibulum. Ut fermentum, massa at venenatis semper, risus nisl vestibulum arcu, a volutpat lorem nisl vitae lacus. Sed at nulla nulla, et bibendum mauris.</span>
+    </p>
+  </body>
+</html>
+#item expected
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Indent"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi elit mi, euismod eu posuere a, fermentum a arcu. Ut massa elit, condimentum sed ornare eget, vulputate blandit lorem. Proin imperdiet, mi non malesuada ultrices, magna orci feugiat tortor, et porttitor eros metus vel velit. Proin id tincidunt lectus. Praesent sit amet neque eget erat facilisis posuere vel eget risus.</w:t>
+      </w:r>
+      <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="0"/>
+    </w:p>
+    <w:p/>
+    <w:p>
+      <w:r>
+        <w:t>Quisque elementum libero eu mi interdum pretium. Nullam sed leo id erat congue vestibulum. Ut fermentum, massa at venenatis semper, risus nisl vestibulum arcu, a volutpat lorem nisl vitae lacus. Sed at nulla nulla, et bibendum mauris.</w:t>
+      </w:r>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:footer="708" w:gutter="0" w:header="708" w:left="1800" w:right="1800" w:top="1440"/>
+      <w:cols w:space="708"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:docDefaults>
+    <w:rPrDefault>
+      <w:rPr>
+        <w:rFonts w:asciiTheme="minorHAnsi" w:cstheme="minorBidi" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorHAnsi"/>
+        <w:sz w:val="24"/>
+        <w:szCs w:val="24"/>
+        <w:lang w:bidi="ar-SA" w:eastAsia="en-US" w:val="en-AU"/>
+      </w:rPr>
+    </w:rPrDefault>
+    <w:pPrDefault/>
+  </w:docDefaults>
+  <w:style w:default="1" w:styleId="Normal" w:type="paragraph">
+    <w:name w:val="Normal"/>
+    <w:qFormat/>
+    <w:rsid w:val="00397857"/>
+    <w:pPr>
+      <w:spacing w:after="100" w:afterAutospacing="1" w:before="100" w:beforeAutospacing="1"/>
+      <w:jc w:val="both"/>
+    </w:pPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="DefaultParagraphFont" w:type="character">
+    <w:name w:val="Default Paragraph Font"/>
+    <w:uiPriority w:val="1"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+  <w:style w:default="1" w:styleId="TableNormal" w:type="table">
+    <w:name w:val="Normal Table"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+    <w:tblPr>
+      <w:tblInd w:type="dxa" w:w="0"/>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="NoList" w:type="numbering">
+    <w:name w:val="No List"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Indent" w:type="paragraph">
+    <w:name w:val="Indent"/>
+    <w:basedOn w:val="Normal"/>
+    <w:qFormat/>
+    <w:rsid w:val="00397857"/>
+    <w:pPr>
+      <w:ind w:firstLine="249"/>
+    </w:pPr>
+  </w:style>
+</w:styles>

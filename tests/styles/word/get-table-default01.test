@@ -1,0 +1,486 @@
+Word_testGet();
+#item input.docx
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblW w:type="auto" w:w="0"/>
+        <w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="4258"/>
+        <w:gridCol w:w="4258"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="4258"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>Table Normal</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="4258"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>Table Normal</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="4258"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>Table Normal</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="4258"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>Table Normal</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+    <w:p/>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblStyle w:val="Custom1"/>
+        <w:tblW w:type="auto" w:w="0"/>
+        <w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="4258"/>
+        <w:gridCol w:w="4258"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="4258"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>Table Custom1</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="4258"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>Table Custom1</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="4258"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>Table Custom1</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="4258"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>Table Custom1</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+    <w:p/>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblStyle w:val="Custom2"/>
+        <w:tblW w:type="auto" w:w="0"/>
+        <w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="4258"/>
+        <w:gridCol w:w="4258"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="4258"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>Table Custom2</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="4258"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>Table Custom2</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="4258"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>Table Custom2</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="4258"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>Table Custom2</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+    <w:p>
+      <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="0"/>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:footer="708" w:gutter="0" w:header="708" w:left="1800" w:right="1800" w:top="1440"/>
+      <w:cols w:space="708"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:docDefaults>
+    <w:rPrDefault>
+      <w:rPr>
+        <w:rFonts w:asciiTheme="minorHAnsi" w:cstheme="minorBidi" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorHAnsi"/>
+        <w:sz w:val="24"/>
+        <w:szCs w:val="24"/>
+        <w:lang w:bidi="ar-SA" w:eastAsia="en-US" w:val="en-AU"/>
+      </w:rPr>
+    </w:rPrDefault>
+    <w:pPrDefault/>
+  </w:docDefaults>
+  <w:style w:default="1" w:styleId="Normal" w:type="paragraph">
+    <w:name w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:spacing w:after="100" w:afterAutospacing="1" w:before="100" w:beforeAutospacing="1"/>
+    </w:pPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="DefaultParagraphFont" w:type="character">
+    <w:name w:val="Default Paragraph Font"/>
+    <w:uiPriority w:val="1"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+  <w:style w:default="1" w:styleId="TableNormal" w:type="table">
+    <w:name w:val="Normal Table"/>
+    <w:uiPriority w:val="99"/>
+    <w:unhideWhenUsed/>
+    <w:tblPr>
+      <w:tblInd w:type="dxa" w:w="0"/>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="NoList" w:type="numbering">
+    <w:name w:val="No List"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+  <w:style w:styleId="TableGrid" w:type="table">
+    <w:name w:val="Table Grid"/>
+    <w:basedOn w:val="TableNormal"/>
+    <w:uiPriority w:val="59"/>
+    <w:rsid w:val="009D4530"/>
+    <w:tblPr>
+      <w:tblInd w:type="dxa" w:w="0"/>
+      <w:tblBorders>
+        <w:top w:color="auto" w:space="0" w:sz="4" w:val="single"/>
+        <w:left w:color="auto" w:space="0" w:sz="4" w:val="single"/>
+        <w:bottom w:color="auto" w:space="0" w:sz="4" w:val="single"/>
+        <w:right w:color="auto" w:space="0" w:sz="4" w:val="single"/>
+        <w:insideH w:color="auto" w:space="0" w:sz="4" w:val="single"/>
+        <w:insideV w:color="auto" w:space="0" w:sz="4" w:val="single"/>
+      </w:tblBorders>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Custom1" w:type="table">
+    <w:name w:val="Custom1"/>
+    <w:basedOn w:val="TableNormal"/>
+    <w:uiPriority w:val="99"/>
+    <w:rsid w:val="009D4530"/>
+    <w:tblPr>
+      <w:tblInd w:type="dxa" w:w="0"/>
+      <w:tblBorders>
+        <w:top w:color="0000FF" w:space="0" w:sz="4" w:val="single"/>
+        <w:left w:color="0000FF" w:space="0" w:sz="4" w:val="single"/>
+        <w:bottom w:color="0000FF" w:space="0" w:sz="4" w:val="single"/>
+        <w:right w:color="0000FF" w:space="0" w:sz="4" w:val="single"/>
+        <w:insideH w:color="0000FF" w:space="0" w:sz="4" w:val="single"/>
+        <w:insideV w:color="0000FF" w:space="0" w:sz="4" w:val="single"/>
+      </w:tblBorders>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Custom2" w:type="table">
+    <w:name w:val="Custom2"/>
+    <w:basedOn w:val="TableNormal"/>
+    <w:uiPriority w:val="99"/>
+    <w:rsid w:val="009D4530"/>
+    <w:tblPr>
+      <w:tblInd w:type="dxa" w:w="0"/>
+      <w:tblBorders>
+        <w:top w:color="FF0000" w:space="0" w:sz="4" w:val="single"/>
+        <w:left w:color="FF0000" w:space="0" w:sz="4" w:val="single"/>
+        <w:bottom w:color="FF0000" w:space="0" w:sz="4" w:val="single"/>
+        <w:right w:color="FF0000" w:space="0" w:sz="4" w:val="single"/>
+        <w:insideH w:color="FF0000" w:space="0" w:sz="4" w:val="single"/>
+        <w:insideV w:color="FF0000" w:space="0" w:sz="4" w:val="single"/>
+      </w:tblBorders>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+</w:styles>
+#item expected
+<!DOCTYPE html>
+<html id="word1">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+@page {
+    size: A4 portrait;
+}
+
+body {
+    counter-reset: h1 h2 h3 h4 h5 h6 figure table;
+    margin-bottom: 12.10084%;
+    margin-left: 15.12605%;
+    margin-right: 15.12605%;
+    margin-top: 12.10084%;
+}
+
+p.Normal {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal";
+}
+
+span.Default_Paragraph_Font {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Default Paragraph Font";
+}
+
+table.Custom1 {
+    -uxwrite-display-name: "Custom1";
+    -uxwrite-parent: "table.Normal_Table";
+    border: thin solid #0000FF;
+}
+
+table.Custom1 > * > tr > td {
+    border: thin solid #0000FF;
+    padding-bottom: 0pt;
+    padding-left: 5.4pt;
+    padding-right: 5.4pt;
+    padding-top: 0pt;
+}
+
+table.Custom2 {
+    -uxwrite-display-name: "Custom2";
+    -uxwrite-parent: "table.Normal_Table";
+    border: thin solid #FF0000;
+}
+
+table.Custom2 > * > tr > td {
+    border: thin solid #FF0000;
+    padding-bottom: 0pt;
+    padding-left: 5.4pt;
+    padding-right: 5.4pt;
+    padding-top: 0pt;
+}
+
+table.Normal_Table {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal Table";
+}
+
+table.Normal_Table > * > tr > td {
+    padding-bottom: 0pt;
+    padding-left: 5.4pt;
+    padding-right: 5.4pt;
+    padding-top: 0pt;
+}
+
+table.Table_Grid {
+    -uxwrite-display-name: "Table Grid";
+    -uxwrite-parent: "table.Normal_Table";
+    border: thin solid black;
+}
+
+table.Table_Grid > * > tr > td {
+    border: thin solid black;
+    padding-bottom: 0pt;
+    padding-left: 5.4pt;
+    padding-right: 5.4pt;
+    padding-top: 0pt;
+}
+    </style>
+  </head>
+  <body id="word2">
+    <table class="Normal_Table" id="word3" style="width: 100%">
+      <colgroup>
+        <col width="50%"/>
+        <col width="50%"/>
+      </colgroup>
+      <tr id="word10">
+        <td id="word11">
+          <p class="Normal" id="word14">
+            <span id="word15">Table Normal</span>
+          </p>
+        </td>
+        <td id="word18">
+          <p class="Normal" id="word21">
+            <span id="word22">Table Normal</span>
+          </p>
+        </td>
+      </tr>
+      <tr id="word25">
+        <td id="word26">
+          <p class="Normal" id="word29">
+            <span id="word30">Table Normal</span>
+          </p>
+        </td>
+        <td id="word33">
+          <p class="Normal" id="word36">
+            <span id="word37">Table Normal</span>
+          </p>
+        </td>
+      </tr>
+    </table>
+    <p class="Normal" id="word40">
+      <br/>
+    </p>
+    <table class="Custom1" id="word41" style="width: 100%">
+      <colgroup>
+        <col width="50%"/>
+        <col width="50%"/>
+      </colgroup>
+      <tr id="word49">
+        <td id="word50">
+          <p class="Normal" id="word53">
+            <span id="word54">Table Custom1</span>
+          </p>
+        </td>
+        <td id="word57">
+          <p class="Normal" id="word60">
+            <span id="word61">Table Custom1</span>
+          </p>
+        </td>
+      </tr>
+      <tr id="word64">
+        <td id="word65">
+          <p class="Normal" id="word68">
+            <span id="word69">Table Custom1</span>
+          </p>
+        </td>
+        <td id="word72">
+          <p class="Normal" id="word75">
+            <span id="word76">Table Custom1</span>
+          </p>
+        </td>
+      </tr>
+    </table>
+    <p class="Normal" id="word79">
+      <br/>
+    </p>
+    <table class="Custom2" id="word80" style="width: 100%">
+      <colgroup>
+        <col width="50%"/>
+        <col width="50%"/>
+      </colgroup>
+      <tr id="word88">
+        <td id="word89">
+          <p class="Normal" id="word92">
+            <span id="word93">Table Custom2</span>
+          </p>
+        </td>
+        <td id="word96">
+          <p class="Normal" id="word99">
+            <span id="word100">Table Custom2</span>
+          </p>
+        </td>
+      </tr>
+      <tr id="word103">
+        <td id="word104">
+          <p class="Normal" id="word107">
+            <span id="word108">Table Custom2</span>
+          </p>
+        </td>
+        <td id="word111">
+          <p class="Normal" id="word114">
+            <span id="word115">Table Custom2</span>
+          </p>
+        </td>
+      </tr>
+    </table>
+    <p class="Normal" id="word118">
+      <br/>
+    </p>
+  </body>
+</html>

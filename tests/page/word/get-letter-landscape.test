@@ -1,0 +1,43 @@
+Word_testGet();
+#item input.docx
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="0"/>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="12240" w:orient="landscape" w:w="15840"/>
+      <w:pgMar w:bottom="1800" w:footer="708" w:gutter="0" w:header="708" w:left="1440" w:right="1440" w:top="1800"/>
+      <w:cols w:space="708"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+#item expected
+<!DOCTYPE html>
+<html id="word1">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+@page {
+    size: letter landscape;
+}
+
+body {
+    counter-reset: h1 h2 h3 h4 h5 h6 figure table;
+    margin-bottom: 11.363636%;
+    margin-left: 9.090909%;
+    margin-right: 9.090909%;
+    margin-top: 11.363636%;
+}
+    </style>
+  </head>
+  <body id="word2">
+    <p id="word3">
+      <br/>
+    </p>
+  </body>
+</html>

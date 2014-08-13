@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="http://purl.oclc.org/ooxml/drawingml/picture" xmlns="http://relaxng.org/ns/structure/1.0">
+  <define name="dpct_CT_PictureNonVisual">
+    <element name="cNvPr">
+      <ref name="a_CT_NonVisualDrawingProps"/>
+    </element>
+    <element name="cNvPicPr">
+      <ref name="a_CT_NonVisualPictureProperties"/>
+    </element>
+  </define>
+  <define name="dpct_CT_Picture">
+    <element name="nvPicPr">
+      <ref name="dpct_CT_PictureNonVisual"/>
+    </element>
+    <element name="blipFill">
+      <ref name="a_CT_BlipFillProperties"/>
+    </element>
+    <element name="spPr">
+      <ref name="a_CT_ShapeProperties"/>
+    </element>
+  </define>
+  <define name="dpct_pic">
+    <element name="pic">
+      <ref name="dpct_CT_Picture"/>
+    </element>
+  </define>
+</grammar>

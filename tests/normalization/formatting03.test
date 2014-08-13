@@ -1,0 +1,23 @@
+HTML_testNormalize();
+#item input.html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+  one<b>two<i>three<u>four</u>five</i>six</b>seven
+</body>
+</html>
+#item expected
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+  </head>
+  <body>
+    <p>
+      <span>one</span><span style="font-weight: bold">two</span><span style="font-style: italic; font-weight: bold">three</span><span style="font-style: italic; font-weight: bold; text-decoration: underline">four</span><span style="font-style: italic; font-weight: bold">five</span><span style="font-weight: bold">six</span><span>seven</span>
+    </p>
+  </body>
+</html>

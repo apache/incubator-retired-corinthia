@@ -1,0 +1,446 @@
+Word_testCreate();
+#item input.html
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body { counter-reset: h1 h2 h3 h4 h5 h6; }
+
+h1.Foo { counter-increment: h1; counter-reset: h2 h3 h4 h5 h6; }
+h2.Foo { counter-increment: h2; counter-reset: h3 h4 h5 h6; }
+h3.Foo { counter-increment: h3; counter-reset: h4 h5 h6; }
+h4.Foo { counter-increment: h4; counter-reset: h5 h6; }
+h5.Foo { counter-increment: h5; counter-reset: h6; }
+h6.Foo { counter-increment: h6; }
+
+h1.Foo::before { content: counter(h1) " "; }
+h2.Foo::before { content: counter(h1) "." counter(h2) " "; }
+h3.Foo::before { content: counter(h1) "." counter(h2) "." counter(h3) " "; }
+h4.Foo::before { content: counter(h1) "." counter(h2) "." counter(h3) "."
+                 counter(h4) " "; }
+h5.Foo::before { content: counter(h1) "." counter(h2) "." counter(h3) "."
+                 counter(h4) "." counter(h5) " "; }
+h6.Foo::before { content: counter(h1) "." counter(h2) "." counter(h3) "."
+                 counter(h4) "." counter(h5) "." counter(h6) " "; }
+
+h1.Bar { counter-increment: h1 0; counter-reset: null; }
+h2.Bar { counter-increment: h2 0; counter-reset: null; }
+h3.Bar { counter-increment: h3 0; counter-reset: null; }
+h4.Bar { counter-increment: h4 0; counter-reset: null; }
+h5.Bar { counter-increment: h5 0; counter-reset: null; }
+h6.Bar { counter-increment: h6 0; counter-reset: null; }
+
+h1.Bar::before { content: ""; }
+h2.Bar::before { content: ""; }
+h3.Bar::before { content: ""; }
+h4.Bar::before { content: ""; }
+h5.Bar::before { content: ""; }
+h6.Bar::before { content: ""; }
+</style>
+</head>
+<body>
+
+<h1 class="Foo">Heading 1</h1>
+<h2 class="Foo">Heading 2</h2>
+<h3 class="Foo">Heading 3</h3>
+<h4 class="Foo">Heading 4</h4>
+<h5 class="Foo">Heading 5</h5>
+<h6 class="Foo">Heading 6</h6>
+
+<h1 class="Bar">Heading 1</h1>
+<h2 class="Bar">Heading 2</h2>
+<h3 class="Bar">Heading 3</h3>
+<h4 class="Bar">Heading 4</h4>
+<h5 class="Bar">Heading 5</h5>
+<h6 class="Bar">Heading 6</h6>
+
+</body>
+</html>
+#item expected
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading1Foo"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Heading 1</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading2Foo"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Heading 2</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading3Foo"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Heading 3</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading4Foo"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Heading 4</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading5Foo"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Heading 5</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading6Foo"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Heading 6</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading1Bar"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Heading 1</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading2Bar"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Heading 2</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading3Bar"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Heading 3</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading4Bar"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Heading 4</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading5Bar"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Heading 5</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading6Bar"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Heading 6</w:t>
+      </w:r>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1190" w:left="1190" w:right="1190" w:top="1190"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:style w:styleId="Heading1Bar" w:type="paragraph">
+    <w:name w:val="Heading 1 (Bar)"/>
+    <w:next w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:numPr>
+        <w:numId w:val="0"/>
+      </w:numPr>
+      <w:outlineLvl w:val="0"/>
+    </w:pPr>
+    <w:rPr>
+      <w:b/>
+      <w:bCs/>
+      <w:sz w:val="48"/>
+      <w:szCs w:val="48"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading1Foo" w:type="paragraph">
+    <w:name w:val="Heading 1 (Foo)"/>
+    <w:next w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:numPr>
+        <w:numId w:val="1"/>
+      </w:numPr>
+      <w:outlineLvl w:val="0"/>
+    </w:pPr>
+    <w:rPr>
+      <w:b/>
+      <w:bCs/>
+      <w:sz w:val="48"/>
+      <w:szCs w:val="48"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading2Bar" w:type="paragraph">
+    <w:name w:val="Heading 2 (Bar)"/>
+    <w:next w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:numPr>
+        <w:numId w:val="0"/>
+      </w:numPr>
+      <w:outlineLvl w:val="1"/>
+    </w:pPr>
+    <w:rPr>
+      <w:b/>
+      <w:bCs/>
+      <w:sz w:val="36"/>
+      <w:szCs w:val="36"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading2Foo" w:type="paragraph">
+    <w:name w:val="Heading 2 (Foo)"/>
+    <w:next w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:numPr>
+        <w:ilvl w:val="1"/>
+        <w:numId w:val="1"/>
+      </w:numPr>
+      <w:outlineLvl w:val="1"/>
+    </w:pPr>
+    <w:rPr>
+      <w:b/>
+      <w:bCs/>
+      <w:sz w:val="36"/>
+      <w:szCs w:val="36"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading3Bar" w:type="paragraph">
+    <w:name w:val="Heading 3 (Bar)"/>
+    <w:next w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:numPr>
+        <w:numId w:val="0"/>
+      </w:numPr>
+      <w:outlineLvl w:val="2"/>
+    </w:pPr>
+    <w:rPr>
+      <w:b/>
+      <w:bCs/>
+      <w:sz w:val="28"/>
+      <w:szCs w:val="28"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading3Foo" w:type="paragraph">
+    <w:name w:val="Heading 3 (Foo)"/>
+    <w:next w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:numPr>
+        <w:ilvl w:val="2"/>
+        <w:numId w:val="1"/>
+      </w:numPr>
+      <w:outlineLvl w:val="2"/>
+    </w:pPr>
+    <w:rPr>
+      <w:b/>
+      <w:bCs/>
+      <w:sz w:val="28"/>
+      <w:szCs w:val="28"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading4Bar" w:type="paragraph">
+    <w:name w:val="Heading 4 (Bar)"/>
+    <w:next w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:numPr>
+        <w:numId w:val="0"/>
+      </w:numPr>
+      <w:outlineLvl w:val="3"/>
+    </w:pPr>
+    <w:rPr>
+      <w:b/>
+      <w:bCs/>
+      <w:sz w:val="24"/>
+      <w:szCs w:val="24"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading4Foo" w:type="paragraph">
+    <w:name w:val="Heading 4 (Foo)"/>
+    <w:next w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:numPr>
+        <w:ilvl w:val="3"/>
+        <w:numId w:val="1"/>
+      </w:numPr>
+      <w:outlineLvl w:val="3"/>
+    </w:pPr>
+    <w:rPr>
+      <w:b/>
+      <w:bCs/>
+      <w:sz w:val="24"/>
+      <w:szCs w:val="24"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading5Bar" w:type="paragraph">
+    <w:name w:val="Heading 5 (Bar)"/>
+    <w:next w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:numPr>
+        <w:numId w:val="0"/>
+      </w:numPr>
+      <w:outlineLvl w:val="4"/>
+    </w:pPr>
+    <w:rPr>
+      <w:b/>
+      <w:bCs/>
+      <w:sz w:val="20"/>
+      <w:szCs w:val="20"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading5Foo" w:type="paragraph">
+    <w:name w:val="Heading 5 (Foo)"/>
+    <w:next w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:numPr>
+        <w:ilvl w:val="4"/>
+        <w:numId w:val="1"/>
+      </w:numPr>
+      <w:outlineLvl w:val="4"/>
+    </w:pPr>
+    <w:rPr>
+      <w:b/>
+      <w:bCs/>
+      <w:sz w:val="20"/>
+      <w:szCs w:val="20"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading6Bar" w:type="paragraph">
+    <w:name w:val="Heading 6 (Bar)"/>
+    <w:next w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:numPr>
+        <w:numId w:val="0"/>
+      </w:numPr>
+      <w:outlineLvl w:val="5"/>
+    </w:pPr>
+    <w:rPr>
+      <w:b/>
+      <w:bCs/>
+      <w:sz w:val="16"/>
+      <w:szCs w:val="16"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading6Foo" w:type="paragraph">
+    <w:name w:val="Heading 6 (Foo)"/>
+    <w:next w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:numPr>
+        <w:ilvl w:val="5"/>
+        <w:numId w:val="1"/>
+      </w:numPr>
+      <w:outlineLvl w:val="5"/>
+    </w:pPr>
+    <w:rPr>
+      <w:b/>
+      <w:bCs/>
+      <w:sz w:val="16"/>
+      <w:szCs w:val="16"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="Normal" w:type="paragraph">
+    <w:name w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:spacing w:after="100" w:afterAutospacing="1" w:before="100" w:beforeAutospacing="1"/>
+    </w:pPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="DefaultParagraphFont" w:type="character">
+    <w:name w:val="Default Paragraph Font"/>
+    <w:qFormat/>
+  </w:style>
+  <w:style w:default="1" w:styleId="TableNormal" w:type="table">
+    <w:name w:val="Normal Table"/>
+    <w:qFormat/>
+    <w:tblPr>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+</w:styles>
+##item numbering.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:numbering xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:abstractNum w:abstractNumId="1">
+    <w:lvl w:ilvl="0">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:lvlText w:val="%1"/>
+      <w:lvlJc w:val="left"/>
+    </w:lvl>
+    <w:lvl w:ilvl="1">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:lvlText w:val="%1.%2"/>
+      <w:lvlJc w:val="left"/>
+    </w:lvl>
+    <w:lvl w:ilvl="2">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:lvlText w:val="%1.%2.%3"/>
+      <w:lvlJc w:val="left"/>
+    </w:lvl>
+    <w:lvl w:ilvl="3">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:lvlText w:val="%1.%2.%3.%4"/>
+      <w:lvlJc w:val="left"/>
+    </w:lvl>
+    <w:lvl w:ilvl="4">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:lvlText w:val="%1.%2.%3.%4.%5"/>
+      <w:lvlJc w:val="left"/>
+    </w:lvl>
+    <w:lvl w:ilvl="5">
+      <w:start w:val="1"/>
+      <w:numFmt w:val="decimal"/>
+      <w:lvlText w:val="%1.%2.%3.%4.%5.%6"/>
+      <w:lvlJc w:val="left"/>
+    </w:lvl>
+  </w:abstractNum>
+  <w:num w:numId="1">
+    <w:abstractNumId w:val="1"/>
+  </w:num>
+</w:numbering>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="urn:schemas-microsoft-com:office:powerpoint" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <define name="pvml_iscomment">
+    <element name="iscomment">
+      <ref name="pvml_CT_Empty"/>
+    </element>
+  </define>
+  <define name="pvml_textdata">
+    <element name="textdata">
+      <ref name="pvml_CT_Rel"/>
+    </element>
+  </define>
+  <define name="pvml_CT_Empty">
+    <empty/>
+  </define>
+  <define name="pvml_CT_Rel">
+    <optional>
+      <attribute name="id">
+        <data type="string"/>
+      </attribute>
+    </optional>
+  </define>
+</grammar>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <define name="xml_lang">
+    <attribute name="xml:lang">
+      <choice>
+        <data type="language"/>
+        <value type="string"/>
+      </choice>
+    </attribute>
+  </define>
+  <define name="xml_space">
+    <attribute name="xml:space">
+      <choice>
+        <value>default</value>
+        <value>preserve</value>
+      </choice>
+    </attribute>
+  </define>
+  <define name="xml_base">
+    <attribute name="xml:base">
+      <data type="anyURI"/>
+    </attribute>
+  </define>
+  <define name="xml_id">
+    <attribute name="xml:id">
+      <data type="ID"/>
+    </attribute>
+  </define>
+  <define name="xml_specialAttrs">
+    <optional>
+      <ref name="xml_base"/>
+    </optional>
+    <optional>
+      <ref name="xml_lang"/>
+    </optional>
+    <optional>
+      <ref name="xml_space"/>
+    </optional>
+    <optional>
+      <ref name="xml_id"/>
+    </optional>
+  </define>
+</grammar>

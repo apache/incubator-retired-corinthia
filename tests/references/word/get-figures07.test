@@ -1,0 +1,120 @@
+Word_testGet();
+#item input.docx
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:dpct="http://schemas.openxmlformats.org/drawingml/2006/picture" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:r>
+        <w:drawing>
+          <wp:inline>
+            <wp:extent cx="2635250" cy="1756833"/>
+            <wp:docPr id="1" name="Picture 1"/>
+            <wp:cNvGraphicFramePr>
+              <a:graphicFrameLocks noChangeAspect="1"/>
+            </wp:cNvGraphicFramePr>
+            <a:graphic>
+              <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
+                <dpct:pic>
+                  <dpct:nvPicPr>
+                    <dpct:cNvPr id="0" name="image"/>
+                    <dpct:cNvPicPr/>
+                  </dpct:nvPicPr>
+                  <dpct:blipFill>
+                    <a:blip r:embed="rId1"/>
+                    <a:stretch>
+                      <a:fillRect/>
+                    </a:stretch>
+                  </dpct:blipFill>
+                  <dpct:spPr>
+                    <a:xfrm>
+                      <a:off x="0" y="0"/>
+                      <a:ext cx="2635250" cy="1756833"/>
+                    </a:xfrm>
+                    <a:prstGeom prst="rect"/>
+                  </dpct:spPr>
+                </dpct:pic>
+              </a:graphicData>
+            </a:graphic>
+          </wp:inline>
+        </w:drawing>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Caption"/>
+      </w:pPr>
+      <w:bookmarkStart w:id="1" w:name="uxwrite1"/>
+      <w:r>
+        <w:t xml:space="preserve">Figure </w:t>
+      </w:r>
+      <w:fldSimple w:instr=" SEQ Figure \* ARABIC "/>
+      <w:r>
+        <w:t xml:space="preserve">: </w:t>
+      </w:r>
+      <w:bookmarkStart w:id="0" w:name="uxwrite0"/>
+      <w:r>
+        <w:t>Test</w:t>
+      </w:r>
+      <w:bookmarkEnd w:id="0"/>
+      <w:bookmarkEnd w:id="1"/>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t xml:space="preserve">Entire caption: </w:t>
+      </w:r>
+      <w:fldSimple w:instr=" REF uxwrite1 \h "/>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t xml:space="preserve">Caption text: </w:t>
+      </w:r>
+      <w:fldSimple w:instr=" REF uxwrite0 \h "/>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:left="1800" w:right="1800" w:top="1440"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+#include "styles-create-table.xml"
+##item document.xml.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rel:Relationships xmlns:rel="http://schemas.openxmlformats.org/package/2006/relationships">
+  <rel:Relationship Id="rId1" Target="/word/media/image1.png" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image"/>
+  <rel:Relationship Id="rId2" Target="/word/styles.xml" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles"/>
+</rel:Relationships>
+##item /word/media/image1.png
+89504E470D0A1A0A0000000D4948445200000060000000400103000000DFFAE04D00000003504C54
+45001EFF5E39ED880000001749444154785EEDC03101000000C220FBA7B6C36E58061C034000011C
+4ED8260000000049454E44AE426082
+#item expected
+<!DOCTYPE html>
+<html id="word1">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+#include "get.css"
+    </style>
+  </head>
+  <body id="word2">
+    <figure id="word3">
+      <span id="word4"><img id="word5" src="images/image1.png" style="width: 50%"/></span>
+      <figcaption id="word26">
+        <span id="word38">Test</span>
+      </figcaption>
+    </figure>
+    <p class="Normal" id="word43">
+      <span id="word44">Entire caption: </span><a class="uxwrite-ref-text" href="#word3" id="word47"></a>
+    </p>
+    <p class="Normal" id="word48">
+      <span id="word49">Caption text: </span><a class="uxwrite-ref-caption-text" href="#word3" id="word52"></a>
+    </p>
+  </body>
+</html>
+##item images/image1.png
+89504E470D0A1A0A0000000D4948445200000060000000400103000000DFFAE04D00000003504C54
+45001EFF5E39ED880000001749444154785EEDC03101000000C220FBA7B6C36E58061C034000011C
+4ED8260000000049454E44AE426082

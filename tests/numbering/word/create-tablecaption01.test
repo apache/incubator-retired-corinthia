@@ -1,0 +1,144 @@
+Word_testCreate();
+#item input.html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+@page {
+    size: A4 portrait;
+}
+
+body {
+    counter-reset: h1 h2 h3 h4 h5 h6 figure table;
+    margin-bottom: 12.10084%;
+    margin-left: 15.12605%;
+    margin-right: 15.12605%;
+    margin-top: 12.10084%;
+}
+
+caption {
+    -uxwrite-display-name: "caption";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #4F81BD;
+    counter-increment: table;
+    font-size: 9pt;
+    font-weight: bold;
+    margin-bottom: 10pt;
+}
+
+caption::before {
+    content: "Table " counter(table);
+}
+
+p.Normal {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal";
+}
+
+span.Default_Paragraph_Font {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Default Paragraph Font";
+}
+
+table.Table_Grid {
+    -uxwrite-display-name: "Table Grid";
+    -uxwrite-parent: "table.Normal_Table";
+    border: thin solid black;
+}
+
+table.Table_Grid > * > tr > td {
+    border: thin solid black;
+    padding-bottom: 0pt;
+    padding-left: 5.4pt;
+    padding-right: 5.4pt;
+    padding-top: 0pt;
+}
+
+table.Normal_Table {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal Table";
+}
+
+table.Normal_Table > * > tr > td {
+    padding-bottom: 0pt;
+    padding-left: 5.4pt;
+    padding-right: 5.4pt;
+    padding-top: 0pt;
+}
+    </style>
+  </head>
+  <body>
+    <table class="Table_Grid" style="width: 100%">
+      <caption></caption>
+      <colgroup>
+        <col width="50%"/>
+        <col width="50%"/>
+      </colgroup>
+      <tr>
+        <td>
+          <p class="Normal">
+            <br/>
+          </p>
+        </td>
+        <td>
+          <p class="Normal">
+            <br/>
+          </p>
+        </td>
+      </tr>
+    </table>
+    <p class="Normal">
+      <br/>
+    </p>
+  </body>
+</html>
+#item expected
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblStyle w:val="TableGrid"/>
+        <w:tblW w:type="pct" w:w="5000"/>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="4258"/>
+        <w:gridCol w:w="4258"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="pct" w:w="2500"/>
+          </w:tcPr>
+          <w:p/>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="pct" w:w="2500"/>
+          </w:tcPr>
+          <w:p/>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Caption"/>
+      </w:pPr>
+      <w:r>
+        <w:t xml:space="preserve">Table </w:t>
+      </w:r>
+      <w:fldSimple w:instr=" SEQ Table \* ARABIC "/>
+    </w:p>
+    <w:p/>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:left="1800" w:right="1800" w:top="1440"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+#include "styles-created.xml"

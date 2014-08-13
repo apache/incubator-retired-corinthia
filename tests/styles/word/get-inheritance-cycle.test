@@ -1,0 +1,81 @@
+Word_testGet();
+#item input.docx
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:r>
+        <w:t>Test handling of cycles in style inheritance</w:t>
+      </w:r>
+    </w:p>
+  </w:body>
+</w:document>
+##item styles.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:style w:default="1" w:styleId="Normal" w:type="paragraph">
+    <w:name w:val="Normal"/>
+  </w:style>
+  <w:style w:default="1" w:styleId="Test1" w:type="paragraph">
+    <w:name w:val="Test1"/>
+    <w:basedOn w:val="Test3"/>
+  </w:style>
+  <w:style w:default="1" w:styleId="Test2" w:type="paragraph">
+    <w:name w:val="Test2"/>
+    <w:basedOn w:val="Test1"/>
+  </w:style>
+  <w:style w:default="1" w:styleId="Test3" w:type="paragraph">
+    <w:name w:val="Test3"/>
+    <w:basedOn w:val="Test2"/>
+  </w:style>
+</w:styles>
+#item expected
+<!DOCTYPE html>
+<html id="word1">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+body {
+    counter-reset: h1 h2 h3 h4 h5 h6 figure table;
+}
+
+p.Normal {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal";
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+p.Test1 {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Test1";
+    -uxwrite-parent: "p.Test3";
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+p.Test2 {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Test2";
+    -uxwrite-parent: "p.Test1";
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+p.Test3 {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Test3";
+    -uxwrite-parent: "p.Test2";
+    margin-bottom: 0;
+    margin-top: 0;
+}
+    </style>
+  </head>
+  <body id="word2">
+    <p class="Normal" id="word3">
+      <span id="word4">Test handling of cycles in style inheritance</span>
+    </p>
+  </body>
+</html>

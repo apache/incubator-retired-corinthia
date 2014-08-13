@@ -1,0 +1,38 @@
+// No numbering - h1 and h2
+LaTeX_testCreate();
+#item input.html
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>First Section</h1>
+
+<h2>Subsection 1</h2>
+
+<p>Paragraph text</p>
+
+<h2>Subsection 2</h2>
+
+<p>Paragraph text</p>
+
+</body>
+</html>
+#item expected
+\documentclass[a4paper,12pt]{article}
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\section*{First Section}
+
+\subsection*{Subsection 1}
+
+Paragraph text
+
+\subsection*{Subsection 2}
+
+Paragraph text
+
+\end{document}

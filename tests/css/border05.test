@@ -1,0 +1,67 @@
+CSS_test();
+#item input.css
+p.test1 {
+    border-style: solid;
+}
+
+p.test2 {
+    border-style: solid dotted;
+}
+
+p.test3 {
+    border-style: solid dotted dashed;
+}
+
+p.test4 {
+    border-style: solid dotted dashed double;
+}
+#item expected
+p.test1
+    ""
+        border-bottom-style = solid
+        border-left-style = solid
+        border-right-style = solid
+        border-top-style = solid
+p.test2
+    ""
+        border-bottom-style = solid
+        border-left-style = dotted
+        border-right-style = dotted
+        border-top-style = solid
+p.test3
+    ""
+        border-bottom-style = dashed
+        border-left-style = dotted
+        border-right-style = dotted
+        border-top-style = solid
+p.test4
+    ""
+        border-bottom-style = dashed
+        border-left-style = double
+        border-right-style = dotted
+        border-top-style = solid
+================================================================================
+p.test1 {
+    border: solid;
+}
+
+p.test2 {
+    border-bottom: solid;
+    border-left: dotted;
+    border-right: dotted;
+    border-top: solid;
+}
+
+p.test3 {
+    border-bottom: dashed;
+    border-left: dotted;
+    border-right: dotted;
+    border-top: solid;
+}
+
+p.test4 {
+    border-bottom: dashed;
+    border-left: double;
+    border-right: dotted;
+    border-top: solid;
+}

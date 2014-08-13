@@ -1,0 +1,118 @@
+Word_testCreate();
+#item input.html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link href="reset.css" rel="stylesheet"/>
+  <style>
+#include "common-tables-create.css"
+  </style>
+</head>
+<body>
+  <table class="Table_Grid" style="width: 100%" id="table1">
+    <caption>Test</caption>
+    <tr>
+      <td><p><br></p></td>
+      <td><p><br></p></td>
+    </tr>
+    <tr>
+      <td><p><br></p></td>
+      <td><p><br></p></td>
+    </tr>
+  </table>
+  <p>Entire caption: <a href="#table1" class="uxwrite-ref-text"></a></p>
+  <p>Label and number: <a href="#table1" class="uxwrite-ref-label-num"></a></p>
+  <p>Caption text: <a href="#table1" class="uxwrite-ref-caption-text"></a></p>
+</body>
+</html>
+#item expected
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblStyle w:val="TableGrid"/>
+        <w:tblW w:type="pct" w:w="5000"/>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="4258"/>
+        <w:gridCol w:w="4258"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="pct" w:w="2500"/>
+          </w:tcPr>
+          <w:p/>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="pct" w:w="2500"/>
+          </w:tcPr>
+          <w:p/>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="pct" w:w="2500"/>
+          </w:tcPr>
+          <w:p/>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="pct" w:w="2500"/>
+          </w:tcPr>
+          <w:p/>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Caption"/>
+      </w:pPr>
+      <w:bookmarkStart w:id="2" w:name="uxwrite2"/>
+      <w:bookmarkStart w:id="1" w:name="uxwrite1"/>
+      <w:r>
+        <w:t xml:space="preserve">Table </w:t>
+      </w:r>
+      <w:fldSimple w:instr=" SEQ Table \* ARABIC "/>
+      <w:bookmarkEnd w:id="1"/>
+      <w:r>
+        <w:t xml:space="preserve">: </w:t>
+      </w:r>
+      <w:bookmarkStart w:id="0" w:name="uxwrite0"/>
+      <w:r>
+        <w:t>Test</w:t>
+      </w:r>
+      <w:bookmarkEnd w:id="0"/>
+      <w:bookmarkEnd w:id="2"/>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t xml:space="preserve">Entire caption: </w:t>
+      </w:r>
+      <w:fldSimple w:instr=" REF uxwrite2 \h "/>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t xml:space="preserve">Label and number: </w:t>
+      </w:r>
+      <w:fldSimple w:instr=" REF uxwrite1 \h "/>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t xml:space="preserve">Caption text: </w:t>
+      </w:r>
+      <w:fldSimple w:instr=" REF uxwrite0 \h "/>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:left="1800" w:right="1800" w:top="1440"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+#include "styles-create-table.xml"

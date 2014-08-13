@@ -1,0 +1,69 @@
+// Two styles at each level, with a class name - should be modified to add numbering information
+CSS_setHeadingNumbering(true);
+#item input.css
+h1.Bar1 { }
+h2.Bar2 { }
+h3.Bar3 { }
+h4.Bar4 { }
+h5.Bar5 { }
+h6.Bar6 { }
+
+h1.Foo1 { }
+h2.Foo2 { }
+h3.Foo3 { }
+h4.Foo4 { }
+h5.Foo5 { }
+h6.Foo6 { }
+#item expected
+h1.Bar1, h1.Foo1 {
+    counter-increment: h1;
+    counter-reset: h2 h3 h4 h5 h6;
+}
+
+h1.Bar1::before, h1.Foo1::before {
+    content: counter(h1) " ";
+}
+
+h2.Bar2, h2.Foo2 {
+    counter-increment: h2;
+    counter-reset: h3 h4 h5 h6;
+}
+
+h2.Bar2::before, h2.Foo2::before {
+    content: counter(h1) "." counter(h2) " ";
+}
+
+h3.Bar3, h3.Foo3 {
+    counter-increment: h3;
+    counter-reset: h4 h5 h6;
+}
+
+h3.Bar3::before, h3.Foo3::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) " ";
+}
+
+h4.Bar4, h4.Foo4 {
+    counter-increment: h4;
+    counter-reset: h5 h6;
+}
+
+h4.Bar4::before, h4.Foo4::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) " ";
+}
+
+h5.Bar5, h5.Foo5 {
+    counter-increment: h5;
+    counter-reset: h6;
+}
+
+h5.Bar5::before, h5.Foo5::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) " ";
+}
+
+h6.Bar6, h6.Foo6 {
+    counter-increment: h6;
+}
+
+h6.Bar6::before, h6.Foo6::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "." counter(h6) " ";
+}

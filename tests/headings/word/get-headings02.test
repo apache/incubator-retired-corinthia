@@ -1,0 +1,431 @@
+Word_testGet();
+#item input.docx
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="First1"/>
+      </w:pPr>
+      <w:r>
+        <w:t>First content 1</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="First2"/>
+      </w:pPr>
+      <w:r>
+        <w:t>First content 2</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="First3"/>
+      </w:pPr>
+      <w:r>
+        <w:t>First content 3</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Second1"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Second content 1</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Second2"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Second content 2</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Second3"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Second content 3</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Third1"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Third content 1</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Third2"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Third content 2</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Third3"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Third content 3</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="0"/>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="15840" w:w="12240"/>
+      <w:pgMar w:bottom="1440" w:footer="720" w:gutter="0" w:header="720" w:left="1800" w:right="1800" w:top="1440"/>
+      <w:cols w:space="720"/>
+      <w:docGrid w:linePitch="360"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:docDefaults>
+    <w:rPrDefault>
+      <w:rPr>
+        <w:rFonts w:asciiTheme="minorHAnsi" w:cstheme="minorBidi" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorHAnsi"/>
+        <w:sz w:val="24"/>
+        <w:szCs w:val="24"/>
+        <w:lang w:bidi="ar-SA" w:eastAsia="en-US" w:val="en-US"/>
+      </w:rPr>
+    </w:rPrDefault>
+    <w:pPrDefault/>
+  </w:docDefaults>
+  <w:style w:default="1" w:styleId="Normal" w:type="paragraph">
+    <w:name w:val="Normal"/>
+    <w:qFormat/>
+  </w:style>
+  <w:style w:default="1" w:styleId="DefaultParagraphFont" w:type="character">
+    <w:name w:val="Default Paragraph Font"/>
+    <w:uiPriority w:val="1"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+  <w:style w:default="1" w:styleId="TableNormal" w:type="table">
+    <w:name w:val="Normal Table"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+    <w:tblPr>
+      <w:tblInd w:type="dxa" w:w="0"/>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="NoList" w:type="numbering">
+    <w:name w:val="No List"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+  <w:style w:styleId="DocumentMap" w:type="paragraph">
+    <w:name w:val="Document Map"/>
+    <w:basedOn w:val="Normal"/>
+    <w:link w:val="DocumentMapChar"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+    <w:rPr>
+      <w:rFonts w:ascii="Lucida Grande" w:hAnsi="Lucida Grande"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="First1" w:type="paragraph">
+    <w:name w:val="First 1"/>
+    <w:basedOn w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:outlineLvl w:val="0"/>
+    </w:pPr>
+    <w:rPr>
+      <w:color w:val="FF0000"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="First2" w:type="paragraph">
+    <w:name w:val="First 2"/>
+    <w:basedOn w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:outlineLvl w:val="1"/>
+    </w:pPr>
+    <w:rPr>
+      <w:color w:val="FF00FF"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="First3" w:type="paragraph">
+    <w:name w:val="First 3"/>
+    <w:basedOn w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:outlineLvl w:val="2"/>
+    </w:pPr>
+    <w:rPr>
+      <w:color w:val="0000FF"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Second1" w:type="paragraph">
+    <w:name w:val="Second 1"/>
+    <w:basedOn w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:outlineLvl w:val="0"/>
+    </w:pPr>
+    <w:rPr>
+      <w:b/>
+      <w:color w:val="FF0000"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Second2" w:type="paragraph">
+    <w:name w:val="Second 2"/>
+    <w:basedOn w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:outlineLvl w:val="1"/>
+    </w:pPr>
+    <w:rPr>
+      <w:b/>
+      <w:color w:val="FF00FF"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Second3" w:type="paragraph">
+    <w:name w:val="Second 3"/>
+    <w:basedOn w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:outlineLvl w:val="2"/>
+    </w:pPr>
+    <w:rPr>
+      <w:b/>
+      <w:color w:val="0000FF"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Third1" w:type="paragraph">
+    <w:name w:val="Third 1"/>
+    <w:basedOn w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:outlineLvl w:val="0"/>
+    </w:pPr>
+    <w:rPr>
+      <w:i/>
+      <w:color w:val="FF0000"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Third2" w:type="paragraph">
+    <w:name w:val="Third 2"/>
+    <w:basedOn w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:outlineLvl w:val="1"/>
+    </w:pPr>
+    <w:rPr>
+      <w:i/>
+      <w:color w:val="FF00FF"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Third3" w:type="paragraph">
+    <w:name w:val="Third 3"/>
+    <w:basedOn w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:outlineLvl w:val="2"/>
+    </w:pPr>
+    <w:rPr>
+      <w:i/>
+      <w:color w:val="0000FF"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="DocumentMapChar" w:type="character">
+    <w:name w:val="Document Map Char"/>
+    <w:basedOn w:val="DefaultParagraphFont"/>
+    <w:link w:val="DocumentMap"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:rPr>
+      <w:rFonts w:ascii="Lucida Grande" w:hAnsi="Lucida Grande"/>
+    </w:rPr>
+  </w:style>
+</w:styles>
+#item expected
+<!DOCTYPE html>
+<html id="word1">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+@page {
+    size: letter portrait;
+}
+
+body {
+    counter-reset: h1 h2 h3 h4 h5 h6 figure table;
+    margin-bottom: 11.764706%;
+    margin-left: 14.705882%;
+    margin-right: 14.705882%;
+    margin-top: 11.764706%;
+}
+
+h1.First_1 {
+    -uxwrite-display-name: "First 1";
+    -uxwrite-parent: "p.Normal";
+    color: #FF0000;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+h1.Second_1 {
+    -uxwrite-display-name: "Second 1";
+    -uxwrite-parent: "p.Normal";
+    color: #FF0000;
+    font-weight: bold;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+h1.Third_1 {
+    -uxwrite-display-name: "Third 1";
+    -uxwrite-parent: "p.Normal";
+    color: #FF0000;
+    font-style: italic;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+h2.First_2 {
+    -uxwrite-display-name: "First 2";
+    -uxwrite-parent: "p.Normal";
+    color: #FF00FF;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+h2.Second_2 {
+    -uxwrite-display-name: "Second 2";
+    -uxwrite-parent: "p.Normal";
+    color: #FF00FF;
+    font-weight: bold;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+h2.Third_2 {
+    -uxwrite-display-name: "Third 2";
+    -uxwrite-parent: "p.Normal";
+    color: #FF00FF;
+    font-style: italic;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+h3.First_3 {
+    -uxwrite-display-name: "First 3";
+    -uxwrite-parent: "p.Normal";
+    color: #0000FF;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+h3.Second_3 {
+    -uxwrite-display-name: "Second 3";
+    -uxwrite-parent: "p.Normal";
+    color: #0000FF;
+    font-weight: bold;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+h3.Third_3 {
+    -uxwrite-display-name: "Third 3";
+    -uxwrite-parent: "p.Normal";
+    color: #0000FF;
+    font-style: italic;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+p.Document_Map {
+    -uxwrite-display-name: "Document Map";
+    -uxwrite-parent: "p.Normal";
+    font-family: "Lucida Grande";
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+p.Normal {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal";
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+span.Default_Paragraph_Font {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Default Paragraph Font";
+}
+
+span.Document_Map_Char {
+    -uxwrite-display-name: "Document Map Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    font-family: "Lucida Grande";
+}
+
+table.Normal_Table {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal Table";
+}
+
+table.Normal_Table > * > tr > td {
+    padding-bottom: 0pt;
+    padding-left: 5.4pt;
+    padding-right: 5.4pt;
+    padding-top: 0pt;
+}
+    </style>
+  </head>
+  <body id="word2">
+    <h1 class="First_1" id="word3">
+      <span id="word6">First content 1</span>
+    </h1>
+    <h2 class="First_2" id="word9">
+      <span id="word12">First content 2</span>
+    </h2>
+    <h3 class="First_3" id="word15">
+      <span id="word18">First content 3</span>
+    </h3>
+    <h1 class="Second_1" id="word21">
+      <span id="word24">Second content 1</span>
+    </h1>
+    <h2 class="Second_2" id="word27">
+      <span id="word30">Second content 2</span>
+    </h2>
+    <h3 class="Second_3" id="word33">
+      <span id="word36">Second content 3</span>
+    </h3>
+    <h1 class="Third_1" id="word39">
+      <span id="word42">Third content 1</span>
+    </h1>
+    <h2 class="Third_2" id="word45">
+      <span id="word48">Third content 2</span>
+    </h2>
+    <h3 class="Third_3" id="word51">
+      <span id="word54">Third content 3</span>
+    </h3>
+    <p class="Normal" id="word57">
+      <br/>
+    </p>
+  </body>
+</html>

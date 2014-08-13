@@ -1,0 +1,112 @@
+Word_testCreate();
+#item input.html
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>First endnote paragraph<span class="endnote">Content of the first endnote</span></p>
+
+<p>Second endnote paragraph<span class="endnote">Content of the second endnote</span></p>
+
+<p>Third endnote paragraph<span class="endnote">Content of the third endnote</span></p>
+
+</body>
+</html>
+#item expected
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:r>
+        <w:t>First endnote paragraph</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:rStyle w:val="EndnoteReference"/>
+        </w:rPr>
+        <w:endnoteReference w:id="0"/>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t>Second endnote paragraph</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:rStyle w:val="EndnoteReference"/>
+        </w:rPr>
+        <w:endnoteReference w:id="1"/>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t>Third endnote paragraph</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:rStyle w:val="EndnoteReference"/>
+        </w:rPr>
+        <w:endnoteReference w:id="2"/>
+      </w:r>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1190" w:left="1190" w:right="1190" w:top="1190"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+#include "styles-endnotes.xml"
+##item endnotes.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:endnotes xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:endnote w:id="0">
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="EndnoteText"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rStyle w:val="EndnoteReference"/>
+        </w:rPr>
+        <w:endnoteRef/>
+      </w:r>
+      <w:r>
+        <w:t xml:space="preserve"> Content of the first endnote</w:t>
+      </w:r>
+    </w:p>
+  </w:endnote>
+  <w:endnote w:id="1">
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="EndnoteText"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rStyle w:val="EndnoteReference"/>
+        </w:rPr>
+        <w:endnoteRef/>
+      </w:r>
+      <w:r>
+        <w:t xml:space="preserve"> Content of the second endnote</w:t>
+      </w:r>
+    </w:p>
+  </w:endnote>
+  <w:endnote w:id="2">
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="EndnoteText"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rStyle w:val="EndnoteReference"/>
+        </w:rPr>
+        <w:endnoteRef/>
+      </w:r>
+      <w:r>
+        <w:t xml:space="preserve"> Content of the third endnote</w:t>
+      </w:r>
+    </w:p>
+  </w:endnote>
+</w:endnotes>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link href="../schema.css" rel="stylesheet">
+<style>
+
+</style>
+<script>
+
+</script>
+</head>
+<body>
+
+  <pre id="w_CT_P">
+w_CT_P =
+    attribute w:rsidRPr { w_ST_LongHexNumber }?,
+    attribute w:rsidR { w_ST_LongHexNumber }?,
+    attribute w:rsidDel { w_ST_LongHexNumber }?,
+    attribute w:rsidP { w_ST_LongHexNumber }?,
+    attribute w:rsidRDefault { w_ST_LongHexNumber }?,
+    element pPr { <a href="#w_CT_PPr">w_CT_PPr</a> }?,
+    <a href="#w_EG_PContent">w_EG_PContent</a>*
+</pre>
+
+<pre id="w_EG_PContent">
+w_EG_PContent =
+    element r { <a href="#w_CT_R">w_CT_R</a> } |
+    element ins { <a href="#w_CT_RunTrackChange">w_CT_RunTrackChange</a> }? |
+    element del { <a href="#w_CT_RunTrackChange">w_CT_RunTrackChange</a> }? |
+
+    element fldSimple { <a href="#w_CT_SimpleField">w_CT_SimpleField</a> }* |
+    element hyperlink { <a href="#w_CT_Hyperlink">w_CT_Hyperlink</a> } |
+    element subDoc { <a href="#w_CT_Rel">w_CT_Rel</a> } |
+    element customXml { <a href="#w_CT_CustomXmlRun">w_CT_CustomXmlRun</a> } |
+    element smartTag { <a href="#w_CT_SmartTagRun">w_CT_SmartTagRun</a> } |
+    element sdt { <a href="#w_CT_SdtRun">w_CT_SdtRun</a> } |
+    element dir { <a href="#w_CT_DirContentRun">w_CT_DirContentRun</a> } |
+    element bdo { <a href="#w_CT_BdoContentRun">w_CT_BdoContentRun</a> } |
+    element proofErr { attribute w:type { "spellStart" | "spellEnd" | "gramStart" | "gramEnd" } }? |
+    element permStart { <a href="#w_CT_PermStart">w_CT_PermStart</a> }? |
+    element permEnd { <a href="#w_CT_Perm">w_CT_Perm</a> }? |
+    element moveFrom { <a href="#w_CT_RunTrackChange">w_CT_RunTrackChange</a> } |
+    element moveTo { <a href="#w_CT_RunTrackChange">w_CT_RunTrackChange</a> } |
+    element bookmarkStart { <a href="#w_CT_Bookmark">w_CT_Bookmark</a> } |
+    element bookmarkEnd { <a href="#w_CT_MarkupRange">w_CT_MarkupRange</a> } |
+    element moveFromRangeStart { <a href="#w_CT_MoveBookmark">w_CT_MoveBookmark</a> } |
+    element moveFromRangeEnd { <a href="#w_CT_MarkupRange">w_CT_MarkupRange</a> } |
+    element moveToRangeStart { <a href="#w_CT_MoveBookmark">w_CT_MoveBookmark</a> } |
+    element moveToRangeEnd { <a href="#w_CT_MarkupRange">w_CT_MarkupRange</a> } |
+    element commentRangeStart { <a href="#w_CT_MarkupRange">w_CT_MarkupRange</a> } |
+    element commentRangeEnd { <a href="#w_CT_MarkupRange">w_CT_MarkupRange</a> } |
+    element customXmlInsRangeStart { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> } |
+    element customXmlInsRangeEnd { attribute w:id { xsd:integer } } |
+    element customXmlDelRangeStart { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> } |
+    element customXmlDelRangeEnd { attribute w:id { xsd:integer } } |
+    element customXmlMoveFromRangeStart { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> } |
+    element customXmlMoveFromRangeEnd { attribute w:id { xsd:integer } } |
+    element customXmlMoveToRangeStart { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> } |
+    element customXmlMoveToRangeEnd { attribute w:id { xsd:integer } }
+</pre>
+
+<pre id="w_CT_RunTrackChange">
+w_CT_RunTrackChange =
+    attribute w:id { xsd:integer },
+    attribute w:author { s_ST_String },
+    attribute w:date { w_ST_DateTime }?,
+    element customXml { <a href="#w_CT_CustomXmlRun">w_CT_CustomXmlRun</a> } |
+    element smartTag { <a href="#w_CT_SmartTagRun">w_CT_SmartTagRun</a> } |
+    element sdt { <a href="#w_CT_SdtRun">w_CT_SdtRun</a> } |
+    element dir { <a href="#w_CT_DirContentRun">w_CT_DirContentRun</a> } |
+    element bdo { <a href="#w_CT_BdoContentRun">w_CT_BdoContentRun</a> } |
+    element r { <a href="#w_CT_R">w_CT_R</a> } |
+    element proofErr { attribute w:type { "spellStart" | "spellEnd" | "gramStart" | "gramEnd" } }? |
+    element permStart { <a href="#w_CT_PermStart">w_CT_PermStart</a> }? |
+    element permEnd { <a href="#w_CT_Perm">w_CT_Perm</a> }? |
+    element bookmarkStart { <a href="#w_CT_Bookmark">w_CT_Bookmark</a> } |
+    element bookmarkEnd { <a href="#w_CT_MarkupRange">w_CT_MarkupRange</a> } |
+    element moveFromRangeStart { <a href="#w_CT_MoveBookmark">w_CT_MoveBookmark</a> } |
+    element moveFromRangeEnd { <a href="#w_CT_MarkupRange">w_CT_MarkupRange</a> } |
+    element moveToRangeStart { <a href="#w_CT_MoveBookmark">w_CT_MoveBookmark</a> } |
+    element moveToRangeEnd { <a href="#w_CT_MarkupRange">w_CT_MarkupRange</a> } |
+    element commentRangeStart { <a href="#w_CT_MarkupRange">w_CT_MarkupRange</a> } |
+    element commentRangeEnd { <a href="#w_CT_MarkupRange">w_CT_MarkupRange</a> } |
+    element customXmlInsRangeStart { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> } |
+    element customXmlInsRangeEnd { attribute w:id { xsd:integer } } |
+    element customXmlDelRangeStart { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> } |
+    element customXmlDelRangeEnd { attribute w:id { xsd:integer } } |
+    element customXmlMoveFromRangeStart { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> } |
+    element customXmlMoveFromRangeEnd { attribute w:id { xsd:integer } } |
+    element customXmlMoveToRangeStart { <a href="#w_CT_TrackChange">w_CT_TrackChange</a> } |
+    element customXmlMoveToRangeEnd { attribute w:id { xsd:integer } },
+    element ins { <a href="#w_CT_RunTrackChange">w_CT_RunTrackChange</a> }? |
+    element del { <a href="#w_CT_RunTrackChange">w_CT_RunTrackChange</a> }? |
+    element moveFrom { <a href="#w_CT_RunTrackChange">w_CT_RunTrackChange</a> } |
+    element moveTo { <a href="#w_CT_RunTrackChange">w_CT_RunTrackChange</a> } |
+    (m_oMathPara | m_oMath)*
+</pre>
+
+</body>
+</html>

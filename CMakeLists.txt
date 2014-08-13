@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+project(DocFormats)
+add_subdirectory(3rdparty/minizip)
+add_subdirectory(3rdparty/w3c-tidy-html5)
+add_subdirectory(DocFormats)
+add_subdirectory(dfutil)

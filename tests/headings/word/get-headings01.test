@@ -1,0 +1,680 @@
+Word_testGet();
+#item input.docx
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading1"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Level 1</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading2"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Level 2</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading3"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Level 3</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading4"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Level 4</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading5"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Level 5</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading6"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Level 6</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading7"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Level 7</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading8"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Level 8</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading9"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Level 9</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="0"/>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="15840" w:w="12240"/>
+      <w:pgMar w:bottom="1440" w:footer="720" w:gutter="0" w:header="720" w:left="1800" w:right="1800" w:top="1440"/>
+      <w:cols w:space="720"/>
+      <w:docGrid w:linePitch="360"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:docDefaults>
+    <w:rPrDefault>
+      <w:rPr>
+        <w:rFonts w:asciiTheme="minorHAnsi" w:cstheme="minorBidi" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorHAnsi"/>
+        <w:sz w:val="24"/>
+        <w:szCs w:val="24"/>
+        <w:lang w:bidi="ar-SA" w:eastAsia="en-US" w:val="en-US"/>
+      </w:rPr>
+    </w:rPrDefault>
+    <w:pPrDefault/>
+  </w:docDefaults>
+  <w:style w:default="1" w:styleId="Normal" w:type="paragraph">
+    <w:name w:val="Normal"/>
+    <w:qFormat/>
+  </w:style>
+  <w:style w:styleId="Heading1" w:type="paragraph">
+    <w:name w:val="heading 1"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:link w:val="Heading1Char"/>
+    <w:uiPriority w:val="9"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:keepNext/>
+      <w:keepLines/>
+      <w:spacing w:before="480"/>
+      <w:outlineLvl w:val="0"/>
+    </w:pPr>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:b/>
+      <w:bCs/>
+      <w:color w:themeColor="accent1" w:themeShade="B5" w:val="345A8A"/>
+      <w:sz w:val="32"/>
+      <w:szCs w:val="32"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading2" w:type="paragraph">
+    <w:name w:val="heading 2"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:link w:val="Heading2Char"/>
+    <w:uiPriority w:val="9"/>
+    <w:unhideWhenUsed/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:keepNext/>
+      <w:keepLines/>
+      <w:spacing w:before="200"/>
+      <w:outlineLvl w:val="1"/>
+    </w:pPr>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:b/>
+      <w:bCs/>
+      <w:color w:themeColor="accent1" w:val="4F81BD"/>
+      <w:sz w:val="26"/>
+      <w:szCs w:val="26"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading3" w:type="paragraph">
+    <w:name w:val="heading 3"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:link w:val="Heading3Char"/>
+    <w:uiPriority w:val="9"/>
+    <w:unhideWhenUsed/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:keepNext/>
+      <w:keepLines/>
+      <w:spacing w:before="200"/>
+      <w:outlineLvl w:val="2"/>
+    </w:pPr>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:b/>
+      <w:bCs/>
+      <w:color w:themeColor="accent1" w:val="4F81BD"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading4" w:type="paragraph">
+    <w:name w:val="heading 4"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:link w:val="Heading4Char"/>
+    <w:uiPriority w:val="9"/>
+    <w:unhideWhenUsed/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:keepNext/>
+      <w:keepLines/>
+      <w:spacing w:before="200"/>
+      <w:outlineLvl w:val="3"/>
+    </w:pPr>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:b/>
+      <w:bCs/>
+      <w:i/>
+      <w:iCs/>
+      <w:color w:themeColor="accent1" w:val="4F81BD"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading5" w:type="paragraph">
+    <w:name w:val="heading 5"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:link w:val="Heading5Char"/>
+    <w:uiPriority w:val="9"/>
+    <w:unhideWhenUsed/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:keepNext/>
+      <w:keepLines/>
+      <w:spacing w:before="200"/>
+      <w:outlineLvl w:val="4"/>
+    </w:pPr>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:color w:themeColor="accent1" w:themeShade="7F" w:val="243F60"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading6" w:type="paragraph">
+    <w:name w:val="heading 6"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:link w:val="Heading6Char"/>
+    <w:uiPriority w:val="9"/>
+    <w:unhideWhenUsed/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:keepNext/>
+      <w:keepLines/>
+      <w:spacing w:before="200"/>
+      <w:outlineLvl w:val="5"/>
+    </w:pPr>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:i/>
+      <w:iCs/>
+      <w:color w:themeColor="accent1" w:themeShade="7F" w:val="243F60"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading7" w:type="paragraph">
+    <w:name w:val="heading 7"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:link w:val="Heading7Char"/>
+    <w:uiPriority w:val="9"/>
+    <w:unhideWhenUsed/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:keepNext/>
+      <w:keepLines/>
+      <w:spacing w:before="200"/>
+      <w:outlineLvl w:val="6"/>
+    </w:pPr>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:i/>
+      <w:iCs/>
+      <w:color w:themeColor="text1" w:themeTint="BF" w:val="404040"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading8" w:type="paragraph">
+    <w:name w:val="heading 8"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:link w:val="Heading8Char"/>
+    <w:uiPriority w:val="9"/>
+    <w:unhideWhenUsed/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:keepNext/>
+      <w:keepLines/>
+      <w:spacing w:before="200"/>
+      <w:outlineLvl w:val="7"/>
+    </w:pPr>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:color w:themeColor="text1" w:themeTint="BF" w:val="404040"/>
+      <w:sz w:val="20"/>
+      <w:szCs w:val="20"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:styleId="Heading9" w:type="paragraph">
+    <w:name w:val="heading 9"/>
+    <w:basedOn w:val="Normal"/>
+    <w:next w:val="Normal"/>
+    <w:link w:val="Heading9Char"/>
+    <w:uiPriority w:val="9"/>
+    <w:unhideWhenUsed/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:keepNext/>
+      <w:keepLines/>
+      <w:spacing w:before="200"/>
+      <w:outlineLvl w:val="8"/>
+    </w:pPr>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:i/>
+      <w:iCs/>
+      <w:color w:themeColor="text1" w:themeTint="BF" w:val="404040"/>
+      <w:sz w:val="20"/>
+      <w:szCs w:val="20"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="DefaultParagraphFont" w:type="character">
+    <w:name w:val="Default Paragraph Font"/>
+    <w:uiPriority w:val="1"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+  <w:style w:default="1" w:styleId="TableNormal" w:type="table">
+    <w:name w:val="Normal Table"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+    <w:tblPr>
+      <w:tblInd w:type="dxa" w:w="0"/>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="NoList" w:type="numbering">
+    <w:name w:val="No List"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Heading1Char" w:type="character">
+    <w:name w:val="Heading 1 Char"/>
+    <w:basedOn w:val="DefaultParagraphFont"/>
+    <w:link w:val="Heading1"/>
+    <w:uiPriority w:val="9"/>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:b/>
+      <w:bCs/>
+      <w:color w:themeColor="accent1" w:themeShade="B5" w:val="345A8A"/>
+      <w:sz w:val="32"/>
+      <w:szCs w:val="32"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Heading2Char" w:type="character">
+    <w:name w:val="Heading 2 Char"/>
+    <w:basedOn w:val="DefaultParagraphFont"/>
+    <w:link w:val="Heading2"/>
+    <w:uiPriority w:val="9"/>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:b/>
+      <w:bCs/>
+      <w:color w:themeColor="accent1" w:val="4F81BD"/>
+      <w:sz w:val="26"/>
+      <w:szCs w:val="26"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Heading3Char" w:type="character">
+    <w:name w:val="Heading 3 Char"/>
+    <w:basedOn w:val="DefaultParagraphFont"/>
+    <w:link w:val="Heading3"/>
+    <w:uiPriority w:val="9"/>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:b/>
+      <w:bCs/>
+      <w:color w:themeColor="accent1" w:val="4F81BD"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Heading4Char" w:type="character">
+    <w:name w:val="Heading 4 Char"/>
+    <w:basedOn w:val="DefaultParagraphFont"/>
+    <w:link w:val="Heading4"/>
+    <w:uiPriority w:val="9"/>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:b/>
+      <w:bCs/>
+      <w:i/>
+      <w:iCs/>
+      <w:color w:themeColor="accent1" w:val="4F81BD"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Heading5Char" w:type="character">
+    <w:name w:val="Heading 5 Char"/>
+    <w:basedOn w:val="DefaultParagraphFont"/>
+    <w:link w:val="Heading5"/>
+    <w:uiPriority w:val="9"/>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:color w:themeColor="accent1" w:themeShade="7F" w:val="243F60"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Heading6Char" w:type="character">
+    <w:name w:val="Heading 6 Char"/>
+    <w:basedOn w:val="DefaultParagraphFont"/>
+    <w:link w:val="Heading6"/>
+    <w:uiPriority w:val="9"/>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:i/>
+      <w:iCs/>
+      <w:color w:themeColor="accent1" w:themeShade="7F" w:val="243F60"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Heading7Char" w:type="character">
+    <w:name w:val="Heading 7 Char"/>
+    <w:basedOn w:val="DefaultParagraphFont"/>
+    <w:link w:val="Heading7"/>
+    <w:uiPriority w:val="9"/>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:i/>
+      <w:iCs/>
+      <w:color w:themeColor="text1" w:themeTint="BF" w:val="404040"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Heading8Char" w:type="character">
+    <w:name w:val="Heading 8 Char"/>
+    <w:basedOn w:val="DefaultParagraphFont"/>
+    <w:link w:val="Heading8"/>
+    <w:uiPriority w:val="9"/>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:color w:themeColor="text1" w:themeTint="BF" w:val="404040"/>
+      <w:sz w:val="20"/>
+      <w:szCs w:val="20"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:customStyle="1" w:styleId="Heading9Char" w:type="character">
+    <w:name w:val="Heading 9 Char"/>
+    <w:basedOn w:val="DefaultParagraphFont"/>
+    <w:link w:val="Heading9"/>
+    <w:uiPriority w:val="9"/>
+    <w:rPr>
+      <w:rFonts w:asciiTheme="majorHAnsi" w:cstheme="majorBidi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi"/>
+      <w:i/>
+      <w:iCs/>
+      <w:color w:themeColor="text1" w:themeTint="BF" w:val="404040"/>
+      <w:sz w:val="20"/>
+      <w:szCs w:val="20"/>
+    </w:rPr>
+  </w:style>
+</w:styles>
+#item expected
+<!DOCTYPE html>
+<html id="word1">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+@page {
+    size: letter portrait;
+}
+
+body {
+    counter-reset: h1 h2 h3 h4 h5 h6 figure table;
+    margin-bottom: 11.764706%;
+    margin-left: 14.705882%;
+    margin-right: 14.705882%;
+    margin-top: 11.764706%;
+}
+
+h1.heading_1 {
+    -uxwrite-display-name: "heading 1";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #345A8A;
+    font-size: 16pt;
+    font-weight: bold;
+    margin-bottom: 0;
+    margin-top: 24pt;
+}
+
+h2.heading_2 {
+    -uxwrite-display-name: "heading 2";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #4F81BD;
+    font-size: 13pt;
+    font-weight: bold;
+    margin-bottom: 0;
+    margin-top: 10pt;
+}
+
+h3.heading_3 {
+    -uxwrite-display-name: "heading 3";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #4F81BD;
+    font-weight: bold;
+    margin-bottom: 0;
+    margin-top: 10pt;
+}
+
+h4.heading_4 {
+    -uxwrite-display-name: "heading 4";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #4F81BD;
+    font-style: italic;
+    font-weight: bold;
+    margin-bottom: 0;
+    margin-top: 10pt;
+}
+
+h5.heading_5 {
+    -uxwrite-display-name: "heading 5";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #243F60;
+    margin-bottom: 0;
+    margin-top: 10pt;
+}
+
+h6.heading_6 {
+    -uxwrite-display-name: "heading 6";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #243F60;
+    font-style: italic;
+    margin-bottom: 0;
+    margin-top: 10pt;
+}
+
+p.heading_7 {
+    -uxwrite-display-name: "heading 7";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #404040;
+    font-style: italic;
+    margin-bottom: 0;
+    margin-top: 10pt;
+}
+
+p.heading_8 {
+    -uxwrite-display-name: "heading 8";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #404040;
+    font-size: 10pt;
+    margin-bottom: 0;
+    margin-top: 10pt;
+}
+
+p.heading_9 {
+    -uxwrite-display-name: "heading 9";
+    -uxwrite-next: "p.Normal";
+    -uxwrite-parent: "p.Normal";
+    color: #404040;
+    font-size: 10pt;
+    font-style: italic;
+    margin-bottom: 0;
+    margin-top: 10pt;
+}
+
+p.Normal {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal";
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+span.Default_Paragraph_Font {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Default Paragraph Font";
+}
+
+span.Heading_1_Char {
+    -uxwrite-display-name: "Heading 1 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #345A8A;
+    font-size: 16pt;
+    font-weight: bold;
+}
+
+span.Heading_2_Char {
+    -uxwrite-display-name: "Heading 2 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #4F81BD;
+    font-size: 13pt;
+    font-weight: bold;
+}
+
+span.Heading_3_Char {
+    -uxwrite-display-name: "Heading 3 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #4F81BD;
+    font-weight: bold;
+}
+
+span.Heading_4_Char {
+    -uxwrite-display-name: "Heading 4 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #4F81BD;
+    font-style: italic;
+    font-weight: bold;
+}
+
+span.Heading_5_Char {
+    -uxwrite-display-name: "Heading 5 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #243F60;
+}
+
+span.Heading_6_Char {
+    -uxwrite-display-name: "Heading 6 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #243F60;
+    font-style: italic;
+}
+
+span.Heading_7_Char {
+    -uxwrite-display-name: "Heading 7 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #404040;
+    font-style: italic;
+}
+
+span.Heading_8_Char {
+    -uxwrite-display-name: "Heading 8 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #404040;
+    font-size: 10pt;
+}
+
+span.Heading_9_Char {
+    -uxwrite-display-name: "Heading 9 Char";
+    -uxwrite-parent: "span.Default_Paragraph_Font";
+    color: #404040;
+    font-size: 10pt;
+    font-style: italic;
+}
+
+table.Normal_Table {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal Table";
+}
+
+table.Normal_Table > * > tr > td {
+    padding-bottom: 0pt;
+    padding-left: 5.4pt;
+    padding-right: 5.4pt;
+    padding-top: 0pt;
+}
+    </style>
+  </head>
+  <body id="word2">
+    <h1 class="heading_1" id="word3">
+      <span id="word6">Level 1</span>
+    </h1>
+    <h2 class="heading_2" id="word9">
+      <span id="word12">Level 2</span>
+    </h2>
+    <h3 class="heading_3" id="word15">
+      <span id="word18">Level 3</span>
+    </h3>
+    <h4 class="heading_4" id="word21">
+      <span id="word24">Level 4</span>
+    </h4>
+    <h5 class="heading_5" id="word27">
+      <span id="word30">Level 5</span>
+    </h5>
+    <h6 class="heading_6" id="word33">
+      <span id="word36">Level 6</span>
+    </h6>
+    <p class="heading_7" id="word39">
+      <span id="word42">Level 7</span>
+    </p>
+    <p class="heading_8" id="word45">
+      <span id="word48">Level 8</span>
+    </p>
+    <p class="heading_9" id="word51">
+      <span id="word54">Level 9</span>
+    </p>
+    <p class="Normal" id="word57">
+      <br/>
+    </p>
+  </body>
+</html>

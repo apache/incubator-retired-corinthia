@@ -1,0 +1,79 @@
+.Title {
+        font-size: 24pt;
+        text-align: center;
+    }
+    .toc1 {
+        margin-bottom: 6pt;
+        margin-left: 0pt;
+        margin-top: 12pt;
+    }
+    .toc2 {
+        margin-bottom: 6pt;
+        margin-left: 24pt;
+        margin-top: 6pt;
+    }
+    .toc3 {
+        margin-bottom: 6pt;
+        margin-left: 48pt;
+        margin-top: 6pt;
+    }
+    body {
+        font-family: sans-serif;
+        margin: 5%;
+    }
+    h1 {
+        border-bottom: 2px solid rgb(192, 192, 192);
+        color: rgb(0, 0, 192);
+    }
+    h2 {
+        color: rgb(0, 0, 192);
+    }
+
+
+a, a:visited {
+    color: #0080f0
+}
+
+pre {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.definition {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.definition-name {
+    background-color: #c0c0c0;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.definition-content {
+    font-family: monospace;
+    white-space: pre;
+    padding: 10px;
+}
+
+.element-start, .element-end {
+}
+
+.element-start:before {
+    content: "<";
+}
+
+.element-start:after {
+    content: ">";
+}
+
+.element-end:before {
+    content: "</";
+}
+
+.element-end:after {
+    content: ">";
+}

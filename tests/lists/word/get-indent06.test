@@ -1,0 +1,143 @@
+Word_testGet();
+#item input.docx
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="ListParagraph"/>
+        <w:numPr>
+          <w:ilvl w:val="0"/>
+          <w:numId w:val="1"/>
+        </w:numPr>
+      </w:pPr>
+      <w:r>
+        <w:t>Item [1]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="240" w:left="480"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at lorem augue, at molestie risus. Sed bibendum augue metus, sed cursus tortor. Aenean semper consectetur pulvinar. Aliquam ultrices tempus nibh, ut mollis ligula ultrices nec.</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="ListParagraph"/>
+        <w:numPr>
+          <w:ilvl w:val="0"/>
+          <w:numId w:val="1"/>
+        </w:numPr>
+      </w:pPr>
+      <w:r>
+        <w:t>Item [2]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="240" w:left="720"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at lorem augue, at molestie risus. Sed bibendum augue metus, sed cursus tortor. Aenean semper consectetur pulvinar. Aliquam ultrices tempus nibh, ut mollis ligula ultrices nec.</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="ListParagraph"/>
+        <w:numPr>
+          <w:ilvl w:val="0"/>
+          <w:numId w:val="1"/>
+        </w:numPr>
+      </w:pPr>
+      <w:r>
+        <w:t>Item [3]</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="240" w:left="960"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at lorem augue, at molestie risus. Sed bibendum augue metus, sed cursus tortor. Aenean semper consectetur pulvinar. Aliquam ultrices tempus nibh, ut mollis ligula ultrices nec.</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="ListParagraph"/>
+        <w:numPr>
+          <w:ilvl w:val="0"/>
+          <w:numId w:val="1"/>
+        </w:numPr>
+      </w:pPr>
+      <w:r>
+        <w:t>Item [4]</w:t>
+      </w:r>
+      <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="0"/>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:footer="708" w:gutter="0" w:header="708" w:left="1800" w:right="1800" w:top="1440"/>
+      <w:cols w:space="708"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+#include "styles.xml"
+##item numbering.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:numbering xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:abstractNum w:abstractNumId="0">
+#include "abstract.inc"
+  </w:abstractNum>
+  <w:num w:numId="1">
+    <w:abstractNumId w:val="0"/>
+  </w:num>
+</w:numbering>
+#item expected
+<!DOCTYPE html>
+<html id="word1">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+#include "common.css"
+    </style>
+  </head>
+  <body id="word2">
+    <ol style="list-style-type: decimal">
+      <li>
+        <p class="List_Paragraph" id="word3">
+          <span id="word9">Item [1]</span>
+        </p>
+        <p class="Normal" id="word12" style="text-indent: 2.891566%">
+          <span id="word15">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at lorem augue, at molestie risus. Sed bibendum augue metus, sed cursus tortor. Aenean semper consectetur pulvinar. Aliquam ultrices tempus nibh, ut mollis ligula ultrices nec.</span>
+        </p>
+      </li>
+      <li>
+        <p class="List_Paragraph" id="word18">
+          <span id="word24">Item [2]</span>
+        </p>
+        <p class="Normal" id="word27" style="text-indent: 2.891566%">
+          <span id="word30">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at lorem augue, at molestie risus. Sed bibendum augue metus, sed cursus tortor. Aenean semper consectetur pulvinar. Aliquam ultrices tempus nibh, ut mollis ligula ultrices nec.</span>
+        </p>
+      </li>
+      <li>
+        <p class="List_Paragraph" id="word33">
+          <span id="word39">Item [3]</span>
+        </p>
+        <p class="Normal" id="word42" style="margin-left: 2.891566%; text-indent: 2.891566%">
+          <span id="word45">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at lorem augue, at molestie risus. Sed bibendum augue metus, sed cursus tortor. Aenean semper consectetur pulvinar. Aliquam ultrices tempus nibh, ut mollis ligula ultrices nec.</span>
+        </p>
+      </li>
+      <li>
+        <p class="List_Paragraph" id="word48">
+          <span id="word54">Item [4]</span>
+        </p>
+      </li>
+    </ol>
+  </body>
+</html>

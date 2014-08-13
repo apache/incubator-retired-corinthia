@@ -1,0 +1,913 @@
+Word_testUpdate({ document: true, styles: true, theme: true });
+#item input.docx
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:pPr>
+        <w:rPr>
+          <w:rFonts w:asciiTheme="majorHAnsi" w:hAnsiTheme="majorHAnsi"/>
+        </w:rPr>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:asciiTheme="majorHAnsi" w:hAnsiTheme="majorHAnsi"/>
+        </w:rPr>
+        <w:t>One</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:rPr>
+          <w:rFonts w:asciiTheme="minorHAnsi" w:hAnsiTheme="minorHAnsi"/>
+        </w:rPr>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:asciiTheme="minorHAnsi" w:hAnsiTheme="minorHAnsi"/>
+        </w:rPr>
+        <w:t>Two</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:rPr>
+          <w:rFonts w:ascii="Courier" w:hAnsi="Courier"/>
+        </w:rPr>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="Courier" w:hAnsi="Courier"/>
+        </w:rPr>
+        <w:t>Three</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t>Four</w:t>
+      </w:r>
+      <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="0"/>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:footer="708" w:gutter="0" w:header="708" w:left="1800" w:right="1800" w:top="1440"/>
+      <w:cols w:space="708"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:docDefaults>
+    <w:rPrDefault>
+      <w:rPr>
+        <w:rFonts w:asciiTheme="minorHAnsi" w:cstheme="minorBidi" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorHAnsi"/>
+        <w:sz w:val="24"/>
+        <w:szCs w:val="24"/>
+        <w:lang w:bidi="ar-SA" w:eastAsia="en-US" w:val="en-AU"/>
+      </w:rPr>
+    </w:rPrDefault>
+    <w:pPrDefault/>
+  </w:docDefaults>
+  <w:style w:default="1" w:styleId="Normal" w:type="paragraph">
+    <w:name w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:spacing w:after="100" w:afterAutospacing="1" w:before="100" w:beforeAutospacing="1"/>
+    </w:pPr>
+    <w:rPr>
+      <w:rFonts w:ascii="Comic Sans MS" w:hAnsi="Comic Sans MS"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="DefaultParagraphFont" w:type="character">
+    <w:name w:val="Default Paragraph Font"/>
+    <w:uiPriority w:val="1"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+  <w:style w:default="1" w:styleId="TableNormal" w:type="table">
+    <w:name w:val="Normal Table"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+    <w:tblPr>
+      <w:tblInd w:type="dxa" w:w="0"/>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="NoList" w:type="numbering">
+    <w:name w:val="No List"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+</w:styles>
+##item theme.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="Office Theme">
+  <a:themeElements>
+    <a:clrScheme name="Office">
+      <a:dk1>
+        <a:sysClr val="windowText" lastClr="000000"/>
+      </a:dk1>
+      <a:lt1>
+        <a:sysClr val="window" lastClr="FFFFFF"/>
+      </a:lt1>
+      <a:dk2>
+        <a:srgbClr val="1F497D"/>
+      </a:dk2>
+      <a:lt2>
+        <a:srgbClr val="EEECE1"/>
+      </a:lt2>
+      <a:accent1>
+        <a:srgbClr val="4F81BD"/>
+      </a:accent1>
+      <a:accent2>
+        <a:srgbClr val="C0504D"/>
+      </a:accent2>
+      <a:accent3>
+        <a:srgbClr val="9BBB59"/>
+      </a:accent3>
+      <a:accent4>
+        <a:srgbClr val="8064A2"/>
+      </a:accent4>
+      <a:accent5>
+        <a:srgbClr val="4BACC6"/>
+      </a:accent5>
+      <a:accent6>
+        <a:srgbClr val="F79646"/>
+      </a:accent6>
+      <a:hlink>
+        <a:srgbClr val="0000FF"/>
+      </a:hlink>
+      <a:folHlink>
+        <a:srgbClr val="800080"/>
+      </a:folHlink>
+    </a:clrScheme>
+    <a:fontScheme name="Office">
+      <a:majorFont>
+        <a:latin typeface="Calibri"/>
+        <a:ea typeface=""/>
+        <a:cs typeface=""/>
+        <a:font typeface="ＭＳ ゴシック" script="Jpan"/>
+        <a:font typeface="맑은 고딕" script="Hang"/>
+        <a:font typeface="宋体" script="Hans"/>
+        <a:font typeface="新細明體" script="Hant"/>
+        <a:font typeface="Times New Roman" script="Arab"/>
+        <a:font typeface="Times New Roman" script="Hebr"/>
+        <a:font typeface="Angsana New" script="Thai"/>
+        <a:font typeface="Nyala" script="Ethi"/>
+        <a:font typeface="Vrinda" script="Beng"/>
+        <a:font typeface="Shruti" script="Gujr"/>
+        <a:font typeface="MoolBoran" script="Khmr"/>
+        <a:font typeface="Tunga" script="Knda"/>
+        <a:font typeface="Raavi" script="Guru"/>
+        <a:font typeface="Euphemia" script="Cans"/>
+        <a:font typeface="Plantagenet Cherokee" script="Cher"/>
+        <a:font typeface="Microsoft Yi Baiti" script="Yiii"/>
+        <a:font typeface="Microsoft Himalaya" script="Tibt"/>
+        <a:font typeface="MV Boli" script="Thaa"/>
+        <a:font typeface="Mangal" script="Deva"/>
+        <a:font typeface="Gautami" script="Telu"/>
+        <a:font typeface="Latha" script="Taml"/>
+        <a:font typeface="Estrangelo Edessa" script="Syrc"/>
+        <a:font typeface="Kalinga" script="Orya"/>
+        <a:font typeface="Kartika" script="Mlym"/>
+        <a:font typeface="DokChampa" script="Laoo"/>
+        <a:font typeface="Iskoola Pota" script="Sinh"/>
+        <a:font typeface="Mongolian Baiti" script="Mong"/>
+        <a:font typeface="Times New Roman" script="Viet"/>
+        <a:font typeface="Microsoft Uighur" script="Uigh"/>
+      </a:majorFont>
+      <a:minorFont>
+        <a:latin typeface="Cambria"/>
+        <a:ea typeface=""/>
+        <a:cs typeface=""/>
+        <a:font typeface="ＭＳ 明朝" script="Jpan"/>
+        <a:font typeface="맑은 고딕" script="Hang"/>
+        <a:font typeface="宋体" script="Hans"/>
+        <a:font typeface="新細明體" script="Hant"/>
+        <a:font typeface="Arial" script="Arab"/>
+        <a:font typeface="Arial" script="Hebr"/>
+        <a:font typeface="Cordia New" script="Thai"/>
+        <a:font typeface="Nyala" script="Ethi"/>
+        <a:font typeface="Vrinda" script="Beng"/>
+        <a:font typeface="Shruti" script="Gujr"/>
+        <a:font typeface="DaunPenh" script="Khmr"/>
+        <a:font typeface="Tunga" script="Knda"/>
+        <a:font typeface="Raavi" script="Guru"/>
+        <a:font typeface="Euphemia" script="Cans"/>
+        <a:font typeface="Plantagenet Cherokee" script="Cher"/>
+        <a:font typeface="Microsoft Yi Baiti" script="Yiii"/>
+        <a:font typeface="Microsoft Himalaya" script="Tibt"/>
+        <a:font typeface="MV Boli" script="Thaa"/>
+        <a:font typeface="Mangal" script="Deva"/>
+        <a:font typeface="Gautami" script="Telu"/>
+        <a:font typeface="Latha" script="Taml"/>
+        <a:font typeface="Estrangelo Edessa" script="Syrc"/>
+        <a:font typeface="Kalinga" script="Orya"/>
+        <a:font typeface="Kartika" script="Mlym"/>
+        <a:font typeface="DokChampa" script="Laoo"/>
+        <a:font typeface="Iskoola Pota" script="Sinh"/>
+        <a:font typeface="Mongolian Baiti" script="Mong"/>
+        <a:font typeface="Arial" script="Viet"/>
+        <a:font typeface="Microsoft Uighur" script="Uigh"/>
+      </a:minorFont>
+    </a:fontScheme>
+    <a:fmtScheme name="Office">
+      <a:fillStyleLst>
+        <a:solidFill>
+          <a:schemeClr val="phClr"/>
+        </a:solidFill>
+        <a:gradFill rotWithShape="1">
+          <a:gsLst>
+            <a:gs pos="0">
+              <a:schemeClr val="phClr">
+                <a:tint val="50000"/>
+                <a:satMod val="300000"/>
+              </a:schemeClr>
+            </a:gs>
+            <a:gs pos="35000">
+              <a:schemeClr val="phClr">
+                <a:tint val="37000"/>
+                <a:satMod val="300000"/>
+              </a:schemeClr>
+            </a:gs>
+            <a:gs pos="100000">
+              <a:schemeClr val="phClr">
+                <a:tint val="15000"/>
+                <a:satMod val="350000"/>
+              </a:schemeClr>
+            </a:gs>
+          </a:gsLst>
+          <a:lin ang="16200000" scaled="1"/>
+        </a:gradFill>
+        <a:gradFill rotWithShape="1">
+          <a:gsLst>
+            <a:gs pos="0">
+              <a:schemeClr val="phClr">
+                <a:tint val="100000"/>
+                <a:shade val="100000"/>
+                <a:satMod val="130000"/>
+              </a:schemeClr>
+            </a:gs>
+            <a:gs pos="100000">
+              <a:schemeClr val="phClr">
+                <a:tint val="50000"/>
+                <a:shade val="100000"/>
+                <a:satMod val="350000"/>
+              </a:schemeClr>
+            </a:gs>
+          </a:gsLst>
+          <a:lin ang="16200000" scaled="0"/>
+        </a:gradFill>
+      </a:fillStyleLst>
+      <a:lnStyleLst>
+        <a:ln w="9525" cap="flat" cmpd="sng" algn="ctr">
+          <a:solidFill>
+            <a:schemeClr val="phClr">
+              <a:shade val="95000"/>
+              <a:satMod val="105000"/>
+            </a:schemeClr>
+          </a:solidFill>
+          <a:prstDash val="solid"/>
+        </a:ln>
+        <a:ln w="25400" cap="flat" cmpd="sng" algn="ctr">
+          <a:solidFill>
+            <a:schemeClr val="phClr"/>
+          </a:solidFill>
+          <a:prstDash val="solid"/>
+        </a:ln>
+        <a:ln w="38100" cap="flat" cmpd="sng" algn="ctr">
+          <a:solidFill>
+            <a:schemeClr val="phClr"/>
+          </a:solidFill>
+          <a:prstDash val="solid"/>
+        </a:ln>
+      </a:lnStyleLst>
+      <a:effectStyleLst>
+        <a:effectStyle>
+          <a:effectLst>
+            <a:outerShdw rotWithShape="0" blurRad="40000" dist="20000" dir="5400000">
+              <a:srgbClr val="000000">
+                <a:alpha val="38000"/>
+              </a:srgbClr>
+            </a:outerShdw>
+          </a:effectLst>
+        </a:effectStyle>
+        <a:effectStyle>
+          <a:effectLst>
+            <a:outerShdw rotWithShape="0" blurRad="40000" dist="23000" dir="5400000">
+              <a:srgbClr val="000000">
+                <a:alpha val="35000"/>
+              </a:srgbClr>
+            </a:outerShdw>
+          </a:effectLst>
+        </a:effectStyle>
+        <a:effectStyle>
+          <a:effectLst>
+            <a:outerShdw rotWithShape="0" blurRad="40000" dist="23000" dir="5400000">
+              <a:srgbClr val="000000">
+                <a:alpha val="35000"/>
+              </a:srgbClr>
+            </a:outerShdw>
+          </a:effectLst>
+          <a:scene3d>
+            <a:camera prst="orthographicFront">
+              <a:rot lat="0" lon="0" rev="0"/>
+            </a:camera>
+            <a:lightRig dir="t" rig="threePt">
+              <a:rot lat="0" lon="0" rev="1200000"/>
+            </a:lightRig>
+          </a:scene3d>
+          <a:sp3d>
+            <a:bevelT w="63500" h="25400"/>
+          </a:sp3d>
+        </a:effectStyle>
+      </a:effectStyleLst>
+      <a:bgFillStyleLst>
+        <a:solidFill>
+          <a:schemeClr val="phClr"/>
+        </a:solidFill>
+        <a:gradFill rotWithShape="1">
+          <a:gsLst>
+            <a:gs pos="0">
+              <a:schemeClr val="phClr">
+                <a:tint val="40000"/>
+                <a:satMod val="350000"/>
+              </a:schemeClr>
+            </a:gs>
+            <a:gs pos="40000">
+              <a:schemeClr val="phClr">
+                <a:tint val="45000"/>
+                <a:shade val="99000"/>
+                <a:satMod val="350000"/>
+              </a:schemeClr>
+            </a:gs>
+            <a:gs pos="100000">
+              <a:schemeClr val="phClr">
+                <a:shade val="20000"/>
+                <a:satMod val="255000"/>
+              </a:schemeClr>
+            </a:gs>
+          </a:gsLst>
+          <a:path path="circle">
+            <a:fillToRect b="180000" l="50000" r="50000" t="-80000"/>
+          </a:path>
+        </a:gradFill>
+        <a:gradFill rotWithShape="1">
+          <a:gsLst>
+            <a:gs pos="0">
+              <a:schemeClr val="phClr">
+                <a:tint val="80000"/>
+                <a:satMod val="300000"/>
+              </a:schemeClr>
+            </a:gs>
+            <a:gs pos="100000">
+              <a:schemeClr val="phClr">
+                <a:shade val="30000"/>
+                <a:satMod val="200000"/>
+              </a:schemeClr>
+            </a:gs>
+          </a:gsLst>
+          <a:path path="circle">
+            <a:fillToRect b="50000" l="50000" r="50000" t="50000"/>
+          </a:path>
+        </a:gradFill>
+      </a:bgFillStyleLst>
+    </a:fmtScheme>
+  </a:themeElements>
+  <a:objectDefaults>
+    <a:spDef>
+      <a:spPr/>
+      <a:bodyPr/>
+      <a:lstStyle/>
+      <a:style>
+        <a:lnRef idx="1">
+          <a:schemeClr val="accent1"/>
+        </a:lnRef>
+        <a:fillRef idx="3">
+          <a:schemeClr val="accent1"/>
+        </a:fillRef>
+        <a:effectRef idx="2">
+          <a:schemeClr val="accent1"/>
+        </a:effectRef>
+        <a:fontRef idx="minor">
+          <a:schemeClr val="lt1"/>
+        </a:fontRef>
+      </a:style>
+    </a:spDef>
+    <a:lnDef>
+      <a:spPr/>
+      <a:bodyPr/>
+      <a:lstStyle/>
+      <a:style>
+        <a:lnRef idx="2">
+          <a:schemeClr val="accent1"/>
+        </a:lnRef>
+        <a:fillRef idx="0">
+          <a:schemeClr val="accent1"/>
+        </a:fillRef>
+        <a:effectRef idx="1">
+          <a:schemeClr val="accent1"/>
+        </a:effectRef>
+        <a:fontRef idx="minor">
+          <a:schemeClr val="tx1"/>
+        </a:fontRef>
+      </a:style>
+    </a:lnDef>
+  </a:objectDefaults>
+  <a:extraClrSchemeLst/>
+</a:theme>
+#item input.html
+<!DOCTYPE html>
+<html id="word1">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+@page {
+    size: A4 portrait;
+}
+
+body {
+    counter-reset: h1 h2 h3 h4 h5 h6 figure table;
+    margin-bottom: 12.10084%;
+    margin-left: 15.12605%;
+    margin-right: 15.12605%;
+    margin-top: 12.10084%;
+}
+
+p.Normal {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal";
+    font-family: cursive;
+}
+
+span.Default_Paragraph_Font {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Default Paragraph Font";
+}
+
+table.Normal_Table {
+    -uxwrite-default: true;
+    -uxwrite-display-name: "Normal Table";
+}
+
+table.Normal_Table > * > tr > td {
+    padding-bottom: 0pt;
+    padding-left: 5.4pt;
+    padding-right: 5.4pt;
+    padding-top: 0pt;
+}
+    </style>
+  </head>
+  <body id="word2">
+    <p class="Normal" id="word3">
+      <span id="word7" style="font-family: Calibri">One</span>
+    </p>
+    <p class="Normal" id="word12">
+      <span id="word16" style="font-family: Cambria">Two</span>
+    </p>
+    <p class="Normal" id="word21">
+      <span id="word25" style="font-family: monospace">Three</span>
+    </p>
+    <p class="Normal" id="word30">
+      <span id="word31">Four</span>
+    </p>
+  </body>
+</html>
+#item expected
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:pPr>
+        <w:rPr>
+          <w:rFonts w:asciiTheme="majorHAnsi" w:hAnsiTheme="majorHAnsi"/>
+        </w:rPr>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:asciiTheme="majorHAnsi" w:hAnsiTheme="majorHAnsi"/>
+        </w:rPr>
+        <w:t>One</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:rPr>
+          <w:rFonts w:asciiTheme="minorHAnsi" w:hAnsiTheme="minorHAnsi"/>
+        </w:rPr>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:asciiTheme="minorHAnsi" w:hAnsiTheme="minorHAnsi"/>
+        </w:rPr>
+        <w:t>Two</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:rPr>
+          <w:rFonts w:ascii="Courier" w:hAnsi="Courier"/>
+        </w:rPr>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="Courier" w:hAnsi="Courier"/>
+        </w:rPr>
+        <w:t>Three</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t>Four</w:t>
+      </w:r>
+      <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="0"/>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:footer="708" w:gutter="0" w:header="708" w:left="1800" w:right="1800" w:top="1440"/>
+      <w:cols w:space="708"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:docDefaults>
+    <w:rPrDefault>
+      <w:rPr>
+        <w:rFonts w:asciiTheme="minorHAnsi" w:cstheme="minorBidi" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorHAnsi"/>
+        <w:sz w:val="24"/>
+        <w:szCs w:val="24"/>
+        <w:lang w:bidi="ar-SA" w:eastAsia="en-US" w:val="en-AU"/>
+      </w:rPr>
+    </w:rPrDefault>
+    <w:pPrDefault/>
+  </w:docDefaults>
+  <w:style w:default="1" w:styleId="Normal" w:type="paragraph">
+    <w:name w:val="Normal"/>
+    <w:qFormat/>
+    <w:pPr>
+      <w:spacing w:after="100" w:afterAutospacing="1" w:before="100" w:beforeAutospacing="1"/>
+    </w:pPr>
+    <w:rPr>
+      <w:rFonts w:ascii="Comic Sans MS" w:hAnsi="Comic Sans MS"/>
+    </w:rPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="DefaultParagraphFont" w:type="character">
+    <w:name w:val="Default Paragraph Font"/>
+    <w:uiPriority w:val="1"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+  <w:style w:default="1" w:styleId="TableNormal" w:type="table">
+    <w:name w:val="Normal Table"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+    <w:tblPr>
+      <w:tblInd w:type="dxa" w:w="0"/>
+      <w:tblCellMar>
+        <w:top w:type="dxa" w:w="0"/>
+        <w:left w:type="dxa" w:w="108"/>
+        <w:bottom w:type="dxa" w:w="0"/>
+        <w:right w:type="dxa" w:w="108"/>
+      </w:tblCellMar>
+    </w:tblPr>
+  </w:style>
+  <w:style w:default="1" w:styleId="NoList" w:type="numbering">
+    <w:name w:val="No List"/>
+    <w:uiPriority w:val="99"/>
+    <w:semiHidden/>
+    <w:unhideWhenUsed/>
+  </w:style>
+</w:styles>
+##item theme.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="Office Theme">
+  <a:themeElements>
+    <a:clrScheme name="Office">
+      <a:dk1>
+        <a:sysClr val="windowText" lastClr="000000"/>
+      </a:dk1>
+      <a:lt1>
+        <a:sysClr val="window" lastClr="FFFFFF"/>
+      </a:lt1>
+      <a:dk2>
+        <a:srgbClr val="1F497D"/>
+      </a:dk2>
+      <a:lt2>
+        <a:srgbClr val="EEECE1"/>
+      </a:lt2>
+      <a:accent1>
+        <a:srgbClr val="4F81BD"/>
+      </a:accent1>
+      <a:accent2>
+        <a:srgbClr val="C0504D"/>
+      </a:accent2>
+      <a:accent3>
+        <a:srgbClr val="9BBB59"/>
+      </a:accent3>
+      <a:accent4>
+        <a:srgbClr val="8064A2"/>
+      </a:accent4>
+      <a:accent5>
+        <a:srgbClr val="4BACC6"/>
+      </a:accent5>
+      <a:accent6>
+        <a:srgbClr val="F79646"/>
+      </a:accent6>
+      <a:hlink>
+        <a:srgbClr val="0000FF"/>
+      </a:hlink>
+      <a:folHlink>
+        <a:srgbClr val="800080"/>
+      </a:folHlink>
+    </a:clrScheme>
+    <a:fontScheme name="Office">
+      <a:majorFont>
+        <a:latin typeface="Calibri"/>
+        <a:ea typeface=""/>
+        <a:cs typeface=""/>
+        <a:font typeface="ＭＳ ゴシック" script="Jpan"/>
+        <a:font typeface="맑은 고딕" script="Hang"/>
+        <a:font typeface="宋体" script="Hans"/>
+        <a:font typeface="新細明體" script="Hant"/>
+        <a:font typeface="Times New Roman" script="Arab"/>
+        <a:font typeface="Times New Roman" script="Hebr"/>
+        <a:font typeface="Angsana New" script="Thai"/>
+        <a:font typeface="Nyala" script="Ethi"/>
+        <a:font typeface="Vrinda" script="Beng"/>
+        <a:font typeface="Shruti" script="Gujr"/>
+        <a:font typeface="MoolBoran" script="Khmr"/>
+        <a:font typeface="Tunga" script="Knda"/>
+        <a:font typeface="Raavi" script="Guru"/>
+        <a:font typeface="Euphemia" script="Cans"/>
+        <a:font typeface="Plantagenet Cherokee" script="Cher"/>
+        <a:font typeface="Microsoft Yi Baiti" script="Yiii"/>
+        <a:font typeface="Microsoft Himalaya" script="Tibt"/>
+        <a:font typeface="MV Boli" script="Thaa"/>
+        <a:font typeface="Mangal" script="Deva"/>
+        <a:font typeface="Gautami" script="Telu"/>
+        <a:font typeface="Latha" script="Taml"/>
+        <a:font typeface="Estrangelo Edessa" script="Syrc"/>
+        <a:font typeface="Kalinga" script="Orya"/>
+        <a:font typeface="Kartika" script="Mlym"/>
+        <a:font typeface="DokChampa" script="Laoo"/>
+        <a:font typeface="Iskoola Pota" script="Sinh"/>
+        <a:font typeface="Mongolian Baiti" script="Mong"/>
+        <a:font typeface="Times New Roman" script="Viet"/>
+        <a:font typeface="Microsoft Uighur" script="Uigh"/>
+      </a:majorFont>
+      <a:minorFont>
+        <a:latin typeface="Cambria"/>
+        <a:ea typeface=""/>
+        <a:cs typeface=""/>
+        <a:font typeface="ＭＳ 明朝" script="Jpan"/>
+        <a:font typeface="맑은 고딕" script="Hang"/>
+        <a:font typeface="宋体" script="Hans"/>
+        <a:font typeface="新細明體" script="Hant"/>
+        <a:font typeface="Arial" script="Arab"/>
+        <a:font typeface="Arial" script="Hebr"/>
+        <a:font typeface="Cordia New" script="Thai"/>
+        <a:font typeface="Nyala" script="Ethi"/>
+        <a:font typeface="Vrinda" script="Beng"/>
+        <a:font typeface="Shruti" script="Gujr"/>
+        <a:font typeface="DaunPenh" script="Khmr"/>
+        <a:font typeface="Tunga" script="Knda"/>
+        <a:font typeface="Raavi" script="Guru"/>
+        <a:font typeface="Euphemia" script="Cans"/>
+        <a:font typeface="Plantagenet Cherokee" script="Cher"/>
+        <a:font typeface="Microsoft Yi Baiti" script="Yiii"/>
+        <a:font typeface="Microsoft Himalaya" script="Tibt"/>
+        <a:font typeface="MV Boli" script="Thaa"/>
+        <a:font typeface="Mangal" script="Deva"/>
+        <a:font typeface="Gautami" script="Telu"/>
+        <a:font typeface="Latha" script="Taml"/>
+        <a:font typeface="Estrangelo Edessa" script="Syrc"/>
+        <a:font typeface="Kalinga" script="Orya"/>
+        <a:font typeface="Kartika" script="Mlym"/>
+        <a:font typeface="DokChampa" script="Laoo"/>
+        <a:font typeface="Iskoola Pota" script="Sinh"/>
+        <a:font typeface="Mongolian Baiti" script="Mong"/>
+        <a:font typeface="Arial" script="Viet"/>
+        <a:font typeface="Microsoft Uighur" script="Uigh"/>
+      </a:minorFont>
+    </a:fontScheme>
+    <a:fmtScheme name="Office">
+      <a:fillStyleLst>
+        <a:solidFill>
+          <a:schemeClr val="phClr"/>
+        </a:solidFill>
+        <a:gradFill rotWithShape="1">
+          <a:gsLst>
+            <a:gs pos="0">
+              <a:schemeClr val="phClr">
+                <a:tint val="50000"/>
+                <a:satMod val="300000"/>
+              </a:schemeClr>
+            </a:gs>
+            <a:gs pos="35000">
+              <a:schemeClr val="phClr">
+                <a:tint val="37000"/>
+                <a:satMod val="300000"/>
+              </a:schemeClr>
+            </a:gs>
+            <a:gs pos="100000">
+              <a:schemeClr val="phClr">
+                <a:tint val="15000"/>
+                <a:satMod val="350000"/>
+              </a:schemeClr>
+            </a:gs>
+          </a:gsLst>
+          <a:lin ang="16200000" scaled="1"/>
+        </a:gradFill>
+        <a:gradFill rotWithShape="1">
+          <a:gsLst>
+            <a:gs pos="0">
+              <a:schemeClr val="phClr">
+                <a:tint val="100000"/>
+                <a:shade val="100000"/>
+                <a:satMod val="130000"/>
+              </a:schemeClr>
+            </a:gs>
+            <a:gs pos="100000">
+              <a:schemeClr val="phClr">
+                <a:tint val="50000"/>
+                <a:shade val="100000"/>
+                <a:satMod val="350000"/>
+              </a:schemeClr>
+            </a:gs>
+          </a:gsLst>
+          <a:lin ang="16200000" scaled="0"/>
+        </a:gradFill>
+      </a:fillStyleLst>
+      <a:lnStyleLst>
+        <a:ln w="9525" cap="flat" cmpd="sng" algn="ctr">
+          <a:solidFill>
+            <a:schemeClr val="phClr">
+              <a:shade val="95000"/>
+              <a:satMod val="105000"/>
+            </a:schemeClr>
+          </a:solidFill>
+          <a:prstDash val="solid"/>
+        </a:ln>
+        <a:ln w="25400" cap="flat" cmpd="sng" algn="ctr">
+          <a:solidFill>
+            <a:schemeClr val="phClr"/>
+          </a:solidFill>
+          <a:prstDash val="solid"/>
+        </a:ln>
+        <a:ln w="38100" cap="flat" cmpd="sng" algn="ctr">
+          <a:solidFill>
+            <a:schemeClr val="phClr"/>
+          </a:solidFill>
+          <a:prstDash val="solid"/>
+        </a:ln>
+      </a:lnStyleLst>
+      <a:effectStyleLst>
+        <a:effectStyle>
+          <a:effectLst>
+            <a:outerShdw rotWithShape="0" blurRad="40000" dist="20000" dir="5400000">
+              <a:srgbClr val="000000">
+                <a:alpha val="38000"/>
+              </a:srgbClr>
+            </a:outerShdw>
+          </a:effectLst>
+        </a:effectStyle>
+        <a:effectStyle>
+          <a:effectLst>
+            <a:outerShdw rotWithShape="0" blurRad="40000" dist="23000" dir="5400000">
+              <a:srgbClr val="000000">
+                <a:alpha val="35000"/>
+              </a:srgbClr>
+            </a:outerShdw>
+          </a:effectLst>
+        </a:effectStyle>
+        <a:effectStyle>
+          <a:effectLst>
+            <a:outerShdw rotWithShape="0" blurRad="40000" dist="23000" dir="5400000">
+              <a:srgbClr val="000000">
+                <a:alpha val="35000"/>
+              </a:srgbClr>
+            </a:outerShdw>
+          </a:effectLst>
+          <a:scene3d>
+            <a:camera prst="orthographicFront">
+              <a:rot lat="0" lon="0" rev="0"/>
+            </a:camera>
+            <a:lightRig dir="t" rig="threePt">
+              <a:rot lat="0" lon="0" rev="1200000"/>
+            </a:lightRig>
+          </a:scene3d>
+          <a:sp3d>
+            <a:bevelT w="63500" h="25400"/>
+          </a:sp3d>
+        </a:effectStyle>
+      </a:effectStyleLst>
+      <a:bgFillStyleLst>
+        <a:solidFill>
+          <a:schemeClr val="phClr"/>
+        </a:solidFill>
+        <a:gradFill rotWithShape="1">
+          <a:gsLst>
+            <a:gs pos="0">
+              <a:schemeClr val="phClr">
+                <a:tint val="40000"/>
+                <a:satMod val="350000"/>
+              </a:schemeClr>
+            </a:gs>
+            <a:gs pos="40000">
+              <a:schemeClr val="phClr">
+                <a:tint val="45000"/>
+                <a:shade val="99000"/>
+                <a:satMod val="350000"/>
+              </a:schemeClr>
+            </a:gs>
+            <a:gs pos="100000">
+              <a:schemeClr val="phClr">
+                <a:shade val="20000"/>
+                <a:satMod val="255000"/>
+              </a:schemeClr>
+            </a:gs>
+          </a:gsLst>
+          <a:path path="circle">
+            <a:fillToRect b="180000" l="50000" r="50000" t="-80000"/>
+          </a:path>
+        </a:gradFill>
+        <a:gradFill rotWithShape="1">
+          <a:gsLst>
+            <a:gs pos="0">
+              <a:schemeClr val="phClr">
+                <a:tint val="80000"/>
+                <a:satMod val="300000"/>
+              </a:schemeClr>
+            </a:gs>
+            <a:gs pos="100000">
+              <a:schemeClr val="phClr">
+                <a:shade val="30000"/>
+                <a:satMod val="200000"/>
+              </a:schemeClr>
+            </a:gs>
+          </a:gsLst>
+          <a:path path="circle">
+            <a:fillToRect b="50000" l="50000" r="50000" t="50000"/>
+          </a:path>
+        </a:gradFill>
+      </a:bgFillStyleLst>
+    </a:fmtScheme>
+  </a:themeElements>
+  <a:objectDefaults>
+    <a:spDef>
+      <a:spPr/>
+      <a:bodyPr/>
+      <a:lstStyle/>
+      <a:style>
+        <a:lnRef idx="1">
+          <a:schemeClr val="accent1"/>
+        </a:lnRef>
+        <a:fillRef idx="3">
+          <a:schemeClr val="accent1"/>
+        </a:fillRef>
+        <a:effectRef idx="2">
+          <a:schemeClr val="accent1"/>
+        </a:effectRef>
+        <a:fontRef idx="minor">
+          <a:schemeClr val="lt1"/>
+        </a:fontRef>
+      </a:style>
+    </a:spDef>
+    <a:lnDef>
+      <a:spPr/>
+      <a:bodyPr/>
+      <a:lstStyle/>
+      <a:style>
+        <a:lnRef idx="2">
+          <a:schemeClr val="accent1"/>
+        </a:lnRef>
+        <a:fillRef idx="0">
+          <a:schemeClr val="accent1"/>
+        </a:fillRef>
+        <a:effectRef idx="1">
+          <a:schemeClr val="accent1"/>
+        </a:effectRef>
+        <a:fontRef idx="minor">
+          <a:schemeClr val="tx1"/>
+        </a:fontRef>
+      </a:style>
+    </a:lnDef>
+  </a:objectDefaults>
+  <a:extraClrSchemeLst/>
+</a:theme>

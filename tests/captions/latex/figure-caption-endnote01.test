@@ -1,0 +1,36 @@
+LaTeX_testCreate();
+#item input.html
+<!DOCTYPE html>
+<html>
+<body>
+
+<figure>
+  <img src="nothing.png">
+  <figcaption>Test figure<span class="endnote">Endnote in caption</span></figcaption>
+</figure>
+
+</body>
+</html>
+#item expected
+\documentclass[a4paper,12pt]{article}
+
+\usepackage{endnotes}
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{figure}
+\begin{minipage}{\textwidth}
+\begin{center}
+~{\XeTeXpicfile "nothing.png"\relax}~
+
+\caption[Test figure]{Test figure\endnote{Endnote in caption}}
+\end{center}
+\end{minipage}
+\end{figure}
+
+\theendnotes
+
+\end{document}

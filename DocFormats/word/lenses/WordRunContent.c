@@ -1,0 +1,155 @@
+//
+//  WordRunContent.c
+//  DocFormats
+//
+//  Created by Peter Kelly on 2/01/13.
+//  Copyright (c) 2014 UX Productivity Pty Ltd. All rights reserved.
+//
+
+#include "WordLenses.h"
+#include "DFDOM.h"
+#include "DFFilesystem.h"
+#include "WordDrawing.h"
+#include "WordNotes.h"
+#include "DFString.h"
+#include "DFCommon.h"
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                //
+//                                       WordRunContentLens                                       //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+static DFNode *WordRunContentGet(WordGetData *get, DFNode *concrete)
+{
+    switch (concrete->tag) {
+        case WORD_T:
+        case WORD_DELTEXT: {
+            DFBuffer *buf = DFBufferNew();
+            DFNodeTextToBuffer(concrete,buf);
+            DFNode *abstract = DFCreateTextNode(get->conv->html,buf->data);
+            DFBufferRelease(buf);
+            return abstract;
+        }
+        case WORD_DRAWING:
+        case WORD_OBJECT:
+        case WORD_PICT:
+            return WordDrawingGet(get,concrete);
+        case WORD_TAB: {
+            DFNode *span = WordConverterCreateAbstract(get,HTML_SPAN,concrete);
+            DFSetAttribute(span,HTML_CLASS,DFTabClass);
+            return span;
+        }
+        case WORD_BR: {
+            const char *type = DFGetAttribute(concrete,WORD_TYPE);
+            if (DFStringEquals(type,"column")) {
+                DFNode *span = WordConverterCreateAbstract(get,HTML_SPAN,concrete);
+                DFSetAttribute(span,HTML_CLASS,DFPlaceholderClass);
+                DFCreateChildTextNode(span,"[Column break]");
+                return span;
+            }
+            else if (DFStringEquals(type,"page")) {
+                DFNode *span = WordConverterCreateAbstract(get,HTML_SPAN,concrete);
+                DFSetAttribute(span,HTML_CLASS,DFPlaceholderClass);
+                DFCreateChildTextNode(span,"[Page break]");
+                return span;
+            }
+            else {
+                return WordConverterCreateAbstract(get,HTML_BR,concrete);
+            }
+        }
+        default:
+            return NULL;
+    }
+}
+
+static int WordRunContentIsVisible(WordPutData *put, DFNode *concrete)
+{
+    switch (concrete->tag) {
+        case WORD_T:
+        case WORD_DELTEXT:
+            return 1;
+        case WORD_DRAWING:
+        case WORD_OBJECT:
+        case WORD_PICT:
+            return WordDrawingIsVisible(put,concrete);
+        case WORD_TAB:
+            return 1;
+        case WORD_BR:
+            return 1;
+        default:
+            return 0;
+    }
+}
+
+static DFNode *WordRunContentCreate(WordPutData *put, DFNode *abstract)
+{
+    switch (abstract->tag) {
+        case DOM_TEXT: {
+            DFNode *text = DFCreateTextNode(put->conv->package->document,abstract->value);
+
+            // Text inside a <w:del> element must be stored in a <w:delText> element
+            // Text *not* inside a <w:del> element is stored in a <w:t> element
+            Tag tag = WORD_T;
+            for (DFNode *a = abstract->parent; a != NULL; a = a->parent) {
+                if (a->tag == HTML_DEL)
+                    tag = WORD_DELTEXT;
+            }
+            DFNode *t = DFCreateElement(put->conv->package->document,tag);
+            DFAppendChild(t,text);
+
+            char *trimmed = DFStringTrimWhitespace(abstract->value);
+            if (!DFStringEquals(trimmed,abstract->value))
+                DFSetAttribute(t,XML_SPACE,"preserve");
+            free(trimmed);
+
+            return t;
+        }
+        case HTML_IMG:
+            return WordDrawingCreate(put,abstract);
+        case HTML_BR:
+            return DFCreateElement(put->conv->package->document,WORD_BR);
+        case HTML_SPAN: {
+            const char *className = DFGetAttribute(abstract,HTML_CLASS);
+            if (DFStringEquals(className,DFTabClass))
+                return DFCreateElement(put->conv->package->document,WORD_TAB);
+            return NULL;
+        }
+        default:
+            return NULL;
+    }
+}
+
+static void WordRunContentPut(WordPutData *put, DFNode *abstract, DFNode *concrete)
+{
+    switch (concrete->tag) {
+        case WORD_DRAWING:
+        case WORD_OBJECT:
+        case WORD_PICT:
+            WordDrawingPut(put,abstract,concrete);
+            break;
+    }
+}
+
+static void WordRunContentRemove(WordPutData *put, DFNode *concrete)
+{
+    switch (concrete->tag) {
+        case WORD_DRAWING:
+        case WORD_OBJECT:
+        case WORD_PICT:
+            WordDrawingRemove(put,concrete);
+            break;
+        case WORD_FOOTNOTEREFERENCE:
+        case WORD_ENDNOTEREFERENCE:
+            WordNoteReferenceRemove(put,concrete);
+            break;
+    }
+}
+
+WordLens WordRunContentLens = {
+    .isVisible = WordRunContentIsVisible,
+    .get = WordRunContentGet,
+    .put = WordRunContentPut,
+    .create = WordRunContentCreate,
+    .remove = WordRunContentRemove,
+};

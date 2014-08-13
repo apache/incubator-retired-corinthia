@@ -1,0 +1,94 @@
+CSS_test();
+#item input.css
+p.test1 {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+}
+
+p.test2 {
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+}
+
+p.test3 {
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+}
+
+p.test4 {
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+#item expected
+p.test1
+    ""
+        border-left-color = black
+        border-left-style = solid
+        border-left-width = 1px
+        border-right-color = black
+        border-right-style = solid
+        border-right-width = 1px
+        border-top-color = black
+        border-top-style = solid
+        border-top-width = 1px
+p.test2
+    ""
+        border-bottom-color = black
+        border-bottom-style = solid
+        border-bottom-width = 1px
+        border-right-color = black
+        border-right-style = solid
+        border-right-width = 1px
+        border-top-color = black
+        border-top-style = solid
+        border-top-width = 1px
+p.test3
+    ""
+        border-bottom-color = black
+        border-bottom-style = solid
+        border-bottom-width = 1px
+        border-left-color = black
+        border-left-style = solid
+        border-left-width = 1px
+        border-top-color = black
+        border-top-style = solid
+        border-top-width = 1px
+p.test4
+    ""
+        border-bottom-color = black
+        border-bottom-style = solid
+        border-bottom-width = 1px
+        border-left-color = black
+        border-left-style = solid
+        border-left-width = 1px
+        border-right-color = black
+        border-right-style = solid
+        border-right-width = 1px
+================================================================================
+p.test1 {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+}
+
+p.test2 {
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+}
+
+p.test3 {
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+}
+
+p.test4 {
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}

@@ -1,0 +1,62 @@
+// One style at each level, with a class name - should be modified to add numbering information
+CSS_setHeadingNumbering(true);
+#item input.css
+h1.heading_1 { }
+h2.heading_2 { }
+h3.heading_3 { }
+h4.heading_4 { }
+h5.heading_5 { }
+h6.heading_6 { }
+#item expected
+h1.heading_1 {
+    counter-increment: h1;
+    counter-reset: h2 h3 h4 h5 h6;
+}
+
+h1.heading_1::before {
+    content: counter(h1) " ";
+}
+
+h2.heading_2 {
+    counter-increment: h2;
+    counter-reset: h3 h4 h5 h6;
+}
+
+h2.heading_2::before {
+    content: counter(h1) "." counter(h2) " ";
+}
+
+h3.heading_3 {
+    counter-increment: h3;
+    counter-reset: h4 h5 h6;
+}
+
+h3.heading_3::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) " ";
+}
+
+h4.heading_4 {
+    counter-increment: h4;
+    counter-reset: h5 h6;
+}
+
+h4.heading_4::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) " ";
+}
+
+h5.heading_5 {
+    counter-increment: h5;
+    counter-reset: h6;
+}
+
+h5.heading_5::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) " ";
+}
+
+h6.heading_6 {
+    counter-increment: h6;
+}
+
+h6.heading_6::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "." counter(h6) " ";
+}

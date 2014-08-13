@@ -1,0 +1,19 @@
+CSS_test();
+#item input.css
+p.test1 {
+    margin-bottom: 1px;
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-top: 1px;
+}
+#item expected
+p.test1
+    ""
+        margin-bottom = 1px
+        margin-left = 1px
+        margin-right = 1px
+        margin-top = 1px
+================================================================================
+p.test1 {
+    margin: 1px;
+}

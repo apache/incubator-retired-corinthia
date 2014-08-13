@@ -1,0 +1,67 @@
+CSS_test();
+#item input.css
+p.test1 {
+    border-color: red;
+}
+
+p.test2 {
+    border-color: red green;
+}
+
+p.test3 {
+    border-color: red green blue;
+}
+
+p.test4 {
+    border-color: red green blue yellow;
+}
+#item expected
+p.test1
+    ""
+        border-bottom-color = red
+        border-left-color = red
+        border-right-color = red
+        border-top-color = red
+p.test2
+    ""
+        border-bottom-color = red
+        border-left-color = green
+        border-right-color = green
+        border-top-color = red
+p.test3
+    ""
+        border-bottom-color = blue
+        border-left-color = green
+        border-right-color = green
+        border-top-color = red
+p.test4
+    ""
+        border-bottom-color = blue
+        border-left-color = yellow
+        border-right-color = green
+        border-top-color = red
+================================================================================
+p.test1 {
+    border: red;
+}
+
+p.test2 {
+    border-bottom: red;
+    border-left: green;
+    border-right: green;
+    border-top: red;
+}
+
+p.test3 {
+    border-bottom: blue;
+    border-left: green;
+    border-right: green;
+    border-top: red;
+}
+
+p.test4 {
+    border-bottom: blue;
+    border-left: yellow;
+    border-right: green;
+    border-top: red;
+}

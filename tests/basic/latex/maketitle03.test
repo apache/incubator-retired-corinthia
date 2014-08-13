@@ -1,0 +1,31 @@
+LaTeX_testCreate();
+#item input.html
+<!DOCTYPE html>
+<html>
+<body>
+
+<p class="title">Test Document</p>
+<p class="author">Peter Kelly</p>
+<p class="date">April 3, 2014</p>
+
+Content goes here
+
+</body>
+</html>
+#item expected
+\documentclass[a4paper,12pt]{article}
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+
+\title{Test Document}
+\author{Peter Kelly}
+\date{April 3, 2014}
+
+\begin{document}
+
+\maketitle
+
+Content goes here
+
+\end{document}

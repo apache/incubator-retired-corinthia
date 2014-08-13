@@ -1,0 +1,70 @@
+CSS_test();
+#item input.css
+p.test1 {
+    border-bottom-right-radius: 1px;
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+}
+
+p.test2 {
+    border-bottom-left-radius: 1px;
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+}
+
+p.test3 {
+    border-bottom-left-radius: 1px;
+    border-bottom-right-radius: 1px;
+    border-top-right-radius: 1px;
+}
+
+p.test4 {
+    border-bottom-left-radius: 1px;
+    border-bottom-right-radius: 1px;
+    border-top-left-radius: 1px;
+}
+#item expected
+p.test1
+    ""
+        border-bottom-right-radius = 1px
+        border-top-left-radius = 1px
+        border-top-right-radius = 1px
+p.test2
+    ""
+        border-bottom-left-radius = 1px
+        border-top-left-radius = 1px
+        border-top-right-radius = 1px
+p.test3
+    ""
+        border-bottom-left-radius = 1px
+        border-bottom-right-radius = 1px
+        border-top-right-radius = 1px
+p.test4
+    ""
+        border-bottom-left-radius = 1px
+        border-bottom-right-radius = 1px
+        border-top-left-radius = 1px
+================================================================================
+p.test1 {
+    border-bottom-right-radius: 1px;
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+}
+
+p.test2 {
+    border-bottom-left-radius: 1px;
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+}
+
+p.test3 {
+    border-bottom-left-radius: 1px;
+    border-bottom-right-radius: 1px;
+    border-top-right-radius: 1px;
+}
+
+p.test4 {
+    border-bottom-left-radius: 1px;
+    border-bottom-right-radius: 1px;
+    border-top-left-radius: 1px;
+}

@@ -1,0 +1,58 @@
+HTML_testNormalize();
+#item input.html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+
+no parent
+
+<p>paragraph</p>
+
+<hgroup>
+  <p>hgroup, paragraph</p>
+</hgroup>
+
+<hgroup>
+  <hgroup>
+    <p>hgroup, hgroup, paragraph</p>
+  </hgroup>
+</hgroup>
+
+<hgroup>hgroup</hgroup>
+
+<hgroup>
+  <hgroup>hgroup, hgroup</hgroup>
+</hgroup>
+
+</body>
+</html>
+#item expected
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+  </head>
+  <body>
+    <p>
+      <span>no parent</span>
+    </p>
+    <p>
+      <span>paragraph</span>
+    </p>
+    <p>
+      <span>hgroup, paragraph</span>
+    </p>
+    <p>
+      <span>hgroup, hgroup, paragraph</span>
+    </p>
+    <p>
+      <span>hgroup</span>
+    </p>
+    <p>
+      <span>hgroup, hgroup</span>
+    </p>
+  </body>
+</html>

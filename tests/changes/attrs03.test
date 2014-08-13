@@ -1,0 +1,39 @@
+HTML_showChanges();
+#item input1.html
+<!DOCTYPE html>
+<html id="1">
+<head id="2"></head>
+<body id="3">
+
+<p id="4">Paragraph 1</p>
+<p id="5" style="text-align: center">Paragraph 2</p>
+<p id="6">Paragraph 3</p>
+<p id="7">Paragraph 4</p>
+
+</body>
+</html>
+#item input2.html
+<!DOCTYPE html>
+<html id="1">
+<head id="2"></head>
+<body id="3">
+
+<p id="4">Paragraph 1</p>
+<p id="5" style="text-align: left">Paragraph 2</p>
+<p id="6">Paragraph 3</p>
+<p id="7">Paragraph 4</p>
+
+</body>
+</html>
+#item expected
+*   <html id="1">
+        <head id="2">
+*       <body id="3">
+            <p id="4">
+                "Paragraph 1"
+ C          <p id="5" style="text-align: center">
+                "Paragraph 2"
+            <p id="6">
+                "Paragraph 3"
+            <p id="7">
+                "Paragraph 4"

@@ -1,0 +1,197 @@
+Word_testUpdate();
+#item input.docx
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading1"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Outer one</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading2"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Inner one</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading2"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Inner two</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading1"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Outer two</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading2"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Inner three</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading2"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Inner four</w:t>
+      </w:r>
+      <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="0"/>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:footer="708" w:gutter="0" w:header="708" w:left="1800" w:right="1800" w:top="1440"/>
+      <w:cols w:space="708"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+#include "styles.xml"
+##item numbering.xml
+#include "numbering.xml"
+#item input.html
+<!DOCTYPE html>
+<html id="word1">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="reset.css" rel="stylesheet"/>
+    <style>
+#include "common.css"
+    </style>
+  </head>
+  <body id="word2">
+    <h1 class="heading_1" id="word3">
+      <span id="word6">Outer one</span>
+    </h1>
+    <h2 class="heading_2" id="word9">
+      <span id="word12">Inner one</span>
+    </h2>
+    <h2 class="heading_2" id="word15">
+      <span id="word18">Inner two</span>
+    </h2>
+    <h1 class="heading_1" id="word21">
+      <span id="word24">Outer two</span>
+    </h1>
+    <h2 class="heading_2" id="word27">
+      <span id="word30">Inner three</span>
+    </h2>
+    <h2 class="heading_2" id="word33">
+      <span id="word36">Inner four</span>
+    </h2>
+    <p>
+      New reference of unspecified type to Outer one: <a href="#word3">text</a>
+    </p>
+    <p>
+      New reference of unspecified type to Inner three: <a href="#word27">text</a>
+    </p>
+    <p>
+      New reference of unspecified type to Inner four: <a href="#word33">text</a>
+    </p>
+  </body>
+</html>
+#item expected
+##item document.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading1"/>
+      </w:pPr>
+      <w:bookmarkStart w:id="2" w:name="uxwrite1"/>
+      <w:r>
+        <w:t>Outer one</w:t>
+      </w:r>
+      <w:bookmarkEnd w:id="2"/>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading2"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Inner one</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading2"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Inner two</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading1"/>
+      </w:pPr>
+      <w:r>
+        <w:t>Outer two</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading2"/>
+      </w:pPr>
+      <w:bookmarkStart w:id="1" w:name="uxwrite0"/>
+      <w:r>
+        <w:t>Inner three</w:t>
+      </w:r>
+      <w:bookmarkEnd w:id="1"/>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:pStyle w:val="Heading2"/>
+      </w:pPr>
+      <w:bookmarkStart w:id="3" w:name="uxwrite2"/>
+      <w:r>
+        <w:t>Inner four</w:t>
+      </w:r>
+      <w:bookmarkEnd w:id="3"/>
+      <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+      <w:bookmarkEnd w:id="0"/>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t xml:space="preserve">New reference of unspecified type to Outer one: </w:t>
+      </w:r>
+      <w:fldSimple w:instr=" REF uxwrite1 \r \h "/>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t xml:space="preserve">New reference of unspecified type to Inner three: </w:t>
+      </w:r>
+      <w:fldSimple w:instr=" REF uxwrite0 \r \h "/>
+    </w:p>
+    <w:p>
+      <w:r>
+        <w:t xml:space="preserve">New reference of unspecified type to Inner four: </w:t>
+      </w:r>
+      <w:fldSimple w:instr=" REF uxwrite2 \r \h "/>
+    </w:p>
+    <w:sectPr>
+      <w:pgSz w:h="16840" w:w="11900"/>
+      <w:pgMar w:bottom="1440" w:footer="708" w:gutter="0" w:header="708" w:left="1800" w:right="1800" w:top="1440"/>
+      <w:cols w:space="708"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
+##item styles.xml
+#include "styles.xml"
+##item numbering.xml
+#include "numbering.xml"

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="http://schemas.openxmlformats.org/officeDocument/2006/customXml" xmlns:ds="http://schemas.openxmlformats.org/officeDocument/2006/customXml" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <define name="ds_CT_DatastoreSchemaRef">
+    <attribute name="ds:uri">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="ds_CT_DatastoreSchemaRefs">
+    <zeroOrMore>
+      <element name="schemaRef">
+        <ref name="ds_CT_DatastoreSchemaRef"/>
+      </element>
+    </zeroOrMore>
+  </define>
+  <define name="ds_CT_DatastoreItem">
+    <attribute name="ds:itemID">
+      <ref name="s_ST_Guid"/>
+    </attribute>
+    <optional>
+      <element name="schemaRefs">
+        <ref name="ds_CT_DatastoreSchemaRefs"/>
+      </element>
+    </optional>
+  </define>
+  <define name="ds_datastoreItem">
+    <element name="datastoreItem">
+      <ref name="ds_CT_DatastoreItem"/>
+    </element>
+  </define>
+</grammar>
