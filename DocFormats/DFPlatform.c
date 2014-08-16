@@ -19,7 +19,7 @@
 
 #include <ImageIO/ImageIO.h>
 
-int DFPlatformGetImageDimensions(const char *path, unsigned int *width, unsigned int *height)
+int DFPlatformGetImageDimensions(const char *path, unsigned int *width, unsigned int *height, DFError **error)
 {
     CFStringRef srcPath = CFStringCreateWithBytes(kCFAllocatorDefault,(const UInt8 *)path,
                                                   strlen(path),kCFStringEncodingUTF8,0);
@@ -59,8 +59,9 @@ int DFPlatformGetImageDimensions(const char *path, unsigned int *width, unsigned
 
 #else
 
-int DFPlatformGetImageDimensions(const char *path, unsigned int *width, unsigned int *height)
+int DFPlatformGetImageDimensions(const char *path, unsigned int *width, unsigned int *height, DFError **error)
 {
+    DFErrorFormat(error,"DFPlatformGetImageDimensions is not implemented for this platform");
     return 0;
 }
 

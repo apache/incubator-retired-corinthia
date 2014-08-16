@@ -15,6 +15,8 @@
 #ifndef DocFormats_DFPlatform_h
 #define DocFormats_DFPlatform_h
 
-int DFPlatformGetImageDimensions(const char *path, unsigned int *width, unsigned int *height);
+#include "DFError.h"
+
+int DFPlatformGetImageDimensions(const char *path, unsigned int *width, unsigned int *height, DFError **error);
 
 #endif

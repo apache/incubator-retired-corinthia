@@ -392,7 +392,7 @@ static OPCRelationship *addImageRelationship(WordConverter *converter, const cha
     return result;
 }
 
-static int getImageFile(WordConverter *converter, const char *src, PixelSize *size)
+static int getImageFile(WordConverter *converter, const char *src, PixelSize *size, DFError **error)
 {
     size->widthPx = 0;
     size->heightPx = 0;
@@ -401,7 +401,7 @@ static int getImageFile(WordConverter *converter, const char *src, PixelSize *si
     char *abstractPathSlash = DFFormatString("%s/",converter->abstractPath);
     char *newSrcPath = DFPathResolveAbsolute(abstractPathSlash,unescapedSrc);
 
-    int ok = DFPlatformGetImageDimensions(newSrcPath,&size->widthPx,&size->heightPx);
+    int ok = DFPlatformGetImageDimensions(newSrcPath,&size->widthPx,&size->heightPx,error);
     free(abstractPathSlash);
     free(unescapedSrc);
     free(newSrcPath);
@@ -505,8 +505,10 @@ static int internalPut2(WordPutData *put, DFNode *abstract, DFNode *concrete, in
     }
 
     PixelSize htmlFileSize = PixelSizeZero;
-    if (!getImageFile(put->conv,htmlSrc,&htmlFileSize)) {
-        WordConverterWarning(put->conv,"Could not get aspect ratio of image: %s",htmlSrc);
+    DFError *error = NULL;
+    if (!getImageFile(put->conv,htmlSrc,&htmlFileSize,&error)) {
+        WordConverterWarning(put->conv,"Could not get aspect ratio of image: %s\n",DFErrorMessage(&error));
+        DFErrorRelease(error);
         return 0;
     }
     PointsSize htmlSize = pointsSizeFromHTMLImg(put->conv,abstract,htmlFileSize);
