@@ -15,7 +15,6 @@
 #include "WordNumbering.h"
 #include "WordStyles.h"
 #include "DFDOM.h"
-#include "DFFilesystem.h"
 #include "CSS.h"
 #include "DFHashTable.h"
 #include "DFString.h"

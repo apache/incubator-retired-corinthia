@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #include "DFArray.h"
-#include "DFFilesystem.h"
 #include "DFCommon.h"
 
 struct DFArray {

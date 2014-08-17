@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #include "CSSSyntax.h"
-#include "DFFilesystem.h"
 #include "DFCommon.h"
 
 static int matchString(const char **strptr, const char *against)

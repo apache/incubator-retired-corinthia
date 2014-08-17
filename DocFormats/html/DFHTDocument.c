@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #include "DFHTDocument.h"
-#include "DFFilesystem.h"
 #include "DFString.h"
 #include "streamio.h"
 #include "DFCommon.h"

@@ -17,7 +17,6 @@
 #include "CSSProperties.h"
 #include "CSSSyntax.h"
 #include "CSSSelector.h"
-#include "DFFilesystem.h"
 #include "DFBuffer.h"
 #include "DFString.h"
 #include "DFCharacterSet.h"

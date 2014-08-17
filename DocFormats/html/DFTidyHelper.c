@@ -15,7 +15,6 @@
 #include "DFTidyHelper.h"
 #include "buffio.h"
 #include "streamio.h"
-#include "DFFilesystem.h"
 #include "DFNameMap.h"
 #include "DFCommon.h"
 

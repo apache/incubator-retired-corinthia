@@ -14,7 +14,6 @@
 
 #include "DFXML.h"
 #include "DFDOM.h"
-#include "DFFilesystem.h"
 #include "DFMarkupCompatibility.h"
 #include "DFHTML.h"
 #include "DFBuffer.h"

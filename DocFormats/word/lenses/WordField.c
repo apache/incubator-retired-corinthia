@@ -18,7 +18,6 @@
 #include "WordObjects.h"
 #include "WordPackage.h"
 #include "WordCaption.h"
-#include "DFFilesystem.h"
 #include "DFDOM.h"
 #include "DFXML.h"
 #include "DFString.h"

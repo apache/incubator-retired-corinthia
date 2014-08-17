@@ -14,9 +14,9 @@
 
 #include "DFBDT.h"
 #include "DFDOM.h"
-#include "DFFilesystem.h"
 #include "DFXML.h"
 #include "DFCommon.h"
+#include "DFHashTable.h"
 
 int nullIsVisible(void *ctx, DFNode *concrete)
 {

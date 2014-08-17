@@ -14,7 +14,6 @@
 
 #include "WordLenses.h"
 #include "DFDOM.h"
-#include "DFFilesystem.h"
 #include "WordDrawing.h"
 #include "WordNotes.h"
 #include "DFString.h"

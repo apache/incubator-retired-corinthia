@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #include "DFHTMLNormalization.h"
-#include "DFFilesystem.h"
 #include "DFDOM.h"
 #include "CSS.h"
 #include "CSSProperties.h"

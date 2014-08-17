@@ -24,7 +24,6 @@
 #include "CSSStyle.h"
 #include "CSSSheet.h"
 #include "DFHTML.h"
-#include "DFFilesystem.h"
 #include "DFNameMap.h"
 #include "DFString.h"
 #include "DFCommon.h"

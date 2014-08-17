@@ -15,7 +15,6 @@
 #include "CSSSheet.h"
 #include "CSS.h"
 #include "CSSProperties.h"
-#include "DFFilesystem.h"
 #include "CSSParser.h"
 #include "CSSSelector.h"
 #include "CSSLength.h"

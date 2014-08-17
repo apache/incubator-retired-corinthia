@@ -14,7 +14,6 @@
 
 #include "WordWhitespace.h"
 #include "DFDOM.h"
-#include "DFFilesystem.h"
 #include "DFClassNames.h"
 #include "DFString.h"
 #include "DFCommon.h"
