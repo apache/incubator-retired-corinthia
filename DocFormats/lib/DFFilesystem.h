@@ -18,12 +18,6 @@
 #include "DFError.h"
 #include "DFHashTable.h"
 
-const char *DFFormatDouble(char *str, size_t size, double value);
-const char *DFFormatDoublePct(char *str, size_t size, double value);
-const char *DFFormatDoublePt(char *str, size_t size, double value);
-
-char *DFNormalizeWhitespace(const char *input);
-
 int DFFileExists(const char *path);
 int DFIsDirectory(const char *path);
 int DFCreateDirectory(const char *path, int intermediates, DFError **error);

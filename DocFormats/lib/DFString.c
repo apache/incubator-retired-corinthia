@@ -247,6 +247,43 @@ char *DFStringTrimLeadingWhitespace(const char *str)
     return strdup(&str[startpos]);
 }
 
+char *DFStringNormalizeWhitespace(const char *input)
+{
+    if (input == NULL)
+        return NULL;
+
+    size_t inputLen = strlen(input);
+    size_t outputLen = 0;
+
+    char *output = (char *)malloc(inputLen+1);
+
+    size_t start = 0;
+    while ((start < inputLen) && isspace(input[start]))
+        start++;
+    size_t end = inputLen;
+    while ((end > start) && isspace(input[end-1]))
+        end--;
+    int haveSpace = 0;
+    for (size_t pos = start; pos < end; pos++) {
+        if (isspace(input[pos])) {
+            if (!haveSpace) {
+                output[outputLen++] = ' ';
+                haveSpace = 1;
+            }
+        }
+        else {
+            output[outputLen++] = input[pos];
+            haveSpace = 0;
+        }
+    }
+
+    assert(outputLen <= inputLen);
+
+    output[outputLen] = '\0';
+
+    return output;
+}
+
 char *DFSubstring(const char *str, size_t start, size_t end)
 {
     if (str == NULL)
@@ -596,6 +633,41 @@ char *DFUnderscoresToSpaces(const char *input)
             output[i] = ' ';
     }
     return output;
+}
+
+const char *DFFormatDouble(char *str, size_t size, double value)
+{
+    snprintf(str,size,"%f",value);
+    size_t len = strlen(str);
+    while ((len > 0) && str[len-1] == '0') {
+        len--;
+    }
+    if ((len > 0) && str[len-1] == '.')
+        len--;
+    str[len] = '\0';
+    return str;
+}
+
+const char *DFFormatDoublePct(char *str, size_t size, double value)
+{
+    DFFormatDouble(str,size,value);
+    size_t len = strlen(str);
+    if (len+1 < size)
+        str[len++] = '%';
+    str[len] = '\0';
+    return str;
+}
+
+const char *DFFormatDoublePt(char *str, size_t size, double value)
+{
+    DFFormatDouble(str,size,value);
+    size_t len = strlen(str);
+    if (len+1 < size)
+        str[len++] = 'p';
+    if (len+1 < size)
+        str[len++] = 't';
+    str[len] = '\0';
+    return str;
 }
 
 static int cscompare(const void *val1, const void *val2)

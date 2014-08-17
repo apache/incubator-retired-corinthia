@@ -31,6 +31,7 @@ int DFStringIsWhitespace(const char *str);
 int DFStringContainsWhitespace(const char *str);
 char *DFStringTrimWhitespace(const char *str);
 char *DFStringTrimLeadingWhitespace(const char *str);
+char *DFStringNormalizeWhitespace(const char *input);
 char *DFSubstring(const char *str, size_t start, size_t end);
 char *DFStrDup(const char *str);
 char *DFUpperCase(const char *input);
@@ -47,6 +48,10 @@ char *DFQuote(const char *str);
 char *DFUnquote(const char *str);
 char *DFSpacesToUnderscores(const char *input);
 char *DFUnderscoresToSpaces(const char *input);
+
+const char *DFFormatDouble(char *str, size_t size, double value);
+const char *DFFormatDoublePct(char *str, size_t size, double value);
+const char *DFFormatDoublePt(char *str, size_t size, double value);
 
 void DFSortStringsCaseSensitive(const char **strings);
 void DFSortStringsCaseInsensitive(const char **strings);

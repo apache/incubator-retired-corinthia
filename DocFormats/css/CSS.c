@@ -828,7 +828,7 @@ int CSSIsInlineProperty(const char *name)
 PageSize CSSParsePageSize(const char *input)
 {
     PageSize result = PageSizeUnknown;
-    char *normalized = DFNormalizeWhitespace(input);
+    char *normalized = DFStringNormalizeWhitespace(input);
     if (DFStringEqualsCI(normalized,"a4 portrait"))
         result = PageSizeA4Portrait;
     else if (DFStringEqualsCI(normalized,"a4 landscape"))

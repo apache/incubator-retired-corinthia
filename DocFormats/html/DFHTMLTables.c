@@ -15,7 +15,7 @@
 #include "DFHTMLTables.h"
 #include "DFTable.h"
 #include "DFDOM.h"
-#include "DFFilesystem.h"
+#include "DFString.h"
 #include "CSSLength.h"
 #include "DFCommon.h"
 
