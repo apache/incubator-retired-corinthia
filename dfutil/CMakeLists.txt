@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 2.8)
 
 set(SOURCES
-    scripting/TestCase.c
-    scripting/TestFunctions.c
     BDTTest.c
     Commands.c
     DFChanges.c
     Plain.c
     Test.c
+    TestCase.c
+    TestFunctions.c
     TextPackage.c
     main.c
 )
@@ -15,7 +15,6 @@ set(SOURCES
 set(LIBS DocFormats tidy minizip xml2 z)
 
 include_directories(.)
-include_directories(scripting)
 include_directories(../DocFormats)
 include_directories(../DocFormats/css)
 include_directories(../DocFormats/html)
