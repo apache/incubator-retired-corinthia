@@ -207,7 +207,7 @@ const char *DFGetAttribute(DFNode *node, Tag tag);
 const char *DFGetChildAttribute(DFNode *parent, Tag childTag, Tag attrTag);
 void DFSetAttribute(DFNode *element, Tag tag, const char *value);
 void DFVFormatAttribute(DFNode *element, Tag tag, const char *format, va_list ap);
-void DFFormatAttribute(DFNode *element, Tag tag, const char *format, ...) __attribute__((format(printf,3,4)));
+void DFFormatAttribute(DFNode *element, Tag tag, const char *format, ...) ATTRIBUTE_FORMAT(printf,3,4);
 void DFRemoveAttribute(DFNode *element, Tag tag);
 void DFRemoveAllAttributes(DFNode *element);
 

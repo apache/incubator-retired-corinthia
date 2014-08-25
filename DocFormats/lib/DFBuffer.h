@@ -41,7 +41,7 @@ void DFBufferAppendData(DFBuffer *buf, const char *data, size_t len);
 void DFBufferAppendString(DFBuffer *buf, const char *data);
 void DFBufferAppendChar(DFBuffer *buf, char ch);
 void DFBufferVFormat(DFBuffer *buf, const char *format, va_list ap);
-void DFBufferFormat(DFBuffer *buf, const char *format, ...) __attribute__((format(printf,2,3)));
+void DFBufferFormat(DFBuffer *buf, const char *format, ...) ATTRIBUTE_FORMAT(printf,2,3);
 DFBuffer *DFBufferReadFromFile(const char *filename, DFError **error);
 int DFBufferWriteToFile(DFBuffer *buf, const char *filename, DFError **error);
 

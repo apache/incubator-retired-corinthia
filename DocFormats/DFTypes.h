@@ -15,6 +15,14 @@
 #ifndef DocFormats_DFTypes_h
 #define DocFormats_DFTypes_h
 
+#ifdef _MSC_VER
+#define ATTRIBUTE_ALIGNED(n)
+#define ATTRIBUTE_FORMAT(archetype,index,first)
+#else
+#define ATTRIBUTE_ALIGNED(n) __attribute__ ((aligned (n)))
+#define ATTRIBUTE_FORMAT(archetype,index,first) __attribute__((format(archetype,index,first)))
+#endif
+
 #include <sys/types.h>
 #include <stdint.h>
 #include <stdarg.h>

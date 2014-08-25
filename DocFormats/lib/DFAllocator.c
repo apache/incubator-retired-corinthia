@@ -21,7 +21,7 @@ struct DFAllocatorBlock {
     DFAllocatorBlock *next;
     size_t used;
     size_t size;
-    char mem[0] __attribute__ ((aligned (8)));
+    char mem[0] ATTRIBUTE_ALIGNED(8);
 };
 
 struct DFAllocator {

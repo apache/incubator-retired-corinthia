@@ -19,7 +19,7 @@
 #include "DFString.h"
 #include "DFCommon.h"
 
-static int zipError(DFError **error, const char *format, ...) __attribute__((format(printf,2,3)));
+static int zipError(DFError **error, const char *format, ...) ATTRIBUTE_FORMAT(printf,2,3);
 
 static int zipError(DFError **error, const char *format, ...)
 {

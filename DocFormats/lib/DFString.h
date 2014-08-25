@@ -37,7 +37,7 @@ char *DFStrDup(const char *str);
 char *DFUpperCase(const char *input);
 char *DFLowerCase(const char *input);
 char *DFVFormatString(const char *format, va_list ap);
-char *DFFormatString(const char *format, ...) __attribute__((format(printf,1,2)));
+char *DFFormatString(const char *format, ...) ATTRIBUTE_FORMAT(printf,1,2);
 const char **DFStringTokenize(const char *str, int (*isseparator)(int c));
 const char **DFStringSplit(const char *str, const char *separator, int lastEmpty);
 const char **DFStringArrayFlatten(DFArray *array);
