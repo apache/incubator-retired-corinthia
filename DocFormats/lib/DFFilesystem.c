@@ -142,6 +142,47 @@ int DFDeleteFile(const char *path, DFError **error)
     return ok;
 }
 
+#ifdef WIN32
+
+static int addContents(const char *absPath, const char *relPath, int recursive, DFArray *array, DFError **error)
+{
+    WIN32_FIND_DATA ffd;
+    HANDLE hFind = INVALID_HANDLE_VALUE;
+    char *pattern = DFFormatString("%s/*",absPath);
+    hFind = FindFirstFile(pattern,&ffd);
+    if (hFind == INVALID_HANDLE_VALUE) {
+        DFErrorSetWin32(error);
+        free(pattern);
+        return 0;
+    }
+
+    int ok = 1;
+    do {
+        if (!strcmp(ffd.cFileName,".") || !strcmp(ffd.cFileName,".."))
+            continue;
+
+        char *absSubPath = DFAppendPathComponent(absPath,ffd.cFileName);
+        char *relSubPath = DFAppendPathComponent(relPath,ffd.cFileName);
+
+        if (relSubPath[0] == '/')
+            DFArrayAppend(array,&relSubPath[1]);
+        else
+            DFArrayAppend(array,relSubPath);
+
+        if (recursive && (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+            ok = addContents(absSubPath,relSubPath,recursive,array,error);
+
+        free(absSubPath);
+        free(relSubPath);
+    } while (ok && (FindNextFile(hFind,&ffd) != 0));
+
+    FindClose(hFind);
+    free(pattern);
+    return ok;
+}
+
+#else
+
 static int addContents(const char *absPath, const char *relPath, int recursive, DFArray *array, DFError **error)
 {
     DIR *dir = opendir(absPath);
@@ -174,6 +215,8 @@ static int addContents(const char *absPath, const char *relPath, int recursive, 
     closedir(dir);
     return ok;
 }
+
+#endif
 
 const char **DFContentsOfDirectory(const char *path, int recursive, DFError **error)
 {
