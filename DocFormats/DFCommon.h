@@ -15,9 +15,10 @@
 #ifndef DocFormats_DFCommon_h
 #define DocFormats_DFCommon_h
 
+#include "DFTypes.h"
+
 #include <assert.h>
 #include <ctype.h>
-#include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <iconv.h>
@@ -30,6 +31,22 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+
+#ifdef WIN32
+#include <io.h>
+#define open _open
+#define creat _creat
+#define read _read
+#define write _write
+#define close _close
+#define snprintf _snprintf
+#define vsnprintf _vsnprintf
+#define strcasecmp _stricmp
+#define strncasecmp _strnicmp
+#define strdup _strdup
+#else // not WIN32
+#include <dirent.h>
 #include <unistd.h>
+#endif
 
 #endif
