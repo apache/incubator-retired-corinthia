@@ -51,7 +51,7 @@ static void DFArrayBuilderAllocate(DFArrayBuilder *builder)
     int pointerBytes = (builder->pointerIndex + 1)*sizeof(char *);
     void *mem = malloc(pointerBytes + builder->storageIndex);
     builder->pointers = mem;
-    builder->storage = mem + pointerBytes;
+    builder->storage = (char *)mem + pointerBytes;
 }
 
 static void DFArrayBuilderFinish(DFArrayBuilder *builder)
@@ -325,7 +325,7 @@ char *DFUpperCase(const char *input)
 
     size_t len = strlen(input);
     char *result = strdup(input);
-    for (int i = 0; i < len; i++) {
+    for (size_t i = 0; i < len; i++) {
         // Avoid calling toupper with chars from UTF-8 multibyte sequences
         if ((result[i] >= 'a') && result[i] <= 'z')
             result[i] = toupper(result[i]);
@@ -341,7 +341,7 @@ char *DFLowerCase(const char *input)
 
     size_t len = strlen(input);
     char *result = strdup(input);
-    for (int i = 0; i < len; i++) {
+    for (size_t i = 0; i < len; i++) {
         // Avoid calling tolower with chars from UTF-8 multibyte sequences
         if ((result[i] >= 'A') && result[i] <= 'Z')
             result[i] = tolower(result[i]);
@@ -704,13 +704,13 @@ static int countStrings(const char **strings)
 void DFSortStringsCaseSensitive(const char **strings)
 {
     int count = countStrings(strings);
-    qsort(strings,count,sizeof(const char *),cscompare);
+    qsort((void *)strings,count,sizeof(const char *),cscompare);
 }
 
 void DFSortStringsCaseInsensitive(const char **strings)
 {
     int count = countStrings(strings);
-    qsort(strings,count,sizeof(const char *),cicompare);
+    qsort((void *)strings,count,sizeof(const char *),cicompare);
 }
 
 char *DFStringReadFromFile(const char *filename, DFError **error)

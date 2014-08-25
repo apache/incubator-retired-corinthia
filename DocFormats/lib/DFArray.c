@@ -93,18 +93,18 @@ void DFArraySort(DFArray *array, void *thunk, int (*compar)(void *, const void *
     DFSort(array->items,array->count,sizeof(void *),thunk,compar);
 }
 
-static void DFSortInternal(void *base, size_t nel, size_t width,
+static void DFSortInternal(char *base, size_t nel, size_t width,
                            void *thunk, int (*compar)(void *, const void *, const void *),
-                           void *work)
+                           char *work)
 {
     if (nel < 2) {
         return;
     }
 
     size_t mid = nel/2;
-    void *base1 = base;
+    char *base1 = base;
     size_t nel1 = mid;
-    void *base2 = base + nel1*width;
+    char *base2 = base + nel1*width;
     size_t nel2 = nel - mid;
 
     DFSortInternal(base1,nel1,width,thunk,compar,work);

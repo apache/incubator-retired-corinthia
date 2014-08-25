@@ -127,7 +127,7 @@ const char **DFHashTableCopyKeys(DFHashTable *table)
 
     void *mem = malloc(numBytes);
     char **pointers = mem;
-    char *storage = mem + (count+1)*sizeof(char *);
+    char *storage = (char *)mem + (count+1)*sizeof(char *);
 
     size_t index = 0;
     for (DFHashCode bin = 0; bin < table->binsCount; bin++) {
@@ -141,7 +141,7 @@ const char **DFHashTableCopyKeys(DFHashTable *table)
         }
     }
     assert(index == count);
-    assert(storage == mem + numBytes);
+    assert(storage == (char *)mem + numBytes);
     pointers[index++] = NULL;
     return (const char **)pointers;
 }

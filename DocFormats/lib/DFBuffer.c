@@ -118,7 +118,7 @@ DFBuffer *DFBufferReadFromFile(const char *filename, DFError **error)
         return NULL;
     }
     DFBuffer *buf = DFBufferNew();
-    ssize_t r;
+    long r;
     char temp[1024];
     while (0 < (r = read(fd,temp,1024)))
         DFBufferAppendData(buf,temp,r);
