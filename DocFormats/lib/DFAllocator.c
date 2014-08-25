@@ -56,7 +56,7 @@ void *DFAllocatorAlloc(DFAllocator *alc, size_t size)
     size_t remainder = size % 8;
     if (remainder != 0)
         size += (8 - remainder);
-    DFAllocatorBlock *block = alc->blocks;
+    struct DFAllocatorBlock *block = alc->blocks;
     if (size > block->size - block->used) {
         size_t newSize = block->size*2;
         while (size > newSize)

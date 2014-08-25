@@ -182,8 +182,10 @@ int DFStringHasPrefix(const char *str, const char *prefix)
 
 int DFStringHasSuffix(const char *str, const char *suffix)
 {
-    if ((str == NULL) || (suffix == NULL))
+    if ((str == NULL) || (suffix == NULL)) {
         return 0;
+    }
+
     size_t slen = strlen(str);
     size_t suffixlen = strlen(suffix);
     if (slen < suffixlen)
@@ -249,8 +251,9 @@ char *DFStringTrimLeadingWhitespace(const char *str)
 
 char *DFStringNormalizeWhitespace(const char *input)
 {
-    if (input == NULL)
+    if (input == NULL) {
         return NULL;
+    }
 
     size_t inputLen = strlen(input);
     size_t outputLen = 0;
@@ -316,8 +319,10 @@ char *DFStrDup(const char *str)
 
 char *DFUpperCase(const char *input)
 {
-    if (input == NULL)
+    if (input == NULL) {
         return NULL;
+    }
+
     size_t len = strlen(input);
     char *result = strdup(input);
     for (int i = 0; i < len; i++) {
@@ -330,8 +335,10 @@ char *DFUpperCase(const char *input)
 
 char *DFLowerCase(const char *input)
 {
-    if (input == NULL)
+    if (input == NULL) {
         return NULL;
+    }
+
     size_t len = strlen(input);
     char *result = strdup(input);
     for (int i = 0; i < len; i++) {
@@ -387,8 +394,9 @@ static void DFStringTokenizeInternal(const char *str, int (*isseparator)(int c),
 
 const char **DFStringTokenize(const char *str, int (*isseparator)(int c))
 {
-    if (isseparator == NULL)
+    if (isseparator == NULL) {
         isseparator = isspace;
+    }
 
     DFArrayBuilder builder = DFArrayBuilderEmpty;
 
@@ -485,7 +493,7 @@ char *DFStringReplace(const char *input, const char *match, const char *replacem
     if (matchLen == 0)
         return strdup(input); // protect against infinite loop
 
-    DFBuffer *output = DFBufferNew();
+    struct DFBuffer *output = DFBufferNew();
 
     size_t i = 0;
     while (i < inputLen) {
@@ -506,8 +514,9 @@ char *DFStringReplace(const char *input, const char *match, const char *replacem
 
 char *DFQuote(const char *in)
 {
-    if (in == NULL)
+    if (in == NULL) {
         return NULL;
+    }
 
     // The maximum length of the quoted string is 2n + 2, where n is the number of characters in
     // the original string. This is because each character could potentially need a two-character
@@ -722,8 +731,9 @@ int DFStringWriteToFile(const char *str, const char *filename, DFError **error)
 
 size_t DFUTF32Length(const uint32_t *str)
 {
-    if (str == NULL)
+    if (str == NULL) {
         return 0;
+    }
 
     size_t size = 0;
     while (str[size] != 0)
@@ -733,8 +743,9 @@ size_t DFUTF32Length(const uint32_t *str)
 
 uint32_t *DFUTF8To32(const char *input)
 {
-    if (input == NULL)
+    if (input == NULL) {
         return NULL;
+    }
 
     size_t inpos = 0;
     size_t outlen = 0;
@@ -814,8 +825,9 @@ static size_t DFUTF32to8n(const uint32_t *input, char *soutput)
 
 char *DFUTF32to8(const uint32_t *input)
 {
-    if (input == NULL)
+    if (input == NULL) {
         return NULL;
+    }
 
     size_t outlen = DFUTF32to8n(input,NULL);
     char *output = (char *)malloc(outlen+1);

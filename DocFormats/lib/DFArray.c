@@ -97,8 +97,9 @@ static void DFSortInternal(void *base, size_t nel, size_t width,
                            void *thunk, int (*compar)(void *, const void *, const void *),
                            void *work)
 {
-    if (nel < 2)
+    if (nel < 2) {
         return;
+    }
 
     size_t mid = nel/2;
     void *base1 = base;

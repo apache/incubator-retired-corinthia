@@ -84,8 +84,10 @@ void DFBufferAppendChar(DFBuffer *buf, char ch)
 
 void DFBufferVFormat(DFBuffer *buf, const char *format, va_list ap)
 {
-    if (buf == NULL)
+    if (buf == NULL) {
         return;
+    }
+
     va_list ap2;
     va_copy(ap2,ap);
     size_t nchars = vsnprintf(NULL,0,format,ap2);

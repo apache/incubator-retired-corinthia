@@ -185,8 +185,9 @@ void *DFHashTableLookup(DFHashTable *table, const char *key)
 void DFHashTableAdd(DFHashTable *table, const char *key, const void *constValue)
 {
     void *value = (void *)constValue;
-    if (table->copy != NULL)
+    if (table->copy != NULL) {
         value = table->copy(value);
+    }
 
     DFHashCode hash = DFHashString(key);
     DFHashEntry **ptr = DFHashTableLookupEntry(table,key,hash);

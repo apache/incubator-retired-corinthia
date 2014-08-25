@@ -27,8 +27,9 @@ void DFErrorSetPosix(DFError **error, int code)
 
 void DFErrorVFormat(DFError **error, const char *format, va_list ap)
 {
-    if (error == NULL)
+    if (error == NULL) {
         return;
+    }
 
     va_list ap2;
     va_copy(ap2,ap);
