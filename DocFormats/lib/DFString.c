@@ -348,13 +348,13 @@ char *DFVFormatString(const char *format, va_list ap)
     va_list ap2;
     va_copy(ap2,ap);
     size_t nchars = vsnprintf(NULL,0,format,ap2);
-    va_end(ap);
+    va_end(ap2);
 
     char *result = (char *)malloc(nchars+1);
 
     va_copy(ap2,ap);
     vsnprintf(result,nchars+1,format,ap2);
-    va_end(ap);
+    va_end(ap2);
 
     return result;
 }

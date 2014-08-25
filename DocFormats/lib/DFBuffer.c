@@ -89,13 +89,13 @@ void DFBufferVFormat(DFBuffer *buf, const char *format, va_list ap)
     va_list ap2;
     va_copy(ap2,ap);
     size_t nchars = vsnprintf(NULL,0,format,ap2);
-    va_end(ap);
+    va_end(ap2);
 
     DFStringBufferEnsureSpace(buf,nchars);
 
     va_copy(ap2,ap);
     vsnprintf(&buf->data[buf->len],nchars+1,format,ap2);
-    va_end(ap);
+    va_end(ap2);
 
     buf->len += nchars;
 }
