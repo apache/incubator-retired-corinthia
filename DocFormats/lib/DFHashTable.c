@@ -236,7 +236,7 @@ void DFHashTableAddInt(DFHashTable *table, int key, void *value)
 {
     char strkey[40];
     snprintf(strkey,40,"%d",key);
-    return DFHashTableAdd(table,strkey,value);
+    DFHashTableAdd(table,strkey,value);
 }
 
 void DFHashTableRemoveInt(DFHashTable *table, int key)
