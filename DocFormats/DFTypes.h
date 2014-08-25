@@ -25,6 +25,7 @@
 
 #ifdef WIN32
 #define _CRT_SECURE_NO_WARNINGS
+#include <windows.h>
 #endif
 
 #include <sys/types.h>
