@@ -19,19 +19,19 @@
 
 // http://en.wikipedia.org/wiki/Jenkins_hash_function
 
-#define DFHashBegin(__hc) ({ (__hc) = 0; })
+#define DFHashBegin(__hc) { (__hc) = 0; }
 
-#define DFHashUpdate(__hc,__value) ({ \
+#define DFHashUpdate(__hc,__value) { \
     (__hc) += (__value);              \
     (__hc) += ((__hc) << 10);         \
     (__hc) ^= ((__hc) >> 6);          \
-})
+}
 
-#define DFHashEnd(__hc) ({            \
+#define DFHashEnd(__hc) {            \
   (__hc) += ((__hc) << 3);            \
   (__hc) ^= ((__hc) >> 11);           \
   (__hc) += ((__hc) << 15);           \
-})
+}
 
 typedef uint32_t DFHashCode;
 typedef struct DFHashTable DFHashTable;
