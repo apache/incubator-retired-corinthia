@@ -70,7 +70,7 @@ static void addDeclToRecord(MCRecord *record, NamespaceID nsId, Tag tag, MCActio
     record->decls[record->count-1].action = action;
 }
 
-void DFMarkupCompatibilityPush(DFMarkupCompatibility *mc, int nb_namespaces, const xmlChar **namespaces, DFNameMap *map)
+void DFMarkupCompatibilityPush(DFMarkupCompatibility *mc, int nb_namespaces, const char **namespaces, DFNameMap *map)
 {
     mc->depth++;
     if (mc->depth < MAX_DEPTH) {
@@ -79,8 +79,8 @@ void DFMarkupCompatibilityPush(DFMarkupCompatibility *mc, int nb_namespaces, con
         if (nb_namespaces > 0) {
             record->namespaces = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
             for (int i = 0; i < nb_namespaces; i++) {
-                const xmlChar *nsPrefix = namespaces[i*2];
-                const xmlChar *nsURI = namespaces[i*2+1];
+                const char *nsPrefix = namespaces[i*2];
+                const char *nsURI = namespaces[i*2+1];
                 NamespaceID nsId = DFNameMapFoundNamespace(map,nsURI,nsPrefix);
                 char nsIdStr[20];
                 snprintf(nsIdStr,20,"%u",nsId);
@@ -167,7 +167,7 @@ void DFMarkupCompatibilityProcessAttr(DFMarkupCompatibility *mc, Tag attr, const
             const NamespaceDecl *nsDecl = DFNameMapNamespaceForID(map,nsId);
 
             if (localName != NULL)
-                tag = DFNameMapTagForName(map,(xmlChar *)nsDecl->namespaceURI,(xmlChar *)localName);
+                tag = DFNameMapTagForName(map,nsDecl->namespaceURI,localName);
 
             switch (attr) {
                 case MC_IGNORABLE:

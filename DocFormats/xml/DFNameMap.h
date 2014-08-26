@@ -17,7 +17,6 @@
 
 #include "DFXMLNamespaces.h"
 #include "DFXMLNames.h"
-#include <libxml/xmlstring.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
@@ -31,14 +30,14 @@ typedef struct DFNameMap DFNameMap;
 DFNameMap *DFNameMapNew(void);
 void DFNameMapFree(DFNameMap *map);
 
-NamespaceID  DFNameMapFoundNamespace(DFNameMap *map, const xmlChar *URI, const xmlChar *prefix);
+NamespaceID  DFNameMapFoundNamespace(DFNameMap *map, const char *URI, const char *prefix);
 const NamespaceDecl *DFNameMapNamespaceForID(DFNameMap *map, NamespaceID nsId);
 NamespaceID DFNameMapNamespaceCount(DFNameMap *map);
 
 const TagDecl *DFNameMapNameForTag(DFNameMap *map, Tag tag);
-Tag DFNameMapTagForName(DFNameMap *map, const xmlChar *URI, const xmlChar *localName);
+Tag DFNameMapTagForName(DFNameMap *map, const char *URI, const char *localName);
 
 const TagDecl *DFBuiltinMapNameForTag(Tag tag);
-Tag DFBuiltinMapTagForName(const xmlChar *URI, const xmlChar *localName);
+Tag DFBuiltinMapTagForName(const char *URI, const char *localName);
 
 #endif

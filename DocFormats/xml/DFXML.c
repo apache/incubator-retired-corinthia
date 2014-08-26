@@ -93,10 +93,10 @@ static void SAXStartElementNS(void *ctx, const xmlChar *localname,
     for (int i = 0; i < nb_namespaces; i++) {
         const xmlChar *nsPrefix = namespaces[i*2];
         const xmlChar *nsURI = namespaces[i*2+1];
-        DFNameMapFoundNamespace(parser->document->map,nsURI,nsPrefix);
+        DFNameMapFoundNamespace(parser->document->map,(const char *)nsURI,(const char *)nsPrefix);
     }
 
-    Tag tag = DFNameMapTagForName(parser->document->map,URI,localname);
+    Tag tag = DFNameMapTagForName(parser->document->map,(const char *)URI,(const char *)localname);
 
     if (parser->compatibility != NULL) {
         const TagDecl *tagDecl = DFNameMapNameForTag(parser->document->map,tag);
@@ -108,7 +108,7 @@ static void SAXStartElementNS(void *ctx, const xmlChar *localname,
     }
 
     if (parser->compatibility != NULL) {
-        DFMarkupCompatibilityPush(parser->compatibility,nb_namespaces,namespaces,parser->document->map);
+        DFMarkupCompatibilityPush(parser->compatibility,nb_namespaces,(const char **)namespaces,parser->document->map);
     }
 
     DFNode *element = DFCreateElement(parser->document,tag);
@@ -119,7 +119,7 @@ static void SAXStartElementNS(void *ctx, const xmlChar *localname,
         const xmlChar *attrValueEnd = attributes[i*5+4];
         unsigned long attrValueLen = attrValueEnd - attrValueStart;
 
-        Tag attrTag = DFNameMapTagForName(parser->document->map,attrURI,attrLocalName);
+        Tag attrTag = DFNameMapTagForName(parser->document->map,(const char *)attrURI,(const char *)attrLocalName);
         const TagDecl *attrTagDecl = DFNameMapNameForTag(parser->document->map,attrTag);
         char *attrValue = (char *)malloc(attrValueLen+1);
         memcpy(attrValue,attrValueStart,attrValueLen);
@@ -175,13 +175,13 @@ static void SAXStartElement(void *ctx, const xmlChar *fullname, const xmlChar **
 {
     DFSAXParser *parser = (DFSAXParser *)ctx;
     const NamespaceDecl *namespaceDecl = DFNameMapNamespaceForID(parser->document->map,NAMESPACE_HTML);
-    Tag tag = DFNameMapTagForName(parser->document->map,(xmlChar *)namespaceDecl->namespaceURI,fullname);
+    Tag tag = DFNameMapTagForName(parser->document->map,namespaceDecl->namespaceURI,(const char *)fullname);
     DFNode *element = DFCreateElement(parser->document,tag);
     if (atts != NULL) {
         for (int i = 0; atts[i] != NULL; i += 2) {
             const xmlChar *name = atts[i];
             const xmlChar *value = atts[i+1];
-            Tag attrTag = DFNameMapTagForName(parser->document->map,(xmlChar *)namespaceDecl->namespaceURI,name);
+            Tag attrTag = DFNameMapTagForName(parser->document->map,namespaceDecl->namespaceURI,(const char *)name);
             DFSetAttribute(element,attrTag,(const char *)value);
         }
     }

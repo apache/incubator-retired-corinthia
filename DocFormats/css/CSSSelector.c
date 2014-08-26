@@ -80,7 +80,7 @@ Tag CSSSelectorGetTag(const char *selector)
     if (selector == NULL)
         return 0;
     char *elementName = CSSSelectorCopyElementName(selector);
-    Tag tag = DFBuiltinMapTagForName((xmlChar *)"http://www.w3.org/1999/xhtml",(xmlChar *)elementName);
+    Tag tag = DFBuiltinMapTagForName("http://www.w3.org/1999/xhtml",elementName);
     free(elementName);
     return tag;
 }

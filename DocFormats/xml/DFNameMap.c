@@ -29,8 +29,8 @@ static void NameMap_staticInit();
 #define HASH_TABLE_SIZE 983
 
 typedef struct DFNameEntry {
-    xmlChar *name;
-    xmlChar *URI;
+    char *name;
+    char *URI;
     Tag tag;
     unsigned int namespaceID;
     TagDecl tagDecl;
@@ -41,7 +41,7 @@ typedef struct DFNameHashTable {
     DFNameEntry *bins[HASH_TABLE_SIZE];
 } DFNameHashTable;
 
-static uint32_t DFNameHashTableHash(const xmlChar *name, const xmlChar *URI)
+static uint32_t DFNameHashTableHash(const char *name, const char *URI)
 {
     DFHashCode hash;
     DFHashBegin(hash);
@@ -54,27 +54,27 @@ static uint32_t DFNameHashTableHash(const xmlChar *name, const xmlChar *URI)
     return hash;
 }
 
-static const DFNameEntry *DFNameHashTableGet(DFNameHashTable *table, const xmlChar *name, const xmlChar *URI)
+static const DFNameEntry *DFNameHashTableGet(DFNameHashTable *table, const char *name, const char *URI)
 {
     if (URI == NULL)
-        URI = (const xmlChar *)"";
+        URI = "";
     uint32_t hash = DFNameHashTableHash(name,URI)%HASH_TABLE_SIZE;
     for (DFNameEntry *entry = table->bins[hash]; entry != NULL; entry = entry->next) {
-        if (!xmlStrcmp(name,entry->name) && !xmlStrcmp(URI,entry->URI))
+        if (!strcmp(name,entry->name) && !strcmp(URI,entry->URI))
             return entry;
     }
     return 0;
 }
 
-static void DFNameHashTableAdd(DFNameHashTable *table, const xmlChar *name, const xmlChar *URI,
+static void DFNameHashTableAdd(DFNameHashTable *table, const char *name, const char *URI,
                                Tag tag, unsigned int namespaceID)
 {
     if (URI == NULL)
-        URI = (const xmlChar *)"";
+        URI = "";
     uint32_t hash = DFNameHashTableHash(name,URI)%HASH_TABLE_SIZE;
     DFNameEntry *entry = (DFNameEntry *)malloc(sizeof(DFNameEntry));
-    entry->name = xmlStrdup(name);
-    entry->URI = xmlStrdup(URI);
+    entry->name = strdup(name);
+    entry->URI = strdup(URI);
     entry->tag = tag;
     entry->tagDecl.namespaceID = namespaceID;
     entry->tagDecl.localName = (const char *)entry->name;
@@ -115,13 +115,13 @@ struct DFNamespaceInfo {
     NamespaceDecl *decl;
 };
 
-DFNamespaceInfo *DFNamespaceInfoNew(NamespaceID nsId, const xmlChar *URI, const xmlChar *prefix)
+DFNamespaceInfo *DFNamespaceInfoNew(NamespaceID nsId, const char *URI, const char *prefix)
 {
     DFNamespaceInfo *info = (DFNamespaceInfo *)calloc(1,sizeof(DFNamespaceInfo));
     info->nsId = nsId;
     info->decl = (NamespaceDecl *)malloc(sizeof(NamespaceDecl));
-    info->decl->namespaceURI = (char *)xmlStrdup(URI);
-    info->decl->prefix = (char *)xmlStrdup(prefix);
+    info->decl->namespaceURI = strdup(URI);
+    info->decl->prefix = strdup(prefix);
     return info;
 }
 
@@ -146,13 +146,13 @@ struct DFTagInfo {
     TagDecl *decl;
 };
 
-DFTagInfo *DFTagInfoNew(Tag tag, NamespaceID nsId, const xmlChar *localName)
+DFTagInfo *DFTagInfoNew(Tag tag, NamespaceID nsId, const char *localName)
 {
     DFTagInfo *info = (DFTagInfo *)calloc(1,sizeof(DFTagInfo));
     info->tag = tag;
     info->decl = (TagDecl *)malloc(sizeof(TagDecl));
     info->decl->namespaceID = nsId;
-    info->decl->localName = (char *)xmlStrdup(localName);
+    info->decl->localName = strdup(localName);
     return info;
 }
 
@@ -172,7 +172,7 @@ void DFTagInfoFree(DFTagInfo *info)
 DFHashTable *defaultNamespacesByURI = NULL;
 DFNameHashTable *defaultTagsByNameURI = NULL;
 
-static void DFNameMapAddNamespace(DFNameMap *map, NamespaceID nsId, const xmlChar *URI, const xmlChar *prefix);
+static void DFNameMapAddNamespace(DFNameMap *map, NamespaceID nsId, const char *URI, const char *prefix);
 
 
 struct DFNameMap {
@@ -208,7 +208,7 @@ void DFNameMapFree(DFNameMap *map)
     free(map);
 }
 
-static NamespaceID NameMap_namespaceIDForURI(DFNameMap *map, const xmlChar *URI)
+static NamespaceID NameMap_namespaceIDForURI(DFNameMap *map, const char *URI)
 {
     if (URI == NULL)
         return NAMESPACE_NULL;
@@ -220,7 +220,7 @@ static NamespaceID NameMap_namespaceIDForURI(DFNameMap *map, const xmlChar *URI)
     return ns->nsId;
 }
 
-static void DFNameMapAddNamespace(DFNameMap *map, NamespaceID nsId, const xmlChar *URI, const xmlChar *prefix)
+static void DFNameMapAddNamespace(DFNameMap *map, NamespaceID nsId, const char *URI, const char *prefix)
 {
     assert(DFHashTableLookup(defaultNamespacesByURI,(const char *)URI) == NULL);
     assert(DFHashTableLookup(map->namespacesByURI,(const char *)URI) == NULL);
@@ -231,7 +231,7 @@ static void DFNameMapAddNamespace(DFNameMap *map, NamespaceID nsId, const xmlCha
     DFHashTableAdd(map->namespacesByURI,(const char *)URI,ns);
 }
 
-NamespaceID DFNameMapFoundNamespace(DFNameMap *map, const xmlChar *URI, const xmlChar *prefix)
+NamespaceID DFNameMapFoundNamespace(DFNameMap *map, const char *URI, const char *prefix)
 {
     DFNamespaceInfo *existing;
     existing = DFHashTableLookup(defaultNamespacesByURI,(const char *)URI);
@@ -268,7 +268,7 @@ const TagDecl *DFNameMapNameForTag(DFNameMap *map, Tag tag)
     return info->decl;
 }
 
-Tag DFNameMapTagForName(DFNameMap *map, const xmlChar *URI, const xmlChar *localName)
+Tag DFNameMapTagForName(DFNameMap *map, const char *URI, const char *localName)
 {
     const DFNameEntry *entry = DFNameHashTableGet(defaultTagsByNameURI,localName,URI);
     if (entry == NULL)
@@ -298,15 +298,15 @@ static void NameMap_staticInit()
 
         const char *key = (const char *)decl->namespaceURI;
         assert(DFHashTableLookup(defaultNamespacesByURI,key) == NULL);
-        DFNamespaceInfo *ns = DFNamespaceInfoNew(nsId,(xmlChar *)decl->namespaceURI,(xmlChar *)decl->prefix);
+        DFNamespaceInfo *ns = DFNamespaceInfoNew(nsId,decl->namespaceURI,decl->prefix);
         DFHashTableAdd(defaultNamespacesByURI,key,ns);
     }
     for (Tag tag = MIN_ELEMENT_TAG; tag < PREDEFINED_TAG_COUNT; tag++) {
         const TagDecl *tagDecl = &PredefinedTags[tag];
         const NamespaceDecl *nsDecl = &PredefinedNamespaces[tagDecl->namespaceID];
         DFNameHashTableAdd(defaultTagsByNameURI,
-                          (xmlChar *)tagDecl->localName,
-                          (xmlChar *)nsDecl->namespaceURI,
+                          tagDecl->localName,
+                          nsDecl->namespaceURI,
                           tag,
                           tagDecl->namespaceID);
     }
@@ -331,7 +331,7 @@ const TagDecl *DFBuiltinMapNameForTag(Tag tag)
     return DFNameMapNameForTag(BuiltinMapGet(),tag);
 }
 
-Tag DFBuiltinMapTagForName(const xmlChar *URI, const xmlChar *localName)
+Tag DFBuiltinMapTagForName(const char *URI, const char *localName)
 {
     return DFNameMapTagForName(BuiltinMapGet(),URI,localName);
 }

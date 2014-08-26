@@ -55,7 +55,7 @@ DFNode *fromTidyNode(DFDocument *htmlDoc, TidyDoc tdoc, TidyNode tnode)
                 return NULL;
             }
             const NamespaceDecl *namespaceDecl = DFNameMapNamespaceForID(htmlDoc->map,NAMESPACE_HTML);
-            Tag tag = DFNameMapTagForName(htmlDoc->map,(xmlChar *)namespaceDecl->namespaceURI,(xmlChar *)name);
+            Tag tag = DFNameMapTagForName(htmlDoc->map,namespaceDecl->namespaceURI,name);
             DFNode *element = DFCreateElement(htmlDoc,tag);
 
             for (TidyAttr tattr = tidyAttrFirst(tnode); tattr != NULL; tattr = tidyAttrNext(tattr)) {
@@ -63,7 +63,7 @@ DFNode *fromTidyNode(DFDocument *htmlDoc, TidyDoc tdoc, TidyNode tnode)
                 const char *value = tidyAttrValue(tattr);
                 if (value == NULL) // Can happen in case of the empty string
                     value = "";
-                Tag attrTag = DFNameMapTagForName(htmlDoc->map,(xmlChar *)namespaceDecl->namespaceURI,(xmlChar *)name);
+                Tag attrTag = DFNameMapTagForName(htmlDoc->map,namespaceDecl->namespaceURI,name);
                 DFSetAttribute(element,attrTag,value);
             }
 

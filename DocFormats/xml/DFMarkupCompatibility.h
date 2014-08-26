@@ -36,7 +36,7 @@ typedef struct DFMarkupCompatibility DFMarkupCompatibility;
 
 DFMarkupCompatibility *DFMarkupCompatibilityNew(void);
 void DFMarkupCompatibilityFree(DFMarkupCompatibility *mc);
-void DFMarkupCompatibilityPush(DFMarkupCompatibility *mc, int nb_namespaces, const xmlChar **namespaces, DFNameMap *map);
+void DFMarkupCompatibilityPush(DFMarkupCompatibility *mc, int nb_namespaces, const char **namespaces, DFNameMap *map);
 void DFMarkupCompatibilityPop(DFMarkupCompatibility *mc);
 MCAction DFMarkupCompatibilityLookup(DFMarkupCompatibility *mc, NamespaceID nsId, Tag tag, int isElement);
 void DFMarkupCompatibilityProcessAttr(DFMarkupCompatibility *mc, Tag attr, const char *value, DFNameMap *map);

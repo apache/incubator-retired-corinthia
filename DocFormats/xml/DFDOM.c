@@ -420,7 +420,7 @@ DFNode *DFNextNode(DFNode *node)
 
 Tag DFLookupTag(DFDocument *doc, const char *URI, const char *name)
 {
-    return DFNameMapTagForName(doc->map,(const xmlChar *)URI,(const xmlChar *)name);
+    return DFNameMapTagForName(doc->map,URI,name);
 }
 
 const char *DFTagName(DFDocument *doc, Tag tag)
