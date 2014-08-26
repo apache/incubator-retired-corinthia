@@ -45,7 +45,6 @@ void HTML_safeIndent(DFNode *node, int depth);
 void HTMLBreakBDTRefs(DFNode *node, const char *idPrefix);
 CSSSize HTML_getImageDimensions(DFNode *img);
 
-int isHexChar(unsigned short c);
 int isRRGGBB(const char *str);
 int isHashRRGGBB(const char *str);
 

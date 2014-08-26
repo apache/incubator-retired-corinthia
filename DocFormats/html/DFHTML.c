@@ -25,6 +25,7 @@
 #include "DFNameMap.h"
 #include "DFXML.h"
 #include "DFString.h"
+#include "DFCharacterSet.h"
 #include "DFCommon.h"
 
 static DFNode *HTML_findHead(DFDocument *doc)
@@ -351,13 +352,6 @@ CSSSize HTML_getImageDimensions(DFNode *img)
     return dimensions;
 }
 
-int isHexChar(uint16_t c)
-{
-    return (((c >= '0') && (c <= '9')) ||
-            ((c >= 'a') && (c <= 'f')) ||
-            ((c >= 'A') && (c <= 'F')));
-}
-
 int isRRGGBB(const char *str)
 {
     if (str == NULL)
@@ -368,7 +362,7 @@ int isRRGGBB(const char *str)
         return 0;
 
     for (size_t i = 0; i < len; i++) {
-        if (!isHexChar(str[i]))
+        if (!DFCharIsHex(str[i]))
             return 0;
     }
 

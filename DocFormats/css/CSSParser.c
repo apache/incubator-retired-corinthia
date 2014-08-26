@@ -16,6 +16,7 @@
 #include "CSS.h"
 #include "DFHTML.h"
 #include "DFString.h"
+#include "DFCharacterSet.h"
 #include "DFCommon.h"
 
 static int matchPast(CSSParser *p, uint16_t endChar, int *invalid);
@@ -82,7 +83,7 @@ static int matchEscape(CSSParser *p)
     if (match(p,'\\')) {
         int hexCount = 0;
         for (; hexCount < 6; hexCount++) {
-            if ((p->pos < p->length) && isHexChar(p->chars[p->pos])) {
+            if ((p->pos < p->length) && DFCharIsHex(p->chars[p->pos])) {
                 hexCount++;
                 p->pos++;
             }
