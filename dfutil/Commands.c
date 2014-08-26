@@ -37,7 +37,7 @@
 static DFBuffer *readData(const char *filename, DFError **error)
 {
     if ((filename == NULL) || !strcmp(filename,"-"))
-        filename = "/dev/stdin";
+        filename = "/dev/stdin";;
     DFBuffer *buffer = DFBufferReadFromFile(filename,error);
     if (buffer == NULL) {
         DFErrorFormat(error,"%s: %s",filename,DFErrorMessage(error));
@@ -102,7 +102,7 @@ static int prettyPrintWordFile(const char *filename, DFError **error)
 {
     char *tempPath = createTempDir(error);
     if (tempPath == NULL)
-        return 0;
+        return 0;;
     WordPackage *package = WordPackageNew(tempPath);
     int ok = WordPackageOpenFrom(package,filename,error);
     if (ok) {
@@ -427,7 +427,7 @@ int simplifyFields(const char *inFilename, const char *outFilename, DFError **er
 
     char *tempPath = createTempDir(error);
     if (tempPath == NULL)
-        return 0;
+        return 0;;
 
     WordPackage *package = WordPackageNew(tempPath);
     if (!WordPackageOpenFrom(package,inFilename,error)) {
@@ -621,7 +621,7 @@ int stobFile(const char *inFilename, const char *outFilename, DFError **error)
 {
     char *str = readString(inFilename,error);
     if (str == NULL)
-        return 0;
+        return 0;;
     DFBuffer *bin = stringToBinary(str);
     int ok = writeData(bin,outFilename,error);
     DFBufferRelease(bin);

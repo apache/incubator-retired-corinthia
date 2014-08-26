@@ -158,7 +158,7 @@ const char **CSSStyleCopySuffixes(CSSStyle *style)
 CSSProperties *CSSStyleRuleForSuffix(CSSStyle *style, const char *suffix)
 {
     if (style == NULL)
-        return NULL;
+        return NULL;;
 
     CSSProperties *result = DFHashTableLookup(style->rules,suffix);
     if (result == NULL) {

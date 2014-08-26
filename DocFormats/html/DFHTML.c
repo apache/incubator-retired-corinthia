@@ -46,7 +46,7 @@ void HTMLAddExternalStyleSheet(DFDocument *doc, const char *href)
 {
     DFNode *head = HTML_findHead(doc);
     if (head == NULL)
-        return;
+        return;;
     DFNode *link = DFCreateElement(doc,HTML_LINK);
     DFSetAttribute(link,HTML_REL,"stylesheet");
     DFSetAttribute(link,HTML_HREF,href);
@@ -57,7 +57,7 @@ void HTMLAddInternalStyleSheet(DFDocument *doc, const char *cssText)
 {
     DFNode *head = HTML_findHead(doc);
     if (head == NULL)
-        return;
+        return;;
     DFNode *style = DFCreateElement(doc,HTML_STYLE);
     DFAppendChild(style,DFCreateTextNode(doc,cssText));
     DFAppendChild(head,style);
@@ -67,7 +67,7 @@ char *HTMLCopyCSSText(DFDocument *doc)
 {
     DFNode *head = DFChildWithTag(doc->root,HTML_HEAD);
     if (head == NULL)
-        return strdup("");
+        return strdup("");;
     DFNode *style = DFChildWithTag(head,HTML_STYLE);
     if (style == NULL)
         return strdup("");
@@ -355,7 +355,7 @@ CSSSize HTML_getImageDimensions(DFNode *img)
 int isRRGGBB(const char *str)
 {
     if (str == NULL)
-        return 0;
+        return 0;;
 
     size_t len = strlen(str);
     if (len != 6)
@@ -384,7 +384,7 @@ DFDocument *DFParseHTMLString(const char *str, int removeSpecial, DFError **erro
         return NULL;
     }
     if (removeSpecial)
-        DFHTDocumentRemoveUXWriteSpecial(htdoc);
+        DFHTDocumentRemoveUXWriteSpecial(htdoc);;
     DFDocument *doc = DFDocumentNew();
     DFNode *root = fromTidyNode(doc,htdoc->doc,tidyGetHtml(htdoc->doc));
     if (root == NULL) {
@@ -417,7 +417,7 @@ DFDocument *DFParseHTMLFile(const char *filename, int removeSpecial, DFError **e
 {
     DFBuffer *buf = DFBufferReadFromFile(filename,error);
     if (buf == NULL)
-        return NULL;
+        return NULL;;
     DFDocument *doc = DFParseHTMLString(buf->data,removeSpecial,error);
     DFBufferRelease(buf);
     return doc;

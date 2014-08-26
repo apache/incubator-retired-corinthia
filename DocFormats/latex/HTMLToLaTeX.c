@@ -229,7 +229,7 @@ static void inlineToLaTeX(LaTeXConverter *conv, DFBuffer *output, DFNode *node)
             }
 
             if (texWidth == NULL)
-                texWidth = strdup("");
+                texWidth = strdup("");;
 
             const char *src = DFGetAttribute(node,HTML_SRC);
             if (src != NULL) {
@@ -580,7 +580,7 @@ static void addTitle(LaTeXConverter *conv, DFBuffer *output)
 
     DFNode *body = DFChildWithTag(conv->htmlDoc->root,HTML_BODY);
     if (body == NULL)
-        return;
+        return;;
 
     DFNode *child = body->first;
     DFNode *next;
@@ -635,7 +635,7 @@ char *HTMLToLaTeX(DFDocument *htmlDoc)
 
     DFBuffer *documentOutput = DFBufferNew();
     if (body != NULL)
-        containerChildrenToLaTeX(conv,documentOutput,body);
+        containerChildrenToLaTeX(conv,documentOutput,body);;
 
     // We build the preamble *after* the content, as the process of going through the document
     // will produce a list of packages that must be included

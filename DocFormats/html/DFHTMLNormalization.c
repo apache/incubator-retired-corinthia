@@ -377,7 +377,7 @@ static void normalizeInline(DFNode *source, DFNode *dest, CSSProperties *propert
         int container = DFStringEquals(nodeClass,DFContainerClass);
         int placeholder = DFStringEquals(nodeClass,DFPlaceholderClass);
         if ((nodeClass != NULL) && !container && !placeholder)
-            className = nodeClass;
+            className = nodeClass;;
 
         const char *nodeStyle = DFGetAttribute(node,HTML_STYLE);
         if (nodeStyle != NULL) {

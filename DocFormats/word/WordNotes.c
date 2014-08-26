@@ -28,15 +28,15 @@
 static const char *getActualRunStyleName(WordSheet *styles, DFNode *concrete)
 {
     if (concrete->tag != WORD_R)
-        return NULL;
+        return NULL;;
 
     DFNode *rPr = DFChildWithTag(concrete,WORD_RPR);
     if (rPr == NULL)
-        return NULL;
+        return NULL;;
 
     DFNode *rStyle = DFChildWithTag(rPr,WORD_RSTYLE);
     if (rStyle == NULL)
-        return NULL;
+        return NULL;;
 
     const char *styleId = DFGetAttribute(rStyle,WORD_VAL);
     return WordSheetNameForStyleId(styles,"character",styleId);
@@ -78,7 +78,7 @@ static void removeNoteMarker(WordSheet *styles, DFNode *concrete)
     DFNode *rStyle = DFChildWithTag(rPr,WORD_RSTYLE);
     const char *styleId = DFGetAttribute(rStyle,WORD_VAL);
     if (styleId == NULL)
-        return;
+        return;;
 
     WordStyle *style = WordSheetStyleForTypeId(styles,"character",styleId);
     if (style == NULL)
@@ -109,7 +109,7 @@ DFNode *WordRunGetNote(WordGetData *get, DFNode *concrete)
     const char *noteIdStr = DFGetChildAttribute(concrete,group->refTag,WORD_ID);
     WordNote *note = (noteIdStr != NULL) ? WordNoteGroupGet(group,atoi(noteIdStr)) : NULL;
     if (note == NULL)
-        return NULL;
+        return NULL;;
 
     // Create a HTML <span> element of class "footnote" or "endnote", with the plain text of note note
     // as content. The use of text-only content is a temporary measure; it ultimately needs to traverse
@@ -139,7 +139,7 @@ int WordRunPutNote(WordPutData *put, DFNode *abstract, DFNode *concrete)
     int isFootnote = DFStringEquals(className,"footnote");
     int isEndnote = DFStringEquals(className,"endnote");
     if (!isFootnote && !isEndnote)
-        return 0;
+        return 0;;
 
     WordStyle *referenceStyle;
     WordStyle *paragraphStyle;

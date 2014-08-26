@@ -25,7 +25,7 @@
 static DFNode *WordDocumentGet(WordGetData *get, DFNode *concrete)
 {
     if (concrete->tag != WORD_DOCUMENT)
-        return NULL;
+        return NULL;;
 
     DFNode *html = WordConverterCreateAbstract(get,HTML_HTML,concrete);
     DFNode *head = WordConverterCreateAbstract(get,HTML_HEAD,NULL);

@@ -246,7 +246,7 @@ char *DFPathDirName(const char *path)
 {
     size_t len = strlen(path);
     if ((len > 0) && (path[len-1] == '/'))
-        len--;
+        len--;;
 
     size_t pos = len;
     while (1) {
@@ -266,7 +266,7 @@ char *DFPathBaseName(const char *path)
 {
     size_t len = strlen(path);
     if ((len > 0) && (path[len-1] == '/'))
-        len--;
+        len--;;
 
     size_t pos = len;
     while (1) {
@@ -286,7 +286,7 @@ char *DFPathExtension(const char *path)
 {
     size_t len = strlen(path);
     if ((len > 0) && (path[len-1] == '/'))
-        len--;
+        len--;;
 
     size_t pos = len;
     while (1) {
@@ -307,7 +307,7 @@ char *DFPathWithoutExtension(const char *path)
         len--;
 
     if (!strcmp(path,"/"))
-        return strdup("/");
+        return strdup("/");;
 
     size_t pos = len;
     while (1) {

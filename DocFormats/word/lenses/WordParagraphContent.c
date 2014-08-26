@@ -98,10 +98,10 @@ static DFNode *WordParagraphContentCreate(WordPutData *put, DFNode *abstract)
                 const char *bookmarkId = DFGetAttribute(abstract,WORD_ID);
                 const char *bookmarkName = DFGetAttribute(abstract,WORD_NAME);
                 if ((bookmarkId == NULL) || (bookmarkName == NULL))
-                    return NULL;
+                    return NULL;;
                 WordBookmark *bookmark = WordObjectsBookmarkWithName(put->conv->objects,bookmarkName);
                 if (bookmark == NULL)
-                    return NULL;
+                    return NULL;;
                 DFNode *concrete = DFCreateElement(put->conv->package->document,WORD_BOOKMARK);
                 DFSetAttribute(concrete,WORD_ID,bookmarkId);
                 DFSetAttribute(concrete,WORD_NAME,bookmarkName);

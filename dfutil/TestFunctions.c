@@ -142,7 +142,7 @@ static void Word_testGet2(TestCase *script, WordPackage *package, int argc, cons
 {
     // Read input.docx
     if (!TestCaseGetWordPackage(script,package))
-        return;
+        return;;
 
     DFError *error = NULL;
     // Create the HTML file
@@ -179,7 +179,7 @@ static void Word_testGet(TestCase *script, int argc, const char **argv)
 static DFHashTable *getFlags(int argc, const char **argv)
 {
     if (argc == 0)
-        return NULL;
+        return NULL;;
     DFHashTable *set = DFHashTableNew((DFCopyFunction)strdup,free);
     for (int i = 0; i < argc; i++) {
         const char *colon = strchr(argv[i],':');
@@ -206,7 +206,7 @@ static void Word_testCreate2(TestCase *script, WordPackage *package, int argc, c
     // Read input.html
     DFDocument *htmlDoc = TestCaseGetHTML(script);
     if (htmlDoc == NULL)
-        return;
+        return;;
 
     // Create the docx file
     DFError *error = NULL;
@@ -253,12 +253,12 @@ static void Word_testUpdate2(TestCase *script, WordPackage *package, int argc, c
 {
     // Read input.docx
     if (!TestCaseGetWordPackage(script,package))
-        return;
+        return;;
 
     // Read input.html
     DFDocument *htmlDoc = TestCaseGetHTML(script);
     if (htmlDoc == NULL)
-        return;
+        return;;
 
     // Update the docx file based on the contents of the HTML file
     DFError *error = NULL;

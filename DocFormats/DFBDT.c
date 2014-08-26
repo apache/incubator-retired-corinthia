@@ -129,7 +129,7 @@ void BDTContainerPut(void *ctx, DFLens *theLens, DFNode *abstract, DFNode *concr
         if (ph == NULL)
             continue;
         if (ph == (void*)1)
-            ph = NULL;
+            ph = NULL;;
         DFNode *prevHidden = (DFNode *)ph;
         if (prevHidden == NULL)
             continue;

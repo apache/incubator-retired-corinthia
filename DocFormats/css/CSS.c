@@ -658,7 +658,7 @@ char *CSSCopyStylesheetTextFromRules(DFHashTable *rules)
     for (int i = 0; allSelectors[i]; i++) {
         const char *selector = allSelectors[i];
         if (i > 0)
-            DFBufferFormat(output,"\n");
+            DFBufferFormat(output,"\n");;
         const char *text = DFHashTableLookup(textRules,selector);
         assert(text != NULL);
         DFBufferFormat(output,"%s {\n%s}\n",selector,text);
@@ -994,7 +994,7 @@ static void CSSUnescapeIdentifier(const uint32_t *chars, size_t len, DFBuffer *o
 char *CSSEscapeIdent(const char *cunescaped)
 {
     if (cunescaped == NULL)
-        return NULL;
+        return NULL;;
 
     uint32_t *unescaped32 = DFUTF8To32(cunescaped);
     size_t len32 = DFUTF32Length(unescaped32);
@@ -1013,7 +1013,7 @@ char *CSSEscapeIdent(const char *cunescaped)
 char *CSSUnescapeIdent(const char *cescaped)
 {
     if (cescaped == NULL)
-        return NULL;
+        return NULL;;
 
     uint32_t *escaped32 = DFUTF8To32(cescaped);
     size_t len32 = DFUTF32Length(escaped32);

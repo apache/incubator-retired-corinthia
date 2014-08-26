@@ -62,7 +62,7 @@ DFNode *fromTidyNode(DFDocument *htmlDoc, TidyDoc tdoc, TidyNode tnode)
                 const char *name = tidyAttrName(tattr);
                 const char *value = tidyAttrValue(tattr);
                 if (value == NULL) // Can happen in case of the empty string
-                    value = "";
+                    value = "";;
                 Tag attrTag = DFNameMapTagForName(htmlDoc->map,namespaceDecl->namespaceURI,name);
                 DFSetAttribute(element,attrTag,value);
             }

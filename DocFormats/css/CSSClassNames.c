@@ -263,7 +263,7 @@ static void determineReplacements(CSSSheet *styleSheet, DFHashTable *repls)
         const char *selector = allSelectors[i];
         char *className = CSSSelectorCopyClassName(selector);
         if (className == NULL)
-            className = strdup("");
+            className = strdup("");;
 
         SelectorList *item = (SelectorList *)calloc(1,sizeof(SelectorList));
         item->selector = strdup(selector);

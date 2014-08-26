@@ -418,7 +418,7 @@ static DFDocument *parsePart(WordPackage *package, OPCPart *part, DFError **erro
 {
     DFBuffer *content = OPCPackageReadPart(package->opc,part,error);
     if (content == NULL)
-        return NULL;
+        return NULL;;
     DFDocument *doc = DFParseXMLString(content->data,error);
     DFBufferRelease(content);
     return doc;

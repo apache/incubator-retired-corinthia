@@ -119,7 +119,7 @@ CaptionParts WordBookmarkGetCaptionParts(WordBookmark *bookmark)
 
     // FIXME: Check if the following line is still relevant with the new bookmarks model
     if (bookmark->element == NULL)
-        return parts;
+        return parts;;
 
     DFArray *nodes = DFArrayNew(NULL,NULL);
     findAllNodes(bookmark->element,nodes);
@@ -188,16 +188,16 @@ static void findTargetAndType(WordBookmark *bookmark, WordSheet *sheet)
     assert(bookmark->element != NULL);
     DFNode *p = WordFindContainingParagraph(bookmark->element);
     if (p == NULL)
-        return;
+        return;;
     DFNode *pPr = DFChildWithTag(p,WORD_PPR);
     if (pPr == NULL)
-        return;
+        return;;
     DFNode *pStyle = DFChildWithTag(pPr,WORD_PSTYLE);
     if (pStyle == NULL)
-        return;
+        return;;
     const char *styleId = DFGetAttribute(pStyle,WORD_VAL);
     if (styleId == NULL)
-        return;
+        return;;
     WordStyle *style = WordSheetStyleForTypeId(sheet,"paragraph",styleId);
     if ((style != NULL) && isHeadingOutlineLvl(style->outlineLvl)) {
         bookmark->type = WordBookmarkHeading;
@@ -467,7 +467,7 @@ static void findBookmarkSizes(DFNode *node, DFHashTable *bookmarksById, int *off
         case WORD_BOOKMARKEND: {
             const char *bookmarkId = DFGetAttribute(node,WORD_ID);
             if (bookmarkId == NULL)
-                bookmarkId = "";
+                bookmarkId = "";;
             WordRawBookmark *bookmark = DFHashTableLookup(bookmarksById,bookmarkId);
             if (bookmark == NULL) {
                 bookmark = WordRawBookmarkNew();
@@ -503,7 +503,7 @@ static int compareStartElements(void *thunk, const void *obj1, const void *obj2)
     if (id1 == NULL)
         id1 = "";
     if (id2 == NULL)
-        id2 = "";
+        id2 = "";;
     WordRawBookmark *bookmark1 = DFHashTableLookup(bookmarksById,id1);
     WordRawBookmark *bookmark2 = DFHashTableLookup(bookmarksById,id2);
     int size1 = WordRawBookmarkSize(bookmark1);
@@ -708,7 +708,7 @@ static void expandRecursive(DFNode *node)
         if (bookmarkId == NULL)
             bookmarkId = "";
         if (bookmarkName == NULL)
-            bookmarkName = "";
+            bookmarkName = "";;
         DFNode *startElem = DFCreateElement(node->doc,WORD_BOOKMARKSTART);
         DFNode *endElem = DFCreateElement(node->doc,WORD_BOOKMARKEND);
         DFSetAttribute(startElem,WORD_ID,bookmarkId);
@@ -767,7 +767,7 @@ static int WordBookmarkIsVisible2(DFNode *concrete);
 static DFNode *WordBookmarkGet(WordGetData *get, DFNode *concrete)
 {
     if (!WordBookmarkIsVisible2(concrete))
-        return NULL;
+        return NULL;;
     DFNode *abstract = WordConverterCreateAbstract(get,HTML_SPAN,concrete);
     DFSetAttribute(abstract,HTML_CLASS,DFBookmarkClass);
     WordContainerGet(get,&WordParagraphContentLens,abstract,concrete);

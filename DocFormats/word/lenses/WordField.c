@@ -299,7 +299,7 @@ static WordRefType WordRefTypeGet(const char **args, WordBookmark *bookmark)
 static DFNode *WordFieldGet(WordGetData *get, DFNode *concrete)
 {
     if (concrete->tag != WORD_FLDSIMPLE)
-        return NULL;
+        return NULL;;
 
     const char *instr = DFGetAttribute(concrete,WORD_INSTR);
     if (instr != NULL) {
@@ -400,7 +400,7 @@ static const char *bookmarkNameForHtmlId(WordConverter *converter, const char *h
         case HTML_H6: {
             DFNode *labelSpan = htmlElem->first;
             if ((labelSpan == NULL) || (labelSpan->tag != HTML_SPAN))
-                return NULL;
+                return NULL;;
             const char *labelClass = DFGetAttribute(labelSpan,HTML_CLASS);
             if (!DFStringEquals(labelClass,DFBookmarkClass))
                 return NULL;
@@ -440,15 +440,15 @@ static void WordFieldPut(WordPutData *put, DFNode *abstract, DFNode *concrete)
         case HTML_A: {
             const char *href = DFGetAttribute(abstract,HTML_HREF);
             if ((href == NULL) || (href[0] != '#'))
-                return;
+                return;;
 
             const char *targetId = &href[1];
             const char *className = DFGetAttribute(abstract,HTML_CLASS);
             if (className == NULL)
-                className = "";
+                className = "";;
             const char *bookmarkName = bookmarkNameForHtmlId(put->conv,targetId,className);
             if (bookmarkName == NULL)
-                return;
+                return;;
 
             DFNode *htmlElem = DFElementForIdAttr(put->conv->html,targetId);
             if ((htmlElem != NULL) && ((htmlElem->tag == HTML_TABLE) || (htmlElem->tag == HTML_FIGURE))) {

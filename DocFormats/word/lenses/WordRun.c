@@ -78,7 +78,7 @@ static DFNode *WordRunGet(WordGetData *get, DFNode *concrete)
     CSSProperties *properties = CSSPropertiesNew();
     const char *styleId = NULL;
     if (rPr != NULL)
-        WordGetRPr(rPr,properties,&styleId,get->conv->theme);
+        WordGetRPr(rPr,properties,&styleId,get->conv->theme);;
 
     const char *selector = WordSheetSelectorForStyleId(get->conv->styles,"character",styleId);
     Tag elementName = (selector == NULL) ? HTML_SPAN : CSSSelectorGetTag(selector);

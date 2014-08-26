@@ -259,7 +259,7 @@ int Word_fromPackage(WordPackage *package, TextPackage *tp, const char *path, DF
     if (package->settingsPart != NULL)
         OPCContentTypesSetOverride(package->opc->contentTypes,package->settingsPart->URI,WORDTYPE_SETTINGS);
     if (package->themePart != NULL)
-        OPCContentTypesSetOverride(package->opc->contentTypes,package->themePart->URI,WORDTYPE_THEME);
+        OPCContentTypesSetOverride(package->opc->contentTypes,package->themePart->URI,WORDTYPE_THEME);;
 
     OPCRelationshipSet *rels = package->documentPart->relationships;
     const char **allIds = OPCRelationshipSetAllIds(rels);
@@ -429,7 +429,7 @@ DFDocument *HTML_fromPlain(const char *plain, const char *path, const char *html
 {
     TextPackage *tp = TextPackageNewWithString(plain,path,error);
     if (tp == NULL)
-        return NULL;
+        return NULL;;
     DFDocument *result = HTML_fromPackage(tp,path,htmlPath,error);
     TextPackageRelease(tp);
     return result;

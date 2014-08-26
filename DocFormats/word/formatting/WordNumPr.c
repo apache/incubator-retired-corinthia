@@ -167,7 +167,7 @@ void updateNumbering(WordConverter *converter, CSSSheet *cssSheet)
             char *elementName = CSSSelectorCopyElementName(selector);
 
             if ((cssStyle->headingLevel >= 1) && (cssStyle->headingLevel <= 6))
-                cssLevelNumbered[cssStyle->headingLevel-1] = 1;
+                cssLevelNumbered[cssStyle->headingLevel-1] = 1;;
 
             DFArray *contentParts = CSSParseContent(CSSGet(CSSStyleBefore(cssStyle),"content"));
             DFBuffer *format = DFBufferNew();
@@ -211,7 +211,7 @@ void updateNumbering(WordConverter *converter, CSSSheet *cssSheet)
             const char *ilvl = DFGetChildAttribute(numPr,WORD_ILVL,WORD_VAL);
             if (numId != NULL) {
                 if (ilvl == NULL)
-                    ilvl = "0";
+                    ilvl = "0";;
                 WordConcreteNum *concreteNum = WordNumberingConcreteWithId(converter->numbering,numId);
                 if (concreteNum != NULL) {
                     WordNumLevel *level = WordConcreteNumGetLevel(concreteNum,atoi(ilvl));

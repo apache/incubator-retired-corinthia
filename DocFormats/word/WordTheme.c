@@ -33,7 +33,7 @@ WordTheme *WordThemeNew(WordPackage *package)
 
     assert(doc->root != NULL);
     if (doc->root->tag != DML_MAIN_THEME)
-        return theme;
+        return theme;;
 
     DFNode *themeElementsElem = DFChildWithTag(doc->root,DML_MAIN_THEMEELEMENTS);
     DFNode *fontSchemeElem = DFChildWithTag(themeElementsElem,DML_MAIN_FONTSCHEME);

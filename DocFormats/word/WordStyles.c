@@ -87,7 +87,7 @@ static void WordGetTblStylePr(DFNode *concrete, CSSStyle *style, WordSection *se
 {
     const char *tableComponent = DFGetAttribute(concrete,WORD_TYPE);
     if (tableComponent == NULL)
-        return;
+        return;;
     CSSProperties *rule = CSSStyleRuleForTableComponent(style,tableComponent);
     if (rule == NULL)
         return;
@@ -166,7 +166,7 @@ static void WordGetStyle(DFNode *concrete, CSSStyle *style, WordConverter *conve
     StyleFamily family = WordStyleFamilyForSelector(style->selector);
     const char *name = WordSheetStyleIdForSelector(converter->styles,style->selector);
     if ((family == StyleFamilyParagraph) && DFStringEquals(name,"ListParagraph"))
-        CSSPut(CSSStyleRule(style),"margin-left",NULL);
+        CSSPut(CSSStyleRule(style),"margin-left",NULL);;
 
     DFNode *pPr = DFChildWithTag(concrete,WORD_PPR);
     DFNode *numPr = DFChildWithTag(pPr,WORD_NUMPR);
@@ -255,7 +255,7 @@ static void WordPutStyle(DFNode *concrete, CSSStyle *style, WordConverter *conve
     if (WordStyleFamilyForSelector(style->selector) == StyleFamilyTable) {
         // Table properties
         if (children[WORD_TBLPR] == NULL)
-            children[WORD_TBLPR] = DFCreateElement(concrete->doc,WORD_TBLPR);
+            children[WORD_TBLPR] = DFCreateElement(concrete->doc,WORD_TBLPR);;
         const char *oldJc = DFGetChildAttribute(children[WORD_TBLPR],WORD_JC,WORD_VAL);
         CSSProperties *wholeTable = CSSStyleRuleForSuffix(style,DFTableSuffixWholeTable);
         WordPutTblPr(children[WORD_TBLPR],wholeTable,CSSStyleCell(style),converter->mainSection,NULL);
@@ -462,7 +462,7 @@ static void WordPutSectPr(DFNode *concrete, CSSSheet *styleSheet, WordSection *s
         updateTwipsFromLength(children[WORD_PGMAR],WORD_BOTTOM,CSSGet(newBody,"margin-bottom"),widthTwips);
 
     if (children[WORD_PGMAR]->attrsCount == 0)
-        children[WORD_PGMAR] = NULL;
+        children[WORD_PGMAR] = NULL;;
 
     DFArray *extra = DFArrayNew(NULL,NULL);
     for (DFNode *child = concrete->first; child != NULL; child = child->next) {
@@ -488,10 +488,10 @@ static DFNode *findSectPr(WordConverter *converter, int add)
 {
     DFNode *root = converter->package->document->root;
     if (root->tag != WORD_DOCUMENT)
-        return NULL;
+        return NULL;;
     DFNode *body = DFChildWithTag(root,WORD_BODY);
     if (body == NULL)
-        return NULL;
+        return NULL;;
     DFNode *sectPr = DFChildWithTag(body,WORD_SECTPR);
     if ((sectPr == NULL) & add) {
         sectPr = DFCreateElement(converter->package->document,WORD_SECTPR);
@@ -569,12 +569,12 @@ CSSSheet *WordParseStyles(WordConverter *converter)
     CSSPut(CSSStyleRule(bodyStyle),"counter-reset","h1 h2 h3 h4 h5 h6 figure table");
     parseBody(converter,styleSheet);
     if (converter->package->styles == NULL)
-        return styleSheet;
+        return styleSheet;;
     DFNode *root = converter->package->styles->root;
     if (root == NULL)
         return styleSheet;
     if (root->tag != WORD_STYLES)
-        return styleSheet;
+        return styleSheet;;
 
     WordSheet *sheet = converter->styles;
 
@@ -734,10 +734,10 @@ void WordUpdateStyles(WordConverter *converter, CSSSheet *styleSheet)
         CSSPut(CSSStyleRule(paraDefault),"margin-bottom","-word-auto");
 
     if (converter->package->styles == NULL) // FIXME: create this document
-        return;
+        return;;
     DFNode *root = converter->package->styles->root;
     if ((root == NULL) || (root->tag != WORD_STYLES))
-        return;
+        return;;
 
     DFHashTable *remainingSelectors = DFHashTableNew(NULL,NULL); // Used as a set
     const char **allSelectors = CSSSheetCopySelectors(styleSheet);
@@ -806,7 +806,7 @@ void WordUpdateStyles(WordConverter *converter, CSSSheet *styleSheet)
         char *styleId = WordStyleIdForStyle(style);
         char *name = WordStyleNameForStyle(style);
         if (name == NULL)
-            name = strdup(styleId);
+            name = strdup(styleId);;
         WordStyle *wordStyle = WordSheetAddStyle(sheet,familyStr,styleId,name,selector);
         DFCreateChildElement(wordStyle->element,WORD_QFORMAT);
         free(styleId);

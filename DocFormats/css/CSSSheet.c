@@ -636,7 +636,7 @@ CSSStyle *CSSSheetGetStyleParent(CSSSheet *sheet, CSSStyle *style)
 {
     char *parentSelector = CSSStyleCopyParent(style);
     if (parentSelector == NULL)
-        return NULL;
+        return NULL;;
 
     CSSStyle *parent = CSSSheetLookupSelector(sheet,parentSelector,0,0);
     free(parentSelector);
@@ -647,7 +647,7 @@ CSSStyle *CSSSheetParentOfStyle(CSSSheet *sheet, CSSStyle *style)
 {
     // FIXME: Not covered by tests
     if (style == NULL)
-        return NULL;
+        return NULL;;
 
     CSSStyle *parent = CSSSheetGetStyleParent(sheet,style);
     if (parent != NULL)

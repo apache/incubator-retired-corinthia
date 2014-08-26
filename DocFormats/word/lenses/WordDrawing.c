@@ -186,7 +186,7 @@ static DFNode *imageWithFilename(WordGetData *get, const char *filename, double 
     char *dstImagePath = DFAppendPathComponent(abstractImagesPath,lastComponent);
 
     if (DFFileExists(dstImagePath))
-        DFDeleteFile(dstImagePath,NULL);
+        DFDeleteFile(dstImagePath,NULL);;
 
     DFError *error = NULL;
     DFNode *imageNode = NULL;
@@ -245,7 +245,7 @@ static ImageInfo *getImageInfoObject(DFNode *concrete)
     const char *cssText = DFGetAttribute(shape,NULL_STYLE);
     const char *rId = DFGetAttribute(imageData,OREL_ID);
     if ((shape == NULL) || (imageData == NULL) || (cssText == NULL) || (rId == NULL))
-        return NULL;
+        return NULL;;
 
     CSSProperties *imgProperties = CSSPropertiesNewWithString(cssText);
     CSSLength width = CSSLengthFromString(CSSGet(imgProperties,"width"));
@@ -330,7 +330,7 @@ static char *genImageFilename(const char *mediaDir, const char *extension, DFErr
 {
     const char **names = DFContentsOfDirectory(mediaDir,0,error);
     if (names == NULL)
-        return NULL;
+        return NULL;;
 
     DFHashTable *existingNames = DFHashTableNew((DFCopyFunction)strdup,free);
     for (int i = 0; names[i]; i++) {

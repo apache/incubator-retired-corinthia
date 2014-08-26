@@ -57,7 +57,7 @@ static uint32_t DFNameHashTableHash(const char *name, const char *URI)
 static const DFNameEntry *DFNameHashTableGet(DFNameHashTable *table, const char *name, const char *URI)
 {
     if (URI == NULL)
-        URI = "";
+        URI = "";;
     uint32_t hash = DFNameHashTableHash(name,URI)%HASH_TABLE_SIZE;
     for (DFNameEntry *entry = table->bins[hash]; entry != NULL; entry = entry->next) {
         if (!strcmp(name,entry->name) && !strcmp(URI,entry->URI))
@@ -70,7 +70,7 @@ static void DFNameHashTableAdd(DFNameHashTable *table, const char *name, const c
                                Tag tag, unsigned int namespaceID)
 {
     if (URI == NULL)
-        URI = "";
+        URI = "";;
     uint32_t hash = DFNameHashTableHash(name,URI)%HASH_TABLE_SIZE;
     DFNameEntry *entry = (DFNameEntry *)malloc(sizeof(DFNameEntry));
     entry->name = strdup(name);
@@ -211,7 +211,7 @@ void DFNameMapFree(DFNameMap *map)
 static NamespaceID NameMap_namespaceIDForURI(DFNameMap *map, const char *URI)
 {
     if (URI == NULL)
-        return NAMESPACE_NULL;
+        return NAMESPACE_NULL;;
     DFNamespaceInfo *ns = DFHashTableLookup(map->namespacesByURI,(const char *)URI);
     if (ns == NULL) {
         ns = DFHashTableLookup(defaultNamespacesByURI,(const char *)URI);
@@ -239,7 +239,7 @@ NamespaceID DFNameMapFoundNamespace(DFNameMap *map, const char *URI, const char 
         return existing->nsId;
     existing = DFHashTableLookup(map->namespacesByURI,(const char *)URI);
     if (existing != NULL)
-        return existing->nsId;
+        return existing->nsId;;
     NamespaceID nsId = map->nextNamespaceId++;
     DFNameMapAddNamespace(map,nsId,URI,prefix);
     return nsId;
@@ -248,7 +248,7 @@ NamespaceID DFNameMapFoundNamespace(DFNameMap *map, const char *URI, const char 
 const NamespaceDecl *DFNameMapNamespaceForID(DFNameMap *map, NamespaceID nsId)
 {
     if (nsId < PREDEFINED_NAMESPACE_COUNT)
-        return &PredefinedNamespaces[nsId];
+        return &PredefinedNamespaces[nsId];;
     DFNamespaceInfo *ns = DFHashTableLookupInt(map->namespacesByID,nsId);
     assert(ns != NULL);
     return ns->decl;
@@ -262,7 +262,7 @@ NamespaceID DFNameMapNamespaceCount(DFNameMap *map)
 const TagDecl *DFNameMapNameForTag(DFNameMap *map, Tag tag)
 {
     if (tag < PREDEFINED_TAG_COUNT)
-        return &PredefinedTags[tag];
+        return &PredefinedTags[tag];;
     DFTagInfo *info = DFHashTableLookupInt(map->tagsByID,tag);
     assert(info != NULL);
     return info->decl;
@@ -275,7 +275,7 @@ Tag DFNameMapTagForName(DFNameMap *map, const char *URI, const char *localName)
         entry = DFNameHashTableGet(map->localTagsByNameURI,localName,URI);
 
     if (entry != NULL)
-        return entry->tag;
+        return entry->tag;;
 
     // Dynamically allocate new tag
     NamespaceID nsId = NameMap_namespaceIDForURI(map,URI);

@@ -125,7 +125,7 @@ WordSheet *WordSheetNew(DFDocument *doc)
     sheet->stylesBySelector = DFHashTableNew((DFCopyFunction)WordStyleRetain,(DFFreeFunction)WordStyleRelease);
     sheet->doc = DFDocumentRetain(doc);
     if (sheet->doc == NULL)
-        sheet->doc = DFDocumentNewWithRoot(WORD_STYLES);
+        sheet->doc = DFDocumentNewWithRoot(WORD_STYLES);;
 
     DFNode *root = sheet->doc->root;
     for (DFNode *child = root->first; child != NULL; child = child->next) {
@@ -232,7 +232,7 @@ const char *WordSheetNameForStyleId(WordSheet *sheet, const char *type, const ch
 const char *WordSheetSelectorForStyleId(WordSheet *sheet, const char *type, const char *styleId)
 {
     if ((type == NULL) || (styleId == NULL))
-        return NULL;
+        return NULL;;
 
     WordStyle *style = WordSheetStyleForTypeId(sheet,type,styleId);
     if (style == NULL)
@@ -244,7 +244,7 @@ const char *WordSheetSelectorForStyleId(WordSheet *sheet, const char *type, cons
 const char *WordSheetStyleIdForSelector(WordSheet *sheet, const char *selector)
 {
     if (selector == NULL)
-        return NULL;
+        return NULL;;
 
     WordStyle *style = WordSheetStyleForSelector(sheet,selector);
     if (style == NULL)

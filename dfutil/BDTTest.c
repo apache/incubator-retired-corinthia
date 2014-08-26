@@ -205,7 +205,7 @@ static DFDocument *createConcrete()
 static void move(DFNode *container, int count, int from, int to)
 {
     if ((to >= from) && (to <= from+count))
-        return;
+        return;;
 
     DFNode *nextSibling = NULL;
     DFArray *move = DFArrayNew(NULL,NULL);

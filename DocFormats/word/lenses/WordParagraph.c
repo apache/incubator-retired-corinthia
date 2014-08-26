@@ -40,7 +40,7 @@ static DFNode *WordParagraphCreateAbstractNode(WordGetData *get, DFNode *concret
     const char *styleId = NULL;
     CSSProperties *properties = CSSPropertiesNew();
     if (pPr != NULL)
-        WordGetPPr(pPr,properties,&styleId,get->conv->mainSection);
+        WordGetPPr(pPr,properties,&styleId,get->conv->mainSection);;
 
     const char *selector = WordSheetSelectorForStyleId(get->conv->styles,"paragraph",styleId);
 
@@ -49,7 +49,7 @@ static DFNode *WordParagraphCreateAbstractNode(WordGetData *get, DFNode *concret
     // spreadsheets as figures, when really it should just put them in a normal paragraph
     // See nullupdate-embed01.test and nullupdate-embed02.test
     if (Word_isFigureParagraph(concrete))
-        selector = "figure";
+        selector = "figure";;
 
     Tag elementName = (selector == NULL) ? HTML_P : CSSSelectorGetTag(selector);
     char *className = (selector == NULL) ? NULL : CSSSelectorCopyClassName(selector);

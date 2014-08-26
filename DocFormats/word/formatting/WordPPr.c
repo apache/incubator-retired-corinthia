@@ -209,7 +209,7 @@ void WordGetPPr(DFNode *pPr, CSSProperties *properties, const char **styleId, Wo
                 const char *hanging = DFGetAttribute(child,WORD_HANGING);
                 const char *left = DFGetAttribute(child,WORD_START);
                 if (left == NULL)
-                    left = DFGetAttribute(child,WORD_LEFT);
+                    left = DFGetAttribute(child,WORD_LEFT);;
                 const char *right = DFGetAttribute(child,WORD_END);
                 if (right == NULL)
                     right = DFGetAttribute(child,WORD_RIGHT);

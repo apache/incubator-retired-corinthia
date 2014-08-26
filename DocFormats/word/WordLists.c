@@ -126,13 +126,13 @@ static int listProperties(WordConverter *conv, const char *numId, const char *il
 {
     WordConcreteNum *num = WordNumberingConcreteWithId(conv->numbering,numId);
     if (num == NULL)
-        return 0;
+        return 0;;
     WordNumLevel *level = WordConcreteNumGetLevel(num,atoi(ilvl));
     if (level == NULL)
-        return 0;
+        return 0;;
     DFNode *pPr = DFChildWithTag(level->element,WORD_PPR);
     if (pPr == NULL)
-        return 0;
+        return 0;;
     const char *styleId = NULL;
     WordGetPPr(pPr,properties,&styleId,conv->mainSection);
     return 1;
@@ -167,7 +167,7 @@ double listDesiredIndent(WordConverter *conv, const char *numId, const char *ilv
 static ListDimensions paragraphIndent(DFNode *p)
 {
     if (p->tag < MIN_ELEMENT_TAG)
-        return ListDimensionsZero;
+        return ListDimensionsZero;;
     const char *cssText = DFGetAttribute(p,HTML_STYLE);
     CSSProperties *properties = CSSPropertiesNewWithString(cssText);
     ListDimensions result = cssPropertiesIndent(properties);
@@ -178,7 +178,7 @@ static ListDimensions paragraphIndent(DFNode *p)
 static void adjustMarginLeft(DFNode *element, double adjustPct, int noTextIndent)
 {
     if ((element->tag != HTML_TABLE) && !HTML_isParagraphTag(element->tag))
-        return;
+        return;;
 
     const char *cssText = DFGetAttribute(element,HTML_STYLE);
     CSSProperties *properties = CSSPropertiesNewWithString(cssText);
@@ -263,11 +263,11 @@ static int isEmptyParagraph(DFNode *p)
 static void fixTrailingParagraphs(ListStack *stack, int minIlvl)
 {
     if (stack->top == NULL)
-        return;
+        return;;
 
     DFNode *li = stack->top->element->last;
     if (li == NULL)
-        return;
+        return;;
 
     DFNode *child = li->first;
 
@@ -424,7 +424,7 @@ static void Word_fixLists(WordConverter *conv, DFNode *node)
     }
 
     if (haveList)
-        Word_fixListSingle(conv,node);
+        Word_fixListSingle(conv,node);;
 
     DFNode *next;
 
@@ -546,7 +546,7 @@ static void fixWordLists(DFNode *node, WordConverter *conv)
         }
 
         if (ilvl == NULL)
-            ilvl = "0";
+            ilvl = "0";;
 
         WordConcreteNum *concreteNum = WordNumberingConcreteWithId(conv->numbering,numId);
         WordNumLevel *numLevel = WordConcreteNumGetLevel(concreteNum,atoi(ilvl));

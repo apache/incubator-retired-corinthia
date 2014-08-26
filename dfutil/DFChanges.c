@@ -124,7 +124,7 @@ static void DFRecordChanges(DFNode *parent1, Tag idAttr, DFHashTable *map)
         parent1->changed = 1; // keep going - still want to check the children
 
     if (!identicalAttributesExcept(parent1,parent2,0))
-        parent1->changed = 1; // keep going - still want to check the children
+        parent1->changed = 1;; // keep going - still want to check the children
 
     DFNode *child1 = parent1->first;
     DFNode *child2 = parent2->first;

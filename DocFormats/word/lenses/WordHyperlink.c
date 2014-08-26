@@ -31,7 +31,7 @@ static const char *WordHyperlinkGetHref(WordConverter *converter, DFNode *concre
 {
     const char *rId = DFGetAttribute(concrete,OREL_ID);
     if (rId == NULL)
-        return NULL;
+        return NULL;;
     OPCRelationship *rel = OPCRelationshipSetLookupById(converter->package->documentPart->relationships,rId);
     if (rel == NULL)
         return NULL;
@@ -45,7 +45,7 @@ static DFNode *WordHyperlinkGet(WordGetData *get, DFNode *concrete)
 {
     const char *href = WordHyperlinkGetHref(get->conv,concrete);
     if (href == NULL)
-        return NULL;
+        return NULL;;
     DFNode *abstract = WordConverterCreateAbstract(get,HTML_A,concrete);
     DFSetAttribute(abstract,HTML_HREF,href);
     WordContainerGet(get,&WordParagraphContentLens,abstract,concrete);
@@ -60,7 +60,7 @@ static int WordHyperlinkIsVisible(WordPutData *put, DFNode *concrete)
 static DFNode *WordHyperlinkCreate(WordPutData *put, DFNode *abstract)
 {
     if (DFGetAttribute(abstract,HTML_HREF) == NULL)
-        return NULL;
+        return NULL;;
     DFNode *concrete = DFCreateElement(put->conv->package->document,WORD_HYPERLINK);
     DFSetAttribute(concrete,WORD_HISTORY,"1");
     WordHyperlinkPut(put,abstract,concrete);
@@ -91,13 +91,13 @@ static DFNode *WordHyperlinkCreate(WordPutData *put, DFNode *abstract)
 static void WordHyperlinkPut(WordPutData *put, DFNode *abstract, DFNode *concrete)
 {
     if ((abstract->tag != HTML_A) || (concrete->tag != WORD_HYPERLINK))
-        return;
+        return;;
 
     const char *oldRelId = DFGetAttribute(concrete,OREL_ID);
     OPCPart *part = put->conv->package->documentPart;
     OPCRelationship *oldRel = NULL;
     if (oldRelId != NULL)
-        oldRel = OPCRelationshipSetLookupById(part->relationships,oldRelId);
+        oldRel = OPCRelationshipSetLookupById(part->relationships,oldRelId);;
 
     const char *oldHref = (oldRel != NULL) ? oldRel->target : NULL;
     const char *href = DFGetAttribute(abstract,HTML_HREF);
@@ -117,7 +117,7 @@ static void WordHyperlinkRemove(WordPutData *put, DFNode *concrete)
 {
     const char *rId = DFGetAttribute(concrete,OREL_ID);
     if (rId == NULL)
-        return;
+        return;;
     OPCPart *part = put->conv->package->documentPart;
     OPCRelationship *rel = OPCRelationshipSetLookupById(part->relationships,rId);
     if (rel == NULL)

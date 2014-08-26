@@ -62,7 +62,7 @@ static DFNode *WordTcCreateAbstractNode(WordGetData *get, DFNode *concrete)
     CSSProperties *properties = CSSPropertiesNew();
     DFNode *tcPr = DFChildWithTag(concrete,WORD_TCPR);
     if (tcPr != NULL)
-        WordGetTcPr(tcPr,properties);
+        WordGetTcPr(tcPr,properties);;
     DFHashTable *collapsed = CSSCollapseProperties(properties);
     char *styleValue = CSSSerializeProperties(collapsed);
     DFHashTableRelease(collapsed);
@@ -286,7 +286,7 @@ static CellPadding getPadding(CSSSheet *styleSheet, WordStyle *wordStyle, CSSPro
     if (CSSGet(cellProperties,"padding-left") != NULL)
         paddingLeftStr = CSSGet(cellProperties,"padding-left");
     if (CSSGet(cellProperties,"padding-right") != NULL)
-        paddingRightStr = CSSGet(cellProperties,"padding-right");
+        paddingRightStr = CSSGet(cellProperties,"padding-right");;
 
     CellPadding padding;
     padding.leftPts = 0;
@@ -294,11 +294,11 @@ static CellPadding getPadding(CSSSheet *styleSheet, WordStyle *wordStyle, CSSPro
 
     CSSLength paddingLeftLength = CSSLengthFromString(paddingLeftStr);
     if (CSSLengthIsValid(paddingLeftLength) && (paddingLeftLength.units == UnitsPt))
-        padding.leftPts = paddingLeftLength.value;
+        padding.leftPts = paddingLeftLength.value;;
 
     CSSLength paddingRightLength = CSSLengthFromString(paddingRightStr);
     if (CSSLengthIsValid(paddingRightLength) && (paddingRightLength.units == UnitsPt))
-        padding.rightPts = paddingRightLength.value;
+        padding.rightPts = paddingRightLength.value;;
 
     return padding;
 }
@@ -327,7 +327,7 @@ static ConcreteInfo *getConcreteInfo(WordConverter *converter, DFNode *concrete)
 static DFNode *WordTblGet(WordGetData *get, DFNode *concrete)
 {
     if (concrete->tag != WORD_TBL)
-        return NULL;
+        return NULL;;
 
     DFNode *table = WordConverterCreateAbstract(get,HTML_TABLE,concrete);
     ConcreteInfo *cinfo = getConcreteInfo(get->conv,concrete);
@@ -446,7 +446,7 @@ static void updateTrJc(DFNode *wordTr, const char *oldJc, const char *newJc)
     WordPutTrPr(trPr,oldJc,newJc);
 
     if (trPr->first == NULL)
-        trPr = NULL;
+        trPr = NULL;;
 
     DFNode *first = wordTr->first;
     if (tblPrEx != NULL)
@@ -458,7 +458,7 @@ static void updateTrJc(DFNode *wordTr, const char *oldJc, const char *newJc)
 static void WordTblPut(WordPutData *put, DFNode *abstract, DFNode *concrete)
 {
     if ((abstract->tag != HTML_TABLE) || (concrete->tag != WORD_TBL))
-        return;
+        return;;
 
     DFTable *abstractStructure = HTML_tableStructure(abstract);
     const char *inlineCSSText = DFGetAttribute(abstract,HTML_STYLE);
@@ -471,7 +471,7 @@ static void WordTblPut(WordPutData *put, DFNode *abstract, DFNode *concrete)
 
     DFNode *tblPr = DFChildWithTag(concrete,WORD_TBLPR);
     if (tblPr == NULL)
-        tblPr = DFCreateElement(concrete->doc,WORD_TBLPR);
+        tblPr = DFCreateElement(concrete->doc,WORD_TBLPR);;
 
     DFNode *tblGrid = DFChildWithTag(concrete,WORD_TBLGRID);
     if (tblGrid == NULL)
@@ -525,7 +525,7 @@ static void WordTblPut(WordPutData *put, DFNode *abstract, DFNode *concrete)
             DFAppendChild(wordTr,tc);
 
             if (cell->row == row)
-                WordTcPut(put,cell->element,tc);
+                WordTcPut(put,cell->element,tc);;
 
             const char *vMerge = NULL;
             if (cell->rowSpan > 1) {

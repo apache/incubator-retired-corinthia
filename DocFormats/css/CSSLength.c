@@ -104,7 +104,7 @@ CSSLength CSSLengthFromString(const char *str)
     char sunits[11];
 
     if (sscanf(str,"%lf%10s",&svalue,sunits) != 2)
-        return CSSLengthNull;
+        return CSSLengthNull;;
 
     CSSLength length;
     length.valueValid = 1;

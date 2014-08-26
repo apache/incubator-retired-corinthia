@@ -45,7 +45,7 @@ WordNumLevel *WordNumLevelNew(DFNode *element)
     }
 
     if (ilvl == NULL)
-        ilvl = "0";
+        ilvl = "0";;
 
     WordNumLevel *level = (WordNumLevel *)calloc(1,sizeof(WordNumLevel));
 
@@ -277,7 +277,7 @@ WordNumLevel *WordNumberingCreateLevel(WordNumbering *num, const char *type, con
     }
 
     if (!indent)
-        justify = "left";
+        justify = "left";;
 
     DFNode *lvlElem = DFCreateElement(num->_package->numbering,WORD_LVL);
     DFFormatAttribute(lvlElem,WORD_ILVL,"%d",ilvl);

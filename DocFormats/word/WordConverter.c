@@ -69,7 +69,7 @@ int Word_isFigureParagraph(DFNode *p)
 {
     // A paragraph is a figure if it contains only a single run, and that run contains a drawing
     if ((p == NULL) || (p->tag != WORD_P))
-        return 0;
+        return 0;;
 
     DFNode *run = NULL;
     int runCount = 0;
@@ -147,7 +147,7 @@ static int nodesEqual(DFNode *a, DFNode *b)
         return 0;
 
     if (a->tag < MIN_ELEMENT_TAG)
-        return 0;
+        return 0;;
 
     // First check if the number and type of children are the same
     DFNode *aChild = a->first;
@@ -222,7 +222,7 @@ static void Word_mergeRuns(WordPackage *package)
 static void Word_addContentParts(DFNode *child, const char *content, WordCaption *caption)
 {
     if (content == NULL)
-        return;
+        return;;
     DFNode *nextSibling = child->first;
     DFArray *parts = CSSParseContent(content);
     for (size_t i = 0; i < DFArrayCount(parts); i++) {
@@ -365,7 +365,7 @@ static DFNode *findSeqChild(DFNode *parent)
 {
     for (DFNode *child = parent->first; child != NULL; child = child->next) {
         if (isSeqField(child))
-            return child;
+            return child;;
         DFNode *result = findSeqChild(child);
         if (result != NULL)
             return result;
@@ -445,7 +445,7 @@ static void extractPrefixRecursive(DFNode *node, const char *counterName, DFBuff
 static char *extractPrefix(DFNode *node, const char *counterName)
 {
     if (findSeqChild(node) == NULL)
-        return NULL;
+        return NULL;;
     DFBuffer *result = DFBufferNew();
     int foundSeq = 0;
     int foundContent = 0;
@@ -623,10 +623,10 @@ DFNode *WordConverterGetConcrete(WordPutData *put, DFNode *abstract)
     // Is the abstract node an element, and does it have an id that matches the prefix used for
     // conversion? That is, does it look like it has a corresponding node in the concrete document?
     if ((abstract == NULL) || (abstract->tag < MIN_ELEMENT_TAG))
-        return NULL;
+        return NULL;;
     const char *idStr = DFGetAttribute(abstract,HTML_ID);
     if ((idStr == NULL) || !DFStringHasPrefix(idStr,put->conv->idPrefix))
-        return NULL;
+        return NULL;;
 
     // Determine the node sequence number and the document based on the id attribute.
     // The format of the attribute is <prefix><seqno>(-<docname>)?, where

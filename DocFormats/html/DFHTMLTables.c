@@ -132,7 +132,7 @@ static void HTML_populateStructure(DFTable *structure, RowList *rowList)
             if ((colSpanStr != NULL) && (atoi(colSpanStr) >= 1))
                 colSpan = atoi(colSpanStr);
             if ((rowSpanStr != NULL) && (atoi(rowSpanStr) >= 1))
-                rowSpan = atoi(rowSpanStr);
+                rowSpan = atoi(rowSpanStr);;
 
             // Create the cell object, initialising it with the row and column on which it starts, and setting the
             // rowSpan and colSpan fields to the values derived from the attributes of the TD or TH element, if any
@@ -166,7 +166,7 @@ static void HTML_getColWidths(DFTable *structure, DFNode *node, unsigned int *co
                 break;
             case HTML_COL: {
                 if (*col >= structure->cols)
-                    return;
+                    return;;
                 const char *width = DFGetAttribute(child,HTML_WIDTH);
                 CSSLength length = CSSLengthFromString(width);
                 double pct = 0;
