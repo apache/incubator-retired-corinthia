@@ -225,7 +225,7 @@ static void Word_addContentParts(DFNode *child, const char *content, WordCaption
         return;
     DFNode *nextSibling = child->first;
     DFArray *parts = CSSParseContent(content);
-    for (int i = 0; i < DFArrayCount(parts); i++) {
+    for (size_t i = 0; i < DFArrayCount(parts); i++) {
         ContentPart *part = DFArrayItemAt(parts,i);
         switch (part->type) {
             case ContentPartString: {

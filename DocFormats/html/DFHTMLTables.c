@@ -143,8 +143,8 @@ static void HTML_populateStructure(DFTable *structure, RowList *rowList)
             // Loop through all the locations in the table grid covered by the cell, based on the row and column
             // span. For each location (and there will be at least one), set the cell pointer at that location to
             // refer to the cell object we just created.
-            for (int r = 0; (r < rowSpan) && (row + r < structure->rows); r++) {
-                for (int c = 0; (c < colSpan) && (col + c < structure->cols); c++) {
+            for (unsigned int r = 0; (r < rowSpan) && (row + r < structure->rows); r++) {
+                for (unsigned int c = 0; (c < colSpan) && (col + c < structure->cols); c++) {
                     DFTableSetCell(structure,row + r,col + c,cell);
                 }
             }

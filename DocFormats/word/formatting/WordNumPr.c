@@ -171,7 +171,7 @@ void updateNumbering(WordConverter *converter, CSSSheet *cssSheet)
 
             DFArray *contentParts = CSSParseContent(CSSGet(CSSStyleBefore(cssStyle),"content"));
             DFBuffer *format = DFBufferNew();
-            for (int partIndex = 0; partIndex < DFArrayCount(contentParts); partIndex++) {
+            for (size_t partIndex = 0; partIndex < DFArrayCount(contentParts); partIndex++) {
                 ContentPart *part = DFArrayItemAt(contentParts,partIndex);
                 if (part->type == ContentPartCounter) {
                     if (DFStringEquals(part->value,elementName)) {

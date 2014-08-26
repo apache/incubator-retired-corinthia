@@ -596,7 +596,7 @@ void parseContent(const char *content)
 {
     DFArray *parts = CSSParseContent(content);
     printf("parts.count = %lu\n",DFArrayCount(parts));
-    for (int i = 0; i < DFArrayCount(parts); i++) {
+    for (size_t i = 0; i < DFArrayCount(parts); i++) {
         ContentPart *part = DFArrayItemAt(parts,i);
         char *quotedValue = DFQuote(part->value);
         printf("%s %s\n",ContentPartTypeString(part->type),quotedValue);

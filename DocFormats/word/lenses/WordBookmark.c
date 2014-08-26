@@ -286,7 +286,7 @@ void Word_setupBookmarkLinks(WordPutData *put)
         int refLabelNum = 0;
         int refCaptionText = 0;
 
-        for (int refIndex = 0; refIndex < DFArrayCount(references); refIndex++) {
+        for (size_t refIndex = 0; refIndex < DFArrayCount(references); refIndex++) {
             DFNode *a = DFArrayItemAt(references,refIndex);
             const char *className = DFGetAttribute(a,HTML_CLASS);
             if (DFStringEquals(className,DFRefTextClass))

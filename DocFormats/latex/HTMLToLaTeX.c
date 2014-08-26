@@ -330,7 +330,7 @@ static void tableToLaTeX(LaTeXConverter *conv, DFBuffer *output, DFNode *table)
     for (unsigned int row = 0; row < structure->rows; row++) {
 
         // Add inter-row line(s)
-        int start = 0;
+        unsigned int start = 0;
         for (unsigned int col = 0; col <= structure->cols; col++) {
             int omitBorder = 0;
             if (col < structure->cols) {

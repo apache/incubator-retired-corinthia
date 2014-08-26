@@ -131,7 +131,7 @@ static void fixParagraphWhitespace(DFNode *paragraph)
 {
     DFArray *leafEntries = DFArrayNew(NULL,free);
     findLeafNodes(paragraph,0,leafEntries);
-    for (int i = 0; i < DFArrayCount(leafEntries); i++) {
+    for (size_t i = 0; i < DFArrayCount(leafEntries); i++) {
         LeafEntry *entry = DFArrayItemAt(leafEntries,i);
         if (entry->node->tag != DOM_TEXT)
             continue;
@@ -174,7 +174,7 @@ static void fixParagraphWhitespace(DFNode *paragraph)
         free(newChars);
     }
 
-    for (int i = 0; i < DFArrayCount(leafEntries); i++) {
+    for (size_t i = 0; i < DFArrayCount(leafEntries); i++) {
         LeafEntry *entry = DFArrayItemAt(leafEntries,i);
         LeafEntry *prev = (i > 0) ? DFArrayItemAt(leafEntries,i-1) : NULL;
         LeafEntry *next = (i+1 < DFArrayCount(leafEntries)) ? DFArrayItemAt(leafEntries,i+1) : NULL;
@@ -215,7 +215,7 @@ static void fixParagraphWhitespace(DFNode *paragraph)
 
     // Delete any tempty text nodes and their containers
     // FIXME: no tests cover this case
-    for (int i = 0; i < DFArrayCount(leafEntries); i++) {
+    for (size_t i = 0; i < DFArrayCount(leafEntries); i++) {
         LeafEntry *entry = DFArrayItemAt(leafEntries,i);
         DFNode *node = entry->node;
         if ((node->tag == DOM_TEXT) && (strlen(node->value) == 0))

@@ -46,7 +46,7 @@ void TextPackageRelease(TextPackage *package)
     if ((package == NULL) || (--package->retainCount > 0))
         return;
 
-    for (int i = 0; i < package->nkeys; i++)
+    for (size_t i = 0; i < package->nkeys; i++)
         free(package->keys[i]);
     free(package->keys);
     DFHashTableRelease(package->items);

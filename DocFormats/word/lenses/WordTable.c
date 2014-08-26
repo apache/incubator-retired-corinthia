@@ -384,7 +384,7 @@ static DFNode *WordTblGet(WordGetData *get, DFNode *concrete)
             continue;
         DFNode *tr = WordConverterCreateAbstract(get,HTML_TR,tblChild);
         DFAppendChild(table,tr);
-        int col = 0;
+        unsigned int col = 0;
         while (col < cinfo->structure->cols) {
             DFCell *cell = DFTableGetCell(cinfo->structure,row,col);
             if (cell == NULL) {
@@ -508,12 +508,12 @@ static void WordTblPut(WordPutData *put, DFNode *abstract, DFNode *concrete)
 
     DFAppendChild(concrete,tblPr);
     DFAppendChild(concrete,tblGrid);
-    for (int row = 0; row < abstractStructure->rows; row++) {
+    for (unsigned int row = 0; row < abstractStructure->rows; row++) {
         DFNode *htmlTr = DFTableGetRowElement(abstractStructure,row);
         DFNode *wordTr = concreteRowForAbstractRow(put,htmlTr);
         updateTrJc(wordTr,oldJc,newJc);
         DFAppendChild(concrete,wordTr);
-        int col = 0;
+        unsigned int col = 0;
         while (col < abstractStructure->cols) {
 
             DFCell *cell = DFTableGetCell(abstractStructure,row,col);

@@ -584,8 +584,8 @@ static void populateDrawingElement(WordConverter *converter, DFNode *root, doubl
                                    double heightPts, const char *drawingId, const char *rId)
 {
     EMUSize size;
-    size.widthEmu = round(widthPts*EMUS_PER_POINT);
-    size.heightEmu = round(heightPts*EMUS_PER_POINT);
+    size.widthEmu = (unsigned long long)round(widthPts*EMUS_PER_POINT);
+    size.heightEmu = (unsigned long long)round(heightPts*EMUS_PER_POINT);
 
     root->tag = WORD_DRAWING;
     DFRemoveAllAttributes(root);

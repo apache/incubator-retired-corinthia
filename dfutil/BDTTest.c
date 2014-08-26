@@ -277,8 +277,8 @@ static void combinedListing(DFDocument *abstractDoc, DFDocument *concreteDoc, DF
     size_t abstractCount = DFStringArrayCount(abstractLines);
     size_t concreteCount = DFStringArrayCount(concreteLines);
 
-    int absIndex = 0;
-    int conIndex = 0;
+    size_t absIndex = 0;
+    size_t conIndex = 0;
     while ((absIndex < abstractCount) && (conIndex < concreteCount)) {
         const char *absLine = abstractLines[absIndex];
         const char *conLine = concreteLines[conIndex];

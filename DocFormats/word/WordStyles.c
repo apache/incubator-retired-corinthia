@@ -474,7 +474,7 @@ static void WordPutSectPr(DFNode *concrete, CSSSheet *styleSheet, WordSection *s
         }
     }
     replaceChildrenFromArray(concrete,children,WordSectPr_Children);
-    for (ssize_t i = DFArrayCount(extra)-1; i >= 0; i--) {
+    for (long i = DFArrayCount(extra)-1; i >= 0; i--) {
         DFNode *child = DFArrayItemAt(extra,i);
         DFInsertBefore(concrete,child,concrete->first);
     }

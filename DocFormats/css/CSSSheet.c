@@ -255,7 +255,7 @@ static const char **reverseTopologicalSortedSelectors(CSSSheet *sheet)
     for (int i = 0; allSelectors[i]; i++) {
         const char *selector = allSelectors[i];
         CSSStyle *style = CSSSheetLookupSelector(sheet,selector,0,0);
-        int depth = 0;
+        unsigned int depth = 0;
 
         while ((style = CSSSheetGetStyleParent(sheet,style)) != NULL)
             depth++;
@@ -411,7 +411,7 @@ void CSSSheetUpdateFromCSSText(CSSSheet *sheet, const char *cssText)
             continue;
         }
 
-        for (int selIndex = 0; selIndex < DFArrayCount(selectors); selIndex++) {
+        for (size_t selIndex = 0; selIndex < DFArrayCount(selectors); selIndex++) {
             const char *selector = DFArrayItemAt(selectors,selIndex);
             DFHashTableAdd(rules,selector,properties);
         }
@@ -459,7 +459,7 @@ int CSSSheetHeadingNumbering(CSSSheet *sheet)
         if (CSSGet(CSSStyleBefore(style),"content") == NULL)
             continue;
         DFArray *contentParts = CSSParseContent(CSSGet(CSSStyleBefore(style),"content"));
-        for (int partIndex = 0; partIndex < DFArrayCount(contentParts); partIndex++) {
+        for (size_t partIndex = 0; partIndex < DFArrayCount(contentParts); partIndex++) {
             ContentPart *part = DFArrayItemAt(contentParts,partIndex);
             if (part->type == ContentPartCounter) {
                 free(allSelectors);

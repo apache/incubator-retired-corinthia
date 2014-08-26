@@ -133,8 +133,8 @@ void DFTableSetRowElement(DFTable *table, DFNode *element, unsigned int row)
 
 void DFTablePrint(DFTable *table)
 {
-    for (int row = 0; row < table->rows; row++) {
-        for (int col = 0; col < table->cols; col++) {
+    for (unsigned int row = 0; row < table->rows; row++) {
+        for (unsigned int col = 0; col < table->cols; col++) {
             DFCell *cell = table->cells[row][col];
             if (cell == NULL)
                 printf("     -    ");
