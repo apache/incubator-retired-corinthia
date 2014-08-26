@@ -24,6 +24,7 @@
 #include "DFFilesystem.h"
 #include "DFHTML.h"
 #include <string.h>
+#include <stdlib.h>
 
 static void addSerializedDoc(DFBuffer *result, DFDocument *doc, const char *filename)
 {

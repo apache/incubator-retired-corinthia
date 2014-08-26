@@ -88,7 +88,6 @@
 
  */
 
-#include <libxml/tree.h>
 #include "DFXMLNamespaces.h"
 #include "DFXMLNames.h"
 #include "DFXMLForward.h"

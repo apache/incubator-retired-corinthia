@@ -20,6 +20,7 @@
 #include "StringTests.h"
 #include <zlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "DFZipFile.h"
 
 static int runCommand(int argc, const char **argv, DFError **dferr)

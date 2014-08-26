@@ -18,6 +18,7 @@
 #include "DFNameMap.h"
 #include <string.h>
 #include <assert.h>
+#include <stdlib.h>
 
 static char *fullNameForTag(DFDocument *doc, Tag tag)
 {

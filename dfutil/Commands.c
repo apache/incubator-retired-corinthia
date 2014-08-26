@@ -31,6 +31,8 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 static DFBuffer *readData(const char *filename, DFError **error)
 {
