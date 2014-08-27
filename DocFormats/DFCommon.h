@@ -50,4 +50,8 @@
 #include <unistd.h>
 #endif
 
+#ifndef S_ISDIR
+#define S_ISDIR(m)      (((m) & S_IFMT) == S_IFDIR)     /* directory */
+#endif
+
 #endif
