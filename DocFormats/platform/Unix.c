@@ -21,6 +21,11 @@
 
 #ifndef WIN32
 
+void DFInitOnce(DFOnce *once, DFOnceFunction fun)
+{
+    pthread_once(once,fun);
+}
+
 int DFMkdirIfAbsent(const char *path, DFError **error)
 {
     if ((mkdir(path,0777) != 0) && (errno != EEXIST)) {

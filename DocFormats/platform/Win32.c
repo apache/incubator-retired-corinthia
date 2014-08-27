@@ -21,6 +21,17 @@
 
 #ifdef WIN32
 
+static BOOL CALLBACK DFInitOnceWrapper(PINIT_ONCE InitOnce,void *p,void *c)
+{
+    ((DFOnceFunction)p)();
+    return 1;
+}
+
+void DFInitOnce(DFOnce *once, DFOnceFunction fun)
+{
+    InitOnceExecuteOnce(once,DFInitOnceWrapper,fun,NULL);
+}
+
 int DFMkdirIfAbsent(const char *path,DFError **error)
 {
     if (!CreateDirectory(path,NULL) && (GetLastError() != ERROR_ALREADY_EXISTS)) {

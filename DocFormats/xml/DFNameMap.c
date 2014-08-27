@@ -16,7 +16,7 @@
 #include "DFDOM.h"
 #include "DFHashTable.h"
 #include "DFCommon.h"
-#include <pthread.h>
+#include "DFPlatform.h"
 
 static void NameMap_staticInit();
 
@@ -314,15 +314,15 @@ static void NameMap_staticInit()
 
 static DFNameMap *builtinMap = NULL;
 
-static void initBuiltinMap()
+static void initBuiltinMap(void)
 {
     builtinMap = DFNameMapNew();
 }
 
 static DFNameMap *BuiltinMapGet(void)
 {
-    static pthread_once_t once = PTHREAD_ONCE_INIT;
-    pthread_once(&once,initBuiltinMap);
+    static DFOnce once = DF_ONCE_INIT;
+    DFInitOnce(&once,initBuiltinMap);
     return builtinMap;
 }
 
