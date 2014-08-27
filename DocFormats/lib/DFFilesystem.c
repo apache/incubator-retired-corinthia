@@ -133,7 +133,7 @@ int DFDeleteFile(const char *path, DFError **error)
             ok = 0;
     }
     else {
-        if (!unlink(path)) {
+        if (0 != unlink(path)) {
             DFErrorSetPosix(error,errno);
             ok = 0;
         }
