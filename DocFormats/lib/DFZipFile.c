@@ -71,10 +71,9 @@ int DFUnzip(const char *zipFilename, const char *destDir, DFError **error)
                 return zipError(error,"%s: Cannot open zip entry",entryName);
             }
 
-            int BUFSIZE = 1024;
-            unsigned char buf[1024];
+            unsigned char buf[4096];
             int r;
-            while (0 < (r = unzReadCurrentFile(zipFile,buf,BUFSIZE)))
+            while (0 < (r = unzReadCurrentFile(zipFile,buf,4096)))
                 fwrite(buf,1,r,outFile);
             if (0 > r) {
                 fclose(outFile);
@@ -115,10 +114,9 @@ static int zipAddFile(zipFile zip, const char *dest, FILE *inFile, DFError **err
         return zipError(error,"%s: Cannot create entry in zip file",dest);
     }
 
-    int BUFSIZE = 1024;
-    char buf[BUFSIZE];
+    char buf[4096];
     size_t r;
-    while (0 < (r = fread(buf, 1, BUFSIZE, inFile))) {
+    while (0 < (r = fread(buf,1,4096,inFile))) {
         if (ZIP_OK != zipWriteInFileInZip(zip,buf,(unsigned int)r))
             return zipError(error,"%s: Error writing to entry in zip file",dest);
     }
