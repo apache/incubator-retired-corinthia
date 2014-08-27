@@ -106,7 +106,7 @@ int DFDeleteFile(const char *path, DFError **error)
     // an error will be returned.
     struct stat statbuf;
     if (0 != stat(path,&statbuf)) {
-        DFErrorSetPosix(error,statbuf.st_mode);
+        DFErrorSetPosix(error,errno);
         return 0;
     }
 
