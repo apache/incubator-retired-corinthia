@@ -19,9 +19,7 @@
 #include "TestFunctions.h"
 #include "DFString.h"
 #include "DFFilesystem.h"
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
+#include "DFCommon.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //

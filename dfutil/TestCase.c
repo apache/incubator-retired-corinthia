@@ -15,8 +15,7 @@
 #include "TestCase.h"
 #include "TestFunctions.h"
 #include "Plain.h"
-#include <string.h>
-#include <stdlib.h>
+#include "DFCommon.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //

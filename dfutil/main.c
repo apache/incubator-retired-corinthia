@@ -18,10 +18,8 @@
 #include "Plain.h"
 #include "FunctionTests.h"
 #include "StringTests.h"
-#include <zlib.h>
-#include <string.h>
-#include <stdio.h>
 #include "DFZipFile.h"
+#include "DFCommon.h"
 
 static int runCommand(int argc, const char **argv, DFError **dferr)
 {

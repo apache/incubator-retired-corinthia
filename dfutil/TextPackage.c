@@ -16,8 +16,7 @@
 #include "DFBuffer.h"
 #include "DFString.h"
 #include "DFFilesystem.h"
-#include <stdlib.h>
-#include <string.h>
+#include "DFCommon.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //

@@ -28,11 +28,7 @@
 #include "DFHTMLNormalization.h"
 #include "CSS.h"
 #include "HTMLToLaTeX.h"
-#include <string.h>
-#include <errno.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "DFCommon.h"
 
 static DFBuffer *readData(const char *filename, DFError **error)
 {
