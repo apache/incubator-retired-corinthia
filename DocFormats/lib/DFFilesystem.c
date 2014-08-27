@@ -114,7 +114,7 @@ int DFDeleteFile(const char *path, DFError **error)
     if (S_ISDIR(statbuf.st_mode)) {
         const char **contents = DFContentsOfDirectory(path,1,error);
         if (contents == NULL)
-            return 0;
+            return 0;;
 
         size_t count = DFStringArrayCount(contents);
 

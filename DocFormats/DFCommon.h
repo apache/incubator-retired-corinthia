@@ -33,6 +33,7 @@
 
 #ifdef WIN32
 #include <io.h>
+#include <direct.h>
 #define open _open
 #define creat _creat
 #define read _read
@@ -43,6 +44,8 @@
 #define strcasecmp _stricmp
 #define strncasecmp _strnicmp
 #define strdup _strdup
+#define rmdir _rmdir
+#define unlink _unlink
 #define bzero(mem,size) memset(mem,0,size)
 #pragma warning(disable: 4090) // 'function': different 'const' qualifiers
 #else // not WIN32
