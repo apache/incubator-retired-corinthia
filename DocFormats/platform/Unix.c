@@ -21,6 +21,15 @@
 
 #ifndef WIN32
 
+int DFMkdirIfAbsent(const char *path, DFError **error)
+{
+    if ((mkdir(path,0777) != 0) && (errno != EEXIST)) {
+        DFErrorSetPosix(error,errno);
+        return 0;
+    }
+    return 1;
+}
+
 int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DFArray *array, DFError **error)
 {
     DIR *dir = opendir(absPath);

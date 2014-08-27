@@ -21,6 +21,15 @@
 
 #ifdef WIN32
 
+int DFMkdirIfAbsent(const char *path,DFError **error)
+{
+    if (!CreateDirectory(path,NULL) && (GetLastError() != ERROR_ALREADY_EXISTS)) {
+        DFErrorSetWin32(error,GetLastError());
+        return 0;
+    }
+    return 1;
+}
+
 int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DFArray *array, DFError **error)
 {
     WIN32_FIND_DATA ffd;

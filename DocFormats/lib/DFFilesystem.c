@@ -41,11 +41,10 @@ int DFCreateDirectory(const char *path, int intermediates, DFError **error)
             if (pos == 0)
                 continue;
             char *partial = DFSubstring(path,0,pos);
-            if ((mkdir(partial,0777) != 0) && (errno != EEXIST)) {
-                DFErrorSetPosix(error,errno);
-                return 0;
-            }
+            int ok = DFMkdirIfAbsent(partial,error);
             free(partial);
+            if (!ok)
+                return 0;
         }
     }
     return 1;
