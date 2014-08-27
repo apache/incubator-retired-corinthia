@@ -151,7 +151,7 @@ static int addContents(const char *absPath, const char *relPath, int recursive, 
     char *pattern = DFFormatString("%s/*",absPath);
     hFind = FindFirstFile(pattern,&ffd);
     if (hFind == INVALID_HANDLE_VALUE) {
-        DFErrorSetWin32(error);
+        DFErrorSetWin32(error,GetLastError());
         free(pattern);
         return 0;
     }

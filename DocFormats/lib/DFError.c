@@ -26,15 +26,14 @@ void DFErrorSetPosix(DFError **error, int code)
 }
 
 #ifdef WIN32
-void DFErrorSetWin32(DFError **error)
+void DFErrorSetWin32(DFError **error, DWORD code)
 {
-    DWORD dwError = GetLastError();
     char *lpMsgBuf;
     FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
                   FORMAT_MESSAGE_FROM_SYSTEM |
                   FORMAT_MESSAGE_IGNORE_INSERTS,
                   NULL,
-                  dwError,
+                  code,
                   MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
                   (LPTSTR)&lpMsgBuf,
                   0, NULL);

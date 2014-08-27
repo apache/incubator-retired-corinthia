@@ -21,7 +21,7 @@ typedef struct DFError DFError;
 
 void DFErrorSetPosix(DFError **error, int code);
 #ifdef WIN32
-void DFErrorSetWin32(DFError **error);
+void DFErrorSetWin32(DFError **error, DWORD code);
 #endif
 void DFErrorVFormat(DFError **error, const char *format, va_list ap);
 void DFErrorFormat(DFError **error, const char *format, ...) ATTRIBUTE_FORMAT(printf,2,3);
