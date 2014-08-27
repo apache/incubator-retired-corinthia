@@ -305,7 +305,6 @@ typedef struct {
     NamespaceID defaultNS;
     int html;
     int indent;
-    iconv_t ic;
 } Serialization;
 
 static void writeNode(Serialization *serialization, DFNode *node, int depth);
@@ -550,18 +549,12 @@ void DFSerializeXMLBuffer(DFDocument *doc, NamespaceID defaultNS, int indent, DF
 
     Serialization serialization;
     bzero(&serialization,sizeof(serialization));
-    serialization.ic = iconv_open("UTF-8","UTF-16LE");
-    if (serialization.ic == ((iconv_t)-1)) {
-        fprintf(stderr,"FATAL: Can't open iconv descriptor\n");
-        abort();
-    }
     serialization.writer = writer;
     serialization.doc = doc;
     serialization.defaultNS = defaultNS;
     serialization.html = html;
     serialization.indent = indent;
     writeNode(&serialization,doc->docNode,0);
-    iconv_close(serialization.ic);
     xmlFreeTextWriter(writer);
 }
 

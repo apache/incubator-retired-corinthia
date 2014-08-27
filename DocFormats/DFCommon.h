@@ -21,7 +21,6 @@
 #include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
-#include <iconv.h>
 #include <limits.h>
 #include <math.h>
 #include <stdarg.h>
