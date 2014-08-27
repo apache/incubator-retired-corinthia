@@ -39,12 +39,12 @@ int DFUnzip(const char *zipFilename, const char *destDir, DFError **error)
     int ret;
     for (ret = unzGoToFirstFile(zipFile); ret == UNZ_OK; ret = unzGoToNextFile(zipFile)) {
         unz_file_info info;
-        char entryName[PATH_MAX];
-        if (UNZ_OK != unzGetCurrentFileInfo(zipFile,&info,entryName,PATH_MAX,NULL,0,NULL,0))
+        char entryName[4096];
+        if (UNZ_OK != unzGetCurrentFileInfo(zipFile,&info,entryName,4096,NULL,0,NULL,0))
             return zipError(error,"Zip directory is corrupt");
 
-        char outPath[PATH_MAX];
-        snprintf(outPath,PATH_MAX,"%s/%s",destDir,entryName);
+        char outPath[4096];
+        snprintf(outPath,4096,"%s/%s",destDir,entryName);
 
         char *outParentPath = DFPathDirName(outPath);
         if (!DFFileExists(outParentPath)) {
