@@ -44,6 +44,7 @@
 #define strncasecmp _strnicmp
 #define strdup _strdup
 #define bzero(mem,size) memset(mem,0,size)
+#pragma warning(disable: 4090) // 'function': different 'const' qualifiers
 #else // not WIN32
 #include <dirent.h>
 #include <unistd.h>
