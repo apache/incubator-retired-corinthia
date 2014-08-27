@@ -39,6 +39,7 @@
 #define read _read
 #define write _write
 #define close _close
+#define getcwd _getcwd
 #define snprintf _snprintf
 #define vsnprintf _vsnprintf
 #define strcasecmp _stricmp
