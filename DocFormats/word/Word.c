@@ -31,7 +31,7 @@ int DFHTMLToWord2(WordPackage *package, const char *sourcePath, const char *dest
         return 0;
     }
 
-    char *idPrefix = DFFormatString("bdt%u-",(unsigned int)random());
+    char *idPrefix = DFFormatString("bdt%u-",(unsigned int)rand());
     if (!WordPackageOpenNew(package,error)) {
         DFDocumentRelease(htmlDoc);
         free(idPrefix);
