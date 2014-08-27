@@ -44,6 +44,7 @@
 #define strcasecmp _stricmp
 #define strncasecmp _strnicmp
 #define strdup _strdup
+#define bzero(mem,size) memset(mem,0,size)
 #else // not WIN32
 #include <dirent.h>
 #include <unistd.h>
