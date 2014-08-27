@@ -36,6 +36,12 @@ set(GroupRoot
     DFTypes.h
     DocFormats.h)
 
+set(GroupPlatform
+    platform/Apple.c
+    platform/Linux.c
+    platform/Unix.c
+    platform/Win32.c)
+
 set(GroupCSS
     css/CSS.c
     css/CSS.h
@@ -199,6 +205,7 @@ add_library(DocFormats
     ${GroupLib}
     ${GroupNames}
     ${GroupODF}
+    ${GroupPlatform}
     ${GroupWord}
     ${GroupWordFormatting}
     ${GroupWordLenses}
@@ -211,6 +218,7 @@ source_group(latex FILES ${GroupLaTeX})
 source_group(lib FILES ${GroupLib})
 source_group(names FILES ${GroupNames})
 source_group(odf FILES ${GroupODF})
+source_group(platform FILES ${GroupPlatform})
 source_group(word FILES ${GroupWord})
 source_group(word\\formatting FILES ${GroupWordFormatting})
 source_group(word\\lenses FILES ${GroupWordLenses})

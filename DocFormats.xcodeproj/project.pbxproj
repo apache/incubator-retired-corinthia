@@ -107,6 +107,10 @@
 		D06637F0199A81F000A6D142 /* DFFilesystem.h in Headers */ = {isa = PBXBuildFile; fileRef = D06637ED199A81D800A6D142 /* DFFilesystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D06DBC39199A8225007D50E4 /* DFFilesystem.c in Sources */ = {isa = PBXBuildFile; fileRef = D06637EC199A81D800A6D142 /* DFFilesystem.c */; };
 		D06F60AA186F12E100918332 /* DFArray.c in Sources */ = {isa = PBXBuildFile; fileRef = D06F60A9186F12E100918332 /* DFArray.c */; };
+		D0734CAC19C4C20A002D1EEA /* Apple.c in Sources */ = {isa = PBXBuildFile; fileRef = D0734CA819C4C20A002D1EEA /* Apple.c */; };
+		D0734CAD19C4C20A002D1EEA /* Linux.c in Sources */ = {isa = PBXBuildFile; fileRef = D0734CA919C4C20A002D1EEA /* Linux.c */; };
+		D0734CAE19C4C20A002D1EEA /* Unix.c in Sources */ = {isa = PBXBuildFile; fileRef = D0734CAA19C4C20A002D1EEA /* Unix.c */; };
+		D0734CAF19C4C20A002D1EEA /* Win32.c in Sources */ = {isa = PBXBuildFile; fileRef = D0734CAB19C4C20A002D1EEA /* Win32.c */; };
 		D086FEDF1954808C00ECB82A /* ODFPackage.c in Sources */ = {isa = PBXBuildFile; fileRef = D086FEDE1954808C00ECB82A /* ODFPackage.c */; };
 		D086FEE01954813500ECB82A /* ODFPackage.c in Sources */ = {isa = PBXBuildFile; fileRef = D086FEDE1954808C00ECB82A /* ODFPackage.c */; };
 		D086FEE11954813700ECB82A /* ODFPackage.h in Headers */ = {isa = PBXBuildFile; fileRef = D086FEDD1954808400ECB82A /* ODFPackage.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -462,6 +466,10 @@
 		D06637ED199A81D800A6D142 /* DFFilesystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFFilesystem.h; sourceTree = "<group>"; };
 		D06F60A8186F12D800918332 /* DFArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DFArray.h; sourceTree = "<group>"; };
 		D06F60A9186F12E100918332 /* DFArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFArray.c; sourceTree = "<group>"; };
+		D0734CA819C4C20A002D1EEA /* Apple.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Apple.c; sourceTree = "<group>"; };
+		D0734CA919C4C20A002D1EEA /* Linux.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Linux.c; sourceTree = "<group>"; };
+		D0734CAA19C4C20A002D1EEA /* Unix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Unix.c; sourceTree = "<group>"; };
+		D0734CAB19C4C20A002D1EEA /* Win32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Win32.c; sourceTree = "<group>"; };
 		D086FEDD1954808400ECB82A /* ODFPackage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ODFPackage.h; sourceTree = "<group>"; };
 		D086FEDE1954808C00ECB82A /* ODFPackage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ODFPackage.c; sourceTree = "<group>"; };
 		D089D855183C88B40012ABB1 /* DFString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DFString.h; sourceTree = "<group>"; };
@@ -722,6 +730,17 @@
 			path = formatting;
 			sourceTree = "<group>";
 		};
+		D0734CA719C4C20A002D1EEA /* platform */ = {
+			isa = PBXGroup;
+			children = (
+				D0734CA819C4C20A002D1EEA /* Apple.c */,
+				D0734CA919C4C20A002D1EEA /* Linux.c */,
+				D0734CAA19C4C20A002D1EEA /* Unix.c */,
+				D0734CAB19C4C20A002D1EEA /* Win32.c */,
+			);
+			path = platform;
+			sourceTree = "<group>";
+		};
 		D0A1282517EF7E9D005FE158 = {
 			isa = PBXGroup;
 			children = (
@@ -781,6 +800,7 @@
 				D0B5E72C17F0852D00FBD99F /* lib */,
 				D0B5E73D17F0852D00FBD99F /* names */,
 				D0D45A681954334700F6E7D8 /* odf */,
+				D0734CA719C4C20A002D1EEA /* platform */,
 				D0A1283917EF7E9D005FE158 /* Supporting Files */,
 				D0B5E75117F0852D00FBD99F /* word */,
 				D0B5E78617F0852D00FBD99F /* xml */,
@@ -1410,7 +1430,10 @@
 				D0B5E7BF17F0852D00FBD99F /* DFTidyHelper.c in Sources */,
 				D0D45A6F195434A400F6E7D8 /* ODFSheet.c in Sources */,
 				D0D933071999D7400045FF31 /* alloc.c in Sources */,
+				D0734CAC19C4C20A002D1EEA /* Apple.c in Sources */,
+				D0734CAF19C4C20A002D1EEA /* Win32.c in Sources */,
 				D0B5E83017F0852D00FBD99F /* WordSmartTag.c in Sources */,
+				D0734CAD19C4C20A002D1EEA /* Linux.c in Sources */,
 				D0B5E79517F0852D00FBD99F /* CSS.c in Sources */,
 				D0D9331A1999D7400045FF31 /* gdoc.c in Sources */,
 				D0D933111999D7400045FF31 /* clean.c in Sources */,
@@ -1437,6 +1460,7 @@
 				D0D933321999D7400045FF31 /* utf8.c in Sources */,
 				D0B5E7DD17F0852D00FBD99F /* DFAllocator.c in Sources */,
 				D0B5E85917F0852D00FBD99F /* WordStyles.c in Sources */,
+				D0734CAE19C4C20A002D1EEA /* Unix.c in Sources */,
 				D05585DB1865ED3B00A641D7 /* WordNumPr.c in Sources */,
 				D0B5E79117F0852D00FBD99F /* DFBDT.c in Sources */,
 				D0D933271999D7400045FF31 /* pprint.c in Sources */,
