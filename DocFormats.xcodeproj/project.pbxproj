@@ -132,8 +132,6 @@
 		D098AC41182B5FE800EC35D9 /* DFError.h in Headers */ = {isa = PBXBuildFile; fileRef = D098AC3D182B5F0800EC35D9 /* DFError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D098AC42182B5FE800EC35D9 /* DFError.h in Headers */ = {isa = PBXBuildFile; fileRef = D098AC3D182B5F0800EC35D9 /* DFError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D09CB0011982A80800C3F47A /* DFPlatform.h in Headers */ = {isa = PBXBuildFile; fileRef = D09CAFFF1982A80800C3F47A /* DFPlatform.h */; };
-		D09CB0021982A80800C3F47A /* DFPlatform.c in Sources */ = {isa = PBXBuildFile; fileRef = D09CB0001982A80800C3F47A /* DFPlatform.c */; };
-		D09CB0031982A95A00C3F47A /* DFPlatform.c in Sources */ = {isa = PBXBuildFile; fileRef = D09CB0001982A80800C3F47A /* DFPlatform.c */; };
 		D09CB0041982A95E00C3F47A /* DFPlatform.h in Headers */ = {isa = PBXBuildFile; fileRef = D09CAFFF1982A80800C3F47A /* DFPlatform.h */; };
 		D0A1283317EF7E9D005FE158 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A1283217EF7E9D005FE158 /* Cocoa.framework */; };
 		D0A1283D17EF7E9D005FE158 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D0A1283B17EF7E9D005FE158 /* InfoPlist.strings */; };
@@ -477,7 +475,6 @@
 		D098AC3D182B5F0800EC35D9 /* DFError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DFError.h; sourceTree = "<group>"; };
 		D098AC3E182B5F1200EC35D9 /* DFError.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFError.c; sourceTree = "<group>"; };
 		D09CAFFF1982A80800C3F47A /* DFPlatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFPlatform.h; sourceTree = "<group>"; };
-		D09CB0001982A80800C3F47A /* DFPlatform.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFPlatform.c; sourceTree = "<group>"; };
 		D0A1282F17EF7E9D005FE158 /* DocFormats.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DocFormats.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A1283217EF7E9D005FE158 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D0A1283517EF7E9D005FE158 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -808,7 +805,6 @@
 				D0B5E6F617F0852D00FBD99F /* DFBDT.h */,
 				D0B5E6F817F0852D00FBD99F /* DFClassNames.h */,
 				D0BC41601984101D00882CD1 /* DFCommon.h */,
-				D09CB0001982A80800C3F47A /* DFPlatform.c */,
 				D09CAFFF1982A80800C3F47A /* DFPlatform.h */,
 				D0B5E75017F0852D00FBD99F /* DFTable.c */,
 				D0B5E74F17F0852D00FBD99F /* DFTable.h */,
@@ -1442,7 +1438,6 @@
 				D0D933301999D7400045FF31 /* tmbstr.c in Sources */,
 				D0D9330E1999D7400045FF31 /* buffio.c in Sources */,
 				D0B5E82C17F0852D00FBD99F /* WordRun.c in Sources */,
-				D09CB0021982A80800C3F47A /* DFPlatform.c in Sources */,
 				D0B5E7E017F0852D00FBD99F /* DFBuffer.c in Sources */,
 				D0D933291999D7400045FF31 /* streamio.c in Sources */,
 				D0D933051999D7400045FF31 /* access.c in Sources */,
@@ -1554,7 +1549,6 @@
 				D0B5E82D17F0852D00FBD99F /* WordRun.c in Sources */,
 				D0B5E7E117F0852D00FBD99F /* DFBuffer.c in Sources */,
 				D0619A6A1843B998004AD893 /* DFCallback.c in Sources */,
-				D09CB0031982A95A00C3F47A /* DFPlatform.c in Sources */,
 				D010331D18B293F100E74FDB /* HTMLToLaTeX.c in Sources */,
 				D063B7A3199A815D00E3D511 /* pprint.c in Sources */,
 				D0B5E7F817F0852D00FBD99F /* DFXMLNamespaces.c in Sources */,

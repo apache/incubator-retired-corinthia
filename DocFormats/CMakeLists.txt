@@ -29,7 +29,6 @@ set(GroupRoot
     DFBDT.h
     DFClassNames.h
     DFCommon.h
-    DFPlatform.c
     DFPlatform.h
     DFTable.c
     DFTable.h

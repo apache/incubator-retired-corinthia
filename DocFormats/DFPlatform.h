@@ -17,6 +17,6 @@
 
 #include "DFError.h"
 
-int DFPlatformGetImageDimensions(const char *path, unsigned int *width, unsigned int *height, DFError **error);
+int DFGetImageDimensions(const char *path, unsigned int *width, unsigned int *height, DFError **error);
 
 #endif

@@ -19,4 +19,11 @@
 
 #ifdef WIN32
 
+int DFGetImageDimensions(const char *path, unsigned int *width, unsigned int *height, DFError **error)
+{
+    printf("WARNING: DFGetImageDimensions is not implemented on Windows\n");
+    DFErrorFormat(error,"DFGetImageDimensions is not implemented on Windows");
+    return 0;
+}
+
 #endif
