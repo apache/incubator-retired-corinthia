@@ -29,7 +29,7 @@ int DFFileExists(const char *path)
 int DFIsDirectory(const char *path)
 {
     struct stat statbuf;
-    return ((0 == stat(path,&statbuf)) && S_ISDIR(statbuf.st_mode));
+    return ((0 == stat(path,&statbuf)) && (((statbuf.st_mode) & S_IFMT) == S_IFDIR));
 }
 
 int DFCreateDirectory(const char *path, int intermediates, DFError **error)
