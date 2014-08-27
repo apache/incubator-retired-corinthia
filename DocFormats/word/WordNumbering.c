@@ -229,6 +229,11 @@ static DFNode *WordNumberingRoot(WordNumbering *num)
     return num->_package->numbering->root;
 }
 
+// UTF-8 encoding of square and bullet characters.
+// Given as arrays since Visual C++ doesn't like \u escape sequences.
+static char squareSymbol[4] = { 0xEF ,0x82 ,0xA7, 0x00 }; // "\uF0A7"
+static char bulletSymbol[4] = { 0xEF ,0x82 ,0xB7, 0x00 }; // "\uF0B8"
+
 WordNumLevel *WordNumberingCreateLevel(WordNumbering *num, const char *type, const char *lvlText, int ilvl, int indent)
 {
     const char *font = NULL;
@@ -265,13 +270,13 @@ WordNumLevel *WordNumberingCreateLevel(WordNumbering *num, const char *type, con
             break;
         case ListStyleTypeSquare:
             numFmt = "bullet";
-            lvlText = "\uF0A7";
+            lvlText = (const char *)squareSymbol;
             font = "Wingdings";
             break;
         case ListStyleTypeDisc:
         default:
             numFmt = "bullet";
-            lvlText = "\uF0B7";
+            lvlText = (const char *)bulletSymbol;
             font = "Symbol";
             break;
     }
