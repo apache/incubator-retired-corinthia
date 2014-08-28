@@ -655,6 +655,16 @@ int unescapeCSSIdent(const char *filename, DFError **error)
 
 char *createTempDir(DFError **error)
 {
+#ifdef WIN32
+    // Windows lacks mkdtemp. For the purposes of a single-threaded app it's ok just to use the same name
+    // each time we do a conversion, as long as we ensure that the directory is cleared first.
+    const char *name = "dfutil.temp";
+    if (DFFileExists(name) && !DFDeleteFile(name,error))
+        return NULL;
+    if (!DFCreateDirectory(name,1,error))
+        return NULL;
+    return strdup(name);
+#else
     char *ctemplate = strdup("dfutil.XXXXXX");
     char *r = mkdtemp(ctemplate);
     if (r == NULL) {
@@ -663,6 +673,7 @@ char *createTempDir(DFError **error)
         return NULL;
     }
     return ctemplate;
+#endif
 }
 
 char *binaryToString(DFBuffer *input)
