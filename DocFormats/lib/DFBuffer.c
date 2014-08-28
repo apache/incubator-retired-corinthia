@@ -112,17 +112,17 @@ void DFBufferFormat(DFBuffer *buf, const char *format, ...)
 
 DFBuffer *DFBufferReadFromFile(const char *filename, DFError **error)
 {
-    int fd = open(filename,O_RDONLY);
-    if (fd < 0) {
+    FILE *file = fopen(filename,"rb");
+    if (file == NULL) {
         DFErrorSetPosix(error,errno);
         return NULL;
     }
     DFBuffer *buf = DFBufferNew();
-    long r;
+    size_t r;
     char temp[1024];
-    while (0 < (r = read(fd,temp,1024)))
+    while (0 < (r = fread(temp,1,1024,file)))
         DFBufferAppendData(buf,temp,r);
-    close(fd);
+    fclose(file);
     return buf;
 }
 
@@ -133,17 +133,17 @@ int DFBufferWriteToFile(DFBuffer *buf, const char *filename, DFError **error)
 
 int DFWriteDataToFile(const void *data, size_t len, const char *filename, DFError **error)
 {
-    int fd = creat(filename,0644);
-    if (fd < 0) {
+    FILE *file = fopen(filename,"wb");
+    if (file == NULL) {
         DFErrorSetPosix(error,errno);
         return 0;
     }
-    size_t w = write(fd,data,len);
+    size_t w = fwrite(data,1,len,file);
     if (w != len) {
         DFErrorFormat(error,"Incomplete write");
-        close(fd);
+        fclose(file);
         return 0;
     }
-    close(fd);
+    fclose(file);
     return 1;
 }

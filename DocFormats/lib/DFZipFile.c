@@ -62,7 +62,7 @@ int DFUnzip(const char *zipFilename, const char *destDir, DFError **error)
         }
         else {
             // File
-            FILE *outFile = fopen(outPath,"w");
+            FILE *outFile = fopen(outPath,"wb");
             if (outFile == NULL)
                 return zipError(error,"%s: %s",entryName,strerror(errno));
 
@@ -150,7 +150,7 @@ static int zipRecursive(zipFile zip, const char *source, const char *dest, DFErr
         return ok;
     }
     else {
-        FILE *inFile = fopen(source,"r");
+        FILE *inFile = fopen(source,"rb");
         if (inFile == NULL)
             return zipError(error,"%s: %s",source,strerror(errno));
 

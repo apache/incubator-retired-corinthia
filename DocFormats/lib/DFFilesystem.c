@@ -52,13 +52,13 @@ int DFCreateDirectory(const char *path, int intermediates, DFError **error)
 
 int DFCopyFile(const char *srcPath, const char *destPath, DFError **error)
 {
-    FILE *srcFile = fopen(srcPath,"r");
+    FILE *srcFile = fopen(srcPath,"rb");
     if (srcFile == NULL) {
         DFErrorSetPosix(error,errno);
         return 0;
     }
 
-    FILE *destFile = fopen(destPath,"w");
+    FILE *destFile = fopen(destPath,"wb");
     if (destFile == NULL) {
         DFErrorSetPosix(error,errno);
         fclose(srcFile);
