@@ -336,7 +336,7 @@ static int run(const char *inFilename, const char *outFilename, DFError **error,
 
 int convertFile(const char *inFilename, const char *outFilename, DFError **error)
 {
-    char *settemp = getenv("TEMP");
+    char *settemp = getenv("DFUTIL_TEMP");
     char *tempPath;
     if (settemp != NULL) {
         tempPath = strdup(settemp);
