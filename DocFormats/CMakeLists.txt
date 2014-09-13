@@ -12,6 +12,7 @@ include_directories(../3rdparty/w3c-tidy-html5/include)
 include_directories(../3rdparty/w3c-tidy-html5/src)
 include_directories(../3rdparty/minizip)
 
+include_directories(SYSTEM ${INCLUDE_DIRS})
 include_directories(.)
 include_directories(./css)
 include_directories(./html)
