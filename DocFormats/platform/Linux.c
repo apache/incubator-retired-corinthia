@@ -20,11 +20,20 @@
 #ifndef WIN32
 #ifndef __APPLE__
 
+#include <SDL2/SDL_image.h>
+
 int DFGetImageDimensions(const char *path, unsigned int *width, unsigned int *height, DFError **error)
 {
-    printf("WARNING: DFGetImageDimensions is not implemented on Linux\n");
-    DFErrorFormat(error,"DFGetImageDimensions is not implemented on Linux");
-    return 0;
+    SDL_Surface *image = IMG_Load(path);
+    if (image == NULL) {
+        DFErrorFormat(error,"%s",IMG_GetError());
+        return 0;
+    }
+
+    *width = (unsigned int)image->w;
+    *height = (unsigned int)image->h;
+    SDL_FreeSurface(image);
+    return 1;
 }
 
 #endif
