@@ -32,7 +32,7 @@ Word_testGet();
   </w:body>
 </w:document>
 ##item styles.xml
-#include "styles.xml"
+#include "../styles.xml"
 #item expected
 <!DOCTYPE html>
 <html id="word1">
@@ -40,7 +40,7 @@ Word_testGet();
     <meta charset="utf-8"/>
     <link href="reset.css" rel="stylesheet"/>
     <style>
-#include "common.css"
+#include "../common.css"
     </style>
   </head>
   <body id="word2">

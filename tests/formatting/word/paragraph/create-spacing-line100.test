@@ -6,7 +6,7 @@ Word_testCreate();
     <meta charset="utf-8"/>
     <link href="reset.css" rel="stylesheet"/>
     <style>
-#include "common.css"
+#include "../common.css"
     </style>
   </head>
   <body>
@@ -45,4 +45,4 @@ Word_testCreate();
   </w:body>
 </w:document>
 ##item styles.xml
-#include "styles-created.xml"
+#include "../styles-created.xml"
