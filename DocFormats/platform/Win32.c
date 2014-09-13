@@ -21,6 +21,8 @@
 
 #ifdef WIN32
 
+#include <SDL_image.h>
+
 static BOOL CALLBACK DFInitOnceWrapper(PINIT_ONCE InitOnce,void *p,void *c)
 {
     ((DFOnceFunction)p)();
@@ -80,9 +82,16 @@ int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DF
 
 int DFGetImageDimensions(const char *path, unsigned int *width, unsigned int *height, DFError **error)
 {
-    printf("WARNING: DFGetImageDimensions is not implemented on Windows\n");
-    DFErrorFormat(error,"DFGetImageDimensions is not implemented on Windows");
-    return 0;
+    SDL_Surface *image = IMG_Load(path);
+    if (image == NULL) {
+        DFErrorFormat(error,"%s",IMG_GetError());
+        return 0;
+    }
+
+    *width = (unsigned int)image->w;
+    *height = (unsigned int)image->h;
+    SDL_FreeSurface(image);
+    return 1;
 }
 
 #endif
