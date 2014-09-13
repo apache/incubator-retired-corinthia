@@ -162,7 +162,7 @@ Word_testUpdate();
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <w:numbering xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
   <w:abstractNum w:abstractNumId="0">
-#include "abstract-lowerletter.inc"
+#include "abstract-lowerLetter.inc"
   </w:abstractNum>
   <w:abstractNum w:abstractNumId="1">
 #include "abstract-decimal.inc"
