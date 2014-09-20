@@ -157,7 +157,7 @@ static DFDocument *xmlFromString(const char *str, DFError **error)
     return doc;
 }
 
-int Word_fromPackage(WordPackage *package, TextPackage *tp, const char *path, DFError **error)
+static int Word_fromPackage(WordPackage *package, TextPackage *tp, DFError **error)
 {
     const char *documentStr = DFHashTableLookup(tp->items,"document.xml");
     const char *stylesStr = DFHashTableLookup(tp->items,"styles.xml");
@@ -316,14 +316,28 @@ int Word_fromPackage(WordPackage *package, TextPackage *tp, const char *path, DF
     return 1;
 }
 
-int Word_fromPlain(WordPackage *package, const char *plain, const char *path, DFError **error)
+WordPackage *Word_fromPlain(const char *plain, const char *plainPath, const char *packagePath, DFError **error)
 {
-    TextPackage *tp = TextPackageNewWithString(plain,path,error);
-    if (tp == NULL)
-        return 0;
-    int result = Word_fromPackage(package,tp,path,error);
+    WordPackage *wp = WordPackageNew(packagePath);
+    if (!WordPackageOpenNew(wp,error)) {
+        WordPackageRelease(wp);
+        return NULL;
+    }
+
+    TextPackage *tp = TextPackageNewWithString(plain,plainPath,error);
+    if (tp == NULL) {
+        WordPackageRelease(wp);
+        return NULL;
+    }
+
+    if (!Word_fromPackage(wp,tp,error)) {
+        WordPackageRelease(wp);
+        TextPackageRelease(tp);
+        return NULL;
+    }
+
     TextPackageRelease(tp);
-    return result;
+    return wp;
 }
 
 static void HTML_getImageSourcesRecursive(DFNode *node, DFHashTable *result)

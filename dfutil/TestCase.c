@@ -43,28 +43,24 @@ void TestCaseFree(TestCase *tc)
     free(tc);
 }
 
-int TestCaseGetWordPackage(TestCase *tc, WordPackage *package)
+WordPackage *TestCaseOpenWordPackage(TestCase *tc, DFError **error)
 {
-    DFError *error = NULL;
     const char *inputDocx = DFHashTableLookup(tc->input,"input.docx");
     if (inputDocx == NULL) {
-        DFBufferFormat(tc->output,"input.docx not defined\n");
-        return 0;
+        DFErrorFormat(error,"input.docx not defined");
+        return NULL;
     }
-    if (!WordPackageOpenNew(package,&error)) {
-        DFBufferFormat(tc->output,"%s\n",DFErrorMessage(&error));
-        DFErrorRelease(error);
-        return 0;
-    }
-    if (!Word_fromPlain(package,inputDocx,tc->path,&error)) {
-        DFBufferFormat(tc->output,"%s\n",DFErrorMessage(&error));
-        return 0;
-    }
+
+    WordPackage *package = Word_fromPlain(inputDocx,tc->path,tc->concretePath,error);
+    if (package == NULL)
+        return NULL;
+
     if (package->document == NULL) {
-        DFBufferFormat(tc->output,"document.xml not found\n");
-        return 0;
+        DFErrorFormat(error,"document.xml not found");
+        WordPackageRelease(package);
+        return NULL;
     }
-    return 1;
+    return package;
 }
 
 DFDocument *TestCaseGetHTML(TestCase *tc)

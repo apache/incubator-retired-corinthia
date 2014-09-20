@@ -138,11 +138,12 @@ static int fromPlain2(const char *tempPath, const char *inStr, const char *inPat
     int isDocx = DFStringEqualsCI(outExtension,"docx");
     free(outExtension);
     if (isDocx) {
-        WordPackage *package = WordPackageNew(tempPath);
-        int ok = WordPackageOpenNew(package,error) &&
-                 Word_fromPlain(package,inStr,inPath,error) &&
-                 WordPackageSaveTo(package,outFilename,error);
-        WordPackageRelease(package);
+        int ok = 0;
+        WordPackage *package = Word_fromPlain(inStr,inPath,tempPath,error);
+        if (package != NULL) {
+            ok = WordPackageSaveTo(package,outFilename,error);
+            WordPackageRelease(package);
+        }
         return ok;
     }
     else {

@@ -85,11 +85,15 @@ static void CSS_setHeadingNumbering(TestCase *script, int argc, const char **arg
     CSSSheetRelease(styleSheet);
 }
 
-static void Word_testCollapseBookmarks2(TestCase *script, WordPackage *package, int argc, const char **argv)
+static void Word_testCollapseBookmarks(TestCase *script, int argc, const char **argv)
 {
-    // Read input.docx
-    if (!TestCaseGetWordPackage(script,package))
+    DFError *error = NULL;
+    WordPackage *package = TestCaseOpenWordPackage(script,&error); // Logs error itself on failure
+    if (package == NULL) {
+        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
+        DFErrorRelease(error);
         return;
+    }
 
     WordPackageCollapseBookmarks(package);
 
@@ -101,21 +105,19 @@ static void Word_testCollapseBookmarks2(TestCase *script, WordPackage *package, 
     DFBufferFormat(script->output,"%s",plain);
     free(plain);
     DFHashTableRelease(parts);
-}
-
-static void Word_testCollapseBookmarks(TestCase *script, int argc, const char **argv)
-{
-    WordPackage *package = WordPackageNew(script->concretePath);
-    Word_testCollapseBookmarks2(script,package,argc,argv);
     WordPackageRelease(package);
 }
 
 
-static void Word_testExpandBookmarks2(TestCase *script, WordPackage *package, int argc, const char **argv)
+static void Word_testExpandBookmarks(TestCase *script, int argc, const char **argv)
 {
-    // Read input.docx
-    if (!TestCaseGetWordPackage(script,package))
+    DFError *error = NULL;
+    WordPackage *package = TestCaseOpenWordPackage(script,&error); // Logs error itself on failure
+    if (package == NULL) {
+        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
+        DFErrorRelease(error);
         return;
+    }
 
     WordPackageExpandBookmarks(package);
 
@@ -127,21 +129,11 @@ static void Word_testExpandBookmarks2(TestCase *script, WordPackage *package, in
     DFBufferFormat(script->output,"%s",plain);
     free(plain);
     DFHashTableRelease(parts);
-}
-
-static void Word_testExpandBookmarks(TestCase *script, int argc, const char **argv)
-{
-    WordPackage *package = WordPackageNew(script->concretePath);
-    Word_testExpandBookmarks2(script,package,argc,argv);
     WordPackageRelease(package);
 }
 
 static void Word_testGet2(TestCase *script, WordPackage *package, int argc, const char **argv)
 {
-    // Read input.docx
-    if (!TestCaseGetWordPackage(script,package))
-        return;;
-
     DFError *error = NULL;
     // Create the HTML file
     // FIXME: maybe use a temporary directory for the image path?
@@ -169,7 +161,14 @@ static void Word_testGet2(TestCase *script, WordPackage *package, int argc, cons
 
 static void Word_testGet(TestCase *script, int argc, const char **argv)
 {
-    WordPackage *package = WordPackageNew(script->concretePath);
+    DFError *error = NULL;
+    WordPackage *package = TestCaseOpenWordPackage(script,&error); // Logs error itself on failure
+    if (package == NULL) {
+        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
+        DFErrorRelease(error);
+        return;
+    }
+
     Word_testGet2(script,package,argc,argv);
     WordPackageRelease(package);
 }
@@ -249,10 +248,6 @@ static void Word_testCreate(TestCase *script, int argc, const char **argv)
 
 static void Word_testUpdate2(TestCase *script, WordPackage *package, int argc, const char **argv)
 {
-    // Read input.docx
-    if (!TestCaseGetWordPackage(script,package))
-        return;;
-
     // Read input.html
     DFDocument *htmlDoc = TestCaseGetHTML(script);
     if (htmlDoc == NULL)
@@ -279,7 +274,14 @@ static void Word_testUpdate2(TestCase *script, WordPackage *package, int argc, c
 
 static void Word_testUpdate(TestCase *script, int argc, const char **argv)
 {
-    WordPackage *package = WordPackageNew(script->concretePath);
+    DFError *error = NULL;
+    WordPackage *package = TestCaseOpenWordPackage(script,&error); // Logs error itself on failure
+    if (package == NULL) {
+        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
+        DFErrorRelease(error);
+        return;
+    }
+
     Word_testUpdate2(script,package,argc,argv);
     WordPackageRelease(package);
 }

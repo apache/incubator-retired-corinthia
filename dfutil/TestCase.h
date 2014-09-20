@@ -37,7 +37,7 @@ struct TestCase {
 
 TestCase *TestCaseNew(const char *path, DFHashTable *input);
 void TestCaseFree(TestCase *tc);
-int TestCaseGetWordPackage(TestCase *tc, WordPackage *package);
+WordPackage *TestCaseOpenWordPackage(TestCase *tc, DFError **error);
 DFDocument *TestCaseGetHTML(TestCase *script);
 
 #endif
