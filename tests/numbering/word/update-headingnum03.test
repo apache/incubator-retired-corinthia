@@ -1194,6 +1194,3 @@ table.Normal_Table > * > tr > td {
     </w:rPr>
   </w:style>
 </w:styles>
-##item numbering.xml
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<w:numbering xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"/>

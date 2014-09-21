@@ -59,8 +59,11 @@ char *Word_toPlain(WordPackage *package, DFHashTable *parts)
         DFHashTableAdd(includeTypes,WORDREL_STYLES,"");
     }
     if ((parts == NULL) || (DFHashTableLookup(parts,"numbering") != NULL)) {
-        addSerializedDoc(result,package->numbering,"numbering.xml");
-        DFHashTableAdd(includeTypes,WORDREL_NUMBERING,"");
+        if ((package->numbering != NULL) && (package->numbering->root->first != NULL)) {
+            // Only include the file if we have one or more numbering definitions
+            addSerializedDoc(result,package->numbering,"numbering.xml");
+            DFHashTableAdd(includeTypes,WORDREL_NUMBERING,"");
+        }
     }
     if ((parts == NULL) || (DFHashTableLookup(parts,"footnotes") != NULL)) {
         if (package->footnotes->root->first != NULL) {
