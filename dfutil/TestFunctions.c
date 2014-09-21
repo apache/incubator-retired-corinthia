@@ -228,7 +228,8 @@ static void Word_testCreate2(TestCase *script, WordPackage *package, int argc, c
     }
     DFBufferRelease(warnings);
 
-    WordPackageAddMissingDocParts(package); // FIXME: find a cleaner way to do this
+    // We don't actually "save" the package as such; this is just to ensure the missing OPC parts are added
+    WordPackageSaveTo(package,NULL,NULL);
 
     // Output the docx file
     DFHashTable *parts = getFlags(argc,argv);
@@ -261,7 +262,8 @@ static void Word_testUpdate2(TestCase *script, WordPackage *package, int argc, c
         return;
     }
 
-    WordPackageAddMissingDocParts(package); // FIXME: find a cleaner way to do this
+    // We don't actually "save" the package as such; this is just to ensure the missing OPC parts are added
+    WordPackageSaveTo(package,NULL,NULL);
 
     // Output the updated docx file
     DFHashTable *parts = getFlags(argc,argv);

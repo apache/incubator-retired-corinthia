@@ -323,7 +323,7 @@ static int serializePart(WordPackage *package, DFDocument *doc, OPCPart *part, D
     return ok;
 }
 
-void WordPackageAddMissingDocParts(WordPackage *package)
+static void WordPackageAddMissingDocParts(WordPackage *package)
 {
     assert(package->document != NULL);
     assert(package->documentPart != NULL);
@@ -382,7 +382,7 @@ int WordPackageSaveTo(WordPackage *package, const char *filename, DFError **erro
         return 0;
     if ((package->endnotes != NULL) && !serializePart(package,package->endnotes,package->endnotesPart,error))
         return 0;
-    if (!OPCPackageSaveTo(package->opc,filename)) {
+    if ((filename != NULL) && !OPCPackageSaveTo(package->opc,filename)) {
         DFErrorFormat(error,"%s",package->opc->errors->data);
         return 0;
     }

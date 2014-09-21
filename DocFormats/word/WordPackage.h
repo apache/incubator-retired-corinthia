@@ -61,7 +61,6 @@ void WordPackageRelease(WordPackage *package);
 void WordPackageRemovePointlessElements(WordPackage *package);
 const char *WordPackageTargetForDocumentRel(WordPackage *package, const char *relId);
 void WordPackageSetPartsFromRels(WordPackage *package);
-void WordPackageAddMissingDocParts(WordPackage *package);
 void WordPackageUpdateSettingsIncludingFields(WordPackage *package, int fields);
 int WordPackageSimplifyFields(WordPackage *package);
 void WordPackageCollapseBookmarks(WordPackage *package);
