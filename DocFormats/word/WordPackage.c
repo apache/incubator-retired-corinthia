@@ -323,69 +323,92 @@ static int serializePart(WordPackage *package, DFDocument *doc, OPCPart *part, D
     return ok;
 }
 
-static void WordPackageAddMissingDocParts(WordPackage *package)
-{
-    assert(package->document != NULL);
-    assert(package->documentPart != NULL);
-    if ((package->numbering != NULL) && (package->numberingPart == NULL)) {
-        package->numberingPart = OPCPackageAddRelatedPart(package->opc,"/word/numbering.xml",
-                                                          WORDTYPE_NUMBERING,
-                                                          WORDREL_NUMBERING,
-                                                          package->documentPart);
-    }
-    if ((package->styles != NULL) && (package->stylesPart == NULL)) {
-        package->stylesPart = OPCPackageAddRelatedPart(package->opc,"/word/styles.xml",
-                                                       WORDTYPE_STYLES,
-                                                       WORDREL_STYLES,
-                                                       package->documentPart);
-    }
-    if ((package->settings != NULL) && (package->settingsPart == NULL)) {
-        package->settingsPart = OPCPackageAddRelatedPart(package->opc,"/word/settings.xml",
-                                                         WORDTYPE_SETTINGS,
-                                                         WORDREL_SETTINGS,
-                                                         package->documentPart);
-    }
-    if ((package->theme != NULL) && (package->themePart == NULL)) {
-        package->themePart = OPCPackageAddRelatedPart(package->opc,"/word/theme.xml",
-                                                      WORDTYPE_THEME,
-                                                      WORDREL_THEME,
-                                                      package->documentPart);
-    }
-    if ((package->footnotes != NULL) && (package->footnotesPart == NULL)) {
-        package->footnotesPart = OPCPackageAddRelatedPart(package->opc,"/word/footnotes.xml",
-                                                          WORDTYPE_FOOTNOTES,
-                                                          WORDREL_FOOTNOTES,
-                                                          package->documentPart);
-    }
-    if ((package->endnotes != NULL) && (package->endnotesPart == NULL)) {
-        package->endnotesPart = OPCPackageAddRelatedPart(package->opc,"/word/endnotes.xml",
-                                                         WORDTYPE_ENDNOTES,
-                                                         WORDREL_ENDNOTES,
-                                                         package->documentPart);
-    }
-}
-
 int WordPackageSaveTo(WordPackage *package, const char *filename, DFError **error)
 {
-    WordPackageAddMissingDocParts(package);
+    // Document
+    assert(package->document != NULL);
+    assert(package->documentPart != NULL);
     if ((package->document != NULL) && !serializePart(package,package->document,package->documentPart,error))
         return 0;
-    if ((package->numbering != NULL) && !serializePart(package,package->numbering,package->numberingPart,error))
-        return 0;
-    if ((package->styles != NULL) && !serializePart(package,package->styles,package->stylesPart,error))
-        return 0;
-    if ((package->settings != NULL) && !serializePart(package,package->settings,package->settingsPart,error))
-        return 0;
-    if ((package->theme != NULL) && !serializePart(package,package->theme,package->themePart,error))
-        return 0;
-    if ((package->footnotes != NULL) && !serializePart(package,package->footnotes,package->footnotesPart,error))
-        return 0;
-    if ((package->endnotes != NULL) && !serializePart(package,package->endnotes,package->endnotesPart,error))
-        return 0;
+
+    // Numbering
+    if (package->numbering != NULL) {
+        if (package->numberingPart == NULL) {
+            package->numberingPart = OPCPackageAddRelatedPart(package->opc,"/word/numbering.xml",
+                                                              WORDTYPE_NUMBERING,
+                                                              WORDREL_NUMBERING,
+                                                              package->documentPart);
+        }
+        if (!serializePart(package,package->numbering,package->numberingPart,error))
+            return 0;
+    }
+
+    // Styles
+    if (package->styles != NULL) {
+        if (package->stylesPart == NULL) {
+            package->stylesPart = OPCPackageAddRelatedPart(package->opc,"/word/styles.xml",
+                                                           WORDTYPE_STYLES,
+                                                           WORDREL_STYLES,
+                                                           package->documentPart);
+        }
+        if (!serializePart(package,package->styles,package->stylesPart,error))
+            return 0;
+    }
+
+    // Settings
+    if (package->settings != NULL) {
+        if (package->settingsPart == NULL) {
+            package->settingsPart = OPCPackageAddRelatedPart(package->opc,"/word/settings.xml",
+                                                             WORDTYPE_SETTINGS,
+                                                             WORDREL_SETTINGS,
+                                                             package->documentPart);
+        }
+        if (!serializePart(package,package->settings,package->settingsPart,error))
+            return 0;
+    }
+
+    // Theme
+    if (package->theme != NULL) {
+        if (package->themePart == NULL) {
+            package->themePart = OPCPackageAddRelatedPart(package->opc,"/word/theme.xml",
+                                                          WORDTYPE_THEME,
+                                                          WORDREL_THEME,
+                                                          package->documentPart);
+        }
+        if (!serializePart(package,package->theme,package->themePart,error))
+            return 0;
+    }
+
+    // Footnotes
+    if (package->footnotes != NULL) {
+        if (package->footnotesPart == NULL) {
+            package->footnotesPart = OPCPackageAddRelatedPart(package->opc,"/word/footnotes.xml",
+                                                              WORDTYPE_FOOTNOTES,
+                                                              WORDREL_FOOTNOTES,
+                                                              package->documentPart);
+        }
+        if (!serializePart(package,package->footnotes,package->footnotesPart,error))
+            return 0;
+    }
+
+    // Endnotes
+    if (package->endnotes != NULL) {
+        if (package->endnotesPart == NULL) {
+            package->endnotesPart = OPCPackageAddRelatedPart(package->opc,"/word/endnotes.xml",
+                                                             WORDTYPE_ENDNOTES,
+                                                             WORDREL_ENDNOTES,
+                                                             package->documentPart);
+        }
+        if (!serializePart(package,package->endnotes,package->endnotesPart,error))
+            return 0;
+    }
+
+    // Build .docx zip archive, if requested
     if ((filename != NULL) && !OPCPackageSaveTo(package->opc,filename)) {
         DFErrorFormat(error,"%s",package->opc->errors->data);
         return 0;
     }
+
     return 1;
 }
 
