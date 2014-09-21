@@ -252,8 +252,6 @@ static int Word_fromPackage(WordPackage *package, TextPackage *tp, DFError **err
     }
     WordPackageSetPartsFromRels(package);
 
-    WordPackageUpdateSettingsIncludingFields(package,1);
-
     if (package->stylesPart != NULL)
         OPCContentTypesSetOverride(package->opc->contentTypes,package->stylesPart->URI,WORDTYPE_STYLES);
     if (package->numberingPart != NULL)

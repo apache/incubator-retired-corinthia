@@ -465,11 +465,6 @@ const char *WordPackageTargetForDocumentRel(WordPackage *package, const char *re
         return NULL;
 }
 
-void WordPackageUpdateSettingsIncludingFields(WordPackage *package, int fields)
-{
-    Word_updateSettings(package,fields);
-}
-
 int WordPackageSimplifyFields(WordPackage *package)
 {
     return Word_simplifyFields(package);
