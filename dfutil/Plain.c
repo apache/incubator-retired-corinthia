@@ -259,6 +259,10 @@ int Word_fromPackage(WordPackage *package, TextPackage *tp, const char *path, DF
         OPCContentTypesSetOverride(package->opc->contentTypes,package->settingsPart->URI,WORDTYPE_SETTINGS);
     if (package->themePart != NULL)
         OPCContentTypesSetOverride(package->opc->contentTypes,package->themePart->URI,WORDTYPE_THEME);;
+    if (package->footnotesPart != NULL)
+        OPCContentTypesSetOverride(package->opc->contentTypes,package->footnotesPart->URI,WORDTYPE_FOOTNOTES);;
+    if (package->endnotesPart != NULL)
+        OPCContentTypesSetOverride(package->opc->contentTypes,package->endnotesPart->URI,WORDTYPE_ENDNOTES);;
 
     OPCRelationshipSet *rels = package->documentPart->relationships;
     const char **allIds = OPCRelationshipSetAllIds(rels);
