@@ -417,10 +417,27 @@ static void writeElement(Serialization *serialization, DFNode *element, int dept
 
     writeAttributes(serialization,element);
 
-    for (DFNode *child = element->first; child != NULL; child = child->next)
-        writeNode(serialization,child,depth+2);
+    // Check if all children are text nodes. If this is true; we should treat them as if they are a single text
+    // node, and not do any indentation.
+    int allChildrenText = 1;
+    for (DFNode *child = element->first; child != NULL; child = child->next) {
+        if (child->tag != DOM_TEXT)
+            allChildrenText = 0;
+    }
 
-    if (serialization->indent && (element->first != NULL)) {
+    if (allChildrenText) {
+        int oldIndent = serialization->indent;
+        serialization->indent = 0;
+        for (DFNode *child = element->first; child != NULL; child = child->next)
+            writeNode(serialization,child,depth+2);
+        serialization->indent = oldIndent;
+    }
+    else {
+        for (DFNode *child = element->first; child != NULL; child = child->next)
+            writeNode(serialization,child,depth+2);
+    }
+
+    if (serialization->indent && (element->first != NULL) && !allChildrenText) {
         if ((element->first != element->last) ||
             (element->first->tag != DOM_TEXT))
         xmlTextWriterWriteRawLen(serialization->writer,INDENT,1+depth);
