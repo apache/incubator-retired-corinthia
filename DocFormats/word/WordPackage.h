@@ -31,12 +31,6 @@ struct WordPackage {
     char *tempPath;
     OPCPackage *opc;
     OPCPart *documentPart;
-    OPCPart *numberingPart;
-    OPCPart *stylesPart;
-    OPCPart *settingsPart;
-    OPCPart *themePart;
-    OPCPart *footnotesPart;
-    OPCPart *endnotesPart;
     DFDocument *document;
     DFDocument *numbering;
     DFDocument *styles;
@@ -60,7 +54,6 @@ void WordPackageRelease(WordPackage *package);
 
 void WordPackageRemovePointlessElements(WordPackage *package);
 const char *WordPackageTargetForDocumentRel(WordPackage *package, const char *relId);
-void WordPackageSetPartsFromRels(WordPackage *package);
 int WordPackageSimplifyFields(WordPackage *package);
 void WordPackageCollapseBookmarks(WordPackage *package);
 void WordPackageExpandBookmarks(WordPackage *package);

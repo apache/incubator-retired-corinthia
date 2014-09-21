@@ -250,20 +250,44 @@ static int Word_fromPackage(WordPackage *package, TextPackage *tp, DFError **err
         OPCPackageReadRelationships(package->opc,package->documentPart->relationships,"/word/document.xml",relsDoc);
         DFDocumentRelease(relsDoc);
     }
-    WordPackageSetPartsFromRels(package);
 
-    if (package->stylesPart != NULL)
-        OPCContentTypesSetOverride(package->opc->contentTypes,package->stylesPart->URI,WORDTYPE_STYLES);
-    if (package->numberingPart != NULL)
-        OPCContentTypesSetOverride(package->opc->contentTypes,package->numberingPart->URI,WORDTYPE_NUMBERING);
-    if (package->settingsPart != NULL)
-        OPCContentTypesSetOverride(package->opc->contentTypes,package->settingsPart->URI,WORDTYPE_SETTINGS);
-    if (package->themePart != NULL)
-        OPCContentTypesSetOverride(package->opc->contentTypes,package->themePart->URI,WORDTYPE_THEME);;
-    if (package->footnotesPart != NULL)
-        OPCContentTypesSetOverride(package->opc->contentTypes,package->footnotesPart->URI,WORDTYPE_FOOTNOTES);;
-    if (package->endnotesPart != NULL)
-        OPCContentTypesSetOverride(package->opc->contentTypes,package->endnotesPart->URI,WORDTYPE_ENDNOTES);;
+    OPCRelationship *rel;
+
+    // Set content type override for styles part
+    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_STYLES);
+    OPCPart *stylesPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+    if (stylesPart != NULL)
+        OPCContentTypesSetOverride(package->opc->contentTypes,stylesPart->URI,WORDTYPE_STYLES);
+
+    // Set content type override for numbering part
+    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_NUMBERING);
+    OPCPart *numberingPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+    if (numberingPart != NULL)
+        OPCContentTypesSetOverride(package->opc->contentTypes,numberingPart->URI,WORDTYPE_NUMBERING);
+
+    // Set content type override for settings part
+    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_SETTINGS);
+    OPCPart *settingsPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+    if (settingsPart != NULL)
+        OPCContentTypesSetOverride(package->opc->contentTypes,settingsPart->URI,WORDTYPE_SETTINGS);
+
+    // Set content type override for theme part
+    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_THEME);
+    OPCPart *themePart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+    if (themePart != NULL)
+        OPCContentTypesSetOverride(package->opc->contentTypes,themePart->URI,WORDTYPE_THEME);;
+
+    // Set content type override for footnotes part
+    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_FOOTNOTES);
+    OPCPart *footnotesPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+    if (footnotesPart != NULL)
+        OPCContentTypesSetOverride(package->opc->contentTypes,footnotesPart->URI,WORDTYPE_FOOTNOTES);;
+
+    // Set content type override for endnotes part
+    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_ENDNOTES);
+    OPCPart *endnotesPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+    if (endnotesPart != NULL)
+        OPCContentTypesSetOverride(package->opc->contentTypes,endnotesPart->URI,WORDTYPE_ENDNOTES);;
 
     OPCRelationshipSet *rels = package->documentPart->relationships;
     const char **allIds = OPCRelationshipSetAllIds(rels);

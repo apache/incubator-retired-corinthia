@@ -216,35 +216,6 @@ int WordPackageOpenNew(WordPackage *package, DFError **error)
     return 1;
 }
 
-void WordPackageSetPartsFromRels(WordPackage *package)
-{
-    OPCRelationship *rel;
-
-    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_NUMBERING);
-    if (rel != NULL)
-        package->numberingPart = OPCPackagePartWithURI(package->opc,rel->target);
-
-    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_STYLES);
-    if (rel != NULL)
-        package->stylesPart = OPCPackagePartWithURI(package->opc,rel->target);
-
-    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_SETTINGS);
-    if (rel != NULL)
-        package->settingsPart = OPCPackagePartWithURI(package->opc,rel->target);
-
-    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_THEME);
-    if (rel != NULL)
-        package->themePart = OPCPackagePartWithURI(package->opc,rel->target);
-
-    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_FOOTNOTES);
-    if (rel != NULL)
-        package->footnotesPart = OPCPackagePartWithURI(package->opc,rel->target);
-
-    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_ENDNOTES);
-    if (rel != NULL)
-        package->endnotesPart = OPCPackagePartWithURI(package->opc,rel->target);
-}
-
 int WordPackageOpenFrom(WordPackage *package, const char *filename, DFError **error)
 {
     if (!WordPackageSetupTempPath(package,error))
@@ -276,35 +247,51 @@ int WordPackageOpenFrom(WordPackage *package, const char *filename, DFError **er
     if ((package->document = parsePart(package,package->documentPart,error)) == NULL)
         return 0;
 
-    WordPackageSetPartsFromRels(package);
-
-    if (package->numberingPart != NULL) {
-        if ((package->numbering = parsePart(package,package->numberingPart,error)) == NULL)
+    // Numbering
+    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_NUMBERING);
+    OPCPart *numberingPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+    if (numberingPart != NULL) {
+        if ((package->numbering = parsePart(package,numberingPart,error)) == NULL)
             return 0;
     }
 
-    if (package->stylesPart != NULL) {
-        if ((package->styles = parsePart(package,package->stylesPart,error)) == NULL)
+    // Styles
+    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_STYLES);
+    OPCPart *stylesPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+    if (stylesPart != NULL) {
+        if ((package->styles = parsePart(package,stylesPart,error)) == NULL)
             return 0;
     }
 
-    if (package->settingsPart != NULL) {
-        if ((package->settings = parsePart(package,package->settingsPart,error)) == NULL)
+    // Settings
+    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_SETTINGS);
+    OPCPart *settingsPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+    if (settingsPart != NULL) {
+        if ((package->settings = parsePart(package,settingsPart,error)) == NULL)
             return 0;
     }
 
-    if (package->themePart != NULL) {
-        if ((package->theme = parsePart(package,package->themePart,error)) == NULL)
+    // Theme
+    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_THEME);
+    OPCPart *themePart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+    if (themePart != NULL) {
+        if ((package->theme = parsePart(package,themePart,error)) == NULL)
             return 0;
     }
 
-    if (package->footnotesPart != NULL) {
-        if ((package->footnotes = parsePart(package,package->footnotesPart,error)) == NULL)
+    // Footnotes
+    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_FOOTNOTES);
+    OPCPart *footnotesPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+    if (footnotesPart != NULL) {
+        if ((package->footnotes = parsePart(package,footnotesPart,error)) == NULL)
             return 0;
     }
 
-    if (package->endnotesPart != NULL) {
-        if ((package->endnotes = parsePart(package,package->endnotesPart,error)) == NULL)
+    // Endnotes
+    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_ENDNOTES);
+    OPCPart *endnotesPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+    if (endnotesPart != NULL) {
+        if ((package->endnotes = parsePart(package,endnotesPart,error)) == NULL)
             return 0;
     }
 
@@ -333,73 +320,85 @@ int WordPackageSaveTo(WordPackage *package, const char *filename, DFError **erro
 
     // Numbering
     if (package->numbering != NULL) {
-        if (package->numberingPart == NULL) {
-            package->numberingPart = OPCPackageAddRelatedPart(package->opc,"/word/numbering.xml",
-                                                              WORDTYPE_NUMBERING,
-                                                              WORDREL_NUMBERING,
-                                                              package->documentPart);
+        OPCRelationship *rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_NUMBERING);
+        OPCPart *part = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+        if (part == NULL) {
+            part = OPCPackageAddRelatedPart(package->opc,"/word/numbering.xml",
+                                            WORDTYPE_NUMBERING,
+                                            WORDREL_NUMBERING,
+                                            package->documentPart);
         }
-        if (!serializePart(package,package->numbering,package->numberingPart,error))
+        if (!serializePart(package,package->numbering,part,error))
             return 0;
     }
 
     // Styles
     if (package->styles != NULL) {
-        if (package->stylesPart == NULL) {
-            package->stylesPart = OPCPackageAddRelatedPart(package->opc,"/word/styles.xml",
-                                                           WORDTYPE_STYLES,
-                                                           WORDREL_STYLES,
-                                                           package->documentPart);
+        OPCRelationship *rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_STYLES);
+        OPCPart *part = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+        if (part == NULL) {
+            part = OPCPackageAddRelatedPart(package->opc,"/word/styles.xml",
+                                            WORDTYPE_STYLES,
+                                            WORDREL_STYLES,
+                                            package->documentPart);
         }
-        if (!serializePart(package,package->styles,package->stylesPart,error))
+        if (!serializePart(package,package->styles,part,error))
             return 0;
     }
 
     // Settings
     if (package->settings != NULL) {
-        if (package->settingsPart == NULL) {
-            package->settingsPart = OPCPackageAddRelatedPart(package->opc,"/word/settings.xml",
-                                                             WORDTYPE_SETTINGS,
-                                                             WORDREL_SETTINGS,
-                                                             package->documentPart);
+        OPCRelationship *rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_SETTINGS);
+        OPCPart *part = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+        if (part == NULL) {
+            part = OPCPackageAddRelatedPart(package->opc,"/word/settings.xml",
+                                            WORDTYPE_SETTINGS,
+                                            WORDREL_SETTINGS,
+                                            package->documentPart);
         }
-        if (!serializePart(package,package->settings,package->settingsPart,error))
+        if (!serializePart(package,package->settings,part,error))
             return 0;
     }
 
     // Theme
     if (package->theme != NULL) {
-        if (package->themePart == NULL) {
-            package->themePart = OPCPackageAddRelatedPart(package->opc,"/word/theme.xml",
-                                                          WORDTYPE_THEME,
-                                                          WORDREL_THEME,
-                                                          package->documentPart);
+        OPCRelationship *rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_THEME);
+        OPCPart *part = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+        if (part == NULL) {
+            part = OPCPackageAddRelatedPart(package->opc,"/word/theme.xml",
+                                            WORDTYPE_THEME,
+                                            WORDREL_THEME,
+                                            package->documentPart);
         }
-        if (!serializePart(package,package->theme,package->themePart,error))
+        if (!serializePart(package,package->theme,part,error))
             return 0;
     }
 
     // Footnotes
     if (package->footnotes != NULL) {
-        if (package->footnotesPart == NULL) {
-            package->footnotesPart = OPCPackageAddRelatedPart(package->opc,"/word/footnotes.xml",
-                                                              WORDTYPE_FOOTNOTES,
-                                                              WORDREL_FOOTNOTES,
-                                                              package->documentPart);
+        OPCRelationship *rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_FOOTNOTES);
+        OPCPart *part = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+        if (part == NULL) {
+            part = OPCPackageAddRelatedPart(package->opc,"/word/footnotes.xml",
+                                            WORDTYPE_FOOTNOTES,
+                                            WORDREL_FOOTNOTES,
+                                            package->documentPart);
         }
-        if (!serializePart(package,package->footnotes,package->footnotesPart,error))
+        if (!serializePart(package,package->footnotes,part,error))
             return 0;
     }
 
     // Endnotes
     if (package->endnotes != NULL) {
-        if (package->endnotesPart == NULL) {
-            package->endnotesPart = OPCPackageAddRelatedPart(package->opc,"/word/endnotes.xml",
-                                                             WORDTYPE_ENDNOTES,
-                                                             WORDREL_ENDNOTES,
-                                                             package->documentPart);
+        OPCRelationship *rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_ENDNOTES);
+        OPCPart *part = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+        if (part == NULL) {
+            part = OPCPackageAddRelatedPart(package->opc,"/word/endnotes.xml",
+                                            WORDTYPE_ENDNOTES,
+                                            WORDREL_ENDNOTES,
+                                            package->documentPart);
         }
-        if (!serializePart(package,package->endnotes,package->endnotesPart,error))
+        if (!serializePart(package,package->endnotes,part,error))
             return 0;
     }
 
