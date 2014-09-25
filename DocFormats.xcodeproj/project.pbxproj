@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D00DBCAB19D3F50200F9DD21 /* Apple.c in Sources */ = {isa = PBXBuildFile; fileRef = D0734CA819C4C20A002D1EEA /* Apple.c */; };
+		D00DBCAC19D3F50200F9DD21 /* Linux.c in Sources */ = {isa = PBXBuildFile; fileRef = D0734CA919C4C20A002D1EEA /* Linux.c */; };
+		D00DBCAD19D3F50200F9DD21 /* Unix.c in Sources */ = {isa = PBXBuildFile; fileRef = D0734CAA19C4C20A002D1EEA /* Unix.c */; };
+		D00DBCAE19D3F50200F9DD21 /* Win32.c in Sources */ = {isa = PBXBuildFile; fileRef = D0734CAB19C4C20A002D1EEA /* Win32.c */; };
 		D010331B18B293D100E74FDB /* HTMLToLaTeX.c in Sources */ = {isa = PBXBuildFile; fileRef = D010331918B293D100E74FDB /* HTMLToLaTeX.c */; };
 		D010331C18B293D100E74FDB /* HTMLToLaTeX.h in Headers */ = {isa = PBXBuildFile; fileRef = D010331A18B293D100E74FDB /* HTMLToLaTeX.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D010331D18B293F100E74FDB /* HTMLToLaTeX.c in Sources */ = {isa = PBXBuildFile; fileRef = D010331918B293D100E74FDB /* HTMLToLaTeX.c */; };
@@ -1543,11 +1547,14 @@
 				D0B5E7C017F0852D00FBD99F /* DFTidyHelper.c in Sources */,
 				D063B7A7199A815D00E3D511 /* tagask.c in Sources */,
 				D0B5E83117F0852D00FBD99F /* WordSmartTag.c in Sources */,
+				D00DBCAE19D3F50200F9DD21 /* Win32.c in Sources */,
 				D0B5E79617F0852D00FBD99F /* CSS.c in Sources */,
 				D0B5E7F317F0852D00FBD99F /* DFZipFile.c in Sources */,
 				D0AB6C1117F2B1A8007F8C8D /* Word.c in Sources */,
 				D0B5E82D17F0852D00FBD99F /* WordRun.c in Sources */,
+				D00DBCAD19D3F50200F9DD21 /* Unix.c in Sources */,
 				D0B5E7E117F0852D00FBD99F /* DFBuffer.c in Sources */,
+				D00DBCAB19D3F50200F9DD21 /* Apple.c in Sources */,
 				D0619A6A1843B998004AD893 /* DFCallback.c in Sources */,
 				D010331D18B293F100E74FDB /* HTMLToLaTeX.c in Sources */,
 				D063B7A3199A815D00E3D511 /* pprint.c in Sources */,
@@ -1601,6 +1608,7 @@
 				D063B78A199A815D00E3D511 /* buffio.c in Sources */,
 				D063B796199A815D00E3D511 /* gdoc.c in Sources */,
 				D0B5E7B117F0852D00FBD99F /* CSSSheet.c in Sources */,
+				D00DBCAC19D3F50200F9DD21 /* Linux.c in Sources */,
 				D0B5E7BA17F0852D00FBD99F /* DFHTMLNormalization.c in Sources */,
 				D0B5E84B17F0852D00FBD99F /* WordObjects.c in Sources */,
 				D0B5E86C17F0852D00FBD99F /* DFXML.c in Sources */,
