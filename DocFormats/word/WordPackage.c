@@ -310,6 +310,21 @@ static int serializePart(WordPackage *package, DFDocument *doc, OPCPart *part, D
     return ok;
 }
 
+static int savePart(WordPackage *package, DFDocument *document,
+                    const char *relName, const char *typeName,
+                    const char *path, DFError **error)
+{
+    if (document != NULL) {
+        OPCRelationship *rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,relName);
+        OPCPart *part = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+        if (part == NULL)
+            part = OPCPackageAddRelatedPart(package->opc,path,typeName,relName,package->documentPart);
+        if (!serializePart(package,document,part,error))
+            return 0;
+    }
+    return 1;
+}
+
 int WordPackageSaveTo(WordPackage *package, const char *filename, DFError **error)
 {
     // Document
@@ -319,88 +334,28 @@ int WordPackageSaveTo(WordPackage *package, const char *filename, DFError **erro
         return 0;
 
     // Numbering
-    if (package->numbering != NULL) {
-        OPCRelationship *rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_NUMBERING);
-        OPCPart *part = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
-        if (part == NULL) {
-            part = OPCPackageAddRelatedPart(package->opc,"/word/numbering.xml",
-                                            WORDTYPE_NUMBERING,
-                                            WORDREL_NUMBERING,
-                                            package->documentPart);
-        }
-        if (!serializePart(package,package->numbering,part,error))
-            return 0;
-    }
+    if (!savePart(package,package->numbering,WORDREL_NUMBERING,WORDTYPE_NUMBERING,"/word/numbering.xml",error))
+        return 0;
 
     // Styles
-    if (package->styles != NULL) {
-        OPCRelationship *rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_STYLES);
-        OPCPart *part = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
-        if (part == NULL) {
-            part = OPCPackageAddRelatedPart(package->opc,"/word/styles.xml",
-                                            WORDTYPE_STYLES,
-                                            WORDREL_STYLES,
-                                            package->documentPart);
-        }
-        if (!serializePart(package,package->styles,part,error))
-            return 0;
-    }
+    if (!savePart(package,package->styles,WORDREL_STYLES,WORDTYPE_STYLES,"/word/styles.xml",error))
+        return 0;
 
     // Settings
-    if (package->settings != NULL) {
-        OPCRelationship *rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_SETTINGS);
-        OPCPart *part = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
-        if (part == NULL) {
-            part = OPCPackageAddRelatedPart(package->opc,"/word/settings.xml",
-                                            WORDTYPE_SETTINGS,
-                                            WORDREL_SETTINGS,
-                                            package->documentPart);
-        }
-        if (!serializePart(package,package->settings,part,error))
-            return 0;
-    }
+    if (!savePart(package,package->settings,WORDREL_SETTINGS,WORDTYPE_SETTINGS,"/word/settings.xml",error))
+        return 0;
 
     // Theme
-    if (package->theme != NULL) {
-        OPCRelationship *rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_THEME);
-        OPCPart *part = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
-        if (part == NULL) {
-            part = OPCPackageAddRelatedPart(package->opc,"/word/theme.xml",
-                                            WORDTYPE_THEME,
-                                            WORDREL_THEME,
-                                            package->documentPart);
-        }
-        if (!serializePart(package,package->theme,part,error))
-            return 0;
-    }
+    if (!savePart(package,package->theme,WORDREL_THEME,WORDTYPE_THEME,"/word/theme.xml",error))
+        return 0;
 
     // Footnotes
-    if (package->footnotes != NULL) {
-        OPCRelationship *rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_FOOTNOTES);
-        OPCPart *part = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
-        if (part == NULL) {
-            part = OPCPackageAddRelatedPart(package->opc,"/word/footnotes.xml",
-                                            WORDTYPE_FOOTNOTES,
-                                            WORDREL_FOOTNOTES,
-                                            package->documentPart);
-        }
-        if (!serializePart(package,package->footnotes,part,error))
-            return 0;
-    }
+    if (!savePart(package,package->footnotes,WORDREL_FOOTNOTES,WORDTYPE_FOOTNOTES,"/word/footnotes.xml",error))
+        return 0;
 
     // Endnotes
-    if (package->endnotes != NULL) {
-        OPCRelationship *rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_ENDNOTES);
-        OPCPart *part = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
-        if (part == NULL) {
-            part = OPCPackageAddRelatedPart(package->opc,"/word/endnotes.xml",
-                                            WORDTYPE_ENDNOTES,
-                                            WORDREL_ENDNOTES,
-                                            package->documentPart);
-        }
-        if (!serializePart(package,package->endnotes,part,error))
-            return 0;
-    }
+    if (!savePart(package,package->endnotes,WORDREL_ENDNOTES,WORDTYPE_ENDNOTES,"/word/endnotes.xml",error))
+        return 0;
 
     // Build .docx zip archive, if requested
     if ((filename != NULL) && !OPCPackageSaveTo(package->opc,filename)) {
