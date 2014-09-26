@@ -135,21 +135,29 @@ static int fromPlain2(const char *tempPath, const char *inStr, const char *inPat
                       const char *outFilename, DFError **error)
 {
     char *outExtension = DFPathExtension(outFilename);
+    char *packagePath = DFAppendPathComponent(tempPath,"package");
+    char *zipPath = DFAppendPathComponent(tempPath,"zip");
     int isDocx = DFStringEqualsCI(outExtension,"docx");
-    free(outExtension);
-    if (isDocx) {
-        int ok = 0;
-        WordPackage *package = Word_fromPlain(inStr,inPath,tempPath,error);
-        if (package != NULL) {
-            ok = WordPackageSaveTo(package,outFilename,error);
-            WordPackageRelease(package);
-        }
-        return ok;
-    }
-    else {
+    int ok = 0;
+
+    if (!isDocx) {
         DFErrorFormat(error,"%s: Unknown extension",outFilename);
-        return 0;
+        goto end;
     }
+
+    WordPackage *package = Word_fromPlain(inStr,inPath,packagePath,zipPath,error);
+    if (package == NULL)
+        goto end;
+
+    ok = WordPackageSaveTo(package,outFilename,error);
+    WordPackageRelease(package);
+
+    return ok;
+end:
+    free(packagePath);
+    free(zipPath);
+    free(outExtension);
+    return ok;
 }
 
 int fromPlain(const char *inFilename, const char *outFilename, DFError **error)

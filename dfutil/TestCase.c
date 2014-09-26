@@ -16,6 +16,8 @@
 #include "TestFunctions.h"
 #include "Plain.h"
 #include "DFCommon.h"
+#include "DFString.h"
+#include "DFFilesystem.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
@@ -51,7 +53,9 @@ WordPackage *TestCaseOpenWordPackage(TestCase *tc, DFError **error)
         return NULL;
     }
 
-    WordPackage *package = Word_fromPlain(inputDocx,tc->path,tc->concretePath,error);
+    char *zipPath = DFAppendPathComponent(tc->tempPath,"zip");
+    WordPackage *package = Word_fromPlain(inputDocx,tc->path,tc->concretePath,zipPath,error);
+    free(zipPath);
     if (package == NULL)
         return NULL;
 

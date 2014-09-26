@@ -96,6 +96,7 @@ typedef struct OPCContentTypes OPCContentTypes;
 
 void OPCContentTypesSetDefault(OPCContentTypes *ct, const char *extension, const char *type);
 void OPCContentTypesSetOverride(OPCContentTypes *ct, const char *partName, const char *type);
+void OPCContentTypesRemoveOverride(OPCContentTypes *ct, const char *partName);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
@@ -123,8 +124,10 @@ int OPCPackageSaveTo(OPCPackage *pkg, const char *filename);
 OPCPart *OPCPackagePartWithURI(OPCPackage *pkg, const char *URI);
 OPCPart *OPCPackageAddRelatedPart(OPCPackage *pkg, const char *URI, const char *contentType,
                                   const char *relType, OPCPart *source);
+void OPCPackageRemoveRelatedPart(OPCPackage *pkg, const char *URI, const char *relType, OPCPart *source);
 DFBuffer *OPCPackageReadPart(OPCPackage *pkg, OPCPart *part, DFError **error);
 int OPCPackageWritePart(OPCPackage *pkg, const char *data, size_t len, OPCPart *part, DFError **error);
+int OPCPackageDeletePart(OPCPackage *pkg, OPCPart *part, DFError **error);
 void OPCPackageReadRelationships(OPCPackage *pkg, OPCRelationshipSet *rels, const char *partURI, DFDocument *relDoc);
 
 #endif

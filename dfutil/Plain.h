@@ -21,7 +21,9 @@
 #include "WordPackage.h"
 
 char *Word_toPlain(WordPackage *package, DFHashTable *parts);
-WordPackage *Word_fromPlain(const char *plain, const char *plainPath, const char *packagePath, DFError **error);
+WordPackage *Word_fromPlain(const char *plain, const char *plainPath,
+                            const char *packagePath, const char *zipTempPath,
+                            DFError **error);
 char *HTML_toPlain(DFDocument *doc, const char *imagePath, DFError **error);
 DFDocument *HTML_fromPlain(const char *plain, const char *path, const char *htmlPath, DFError **error);
 

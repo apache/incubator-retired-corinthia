@@ -55,8 +55,10 @@ char *Word_toPlain(WordPackage *package, DFHashTable *parts)
         addSerializedDoc(result,package->document,"document.xml");
     }
     if ((parts == NULL) || (DFHashTableLookup(parts,"styles") != NULL)) {
-        addSerializedDoc(result,package->styles,"styles.xml");
-        DFHashTableAdd(includeTypes,WORDREL_STYLES,"");
+        if ((package->styles != NULL) && (package->styles->root->first != NULL)) {
+            addSerializedDoc(result,package->styles,"styles.xml");
+            DFHashTableAdd(includeTypes,WORDREL_STYLES,"");
+        }
     }
     if ((parts == NULL) || (DFHashTableLookup(parts,"numbering") != NULL)) {
         if ((package->numbering != NULL) && (package->numbering->root->first != NULL)) {
@@ -66,26 +68,30 @@ char *Word_toPlain(WordPackage *package, DFHashTable *parts)
         }
     }
     if ((parts == NULL) || (DFHashTableLookup(parts,"footnotes") != NULL)) {
-        if (package->footnotes->root->first != NULL) {
+        if ((package->footnotes != NULL) && (package->footnotes->root->first != NULL)) {
             // Only include the file if we have one or more footnotes
             addSerializedDoc(result,package->footnotes,"footnotes.xml");
             DFHashTableAdd(includeTypes,WORDREL_FOOTNOTES,"");
         }
     }
     if ((parts == NULL) || (DFHashTableLookup(parts,"endnotes") != NULL)) {
-        if (package->endnotes->root->first != NULL) {
+        if ((package->endnotes != NULL) && (package->endnotes->root->first != NULL)) {
             // Only include the file if we have one or more endnotes
             addSerializedDoc(result,package->endnotes,"endnotes.xml");
             DFHashTableAdd(includeTypes,WORDREL_ENDNOTES,"");
         }
     }
     if ((parts != NULL) && (DFHashTableLookup(parts,"settings") != NULL)) {
-        addSerializedDoc(result,package->settings,"settings.xml");
-        DFHashTableAdd(includeTypes,WORDREL_SETTINGS,"");
+        if ((package->settings != NULL) && (package->settings->root->first != NULL)) {
+            addSerializedDoc(result,package->settings,"settings.xml");
+            DFHashTableAdd(includeTypes,WORDREL_SETTINGS,"");
+        }
     }
     if ((parts != NULL) && (DFHashTableLookup(parts,"theme") != NULL)) {
-        addSerializedDoc(result,package->theme,"theme.xml");
-        DFHashTableAdd(includeTypes,WORDREL_THEME,"");
+        if ((package->theme != NULL) && (package->theme->root->first != NULL)) {
+            addSerializedDoc(result,package->theme,"theme.xml");
+            DFHashTableAdd(includeTypes,WORDREL_THEME,"");
+        }
     }
 
     int haveLinks = 0;
@@ -341,28 +347,54 @@ static int Word_fromPackage(WordPackage *package, TextPackage *tp, DFError **err
     return 1;
 }
 
-WordPackage *Word_fromPlain(const char *plain, const char *plainPath, const char *packagePath, DFError **error)
+WordPackage *Word_fromPlain(const char *plain, const char *plainPath,
+                            const char *packagePath, const char *zipTempPath,
+                            DFError **error)
 {
-    WordPackage *wp = WordPackageNew(packagePath);
-    if (!WordPackageOpenNew(wp,error)) {
-        WordPackageRelease(wp);
-        return NULL;
-    }
+    int ok = 0;
+    char *contentsPath = DFAppendPathComponent(zipTempPath,"contents");
+    char *docxPath = DFAppendPathComponent(zipTempPath,"document.docx");
+    WordPackage *wp = NULL;
+    TextPackage *tp = NULL;
 
-    TextPackage *tp = TextPackageNewWithString(plain,plainPath,error);
-    if (tp == NULL) {
-        WordPackageRelease(wp);
-        return NULL;
-    }
+    tp = TextPackageNewWithString(plain,plainPath,error);
+    if (tp == NULL)
+        goto end;
 
-    if (!Word_fromPackage(wp,tp,error)) {
-        WordPackageRelease(wp);
-        TextPackageRelease(tp);
-        return NULL;
-    }
+    // First create the package the old way, accessing the Word APIs directly
+    wp = WordPackageNew(contentsPath);
+    if (!WordPackageOpenNew(wp,error))
+        goto end;
 
+    if (!Word_fromPackage(wp,tp,error))
+        goto end;
+
+    if (!WordPackageSaveTo(wp,docxPath,error))
+        goto end;
+
+    WordPackageRelease(wp);
+
+    // Now we have a .docx file; access it using what will be the new way (this API will change so we just say
+    // "open a word document from here", without having to separately create the package object first.
+    wp = WordPackageNew(contentsPath);
+    if (!WordPackageOpenFrom(wp,docxPath,error)) {
+        DFErrorFormat(error,"WordPackageOpenFrom %s: %s",docxPath,DFErrorMessage(error));
+        goto end;
+    }
+    ok = 1;
+
+
+end:
+    free(contentsPath);
+    free(docxPath);
     TextPackageRelease(tp);
-    return wp;
+    if (ok) {
+        return wp;
+    }
+    else {
+        WordPackageRelease(wp);
+        return NULL;
+    }
 }
 
 static void HTML_getImageSourcesRecursive(DFNode *node, DFHashTable *result)

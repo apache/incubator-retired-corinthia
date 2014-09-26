@@ -314,13 +314,19 @@ static int savePart(WordPackage *package, DFDocument *document,
                     const char *relName, const char *typeName,
                     const char *path, DFError **error)
 {
-    if (document != NULL) {
-        OPCRelationship *rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,relName);
-        OPCPart *part = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+    OPCRelationship *rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,relName);
+    OPCPart *part = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
+    if ((document != NULL) && (document->root->first != NULL)) {
         if (part == NULL)
             part = OPCPackageAddRelatedPart(package->opc,path,typeName,relName,package->documentPart);
         if (!serializePart(package,document,part,error))
             return 0;
+    }
+    else {
+        if (part != NULL) {
+            OPCPackageDeletePart(package->opc,part,error);
+            OPCPackageRemoveRelatedPart(package->opc,part->URI,relName,package->documentPart);
+        }
     }
     return 1;
 }

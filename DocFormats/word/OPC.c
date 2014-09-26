@@ -333,6 +333,11 @@ void OPCContentTypesSetOverride(OPCContentTypes *ct, const char *partName, const
     DFHashTableAdd(ct->overridesByPartName,partName,type);
 }
 
+void OPCContentTypesRemoveOverride(OPCContentTypes *ct, const char *partName)
+{
+    DFHashTableRemove(ct->overridesByPartName,partName);
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
 //                                           OPCPackage                                           //
@@ -622,6 +627,14 @@ OPCPart *OPCPackageAddRelatedPart(OPCPackage *pkg, const char *URI, const char *
     return OPCPackagePartWithURI(pkg,URI);
 }
 
+void OPCPackageRemoveRelatedPart(OPCPackage *pkg, const char *URI, const char *relType, OPCPart *source)
+{
+    OPCContentTypesRemoveOverride(pkg->contentTypes,URI);
+    OPCRelationship *rel = OPCRelationshipSetLookupByType(source->relationships,relType);
+    if (rel != NULL)
+        OPCRelationshipSetRemove(source->relationships,rel);
+}
+
 DFBuffer *OPCPackageReadPart(OPCPackage *pkg, OPCPart *part, DFError **error)
 {
     char *absolutePath = DFAppendPathComponent(pkg->tempPath,part->URI);
@@ -659,4 +672,16 @@ int OPCPackageWritePart(OPCPackage *pkg, const char *data, size_t len, OPCPart *
     free(absolutePath);
     free(absoluteParent);
     return result;
+}
+
+int OPCPackageDeletePart(OPCPackage *pkg, OPCPart *part, DFError **error)
+{
+    char *absolutePath = DFAppendPathComponent(pkg->tempPath,part->URI);
+    if (DFFileExists(absolutePath) && !DFDeleteFile(absolutePath,error)) {
+        DFErrorFormat(error,"%s: %s",part->URI,DFErrorMessage(error));
+        free(absolutePath);
+        return 0;
+    }
+    free(absolutePath);
+    return 1;
 }

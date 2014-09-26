@@ -59,7 +59,7 @@ Word_testUpdate();
                     <dpct:cNvPicPr/>
                   </dpct:nvPicPr>
                   <dpct:blipFill>
-                    <a:blip r:embed="rId1"/>
+                    <a:blip r:embed="rId2"/>
                     <a:stretch>
                       <a:fillRect/>
                     </a:stretch>
@@ -92,8 +92,8 @@ Word_testUpdate();
 ##item document.xml.rels
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <rel:Relationships xmlns:rel="http://schemas.openxmlformats.org/package/2006/relationships">
-  <rel:Relationship Id="rId1" Target="/word/media/image1.png" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image"/>
-  <rel:Relationship Id="rId2" Target="/word/styles.xml" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles"/>
+  <rel:Relationship Id="rId1" Target="/word/styles.xml" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles"/>
+  <rel:Relationship Id="rId2" Target="/word/media/image1.png" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image"/>
 </rel:Relationships>
 ##item /word/media/image1.png
 89504E470D0A1A0A0000000D4948445200000060000000400103000000DFFAE04D00000003504C54
