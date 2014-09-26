@@ -166,6 +166,7 @@ body {
 p.List_Paragraph {
     -uxwrite-display-name: "List Paragraph";
     -uxwrite-parent: "p.Normal";
+    -word-margin-left: 8.674699%;
 }
 
 p.Normal {
@@ -262,7 +263,7 @@ table.Normal_Table > * > tr > td {
   </w:body>
 </w:document>
 ##item styles.xml
-#include "styles-updated.xml"
+#include "styles.xml"
 ##item numbering.xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <w:numbering xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">

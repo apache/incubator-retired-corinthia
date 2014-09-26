@@ -14,11 +14,15 @@ p.List_Paragraph {
     -uxwrite-display-name: "List Paragraph";
     -uxwrite-parent: "p.Normal";
     -word-margin-left: 8.674699%;
+    margin-bottom: 0;
+    margin-top: 0;
 }
 
 p.Normal {
     -uxwrite-default: true;
     -uxwrite-display-name: "Normal";
+    margin-bottom: 0;
+    margin-top: 0;
 }
 
 span.Default_Paragraph_Font {

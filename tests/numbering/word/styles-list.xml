@@ -6,7 +6,7 @@
         <w:rFonts w:asciiTheme="minorHAnsi" w:cstheme="minorBidi" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorHAnsi"/>
         <w:sz w:val="24"/>
         <w:szCs w:val="24"/>
-        <w:lang w:bidi="ar-SA" w:eastAsia="en-US" w:val="en-AU"/>
+        <w:lang w:bidi="ar-SA" w:eastAsia="en-US" w:val="en-US"/>
       </w:rPr>
     </w:rPrDefault>
     <w:pPrDefault/>
@@ -14,9 +14,6 @@
   <w:style w:default="1" w:styleId="Normal" w:type="paragraph">
     <w:name w:val="Normal"/>
     <w:qFormat/>
-    <w:pPr>
-      <w:spacing w:after="100" w:afterAutospacing="1" w:before="100" w:beforeAutospacing="1"/>
-    </w:pPr>
   </w:style>
   <w:style w:default="1" w:styleId="DefaultParagraphFont" w:type="character">
     <w:name w:val="Default Paragraph Font"/>
@@ -50,7 +47,9 @@
     <w:basedOn w:val="Normal"/>
     <w:uiPriority w:val="34"/>
     <w:qFormat/>
+    <w:rsid w:val="006C5BC0"/>
     <w:pPr>
+      <w:ind w:left="720"/>
       <w:contextualSpacing/>
     </w:pPr>
   </w:style>

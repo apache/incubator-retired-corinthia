@@ -512,6 +512,7 @@ Word_testUpdate();
     <w:qFormat/>
     <w:rsid w:val="00D17B86"/>
     <w:pPr>
+      <w:ind w:left="720"/>
       <w:contextualSpacing/>
     </w:pPr>
   </w:style>

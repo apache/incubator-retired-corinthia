@@ -372,32 +372,46 @@ void WordPutPPr(DFNode *pPr, CSSProperties *properties, const char *styleId, Wor
         }
 
         if ((section != NULL) && (WordSectionContentWidth(section) >= 0)) {
-            if ((CSSGet(newp,"margin-left") == NULL) && (CSSGet(newp,"margin-right") == NULL) && (CSSGet(newp,"text-indent") == NULL)) {
+            const char *oldMarginLeft = CSSGet(oldp,"margin-left");
+            const char *oldMarginRight = CSSGet(oldp,"margin-right");
+            const char *oldTextIndent = CSSGet(oldp,"text-indent");
+            const char *newMarginLeft = CSSGet(newp,"margin-left");
+            const char *newMarginRight = CSSGet(newp,"margin-right");
+            const char *newTextIndent = CSSGet(newp,"text-indent");
+
+            // Special case of the List_Paragraph style, which is used by Word to ensure lists are indented. We
+            // don't set this property for HTML, because it automatically indents lists. However we need to ensure
+            // that it remains unchanged when updating the word document
+            const char *newWordMarginLeft = CSSGet(newp,"-word-margin-left");
+            if (newMarginLeft == NULL)
+                newMarginLeft = newWordMarginLeft;
+
+            if ((newMarginLeft == NULL) && (newMarginRight == NULL) && (newTextIndent == NULL)) {
                 children[WORD_IND] = NULL;
             }
             else {
                 if (children[WORD_IND] == NULL)
                     children[WORD_IND] = DFCreateElement(pPr->doc,WORD_IND);
 
-                if (!DFStringEquals(CSSGet(oldp,"margin-left"),CSSGet(newp,"margin-left"))) {
-                    if (CSSGet(newp,"margin-left") != NULL)
-                        updateTwipsFromLength(children[WORD_IND],WORD_LEFT,CSSGet(newp,"margin-left"),WordSectionContentWidth(section));
+                if (!DFStringEquals(oldMarginLeft,newMarginLeft)) {
+                    if (newMarginLeft != NULL)
+                        updateTwipsFromLength(children[WORD_IND],WORD_LEFT,newMarginLeft,WordSectionContentWidth(section));
                     else
                         DFRemoveAttribute(children[WORD_IND],WORD_LEFT);
                     DFRemoveAttribute(children[WORD_IND],WORD_START);
                 }
 
-                if (!DFStringEquals(CSSGet(oldp,"margin-right"),CSSGet(newp,"margin-right"))) {
-                    if (CSSGet(newp,"margin-right") != NULL)
-                        updateTwipsFromLength(children[WORD_IND],WORD_RIGHT,CSSGet(newp,"margin-right"),WordSectionContentWidth(section));
+                if (!DFStringEquals(oldMarginRight,newMarginRight)) {
+                    if (newMarginRight != NULL)
+                        updateTwipsFromLength(children[WORD_IND],WORD_RIGHT,newMarginRight,WordSectionContentWidth(section));
                     else
                         DFRemoveAttribute(children[WORD_IND],WORD_RIGHT);
                     DFRemoveAttribute(children[WORD_IND],WORD_END);
                 }
 
-                if (!DFStringEquals(CSSGet(oldp,"text-indent"),CSSGet(newp,"text-indent"))) {
-                    if (CSSGet(newp,"text-indent") != NULL) {
-                        CSSLength length = CSSLengthFromString(CSSGet(newp,"text-indent"));
+                if (!DFStringEquals(oldTextIndent,newTextIndent)) {
+                    if (newTextIndent != NULL) {
+                        CSSLength length = CSSLengthFromString(newTextIndent);
 
                         if (CSSLengthIsValid(length)) {
                             double pts = CSSLengthToPts(length,WordSectionContentWidthPts(section));

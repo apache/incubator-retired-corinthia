@@ -162,11 +162,15 @@ static void WordGetStyle(DFNode *concrete, CSSStyle *style, WordConverter *conve
 
     // Special case: The ListParagraph style that word automatically adds specifies an indentation
     // of 36pt. We don't actually want this, because HTML automatically indents lists anyway. If
-    // we see this, clear it.
+    // we see this, clear it, but keep the old value around for when we update the word document.
     StyleFamily family = WordStyleFamilyForSelector(style->selector);
     const char *name = WordSheetStyleIdForSelector(converter->styles,style->selector);
-    if ((family == StyleFamilyParagraph) && DFStringEquals(name,"ListParagraph"))
-        CSSPut(CSSStyleRule(style),"margin-left",NULL);;
+    if ((family == StyleFamilyParagraph) && DFStringEquals(name,"ListParagraph")) {
+        CSSProperties *properties = CSSStyleRule(style);
+        const char *wordMarginLeft = CSSGet(properties,"margin-left");
+        CSSPut(properties,"-word-margin-left",wordMarginLeft);
+        CSSPut(properties,"margin-left",NULL);
+    }
 
     DFNode *pPr = DFChildWithTag(concrete,WORD_PPR);
     DFNode *numPr = DFChildWithTag(pPr,WORD_NUMPR);

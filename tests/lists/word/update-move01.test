@@ -383,6 +383,7 @@ Word_testUpdate();
     <w:qFormat/>
     <w:rsid w:val="007E1115"/>
     <w:pPr>
+      <w:ind w:left="720"/>
       <w:contextualSpacing/>
     </w:pPr>
   </w:style>

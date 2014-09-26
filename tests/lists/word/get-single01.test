@@ -251,6 +251,7 @@ body {
 p.List_Paragraph {
     -uxwrite-display-name: "List Paragraph";
     -uxwrite-parent: "p.Normal";
+    -word-margin-left: 8.674699%;
 }
 
 p.Normal {

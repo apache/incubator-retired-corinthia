@@ -6,7 +6,7 @@ Word_testCreate();
     <meta charset="utf-8"/>
     <link href="reset.css" rel="stylesheet"/>
     <style>
-#include "common.css"
+#include "common-create.css"
     </style>
   </head>
   <body>
