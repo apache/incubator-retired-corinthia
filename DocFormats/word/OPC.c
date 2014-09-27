@@ -575,7 +575,7 @@ int OPCPackageOpenFrom(OPCPackage *pkg, const char *filename)
     return (pkg->errors->len == 0);
 }
 
-int OPCPackageSaveTo(OPCPackage *pkg, const char *filename)
+int OPCPackageSaveToDir(OPCPackage *pkg)
 {
     // Save content types
     DFError *dferror = NULL;
@@ -596,7 +596,14 @@ int OPCPackageSaveTo(OPCPackage *pkg, const char *filename)
     }
     free(keys);
     saveRelationships(pkg,pkg->relationships,"/");
+    return (pkg->errors->len == 0);
+}
 
+int OPCPackageSaveTo(OPCPackage *pkg, const char *filename)
+{
+    if (!OPCPackageSaveToDir(pkg))
+        return 0;;
+    DFError *dferror = NULL;
     // Build zip file
     if (!DFZip(filename,pkg->tempPath,&dferror)) {
         OPCPackageError(pkg,"%s",DFErrorMessage(&dferror));
@@ -604,7 +611,7 @@ int OPCPackageSaveTo(OPCPackage *pkg, const char *filename)
         return 0;
     }
 
-    return (pkg->errors->len == 0);
+    return 1;
 }
 
 OPCPart *OPCPackagePartWithURI(OPCPackage *pkg, const char *URI)

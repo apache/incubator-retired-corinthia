@@ -119,6 +119,7 @@ OPCPackage *OPCPackageNew(const char *tempPath);
 void OPCPackageFree(OPCPackage *pkg);
 int OPCPackageOpenNew(OPCPackage *pkg, DFError **error);
 int OPCPackageOpenFrom(OPCPackage *pkg, const char *filename);
+int OPCPackageSaveToDir(OPCPackage *pkg);
 int OPCPackageSaveTo(OPCPackage *pkg, const char *filename);
 
 OPCPart *OPCPackagePartWithURI(OPCPackage *pkg, const char *URI);
