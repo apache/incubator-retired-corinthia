@@ -24,6 +24,7 @@
 #include "DFFilesystem.h"
 #include "DFHTML.h"
 #include "DFCommon.h"
+#include "DFZipFile.h"
 
 static void addSerializedDoc(DFBuffer *result, DFDocument *doc, const char *filename)
 {
@@ -155,198 +156,6 @@ char *Word_toPlain(WordPackage *package, DFHashTable *parts)
     return str;
 }
 
-static DFDocument *xmlFromString(const char *str, DFError **error)
-{
-    DFError *err = NULL;
-    DFDocument *doc = DFParseXMLString(str,&err);
-    if (doc == NULL)
-        return NULL;
-    DFStripWhitespace(doc->docNode);
-    DFDocumentReassignSeqNos(doc);
-    return doc;
-}
-
-static int Word_fromPackageOld(WordPackage *package, TextPackage *tp, DFError **error)
-{
-    const char *documentStr = DFHashTableLookup(tp->items,"document.xml");
-    const char *stylesStr = DFHashTableLookup(tp->items,"styles.xml");
-    const char *numberingStr = DFHashTableLookup(tp->items,"numbering.xml");
-    const char *footnotesStr = DFHashTableLookup(tp->items,"footnotes.xml");
-    const char *endnotesStr = DFHashTableLookup(tp->items,"endnotes.xml");
-    const char *settingsStr = DFHashTableLookup(tp->items,"settings.xml");
-    const char *themeStr = DFHashTableLookup(tp->items,"theme.xml");
-
-    if (documentStr != NULL) {
-        DFDocument *document = xmlFromString(documentStr,error);
-        if (document == NULL) {
-            DFErrorFormat(error,"document.xml: %s",DFErrorMessage(error));
-            return 0;
-        }
-        WordPackageSetDocument(package,document);
-        DFDocumentRelease(document);
-    }
-
-    if (stylesStr != NULL) {
-        DFDocument *styles = xmlFromString(stylesStr,error);
-        if (styles == NULL) {
-            DFErrorFormat(error,"styles.xml: %s",DFErrorMessage(error));
-            return 0;
-        }
-        WordPackageSetStyles(package,styles);
-        DFDocumentRelease(styles);
-    }
-
-    if (numberingStr != NULL) {
-        DFDocument *numbering = xmlFromString(numberingStr,error);
-        if (numbering == NULL) {
-            DFErrorFormat(error,"numbering.xml: %s",DFErrorMessage(error));
-            return 0;
-        }
-        WordPackageSetNumbering(package,numbering);
-        DFDocumentRelease(numbering);
-    }
-
-    if (footnotesStr != NULL) {
-        DFDocument *footnotes = xmlFromString(footnotesStr,error);
-        if (footnotes == NULL) {
-            DFErrorFormat(error,"footnotes.xml: %s",DFErrorMessage(error));
-            return 0;
-        }
-        WordPackageSetFootnotes(package,footnotes);
-        DFDocumentRelease(footnotes);
-    }
-
-    if (endnotesStr != NULL) {
-        DFDocument *endnotes = xmlFromString(endnotesStr,error);
-        if (endnotes == NULL) {
-            DFErrorFormat(error,"endnotes.xml: %s",DFErrorMessage(error));
-            return 0;
-        }
-        WordPackageSetEndnotes(package,endnotes);
-        DFDocumentRelease(endnotes);
-    }
-
-    if (settingsStr != NULL) {
-        DFDocument *settings = xmlFromString(settingsStr,error);
-        if (settings == NULL) {
-            DFErrorFormat(error,"settings.xml: %s",DFErrorMessage(error));
-            return 0;
-        }
-        WordPackageSetSettings(package,settings);
-        DFDocumentRelease(settings);
-    }
-
-    if (themeStr != NULL) {
-        DFDocument *theme = xmlFromString(themeStr,error);
-        if (theme == NULL) {
-            DFErrorFormat(error,"theme.xml: %s",DFErrorMessage(error));
-            return 0;
-        }
-        WordPackageSetTheme(package,theme);
-        DFDocumentRelease(theme);
-    }
-
-    const char *relsStr = DFHashTableLookup(tp->items,"document.xml.rels");
-    if (relsStr != NULL) {
-        DFDocument *relsDoc = xmlFromString(relsStr,error);
-        if (relsDoc == NULL) {
-            DFErrorFormat(error,"document.xml.rels: %s",DFErrorMessage(error));
-            return 0;
-        }
-        OPCPackageReadRelationships(package->opc,package->documentPart->relationships,"/word/document.xml",relsDoc);
-        DFDocumentRelease(relsDoc);
-    }
-
-    OPCRelationship *rel;
-
-    // Set content type override for styles part
-    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_STYLES);
-    OPCPart *stylesPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
-    if (stylesPart != NULL)
-        OPCContentTypesSetOverride(package->opc->contentTypes,stylesPart->URI,WORDTYPE_STYLES);
-
-    // Set content type override for numbering part
-    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_NUMBERING);
-    OPCPart *numberingPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
-    if (numberingPart != NULL)
-        OPCContentTypesSetOverride(package->opc->contentTypes,numberingPart->URI,WORDTYPE_NUMBERING);
-
-    // Set content type override for settings part
-    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_SETTINGS);
-    OPCPart *settingsPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
-    if (settingsPart != NULL)
-        OPCContentTypesSetOverride(package->opc->contentTypes,settingsPart->URI,WORDTYPE_SETTINGS);
-
-    // Set content type override for theme part
-    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_THEME);
-    OPCPart *themePart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
-    if (themePart != NULL)
-        OPCContentTypesSetOverride(package->opc->contentTypes,themePart->URI,WORDTYPE_THEME);;
-
-    // Set content type override for footnotes part
-    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_FOOTNOTES);
-    OPCPart *footnotesPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
-    if (footnotesPart != NULL)
-        OPCContentTypesSetOverride(package->opc->contentTypes,footnotesPart->URI,WORDTYPE_FOOTNOTES);;
-
-    // Set content type override for endnotes part
-    rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_ENDNOTES);
-    OPCPart *endnotesPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
-    if (endnotesPart != NULL)
-        OPCContentTypesSetOverride(package->opc->contentTypes,endnotesPart->URI,WORDTYPE_ENDNOTES);;
-
-    OPCRelationshipSet *rels = package->documentPart->relationships;
-    const char **allIds = OPCRelationshipSetAllIds(rels);
-    for (int i = 0; allIds[i]; i++) {
-        const char *rId = allIds[i];
-        OPCRelationship *rel = OPCRelationshipSetLookupById(rels,rId);
-        if (!strcmp(rel->type,WORDREL_IMAGE)) {
-            char *ext = DFPathExtension(rel->target);
-            if (DFStringEqualsCI(ext,"png")) {
-                OPCContentTypesSetDefault(package->opc->contentTypes,"png","image/png");
-            }
-            else if (DFStringEqualsCI(ext,"jpeg")) {
-                OPCContentTypesSetDefault(package->opc->contentTypes,"jpeg","image/jpeg");
-            }
-            else if (DFStringEqualsCI(ext,"jpg")) {
-                OPCContentTypesSetDefault(package->opc->contentTypes,"jpg","image/jpg");
-            }
-            else {
-                DFErrorFormat(error,"Unsupported image type: %s",ext);
-                free(ext);
-                return 0;
-            }
-            free(ext);
-
-            const char *str = DFHashTableLookup(tp->items,rel->target);
-            char *path = DFAppendPathComponent(package->tempPath,rel->target);
-            char *parent = DFPathDirName(path);
-            int ok = 1;
-
-            if (!DFFileExists(parent) && !DFCreateDirectory(parent,1,error)) {
-                DFErrorFormat(error,"%s: %s",parent,DFErrorMessage(error));
-                ok = 0;
-            }
-
-            DFBuffer *data = stringToBinary(str);
-            if (!DFBufferWriteToFile(data,path,error)) {
-                DFErrorFormat(error,"%s: %s",path,DFErrorMessage(error));
-                ok = 0;
-            }
-
-            DFBufferRelease(data);
-            free(parent);
-            free(path);
-
-            if (!ok)
-                return 0;
-        }
-    }
-    free(allIds);
-
-    return 1;
-}
-
 static int saveXMLDocument(const char *zipDir, const char *filename,
                            DFDocument *doc, NamespaceID defaultNS, DFError **error)
 {
@@ -465,7 +274,7 @@ static int saveRootRels(const char *zipDir, DFError **error)
     return ok;
 }
 
-static int Word_fromPackageNew(TextPackage *tp, const char *zipDir, DFError **error)
+static int Word_fromPackage(TextPackage *tp, const char *zipDir, DFError **error)
 {
     PartInfo parts[7] = {
         { "numbering.xml", "/word/numbering.xml", WORDREL_NUMBERING, WORDTYPE_NUMBERING },
@@ -642,8 +451,8 @@ WordPackage *Word_fromPlain(const char *plain, const char *plainPath,
                             DFError **error)
 {
     int ok = 0;
-    char *contents1Path = DFAppendPathComponent(zipTempPath,"contents1");
-    char *contents2Path = DFAppendPathComponent(zipTempPath,"contents2");
+    char *unzippedPath = DFAppendPathComponent(zipTempPath,"unzipped");
+    char *contentsPath = DFAppendPathComponent(zipTempPath,"contents2");
     char *docxPath = DFAppendPathComponent(zipTempPath,"document.docx");
     WordPackage *wp = NULL;
     TextPackage *tp = NULL;
@@ -652,39 +461,20 @@ WordPackage *Word_fromPlain(const char *plain, const char *plainPath,
     if (tp == NULL)
         goto end;
 
-    // First create the package the old way, accessing the Word APIs directly
-    wp = WordPackageNew(contents1Path);
-    if (!WordPackageOpenNew(wp,error))
-        goto end;
-
-    if (!Word_fromPackageOld(wp,tp,error))
-        goto end;
-
-    if (!WordPackageSaveTo(wp,docxPath,error))
-        goto end;
-
-    WordPackageRelease(wp);
-    wp = NULL;
-
-    // Now create directly and zip it up
-    if (!Word_fromPackageNew(tp,contents2Path,error)) {
+    if (!Word_fromPackage(tp,contentsPath,error)) {
         DFErrorFormat(error,"Word_fromPackageNew: %s",DFErrorMessage(error));
         printf("%s\n",DFErrorMessage(error));
         goto end;
     }
 
-    char *cmd = DFFormatString("diff -qr %s %s",contents1Path,contents2Path);
-    int r = system(cmd);
-    free(cmd);
-    if (r != 0) {
-        printf("diff exited with status code %d\n",r);
-        exit(1);
+    if (!DFZip(docxPath,contentsPath,error)) {
+        DFErrorFormat(error,"zip %s: %s",docxPath,DFErrorMessage(error));
         goto end;
     }
 
     // Now we have a .docx file; access it using what will be the new way (this API will change so we just say
     // "open a word document from here", without having to separately create the package object first.
-    wp = WordPackageNew(contents1Path);
+    wp = WordPackageNew(unzippedPath);
     if (!WordPackageOpenFrom(wp,docxPath,error)) {
         DFErrorFormat(error,"WordPackageOpenFrom %s: %s",docxPath,DFErrorMessage(error));
         goto end;
@@ -692,8 +482,8 @@ WordPackage *Word_fromPlain(const char *plain, const char *plainPath,
     ok = 1;
 
 end:
-    free(contents1Path);
-    free(contents2Path);
+    free(unzippedPath);
+    free(contentsPath);
     free(docxPath);
     TextPackageRelease(tp);
     if (ok) {
