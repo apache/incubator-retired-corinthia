@@ -347,29 +347,135 @@ static int Word_fromPackageOld(WordPackage *package, TextPackage *tp, DFError **
     return 1;
 }
 
-static char *stripXMLWhitespace(const char *input, DFError **error)
+static int saveXMLDocument(const char *zipDir, const char *filename,
+                           DFDocument *doc, NamespaceID defaultNS, DFError **error)
+{
+    char *fullPath = DFAppendPathComponent(zipDir,filename);
+    char *parentPath = DFPathDirName(fullPath);
+
+    int ok = 0;
+
+    if (!DFFileExists(parentPath) && !DFCreateDirectory(parentPath,1,error)) {
+        DFErrorFormat(error,"create %s: %s",parentPath,DFErrorMessage(error));
+        goto end;
+    }
+
+    if (!DFSerializeXMLFile(doc,defaultNS,0,fullPath,error)) {
+        DFErrorFormat(error,"serialize %s: %s",fullPath,DFErrorMessage(error));
+        goto end;
+    }
+
+    ok = 1;
+
+end:
+    free(fullPath);
+    free(parentPath);
+    return ok;
+}
+
+static int saveStrippedXMLText(const char *zipDir, const char *filename,
+                               const char *input, NamespaceID defaultNS, DFError **error)
 {
     DFDocument *doc = DFParseXMLString(input,error);
     if (doc == NULL)
-        return NULL;
+        return 0;
     DFStripWhitespace(doc->docNode);
-    char *result = DFSerializeXMLString(doc,NAMESPACE_NULL,0);
+    int ok = saveXMLDocument(zipDir,filename,doc,defaultNS,error);
     DFDocumentRelease(doc);
-    return result;
+    return ok;
 }
 
-static int saveStrippedPart(OPCPackage *opc, const char *input, OPCPart *part, DFError **error)
+typedef struct PartInfo {
+    const char *filename;
+    const char *path;
+    const char *rel;
+    const char *type;
+} PartInfo;
+
+static int saveContentTypes(const char *zipDir, DFHashTable *ctDefaults, DFHashTable *ctOverrides, DFError **error)
 {
-    char *stripped = stripXMLWhitespace(input,error);
-    if (stripped == NULL)
-        return 0;
-    int ok = OPCPackageWritePart(opc,stripped,strlen(stripped),part,error);
-    free(stripped);
+    DFDocument *doc = DFDocumentNewWithRoot(CT_TYPES);
+
+    const char **keys = DFHashTableCopyKeys(ctDefaults);
+    DFSortStringsCaseInsensitive(keys);
+    for (int i = 0; keys[i]; i++) {
+        const char *extension = keys[i];
+        const char *contentType = DFHashTableLookup(ctDefaults,extension);
+        DFNode *deflt = DFCreateChildElement(doc->root,CT_DEFAULT);
+        DFSetAttribute(deflt,NULL_EXTENSION,extension);
+        DFSetAttribute(deflt,NULL_CONTENTTYPE,contentType);
+    }
+    free(keys);
+    keys = DFHashTableCopyKeys(ctOverrides);
+    DFSortStringsCaseInsensitive(keys);
+    for (int i = 0; keys[i]; i++) {
+        const char *partName = keys[i];
+        const char *contentType = DFHashTableLookup(ctOverrides,partName);
+        DFNode *override = DFCreateChildElement(doc->root,CT_OVERRIDE);
+        DFSetAttribute(override,NULL_PARTNAME,partName);
+        DFSetAttribute(override,NULL_CONTENTTYPE,contentType);
+    }
+    free(keys);
+
+    int ok = saveXMLDocument(zipDir,"[Content_Types].xml",doc,NAMESPACE_CT,error);
+    DFDocumentRelease(doc);
+    return ok;
+}
+
+static int saveDocRels(const char *zipDir,
+                       DFHashTable *docRelURIs,
+                       DFHashTable *docRelTypes,
+                       DFHashTable *docRelModes,
+                       DFError **error)
+{
+    if (DFHashTableCount(docRelURIs) == 0)
+        return 1;;
+
+    DFDocument *doc = DFDocumentNewWithRoot(REL_RELATIONSHIPS);
+
+    const char **sortedIds = DFHashTableCopyKeys(docRelURIs);
+    DFSortStringsCaseInsensitive(sortedIds);
+    for (int i = 0; sortedIds[i]; i++) {
+        const char *rId = sortedIds[i];
+        const char *URI = DFHashTableLookup(docRelURIs,rId);
+        const char *type = DFHashTableLookup(docRelTypes,rId);
+        const char *mode = DFHashTableLookup(docRelModes,rId); // may be NULL
+        DFNode *child = DFCreateChildElement(doc->root,REL_RELATIONSHIP);
+        DFSetAttribute(child,NULL_Id,rId);
+        DFSetAttribute(child,NULL_Type,type);
+        DFSetAttribute(child,NULL_TARGET,URI);
+        DFSetAttribute(child,NULL_TARGETMODE,mode);
+    }
+    free(sortedIds);
+
+    int ok = saveXMLDocument(zipDir,"/word/_rels/document.xml.rels",doc,NAMESPACE_REL,error);
+    DFDocumentRelease(doc);
+    return ok;
+}
+
+static int saveRootRels(const char *zipDir, DFError **error)
+{
+    DFDocument *doc = DFDocumentNewWithRoot(REL_RELATIONSHIPS);
+    DFNode *rel = DFCreateChildElement(doc->root,REL_RELATIONSHIP);
+    DFSetAttribute(rel,NULL_Id,"rId1");
+    DFSetAttribute(rel,NULL_Type,"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument");
+    DFSetAttribute(rel,NULL_TARGET,"/word/document.xml");
+    int ok = saveXMLDocument(zipDir,"/_rels/.rels",doc,NAMESPACE_REL,error);
+    DFDocumentRelease(doc);
     return ok;
 }
 
 static int Word_fromPackageNew(TextPackage *tp, const char *zipDir, DFError **error)
 {
+    PartInfo parts[7] = {
+        { "numbering.xml", "/word/numbering.xml", WORDREL_NUMBERING, WORDTYPE_NUMBERING },
+        { "styles.xml", "/word/styles.xml", WORDREL_STYLES, WORDTYPE_STYLES },
+        { "settings.xml", "/word/settings.xml", WORDREL_SETTINGS, WORDTYPE_SETTINGS },
+        { "theme.xml", "/word/theme.xml", WORDREL_THEME, WORDTYPE_THEME },
+        { "footnotes.xml", "/word/footnotes.xml", WORDREL_FOOTNOTES, WORDTYPE_FOOTNOTES },
+        { "endnotes.xml", "/word/endnotes.xml", WORDREL_ENDNOTES, WORDTYPE_ENDNOTES },
+        { NULL, NULL, NULL, NULL },
+    };
     if (DFFileExists(zipDir) && !DFDeleteFile(zipDir,error)) {
         DFErrorFormat(error,"delete %s: %s",zipDir,DFErrorMessage(error));
         return 0;
@@ -381,155 +487,74 @@ static int Word_fromPackageNew(TextPackage *tp, const char *zipDir, DFError **er
     }
 
     int ok = 0;
-    OPCPackage *opc = OPCPackageNew(zipDir);
-    if (!OPCPackageOpenNew(opc,error)) {
-        DFErrorFormat(error,"OPCPackageOpenNew: %s",DFErrorMessage(error));
-        goto end;
-    }
 
     const char *documentStr = DFHashTableLookup(tp->items,"document.xml");
-    const char *stylesStr = DFHashTableLookup(tp->items,"styles.xml");
-    const char *numberingStr = DFHashTableLookup(tp->items,"numbering.xml");
-    const char *footnotesStr = DFHashTableLookup(tp->items,"footnotes.xml");
-    const char *endnotesStr = DFHashTableLookup(tp->items,"endnotes.xml");
-    const char *settingsStr = DFHashTableLookup(tp->items,"settings.xml");
-    const char *themeStr = DFHashTableLookup(tp->items,"theme.xml");
-    const char **allIds = NULL;
+    const char **allFilenames = NULL;
+    DFHashTable *ctDefaults = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFHashTable *ctOverrides = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFHashTable *docRelURIs = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFHashTable *docRelTypes = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFHashTable *docRelModes = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+
 
     if (documentStr == NULL) {
         DFErrorFormat(error,"No document.xml");
         goto end;
     }
 
-    OPCPart *documentPart = OPCPackagePartWithURI(opc,"/word/document.xml");
-
-    OPCRelationshipSetAddId(opc->relationships,"rId1",WORDREL_OFFICE_DOCUMENT,documentPart->URI,0);
-    OPCContentTypesSetOverride(opc->contentTypes,documentPart->URI,WORDTYPE_OFFICE_DOCUMENT);
-    OPCContentTypesSetDefault(opc->contentTypes,"rels","application/vnd.openxmlformats-package.relationships+xml");
-
+    DFHashTableAdd(ctDefaults,"rels","application/vnd.openxmlformats-package.relationships+xml");
+    DFHashTableAdd(ctOverrides,"/word/document.xml",
+                   "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
 
 
     if (documentStr != NULL) {
-        if (!saveStrippedPart(opc,documentStr,documentPart,error))
+        if (!saveStrippedXMLText(zipDir,"/word/document.xml",documentStr,NAMESPACE_NULL,error))
             goto end;
     }
 
-    // Numbering
-    if (numberingStr != NULL) {
-        OPCPart *part = OPCPackageAddRelatedPart(opc,"/word/numbering.xml",WORDTYPE_NUMBERING,WORDREL_NUMBERING,documentPart);
-        if (!saveStrippedPart(opc,numberingStr,part,error))
+    int rIdNext = 1;
+    for (int i = 0; parts[i].filename; i++) {
+        const char *content = DFHashTableLookup(tp->items,parts[i].filename);
+        if (content == NULL)
+            continue;
+
+        if (!saveStrippedXMLText(zipDir,parts[i].path,content,NAMESPACE_NULL,error))
             goto end;
+
+        char rIdStr[100];
+        snprintf(rIdStr,100,"rId%d",rIdNext++);
+        DFHashTableAdd(docRelURIs,rIdStr,parts[i].path);
+        DFHashTableAdd(docRelTypes,rIdStr,parts[i].rel);
+        DFHashTableAdd(ctOverrides,parts[i].path,parts[i].type);
     }
 
-    // Styles
-    if (stylesStr != NULL) {
-        OPCPart *part = OPCPackageAddRelatedPart(opc,"/word/styles.xml",WORDTYPE_STYLES,WORDREL_STYLES,documentPart);
-        if (!saveStrippedPart(opc,stylesStr,part,error))
-            goto end;
-    }
+    allFilenames = DFHashTableCopyKeys(tp->items);
+    for (int i = 0; allFilenames[i]; i++) {
+        const char *curFilename = allFilenames[i];
+        char *ext = DFPathExtension(curFilename);
 
-    // Settings
-    if (settingsStr != NULL) {
-        OPCPart *part = OPCPackageAddRelatedPart(opc,"/word/settings.xml",WORDTYPE_SETTINGS,WORDREL_SETTINGS,documentPart);
-        if (!saveStrippedPart(opc,settingsStr,part,error))
-            goto end;
-    }
+        int isImage = 0;
 
-    // Theme
-    if (themeStr != NULL) {
-        OPCPart *part = OPCPackageAddRelatedPart(opc,"/word/theme.xml",WORDTYPE_THEME,WORDREL_THEME,documentPart);
-        if (!saveStrippedPart(opc,themeStr,part,error))
-            goto end;
-    }
-
-    // Footnotes
-    if (footnotesStr != NULL) {
-        OPCPart *part = OPCPackageAddRelatedPart(opc,"/word/footnotes.xml",WORDTYPE_FOOTNOTES,WORDREL_FOOTNOTES,documentPart);
-        if (!saveStrippedPart(opc,footnotesStr,part,error))
-            goto end;
-    }
-
-    // Endnotes
-    if (endnotesStr != NULL) {
-        OPCPart *part = OPCPackageAddRelatedPart(opc,"/word/endnotes.xml",WORDTYPE_ENDNOTES,WORDREL_ENDNOTES,documentPart);
-        if (!saveStrippedPart(opc,endnotesStr,part,error))
-            goto end;
-    }
-
-    const char *relsStr = DFHashTableLookup(tp->items,"document.xml.rels");
-    if (relsStr != NULL) {
-        DFDocument *relsDoc = xmlFromString(relsStr,error);
-        if (relsDoc == NULL) {
-            DFErrorFormat(error,"document.xml.rels: %s",DFErrorMessage(error));
-            return 0;
+        if (DFStringEqualsCI(ext,"png")) {
+            DFHashTableAdd(ctDefaults,"png","image/png");
+            isImage = 1;
         }
-        OPCPackageReadRelationships(opc,documentPart->relationships,"/word/document.xml",relsDoc);
-        DFDocumentRelease(relsDoc);
-    }
 
-    OPCRelationship *rel;
+        if (DFStringEqualsCI(ext,"jpg")) {
+            DFHashTableAdd(ctDefaults,"jpg","image/png");
+            isImage = 1;
+        }
 
-    // Set content type override for numbering part
-    rel = OPCRelationshipSetLookupByType(documentPart->relationships,WORDREL_NUMBERING);
-    OPCPart *numberingPart = (rel != NULL) ? OPCPackagePartWithURI(opc,rel->target) : NULL;
-    if (numberingPart != NULL)
-        OPCContentTypesSetOverride(opc->contentTypes,numberingPart->URI,WORDTYPE_NUMBERING);
+        if (DFStringEqualsCI(ext,"jpeg")) {
+            DFHashTableAdd(ctDefaults,"jpeg","image/png");
+            isImage = 1;
+        }
 
-    // Set content type override for styles part
-    rel = OPCRelationshipSetLookupByType(documentPart->relationships,WORDREL_STYLES);
-    OPCPart *stylesPart = (rel != NULL) ? OPCPackagePartWithURI(opc,rel->target) : NULL;
-    if (stylesPart != NULL)
-        OPCContentTypesSetOverride(opc->contentTypes,stylesPart->URI,WORDTYPE_STYLES);
+        free(ext);
 
-    // Set content type override for settings part
-    rel = OPCRelationshipSetLookupByType(documentPart->relationships,WORDREL_SETTINGS);
-    OPCPart *settingsPart = (rel != NULL) ? OPCPackagePartWithURI(opc,rel->target) : NULL;
-    if (settingsPart != NULL)
-        OPCContentTypesSetOverride(opc->contentTypes,settingsPart->URI,WORDTYPE_SETTINGS);
-
-    // Set content type override for theme part
-    rel = OPCRelationshipSetLookupByType(documentPart->relationships,WORDREL_THEME);
-    OPCPart *themePart = (rel != NULL) ? OPCPackagePartWithURI(opc,rel->target) : NULL;
-    if (themePart != NULL)
-        OPCContentTypesSetOverride(opc->contentTypes,themePart->URI,WORDTYPE_THEME);;
-
-    // Set content type override for footnotes part
-    rel = OPCRelationshipSetLookupByType(documentPart->relationships,WORDREL_FOOTNOTES);
-    OPCPart *footnotesPart = (rel != NULL) ? OPCPackagePartWithURI(opc,rel->target) : NULL;
-    if (footnotesPart != NULL)
-        OPCContentTypesSetOverride(opc->contentTypes,footnotesPart->URI,WORDTYPE_FOOTNOTES);;
-
-    // Set content type override for endnotes part
-    rel = OPCRelationshipSetLookupByType(documentPart->relationships,WORDREL_ENDNOTES);
-    OPCPart *endnotesPart = (rel != NULL) ? OPCPackagePartWithURI(opc,rel->target) : NULL;
-    if (endnotesPart != NULL)
-        OPCContentTypesSetOverride(opc->contentTypes,endnotesPart->URI,WORDTYPE_ENDNOTES);;
-
-    OPCRelationshipSet *rels = documentPart->relationships;
-    allIds = OPCRelationshipSetAllIds(rels);
-    for (int i = 0; allIds[i]; i++) {
-        const char *rId = allIds[i];
-        OPCRelationship *rel = OPCRelationshipSetLookupById(rels,rId);
-        if (!strcmp(rel->type,WORDREL_IMAGE)) {
-            char *ext = DFPathExtension(rel->target);
-            if (DFStringEqualsCI(ext,"png")) {
-                OPCContentTypesSetDefault(opc->contentTypes,"png","image/png");
-            }
-            else if (DFStringEqualsCI(ext,"jpeg")) {
-                OPCContentTypesSetDefault(opc->contentTypes,"jpeg","image/jpeg");
-            }
-            else if (DFStringEqualsCI(ext,"jpg")) {
-                OPCContentTypesSetDefault(opc->contentTypes,"jpg","image/jpg");
-            }
-            else {
-                DFErrorFormat(error,"Unsupported image type: %s",ext);
-                free(ext);
-                goto end;
-            }
-            free(ext);
-
-            const char *str = DFHashTableLookup(tp->items,rel->target);
-            char *path = DFAppendPathComponent(zipDir,rel->target);
+        if (isImage) {
+            const char *str = DFHashTableLookup(tp->items,curFilename);
+            char *path = DFAppendPathComponent(zipDir,curFilename);
             char *parent = DFPathDirName(path);
             int fileok = 1;
 
@@ -553,17 +578,62 @@ static int Word_fromPackageNew(TextPackage *tp, const char *zipDir, DFError **er
         }
     }
 
-    if (!OPCPackageSaveToDir(opc)) {
-        DFErrorFormat(error,"OPCPackageSaveToDir failed");
+    if (!saveContentTypes(zipDir,ctDefaults,ctOverrides,error)) {
+        DFErrorFormat(error,"saveContentTypes: %s",DFErrorMessage(error));
+        goto end;
+    }
+
+    const char *relsStr = DFHashTableLookup(tp->items,"document.xml.rels");
+    if (relsStr != NULL) {
+        DFDocument *doc = DFParseXMLString(relsStr,error);
+        if (doc == NULL)
+            goto end;
+
+        DFHashTableRelease(docRelURIs);
+        DFHashTableRelease(docRelTypes);
+        DFHashTableRelease(docRelModes);
+        docRelURIs = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+        docRelTypes = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+        docRelModes = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+
+        for (DFNode *child = doc->root->first; child != NULL; child = child->next) {
+            if (child->tag == REL_RELATIONSHIP) {
+                const char *rId = DFGetAttribute(child,NULL_Id);
+                const char *type = DFGetAttribute(child,NULL_Type);
+                const char *target = DFGetAttribute(child,NULL_TARGET);
+                const char *mode = DFGetAttribute(child,NULL_TARGETMODE);
+
+                if ((rId != NULL) && (type != NULL) && (target != NULL)) {
+                    DFHashTableAdd(docRelURIs,rId,target);
+                    DFHashTableAdd(docRelTypes,rId,type);
+                    if (mode != NULL)
+                        DFHashTableAdd(docRelModes,rId,mode);
+                }
+            }
+        }
+
+        DFDocumentRelease(doc);
+    }
+
+    if (!saveDocRels(zipDir,docRelURIs,docRelTypes,docRelModes,error)) {
+        DFErrorFormat(error,"saveDocRels: %s",DFErrorMessage(error));
+        goto end;
+    }
+
+    if (!saveRootRels(zipDir,error)) {
+        DFErrorFormat(error,"saveRootRels: %s",DFErrorMessage(error));
         goto end;
     }
 
     ok = 1;
 
 end:
-    free(allIds);
-    if (opc != NULL)
-        OPCPackageFree(opc);
+    DFHashTableRelease(ctDefaults);
+    DFHashTableRelease(ctOverrides);
+    DFHashTableRelease(docRelURIs);
+    DFHashTableRelease(docRelTypes);
+    DFHashTableRelease(docRelModes);
+    free(allFilenames);
     return ok;
 }
 
@@ -599,6 +669,7 @@ WordPackage *Word_fromPlain(const char *plain, const char *plainPath,
     // Now create directly and zip it up
     if (!Word_fromPackageNew(tp,contents2Path,error)) {
         DFErrorFormat(error,"Word_fromPackageNew: %s",DFErrorMessage(error));
+        printf("%s\n",DFErrorMessage(error));
         goto end;
     }
 

@@ -293,6 +293,7 @@ static int OPCContentTypesSaveToFile(OPCContentTypes *ct, const char *absPath, D
     DFNode *types = DFCreateElement(doc,CT_TYPES);
     DFAppendChild(doc->docNode,types);
     const char **keys = DFHashTableCopyKeys(ct->defaultsByExtension);
+    DFSortStringsCaseInsensitive(keys);
     for (int i = 0; keys[i]; i++) {
         const char *extension = keys[i];
         const char *contentType = DFHashTableLookup(ct->defaultsByExtension,extension);
@@ -303,6 +304,7 @@ static int OPCContentTypesSaveToFile(OPCContentTypes *ct, const char *absPath, D
     }
     free(keys);
     keys = DFHashTableCopyKeys(ct->overridesByPartName);
+    DFSortStringsCaseInsensitive(keys);
     for (int i = 0; keys[i]; i++) {
         const char *partName = keys[i];
         const char *contentType = DFHashTableLookup(ct->overridesByPartName,partName);
