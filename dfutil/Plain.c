@@ -26,6 +26,17 @@
 #include "DFCommon.h"
 #include "DFZipFile.h"
 
+static void addStrippedSerializedDoc(DFBuffer *result, DFDocument *doc, const char *filename)
+{
+    if (doc != NULL) {
+        DFStripWhitespace(doc->docNode);
+        char *str = DFSerializeXMLString(doc,0,1);
+        DFBufferFormat(result,"#item %s\n",filename);
+        DFBufferFormat(result,"%s",str);
+        free(str);
+    }
+}
+
 static void addSerializedDoc(DFBuffer *result, DFDocument *doc, const char *filename)
 {
     if (doc != NULL) {
@@ -46,88 +57,161 @@ static void addSerializedBinary(DFBuffer *result, DFBuffer *data, const char *fi
     }
 }
 
-char *Word_toPlain(WordPackage *package, DFHashTable *parts)
+static char *findDocumentPath(const char *packagePath, DFError **error)
 {
+    int ok = 0;
+    char *relsPath = NULL;
+    DFDocument *relsDoc = NULL;
+    char *result = NULL;
+
+    relsPath = DFAppendPathComponent(packagePath,"_rels/.rels");
+    relsDoc = DFParseXMLFile(relsPath,error);
+    if (relsDoc == NULL) {
+        DFErrorFormat(error,"_rels/.rels: %s",DFErrorMessage(error));
+        goto end;
+    }
+
+    for (DFNode *child = relsDoc->root->first; child != NULL; child = child->next) {
+        if (child->tag != REL_RELATIONSHIP)
+            continue;
+
+        const char *type = DFGetAttribute(child,NULL_Type);
+        const char *target = DFGetAttribute(child,NULL_TARGET);
+        if ((type == NULL) || (target == NULL))
+            continue;
+
+        if (strcmp(type,"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument"))
+            continue;
+
+        result = strdup(target);
+        ok = 1;
+        break;
+    }
+
+end:
+    free(relsPath);
+    DFDocumentRelease(relsDoc);
+    if (ok)
+        return result;
+    free(result);
+    return NULL;
+}
+
+static char *computeDocumentRelsPath(const char *contentsPath, const char *documentPath)
+{
+    char *documentParent = DFPathDirName(documentPath);
+    char *documentFilename = DFPathBaseName(documentPath);
+    char *documentRelsPath = DFFormatString("%s/%s/_rels/%s.rels",contentsPath,documentParent,documentFilename);
+    free(documentParent);
+    free(documentFilename);
+    return documentRelsPath;
+}
+
+static void parseDocumentRels(DFDocument *relsDoc, DFHashTable *rels, DFError **error)
+{
+    if (relsDoc == NULL)
+        return;
+    for (DFNode *child = relsDoc->root->first; child != NULL; child = child->next) {
+        if (child->tag != REL_RELATIONSHIP)
+            continue;
+        const char *type = DFGetAttribute(child,NULL_Type);
+        const char *target = DFGetAttribute(child,NULL_TARGET);
+        if ((type == NULL) || (target == NULL))
+            continue;
+
+        DFHashTableAdd(rels,type,target);
+    }
+}
+
+static int addRelatedDoc(DFHashTable *parts, DFHashTable *documentRels, const char *relName, const char *filename,
+                         DFBuffer *output, DFHashTable *includeTypes, const char *contentsPath, DFError **error)
+{
+    const char *relPath = DFHashTableLookup(documentRels,relName);
+    if (relPath == NULL)
+        return 1;
+
+    char *absPath = DFAppendPathComponent(contentsPath,relPath);
+    DFDocument *doc = DFParseXMLFile(absPath,error);
+    free(absPath);
+    if (doc == NULL) {
+        DFErrorFormat(error,"%s: %s",relPath,DFErrorMessage(error));
+        return 0;
+    }
+
+    if (doc->root->first != NULL) {
+        addStrippedSerializedDoc(output,doc,filename);
+        DFHashTableAdd(includeTypes,relName,"");
+    }
+
+    DFDocumentRelease(doc);
+    return 1;
+}
+
+static int processParts(DFHashTable *parts, const char *documentPath, DFDocument *relsDoc,
+                        DFHashTable *documentRels,
+                        DFBuffer *output, const char *packagePath, DFError **error)
+{
+    int ok = 0;
     DFHashTable *includeTypes = DFHashTableNew((DFCopyFunction)strdup,free);
     DFHashTableAdd(includeTypes,WORDREL_HYPERLINK,"");
     DFHashTableAdd(includeTypes,WORDREL_IMAGE,"");
-    DFBuffer *result = DFBufferNew();
+
     if ((parts == NULL) || (DFHashTableLookup(parts,"document") != NULL)) {
-        addSerializedDoc(result,package->document,"document.xml");
+        char *fullPath = DFAppendPathComponent(packagePath,documentPath);
+        DFDocument *doc = DFParseXMLFile(fullPath,error);
+        free(fullPath);
+        if (doc == NULL)
+            goto end;
+        addStrippedSerializedDoc(output,doc,"document.xml");
+        DFDocumentRelease(doc);
     }
+
     if ((parts == NULL) || (DFHashTableLookup(parts,"styles") != NULL)) {
-        if ((package->styles != NULL) && (package->styles->root->first != NULL)) {
-            addSerializedDoc(result,package->styles,"styles.xml");
-            DFHashTableAdd(includeTypes,WORDREL_STYLES,"");
-        }
+        if (!addRelatedDoc(parts,documentRels,WORDREL_STYLES,"styles.xml",output,includeTypes,packagePath,error))
+            goto end;
     }
     if ((parts == NULL) || (DFHashTableLookup(parts,"numbering") != NULL)) {
-        if ((package->numbering != NULL) && (package->numbering->root->first != NULL)) {
-            // Only include the file if we have one or more numbering definitions
-            addSerializedDoc(result,package->numbering,"numbering.xml");
-            DFHashTableAdd(includeTypes,WORDREL_NUMBERING,"");
-        }
+        if (!addRelatedDoc(parts,documentRels,WORDREL_NUMBERING,"numbering.xml",output,includeTypes,packagePath,error))
+            goto end;
     }
     if ((parts == NULL) || (DFHashTableLookup(parts,"footnotes") != NULL)) {
-        if ((package->footnotes != NULL) && (package->footnotes->root->first != NULL)) {
-            // Only include the file if we have one or more footnotes
-            addSerializedDoc(result,package->footnotes,"footnotes.xml");
-            DFHashTableAdd(includeTypes,WORDREL_FOOTNOTES,"");
-        }
+        if (!addRelatedDoc(parts,documentRels,WORDREL_FOOTNOTES,"footnotes.xml",output,includeTypes,packagePath,error))
+            goto end;
     }
     if ((parts == NULL) || (DFHashTableLookup(parts,"endnotes") != NULL)) {
-        if ((package->endnotes != NULL) && (package->endnotes->root->first != NULL)) {
-            // Only include the file if we have one or more endnotes
-            addSerializedDoc(result,package->endnotes,"endnotes.xml");
-            DFHashTableAdd(includeTypes,WORDREL_ENDNOTES,"");
-        }
+        if (!addRelatedDoc(parts,documentRels,WORDREL_ENDNOTES,"endnotes.xml",output,includeTypes,packagePath,error))
+            goto end;
     }
     if ((parts != NULL) && (DFHashTableLookup(parts,"settings") != NULL)) {
-        if ((package->settings != NULL) && (package->settings->root->first != NULL)) {
-            addSerializedDoc(result,package->settings,"settings.xml");
-            DFHashTableAdd(includeTypes,WORDREL_SETTINGS,"");
-        }
+        if (!addRelatedDoc(parts,documentRels,WORDREL_SETTINGS,"settings.xml",output,includeTypes,packagePath,error))
+            goto end;
     }
     if ((parts != NULL) && (DFHashTableLookup(parts,"theme") != NULL)) {
-        if ((package->theme != NULL) && (package->theme->root->first != NULL)) {
-            addSerializedDoc(result,package->theme,"theme.xml");
-            DFHashTableAdd(includeTypes,WORDREL_THEME,"");
+        if (!addRelatedDoc(parts,documentRels,WORDREL_THEME,"theme.xml",output,includeTypes,packagePath,error))
+            goto end;
+    }
+
+    if ((DFHashTableLookup(documentRels,WORDREL_HYPERLINK) != NULL) ||
+        (DFHashTableLookup(documentRels,WORDREL_IMAGE) != NULL) ||
+        ((parts != NULL) && (DFHashTableLookup(parts,"documentRels") != NULL))) {
+        if (relsDoc == NULL) {
+            DFErrorFormat(error,"document.xml.rels does not exist");
+            goto end;
         }
+        DFNode *next;
+        for (DFNode *child = relsDoc->root->first; child != NULL; child = next) {
+            next = child->next;
+            if (child->tag != REL_RELATIONSHIP)
+                continue;
+            const char *type = DFGetAttribute(child,NULL_Type);
+            if ((type != NULL) && (DFHashTableLookup(includeTypes,type) == NULL)) {
+                DFRemoveNode(child);
+            }
+        }
+        addSerializedDoc(output,relsDoc,"document.xml.rels");
     }
 
-    int haveLinks = 0;
-    int haveImages = 0;
-
-    OPCRelationshipSet *oldRels = package->documentPart->relationships;
-    OPCRelationshipSet *newRels = OPCRelationshipSetNew();
-    const char **oldRelIds = OPCRelationshipSetAllIds(oldRels);
-    for (int i = 0; oldRelIds[i]; i++) {
-        const char *rId = oldRelIds[i];
-        OPCRelationship *rel = OPCRelationshipSetLookupById(oldRels,rId);
-        if (DFHashTableLookup(includeTypes,rel->type) != NULL)
-            OPCRelationshipSetAddId(newRels,rel->rId,rel->type,rel->target,rel->external);
-        if (!strcmp(rel->type,WORDREL_HYPERLINK))
-            haveLinks = 1;
-        if (!strcmp(rel->type,WORDREL_IMAGE))
-            haveImages = 1;
-    }
-    free(oldRelIds);
-
-    int includeRels = 0;
-    if (parts == NULL)
-        includeRels = (haveLinks || haveImages);
-    else
-        includeRels = (DFHashTableLookup(parts,"documentRels") != NULL);
-
-    if (includeRels) {
-        DFDocument *relsDoc = OPCRelationshipSetToDocument(newRels);
-        addSerializedDoc(result,relsDoc,"document.xml.rels");
-        DFDocumentRelease(relsDoc);
-    }
-
-    OPCRelationshipSetFree(newRels);
-
-    const char **entries = DFContentsOfDirectory(package->tempPath,1,NULL);
+    const char **entries = DFContentsOfDirectory(packagePath,1,NULL);
     if (entries != NULL) { // FIXME: Should really report an error if this is not the case
         for (int i = 0; entries[i]; i++) {
             const char *filename = entries[i];
@@ -138,9 +222,9 @@ char *Word_toPlain(WordPackage *package, DFHashTable *parts)
                     absFilename = DFFormatString("/%s",filename);
                 else
                     absFilename = strdup(filename);
-                char *absPath = DFAppendPathComponent(package->tempPath,absFilename);
+                char *absPath = DFAppendPathComponent(packagePath,absFilename);
                 DFBuffer *data = DFBufferReadFromFile(absPath,NULL);
-                addSerializedBinary(result,data,absFilename);
+                addSerializedBinary(output,data,absFilename);
                 DFBufferRelease(data);
                 free(absFilename);
                 free(absPath);
@@ -151,9 +235,106 @@ char *Word_toPlain(WordPackage *package, DFHashTable *parts)
     free(entries);
     DFHashTableRelease(includeTypes);
 
-    char *str = strdup(result->data);
-    DFBufferRelease(result);
-    return str;
+    ok = 1;
+
+end:
+    return ok;
+}
+
+static char *Word_toPlainFromDir(const char *packagePath, DFHashTable *parts, DFError **error)
+{
+    char *documentPath = NULL;
+    DFHashTable *rels = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFBuffer *output = DFBufferNew();
+    char *relsPath = NULL;
+    DFDocument *relsDoc = NULL;
+    int ok = 0;
+
+
+    documentPath = findDocumentPath(packagePath,error);
+    if (documentPath == NULL) {
+        DFErrorFormat(error,"findDocumentPath: %s",DFErrorMessage(error));
+        goto end;
+    }
+
+
+    relsPath = computeDocumentRelsPath(packagePath,documentPath);
+    if (DFFileExists(relsPath) && ((relsDoc = DFParseXMLFile(relsPath,error)) == NULL)) {
+        DFErrorFormat(error,"%s: %s",relsPath,DFErrorMessage(error));
+        goto end;
+    }
+
+    parseDocumentRels(relsDoc,rels,error);
+
+    if (!processParts(parts,documentPath,relsDoc,rels,output,packagePath,error))
+        goto end;
+
+    ok = 1;
+
+end:
+    free(relsPath);
+    free(documentPath);
+    DFHashTableRelease(rels);
+    DFDocumentRelease(relsDoc);
+    if (!ok) {
+        DFBufferRelease(output);
+        return NULL;
+    }
+    else {
+        char *result = strdup(output->data);
+        DFBufferRelease(output);
+        return result;
+    }
+}
+
+static char *Word_toPlainOrError(WordPackage *package, DFHashTable *parts, const char *tempPath, DFError **error)
+{
+    char *docxPath = DFAppendPathComponent(tempPath,"file.docx");
+    char *contentsPath = DFAppendPathComponent(tempPath,"contents");
+    char *result = NULL;
+    int ok = 0;
+
+    if (!DFEmptyDirectory(tempPath,error)) {
+        DFErrorFormat(error,"%s: %s",tempPath,DFErrorMessage(error));
+        goto end;
+    }
+
+    if (!DFEmptyDirectory(contentsPath,error)) {
+        DFErrorFormat(error,"%s: %s",contentsPath,DFErrorMessage(error));
+        goto end;
+    }
+
+    if (!WordPackageSaveTo(package,docxPath,error)) {
+        DFErrorFormat(error,"WordPackageSaveTo: %s",DFErrorMessage(error));
+        goto end;
+    }
+
+    if (!DFUnzip(docxPath,contentsPath,error)) {
+        DFErrorFormat(error,"DFUnzip: %s",DFErrorMessage(error));
+        goto end;
+    }
+
+    result = Word_toPlainFromDir(contentsPath,parts,error);
+    ok = 1;
+
+end:
+    free(docxPath);
+    free(contentsPath);
+    if (ok)
+        return result;
+    free(result);
+    return 0;
+}
+
+char *Word_toPlain(WordPackage *package, DFHashTable *parts, const char *tempPath)
+{
+    DFError *error = NULL;
+    char *result = Word_toPlainOrError(package,parts,tempPath,&error);
+    if (result == NULL) {
+        result = DFFormatString("%s\n",DFErrorMessage(&error));
+        DFErrorRelease(error);
+    }
+    return result;
 }
 
 static int saveXMLDocument(const char *zipDir, const char *filename,

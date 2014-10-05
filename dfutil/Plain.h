@@ -20,7 +20,7 @@
 #include "DFDOM.h"
 #include "WordPackage.h"
 
-char *Word_toPlain(WordPackage *package, DFHashTable *parts);
+char *Word_toPlain(WordPackage *package, DFHashTable *parts, const char *tempPath);
 WordPackage *Word_fromPlain(const char *plain, const char *plainPath,
                             const char *packagePath, const char *zipTempPath,
                             DFError **error);

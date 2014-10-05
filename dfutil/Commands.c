@@ -99,17 +99,32 @@ static int prettyPrintWordFile(const char *filename, DFError **error)
     char *tempPath = createTempDir(error);
     if (tempPath == NULL)
         return 0;;
-    WordPackage *package = WordPackageNew(tempPath);
-    int ok = WordPackageOpenFrom(package,filename,error);
-    if (ok) {
-        WordPackageRemovePointlessElements(package);
-        char *plain = Word_toPlain(package,NULL);
-        printf("%s",plain);
-        free(plain);
-    }
-    WordPackageRelease(package);
-    DFDeleteFile(tempPath,NULL);
+    int ok = 0;
+    char *wordTempPath = DFAppendPathComponent(tempPath,"word");
+    char *plainTempPath = DFAppendPathComponent(tempPath,"plain");
+    if (!DFEmptyDirectory(wordTempPath,error))
+        goto end;
+
+    char *plain = NULL;
+    WordPackage *package = NULL;
+    package = WordPackageNew(wordTempPath);
+    if (!WordPackageOpenFrom(package,filename,error))
+        goto end;
+
+    WordPackageRemovePointlessElements(package);
+    plain = Word_toPlain(package,NULL,plainTempPath);
+    printf("%s",plain);
+
+    ok = 1;
+
+end:
     free(tempPath);
+    free(wordTempPath);
+    free(plainTempPath);
+    free(plain);
+    if (package != NULL)
+        WordPackageRelease(package);
+    DFDeleteFile(tempPath,NULL);
     return ok;
 }
 

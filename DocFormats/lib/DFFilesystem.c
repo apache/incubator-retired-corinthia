@@ -50,6 +50,13 @@ int DFCreateDirectory(const char *path, int intermediates, DFError **error)
     return 1;
 }
 
+int DFEmptyDirectory(const char *path, DFError **error)
+{
+    if (DFFileExists(path) && !DFDeleteFile(path,error))
+        return 0;
+    return DFCreateDirectory(path,1,error);
+}
+
 int DFCopyFile(const char *srcPath, const char *destPath, DFError **error)
 {
     FILE *srcFile = fopen(srcPath,"rb");

@@ -21,6 +21,7 @@
 int DFFileExists(const char *path);
 int DFIsDirectory(const char *path);
 int DFCreateDirectory(const char *path, int intermediates, DFError **error);
+int DFEmptyDirectory(const char *path, DFError **error);
 int DFCopyFile(const char *srcPath, const char *destPath, DFError **error);
 int DFDeleteFile(const char *path, DFError **error);
 const char **DFContentsOfDirectory(const char *path, int recursive, DFError **error);

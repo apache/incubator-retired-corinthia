@@ -101,7 +101,9 @@ static void Word_testCollapseBookmarks(TestCase *script, int argc, const char **
     DFHashTableAdd(parts,"document","");
 
     // Output the docx file
-    char *plain = Word_toPlain(package,parts);
+    char *plainTempPath = DFAppendPathComponent(script->tempPath,"plain");
+    char *plain = Word_toPlain(package,parts,plainTempPath);
+    free(plainTempPath);
     DFBufferFormat(script->output,"%s",plain);
     free(plain);
     DFHashTableRelease(parts);
@@ -125,7 +127,9 @@ static void Word_testExpandBookmarks(TestCase *script, int argc, const char **ar
     DFHashTableAdd(parts,"document","");
 
     // Output the docx file
-    char *plain = Word_toPlain(package,parts);
+    char *plainTempPath = DFAppendPathComponent(script->tempPath,"plain");
+    char *plain = Word_toPlain(package,parts,plainTempPath);
+    free(plainTempPath);
     DFBufferFormat(script->output,"%s",plain);
     free(plain);
     DFHashTableRelease(parts);
@@ -233,7 +237,9 @@ static void Word_testCreate2(TestCase *script, WordPackage *package, int argc, c
 
     // Output the docx file
     DFHashTable *parts = getFlags(argc,argv);
-    char *plain = Word_toPlain(package,parts);
+    char *plainTempPath = DFAppendPathComponent(script->tempPath,"plain");
+    char *plain = Word_toPlain(package,parts,plainTempPath);
+    free(plainTempPath);
     DFBufferFormat(script->output,"%s",plain);
     free(plain);
     DFHashTableRelease(parts);
@@ -267,7 +273,9 @@ static void Word_testUpdate2(TestCase *script, WordPackage *package, int argc, c
 
     // Output the updated docx file
     DFHashTable *parts = getFlags(argc,argv);
-    char *plain = Word_toPlain(package,parts);
+    char *plainTempPath = DFAppendPathComponent(script->tempPath,"plain");
+    char *plain = Word_toPlain(package,parts,plainTempPath);
+    free(plainTempPath);
     DFBufferFormat(script->output,"%s",plain);
     free(plain);
     DFHashTableRelease(parts);
