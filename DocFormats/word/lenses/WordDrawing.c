@@ -360,16 +360,20 @@ static char *genImageFilename(const char *mediaDir, const char *extension, DFErr
 
 static OPCRelationship *addImageRelationship(WordConverter *converter, const char *src, DFError **error)
 {
-    const char *mediaDir = DFAppendPathComponent(converter->concretePath,"word/media");
+    char *mediaDir = DFAppendPathComponent(converter->concretePath,"word/media");
 
-    if (!DFFileExists(mediaDir) && !DFCreateDirectory(mediaDir,1,error))
+    if (!DFFileExists(mediaDir) && !DFCreateDirectory(mediaDir,1,error)) {
+        free(mediaDir);
         return NULL;
+    }
 
     char *ext = DFPathExtension(src);
     char *filename = genImageFilename(mediaDir,ext,error);
     free(ext);
-    if (filename == NULL)
+    if (filename == NULL) {
+        free(mediaDir);
         return NULL;
+    }
 
     char *abstractPathSlash = DFFormatString("%s/",converter->abstractPath);
     char *unescapedSrc = DFRemovePercentEncoding(src);
@@ -384,6 +388,7 @@ static OPCRelationship *addImageRelationship(WordConverter *converter, const cha
         free(relPath);
     }
 
+    free(mediaDir);
     free(filename);
     free(abstractPathSlash);
     free(unescapedSrc);
