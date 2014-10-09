@@ -107,7 +107,9 @@ static int prettyPrintWordFile(const char *filename, DFError **error)
 
     char *plain = NULL;
     WordPackage *package = NULL;
-    package = WordPackageNew(wordTempPath);
+    DFStore *store = DFStoreNewFilesystem(tempPath);
+    package = WordPackageNew(store);
+    DFStoreRelease(store);
     if (!WordPackageOpenFrom(package,filename,error))
         goto end;
 
@@ -334,13 +336,17 @@ static int run(const char *inFilename, const char *outFilename, DFError **error,
 
     if (DFStringEqualsCI(inExt,"docx") && DFStringEqualsCI(outExt,"html")) {
         // Generate new HTML file from .docx
-        WordPackage *word = WordPackageNew(tempPath);
+        DFStore *store = DFStoreNewFilesystem(tempPath);
+        WordPackage *word = WordPackageNew(store);
+        DFStoreRelease(store);
         result = generateHTML(word,inFilename,outFilename,error);
         WordPackageRelease(word);
     }
     else if (DFStringEqualsCI(inExt,"html") && DFStringEqualsCI(outExt,"docx")) {
         // Update existing .docx file from HTML
-        WordPackage *word = WordPackageNew(tempPath);
+        DFStore *store = DFStoreNewFilesystem(tempPath);
+        WordPackage *word = WordPackageNew(store);
+        DFStoreRelease(store);
         result = updateFrom(word,outFilename,inFilename,error);
         WordPackageRelease(word);
     }
@@ -382,7 +388,9 @@ int convertFile(const char *inFilename, const char *outFilename, DFError **error
 
 int resaveOPCFile(const char *filename, DFError **error)
 {
-    OPCPackage *package = OPCPackageNew("opc");
+    DFStore *store = DFStoreNewFilesystem("opc");
+    OPCPackage *package = OPCPackageNew(store);
+    DFStoreRelease(store);
     if (!OPCPackageOpenFrom(package,filename)) {
         DFErrorFormat(error,"%s",package->errors->data);
         OPCPackageFree(package);
@@ -449,7 +457,9 @@ int simplifyFields(const char *inFilename, const char *outFilename, DFError **er
     if (tempPath == NULL)
         return 0;;
 
-    WordPackage *package = WordPackageNew(tempPath);
+    DFStore *store = DFStoreNewFilesystem(tempPath);
+    WordPackage *package = WordPackageNew(store);
+    DFStoreRelease(store);
     if (!WordPackageOpenFrom(package,inFilename,error)) {
         DFErrorFormat(error,"%s: %s",inFilename,DFErrorMessage(error));
         WordPackageRelease(package);

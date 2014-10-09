@@ -67,7 +67,9 @@ int DFHTMLToWord2(WordPackage *package, const char *sourcePath, const char *dest
 
 int DFHTMLToWord(const char *sourcePath, const char *destPath, const char *tempPath, DFError **error)
 {
-    WordPackage *package = WordPackageNew(tempPath);
+    DFStore *store = DFStoreNewFilesystem(tempPath);
+    WordPackage *package = WordPackageNew(store);
+    DFStoreRelease(store);
     int r = DFHTMLToWord2(package,sourcePath,destPath,error);
     WordPackageRelease(package);
     return r;

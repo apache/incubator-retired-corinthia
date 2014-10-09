@@ -96,10 +96,16 @@ static int runCommand(int argc, const char **argv, DFError **dferr)
     }
 #endif
     else if ((argc == 4) && !strcmp(argv[1],"-zip")) {
-        return DFZip(argv[2],argv[3],dferr);
+        DFStore *store = DFStoreNewFilesystem(argv[3]);
+        int r = DFZip(argv[2],store,dferr);
+        DFStoreRelease(store);
+        return r;
     }
     else if ((argc == 4) && !strcmp(argv[1],"-unzip")) {
-        return DFUnzip(argv[2],argv[3],dferr);
+        DFStore *store = DFStoreNewFilesystem(argv[3]);
+        int r = DFUnzip(argv[2],store,dferr);
+        DFStoreRelease(store);
+        return r;
     }
     else if (argc == 3) {
         return convertFile(argv[1],argv[2],dferr);

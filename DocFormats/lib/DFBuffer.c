@@ -14,6 +14,7 @@
 
 #include "DFBuffer.h"
 #include "DFCommon.h"
+#include "DFString.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
@@ -124,6 +125,23 @@ DFBuffer *DFBufferReadFromFile(const char *filename, DFError **error)
         DFBufferAppendData(buf,temp,r);
     fclose(file);
     return buf;
+}
+
+DFBuffer *DFBufferReadFromStore(DFStore *store, const char *storeFilename, DFError **error)
+{
+    void *data = 0;
+    size_t len = 0;
+    if (!DFStoreReadFile(store,storeFilename,&data,&len,error))
+        return NULL;;
+    DFBuffer *r = DFBufferNew();;
+    DFBufferAppendData(r,data,len);
+    free(data);
+    return r;
+}
+
+int DFBufferWriteToStore(DFBuffer *buf, DFStore *store, const char *storeFilename, DFError **error)
+{
+    return DFStoreWriteFile(store,storeFilename,buf->data,buf->len,error);
 }
 
 int DFBufferWriteToFile(DFBuffer *buf, const char *filename, DFError **error)

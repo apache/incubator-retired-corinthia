@@ -18,6 +18,7 @@
 #include "DFFilesystem.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include "DFBuffer.h"
 
 static int zipError(DFError **error, const char *format, ...) ATTRIBUTE_FORMAT(printf,2,3);
 
@@ -30,7 +31,7 @@ static int zipError(DFError **error, const char *format, ...)
     return 0;
 }
 
-int DFUnzip(const char *zipFilename, const char *destDir, DFError **error)
+int DFUnzip(const char *zipFilename, DFStore *store, DFError **error)
 {
     unzFile zipFile = unzOpen(zipFilename);
     if (zipFile == NULL)
@@ -43,12 +44,9 @@ int DFUnzip(const char *zipFilename, const char *destDir, DFError **error)
         if (UNZ_OK != unzGetCurrentFileInfo(zipFile,&info,entryName,4096,NULL,0,NULL,0))
             return zipError(error,"Zip directory is corrupt");
 
-        char outPath[4096];
-        snprintf(outPath,4096,"%s/%s",destDir,entryName);
-
-        char *outParentPath = DFPathDirName(outPath);
-        if (!DFFileExists(outParentPath)) {
-            if (!DFCreateDirectory(outParentPath,1,error)) {
+        char *outParentPath = DFPathDirName(entryName);
+        if (!DFStoreFileExists(store,outParentPath)) {
+            if (!DFStoreCreateDirectory(store,outParentPath,1,error)) {
                 free(outParentPath);
                 return 0;
             }
@@ -57,35 +55,36 @@ int DFUnzip(const char *zipFilename, const char *destDir, DFError **error)
 
         if (DFStringHasSuffix(entryName,"/")) {
             // Directory
-            if (!DFFileExists(outPath) && !DFCreateDirectory(outPath,0,error))
+            if (!DFStoreFileExists(store,entryName) &&
+                !DFStoreCreateDirectory(store,entryName,0,error))
                 return 0;
         }
         else {
             // File
-            FILE *outFile = fopen(outPath,"wb");
-            if (outFile == NULL)
-                return zipError(error,"%s: %s",entryName,strerror(errno));
+            if (UNZ_OK != unzOpenCurrentFile(zipFile))
+                return zipError(error,"%s: Cannot open zip entry",entryName);;
 
-            if (UNZ_OK != unzOpenCurrentFile(zipFile)) {
-                fclose(outFile);
-                return zipError(error,"%s: Cannot open zip entry",entryName);
-            }
+            DFBuffer *content = DFBufferNew();
 
             unsigned char buf[4096];
             int r;
             while (0 < (r = unzReadCurrentFile(zipFile,buf,4096)))
-                fwrite(buf,1,r,outFile);
+                DFBufferAppendData(content,(void *)buf,r);
             if (0 > r) {
-                fclose(outFile);
+                DFBufferRelease(content);
                 return zipError(error,"%s: decompression failed",entryName);
             }
 
             if (UNZ_OK != unzCloseCurrentFile(zipFile)) {
-                fclose(outFile);
+                DFBufferRelease(content);
                 return zipError(error,"%s: decompression failed",entryName);
             }
 
-            fclose(outFile);
+            if (!DFBufferWriteToStore(content,store,entryName,error)) {
+                DFBufferRelease(content);
+                return zipError(error,"%s: %s",entryName,DFErrorMessage(error));
+            }
+            DFBufferRelease(content);
         }
     }
 
@@ -98,7 +97,7 @@ int DFUnzip(const char *zipFilename, const char *destDir, DFError **error)
     return 1;
 }
 
-static int zipAddFile(zipFile zip, const char *dest, FILE *inFile, DFError **error)
+static int zipAddFile(zipFile zip, const char *dest, DFBuffer *content, DFError **error)
 {
     zip_fileinfo fileinfo;
     bzero(&fileinfo,sizeof(fileinfo));
@@ -114,12 +113,9 @@ static int zipAddFile(zipFile zip, const char *dest, FILE *inFile, DFError **err
         return zipError(error,"%s: Cannot create entry in zip file",dest);
     }
 
-    char buf[4096];
-    size_t r;
-    while (0 < (r = fread(buf,1,4096,inFile))) {
-        if (ZIP_OK != zipWriteInFileInZip(zip,buf,(unsigned int)r))
-            return zipError(error,"%s: Error writing to entry in zip file",dest);
-    }
+    if (ZIP_OK != zipWriteInFileInZip(zip,content->data,(unsigned int)content->len))
+        return zipError(error,"%s: Error writing to entry in zip file",dest);
+
 
     if (ZIP_OK != zipCloseFileInZip(zip))
         return zipError(error,"%s: Error closing entry in zip file",dest);
@@ -127,21 +123,21 @@ static int zipAddFile(zipFile zip, const char *dest, FILE *inFile, DFError **err
     return 1;
 }
 
-static int zipRecursive(zipFile zip, const char *source, const char *dest, DFError **error)
+static int zipRecursive(zipFile zip, DFStore *store, const char *sourceRel, const char *dest, DFError **error)
 {
     // FIXME: Not covered by tests
-    if (!DFFileExists(source))
+    if (!DFStoreFileExists(store,sourceRel))
         return zipError(error,"%s: No such file or directory",dest);
-    if (DFIsDirectory(source)) {
-        const char **entries = DFContentsOfDirectory(source,0,error);
+    if (DFStoreIsDirectory(store,sourceRel)) {
+        const char **entries = DFStoreContentsOfDirectory(store,sourceRel,0,error);
         if (entries == NULL)
             return 0;
         int ok = 1;
         for (int i = 0; entries[i] && ok; i++) {
             const char *entry = entries[i];
-            char *childSource = DFAppendPathComponent(source,entry);
+            char *childSource = DFAppendPathComponent(sourceRel,entry);
             char *childDest = DFAppendPathComponent(dest,entry);
-            if (!zipRecursive(zip,childSource,childDest,error))
+            if (!zipRecursive(zip,store,childSource,childDest,error))
                 ok = 0;
             free(childSource);
             free(childDest);
@@ -150,23 +146,24 @@ static int zipRecursive(zipFile zip, const char *source, const char *dest, DFErr
         return ok;
     }
     else {
-        FILE *inFile = fopen(source,"rb");
-        if (inFile == NULL)
-            return zipError(error,"%s: %s",source,strerror(errno));
+        DFBuffer *content = DFBufferReadFromStore(store,sourceRel,error);
+        if (content == NULL) {
+            return zipError(error,"%s: %s",sourceRel,DFErrorMessage(error));
+        }
 
-        int ok = zipAddFile(zip,dest,inFile,error);
-        fclose(inFile);
+        int ok = zipAddFile(zip,dest,content,error);
+        DFBufferRelease(content);
         return ok;
     }
 }
 
-int DFZip(const char *zipFilename, const char *sourceDir, DFError **error)
+int DFZip(const char *zipFilename, DFStore *store, DFError **error)
 {
     zipFile zip = zipOpen(zipFilename,APPEND_STATUS_CREATE);
     if (zip == NULL)
         return zipError(error,"Cannot create file");
 
-    int recursiveOK = zipRecursive(zip,sourceDir,"",error);
+    int recursiveOK = zipRecursive(zip,store,"","",error);
 
     if (ZIP_OK != zipClose(zip,NULL))
         return zipError(error,"Cannot close file");

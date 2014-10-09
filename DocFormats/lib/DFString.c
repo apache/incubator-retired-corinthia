@@ -16,6 +16,7 @@
 #include "DFBuffer.h"
 #include "DFCharacterSet.h"
 #include "DFCommon.h"
+#include "DFFilesystem.h"
 
 typedef struct {
     int pointerIndex;
@@ -477,12 +478,23 @@ size_t DFStringArrayCount(const char **array)
 
 char *DFAppendPathComponent(const char *path1, const char *path2)
 {
+    char *unnormalized;
     if (strlen(path1) == 0)
-        return strdup(path2);
+        unnormalized = strdup(path2);
     else if (path1[strlen(path1)-1] == '/')
-        return DFFormatString("%s%s",path1,path2);
+        unnormalized = DFFormatString("%s%s",path1,path2);
     else
-        return DFFormatString("%s/%s",path1,path2);
+        unnormalized = DFFormatString("%s/%s",path1,path2);
+    char *normalized = DFPathNormalize(unnormalized);
+    free(unnormalized);
+
+    size_t len = strlen(normalized);
+    while ((len > 0) && (normalized[len-1] == '/')) {
+        normalized[len-1] = '\0';
+        len--;
+    }
+
+    return normalized;
 }
 
 char *DFStringReplace(const char *input, const char *match, const char *replacement)

@@ -97,6 +97,8 @@ set(GroupLib
     lib/DFFilesystem.h
     lib/DFHashTable.c
     lib/DFHashTable.h
+    lib/DFStore.c
+    lib/DFStore.h
     lib/DFString.c
     lib/DFString.h
     lib/DFZipFile.c

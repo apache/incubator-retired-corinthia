@@ -17,6 +17,7 @@
 
 #include "DFXMLForward.h"
 #include "OPC.h"
+#include "DFStore.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
@@ -28,7 +29,6 @@ typedef struct WordPackage WordPackage;
 
 struct WordPackage {
     size_t retainCount;
-    char *tempPath;
     OPCPackage *opc;
     OPCPart *documentPart;
     DFDocument *document;
@@ -48,7 +48,7 @@ void WordPackageSetTheme(WordPackage *package, DFDocument *theme);
 void WordPackageSetFootnotes(WordPackage *package, DFDocument *footnotes);
 void WordPackageSetEndnotes(WordPackage *package, DFDocument *endnotes);
 
-WordPackage *WordPackageNew(const char *tempPath);
+WordPackage *WordPackageNew(DFStore *store);
 WordPackage *WordPackageRetain(WordPackage *package);
 void WordPackageRelease(WordPackage *package);
 

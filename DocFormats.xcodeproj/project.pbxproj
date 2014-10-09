@@ -19,6 +19,10 @@
 		D03A8E4717F1574500BFA732 /* DFTidyWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = D03A8E4517F1574500BFA732 /* DFTidyWrapper.c */; };
 		D03A8E4817F1578800BFA732 /* DFTidyWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = D03A8E4517F1574500BFA732 /* DFTidyWrapper.c */; };
 		D03A8E4917F1578C00BFA732 /* DFTidyWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = D03A8E4417F1574500BFA732 /* DFTidyWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D042C90519E1843300A2D5A5 /* DFStore.c in Sources */ = {isa = PBXBuildFile; fileRef = D042C90319E1843300A2D5A5 /* DFStore.c */; };
+		D042C90619E1843300A2D5A5 /* DFStore.h in Headers */ = {isa = PBXBuildFile; fileRef = D042C90419E1843300A2D5A5 /* DFStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D042C90719E1846300A2D5A5 /* DFStore.h in Headers */ = {isa = PBXBuildFile; fileRef = D042C90419E1843300A2D5A5 /* DFStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D042C90819E1846700A2D5A5 /* DFStore.c in Sources */ = {isa = PBXBuildFile; fileRef = D042C90319E1843300A2D5A5 /* DFStore.c */; };
 		D05585C41865E61000A641D7 /* WordPPr.h in Headers */ = {isa = PBXBuildFile; fileRef = D05585C21865E61000A641D7 /* WordPPr.h */; };
 		D05585C51865E61000A641D7 /* WordPPr.c in Sources */ = {isa = PBXBuildFile; fileRef = D05585C31865E61000A641D7 /* WordPPr.c */; };
 		D05585C81865E62100A641D7 /* WordRPr.h in Headers */ = {isa = PBXBuildFile; fileRef = D05585C61865E62100A641D7 /* WordRPr.h */; };
@@ -452,6 +456,8 @@
 		D010331A18B293D100E74FDB /* HTMLToLaTeX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLToLaTeX.h; sourceTree = "<group>"; };
 		D03A8E4417F1574500BFA732 /* DFTidyWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFTidyWrapper.h; sourceTree = "<group>"; };
 		D03A8E4517F1574500BFA732 /* DFTidyWrapper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFTidyWrapper.c; sourceTree = "<group>"; };
+		D042C90319E1843300A2D5A5 /* DFStore.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFStore.c; sourceTree = "<group>"; };
+		D042C90419E1843300A2D5A5 /* DFStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFStore.h; sourceTree = "<group>"; };
 		D05585C21865E61000A641D7 /* WordPPr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordPPr.h; sourceTree = "<group>"; };
 		D05585C31865E61000A641D7 /* WordPPr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WordPPr.c; sourceTree = "<group>"; };
 		D05585C61865E62100A641D7 /* WordRPr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordRPr.h; sourceTree = "<group>"; };
@@ -891,6 +897,8 @@
 				D06637ED199A81D800A6D142 /* DFFilesystem.h */,
 				D0B5E73617F0852D00FBD99F /* DFHashTable.c */,
 				D0B5E73517F0852D00FBD99F /* DFHashTable.h */,
+				D042C90319E1843300A2D5A5 /* DFStore.c */,
+				D042C90419E1843300A2D5A5 /* DFStore.h */,
 				D089D856183C88BC0012ABB1 /* DFString.c */,
 				D089D855183C88B40012ABB1 /* DFString.h */,
 				D0B5E73C17F0852D00FBD99F /* DFZipFile.c */,
@@ -1128,6 +1136,7 @@
 				D0D933201999D7400045FF31 /* lexer.h in Headers */,
 				D0B5E79417F0852D00FBD99F /* CSS.h in Headers */,
 				D0D933261999D7400045FF31 /* parser.h in Headers */,
+				D042C90619E1843300A2D5A5 /* DFStore.h in Headers */,
 				D05585C41865E61000A641D7 /* WordPPr.h in Headers */,
 				D0D933341999D7400045FF31 /* version.h in Headers */,
 				D0B5E79317F0852D00FBD99F /* DFClassNames.h in Headers */,
@@ -1235,6 +1244,7 @@
 				D0B5E87417F085B200FBD99F /* CSS.h in Headers */,
 				D0B5E8A517F0867600FBD99F /* WordLists.h in Headers */,
 				D0B5E89517F0862B00FBD99F /* DFXMLNamespaces.h in Headers */,
+				D042C90719E1846300A2D5A5 /* DFStore.h in Headers */,
 				D0B5E8AB17F0867600FBD99F /* WordSheet.h in Headers */,
 				D063B789199A815D00E3D511 /* attrs.h in Headers */,
 				D0B5E8B217F0869500FBD99F /* DFXML.h in Headers */,
@@ -1505,6 +1515,7 @@
 				D0B5E83517F0852D00FBD99F /* OPC.c in Sources */,
 				D0B5E7B617F0852D00FBD99F /* DFHTML.c in Sources */,
 				D010331B18B293D100E74FDB /* HTMLToLaTeX.c in Sources */,
+				D042C90519E1843300A2D5A5 /* DFStore.c in Sources */,
 				D05585C91865E62100A641D7 /* WordRPr.c in Sources */,
 				D03A8E4717F1574500BFA732 /* DFTidyWrapper.c in Sources */,
 				D06637EE199A81D800A6D142 /* DFFilesystem.c in Sources */,
@@ -1621,6 +1632,7 @@
 				D063B7A1199A815D00E3D511 /* parser.c in Sources */,
 				D063B78D199A815D00E3D511 /* clean.c in Sources */,
 				D0B5E7A517F0852D00FBD99F /* CSSSelector.c in Sources */,
+				D042C90819E1846700A2D5A5 /* DFStore.c in Sources */,
 				D0EC7C9218645A010056B7EF /* WordConverter.c in Sources */,
 				D0B5E82F17F0852D00FBD99F /* WordRunContent.c in Sources */,
 				D06DBC39199A8225007D50E4 /* DFFilesystem.c in Sources */,

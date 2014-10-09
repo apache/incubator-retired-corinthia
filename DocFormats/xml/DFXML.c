@@ -538,6 +538,16 @@ DFDocument *DFParseXMLFile(const char *filename, DFError **error)
     return doc;
 }
 
+DFDocument *DFParseXMLStore(DFStore *store, const char *storeFilename, DFError **error)
+{
+    DFBuffer *content = DFBufferReadFromStore(store,storeFilename,error);
+    if (content == NULL)
+        return NULL;;
+    DFDocument *doc = DFParseXMLString(content->data,error);
+    DFBufferRelease(content);
+    return doc;
+}
+
 static int StringBufferWrite(void *context, const char *buffer, int len)
 {
     DFBuffer *buf = (DFBuffer *)context;
@@ -590,5 +600,18 @@ int DFSerializeXMLFile(DFDocument *doc, NamespaceID defaultNS, int indent, const
     DFSerializeXMLBuffer(doc,defaultNS,indent,buf);
     int r = DFBufferWriteToFile(buf,filename,error);
     DFBufferRelease(buf);
+    return r;
+}
+
+int DFSerializeXMLStore(DFDocument *doc, NamespaceID defaultNS, int indent,
+                        DFStore *store, const char *storeFilename,
+                        DFError **error)
+{
+    char *str = DFSerializeXMLString(doc,defaultNS,indent);
+    DFBuffer *content = DFBufferNew();
+    DFBufferAppendString(content,str);
+    int r = DFBufferWriteToStore(content,store,storeFilename,error);
+    DFBufferRelease(content);
+    free(str);
     return r;
 }

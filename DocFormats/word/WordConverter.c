@@ -561,7 +561,6 @@ WordConverter *WordConverterNew(DFDocument *html, const char *abstractPath,
         abstractPath = ".";
     converter->html = DFDocumentRetain(html);
     converter->abstractPath = strdup(abstractPath);
-    converter->concretePath = strdup(package->tempPath);
     converter->idPrefix = DFStrDup(idPrefix);
     converter->package = WordPackageRetain(package);
     converter->styles = WordSheetNew(converter->package->styles);
@@ -587,7 +586,6 @@ void WordConverterFree(WordConverter *converter)
 {
     DFDocumentRelease(converter->html);
     free(converter->abstractPath);
-    free(converter->concretePath);
     free(converter->idPrefix);
     WordSheetFree(converter->styles);
     WordNumberingFree(converter->numbering);

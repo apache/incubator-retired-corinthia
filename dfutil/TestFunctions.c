@@ -248,7 +248,9 @@ static void Word_testCreate2(TestCase *script, WordPackage *package, int argc, c
 
 static void Word_testCreate(TestCase *script, int argc, const char **argv)
 {
-    WordPackage *package = WordPackageNew(script->concretePath);
+    DFStore *store = DFStoreNewFilesystem(script->concretePath);
+    WordPackage *package = WordPackageNew(store);
+    DFStoreRelease(store);
     Word_testCreate2(script,package,argc,argv);
     WordPackageRelease(package);
 }

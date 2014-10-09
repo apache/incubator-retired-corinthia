@@ -177,13 +177,12 @@ static DFNode *createAbstractPlaceholder(WordGetData *get, const char *placehold
 
 static DFNode *imageWithFilename(WordGetData *get, const char *filename, double widthPts, DFNode *concrete)
 {
-    const char *concretePath = get->conv->concretePath;
     const char *abstractPath = get->conv->abstractPath;
 
     char *abstractImagesPath = DFAppendPathComponent(abstractPath,"images");
     char *lastComponent = DFPathBaseName(filename);
-    char *srcImagePath = DFAppendPathComponent(concretePath,filename);
     char *dstImagePath = DFAppendPathComponent(abstractImagesPath,lastComponent);
+    DFBuffer *content = NULL;
 
     if (DFFileExists(dstImagePath))
         DFDeleteFile(dstImagePath,NULL);;
@@ -196,34 +195,47 @@ static DFNode *imageWithFilename(WordGetData *get, const char *filename, double 
         WordConverterWarning(get->conv,"Create %s: %s",abstractImagesPath,DFErrorMessage(&error));
         DFErrorRelease(error);
         imageNode = createAbstractPlaceholder(get,"[Error reading image]",concrete);
+        goto end;
     }
-    else if (!DFCopyFile(srcImagePath,dstImagePath,&error)) {
-        WordConverterWarning(get->conv,"Copy %s to %s: %s",srcImagePath,dstImagePath,DFErrorMessage(&error));
+
+    content = DFBufferReadFromStore(get->conv->package->opc->store,filename,&error);
+    if (content == NULL) {
+        WordConverterWarning(get->conv,"Copy %s to %s: %s",filename,dstImagePath,DFErrorMessage(&error));
         DFErrorRelease(error);
-        imageNode = createAbstractPlaceholder(get,"[Error reading image]",concrete);
-    }
-    else {
-        imageNode = WordConverterCreateAbstract(get,HTML_IMG,concrete);
-        DFFormatAttribute(imageNode,HTML_SRC,"images/%s",lastComponent);
-
-        double contentWidthPts = WordSectionContentWidthPts(get->conv->mainSection);
-        if (contentWidthPts > 0) {
-            double widthPct = widthPts/contentWidthPts*100.0;
-            CSSProperties *properties = CSSPropertiesNew();
-            char buf[100];
-            CSSPut(properties,"width",DFFormatDoublePct(buf,100,widthPct));
-            char *propertiesText = CSSPropertiesCopyDescription(properties);
-            DFSetAttribute(imageNode,HTML_STYLE,propertiesText);
-            free(propertiesText);
-            CSSPropertiesRelease(properties);
-        }
+        goto end;
     }
 
+    if (!DFBufferWriteToFile(content,dstImagePath,&error)) {
+        WordConverterWarning(get->conv,"Copy %s to %s: %s",filename,dstImagePath,DFErrorMessage(&error));
+        DFErrorRelease(error);
+        goto end;
+    }
+
+    imageNode = WordConverterCreateAbstract(get,HTML_IMG,concrete);
+    DFFormatAttribute(imageNode,HTML_SRC,"images/%s",lastComponent);
+
+    double contentWidthPts = WordSectionContentWidthPts(get->conv->mainSection);
+    if (contentWidthPts > 0) {
+        double widthPct = widthPts/contentWidthPts*100.0;
+        CSSProperties *properties = CSSPropertiesNew();
+        char buf[100];
+        CSSPut(properties,"width",DFFormatDoublePct(buf,100,widthPct));
+        char *propertiesText = CSSPropertiesCopyDescription(properties);
+        DFSetAttribute(imageNode,HTML_STYLE,propertiesText);
+        free(propertiesText);
+        CSSPropertiesRelease(properties);
+    }
+    goto end;
+
+end:
     free(abstractImagesPath);
     free(lastComponent);
-    free(srcImagePath);
     free(dstImagePath);
-    return imageNode;
+    DFBufferRelease(content);
+    if (imageNode != NULL)
+        return imageNode;
+    else
+        return createAbstractPlaceholder(get,"[Error reading image]",concrete);
 }
 
 static ImageInfo *getImageInfoDrawing(DFNode *concrete)
@@ -326,9 +338,9 @@ int WordDrawingIsVisible(WordPutData *put, DFNode *concrete)
     return 1;
 }
 
-static char *genImageFilename(const char *mediaDir, const char *extension, DFError **error)
+static char *genImageFilename(DFStore *store, const char *mediaRelDir, const char *extension, DFError **error)
 {
-    const char **names = DFContentsOfDirectory(mediaDir,0,error);
+    const char **names = DFStoreContentsOfDirectory(store,mediaRelDir,0,error);
     if (names == NULL)
         return NULL;;
 
@@ -360,20 +372,17 @@ static char *genImageFilename(const char *mediaDir, const char *extension, DFErr
 
 static OPCRelationship *addImageRelationship(WordConverter *converter, const char *src, DFError **error)
 {
-    char *mediaDir = DFAppendPathComponent(converter->concretePath,"word/media");
+    DFStore *store = converter->package->opc->store;
+    const char *mediaDir = "word/media";
 
-    if (!DFFileExists(mediaDir) && !DFCreateDirectory(mediaDir,1,error)) {
-        free(mediaDir);
+    if (!DFStoreFileExists(store,mediaDir) && !DFStoreCreateDirectory(store,mediaDir,1,error))
         return NULL;
-    }
 
     char *ext = DFPathExtension(src);
-    char *filename = genImageFilename(mediaDir,ext,error);
+    char *filename = genImageFilename(store,mediaDir,ext,error);
     free(ext);
-    if (filename == NULL) {
-        free(mediaDir);
+    if (filename == NULL)
         return NULL;
-    }
 
     char *abstractPathSlash = DFFormatString("%s/",converter->abstractPath);
     char *unescapedSrc = DFRemovePercentEncoding(src);
@@ -381,14 +390,15 @@ static OPCRelationship *addImageRelationship(WordConverter *converter, const cha
     char *destPath = DFAppendPathComponent(mediaDir,filename);
 
     OPCRelationship *result = NULL;
-    if (DFCopyFile(srcPath,destPath,error)) {
+    DFBuffer *content = DFBufferReadFromFile(srcPath,error);
+    if ((content != NULL) && DFBufferWriteToStore(content,store,destPath,error)) {
         OPCRelationshipSet *rels = converter->package->documentPart->relationships;
         char *relPath = DFFormatString("/word/media/%s",filename);
         result = OPCRelationshipSetAddType(rels,WORDREL_IMAGE,relPath,0);
         free(relPath);
     }
+    DFBufferRelease(content);
 
-    free(mediaDir);
     free(filename);
     free(abstractPathSlash);
     free(unescapedSrc);
@@ -534,24 +544,29 @@ static int internalPut2(WordPutData *put, DFNode *abstract, DFNode *concrete, in
 
         if ((wordInfo != NULL) && (wordInfo->widthPts > 0) && (wordInfo->heightPts > 0) && (rel != NULL)) {
             const char *wordSrc = rel->target;
-            char *wordPath = DFAppendPathComponent(put->conv->concretePath,wordSrc);
+            DFStore *store = put->conv->package->opc->store;
 
-            if (!DFFileExists(wordPath)) {
+            if (!DFStoreFileExists(store,wordSrc)) {
                 WordConverterWarning(put->conv,"Word image %s does not exist",wordSrc);
-                free(wordPath);
                 ImageInfoFree(wordInfo);
                 return 0;
             }
 
-            if (!DFPathContentsEqual(htmlPath,wordPath)) {
+            DFBuffer *content1 = DFBufferReadFromFile(htmlPath,NULL);
+            DFBuffer *content2 = DFBufferReadFromStore(store,wordSrc,NULL);
+            int contentsEqual = ((content1 != NULL) && (content2 != NULL) &&
+                                 (content1->len == content2->len) &&
+                                 !memcmp(content1->data,content2->data,content1->len));
+            DFBufferRelease(content1);
+            DFBufferRelease(content2);
+
+            if (!contentsEqual) {
                 rel->needsRemoveCheck = 1;
                 imageChanged = 1;
             }
 
             if (fabs(wordInfo->widthPts - htmlSize.widthPts) >= 0.1)
                 sizeChanged = 1;
-
-            free(wordPath);
         }
         ImageInfoFree(wordInfo);
 

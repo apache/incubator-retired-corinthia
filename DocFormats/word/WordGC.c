@@ -64,11 +64,8 @@ static void collect(WordPackage *package, DFHashTable *referencedIds)
         // to it.
         OPCRelationship *rel = OPCRelationshipSetLookupById(relationships,rId);
         if (rel->needsRemoveCheck && (DFHashTableLookup(referencedIds,rel->rId) == NULL)) {
-            if (!rel->external) {
-                char *path = DFAppendPathComponent(package->tempPath,rel->target);
-                DFDeleteFile(path,NULL);
-                free(path);
-            }
+            if (!rel->external)
+                DFStoreDeleteFile(package->opc->store,rel->target,NULL);
             OPCRelationshipSetRemove(relationships,rel);
         }
     }

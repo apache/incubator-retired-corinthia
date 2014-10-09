@@ -57,15 +57,13 @@ static void addSerializedBinary(DFBuffer *result, DFBuffer *data, const char *fi
     }
 }
 
-static char *findDocumentPath(const char *packagePath, DFError **error)
+static char *findDocumentPath(DFStore *store, DFError **error)
 {
     int ok = 0;
-    char *relsPath = NULL;
     DFDocument *relsDoc = NULL;
     char *result = NULL;
 
-    relsPath = DFAppendPathComponent(packagePath,"_rels/.rels");
-    relsDoc = DFParseXMLFile(relsPath,error);
+    relsDoc = DFParseXMLStore(store,"/_rels/.rels",error);
     if (relsDoc == NULL) {
         DFErrorFormat(error,"_rels/.rels: %s",DFErrorMessage(error));
         goto end;
@@ -89,7 +87,6 @@ static char *findDocumentPath(const char *packagePath, DFError **error)
     }
 
 end:
-    free(relsPath);
     DFDocumentRelease(relsDoc);
     if (ok)
         return result;
@@ -97,11 +94,11 @@ end:
     return NULL;
 }
 
-static char *computeDocumentRelsPath(const char *contentsPath, const char *documentPath)
+static char *computeDocumentRelsPath(const char *documentPath)
 {
     char *documentParent = DFPathDirName(documentPath);
     char *documentFilename = DFPathBaseName(documentPath);
-    char *documentRelsPath = DFFormatString("%s/%s/_rels/%s.rels",contentsPath,documentParent,documentFilename);
+    char *documentRelsPath = DFFormatString("%s/_rels/%s.rels",documentParent,documentFilename);
     free(documentParent);
     free(documentFilename);
     return documentRelsPath;
@@ -124,15 +121,13 @@ static void parseDocumentRels(DFDocument *relsDoc, DFHashTable *rels, DFError **
 }
 
 static int addRelatedDoc(DFHashTable *parts, DFHashTable *documentRels, const char *relName, const char *filename,
-                         DFBuffer *output, DFHashTable *includeTypes, const char *contentsPath, DFError **error)
+                         DFBuffer *output, DFHashTable *includeTypes, DFStore *store, DFError **error)
 {
     const char *relPath = DFHashTableLookup(documentRels,relName);
     if (relPath == NULL)
-        return 1;
+        return 1;;
 
-    char *absPath = DFAppendPathComponent(contentsPath,relPath);
-    DFDocument *doc = DFParseXMLFile(absPath,error);
-    free(absPath);
+    DFDocument *doc = DFParseXMLStore(store,relPath,error);
     if (doc == NULL) {
         DFErrorFormat(error,"%s: %s",relPath,DFErrorMessage(error));
         return 0;
@@ -149,7 +144,7 @@ static int addRelatedDoc(DFHashTable *parts, DFHashTable *documentRels, const ch
 
 static int processParts(DFHashTable *parts, const char *documentPath, DFDocument *relsDoc,
                         DFHashTable *documentRels,
-                        DFBuffer *output, const char *packagePath, DFError **error)
+                        DFBuffer *output, DFStore *store, DFError **error)
 {
     int ok = 0;
     DFHashTable *includeTypes = DFHashTableNew((DFCopyFunction)strdup,free);
@@ -157,9 +152,7 @@ static int processParts(DFHashTable *parts, const char *documentPath, DFDocument
     DFHashTableAdd(includeTypes,WORDREL_IMAGE,"");
 
     if ((parts == NULL) || (DFHashTableLookup(parts,"document") != NULL)) {
-        char *fullPath = DFAppendPathComponent(packagePath,documentPath);
-        DFDocument *doc = DFParseXMLFile(fullPath,error);
-        free(fullPath);
+        DFDocument *doc = DFParseXMLStore(store,documentPath,error);
         if (doc == NULL)
             goto end;
         addStrippedSerializedDoc(output,doc,"document.xml");
@@ -167,27 +160,27 @@ static int processParts(DFHashTable *parts, const char *documentPath, DFDocument
     }
 
     if ((parts == NULL) || (DFHashTableLookup(parts,"styles") != NULL)) {
-        if (!addRelatedDoc(parts,documentRels,WORDREL_STYLES,"styles.xml",output,includeTypes,packagePath,error))
+        if (!addRelatedDoc(parts,documentRels,WORDREL_STYLES,"styles.xml",output,includeTypes,store,error))
             goto end;
     }
     if ((parts == NULL) || (DFHashTableLookup(parts,"numbering") != NULL)) {
-        if (!addRelatedDoc(parts,documentRels,WORDREL_NUMBERING,"numbering.xml",output,includeTypes,packagePath,error))
+        if (!addRelatedDoc(parts,documentRels,WORDREL_NUMBERING,"numbering.xml",output,includeTypes,store,error))
             goto end;
     }
     if ((parts == NULL) || (DFHashTableLookup(parts,"footnotes") != NULL)) {
-        if (!addRelatedDoc(parts,documentRels,WORDREL_FOOTNOTES,"footnotes.xml",output,includeTypes,packagePath,error))
+        if (!addRelatedDoc(parts,documentRels,WORDREL_FOOTNOTES,"footnotes.xml",output,includeTypes,store,error))
             goto end;
     }
     if ((parts == NULL) || (DFHashTableLookup(parts,"endnotes") != NULL)) {
-        if (!addRelatedDoc(parts,documentRels,WORDREL_ENDNOTES,"endnotes.xml",output,includeTypes,packagePath,error))
+        if (!addRelatedDoc(parts,documentRels,WORDREL_ENDNOTES,"endnotes.xml",output,includeTypes,store,error))
             goto end;
     }
     if ((parts != NULL) && (DFHashTableLookup(parts,"settings") != NULL)) {
-        if (!addRelatedDoc(parts,documentRels,WORDREL_SETTINGS,"settings.xml",output,includeTypes,packagePath,error))
+        if (!addRelatedDoc(parts,documentRels,WORDREL_SETTINGS,"settings.xml",output,includeTypes,store,error))
             goto end;
     }
     if ((parts != NULL) && (DFHashTableLookup(parts,"theme") != NULL)) {
-        if (!addRelatedDoc(parts,documentRels,WORDREL_THEME,"theme.xml",output,includeTypes,packagePath,error))
+        if (!addRelatedDoc(parts,documentRels,WORDREL_THEME,"theme.xml",output,includeTypes,store,error))
             goto end;
     }
 
@@ -211,7 +204,7 @@ static int processParts(DFHashTable *parts, const char *documentPath, DFDocument
         addSerializedDoc(output,relsDoc,"document.xml.rels");
     }
 
-    const char **entries = DFContentsOfDirectory(packagePath,1,NULL);
+    const char **entries = DFStoreContentsOfDirectory(store,"/",1,NULL);
     if (entries != NULL) { // FIXME: Should really report an error if this is not the case
         for (int i = 0; entries[i]; i++) {
             const char *filename = entries[i];
@@ -222,12 +215,10 @@ static int processParts(DFHashTable *parts, const char *documentPath, DFDocument
                     absFilename = DFFormatString("/%s",filename);
                 else
                     absFilename = strdup(filename);
-                char *absPath = DFAppendPathComponent(packagePath,absFilename);
-                DFBuffer *data = DFBufferReadFromFile(absPath,NULL);
+                DFBuffer *data = DFBufferReadFromStore(store,absFilename,NULL);
                 addSerializedBinary(output,data,absFilename);
                 DFBufferRelease(data);
                 free(absFilename);
-                free(absPath);
             }
             free(extension);
         }
@@ -241,38 +232,37 @@ end:
     return ok;
 }
 
-static char *Word_toPlainFromDir(const char *packagePath, DFHashTable *parts, DFError **error)
+static char *Word_toPlainFromDir(DFStore *store, DFHashTable *parts, DFError **error)
 {
     char *documentPath = NULL;
     DFHashTable *rels = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
     DFBuffer *output = DFBufferNew();
-    char *relsPath = NULL;
+    char *relsPathRel = NULL;
     DFDocument *relsDoc = NULL;
     int ok = 0;
 
 
-    documentPath = findDocumentPath(packagePath,error);
+    documentPath = findDocumentPath(store,error);
     if (documentPath == NULL) {
         DFErrorFormat(error,"findDocumentPath: %s",DFErrorMessage(error));
         goto end;
     }
 
-
-    relsPath = computeDocumentRelsPath(packagePath,documentPath);
-    if (DFFileExists(relsPath) && ((relsDoc = DFParseXMLFile(relsPath,error)) == NULL)) {
-        DFErrorFormat(error,"%s: %s",relsPath,DFErrorMessage(error));
+    relsPathRel = computeDocumentRelsPath(documentPath);
+    if (DFStoreFileExists(store,relsPathRel) && ((relsDoc = DFParseXMLStore(store,relsPathRel,error)) == NULL)) {
+        DFErrorFormat(error,"%s: %s",relsPathRel,DFErrorMessage(error));
         goto end;
     }
 
     parseDocumentRels(relsDoc,rels,error);
 
-    if (!processParts(parts,documentPath,relsDoc,rels,output,packagePath,error))
+    if (!processParts(parts,documentPath,relsDoc,rels,output,store,error))
         goto end;
 
     ok = 1;
 
 end:
-    free(relsPath);
+    free(relsPathRel);
     free(documentPath);
     DFHashTableRelease(rels);
     DFDocumentRelease(relsDoc);
@@ -291,6 +281,7 @@ static char *Word_toPlainOrError(WordPackage *package, DFHashTable *parts, const
 {
     char *docxPath = DFAppendPathComponent(tempPath,"file.docx");
     char *contentsPath = DFAppendPathComponent(tempPath,"contents");
+    DFStore *contentsStore = DFStoreNewFilesystem(contentsPath);
     char *result = NULL;
     int ok = 0;
 
@@ -309,17 +300,18 @@ static char *Word_toPlainOrError(WordPackage *package, DFHashTable *parts, const
         goto end;
     }
 
-    if (!DFUnzip(docxPath,contentsPath,error)) {
+    if (!DFUnzip(docxPath,contentsStore,error)) {
         DFErrorFormat(error,"DFUnzip: %s",DFErrorMessage(error));
         goto end;
     }
 
-    result = Word_toPlainFromDir(contentsPath,parts,error);
+    result = Word_toPlainFromDir(contentsStore,parts,error);
     ok = 1;
 
 end:
     free(docxPath);
     free(contentsPath);
+    DFStoreRelease(contentsStore);
     if (ok)
         return result;
     free(result);
@@ -337,40 +329,36 @@ char *Word_toPlain(WordPackage *package, DFHashTable *parts, const char *tempPat
     return result;
 }
 
-static int saveXMLDocument(const char *zipDir, const char *filename,
-                           DFDocument *doc, NamespaceID defaultNS, DFError **error)
+static int saveXMLDocument(DFStore *store, const char *filename, DFDocument *doc, NamespaceID defaultNS, DFError **error)
 {
-    char *fullPath = DFAppendPathComponent(zipDir,filename);
-    char *parentPath = DFPathDirName(fullPath);
-
+    char *parentPath = DFPathDirName(filename);
     int ok = 0;
 
-    if (!DFFileExists(parentPath) && !DFCreateDirectory(parentPath,1,error)) {
+    if (!DFStoreFileExists(store,parentPath) && !DFStoreCreateDirectory(store,parentPath,1,error)) {
         DFErrorFormat(error,"create %s: %s",parentPath,DFErrorMessage(error));
         goto end;
     }
 
-    if (!DFSerializeXMLFile(doc,defaultNS,0,fullPath,error)) {
-        DFErrorFormat(error,"serialize %s: %s",fullPath,DFErrorMessage(error));
+    if (!DFSerializeXMLStore(doc,defaultNS,0,store,filename,error)) {
+        DFErrorFormat(error,"serialize %s: %s",filename,DFErrorMessage(error));
         goto end;
     }
 
     ok = 1;
 
 end:
-    free(fullPath);
     free(parentPath);
     return ok;
 }
 
-static int saveStrippedXMLText(const char *zipDir, const char *filename,
+static int saveStrippedXMLText(DFStore *store, const char *filename,
                                const char *input, NamespaceID defaultNS, DFError **error)
 {
     DFDocument *doc = DFParseXMLString(input,error);
     if (doc == NULL)
         return 0;
     DFStripWhitespace(doc->docNode);
-    int ok = saveXMLDocument(zipDir,filename,doc,defaultNS,error);
+    int ok = saveXMLDocument(store,filename,doc,defaultNS,error);
     DFDocumentRelease(doc);
     return ok;
 }
@@ -382,7 +370,7 @@ typedef struct PartInfo {
     const char *type;
 } PartInfo;
 
-static int saveContentTypes(const char *zipDir, DFHashTable *ctDefaults, DFHashTable *ctOverrides, DFError **error)
+static int saveContentTypes(DFStore *store, DFHashTable *ctDefaults, DFHashTable *ctOverrides, DFError **error)
 {
     DFDocument *doc = DFDocumentNewWithRoot(CT_TYPES);
 
@@ -407,12 +395,12 @@ static int saveContentTypes(const char *zipDir, DFHashTable *ctDefaults, DFHashT
     }
     free(keys);
 
-    int ok = saveXMLDocument(zipDir,"[Content_Types].xml",doc,NAMESPACE_CT,error);
+    int ok = saveXMLDocument(store,"[Content_Types].xml",doc,NAMESPACE_CT,error);
     DFDocumentRelease(doc);
     return ok;
 }
 
-static int saveDocRels(const char *zipDir,
+static int saveDocRels(DFStore *store,
                        DFHashTable *docRelURIs,
                        DFHashTable *docRelTypes,
                        DFHashTable *docRelModes,
@@ -438,24 +426,24 @@ static int saveDocRels(const char *zipDir,
     }
     free(sortedIds);
 
-    int ok = saveXMLDocument(zipDir,"/word/_rels/document.xml.rels",doc,NAMESPACE_REL,error);
+    int ok = saveXMLDocument(store,"/word/_rels/document.xml.rels",doc,NAMESPACE_REL,error);
     DFDocumentRelease(doc);
     return ok;
 }
 
-static int saveRootRels(const char *zipDir, DFError **error)
+static int saveRootRels(DFStore *store, DFError **error)
 {
     DFDocument *doc = DFDocumentNewWithRoot(REL_RELATIONSHIPS);
     DFNode *rel = DFCreateChildElement(doc->root,REL_RELATIONSHIP);
     DFSetAttribute(rel,NULL_Id,"rId1");
     DFSetAttribute(rel,NULL_Type,"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument");
     DFSetAttribute(rel,NULL_TARGET,"/word/document.xml");
-    int ok = saveXMLDocument(zipDir,"/_rels/.rels",doc,NAMESPACE_REL,error);
+    int ok = saveXMLDocument(store,"/_rels/.rels",doc,NAMESPACE_REL,error);
     DFDocumentRelease(doc);
     return ok;
 }
 
-static int Word_fromPackage(TextPackage *tp, const char *zipDir, DFError **error)
+static int Word_fromPackage(TextPackage *tp, DFStore *store, DFError **error)
 {
     PartInfo parts[7] = {
         { "numbering.xml", "/word/numbering.xml", WORDREL_NUMBERING, WORDTYPE_NUMBERING },
@@ -466,15 +454,6 @@ static int Word_fromPackage(TextPackage *tp, const char *zipDir, DFError **error
         { "endnotes.xml", "/word/endnotes.xml", WORDREL_ENDNOTES, WORDTYPE_ENDNOTES },
         { NULL, NULL, NULL, NULL },
     };
-    if (DFFileExists(zipDir) && !DFDeleteFile(zipDir,error)) {
-        DFErrorFormat(error,"delete %s: %s",zipDir,DFErrorMessage(error));
-        return 0;
-    }
-
-    if (!DFCreateDirectory(zipDir,1,error)) {
-        DFErrorFormat(error,"create %s: %s",zipDir,DFErrorMessage(error));
-        return 0;
-    }
 
     int ok = 0;
 
@@ -498,7 +477,7 @@ static int Word_fromPackage(TextPackage *tp, const char *zipDir, DFError **error
 
 
     if (documentStr != NULL) {
-        if (!saveStrippedXMLText(zipDir,"/word/document.xml",documentStr,NAMESPACE_NULL,error))
+        if (!saveStrippedXMLText(store,"/word/document.xml",documentStr,NAMESPACE_NULL,error))
             goto end;
     }
 
@@ -508,7 +487,7 @@ static int Word_fromPackage(TextPackage *tp, const char *zipDir, DFError **error
         if (content == NULL)
             continue;
 
-        if (!saveStrippedXMLText(zipDir,parts[i].path,content,NAMESPACE_NULL,error))
+        if (!saveStrippedXMLText(store,parts[i].path,content,NAMESPACE_NULL,error))
             goto end;
 
         char rIdStr[100];
@@ -544,31 +523,29 @@ static int Word_fromPackage(TextPackage *tp, const char *zipDir, DFError **error
 
         if (isImage) {
             const char *str = DFHashTableLookup(tp->items,curFilename);
-            char *path = DFAppendPathComponent(zipDir,curFilename);
-            char *parent = DFPathDirName(path);
+            char *parentRel = DFPathDirName(curFilename);
             int fileok = 1;
 
-            if (!DFFileExists(parent) && !DFCreateDirectory(parent,1,error)) {
-                DFErrorFormat(error,"%s: %s",parent,DFErrorMessage(error));
+            if (!DFStoreFileExists(store,parentRel) && !DFStoreCreateDirectory(store,parentRel,1,error)) {
+                DFErrorFormat(error,"%s: %s",parentRel,DFErrorMessage(error));
                 fileok = 0;
             }
 
             DFBuffer *data = stringToBinary(str);
-            if (!DFBufferWriteToFile(data,path,error)) {
-                DFErrorFormat(error,"%s: %s",path,DFErrorMessage(error));
+            if (!DFBufferWriteToStore(data,store,curFilename,error)) {
+                DFErrorFormat(error,"%s: %s",curFilename,DFErrorMessage(error));
                 fileok = 0;
             }
 
             DFBufferRelease(data);
-            free(parent);
-            free(path);
+            free(parentRel);
 
             if (!fileok)
                 goto end;
         }
     }
 
-    if (!saveContentTypes(zipDir,ctDefaults,ctOverrides,error)) {
+    if (!saveContentTypes(store,ctDefaults,ctOverrides,error)) {
         DFErrorFormat(error,"saveContentTypes: %s",DFErrorMessage(error));
         goto end;
     }
@@ -605,12 +582,12 @@ static int Word_fromPackage(TextPackage *tp, const char *zipDir, DFError **error
         DFDocumentRelease(doc);
     }
 
-    if (!saveDocRels(zipDir,docRelURIs,docRelTypes,docRelModes,error)) {
+    if (!saveDocRels(store,docRelURIs,docRelTypes,docRelModes,error)) {
         DFErrorFormat(error,"saveDocRels: %s",DFErrorMessage(error));
         goto end;
     }
 
-    if (!saveRootRels(zipDir,error)) {
+    if (!saveRootRels(store,error)) {
         DFErrorFormat(error,"saveRootRels: %s",DFErrorMessage(error));
         goto end;
     }
@@ -635,6 +612,7 @@ WordPackage *Word_fromPlain(const char *plain, const char *plainPath,
     char *unzippedPath = DFAppendPathComponent(zipTempPath,"unzipped");
     char *contentsPath = DFAppendPathComponent(zipTempPath,"contents2");
     char *docxPath = DFAppendPathComponent(zipTempPath,"document.docx");
+    DFStore *contentsStore = DFStoreNewFilesystem(contentsPath);
     WordPackage *wp = NULL;
     TextPackage *tp = NULL;
 
@@ -642,20 +620,32 @@ WordPackage *Word_fromPlain(const char *plain, const char *plainPath,
     if (tp == NULL)
         goto end;
 
-    if (!Word_fromPackage(tp,contentsPath,error)) {
+    if (DFFileExists(contentsPath) && !DFDeleteFile(contentsPath,error)) {
+        DFErrorFormat(error,"delete %s: %s",contentsPath,DFErrorMessage(error));
+        return 0;
+    }
+
+    if (!DFCreateDirectory(contentsPath,1,error)) {
+        DFErrorFormat(error,"create %s: %s",contentsPath,DFErrorMessage(error));
+        return 0;
+    }
+
+    if (!Word_fromPackage(tp,contentsStore,error)) {
         DFErrorFormat(error,"Word_fromPackageNew: %s",DFErrorMessage(error));
         printf("%s\n",DFErrorMessage(error));
         goto end;
     }
 
-    if (!DFZip(docxPath,contentsPath,error)) {
+    if (!DFZip(docxPath,contentsStore,error)) {
         DFErrorFormat(error,"zip %s: %s",docxPath,DFErrorMessage(error));
         goto end;
     }
 
     // Now we have a .docx file; access it using what will be the new way (this API will change so we just say
     // "open a word document from here", without having to separately create the package object first.
-    wp = WordPackageNew(unzippedPath);
+    DFStore *store = DFStoreNewFilesystem(unzippedPath);
+    wp = WordPackageNew(store);
+    DFStoreRelease(store);
     if (!WordPackageOpenFrom(wp,docxPath,error)) {
         DFErrorFormat(error,"WordPackageOpenFrom %s: %s",docxPath,DFErrorMessage(error));
         goto end;
@@ -666,6 +656,7 @@ end:
     free(unzippedPath);
     free(contentsPath);
     free(docxPath);
+    DFStoreRelease(contentsStore);
     TextPackageRelease(tp);
     if (ok) {
         return wp;

@@ -98,6 +98,36 @@ static const char *extensionTests[] = {
     NULL,
 };
 
+static struct { const char *path1; const char *path2; } appendTests[] = {
+    { "one", "two" },
+    { "one/", "two" },
+    { "one", "/two" },
+    { "one/", "/two" },
+    { "one/two", "three" },
+    { "one//two", "three" },
+    { "one", "two/three" },
+    { "one", "two//three" },
+    { "/", "one" },
+    { "/", "/one" },
+    { "", "one" },
+    { "", "/one" },
+    { "one", "" },
+    { "one", "/" },
+    { "one", "two/" },
+    { "one", "two//" },
+    { NULL, NULL },
+};
+
+static void testAppendPathComponent(const char *input1, const char *input2)
+{
+    const char *expected = ([NSStringFromC(input1) stringByAppendingPathComponent: NSStringFromC(input2)]).UTF8String;
+    char *actual = DFAppendPathComponent(input1,input2);
+    char *quoteInput = DFFormatString("'%s' '%s'",input1,input2);
+    printResult(quoteInput,expected,actual);
+    free(actual);
+    free(quoteInput);
+}
+
 void testPathFunctions(void)
 {
     printf("DFDirName\n\n");
@@ -115,4 +145,7 @@ void testPathFunctions(void)
     printf("\nDFPathWithoutExtension\n\n");
     for (int i = 0; extensionTests[i]; i++)
         testPathWithoutExtension(extensionTests[i]);
+
+    for (int i = 0; appendTests[i].path1; i++)
+        testAppendPathComponent(appendTests[i].path1,appendTests[i].path2);
 }

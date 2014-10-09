@@ -89,12 +89,11 @@ static void Word_stripRSIDs(WordPackage *package)
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-WordPackage *WordPackageNew(const char *tempPath)
+WordPackage *WordPackageNew(DFStore *store)
 {
     WordPackage *package = (WordPackage *)calloc(1,sizeof(WordPackage));
     package->retainCount = 1;
-    package->tempPath = strdup(tempPath);
-    package->opc = OPCPackageNew(tempPath);
+    package->opc = OPCPackageNew(store);
     return package;
 }
 
@@ -111,7 +110,6 @@ void WordPackageRelease(WordPackage *package)
     if ((package == NULL) || (--package->retainCount > 0))
         return;
 
-    free(package->tempPath);
     DFDocumentRelease(package->document);
     DFDocumentRelease(package->numbering);
     DFDocumentRelease(package->styles);
@@ -186,9 +184,9 @@ static void addMissingParts(WordPackage *package)
 
 static int WordPackageSetupTempPath(WordPackage *package, DFError **error)
 {
-    if (DFFileExists(package->tempPath) && !DFDeleteFile(package->tempPath,error))
+    if (DFStoreFileExists(package->opc->store,"/") && !DFStoreDeleteFile(package->opc->store,"/",error))
         return 0;
-    if (!DFCreateDirectory(package->tempPath,1,error))
+    if (!DFStoreCreateDirectory(package->opc->store,"/",1,error))
         return 0;
     return 1;
 }

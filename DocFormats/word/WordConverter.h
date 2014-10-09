@@ -84,7 +84,6 @@ struct WordPutData {
 struct WordConverter {
     DFDocument *html;
     char *abstractPath;
-    char *concretePath;
     char *idPrefix;
     WordPackage *package;
     struct WordSheet *styles;

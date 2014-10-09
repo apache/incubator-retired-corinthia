@@ -18,6 +18,7 @@
 #include "DFXMLForward.h"
 #include "DFError.h"
 #include "DFBuffer.h"
+#include "DFStore.h"
 
 // Essentials of the Open Packaging Conventions
 // http://msdn.microsoft.com/en-us/library/ee361919(office.11).aspx
@@ -107,7 +108,7 @@ void OPCContentTypesRemoveOverride(OPCContentTypes *ct, const char *partName);
 typedef struct OPCPackage OPCPackage;
 
 struct OPCPackage {
-    char *tempPath;
+    DFStore *store;
     int isOpen;
     OPCContentTypes *contentTypes;
     OPCRelationshipSet *relationships;
@@ -115,7 +116,7 @@ struct OPCPackage {
     struct DFHashTable *partsByName;
 };
 
-OPCPackage *OPCPackageNew(const char *tempPath);
+OPCPackage *OPCPackageNew(DFStore *store);
 void OPCPackageFree(OPCPackage *pkg);
 int OPCPackageOpenNew(OPCPackage *pkg, DFError **error);
 int OPCPackageOpenFrom(OPCPackage *pkg, const char *filename);
