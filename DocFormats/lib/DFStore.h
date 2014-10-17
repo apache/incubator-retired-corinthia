@@ -31,7 +31,7 @@ int DFStoreRead(DFStore *store, const char *path, void **buf, size_t *nbytes, DF
 int DFStoreWrite(DFStore *store, const char *path, void *buf, size_t nbytes, DFError **error);
 int DFStoreExists(DFStore *store, const char *path);
 int DFStoreIsDir(DFStore *store, const char *path);
-int DFStoreMkDir(DFStore *store, const char *path, int intermediates, DFError **error);
+int DFStoreMkDir(DFStore *store, const char *path, DFError **error);
 int DFStoreDelete(DFStore *store, const char *path, DFError **error);
 const char **DFStoreList(DFStore *store, const char *path, int recursive, DFError **error);
 

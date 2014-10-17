@@ -46,7 +46,7 @@ int DFUnzip(const char *zipFilename, DFStore *store, DFError **error)
 
         char *outParentPath = DFPathDirName(entryName);
         if (!DFStoreExists(store,outParentPath)) {
-            if (!DFStoreMkDir(store,outParentPath,1,error)) {
+            if (!DFStoreMkDir(store,outParentPath,error)) {
                 free(outParentPath);
                 return 0;
             }
@@ -56,7 +56,7 @@ int DFUnzip(const char *zipFilename, DFStore *store, DFError **error)
         if (DFStringHasSuffix(entryName,"/")) {
             // Directory
             if (!DFStoreExists(store,entryName) &&
-                !DFStoreMkDir(store,entryName,0,error))
+                !DFStoreMkDir(store,entryName,error))
                 return 0;
         }
         else {

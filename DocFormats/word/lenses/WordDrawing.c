@@ -375,7 +375,7 @@ static OPCRelationship *addImageRelationship(WordConverter *converter, const cha
     DFStore *store = converter->package->opc->store;
     const char *mediaDir = "word/media";
 
-    if (!DFStoreExists(store,mediaDir) && !DFStoreMkDir(store,mediaDir,1,error))
+    if (!DFStoreExists(store,mediaDir) && !DFStoreMkDir(store,mediaDir,error))
         return NULL;
 
     char *ext = DFPathExtension(src);

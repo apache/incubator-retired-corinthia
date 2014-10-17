@@ -124,10 +124,10 @@ int DFStoreIsDir(DFStore *store, const char *path)
     return r;
 }
 
-int DFStoreMkDir(DFStore *store, const char *path, int intermediates, DFError **error)
+int DFStoreMkDir(DFStore *store, const char *path, DFError **error)
 {
     char *fullPath = DFAppendPathComponent(store->rootPath,path);
-    int r = DFCreateDirectory(fullPath,intermediates,error);
+    int r = DFCreateDirectory(fullPath,1,error);
     free(fullPath);
     return r;
 }

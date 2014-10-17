@@ -334,7 +334,7 @@ static int saveXMLDocument(DFStore *store, const char *filename, DFDocument *doc
     char *parentPath = DFPathDirName(filename);
     int ok = 0;
 
-    if (!DFStoreExists(store,parentPath) && !DFStoreMkDir(store,parentPath,1,error)) {
+    if (!DFStoreExists(store,parentPath) && !DFStoreMkDir(store,parentPath,error)) {
         DFErrorFormat(error,"create %s: %s",parentPath,DFErrorMessage(error));
         goto end;
     }
@@ -526,7 +526,7 @@ static int Word_fromPackage(TextPackage *tp, DFStore *store, DFError **error)
             char *parentRel = DFPathDirName(curFilename);
             int fileok = 1;
 
-            if (!DFStoreExists(store,parentRel) && !DFStoreMkDir(store,parentRel,1,error)) {
+            if (!DFStoreExists(store,parentRel) && !DFStoreMkDir(store,parentRel,error)) {
                 DFErrorFormat(error,"%s: %s",parentRel,DFErrorMessage(error));
                 fileok = 0;
             }

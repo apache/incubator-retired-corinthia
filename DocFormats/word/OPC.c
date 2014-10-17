@@ -411,7 +411,7 @@ static void saveRelationships(OPCPackage *pkg, OPCRelationshipSet *rels, const c
     else {
         char *relativeParent = DFPathDirName(relativePath);
         DFError *error = NULL;
-        if (!DFStoreExists(pkg->store,relativeParent) && !DFStoreMkDir(pkg->store,relativeParent,1,&error)) {
+        if (!DFStoreExists(pkg->store,relativeParent) && !DFStoreMkDir(pkg->store,relativeParent,&error)) {
             OPCPackageError(pkg,"%s: %s",relativeParent,DFErrorMessage(&error));
             DFErrorRelease(error);
         }
@@ -644,7 +644,7 @@ int OPCPackageWritePart(OPCPackage *pkg, const char *data, size_t len, OPCPart *
     char *relativeParent = DFPathDirName(part->URI);
     int result = 0;
 
-    if (!DFStoreExists(pkg->store,relativeParent) && !DFStoreMkDir(pkg->store,relativeParent,1,error)) {
+    if (!DFStoreExists(pkg->store,relativeParent) && !DFStoreMkDir(pkg->store,relativeParent,error)) {
         DFErrorFormat(error,"%s: %s",relativeParent,DFErrorMessage(error));
     }
     else {
