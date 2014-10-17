@@ -184,9 +184,9 @@ static void addMissingParts(WordPackage *package)
 
 static int WordPackageSetupTempPath(WordPackage *package, DFError **error)
 {
-    if (DFStoreFileExists(package->opc->store,"/") && !DFStoreDeleteFile(package->opc->store,"/",error))
+    if (DFStoreExists(package->opc->store,"/") && !DFStoreDelete(package->opc->store,"/",error))
         return 0;
-    if (!DFStoreCreateDirectory(package->opc->store,"/",1,error))
+    if (!DFStoreMkDir(package->opc->store,"/",1,error))
         return 0;
     return 1;
 }

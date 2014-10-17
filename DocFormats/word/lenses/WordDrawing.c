@@ -340,7 +340,7 @@ int WordDrawingIsVisible(WordPutData *put, DFNode *concrete)
 
 static char *genImageFilename(DFStore *store, const char *mediaRelDir, const char *extension, DFError **error)
 {
-    const char **names = DFStoreContentsOfDirectory(store,mediaRelDir,0,error);
+    const char **names = DFStoreList(store,mediaRelDir,0,error);
     if (names == NULL)
         return NULL;;
 
@@ -375,7 +375,7 @@ static OPCRelationship *addImageRelationship(WordConverter *converter, const cha
     DFStore *store = converter->package->opc->store;
     const char *mediaDir = "word/media";
 
-    if (!DFStoreFileExists(store,mediaDir) && !DFStoreCreateDirectory(store,mediaDir,1,error))
+    if (!DFStoreExists(store,mediaDir) && !DFStoreMkDir(store,mediaDir,1,error))
         return NULL;
 
     char *ext = DFPathExtension(src);
@@ -546,7 +546,7 @@ static int internalPut2(WordPutData *put, DFNode *abstract, DFNode *concrete, in
             const char *wordSrc = rel->target;
             DFStore *store = put->conv->package->opc->store;
 
-            if (!DFStoreFileExists(store,wordSrc)) {
+            if (!DFStoreExists(store,wordSrc)) {
                 WordConverterWarning(put->conv,"Word image %s does not exist",wordSrc);
                 ImageInfoFree(wordInfo);
                 return 0;

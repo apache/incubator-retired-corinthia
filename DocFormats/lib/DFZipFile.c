@@ -45,8 +45,8 @@ int DFUnzip(const char *zipFilename, DFStore *store, DFError **error)
             return zipError(error,"Zip directory is corrupt");
 
         char *outParentPath = DFPathDirName(entryName);
-        if (!DFStoreFileExists(store,outParentPath)) {
-            if (!DFStoreCreateDirectory(store,outParentPath,1,error)) {
+        if (!DFStoreExists(store,outParentPath)) {
+            if (!DFStoreMkDir(store,outParentPath,1,error)) {
                 free(outParentPath);
                 return 0;
             }
@@ -55,8 +55,8 @@ int DFUnzip(const char *zipFilename, DFStore *store, DFError **error)
 
         if (DFStringHasSuffix(entryName,"/")) {
             // Directory
-            if (!DFStoreFileExists(store,entryName) &&
-                !DFStoreCreateDirectory(store,entryName,0,error))
+            if (!DFStoreExists(store,entryName) &&
+                !DFStoreMkDir(store,entryName,0,error))
                 return 0;
         }
         else {
@@ -126,10 +126,10 @@ static int zipAddFile(zipFile zip, const char *dest, DFBuffer *content, DFError 
 static int zipRecursive(zipFile zip, DFStore *store, const char *sourceRel, const char *dest, DFError **error)
 {
     // FIXME: Not covered by tests
-    if (!DFStoreFileExists(store,sourceRel))
+    if (!DFStoreExists(store,sourceRel))
         return zipError(error,"%s: No such file or directory",dest);
-    if (DFStoreIsDirectory(store,sourceRel)) {
-        const char **entries = DFStoreContentsOfDirectory(store,sourceRel,0,error);
+    if (DFStoreIsDir(store,sourceRel)) {
+        const char **entries = DFStoreList(store,sourceRel,0,error);
         if (entries == NULL)
             return 0;
         int ok = 1;

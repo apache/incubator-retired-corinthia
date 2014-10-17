@@ -403,7 +403,7 @@ static void saveRelationships(OPCPackage *pkg, OPCRelationshipSet *rels, const c
 
     if (idCount == 0) {
         DFError *error = NULL;
-        if (DFStoreFileExists(pkg->store,relativePath) && !DFStoreDeleteFile(pkg->store,relativePath,&error)) {
+        if (DFStoreExists(pkg->store,relativePath) && !DFStoreDelete(pkg->store,relativePath,&error)) {
             OPCPackageError(pkg,"%s: %s",relativePath,DFErrorMessage(&error));
             DFErrorRelease(error);
         }
@@ -411,7 +411,7 @@ static void saveRelationships(OPCPackage *pkg, OPCRelationshipSet *rels, const c
     else {
         char *relativeParent = DFPathDirName(relativePath);
         DFError *error = NULL;
-        if (!DFStoreFileExists(pkg->store,relativeParent) && !DFStoreCreateDirectory(pkg->store,relativeParent,1,&error)) {
+        if (!DFStoreExists(pkg->store,relativeParent) && !DFStoreMkDir(pkg->store,relativeParent,1,&error)) {
             OPCPackageError(pkg,"%s: %s",relativeParent,DFErrorMessage(&error));
             DFErrorRelease(error);
         }
@@ -433,7 +433,7 @@ static void saveRelationships(OPCPackage *pkg, OPCRelationshipSet *rels, const c
 static void readRelationships(OPCPackage *pkg, OPCRelationshipSet *rels, const char *partURI)
 {
     char *relFilename = relRelationshipsPathForURI(partURI);
-    if (DFStoreFileExists(pkg->store,relFilename)) {
+    if (DFStoreExists(pkg->store,relFilename)) {
         DFError *localError = NULL;
         DFDocument *relDoc = DFParseXMLStore(pkg->store,relFilename,&localError);
         if (relDoc == NULL) {
@@ -501,7 +501,7 @@ void OPCPackageReadRelationships(OPCPackage *pkg, OPCRelationshipSet *rels, cons
 static void findParts(OPCPackage *pkg, const char *relPath)
 {
     DFError *error = NULL;
-    const char **contents = DFStoreContentsOfDirectory(pkg->store,relPath,0,&error);
+    const char **contents = DFStoreList(pkg->store,relPath,0,&error);
 
     if (contents == NULL) {
         OPCPackageError(pkg,"%s %s",relPath,DFErrorMessage(&error));
@@ -512,10 +512,10 @@ static void findParts(OPCPackage *pkg, const char *relPath)
     for (int i = 0; contents[i]; i++) {
         const char *entry = contents[i];
         char *entryRelPath = DFAppendPathComponent(relPath,entry);
-        if (!DFStoreFileExists(pkg->store,entryRelPath)) {
+        if (!DFStoreExists(pkg->store,entryRelPath)) {
             OPCPackageError(pkg,"%s: No such file or directory",entryRelPath);
         }
-        else if (DFStoreIsDirectory(pkg->store,entryRelPath)) {
+        else if (DFStoreIsDir(pkg->store,entryRelPath)) {
             if (!DFStringEqualsCI(entry,"_rels")) {
                 findParts(pkg,entryRelPath);
             }
@@ -644,7 +644,7 @@ int OPCPackageWritePart(OPCPackage *pkg, const char *data, size_t len, OPCPart *
     char *relativeParent = DFPathDirName(part->URI);
     int result = 0;
 
-    if (!DFStoreFileExists(pkg->store,relativeParent) && !DFStoreCreateDirectory(pkg->store,relativeParent,1,error)) {
+    if (!DFStoreExists(pkg->store,relativeParent) && !DFStoreMkDir(pkg->store,relativeParent,1,error)) {
         DFErrorFormat(error,"%s: %s",relativeParent,DFErrorMessage(error));
     }
     else {
@@ -664,8 +664,8 @@ int OPCPackageWritePart(OPCPackage *pkg, const char *data, size_t len, OPCPart *
 
 int OPCPackageDeletePart(OPCPackage *pkg, OPCPart *part, DFError **error)
 {
-    if (DFStoreFileExists(pkg->store,part->URI) &&
-        !DFStoreDeleteFile(pkg->store,part->URI,error)) {
+    if (DFStoreExists(pkg->store,part->URI) &&
+        !DFStoreDelete(pkg->store,part->URI,error)) {
         DFErrorFormat(error,"%s: %s",part->URI,DFErrorMessage(error));
         return 0;
     }

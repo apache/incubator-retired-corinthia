@@ -131,7 +131,7 @@ DFBuffer *DFBufferReadFromStore(DFStore *store, const char *storeFilename, DFErr
 {
     void *data = 0;
     size_t len = 0;
-    if (!DFStoreReadFile(store,storeFilename,&data,&len,error))
+    if (!DFStoreRead(store,storeFilename,&data,&len,error))
         return NULL;;
     DFBuffer *r = DFBufferNew();;
     DFBufferAppendData(r,data,len);
@@ -141,7 +141,7 @@ DFBuffer *DFBufferReadFromStore(DFStore *store, const char *storeFilename, DFErr
 
 int DFBufferWriteToStore(DFBuffer *buf, DFStore *store, const char *storeFilename, DFError **error)
 {
-    return DFStoreWriteFile(store,storeFilename,buf->data,buf->len,error);
+    return DFStoreWrite(store,storeFilename,buf->data,buf->len,error);
 }
 
 int DFBufferWriteToFile(DFBuffer *buf, const char *filename, DFError **error)

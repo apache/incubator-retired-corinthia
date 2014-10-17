@@ -51,7 +51,7 @@ void DFStoreSave(DFStore *store)
 {
 }
 
-int DFStoreReadFile(DFStore *store, const char *path, void **buf, size_t *nbytes, DFError **error)
+int DFStoreRead(DFStore *store, const char *path, void **buf, size_t *nbytes, DFError **error)
 {
     char *fullPath = DFAppendPathComponent(store->rootPath,path);
     int ok = 0;
@@ -84,7 +84,7 @@ end:
     return ok;
 }
 
-int DFStoreWriteFile(DFStore *store, const char *path, void *buf, size_t nbytes, DFError **error)
+int DFStoreWrite(DFStore *store, const char *path, void *buf, size_t nbytes, DFError **error)
 {
     char *fullPath = DFAppendPathComponent(store->rootPath,path);
     int r = 0;
@@ -108,7 +108,7 @@ end:
     return r;
 }
 
-int DFStoreFileExists(DFStore *store, const char *path)
+int DFStoreExists(DFStore *store, const char *path)
 {
     char *fullPath = DFAppendPathComponent(store->rootPath,path);
     int r = DFFileExists(fullPath);
@@ -116,7 +116,7 @@ int DFStoreFileExists(DFStore *store, const char *path)
     return r;
 }
 
-int DFStoreIsDirectory(DFStore *store, const char *path)
+int DFStoreIsDir(DFStore *store, const char *path)
 {
     char *fullPath = DFAppendPathComponent(store->rootPath,path);
     int r = DFIsDirectory(fullPath);
@@ -124,7 +124,7 @@ int DFStoreIsDirectory(DFStore *store, const char *path)
     return r;
 }
 
-int DFStoreCreateDirectory(DFStore *store, const char *path, int intermediates, DFError **error)
+int DFStoreMkDir(DFStore *store, const char *path, int intermediates, DFError **error)
 {
     char *fullPath = DFAppendPathComponent(store->rootPath,path);
     int r = DFCreateDirectory(fullPath,intermediates,error);
@@ -132,7 +132,7 @@ int DFStoreCreateDirectory(DFStore *store, const char *path, int intermediates, 
     return r;
 }
 
-int DFStoreDeleteFile(DFStore *store, const char *path, DFError **error)
+int DFStoreDelete(DFStore *store, const char *path, DFError **error)
 {
     char *fullPath = DFAppendPathComponent(store->rootPath,path);
     int r = DFDeleteFile(fullPath,error);
@@ -140,7 +140,7 @@ int DFStoreDeleteFile(DFStore *store, const char *path, DFError **error)
     return r;
 }
 
-const char **DFStoreContentsOfDirectory(DFStore *store, const char *path, int recursive, DFError **error)
+const char **DFStoreList(DFStore *store, const char *path, int recursive, DFError **error)
 {
     char *fullPath = DFAppendPathComponent(store->rootPath,path);
     const char **r = DFContentsOfDirectory(fullPath,recursive,error);

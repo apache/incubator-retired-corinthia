@@ -27,13 +27,12 @@ DFStore *DFStoreRetain(DFStore *store);
 void DFStoreRelease(DFStore *store);
 void DFStoreSave(DFStore *store);
 
-int DFStoreReadFile(DFStore *store, const char *path, void **buf, size_t *nbytes, DFError **error);
-int DFStoreWriteFile(DFStore *store, const char *path, void *buf, size_t nbytes, DFError **error);
-
-int DFStoreFileExists(DFStore *store, const char *path);
-int DFStoreIsDirectory(DFStore *store, const char *path);
-int DFStoreCreateDirectory(DFStore *store, const char *path, int intermediates, DFError **error);
-int DFStoreDeleteFile(DFStore *store, const char *path, DFError **error);
-const char **DFStoreContentsOfDirectory(DFStore *store, const char *path, int recursive, DFError **error);
+int DFStoreRead(DFStore *store, const char *path, void **buf, size_t *nbytes, DFError **error);
+int DFStoreWrite(DFStore *store, const char *path, void *buf, size_t nbytes, DFError **error);
+int DFStoreExists(DFStore *store, const char *path);
+int DFStoreIsDir(DFStore *store, const char *path);
+int DFStoreMkDir(DFStore *store, const char *path, int intermediates, DFError **error);
+int DFStoreDelete(DFStore *store, const char *path, DFError **error);
+const char **DFStoreList(DFStore *store, const char *path, int recursive, DFError **error);
 
 #endif
