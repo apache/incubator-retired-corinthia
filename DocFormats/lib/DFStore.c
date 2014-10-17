@@ -18,40 +18,39 @@
 #include "DFFilesystem.h"
 #include "DFBuffer.h"
 
+typedef struct DFStoreOps DFStoreOps;
+
+struct DFStoreOps {
+    int (*save)(DFStore *store, DFError **error);
+    int (*read)(DFStore *store, const char *path, void **buf, size_t *nbytes, DFError **error);
+    int (*write)(DFStore *store, const char *path, void *buf, size_t nbytes, DFError **error);
+    int (*exists)(DFStore *store, const char *path);
+    int (*isdir)(DFStore *store, const char *path);
+    int (*mkdir)(DFStore *store, const char *path, DFError **error);
+    int (*delete)(DFStore *store, const char *path, DFError **error);
+    const char **(*list)(DFStore *store, const char *path, int recursive, DFError **error);
+};
+
 struct DFStore {
     size_t retainCount;
     char *rootPath;
+    const DFStoreOps *ops;
 };
 
-DFStore *DFStoreNewFilesystem(const char *rootPath)
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                //
+//                                      DFStore (Filesystem)                                      //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+static int fsSave(DFStore *store, DFError **error)
 {
-    DFStore *store = (DFStore *)calloc(1,sizeof(DFStore));
-    store->retainCount = 1;
-    store->rootPath = strdup(rootPath);
-    return store;
+    // Nothing to do here; we've already written everything to the filesystem
+    // at the time the calls were made.
+    return 0;
 }
 
-DFStore *DFStoreRetain(DFStore *store)
-{
-    if (store != NULL)
-        store->retainCount++;
-    return store;
-}
-
-void DFStoreRelease(DFStore *store)
-{
-    if ((store == NULL) || (--store->retainCount > 0))
-        return;
-
-    free(store->rootPath);
-    free(store);
-}
-
-void DFStoreSave(DFStore *store)
-{
-}
-
-int DFStoreRead(DFStore *store, const char *path, void **buf, size_t *nbytes, DFError **error)
+static int fsRead(DFStore *store, const char *path, void **buf, size_t *nbytes, DFError **error)
 {
     char *fullPath = DFAppendPathComponent(store->rootPath,path);
     int ok = 0;
@@ -84,7 +83,7 @@ end:
     return ok;
 }
 
-int DFStoreWrite(DFStore *store, const char *path, void *buf, size_t nbytes, DFError **error)
+static int fsWrite(DFStore *store, const char *path, void *buf, size_t nbytes, DFError **error)
 {
     char *fullPath = DFAppendPathComponent(store->rootPath,path);
     int r = 0;
@@ -108,7 +107,7 @@ end:
     return r;
 }
 
-int DFStoreExists(DFStore *store, const char *path)
+static int fsExists(DFStore *store, const char *path)
 {
     char *fullPath = DFAppendPathComponent(store->rootPath,path);
     int r = DFFileExists(fullPath);
@@ -116,7 +115,7 @@ int DFStoreExists(DFStore *store, const char *path)
     return r;
 }
 
-int DFStoreIsDir(DFStore *store, const char *path)
+static int fsIsDir(DFStore *store, const char *path)
 {
     char *fullPath = DFAppendPathComponent(store->rootPath,path);
     int r = DFIsDirectory(fullPath);
@@ -124,7 +123,7 @@ int DFStoreIsDir(DFStore *store, const char *path)
     return r;
 }
 
-int DFStoreMkDir(DFStore *store, const char *path, DFError **error)
+static int fsMkDir(DFStore *store, const char *path, DFError **error)
 {
     char *fullPath = DFAppendPathComponent(store->rootPath,path);
     int r = DFCreateDirectory(fullPath,1,error);
@@ -132,7 +131,7 @@ int DFStoreMkDir(DFStore *store, const char *path, DFError **error)
     return r;
 }
 
-int DFStoreDelete(DFStore *store, const char *path, DFError **error)
+static int fsDelete(DFStore *store, const char *path, DFError **error)
 {
     char *fullPath = DFAppendPathComponent(store->rootPath,path);
     int r = DFDeleteFile(fullPath,error);
@@ -140,10 +139,92 @@ int DFStoreDelete(DFStore *store, const char *path, DFError **error)
     return r;
 }
 
-const char **DFStoreList(DFStore *store, const char *path, int recursive, DFError **error)
+static const char **fsList(DFStore *store, const char *path, int recursive, DFError **error)
 {
     char *fullPath = DFAppendPathComponent(store->rootPath,path);
     const char **r = DFContentsOfDirectory(fullPath,recursive,error);
     free(fullPath);
     return r;
+}
+
+static DFStoreOps fsOps = {
+    .save = fsSave,
+    .read = fsRead,
+    .write = fsWrite,
+    .exists = fsExists,
+    .isdir = fsIsDir,
+    .mkdir = fsMkDir,
+    .delete = fsDelete,
+    .list = fsList,
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                //
+//                                             DFStore                                            //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+DFStore *DFStoreNewFilesystem(const char *rootPath)
+{
+    DFStore *store = (DFStore *)calloc(1,sizeof(DFStore));
+    store->retainCount = 1;
+    store->rootPath = strdup(rootPath);
+    store->ops = &fsOps;
+    return store;
+}
+
+DFStore *DFStoreRetain(DFStore *store)
+{
+    if (store != NULL)
+        store->retainCount++;
+    return store;
+}
+
+void DFStoreRelease(DFStore *store)
+{
+    if ((store == NULL) || (--store->retainCount > 0))
+        return;
+
+    free(store->rootPath);
+    free(store);
+}
+
+int DFStoreSave(DFStore *store, DFError **error)
+{
+    return store->ops->save(store,error);
+}
+
+int DFStoreRead(DFStore *store, const char *path, void **buf, size_t *nbytes, DFError **error)
+{
+    return store->ops->read(store,path,buf,nbytes,error);
+}
+
+int DFStoreWrite(DFStore *store, const char *path, void *buf, size_t nbytes, DFError **error)
+{
+    return store->ops->write(store,path,buf,nbytes,error);
+}
+
+int DFStoreExists(DFStore *store, const char *path)
+{
+    return store->ops->exists(store,path);
+}
+
+int DFStoreIsDir(DFStore *store, const char *path)
+{
+    return store->ops->isdir(store,path);
+}
+
+int DFStoreMkDir(DFStore *store, const char *path, DFError **error)
+{
+    return store->ops->mkdir(store,path,error);
+}
+
+int DFStoreDelete(DFStore *store, const char *path, DFError **error)
+{
+    return store->ops->delete(store,path,error);
+}
+
+const char **DFStoreList(DFStore *store, const char *path, int recursive, DFError **error)
+{
+    return store->ops->list(store,path,recursive,error);
 }
