@@ -25,10 +25,8 @@ struct DFStoreOps {
     int (*read)(DFStore *store, const char *path, void **buf, size_t *nbytes, DFError **error);
     int (*write)(DFStore *store, const char *path, void *buf, size_t nbytes, DFError **error);
     int (*exists)(DFStore *store, const char *path);
-    int (*isdir)(DFStore *store, const char *path);
-    int (*mkdir)(DFStore *store, const char *path, DFError **error);
     int (*delete)(DFStore *store, const char *path, DFError **error);
-    const char **(*list)(DFStore *store, const char *path, int recursive, DFError **error);
+    const char **(*list)(DFStore *store, DFError **error);
 };
 
 struct DFStore {
@@ -86,9 +84,14 @@ end:
 static int fsWrite(DFStore *store, const char *path, void *buf, size_t nbytes, DFError **error)
 {
     char *fullPath = DFAppendPathComponent(store->rootPath,path);
+    char *parentPath = DFPathDirName(fullPath);
     int r = 0;
+    FILE *file = NULL;
 
-    FILE *file = fopen(fullPath,"wb");
+    if (!DFFileExists(parentPath) && !DFCreateDirectory(parentPath,1,error))
+        goto end;
+
+    file = fopen(fullPath,"wb");
     if (file == NULL) {
         DFErrorSetPosix(error,errno);
         goto end;
@@ -103,6 +106,7 @@ static int fsWrite(DFStore *store, const char *path, void *buf, size_t nbytes, D
 end:
     if (file != NULL)
         fclose(file);
+    free(parentPath);
     free(fullPath);
     return r;
 }
@@ -115,22 +119,6 @@ static int fsExists(DFStore *store, const char *path)
     return r;
 }
 
-static int fsIsDir(DFStore *store, const char *path)
-{
-    char *fullPath = DFAppendPathComponent(store->rootPath,path);
-    int r = DFIsDirectory(fullPath);
-    free(fullPath);
-    return r;
-}
-
-static int fsMkDir(DFStore *store, const char *path, DFError **error)
-{
-    char *fullPath = DFAppendPathComponent(store->rootPath,path);
-    int r = DFCreateDirectory(fullPath,1,error);
-    free(fullPath);
-    return r;
-}
-
 static int fsDelete(DFStore *store, const char *path, DFError **error)
 {
     char *fullPath = DFAppendPathComponent(store->rootPath,path);
@@ -139,12 +127,25 @@ static int fsDelete(DFStore *store, const char *path, DFError **error)
     return r;
 }
 
-static const char **fsList(DFStore *store, const char *path, int recursive, DFError **error)
+const char **fsList(DFStore *store, DFError **error)
 {
-    char *fullPath = DFAppendPathComponent(store->rootPath,path);
-    const char **r = DFContentsOfDirectory(fullPath,recursive,error);
-    free(fullPath);
-    return r;
+    const char **allPaths = DFContentsOfDirectory(store->rootPath,1,error);
+    if (allPaths == NULL)
+        return NULL;;
+
+    DFArray *filesOnly = DFArrayNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    for (int i = 0; allPaths[i]; i++) {
+        const char *relPath = allPaths[i];
+        char *absPath = DFAppendPathComponent(store->rootPath,relPath);
+        if (!DFIsDirectory(absPath))
+            DFArrayAppend(filesOnly,(void *)relPath);
+        free(absPath);
+    }
+
+    const char **result = DFStringArrayFlatten(filesOnly);
+    DFArrayRelease(filesOnly);
+    free(allPaths);
+    return result;
 }
 
 static DFStoreOps fsOps = {
@@ -152,8 +153,6 @@ static DFStoreOps fsOps = {
     .read = fsRead,
     .write = fsWrite,
     .exists = fsExists,
-    .isdir = fsIsDir,
-    .mkdir = fsMkDir,
     .delete = fsDelete,
     .list = fsList,
 };
@@ -209,22 +208,12 @@ int DFStoreExists(DFStore *store, const char *path)
     return store->ops->exists(store,path);
 }
 
-int DFStoreIsDir(DFStore *store, const char *path)
-{
-    return store->ops->isdir(store,path);
-}
-
-int DFStoreMkDir(DFStore *store, const char *path, DFError **error)
-{
-    return store->ops->mkdir(store,path,error);
-}
-
 int DFStoreDelete(DFStore *store, const char *path, DFError **error)
 {
     return store->ops->delete(store,path,error);
 }
 
-const char **DFStoreList(DFStore *store, const char *path, int recursive, DFError **error)
+const char **DFStoreList(DFStore *store, DFError **error)
 {
-    return store->ops->list(store,path,recursive,error);
+    return store->ops->list(store,error);
 }

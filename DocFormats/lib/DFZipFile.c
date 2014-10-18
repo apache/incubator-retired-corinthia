@@ -44,23 +44,8 @@ int DFUnzip(const char *zipFilename, DFStore *store, DFError **error)
         if (UNZ_OK != unzGetCurrentFileInfo(zipFile,&info,entryName,4096,NULL,0,NULL,0))
             return zipError(error,"Zip directory is corrupt");
 
-        char *outParentPath = DFPathDirName(entryName);
-        if (!DFStoreExists(store,outParentPath)) {
-            if (!DFStoreMkDir(store,outParentPath,error)) {
-                free(outParentPath);
-                return 0;
-            }
-        }
-        free(outParentPath);
-
-        if (DFStringHasSuffix(entryName,"/")) {
-            // Directory
-            if (!DFStoreExists(store,entryName) &&
-                !DFStoreMkDir(store,entryName,error))
-                return 0;
-        }
-        else {
-            // File
+        if (!DFStringHasSuffix(entryName,"/")) {
+            // Regular file
             if (UNZ_OK != unzOpenCurrentFile(zipFile))
                 return zipError(error,"%s: Cannot open zip entry",entryName);;
 
@@ -123,49 +108,43 @@ static int zipAddFile(zipFile zip, const char *dest, DFBuffer *content, DFError 
     return 1;
 }
 
-static int zipRecursive(zipFile zip, DFStore *store, const char *sourceRel, const char *dest, DFError **error)
-{
-    // FIXME: Not covered by tests
-    if (!DFStoreExists(store,sourceRel))
-        return zipError(error,"%s: No such file or directory",dest);
-    if (DFStoreIsDir(store,sourceRel)) {
-        const char **entries = DFStoreList(store,sourceRel,0,error);
-        if (entries == NULL)
-            return 0;
-        int ok = 1;
-        for (int i = 0; entries[i] && ok; i++) {
-            const char *entry = entries[i];
-            char *childSource = DFAppendPathComponent(sourceRel,entry);
-            char *childDest = DFAppendPathComponent(dest,entry);
-            if (!zipRecursive(zip,store,childSource,childDest,error))
-                ok = 0;
-            free(childSource);
-            free(childDest);
-        }
-        free(entries);
-        return ok;
-    }
-    else {
-        DFBuffer *content = DFBufferReadFromStore(store,sourceRel,error);
-        if (content == NULL) {
-            return zipError(error,"%s: %s",sourceRel,DFErrorMessage(error));
-        }
-
-        int ok = zipAddFile(zip,dest,content,error);
-        DFBufferRelease(content);
-        return ok;
-    }
-}
-
 int DFZip(const char *zipFilename, DFStore *store, DFError **error)
 {
-    zipFile zip = zipOpen(zipFilename,APPEND_STATUS_CREATE);
-    if (zip == NULL)
-        return zipError(error,"Cannot create file");
+    const char **allPaths = NULL;
+    zipFile zip = NULL;
+    DFBuffer *content = NULL;
+    int ok = 0;
 
-    int recursiveOK = zipRecursive(zip,store,"","",error);
+    allPaths = DFStoreList(store,error);
+    if (allPaths == NULL)
+        goto end;
 
-    if (ZIP_OK != zipClose(zip,NULL))
+    zip = zipOpen(zipFilename,APPEND_STATUS_CREATE);
+    if (zip == NULL) {
+        DFErrorFormat(error,"Cannot create file");
+        goto end;
+    }
+
+    for (int i = 0; allPaths[i]; i++) {
+        const char *path = allPaths[i];
+
+        DFBufferRelease(content);
+        content = DFBufferReadFromStore(store,path,error);
+        if (content == NULL) {
+            DFErrorFormat(error,"%s: %s",path,DFErrorMessage(error));
+            goto end;
+        }
+
+        if (!zipAddFile(zip,path,content,error))
+            goto end;
+    }
+
+    ok = 1;
+
+end:
+    DFBufferRelease(content);
+    free(allPaths);
+    if ((zip != NULL) && (ZIP_OK != zipClose(zip,NULL)))
         return zipError(error,"Cannot close file");
-    return recursiveOK;
+    return ok;
 }

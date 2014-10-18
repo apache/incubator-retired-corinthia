@@ -204,7 +204,7 @@ static int processParts(DFHashTable *parts, const char *documentPath, DFDocument
         addSerializedDoc(output,relsDoc,"document.xml.rels");
     }
 
-    const char **entries = DFStoreList(store,"/",1,NULL);
+    const char **entries = DFStoreList(store,NULL);
     if (entries != NULL) { // FIXME: Should really report an error if this is not the case
         for (int i = 0; entries[i]; i++) {
             const char *filename = entries[i];
@@ -333,11 +333,6 @@ static int saveXMLDocument(DFStore *store, const char *filename, DFDocument *doc
 {
     char *parentPath = DFPathDirName(filename);
     int ok = 0;
-
-    if (!DFStoreExists(store,parentPath) && !DFStoreMkDir(store,parentPath,error)) {
-        DFErrorFormat(error,"create %s: %s",parentPath,DFErrorMessage(error));
-        goto end;
-    }
 
     if (!DFSerializeXMLStore(doc,defaultNS,0,store,filename,error)) {
         DFErrorFormat(error,"serialize %s: %s",filename,DFErrorMessage(error));
@@ -525,11 +520,6 @@ static int Word_fromPackage(TextPackage *tp, DFStore *store, DFError **error)
             const char *str = DFHashTableLookup(tp->items,curFilename);
             char *parentRel = DFPathDirName(curFilename);
             int fileok = 1;
-
-            if (!DFStoreExists(store,parentRel) && !DFStoreMkDir(store,parentRel,error)) {
-                DFErrorFormat(error,"%s: %s",parentRel,DFErrorMessage(error));
-                fileok = 0;
-            }
 
             DFBuffer *data = stringToBinary(str);
             if (!DFBufferWriteToStore(data,store,curFilename,error)) {

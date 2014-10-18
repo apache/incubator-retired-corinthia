@@ -182,19 +182,8 @@ static void addMissingParts(WordPackage *package)
         package->endnotes = DFDocumentNewWithRoot(WORD_ENDNOTES);
 }
 
-static int WordPackageSetupTempPath(WordPackage *package, DFError **error)
-{
-    if (DFStoreExists(package->opc->store,"/") && !DFStoreDelete(package->opc->store,"/",error))
-        return 0;
-    if (!DFStoreMkDir(package->opc->store,"/",error))
-        return 0;
-    return 1;
-}
-
 int WordPackageOpenNew(WordPackage *package, DFError **error)
 {
-    if (!WordPackageSetupTempPath(package,error))
-        return 0;
     if (!OPCPackageOpenNew(package->opc,error))
         return 0;
 
@@ -216,8 +205,6 @@ int WordPackageOpenNew(WordPackage *package, DFError **error)
 
 int WordPackageOpenFrom(WordPackage *package, const char *filename, DFError **error)
 {
-    if (!WordPackageSetupTempPath(package,error))
-        return 0;
     if (!OPCPackageOpenFrom(package->opc,filename)) {
         DFErrorFormat(error,"%s",package->opc->errors->data);
         return 0;

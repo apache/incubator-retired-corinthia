@@ -409,22 +409,13 @@ static void saveRelationships(OPCPackage *pkg, OPCRelationshipSet *rels, const c
         }
     }
     else {
-        char *relativeParent = DFPathDirName(relativePath);
         DFError *error = NULL;
-        if (!DFStoreExists(pkg->store,relativeParent) && !DFStoreMkDir(pkg->store,relativeParent,&error)) {
-            OPCPackageError(pkg,"%s: %s",relativeParent,DFErrorMessage(&error));
+        DFDocument *doc = OPCRelationshipSetToDocument(rels);
+        if (!DFSerializeXMLStore(doc,NAMESPACE_REL,0,pkg->store,relativePath,&error)) {
+            OPCPackageError(pkg,"%s: %s",relativePath,DFErrorMessage(&error));
             DFErrorRelease(error);
         }
-        else {
-
-            DFDocument *doc = OPCRelationshipSetToDocument(rels);
-            if (!DFSerializeXMLStore(doc,NAMESPACE_REL,0,pkg->store,relativePath,&error)) {
-                OPCPackageError(pkg,"%s: %s",relativePath,DFErrorMessage(&error));
-                DFErrorRelease(error);
-            }
-            DFDocumentRelease(doc);
-        }
-        free(relativeParent);
+        DFDocumentRelease(doc);
     }
 
     free(relativePath);
@@ -498,32 +489,26 @@ void OPCPackageReadRelationships(OPCPackage *pkg, OPCRelationshipSet *rels, cons
     free(relFilename);
 }
 
-static void findParts(OPCPackage *pkg, const char *relPath)
+static void findParts(OPCPackage *pkg)
 {
     DFError *error = NULL;
-    const char **contents = DFStoreList(pkg->store,relPath,0,&error);
-
+    const char **contents = DFStoreList(pkg->store,&error);
     if (contents == NULL) {
-        OPCPackageError(pkg,"%s %s",relPath,DFErrorMessage(&error));
+        OPCPackageError(pkg,"findParts: %s",DFErrorMessage(&error));
         DFErrorRelease(error);
         return;
     }
 
     for (int i = 0; contents[i]; i++) {
-        const char *entry = contents[i];
-        char *entryRelPath = DFAppendPathComponent(relPath,entry);
-        if (!DFStoreExists(pkg->store,entryRelPath)) {
-            OPCPackageError(pkg,"%s: No such file or directory",entryRelPath);
+        const char *relPath = contents[i];
+        char *absPath = DFFormatString("/%s",relPath);
+        if (!DFStoreExists(pkg->store,relPath)) {
+            OPCPackageError(pkg,"%s: No such file or directory",relPath);
         }
-        else if (DFStoreIsDir(pkg->store,entryRelPath)) {
-            if (!DFStringEqualsCI(entry,"_rels")) {
-                findParts(pkg,entryRelPath);
-            }
+        else if (!DFStringEqualsCI(absPath,"/[Content_Types].xml") && (strstr(absPath,"/_rels/") == NULL)) {
+            OPCPackagePartWithURI(pkg,absPath);
         }
-        else if (!DFStringEqualsCI(entry,"[Content_Types].xml")) {
-            OPCPackagePartWithURI(pkg,entryRelPath);
-        }
-        free(entryRelPath);
+        free(absPath);
     }
 
     free(contents);
@@ -549,7 +534,7 @@ int OPCPackageOpenFrom(OPCPackage *pkg, const char *filename)
         DFErrorRelease(dferror);
         return 0;
     }
-    findParts(pkg,"/");
+    findParts(pkg);
 
     const char **keys = DFHashTableCopyKeys(pkg->partsByName);
     for (int i = 0; keys[i]; i++) {
@@ -641,24 +626,14 @@ DFBuffer *OPCPackageReadPart(OPCPackage *pkg, OPCPart *part, DFError **error)
 
 int OPCPackageWritePart(OPCPackage *pkg, const char *data, size_t len, OPCPart *part, DFError **error)
 {
-    char *relativeParent = DFPathDirName(part->URI);
     int result = 0;
-
-    if (!DFStoreExists(pkg->store,relativeParent) && !DFStoreMkDir(pkg->store,relativeParent,error)) {
-        DFErrorFormat(error,"%s: %s",relativeParent,DFErrorMessage(error));
-    }
-    else {
-        DFBuffer *buffer = DFBufferNew();
-        DFBufferAppendData(buffer,data,len);
-        if (!DFBufferWriteToStore(buffer,pkg->store,part->URI,error)) {
-            DFErrorFormat(error,"%s: %s",part->URI,DFErrorMessage(error));
-        }
-        else {
-            result = 1;
-        }
-        DFBufferRelease(buffer);
-    }
-    free(relativeParent);
+    DFBuffer *buffer = DFBufferNew();
+    DFBufferAppendData(buffer,data,len);
+    if (!DFBufferWriteToStore(buffer,pkg->store,part->URI,error))
+        DFErrorFormat(error,"%s: %s",part->URI,DFErrorMessage(error));
+    else
+        result = 1;
+    DFBufferRelease(buffer);
     return result;
 }
 

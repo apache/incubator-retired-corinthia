@@ -340,33 +340,37 @@ int WordDrawingIsVisible(WordPutData *put, DFNode *concrete)
 
 static char *genImageFilename(DFStore *store, const char *mediaRelDir, const char *extension, DFError **error)
 {
-    const char **names = DFStoreList(store,mediaRelDir,0,error);
-    if (names == NULL)
+    const char **paths = DFStoreList(store,error);
+    if (paths == NULL)
         return NULL;;
 
-    DFHashTable *existingNames = DFHashTableNew((DFCopyFunction)strdup,free);
-    for (int i = 0; names[i]; i++) {
-        const char *filename = names[i];
-        char *lowerFilename = DFLowerCase(filename);
-        char *noExtension = DFPathWithoutExtension(lowerFilename);
-        DFHashTableAdd(existingNames,noExtension,noExtension);
-        free(lowerFilename);
+    DFHashTable *existingPaths = DFHashTableNew((DFCopyFunction)strdup,free);
+    for (int i = 0; paths[i]; i++) {
+        const char *path = paths[i];
+        char *lowerPath = DFLowerCase(path);
+        char *noExtension = DFPathWithoutExtension(lowerPath);
+        DFHashTableAdd(existingPaths,noExtension,noExtension);
+        free(lowerPath);
         free(noExtension);
     }
 
     int num = 1;
-    char *candidate = NULL;
+    char *candidateName = NULL;
+    char *candidatePath = NULL;
     do {
-        free(candidate);
-        candidate = DFFormatString("image%d",num);
+        free(candidateName);
+        free(candidatePath);
+        candidateName = DFFormatString("image%d",num);
+        candidatePath = DFAppendPathComponent(mediaRelDir,candidateName);
         num++;
-    } while (DFHashTableLookup(existingNames,candidate) != NULL);
+    } while (DFHashTableLookup(existingPaths,candidatePath) != NULL);
 
-    char *result = DFFormatString("%s.%s",candidate,extension);
+    char *result = DFFormatString("%s.%s",candidateName,extension);
 
-    free(candidate);
-    free(names);
-    DFHashTableRelease(existingNames);
+    free(candidateName);
+    free(candidatePath);
+    DFHashTableRelease(existingPaths);
+    free(paths);
     return result;
 }
 
@@ -374,9 +378,6 @@ static OPCRelationship *addImageRelationship(WordConverter *converter, const cha
 {
     DFStore *store = converter->package->opc->store;
     const char *mediaDir = "word/media";
-
-    if (!DFStoreExists(store,mediaDir) && !DFStoreMkDir(store,mediaDir,error))
-        return NULL;
 
     char *ext = DFPathExtension(src);
     char *filename = genImageFilename(store,mediaDir,ext,error);
