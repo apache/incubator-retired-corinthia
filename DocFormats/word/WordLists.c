@@ -549,6 +549,7 @@ static void fixWordLists(DFNode *node, WordConverter *conv)
             ilvl = "0";;
 
         WordConcreteNum *concreteNum = WordNumberingConcreteWithId(conv->numbering,numId);
+        // FIXME: Crash here if concreteNum is NULL
         WordNumLevel *numLevel = WordConcreteNumGetLevel(concreteNum,atoi(ilvl));
 
         const char *levelStart = NULL;
