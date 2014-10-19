@@ -32,6 +32,7 @@ struct DFStoreOps {
 struct DFStore {
     size_t retainCount;
     char *rootPath;
+    DFHashTable *files;
     const DFStoreOps *ops;
 };
 
@@ -45,7 +46,7 @@ static int fsSave(DFStore *store, DFError **error)
 {
     // Nothing to do here; we've already written everything to the filesystem
     // at the time the calls were made.
-    return 0;
+    return 1;
 }
 
 static int fsRead(DFStore *store, const char *path, void **buf, size_t *nbytes, DFError **error)
@@ -159,9 +160,87 @@ static DFStoreOps fsOps = {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
+//                                        DFStore (Memory)                                        //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+static int memSave(DFStore *store, DFError **error)
+{
+    // Nothing to do here; memory stores are intended to be temporary, and are never saved to disk
+    return 1;
+}
+
+static int memRead(DFStore *store, const char *path, void **buf, size_t *nbytes, DFError **error)
+{
+    DFBuffer *buffer = DFHashTableLookup(store->files,path);
+    if (buffer == NULL) {
+        DFErrorSetPosix(error,ENOENT);
+        return 0;
+    }
+
+    *buf = malloc(buffer->len);
+    memcpy(*buf,buffer->data,buffer->len);
+    *nbytes = buffer->len;
+
+    return 1;
+}
+
+static int memWrite(DFStore *store, const char *path, void *buf, size_t nbytes, DFError **error)
+{
+    DFBuffer *buffer = DFBufferNew();
+    DFBufferAppendData(buffer,buf,nbytes);
+    DFHashTableAdd(store->files,path,buffer);
+    DFBufferRelease(buffer);
+    return 1;
+}
+
+static int memExists(DFStore *store, const char *path)
+{
+    return (DFHashTableLookup(store->files,path) != NULL);
+}
+
+static int memDelete(DFStore *store, const char *path, DFError **error)
+{
+    DFHashTableRemove(store->files,path);
+    return 1;
+}
+
+static const char **memList(DFStore *store, DFError **error)
+{
+    return DFHashTableCopyKeys(store->files);
+}
+
+static DFStoreOps memOps = {
+    .save = memSave,
+    .read = memRead,
+    .write = memWrite,
+    .exists = memExists,
+    .delete = memDelete,
+    .list = memList,
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                //
 //                                             DFStore                                            //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Normalize the path to remove multiple consecutive / characters, and to remove any trailing /
+// character. This ensures that for implementations which rely on an exact match of the path
+// (specifically, the memory store), that any non-essential differences in the supplied path will
+// not matter.
+
+static char *fixPath(const char *input)
+{
+    char *normalized = DFPathNormalize(input);
+    char *result;
+    if (normalized[0] == '/')
+        result = strdup(&normalized[1]);
+    else
+        result = strdup(normalized);
+    free(normalized);
+    return result;
+}
 
 DFStore *DFStoreNewFilesystem(const char *rootPath)
 {
@@ -169,6 +248,15 @@ DFStore *DFStoreNewFilesystem(const char *rootPath)
     store->retainCount = 1;
     store->rootPath = strdup(rootPath);
     store->ops = &fsOps;
+    return store;
+}
+
+DFStore *DFStoreNewMemory(void)
+{
+    DFStore *store = (DFStore *)calloc(1,sizeof(DFStore));
+    store->retainCount = 1;
+    store->files = DFHashTableNew((DFCopyFunction)DFBufferRetain,(DFFreeFunction)DFBufferRelease);
+    store->ops = &memOps;
     return store;
 }
 
@@ -184,6 +272,7 @@ void DFStoreRelease(DFStore *store)
     if ((store == NULL) || (--store->retainCount > 0))
         return;
 
+    DFHashTableRelease(store->files);
     free(store->rootPath);
     free(store);
 }
@@ -195,22 +284,34 @@ int DFStoreSave(DFStore *store, DFError **error)
 
 int DFStoreRead(DFStore *store, const char *path, void **buf, size_t *nbytes, DFError **error)
 {
-    return store->ops->read(store,path,buf,nbytes,error);
+    char *fixed = fixPath(path);
+    int r = store->ops->read(store,fixed,buf,nbytes,error);
+    free(fixed);
+    return r;
 }
 
 int DFStoreWrite(DFStore *store, const char *path, void *buf, size_t nbytes, DFError **error)
 {
-    return store->ops->write(store,path,buf,nbytes,error);
+    char *fixed = fixPath(path);
+    int r = store->ops->write(store,fixed,buf,nbytes,error);
+    free(fixed);
+    return r;
 }
 
 int DFStoreExists(DFStore *store, const char *path)
 {
-    return store->ops->exists(store,path);
+    char *fixed = fixPath(path);
+    int r = store->ops->exists(store,fixed);
+    free(fixed);
+    return r;
 }
 
 int DFStoreDelete(DFStore *store, const char *path, DFError **error)
 {
-    return store->ops->delete(store,path,error);
+    char *fixed = fixPath(path);
+    int r = store->ops->delete(store,fixed,error);
+    free(fixed);
+    return r;
 }
 
 const char **DFStoreList(DFStore *store, DFError **error)

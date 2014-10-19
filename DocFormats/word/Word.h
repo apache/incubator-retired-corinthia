@@ -26,6 +26,6 @@
 
 CSSStyle *WordSetupTableGridStyle(CSSSheet *styleSheet, int *changed);
 
-int DFHTMLToWord(const char *sourcePath, const char *destPath, const char *tempPath, DFError **error);
+int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error);
 
 #endif

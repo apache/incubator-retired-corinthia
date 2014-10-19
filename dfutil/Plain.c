@@ -280,18 +280,12 @@ end:
 static char *Word_toPlainOrError(WordPackage *package, DFHashTable *parts, const char *tempPath, DFError **error)
 {
     char *docxPath = DFAppendPathComponent(tempPath,"file.docx");
-    char *contentsPath = DFAppendPathComponent(tempPath,"contents");
-    DFStore *contentsStore = DFStoreNewFilesystem(contentsPath);
+    DFStore *contentsStore = DFStoreNewMemory();
     char *result = NULL;
     int ok = 0;
 
     if (!DFEmptyDirectory(tempPath,error)) {
         DFErrorFormat(error,"%s: %s",tempPath,DFErrorMessage(error));
-        goto end;
-    }
-
-    if (!DFEmptyDirectory(contentsPath,error)) {
-        DFErrorFormat(error,"%s: %s",contentsPath,DFErrorMessage(error));
         goto end;
     }
 
@@ -310,7 +304,6 @@ static char *Word_toPlainOrError(WordPackage *package, DFHashTable *parts, const
 
 end:
     free(docxPath);
-    free(contentsPath);
     DFStoreRelease(contentsStore);
     if (ok)
         return result;
@@ -594,15 +587,12 @@ end:
     return ok;
 }
 
-WordPackage *Word_fromPlain(const char *plain, const char *plainPath,
-                            const char *packagePath, const char *zipTempPath,
-                            DFError **error)
+WordPackage *Word_fromPlain(const char *plain, const char *plainPath, const char *zipTempPath, DFError **error)
 {
     int ok = 0;
-    char *unzippedPath = DFAppendPathComponent(zipTempPath,"unzipped");
-    char *contentsPath = DFAppendPathComponent(zipTempPath,"contents2");
     char *docxPath = DFAppendPathComponent(zipTempPath,"document.docx");
-    DFStore *contentsStore = DFStoreNewFilesystem(contentsPath);
+    DFStore *firstStore = DFStoreNewMemory();
+    DFStore *secondStore = DFStoreNewMemory();
     WordPackage *wp = NULL;
     TextPackage *tp = NULL;
 
@@ -610,32 +600,30 @@ WordPackage *Word_fromPlain(const char *plain, const char *plainPath,
     if (tp == NULL)
         goto end;
 
-    if (DFFileExists(contentsPath) && !DFDeleteFile(contentsPath,error)) {
-        DFErrorFormat(error,"delete %s: %s",contentsPath,DFErrorMessage(error));
-        return 0;
+    if (DFFileExists(zipTempPath) && !DFDeleteFile(zipTempPath,error)) {
+        DFErrorFormat(error,"delete %s: %s",zipTempPath,DFErrorMessage(error));
+        goto end;
     }
 
-    if (!DFCreateDirectory(contentsPath,1,error)) {
-        DFErrorFormat(error,"create %s: %s",contentsPath,DFErrorMessage(error));
-        return 0;
+    if (!DFCreateDirectory(zipTempPath,1,error)) {
+        DFErrorFormat(error,"create %s: %s",zipTempPath,DFErrorMessage(error));
+        goto end;
     }
 
-    if (!Word_fromPackage(tp,contentsStore,error)) {
+    if (!Word_fromPackage(tp,firstStore,error)) {
         DFErrorFormat(error,"Word_fromPackageNew: %s",DFErrorMessage(error));
         printf("%s\n",DFErrorMessage(error));
         goto end;
     }
 
-    if (!DFZip(docxPath,contentsStore,error)) {
+    if (!DFZip(docxPath,firstStore,error)) {
         DFErrorFormat(error,"zip %s: %s",docxPath,DFErrorMessage(error));
         goto end;
     }
 
     // Now we have a .docx file; access it using what will be the new way (this API will change so we just say
     // "open a word document from here", without having to separately create the package object first.
-    DFStore *store = DFStoreNewFilesystem(unzippedPath);
-    wp = WordPackageNew(store);
-    DFStoreRelease(store);
+    wp = WordPackageNew(secondStore);
     if (!WordPackageOpenFrom(wp,docxPath,error)) {
         DFErrorFormat(error,"WordPackageOpenFrom %s: %s",docxPath,DFErrorMessage(error));
         goto end;
@@ -643,10 +631,9 @@ WordPackage *Word_fromPlain(const char *plain, const char *plainPath,
     ok = 1;
 
 end:
-    free(unzippedPath);
-    free(contentsPath);
     free(docxPath);
-    DFStoreRelease(contentsStore);
+    DFStoreRelease(firstStore);
+    DFStoreRelease(secondStore);
     TextPackageRelease(tp);
     if (ok) {
         return wp;

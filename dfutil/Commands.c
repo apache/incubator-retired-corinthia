@@ -107,7 +107,7 @@ static int prettyPrintWordFile(const char *filename, DFError **error)
 
     char *plain = NULL;
     WordPackage *package = NULL;
-    DFStore *store = DFStoreNewFilesystem(tempPath);
+    DFStore *store = DFStoreNewMemory();
     package = WordPackageNew(store);
     DFStoreRelease(store);
     if (!WordPackageOpenFrom(package,filename,error))
@@ -162,7 +162,7 @@ static int fromPlain2(const char *tempPath, const char *inStr, const char *inPat
         goto end;
     }
 
-    WordPackage *package = Word_fromPlain(inStr,inPath,packagePath,zipPath,error);
+    WordPackage *package = Word_fromPlain(inStr,inPath,zipPath,error);
     if (package == NULL)
         goto end;
 
@@ -328,7 +328,7 @@ static int convertHTMLToLaTeX(const char *inFilename, const char *outFilename, D
     return 1;
 }
 
-static int run(const char *inFilename, const char *outFilename, DFError **error, const char *tempPath)
+int convertFile(const char *inFilename, const char *outFilename, DFError **error)
 {
     char *inExt = DFPathExtension(inFilename);
     char *outExt = DFPathExtension(outFilename);
@@ -336,7 +336,7 @@ static int run(const char *inFilename, const char *outFilename, DFError **error,
 
     if (DFStringEqualsCI(inExt,"docx") && DFStringEqualsCI(outExt,"html")) {
         // Generate new HTML file from .docx
-        DFStore *store = DFStoreNewFilesystem(tempPath);
+        DFStore *store = DFStoreNewMemory();
         WordPackage *word = WordPackageNew(store);
         DFStoreRelease(store);
         result = generateHTML(word,inFilename,outFilename,error);
@@ -344,7 +344,7 @@ static int run(const char *inFilename, const char *outFilename, DFError **error,
     }
     else if (DFStringEqualsCI(inExt,"html") && DFStringEqualsCI(outExt,"docx")) {
         // Update existing .docx file from HTML
-        DFStore *store = DFStoreNewFilesystem(tempPath);
+        DFStore *store = DFStoreNewMemory();
         WordPackage *word = WordPackageNew(store);
         DFStoreRelease(store);
         result = updateFrom(word,outFilename,inFilename,error);
@@ -364,31 +364,9 @@ static int run(const char *inFilename, const char *outFilename, DFError **error,
     return result;
 }
 
-int convertFile(const char *inFilename, const char *outFilename, DFError **error)
-{
-    char *settemp = getenv("DFUTIL_TEMP");
-    char *tempPath;
-    if (settemp != NULL) {
-        tempPath = strdup(settemp);
-    }
-    else {
-        tempPath = createTempDir(error);
-        if (tempPath == NULL)
-            return 0;
-    }
-
-    int ok = run(inFilename,outFilename,error,tempPath);
-
-    if (settemp == NULL)
-        DFDeleteFile(tempPath,NULL);
-
-    free(tempPath);
-    return ok;
-}
-
 int resaveOPCFile(const char *filename, DFError **error)
 {
-    DFStore *store = DFStoreNewFilesystem("opc");
+    DFStore *store = DFStoreNewMemory();
     OPCPackage *package = OPCPackageNew(store);
     DFStoreRelease(store);
     if (!OPCPackageOpenFrom(package,filename)) {
@@ -453,18 +431,12 @@ int simplifyFields(const char *inFilename, const char *outFilename, DFError **er
         return 0;
     }
 
-    char *tempPath = createTempDir(error);
-    if (tempPath == NULL)
-        return 0;;
-
-    DFStore *store = DFStoreNewFilesystem(tempPath);
+    DFStore *store = DFStoreNewMemory();
     WordPackage *package = WordPackageNew(store);
     DFStoreRelease(store);
     if (!WordPackageOpenFrom(package,inFilename,error)) {
         DFErrorFormat(error,"%s: %s",inFilename,DFErrorMessage(error));
         WordPackageRelease(package);
-        DFDeleteFile(tempPath,NULL);
-        free(tempPath);
         return 0;
     }
 
@@ -473,14 +445,10 @@ int simplifyFields(const char *inFilename, const char *outFilename, DFError **er
     if (!WordPackageSaveTo(package,outFilename,error)) {
         DFErrorFormat(error,"%s: %s",outFilename,DFErrorMessage(error));
         WordPackageRelease(package);
-        DFDeleteFile(tempPath,NULL);
-        free(tempPath);
         return 0;
     }
 
     WordPackageRelease(package);
-    DFDeleteFile(tempPath,NULL);
-    free(tempPath);
     return 1;
 }
 

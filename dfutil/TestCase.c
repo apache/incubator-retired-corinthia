@@ -40,7 +40,6 @@ void TestCaseFree(TestCase *tc)
     DFHashTableRelease(tc->input);
     DFBufferRelease(tc->output);
     free(tc->tempPath);
-    free(tc->concretePath);
     free(tc->abstractPath);
     free(tc);
 }
@@ -54,7 +53,7 @@ WordPackage *TestCaseOpenWordPackage(TestCase *tc, DFError **error)
     }
 
     char *zipPath = DFAppendPathComponent(tc->tempPath,"zip");
-    WordPackage *package = Word_fromPlain(inputDocx,tc->path,tc->concretePath,zipPath,error);
+    WordPackage *package = Word_fromPlain(inputDocx,tc->path,zipPath,error);
     free(zipPath);
     if (package == NULL)
         return NULL;

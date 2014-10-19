@@ -248,7 +248,7 @@ static void Word_testCreate2(TestCase *script, WordPackage *package, int argc, c
 
 static void Word_testCreate(TestCase *script, int argc, const char **argv)
 {
-    DFStore *store = DFStoreNewFilesystem(script->concretePath);
+    DFStore *store = DFStoreNewMemory();
     WordPackage *package = WordPackageNew(store);
     DFStoreRelease(store);
     Word_testCreate2(script,package,argc,argv);
@@ -422,16 +422,9 @@ static int testSetup(TestCase *script)
     }
 
     script->abstractPath = DFAppendPathComponent(script->tempPath,"abstract");
-    script->concretePath = DFAppendPathComponent(script->tempPath,"concrete");
 
     if (!DFCreateDirectory(script->abstractPath,1,&error)) {
         DFBufferFormat(script->output,"%s: %s",script->abstractPath,DFErrorMessage(&error));
-        DFErrorRelease(error);
-        return 0;
-    }
-
-    if (!DFCreateDirectory(script->concretePath,1,&error)) {
-        DFBufferFormat(script->output,"%s: %s",script->concretePath,DFErrorMessage(&error));
         DFErrorRelease(error);
         return 0;
     }

@@ -21,6 +21,7 @@
 typedef struct DFStore DFStore;
 
 DFStore *DFStoreNewFilesystem(const char *rootPath);
+DFStore *DFStoreNewMemory(void);
 DFStore *DFStoreRetain(DFStore *store);
 void DFStoreRelease(DFStore *store);
 int DFStoreSave(DFStore *store, DFError **error);
