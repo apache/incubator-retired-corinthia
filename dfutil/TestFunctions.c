@@ -202,33 +202,38 @@ static DFHashTable *getFlags(int argc, const char **argv)
     return set;
 }
 
-static void Word_testCreate2(TestCase *script, WordPackage *package, int argc, const char **argv)
+static void Word_testCreate(TestCase *script, int argc, const char **argv)
 {
+    DFStore *store = DFStoreNewMemory();
+    WordPackage *package = WordPackageNew(store);
+
+    DFDocument *htmlDoc = NULL;
+    DFHashTable *parts = NULL;
+    char *plainTempPath = NULL;
+    char *plain = NULL;
+    DFError *error = NULL;
+
     // Read input.html
-    DFDocument *htmlDoc = TestCaseGetHTML(script);
+    htmlDoc = TestCaseGetHTML(script);
     if (htmlDoc == NULL)
-        return;;
+        goto end;;
 
     // Create the docx file
-    DFError *error = NULL;
     if (!WordPackageOpenNew(package,&error)) {
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
-        DFErrorRelease(error);
-        return;
+        goto end;
     }
 
     DFBuffer *warnings = DFBufferNew();
     if (!WordPackageUpdateFromHTML(package,htmlDoc,script->abstractPath,"word",&error,warnings)) {
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
-        DFErrorRelease(error);
-        return;
+        goto end;
     }
 
     if (warnings->len > 0) {
         DFBufferFormat(script->output,"%s",warnings->data);
         DFBufferRelease(warnings);
-        DFDocumentRelease(htmlDoc);
-        return;
+        goto end;
     }
     DFBufferRelease(warnings);
 
@@ -236,22 +241,18 @@ static void Word_testCreate2(TestCase *script, WordPackage *package, int argc, c
     WordPackageSaveTo(package,NULL,NULL);
 
     // Output the docx file
-    DFHashTable *parts = getFlags(argc,argv);
-    char *plainTempPath = DFAppendPathComponent(script->tempPath,"plain");
-    char *plain = Word_toPlain(package,parts,plainTempPath);
-    free(plainTempPath);
+    parts = getFlags(argc,argv);
+    plainTempPath = DFAppendPathComponent(script->tempPath,"plain");
+    plain = Word_toPlain(package,parts,plainTempPath);
     DFBufferFormat(script->output,"%s",plain);
+
+end:
+    DFDocumentRelease(htmlDoc);
+    free(plainTempPath);
     free(plain);
     DFHashTableRelease(parts);
-    DFDocumentRelease(htmlDoc);
-}
-
-static void Word_testCreate(TestCase *script, int argc, const char **argv)
-{
-    DFStore *store = DFStoreNewMemory();
-    WordPackage *package = WordPackageNew(store);
+    DFErrorRelease(error);
     DFStoreRelease(store);
-    Word_testCreate2(script,package,argc,argv);
     WordPackageRelease(package);
 }
 

@@ -216,57 +216,67 @@ int normalizeFile(const char *filename, DFError **error)
     return 1;
 }
 
-static int generateHTML(WordPackage *ext, const char *packageFilename, const char *htmlFilename, DFError **error)
+static int generateHTML(const char *packageFilename, const char *htmlFilename, DFError **error)
 {
-    if (!WordPackageOpenFrom(ext,packageFilename,error))
-        return 0;
-
+    int ok = 0;
+    DFStore *store = DFStoreNewMemory();
+    WordPackage *package = WordPackageNew(store);
     char *htmlPath = DFPathDirName(htmlFilename);
     DFBuffer *warnings = DFBufferNew();
-    DFDocument *htmlDoc = WordPackageGenerateHTML(ext,htmlPath,"word",error,warnings);
-    free(htmlPath);
-    if (htmlDoc == NULL) {
-        DFBufferRelease(warnings);
-        return 0;
-    }
+    DFDocument *htmlDoc = NULL;
+
+    if (!WordPackageOpenFrom(package,packageFilename,error))
+        goto end;
+
+    htmlDoc = WordPackageGenerateHTML(package,htmlPath,"word",error,warnings);
+    if (htmlDoc == NULL)
+        goto end;
 
     if (warnings->len > 0) {
         DFErrorFormat(error,"%s",warnings->data);
-        DFBufferRelease(warnings);
-        DFDocumentRelease(htmlDoc);
-        return 0;
+        goto end;
     }
-    DFBufferRelease(warnings);
 
     HTML_safeIndent(htmlDoc->docNode,0);
 
     if (!DFSerializeXMLFile(htmlDoc,0,0,htmlFilename,error)) {
         DFErrorFormat(error,"%s: %s",htmlFilename,DFErrorMessage(error));
-        DFDocumentRelease(htmlDoc);
-        return 0;
+        goto end;
     }
 
     printf("Created %s\n",htmlFilename);
+    ok = 1;
+
+end:
+    free(htmlPath);
+    DFBufferRelease(warnings);
     DFDocumentRelease(htmlDoc);
-    return 1;
+    DFStoreRelease(store);
+    WordPackageRelease(package);
+    return ok;
 }
 
-static int updateFrom(WordPackage *ext, const char *packageFilename,
-                       const char *htmlFilename, DFError **error)
+static int updateFrom(const char *packageFilename, const char *htmlFilename, DFError **error)
 {
-    DFDocument *htmlDoc = DFParseHTMLFile(htmlFilename,0,error);
+    int ok = 0;
+    DFStore *store = DFStoreNewMemory();
+    WordPackage *package = WordPackageNew(store);
+    DFDocument *htmlDoc = NULL;
+    DFBuffer *warnings = DFBufferNew();
+    char *htmlPath = DFPathDirName(htmlFilename);
+
+    htmlDoc = DFParseHTMLFile(htmlFilename,0,error);
     if (htmlDoc == NULL) {
         DFErrorFormat(error,"%s: %s",htmlFilename,DFErrorMessage(error));
-        return 0;
+        goto end;
     }
 
     const char *idPrefix = "word";
 
     if (!DFFileExists(packageFilename)) {
-        if (!WordPackageOpenNew(ext,error)) {
-            DFDocumentRelease(htmlDoc);
-            return 0;
-        }
+        if (!WordPackageOpenNew(package,error))
+            goto end;
+
         // Change any id attributes starting with "word" or "odf" to a different prefix, so they
         // are not treated as references to nodes in the destination document. This is necessary
         // if the HTML file was previously generated from a word or odf file, and we are creating
@@ -274,34 +284,30 @@ static int updateFrom(WordPackage *ext, const char *packageFilename,
         HTMLBreakBDTRefs(htmlDoc->docNode,idPrefix);
     }
     else {
-        if (!WordPackageOpenFrom(ext,packageFilename,error)) {
-            DFDocumentRelease(htmlDoc);
-            return 0;
-        }
+        if (!WordPackageOpenFrom(package,packageFilename,error))
+            goto end;
     }
 
-    DFBuffer *warnings = DFBufferNew();
-    char *htmlPath = DFPathDirName(htmlFilename);
-    if (!WordPackageUpdateFromHTML(ext,htmlDoc,htmlPath,idPrefix,error,warnings)) {
-        free(htmlPath);
-        DFBufferRelease(warnings);
-        DFDocumentRelease(htmlDoc);
-        return 0;
-    }
-    free(htmlPath);
-    DFDocumentRelease(htmlDoc);
+    if (!WordPackageUpdateFromHTML(package,htmlDoc,htmlPath,idPrefix,error,warnings))
+        goto end;
 
     if (warnings->len > 0) {
         DFErrorFormat(error,"%s",warnings->data);
-        DFBufferRelease(warnings);
-        return 0;
+        goto end;
     }
+
+    if (!WordPackageSaveTo(package,packageFilename,error))
+        goto end;
+
+    ok = 1;
+
+end:
+    DFStoreRelease(store);
+    WordPackageRelease(package);
+    DFDocumentRelease(htmlDoc);
     DFBufferRelease(warnings);
-
-    if (!WordPackageSaveTo(ext,packageFilename,error))
-        return 0;
-
-    return 1;
+    free(htmlPath);
+    return ok;
 }
 
 static int convertHTMLToLaTeX(const char *inFilename, const char *outFilename, DFError **error)
@@ -336,19 +342,11 @@ int convertFile(const char *inFilename, const char *outFilename, DFError **error
 
     if (DFStringEqualsCI(inExt,"docx") && DFStringEqualsCI(outExt,"html")) {
         // Generate new HTML file from .docx
-        DFStore *store = DFStoreNewMemory();
-        WordPackage *word = WordPackageNew(store);
-        DFStoreRelease(store);
-        result = generateHTML(word,inFilename,outFilename,error);
-        WordPackageRelease(word);
+        result = generateHTML(inFilename,outFilename,error);
     }
     else if (DFStringEqualsCI(inExt,"html") && DFStringEqualsCI(outExt,"docx")) {
         // Update existing .docx file from HTML
-        DFStore *store = DFStoreNewMemory();
-        WordPackage *word = WordPackageNew(store);
-        DFStoreRelease(store);
-        result = updateFrom(word,outFilename,inFilename,error);
-        WordPackageRelease(word);
+        result = updateFrom(outFilename,inFilename,error);
     }
     else if (DFStringEqualsCI(inExt,"html") && DFStringEqualsCI(outExt,"tex")) {
         // Create new .tex file from HTML

@@ -20,57 +20,46 @@
 #include "DFString.h"
 #include "DFCommon.h"
 
-int DFHTMLToWord2(WordPackage *package, const char *sourcePath, const char *destPath, DFError **error)
+int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error)
 {
+    int ok = 0;
+    char *idPrefix = DFFormatString("bdt%u-",(unsigned int)rand());
+    char *htmlPath = DFPathDirName(sourcePath);
+    DFDocument *htmlDoc = NULL;
+    DFBuffer *warnings = DFBufferNew();
+    DFStore *store = DFStoreNewMemory();
+    WordPackage *package = WordPackageNew(store);
 
-    DFDocument *htmlDoc = DFParseHTMLFile(sourcePath,0,error);
+    htmlDoc = DFParseHTMLFile(sourcePath,0,error);
     if (htmlDoc == NULL) {
         char *sourceFilename = DFPathBaseName(sourcePath);
         DFErrorFormat(error,"%s: %s",sourceFilename,DFErrorMessage(error));
         free(sourceFilename);
-        return 0;
+        goto end;
     }
 
-    char *idPrefix = DFFormatString("bdt%u-",(unsigned int)rand());
-    if (!WordPackageOpenNew(package,error)) {
-        DFDocumentRelease(htmlDoc);
-        free(idPrefix);
-        return 0;
-    }
+    if (!WordPackageOpenNew(package,error))
+        goto end;
 
-    DFBuffer *warnings = DFBufferNew();
-    char *htmlPath = DFPathDirName(sourcePath);
-    if (!WordPackageUpdateFromHTML(package,htmlDoc,htmlPath,idPrefix,error,warnings)) {
-        free(htmlPath);
-        DFBufferRelease(warnings);
-        DFDocumentRelease(htmlDoc);
-        free(idPrefix);
-        return 0;
-    }
-    free(idPrefix);
-    free(htmlPath);
-    DFDocumentRelease(htmlDoc);
+    if (!WordPackageUpdateFromHTML(package,htmlDoc,htmlPath,idPrefix,error,warnings))
+        goto end;
 
     if (warnings->len > 0) {
         DFErrorFormat(error,"%s",warnings->data);
-        DFBufferRelease(warnings);
-        return 0;
+        goto end;
     }
+
+    if (!WordPackageSaveTo(package,destPath,error))
+        goto end;
+
+    ok = 1;
+
+end:
+    free(idPrefix);
+    free(htmlPath);
+    DFDocumentRelease(htmlDoc);
     DFBufferRelease(warnings);
-
-    if (!WordPackageSaveTo(package,destPath,error)) {
-        return 0;
-    }
-
-    return 1;
-}
-
-int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error)
-{
-    DFStore *store = DFStoreNewMemory();
-    WordPackage *package = WordPackageNew(store);
     DFStoreRelease(store);
-    int r = DFHTMLToWord2(package,sourcePath,destPath,error);
     WordPackageRelease(package);
-    return r;
+    return ok;
 }
