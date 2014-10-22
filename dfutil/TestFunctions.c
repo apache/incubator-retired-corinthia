@@ -205,7 +205,7 @@ static DFHashTable *getFlags(int argc, const char **argv)
 static void Word_testCreate(TestCase *script, int argc, const char **argv)
 {
     DFStore *store = DFStoreNewMemory();
-    WordPackage *package = WordPackageNew(store);
+    WordPackage *package = NULL;
 
     DFDocument *htmlDoc = NULL;
     DFHashTable *parts = NULL;
@@ -219,7 +219,8 @@ static void Word_testCreate(TestCase *script, int argc, const char **argv)
         goto end;;
 
     // Create the docx file
-    if (!WordPackageOpenNew(package,&error)) {
+    package = WordPackageOpenNew(store,&error);
+    if (package == NULL) {
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         goto end;
     }

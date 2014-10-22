@@ -48,7 +48,6 @@ void WordPackageSetTheme(WordPackage *package, DFDocument *theme);
 void WordPackageSetFootnotes(WordPackage *package, DFDocument *footnotes);
 void WordPackageSetEndnotes(WordPackage *package, DFDocument *endnotes);
 
-WordPackage *WordPackageNew(DFStore *store);
 WordPackage *WordPackageRetain(WordPackage *package);
 void WordPackageRelease(WordPackage *package);
 
@@ -58,8 +57,8 @@ int WordPackageSimplifyFields(WordPackage *package);
 void WordPackageCollapseBookmarks(WordPackage *package);
 void WordPackageExpandBookmarks(WordPackage *package);
 
-int WordPackageOpenNew(WordPackage *package, DFError **error);
-int WordPackageOpenFrom(WordPackage *package, const char *filename, DFError **error);
+WordPackage *WordPackageOpenNew(DFStore *store, DFError **error);
+WordPackage *WordPackageOpenFrom(DFStore *store, const char *filename, DFError **error);
 int WordPackageSaveTo(WordPackage *package, const char *filename, DFError **error);
 DFDocument *WordPackageGenerateHTML(WordPackage *package, const char *path, const char *idPrefix,
                                     DFError **error, DFBuffer *warnings);

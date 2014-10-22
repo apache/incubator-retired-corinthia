@@ -28,7 +28,7 @@ int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error)
     DFDocument *htmlDoc = NULL;
     DFBuffer *warnings = DFBufferNew();
     DFStore *store = DFStoreNewMemory();
-    WordPackage *package = WordPackageNew(store);
+    WordPackage *package = NULL;
 
     htmlDoc = DFParseHTMLFile(sourcePath,0,error);
     if (htmlDoc == NULL) {
@@ -38,7 +38,8 @@ int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error)
         goto end;
     }
 
-    if (!WordPackageOpenNew(package,error))
+    package = WordPackageOpenNew(store,error);
+    if (package == NULL)
         goto end;
 
     if (!WordPackageUpdateFromHTML(package,htmlDoc,htmlPath,idPrefix,error,warnings))

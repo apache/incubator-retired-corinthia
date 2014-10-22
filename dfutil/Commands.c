@@ -102,15 +102,15 @@ static int prettyPrintWordFile(const char *filename, DFError **error)
     int ok = 0;
     char *wordTempPath = DFAppendPathComponent(tempPath,"word");
     char *plainTempPath = DFAppendPathComponent(tempPath,"plain");
-    if (!DFEmptyDirectory(wordTempPath,error))
-        goto end;
-
     char *plain = NULL;
     WordPackage *package = NULL;
     DFStore *store = DFStoreNewMemory();
-    package = WordPackageNew(store);
-    DFStoreRelease(store);
-    if (!WordPackageOpenFrom(package,filename,error))
+
+    if (!DFEmptyDirectory(wordTempPath,error))
+        goto end;
+
+    package = WordPackageOpenFrom(store,filename,error);
+    if (package == NULL)
         goto end;
 
     WordPackageRemovePointlessElements(package);
@@ -124,8 +124,8 @@ end:
     free(wordTempPath);
     free(plainTempPath);
     free(plain);
-    if (package != NULL)
-        WordPackageRelease(package);
+    DFStoreRelease(store);
+    WordPackageRelease(package);
     DFDeleteFile(tempPath,NULL);
     return ok;
 }
@@ -220,12 +220,13 @@ static int generateHTML(const char *packageFilename, const char *htmlFilename, D
 {
     int ok = 0;
     DFStore *store = DFStoreNewMemory();
-    WordPackage *package = WordPackageNew(store);
+    WordPackage *package = NULL;
     char *htmlPath = DFPathDirName(htmlFilename);
     DFBuffer *warnings = DFBufferNew();
     DFDocument *htmlDoc = NULL;
 
-    if (!WordPackageOpenFrom(package,packageFilename,error))
+    package = WordPackageOpenFrom(store,packageFilename,error);
+    if (package == NULL)
         goto end;
 
     htmlDoc = WordPackageGenerateHTML(package,htmlPath,"word",error,warnings);
@@ -260,7 +261,7 @@ static int updateFrom(const char *packageFilename, const char *htmlFilename, DFE
 {
     int ok = 0;
     DFStore *store = DFStoreNewMemory();
-    WordPackage *package = WordPackageNew(store);
+    WordPackage *package = NULL;
     DFDocument *htmlDoc = NULL;
     DFBuffer *warnings = DFBufferNew();
     char *htmlPath = DFPathDirName(htmlFilename);
@@ -274,7 +275,8 @@ static int updateFrom(const char *packageFilename, const char *htmlFilename, DFE
     const char *idPrefix = "word";
 
     if (!DFFileExists(packageFilename)) {
-        if (!WordPackageOpenNew(package,error))
+        package = WordPackageOpenNew(store,error);
+        if (package == NULL)
             goto end;
 
         // Change any id attributes starting with "word" or "odf" to a different prefix, so they
@@ -284,7 +286,8 @@ static int updateFrom(const char *packageFilename, const char *htmlFilename, DFE
         HTMLBreakBDTRefs(htmlDoc->docNode,idPrefix);
     }
     else {
-        if (!WordPackageOpenFrom(package,packageFilename,error))
+        package = WordPackageOpenFrom(store,packageFilename,error);
+        if (package == NULL)
             goto end;
     }
 
@@ -430,11 +433,10 @@ int simplifyFields(const char *inFilename, const char *outFilename, DFError **er
     }
 
     DFStore *store = DFStoreNewMemory();
-    WordPackage *package = WordPackageNew(store);
+    WordPackage *package = WordPackageOpenFrom(store,inFilename,error);
     DFStoreRelease(store);
-    if (!WordPackageOpenFrom(package,inFilename,error)) {
+    if (package == NULL) {
         DFErrorFormat(error,"%s: %s",inFilename,DFErrorMessage(error));
-        WordPackageRelease(package);
         return 0;
     }
 

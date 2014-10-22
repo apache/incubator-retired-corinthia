@@ -89,7 +89,7 @@ static void Word_stripRSIDs(WordPackage *package)
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-WordPackage *WordPackageNew(DFStore *store)
+static WordPackage *WordPackageNew(DFStore *store)
 {
     WordPackage *package = (WordPackage *)calloc(1,sizeof(WordPackage));
     package->retainCount = 1;
@@ -182,10 +182,13 @@ static void addMissingParts(WordPackage *package)
         package->endnotes = DFDocumentNewWithRoot(WORD_ENDNOTES);
 }
 
-int WordPackageOpenNew(WordPackage *package, DFError **error)
+WordPackage *WordPackageOpenNew(DFStore *store, DFError **error)
 {
+    int ok = 0;
+    WordPackage *package = WordPackageNew(store);
+
     if (!OPCPackageOpenNew(package->opc,error))
-        return 0;
+        goto end;
 
     package->documentPart = OPCPackagePartWithURI(package->opc,"/word/document.xml");
     package->document = DFDocumentNewWithRoot(WORD_DOCUMENT);
@@ -200,14 +203,23 @@ int WordPackageOpenNew(WordPackage *package, DFError **error)
 
     addMissingParts(package);
 
-    return 1;
+    ok = 1;
+
+end:
+    if (ok)
+        return package;
+    WordPackageRelease(package);
+    return NULL;
 }
 
-int WordPackageOpenFrom(WordPackage *package, const char *filename, DFError **error)
+WordPackage *WordPackageOpenFrom(DFStore *store, const char *filename, DFError **error)
 {
+    int ok = 0;
+    WordPackage *package = WordPackageNew(store);
+
     if (!OPCPackageOpenFrom(package->opc,filename)) {
         DFErrorFormat(error,"%s",package->opc->errors->data);
-        return 0;
+        goto end;
     }
 
     OPCRelationship *rel;
@@ -218,7 +230,7 @@ int WordPackageOpenFrom(WordPackage *package, const char *filename, DFError **er
 
     if (package->documentPart == NULL) {
         DFErrorFormat(error,"Document part not found");
-        return 0;
+        goto end;
     }
 
     assert(package->document == NULL);
@@ -230,14 +242,14 @@ int WordPackageOpenFrom(WordPackage *package, const char *filename, DFError **er
     assert(package->endnotes == NULL);
 
     if ((package->document = parsePart(package,package->documentPart,error)) == NULL)
-        return 0;
+        goto end;
 
     // Numbering
     rel = OPCRelationshipSetLookupByType(package->documentPart->relationships,WORDREL_NUMBERING);
     OPCPart *numberingPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
     if (numberingPart != NULL) {
         if ((package->numbering = parsePart(package,numberingPart,error)) == NULL)
-            return 0;
+            goto end;
     }
 
     // Styles
@@ -245,7 +257,7 @@ int WordPackageOpenFrom(WordPackage *package, const char *filename, DFError **er
     OPCPart *stylesPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
     if (stylesPart != NULL) {
         if ((package->styles = parsePart(package,stylesPart,error)) == NULL)
-            return 0;
+            goto end;
     }
 
     // Settings
@@ -253,7 +265,7 @@ int WordPackageOpenFrom(WordPackage *package, const char *filename, DFError **er
     OPCPart *settingsPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
     if (settingsPart != NULL) {
         if ((package->settings = parsePart(package,settingsPart,error)) == NULL)
-            return 0;
+            goto end;
     }
 
     // Theme
@@ -261,7 +273,7 @@ int WordPackageOpenFrom(WordPackage *package, const char *filename, DFError **er
     OPCPart *themePart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
     if (themePart != NULL) {
         if ((package->theme = parsePart(package,themePart,error)) == NULL)
-            return 0;
+            goto end;
     }
 
     // Footnotes
@@ -269,7 +281,7 @@ int WordPackageOpenFrom(WordPackage *package, const char *filename, DFError **er
     OPCPart *footnotesPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
     if (footnotesPart != NULL) {
         if ((package->footnotes = parsePart(package,footnotesPart,error)) == NULL)
-            return 0;
+            goto end;
     }
 
     // Endnotes
@@ -277,14 +289,20 @@ int WordPackageOpenFrom(WordPackage *package, const char *filename, DFError **er
     OPCPart *endnotesPart = (rel != NULL) ? OPCPackagePartWithURI(package->opc,rel->target) : NULL;
     if (endnotesPart != NULL) {
         if ((package->endnotes = parsePart(package,endnotesPart,error)) == NULL)
-            return 0;
+            goto end;
     }
 
     addMissingParts(package);
 
     Word_stripRSIDs(package);
 
-    return 1;
+    ok = 1;
+
+end:
+    if (ok)
+        return package;
+    WordPackageRelease(package);
+    return NULL;
 }
 
 static int serializePart(WordPackage *package, DFDocument *doc, OPCPart *part, DFError **error)

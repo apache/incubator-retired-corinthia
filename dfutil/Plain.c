@@ -623,9 +623,9 @@ WordPackage *Word_fromPlain(const char *plain, const char *plainPath, const char
 
     // Now we have a .docx file; access it using what will be the new way (this API will change so we just say
     // "open a word document from here", without having to separately create the package object first.
-    wp = WordPackageNew(secondStore);
-    if (!WordPackageOpenFrom(wp,docxPath,error)) {
-        DFErrorFormat(error,"WordPackageOpenFrom %s: %s",docxPath,DFErrorMessage(error));
+    wp = WordPackageOpenFrom(secondStore,docxPath,error);
+    if (wp == NULL) {
+        DFErrorFormat(error,"WordPackageStartFrom %s: %s",docxPath,DFErrorMessage(error));
         goto end;
     }
     ok = 1;
