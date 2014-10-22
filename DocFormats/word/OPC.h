@@ -116,10 +116,9 @@ struct OPCPackage {
     struct DFHashTable *partsByName;
 };
 
-OPCPackage *OPCPackageNew(DFStore *store);
+OPCPackage *OPCPackageOpenNew(DFStore *store, DFError **error);
+OPCPackage *OPCPackageOpenFrom(DFStore *store, const char *filename, DFError **error);
 void OPCPackageFree(OPCPackage *pkg);
-int OPCPackageOpenNew(OPCPackage *pkg, DFError **error);
-int OPCPackageOpenFrom(OPCPackage *pkg, const char *filename);
 int OPCPackageSaveToDir(OPCPackage *pkg);
 int OPCPackageSaveTo(OPCPackage *pkg, const char *filename);
 

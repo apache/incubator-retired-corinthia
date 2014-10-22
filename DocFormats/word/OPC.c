@@ -346,7 +346,7 @@ void OPCContentTypesRemoveOverride(OPCContentTypes *ct, const char *partName)
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-OPCPackage *OPCPackageNew(DFStore *store)
+static OPCPackage *OPCPackageNew(DFStore *store)
 {
     OPCPackage *pkg = (OPCPackage *)calloc(1,sizeof(OPCPackage));
     pkg->store = DFStoreRetain(store);
@@ -514,26 +514,22 @@ static void findParts(OPCPackage *pkg)
     free(contents);
 }
 
-int OPCPackageOpenNew(OPCPackage *pkg, DFError **error)
+OPCPackage *OPCPackageOpenNew(DFStore *store, DFError **error)
 {
-    return 1;
+    return OPCPackageNew(store);
 }
 
-int OPCPackageOpenFrom(OPCPackage *pkg, const char *filename)
+OPCPackage *OPCPackageOpenFrom(DFStore *store, const char *filename, DFError **error)
 {
-    DFError *dferror = NULL;
-    if (!DFUnzip(filename,pkg->store,&dferror)) {
-        OPCPackageError(pkg,"%s",DFErrorMessage(&dferror));
-        DFErrorRelease(dferror);
-        return 0;
-    }
+    int ok = 0;
+    OPCPackage *pkg = OPCPackageNew(store);
 
-    int ok = OPCContentTypesLoadFromFile(pkg->contentTypes,pkg->store,"[Content_Types].xml",&dferror);
-    if (!ok) {
-        OPCPackageError(pkg,"%s",DFErrorMessage(&dferror));
-        DFErrorRelease(dferror);
-        return 0;
-    }
+    if (!DFUnzip(filename,pkg->store,error))
+        goto end;
+
+    if (!OPCContentTypesLoadFromFile(pkg->contentTypes,pkg->store,"[Content_Types].xml",error))
+        goto end;
+
     findParts(pkg);
 
     const char **keys = DFHashTableCopyKeys(pkg->partsByName);
@@ -545,7 +541,18 @@ int OPCPackageOpenFrom(OPCPackage *pkg, const char *filename)
 
     readRelationships(pkg,pkg->relationships,"/");
 
-    return (pkg->errors->len == 0);
+    if (pkg->errors->len > 0) {
+        DFErrorFormat(error,"%s",pkg->errors->data);
+        return 0;
+    }
+
+    ok = 1;
+    
+end:
+    if (ok)
+        return pkg;
+    OPCPackageFree(pkg);
+    return NULL;
 }
 
 int OPCPackageSaveToDir(OPCPackage *pkg)

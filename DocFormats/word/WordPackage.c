@@ -89,14 +89,6 @@ static void Word_stripRSIDs(WordPackage *package)
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static WordPackage *WordPackageNew(DFStore *store)
-{
-    WordPackage *package = (WordPackage *)calloc(1,sizeof(WordPackage));
-    package->retainCount = 1;
-    package->opc = OPCPackageNew(store);
-    return package;
-}
-
 WordPackage *WordPackageRetain(WordPackage *package)
 {
     if (package != NULL)
@@ -184,12 +176,14 @@ static void addMissingParts(WordPackage *package)
 
 WordPackage *WordPackageOpenNew(DFStore *store, DFError **error)
 {
+    OPCPackage *opc = OPCPackageOpenNew(store,error);
+    if (opc == NULL)
+        return NULL;
+
     int ok = 0;
-    WordPackage *package = WordPackageNew(store);
-
-    if (!OPCPackageOpenNew(package->opc,error))
-        goto end;
-
+    WordPackage *package = (WordPackage *)calloc(1,sizeof(WordPackage));
+    package->retainCount = 1;
+    package->opc = opc;
     package->documentPart = OPCPackagePartWithURI(package->opc,"/word/document.xml");
     package->document = DFDocumentNewWithRoot(WORD_DOCUMENT);
     DFAppendChild(package->document->root,DFCreateElement(package->document,WORD_BODY));
@@ -214,13 +208,14 @@ end:
 
 WordPackage *WordPackageOpenFrom(DFStore *store, const char *filename, DFError **error)
 {
-    int ok = 0;
-    WordPackage *package = WordPackageNew(store);
+    OPCPackage *opc = OPCPackageOpenFrom(store,filename,error);
+    if (opc == NULL)
+        return NULL;
 
-    if (!OPCPackageOpenFrom(package->opc,filename)) {
-        DFErrorFormat(error,"%s",package->opc->errors->data);
-        goto end;
-    }
+    int ok = 0;
+    WordPackage *package = (WordPackage *)calloc(1,sizeof(WordPackage));
+    package->retainCount = 1;
+    package->opc = opc;
 
     OPCRelationship *rel;
 

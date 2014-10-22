@@ -19,7 +19,6 @@
 #include "TextPackage.h"
 #include "StringTests.h"
 #include "DFChanges.h"
-#include "OPC.h"
 #include "WordConverter.h"
 #include "DFHTML.h"
 #include "DFXML.h"
@@ -363,27 +362,6 @@ int convertFile(const char *inFilename, const char *outFilename, DFError **error
     free(inExt);
     free(outExt);
     return result;
-}
-
-int resaveOPCFile(const char *filename, DFError **error)
-{
-    DFStore *store = DFStoreNewMemory();
-    OPCPackage *package = OPCPackageNew(store);
-    DFStoreRelease(store);
-    if (!OPCPackageOpenFrom(package,filename)) {
-        DFErrorFormat(error,"%s",package->errors->data);
-        OPCPackageFree(package);
-        return 0;
-    }
-    printf("Package opened successfully\n");
-    if (!OPCPackageSaveTo(package,filename)) {
-        DFErrorFormat(error,"%s",package->errors->data);
-        OPCPackageFree(package);
-        return 0;
-    }
-    printf("Package saved successfully\n");
-    OPCPackageFree(package);
-    return 1;
 }
 
 int testCSS(const char *filename, DFError **error)

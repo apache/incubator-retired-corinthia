@@ -22,7 +22,6 @@ int prettyPrintFile(const char *filename, DFError **error);
 int fromPlain(const char *inFilename, const char *outFilename, DFError **error);
 int normalizeFile(const char *filename, DFError **error);
 int convertFile(const char *inFilename, const char *outFilename, DFError **error);
-int resaveOPCFile(const char *filename, DFError **error);
 int testCSS(const char *filename, DFError **error);
 int parseHTMLFile(const char *filename, DFError **error);
 int simplifyFields(const char *inFilename, const char *outFilename, DFError **error);

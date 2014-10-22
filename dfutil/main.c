@@ -32,9 +32,6 @@ static int runCommand(int argc, const char **argv, DFError **dferr)
     else if ((argc == 3) && !strcmp(argv[1],"-normalize")) {
         return normalizeFile(argv[2],dferr);
     }
-    else if ((argc == 3) && !strcmp(argv[1],"-opc")) {
-        return resaveOPCFile(argv[2],dferr);
-    }
     else if ((argc >= 3) && !strcmp(argv[1],"-test")) {
         return runTests(argc-2,&argv[2],0,dferr);
     }
@@ -123,10 +120,6 @@ static int runCommand(int argc, const char **argv, DFError **dferr)
               "\n"
               "dfutil -normalize filename\n"
               "    Normalize a HTML file\n"
-              "\n"
-              "dfutil -opc filename\n"
-              "    Open and save an OPC (.docx) package. This is to test that content types\n"
-              "    and relationships are loaded and saved correctly.\n"
               "\n"
               "dfutil -test path1 path2 ...\n"
               "    Run a series of automated tests, consisting of all the .test files in the\n"
