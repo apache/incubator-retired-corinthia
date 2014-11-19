@@ -18,14 +18,13 @@
 #include "DFXMLForward.h"
 #include "WordSheet.h"
 #include "WordPackage.h"
+#include "OOXMLTypedefs.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
 //                                           WordObjects                                          //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef struct WordObjects WordObjects;
 
 WordObjects *WordObjectsNew(WordPackage *package);
 void WordObjectsFree(WordObjects *objects);

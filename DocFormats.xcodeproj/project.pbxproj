@@ -456,6 +456,7 @@
 		D010331A18B293D100E74FDB /* HTMLToLaTeX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLToLaTeX.h; sourceTree = "<group>"; };
 		D03A8E4417F1574500BFA732 /* DFTidyWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFTidyWrapper.h; sourceTree = "<group>"; };
 		D03A8E4517F1574500BFA732 /* DFTidyWrapper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFTidyWrapper.c; sourceTree = "<group>"; };
+		D03B63A81A1D26CF000EEF91 /* OOXMLTypedefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOXMLTypedefs.h; sourceTree = "<group>"; };
 		D042C90319E1843300A2D5A5 /* DFStore.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFStore.c; sourceTree = "<group>"; };
 		D042C90419E1843300A2D5A5 /* DFStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFStore.h; sourceTree = "<group>"; };
 		D05585C21865E61000A641D7 /* WordPPr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordPPr.h; sourceTree = "<group>"; };
@@ -923,6 +924,7 @@
 			children = (
 				D05585C11865E61000A641D7 /* formatting */,
 				D0B5E75217F0852D00FBD99F /* lenses */,
+				D03B63A81A1D26CF000EEF91 /* OOXMLTypedefs.h */,
 				D0B5E76917F0852D00FBD99F /* OPC.c */,
 				D0B5E76817F0852D00FBD99F /* OPC.h */,
 				D0AB6C0D17F2B100007F8C8D /* Word.c */,

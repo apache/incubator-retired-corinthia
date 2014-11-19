@@ -17,14 +17,15 @@
 
 #include "DFBDT.h"
 #include "WordConverter.h"
+#include "OOXMLTypedefs.h"
 
-typedef struct {
+struct WordLens{
     int (*isVisible)(WordPutData *put, DFNode *concrete);
     DFNode *(*get)(WordGetData *get, DFNode *concrete);
     void (*put)(WordPutData *put, DFNode *abstract, DFNode *concrete);
     DFNode *(*create)(WordPutData *put, DFNode *abstract);
     void (*remove)(WordPutData *put, DFNode *concrete);
-} WordLens;
+};
 
 extern WordLens WordBlockLevelLens;
 extern WordLens WordBodyLens;

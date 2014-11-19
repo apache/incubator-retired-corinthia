@@ -16,14 +16,13 @@
 #define DocFormats_WordTheme_h
 
 #include "WordPackage.h"
+#include "OOXMLTypedefs.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
 //                                            WordTheme                                           //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef struct WordTheme WordTheme;
 
 struct WordTheme {
     char *majorFont;

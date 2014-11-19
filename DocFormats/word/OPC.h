@@ -19,6 +19,7 @@
 #include "DFError.h"
 #include "DFBuffer.h"
 #include "DFStore.h"
+#include "OOXMLTypedefs.h"
 
 // Essentials of the Open Packaging Conventions
 // http://msdn.microsoft.com/en-us/library/ee361919(office.11).aspx
@@ -39,8 +40,6 @@
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef struct OPCRelationship OPCRelationship;
-
 struct OPCRelationship {
     size_t retainCount;
     char *rId;
@@ -55,8 +54,6 @@ struct OPCRelationship {
 //                                       OPCRelationshipSet                                       //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef struct OPCRelationshipSet OPCRelationshipSet;
 
 OPCRelationshipSet *OPCRelationshipSetNew(void);
 void OPCRelationshipSetFree(OPCRelationshipSet *set);
@@ -78,8 +75,6 @@ DFDocument *OPCRelationshipSetToDocument(OPCRelationshipSet *set);
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef struct OPCPart OPCPart;
-
 struct OPCPart {
     size_t retainCount;
     char *URI;
@@ -93,8 +88,6 @@ struct OPCPart {
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef struct OPCContentTypes OPCContentTypes;
-
 void OPCContentTypesSetDefault(OPCContentTypes *ct, const char *extension, const char *type);
 void OPCContentTypesSetOverride(OPCContentTypes *ct, const char *partName, const char *type);
 void OPCContentTypesRemoveOverride(OPCContentTypes *ct, const char *partName);
@@ -104,8 +97,6 @@ void OPCContentTypesRemoveOverride(OPCContentTypes *ct, const char *partName);
 //                                           OPCPackage                                           //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef struct OPCPackage OPCPackage;
 
 struct OPCPackage {
     DFStore *store;

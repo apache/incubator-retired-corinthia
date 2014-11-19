@@ -17,6 +17,7 @@
 
 #include "DFXMLForward.h"
 #include "WordSheet.h"
+#include "OOXMLTypedefs.h"
 
 struct WordPutData;
 
@@ -28,25 +29,23 @@ void Word_setupBookmarkLinks(struct WordPutData *put);
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef enum {
+enum WordBookmarkType {
     WordBookmarkUnknown,
     WordBookmarkCursor,
     WordBookmarkHeading,
     WordBookmarkTable,
     WordBookmarkFigure,
     WordBookmarkEquation,
-} WordBookmarkType;
+};
 
-typedef struct {
+struct CaptionParts{
     int beforeNum;
     int num;
     int afterNum;
-} CaptionParts;
+};
 
 const char *WordBookmarkTypeString(WordBookmarkType type);
 int WordBookmarkTypeHasLabel(WordBookmarkType type);
-
-typedef struct WordBookmark WordBookmark;
 
 struct WordBookmark {
     size_t retainCount;

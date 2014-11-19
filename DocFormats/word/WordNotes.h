@@ -17,6 +17,7 @@
 
 #include "DFDOM.h"
 #include "DFHashTable.h"
+#include "OOXMLTypedefs.h"
 
 struct WordGetData;
 struct WordPutData;
@@ -38,8 +39,6 @@ void WordNoteReferenceRemove(struct WordPutData *put, DFNode *concrete);
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef struct WordNote WordNote;
-
 struct WordNote {
     size_t retainCount;
     DFNode *element;
@@ -55,8 +54,6 @@ void WordNoteRelease(WordNote *note);
 //                                          WordNoteGroup                                         //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef struct WordNoteGroup WordNoteGroup;
 
 struct WordNoteGroup {
     size_t retainCount;

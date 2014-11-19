@@ -23,6 +23,7 @@
 #include "DFXMLForward.h"
 #include "CSSSelector.h"
 #include "CSSSheet.h"
+#include "OOXMLTypedefs.h"
 
 #define EMUS_PER_POINT 12700
 
@@ -66,10 +67,6 @@ int Word_isEquationParagraph(DFNode *p);
 //                                          WordConverter                                         //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef struct WordGetData WordGetData;
-typedef struct WordPutData WordPutData;
-typedef struct WordConverter WordConverter;
 
 struct WordGetData {
     WordConverter *conv;

@@ -17,14 +17,13 @@
 
 #include "WordConverter.h"
 #include "DFXMLForward.h"
+#include "OOXMLTypedefs.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
 //                                          WordNumLevel                                          //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef struct WordNumLevel WordNumLevel;
 
 struct WordNumLevel {
     int ilvl;
@@ -42,8 +41,6 @@ const char *WordNumLevelToListStyleType(WordNumLevel *level);
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef struct WordAbstractNum WordAbstractNum;
-
 struct WordAbstractNum {
     char *abstractNumId;
     DFNode *element;
@@ -60,8 +57,6 @@ WordNumLevel *WordAbstractNumGetLevel(WordAbstractNum *abs, int ilvl);
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef struct WordConcreteNum WordConcreteNum;
-
 struct WordConcreteNum {
     char *numId;
     DFNode *element;
@@ -76,8 +71,6 @@ WordNumLevel *WordConcreteNumGetLevel(WordConcreteNum *con, int ilvl);
 //                                          WordNumbering                                         //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef struct WordNumbering WordNumbering;
 
 WordNumbering *WordNumberingNew(WordPackage *package);
 void WordNumberingFree(WordNumbering *num);

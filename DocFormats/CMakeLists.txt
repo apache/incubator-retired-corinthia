@@ -121,6 +121,7 @@ set(GroupODF
     odf/ODFSheet.h)
 
 set(GroupWord
+    word/OOXMLTypedefs.h
     word/OPC.c
     word/OPC.h
     word/Word.c

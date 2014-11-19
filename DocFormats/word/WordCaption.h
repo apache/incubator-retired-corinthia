@@ -17,14 +17,13 @@
 
 #include "DFXMLForward.h"
 #include "DFTypes.h"
+#include "OOXMLTypedefs.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
 //                                           WordCaption                                          //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef struct WordCaption WordCaption;
 
 struct WordCaption {
     size_t retainCount;

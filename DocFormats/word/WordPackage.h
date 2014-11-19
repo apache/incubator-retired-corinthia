@@ -18,14 +18,13 @@
 #include "DFXMLForward.h"
 #include "OPC.h"
 #include "DFStore.h"
+#include "OOXMLTypedefs.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
 //                                           WordPackage                                          //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef struct WordPackage WordPackage;
 
 struct WordPackage {
     size_t retainCount;
