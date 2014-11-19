@@ -1,14 +1,22 @@
-# About Socrates
+# About Corinthia
 
-Socrates is a library for converting between different word processing file
+Corinthia is a library for converting between different word processing file
 formats. Currently it supports .docx (part of the OOXML specification), HTML,
-and LaTeX (export-only). Socrates also contain convinience executables.
+and LaTeX (export-only). Corinthia also contain convinience executables.
 
-[details](https://github.com/uxproductivity/Socrates/wiki/Incubator-proposal#abstract)
+We are putting together a proposal to make this an Apache Incubator project. [See here for details](https://github.com/uxproductivity/Corinthia/wiki/Incubator-proposal#abstract)
+
+For more information, contact any of the following people
+
+- Peter Kelly <peter@uxproductivity.com>
+- Louis Suárez-Potts <luispo@gmail.com>
+- Jan Iverson <jani@apache.org>
+
+Please note that the documentation for this project is in a very preliminary stage. We'll be improving this in due course; feel free to contact us with any questions.
 
 # License
 
-Socrates is licensed under the Apache License version 2.0; see
+Corinthia is licensed under the Apache License version 2.0; see
 LICENSE.txt for details.
 
 # What the library can do
@@ -46,11 +54,11 @@ program.
 DocFormats has been shipping as part of UX Write on the iOS app store since
 February 2013.
 
-[detailed status](https://github.com/uxproductivity/Socrates/wiki/Incubator-proposal#current-status)
+[detailed status](https://github.com/uxproductivity/Corinthia/wiki/Incubator-proposal#current-status)
 
 # Platforms and dependencies
 
-Socrates builds and runs on iOS, OS X, and Linux. Windows support is in the works.
+Corinthia builds and runs on iOS, OS X, and Linux. Windows support is in the works.
 
 To build DocFormats, you will need to have the following installed:
 
@@ -61,12 +69,12 @@ To build DocFormats, you will need to have the following installed:
 
 # Build instructions
 
-Socrates currently build on Linux and OS X (mac).
+Corinthia currently build on Linux and OS X (mac).
 
 For detailed instructions, please see
 
-[build instructions](https://github.com/uxproductivity/Socrates/wiki/Build-instructions)
+[build instructions](https://github.com/uxproductivity/Corinthia/wiki/Build-instructions)
 
 # Further information
 
-please see [mail list](https://github.com/uxproductivity/Socrates/wiki/Talk-to-us) for contacts
+please see [mail list](https://github.com/uxproductivity/Corinthia/wiki/Talk-to-us) for contacts
