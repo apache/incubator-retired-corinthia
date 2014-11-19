@@ -28,6 +28,22 @@ const xmlChar *INDENT =
 "                                                                                "\
 "                                                                                ";
 
+static int HTML_requiresCloseTag(Tag tag)
+{
+    // FIXME: Check for any other such tags
+    switch (tag) {
+        case HTML_IMG:
+        case HTML_BR:
+        case HTML_META:
+        case HTML_LINK:
+        case HTML_HR:
+        case HTML_COL:
+            return 0;
+        default:
+            return 1;
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
 //                                           DFSAXParser                                          //

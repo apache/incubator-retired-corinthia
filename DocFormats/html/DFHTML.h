@@ -36,7 +36,6 @@ int HTML_isContainerTag(Tag tag);
 int HTML_isBlockLevelTag(Tag tag);
 int HTML_isParagraphTag(Tag tag);
 int HTML_isListTag(Tag tag);
-int HTML_requiresCloseTag(Tag tag);
 int HTML_isSpecialSpan(DFNode *node);
 int HTML_isContentNode(DFNode *node);
 int HTML_nodeHasContent(DFNode *node);
