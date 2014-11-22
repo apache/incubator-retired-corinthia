@@ -7,18 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D02C2A051A21113B00A104C6 /* BDTTest.c in Sources */ = {isa = PBXBuildFile; fileRef = D02C29EE1A21113B00A104C6 /* BDTTest.c */; };
+		D02C2A061A21113B00A104C6 /* Commands.c in Sources */ = {isa = PBXBuildFile; fileRef = D02C29F11A21113B00A104C6 /* Commands.c */; };
+		D02C2A071A21113B00A104C6 /* DFChanges.c in Sources */ = {isa = PBXBuildFile; fileRef = D02C29F31A21113B00A104C6 /* DFChanges.c */; };
+		D02C2A081A21113B00A104C6 /* FunctionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D02C29F71A21113B00A104C6 /* FunctionTests.m */; };
+		D02C2A091A21113B00A104C6 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D02C29F81A21113B00A104C6 /* main.c */; };
+		D02C2A0A1A21113B00A104C6 /* Plain.c in Sources */ = {isa = PBXBuildFile; fileRef = D02C29F91A21113B00A104C6 /* Plain.c */; };
+		D02C2A0B1A21113B00A104C6 /* StringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D02C29FC1A21113B00A104C6 /* StringTests.m */; };
+		D02C2A0C1A21113B00A104C6 /* Test.c in Sources */ = {isa = PBXBuildFile; fileRef = D02C29FD1A21113B00A104C6 /* Test.c */; };
+		D02C2A0D1A21113B00A104C6 /* TestCase.c in Sources */ = {isa = PBXBuildFile; fileRef = D02C29FF1A21113B00A104C6 /* TestCase.c */; };
+		D02C2A0E1A21113B00A104C6 /* TestFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = D02C2A011A21113B00A104C6 /* TestFunctions.c */; };
+		D02C2A0F1A21113B00A104C6 /* TextPackage.c in Sources */ = {isa = PBXBuildFile; fileRef = D02C2A031A21113B00A104C6 /* TextPackage.c */; };
 		D0355E6A1999D3AB00EC7190 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0355E691999D3AB00EC7190 /* Foundation.framework */; };
-		D05FA01219C4B5D00003B928 /* TestCase.c in Sources */ = {isa = PBXBuildFile; fileRef = D05FA00E19C4B5D00003B928 /* TestCase.c */; };
-		D05FA01319C4B5D00003B928 /* TestFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = D05FA01019C4B5D00003B928 /* TestFunctions.c */; };
-		D0D69C5B1999D42200BA1C5F /* BDTTest.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D69C451999D42200BA1C5F /* BDTTest.c */; };
-		D0D69C5C1999D42200BA1C5F /* Commands.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D69C471999D42200BA1C5F /* Commands.c */; };
-		D0D69C5D1999D42200BA1C5F /* DFChanges.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D69C491999D42200BA1C5F /* DFChanges.c */; };
-		D0D69C5E1999D42200BA1C5F /* FunctionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D69C4C1999D42200BA1C5F /* FunctionTests.m */; };
-		D0D69C5F1999D42200BA1C5F /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D69C4D1999D42200BA1C5F /* main.c */; };
-		D0D69C601999D42200BA1C5F /* Plain.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D69C4E1999D42200BA1C5F /* Plain.c */; };
-		D0D69C631999D42200BA1C5F /* StringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D69C561999D42200BA1C5F /* StringTests.m */; };
-		D0D69C641999D42200BA1C5F /* Test.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D69C571999D42200BA1C5F /* Test.c */; };
-		D0D69C651999D42200BA1C5F /* TextPackage.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D69C591999D42200BA1C5F /* TextPackage.c */; };
 		D0D69C671999D44300BA1C5F /* DocFormats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D69C661999D44300BA1C5F /* DocFormats.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,30 +35,30 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D02C29EE1A21113B00A104C6 /* BDTTest.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BDTTest.c; sourceTree = "<group>"; };
+		D02C29EF1A21113B00A104C6 /* BDTTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDTTest.h; sourceTree = "<group>"; };
+		D02C29F11A21113B00A104C6 /* Commands.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Commands.c; sourceTree = "<group>"; };
+		D02C29F21A21113B00A104C6 /* Commands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Commands.h; sourceTree = "<group>"; };
+		D02C29F31A21113B00A104C6 /* DFChanges.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFChanges.c; sourceTree = "<group>"; };
+		D02C29F41A21113B00A104C6 /* DFChanges.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFChanges.h; sourceTree = "<group>"; };
+		D02C29F51A21113B00A104C6 /* dfutil-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "dfutil-Prefix.pch"; sourceTree = "<group>"; };
+		D02C29F61A21113B00A104C6 /* FunctionTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionTests.h; sourceTree = "<group>"; };
+		D02C29F71A21113B00A104C6 /* FunctionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FunctionTests.m; sourceTree = "<group>"; };
+		D02C29F81A21113B00A104C6 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		D02C29F91A21113B00A104C6 /* Plain.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Plain.c; sourceTree = "<group>"; };
+		D02C29FA1A21113B00A104C6 /* Plain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Plain.h; sourceTree = "<group>"; };
+		D02C29FB1A21113B00A104C6 /* StringTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringTests.h; sourceTree = "<group>"; };
+		D02C29FC1A21113B00A104C6 /* StringTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringTests.m; sourceTree = "<group>"; };
+		D02C29FD1A21113B00A104C6 /* Test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Test.c; sourceTree = "<group>"; };
+		D02C29FE1A21113B00A104C6 /* Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Test.h; sourceTree = "<group>"; };
+		D02C29FF1A21113B00A104C6 /* TestCase.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TestCase.c; sourceTree = "<group>"; };
+		D02C2A001A21113B00A104C6 /* TestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestCase.h; sourceTree = "<group>"; };
+		D02C2A011A21113B00A104C6 /* TestFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TestFunctions.c; sourceTree = "<group>"; };
+		D02C2A021A21113B00A104C6 /* TestFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFunctions.h; sourceTree = "<group>"; };
+		D02C2A031A21113B00A104C6 /* TextPackage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TextPackage.c; sourceTree = "<group>"; };
+		D02C2A041A21113B00A104C6 /* TextPackage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextPackage.h; sourceTree = "<group>"; };
 		D0355E661999D3AB00EC7190 /* dfutil */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dfutil; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0355E691999D3AB00EC7190 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		D0355E6F1999D3AB00EC7190 /* dfutil-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "dfutil-Prefix.pch"; sourceTree = "<group>"; };
-		D05FA00E19C4B5D00003B928 /* TestCase.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TestCase.c; sourceTree = "<group>"; };
-		D05FA00F19C4B5D00003B928 /* TestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestCase.h; sourceTree = "<group>"; };
-		D05FA01019C4B5D00003B928 /* TestFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TestFunctions.c; sourceTree = "<group>"; };
-		D05FA01119C4B5D00003B928 /* TestFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFunctions.h; sourceTree = "<group>"; };
-		D0D69C451999D42200BA1C5F /* BDTTest.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BDTTest.c; sourceTree = "<group>"; };
-		D0D69C461999D42200BA1C5F /* BDTTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDTTest.h; sourceTree = "<group>"; };
-		D0D69C471999D42200BA1C5F /* Commands.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Commands.c; sourceTree = "<group>"; };
-		D0D69C481999D42200BA1C5F /* Commands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Commands.h; sourceTree = "<group>"; };
-		D0D69C491999D42200BA1C5F /* DFChanges.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFChanges.c; sourceTree = "<group>"; };
-		D0D69C4A1999D42200BA1C5F /* DFChanges.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFChanges.h; sourceTree = "<group>"; };
-		D0D69C4B1999D42200BA1C5F /* FunctionTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionTests.h; sourceTree = "<group>"; };
-		D0D69C4C1999D42200BA1C5F /* FunctionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FunctionTests.m; sourceTree = "<group>"; };
-		D0D69C4D1999D42200BA1C5F /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		D0D69C4E1999D42200BA1C5F /* Plain.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Plain.c; sourceTree = "<group>"; };
-		D0D69C4F1999D42200BA1C5F /* Plain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Plain.h; sourceTree = "<group>"; };
-		D0D69C551999D42200BA1C5F /* StringTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringTests.h; sourceTree = "<group>"; };
-		D0D69C561999D42200BA1C5F /* StringTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringTests.m; sourceTree = "<group>"; };
-		D0D69C571999D42200BA1C5F /* Test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Test.c; sourceTree = "<group>"; };
-		D0D69C581999D42200BA1C5F /* Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Test.h; sourceTree = "<group>"; };
-		D0D69C591999D42200BA1C5F /* TextPackage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TextPackage.c; sourceTree = "<group>"; };
-		D0D69C5A1999D42200BA1C5F /* TextPackage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextPackage.h; sourceTree = "<group>"; };
 		D0D69C661999D44300BA1C5F /* DocFormats.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DocFormats.framework; path = ../DerivedData/Build/Products/Debug/DocFormats.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,10 +75,56 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D02C29EC1A21113B00A104C6 /* dfutil */ = {
+			isa = PBXGroup;
+			children = (
+				D02C29ED1A21113B00A104C6 /* src */,
+			);
+			name = dfutil;
+			path = consumers/dfutil;
+			sourceTree = "<group>";
+		};
+		D02C29ED1A21113B00A104C6 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				D02C29EE1A21113B00A104C6 /* BDTTest.c */,
+				D02C29EF1A21113B00A104C6 /* BDTTest.h */,
+				D02C29F11A21113B00A104C6 /* Commands.c */,
+				D02C29F21A21113B00A104C6 /* Commands.h */,
+				D02C29F31A21113B00A104C6 /* DFChanges.c */,
+				D02C29F41A21113B00A104C6 /* DFChanges.h */,
+				D02C29F61A21113B00A104C6 /* FunctionTests.h */,
+				D02C29F71A21113B00A104C6 /* FunctionTests.m */,
+				D02C29F81A21113B00A104C6 /* main.c */,
+				D02C29F91A21113B00A104C6 /* Plain.c */,
+				D02C29FA1A21113B00A104C6 /* Plain.h */,
+				D02C29FB1A21113B00A104C6 /* StringTests.h */,
+				D02C29FC1A21113B00A104C6 /* StringTests.m */,
+				D02C29FD1A21113B00A104C6 /* Test.c */,
+				D02C29FE1A21113B00A104C6 /* Test.h */,
+				D02C29FF1A21113B00A104C6 /* TestCase.c */,
+				D02C2A001A21113B00A104C6 /* TestCase.h */,
+				D02C2A011A21113B00A104C6 /* TestFunctions.c */,
+				D02C2A021A21113B00A104C6 /* TestFunctions.h */,
+				D02C2A031A21113B00A104C6 /* TextPackage.c */,
+				D02C2A041A21113B00A104C6 /* TextPackage.h */,
+				D02C2A101A21115800A104C6 /* Supporting Files */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		D02C2A101A21115800A104C6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D02C29F51A21113B00A104C6 /* dfutil-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		D0355E5D1999D3AB00EC7190 = {
 			isa = PBXGroup;
 			children = (
-				D0355E6B1999D3AB00EC7190 /* dfutil */,
+				D02C29EC1A21113B00A104C6 /* dfutil */,
 				D0355E681999D3AB00EC7190 /* Frameworks */,
 				D0355E671999D3AB00EC7190 /* Products */,
 			);
@@ -99,43 +145,6 @@
 				D0355E691999D3AB00EC7190 /* Foundation.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		D0355E6B1999D3AB00EC7190 /* dfutil */ = {
-			isa = PBXGroup;
-			children = (
-				D0D69C451999D42200BA1C5F /* BDTTest.c */,
-				D0D69C461999D42200BA1C5F /* BDTTest.h */,
-				D0D69C471999D42200BA1C5F /* Commands.c */,
-				D0D69C481999D42200BA1C5F /* Commands.h */,
-				D0D69C491999D42200BA1C5F /* DFChanges.c */,
-				D0D69C4A1999D42200BA1C5F /* DFChanges.h */,
-				D0D69C4B1999D42200BA1C5F /* FunctionTests.h */,
-				D0D69C4C1999D42200BA1C5F /* FunctionTests.m */,
-				D0D69C4D1999D42200BA1C5F /* main.c */,
-				D0D69C4E1999D42200BA1C5F /* Plain.c */,
-				D0D69C4F1999D42200BA1C5F /* Plain.h */,
-				D0D69C551999D42200BA1C5F /* StringTests.h */,
-				D0D69C561999D42200BA1C5F /* StringTests.m */,
-				D0D69C571999D42200BA1C5F /* Test.c */,
-				D0D69C581999D42200BA1C5F /* Test.h */,
-				D05FA00E19C4B5D00003B928 /* TestCase.c */,
-				D05FA00F19C4B5D00003B928 /* TestCase.h */,
-				D05FA01019C4B5D00003B928 /* TestFunctions.c */,
-				D05FA01119C4B5D00003B928 /* TestFunctions.h */,
-				D0D69C591999D42200BA1C5F /* TextPackage.c */,
-				D0D69C5A1999D42200BA1C5F /* TextPackage.h */,
-				D0355E6E1999D3AB00EC7190 /* Supporting Files */,
-			);
-			path = dfutil;
-			sourceTree = "<group>";
-		};
-		D0355E6E1999D3AB00EC7190 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				D0355E6F1999D3AB00EC7190 /* dfutil-Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -189,17 +198,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0D69C601999D42200BA1C5F /* Plain.c in Sources */,
-				D0D69C651999D42200BA1C5F /* TextPackage.c in Sources */,
-				D0D69C5F1999D42200BA1C5F /* main.c in Sources */,
-				D0D69C5C1999D42200BA1C5F /* Commands.c in Sources */,
-				D05FA01319C4B5D00003B928 /* TestFunctions.c in Sources */,
-				D0D69C5D1999D42200BA1C5F /* DFChanges.c in Sources */,
-				D0D69C641999D42200BA1C5F /* Test.c in Sources */,
-				D0D69C5B1999D42200BA1C5F /* BDTTest.c in Sources */,
-				D05FA01219C4B5D00003B928 /* TestCase.c in Sources */,
-				D0D69C631999D42200BA1C5F /* StringTests.m in Sources */,
-				D0D69C5E1999D42200BA1C5F /* FunctionTests.m in Sources */,
+				D02C2A0A1A21113B00A104C6 /* Plain.c in Sources */,
+				D02C2A091A21113B00A104C6 /* main.c in Sources */,
+				D02C2A0F1A21113B00A104C6 /* TextPackage.c in Sources */,
+				D02C2A0D1A21113B00A104C6 /* TestCase.c in Sources */,
+				D02C2A0E1A21113B00A104C6 /* TestFunctions.c in Sources */,
+				D02C2A051A21113B00A104C6 /* BDTTest.c in Sources */,
+				D02C2A071A21113B00A104C6 /* DFChanges.c in Sources */,
+				D02C2A061A21113B00A104C6 /* Commands.c in Sources */,
+				D02C2A081A21113B00A104C6 /* FunctionTests.m in Sources */,
+				D02C2A0B1A21113B00A104C6 /* StringTests.m in Sources */,
+				D02C2A0C1A21113B00A104C6 /* Test.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,7 +293,7 @@
 					/Users/peter/dev/DerivedData/Build/Products/Debug,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "dfutil/dfutil-Prefix.pch";
+				GCC_PREFIX_HEADER = "consumers/dfutil/src/dfutil-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -303,7 +312,7 @@
 					/Users/peter/dev/DerivedData/Build/Products/Debug,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "dfutil/dfutil-Prefix.pch";
+				GCC_PREFIX_HEADER = "consumers/dfutil/src/dfutil-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
