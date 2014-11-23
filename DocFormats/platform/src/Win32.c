@@ -23,15 +23,29 @@
 
 #include <SDL_image.h>
 
-static BOOL CALLBACK DFInitOnceWrapper(PINIT_ONCE InitOnce,void *p,void *c)
+HANDLE onceMutex = NULL;
+
+static int testAndSet(int *var,int value,HANDLE lock)
 {
-    ((DFOnceFunction)p)();
-    return 1;
+    WaitForSingleObject(lock,INFINITE);
+    int oldValue = *var;
+    *var = value;
+    ReleaseMutex(lock);
+    return oldValue;
+}
+
+BOOL CALLBACK initOnceMutex(PINIT_ONCE initOnce,PVOID Parameter,PVOID *Context)
+{
+    onceMutex = CreateMutex(NULL,FALSE,NULL);
+    return TRUE;
 }
 
 void DFInitOnce(DFOnce *once, DFOnceFunction fun)
 {
-    InitOnceExecuteOnce(once,DFInitOnceWrapper,fun,NULL);
+    static INIT_ONCE initOnce = INIT_ONCE_STATIC_INIT;
+    InitOnceExecuteOnce(&initOnce,initOnceMutex,NULL,NULL);
+    if (testAndSet(once,1,onceMutex) == 0)
+        fun();
 }
 
 int DFMkdirIfAbsent(const char *path,DFError **error)

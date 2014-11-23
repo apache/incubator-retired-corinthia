@@ -21,9 +21,22 @@
 
 #ifndef WIN32
 
+#include <pthread.h>
+
+static int testAndSet(int *var, int value, pthread_mutex_t *lock)
+{
+    pthread_mutex_lock(lock);
+    int oldValue = *var;
+    *var = value;
+    pthread_mutex_unlock(lock);
+    return oldValue;
+}
+
 void DFInitOnce(DFOnce *once, DFOnceFunction fun)
 {
-    pthread_once(once,fun);
+    static pthread_mutex_t onceLock = PTHREAD_MUTEX_INITIALIZER;
+    if (testAndSet(once,1,&onceLock) == 0)
+        fun();
 }
 
 int DFMkdirIfAbsent(const char *path, DFError **error)
