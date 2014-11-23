@@ -21,7 +21,30 @@
 
 #ifdef WIN32
 
+#include <windows.h>
 #include <SDL_image.h>
+
+void DFErrorSetWin32(DFError **error, DWORD code)
+{
+    char *lpMsgBuf;
+    FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
+                  FORMAT_MESSAGE_FROM_SYSTEM |
+                  FORMAT_MESSAGE_IGNORE_INSERTS,
+                  NULL,
+                  code,
+                  MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                  (LPTSTR)&lpMsgBuf,
+                  0, NULL);
+    size_t len = strlen(lpMsgBuf);
+    while ((len > 0) &&
+           ((lpMsgBuf[len - 1] == '\n') ||
+            (lpMsgBuf[len - 1] == '\r') ||
+            (lpMsgBuf[len - 1] == '.')))
+        len--;
+    lpMsgBuf[len] = '\0';
+    DFErrorFormat(error, "%s", lpMsgBuf);
+    LocalFree(lpMsgBuf);
+}
 
 HANDLE onceMutex = NULL;
 
