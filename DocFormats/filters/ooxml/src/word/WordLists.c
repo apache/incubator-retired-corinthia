@@ -22,6 +22,10 @@
 #include "DFHTML.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include <assert.h>
+#include <math.h>
+#include <stdlib.h>
+#include <string.h>
 
 typedef struct ListDimensions {
     double marginLeftPct;

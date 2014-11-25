@@ -19,6 +19,7 @@
 #include "DFString.h"
 #include "DFHTML.h"
 #include "DFCommon.h"
+#include <stdlib.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //

@@ -25,6 +25,9 @@
 #include "DFHTML.h"
 #include "DFCommon.h"
 #include "DFZipFile.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 static void addStrippedSerializedDoc(DFBuffer *result, DFDocument *doc, const char *filename)
 {

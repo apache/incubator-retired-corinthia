@@ -19,6 +19,8 @@
 #include "DFHTML.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include <stdlib.h>
+#include <string.h>
 
 static Tag WordRPR_Children[] = {
     WORD_RSTYLE,

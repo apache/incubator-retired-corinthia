@@ -18,6 +18,9 @@
 #include "DFString.h"
 #include "Word.h"
 #include "DFCommon.h"
+#include <assert.h>
+#include <stdlib.h>
+#include <string.h>
 
 static char *WordSheetIdentForType(const char *type, const char *styleId)
 {

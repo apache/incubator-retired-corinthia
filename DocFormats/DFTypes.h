@@ -30,5 +30,6 @@
 #include <sys/types.h>
 #include <stdint.h>
 #include <stdarg.h>
+#include <stddef.h>
 
 #endif

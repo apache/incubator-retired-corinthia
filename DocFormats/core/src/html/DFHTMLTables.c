@@ -18,6 +18,8 @@
 #include "DFString.h"
 #include "CSSLength.h"
 #include "DFCommon.h"
+#include <assert.h>
+#include <stdlib.h>
 
 typedef struct RowList RowList;
 

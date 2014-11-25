@@ -14,6 +14,7 @@
 
 #include "CSSSyntax.h"
 #include "DFCommon.h"
+#include <string.h>
 
 static int matchString(const char **strptr, const char *against)
 {

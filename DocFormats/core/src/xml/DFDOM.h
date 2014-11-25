@@ -92,6 +92,7 @@
 #include "DFXMLNames.h"
 #include "DFXMLForward.h"
 #include "DFBuffer.h"
+#include <stdarg.h>
 
 #define DOM_DOCUMENT                 1
 #define DOM_TEXT                     2

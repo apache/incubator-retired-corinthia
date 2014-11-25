@@ -19,6 +19,7 @@
 #include "CSSProperties.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include <stdlib.h>
 
 int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error)
 {

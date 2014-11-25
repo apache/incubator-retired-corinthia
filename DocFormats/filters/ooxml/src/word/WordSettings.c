@@ -18,6 +18,7 @@
 #include "WordPackage.h"
 #include "WordConverter.h"
 #include "DFCommon.h"
+#include <assert.h>
 
 static Tag WordSettings_Children[] = {
     WORD_WRITEPROTECTION,

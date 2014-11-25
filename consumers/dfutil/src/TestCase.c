@@ -18,6 +18,8 @@
 #include "DFCommon.h"
 #include "DFString.h"
 #include "DFFilesystem.h"
+#include <stdlib.h>
+#include <string.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //

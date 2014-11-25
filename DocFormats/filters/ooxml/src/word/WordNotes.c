@@ -18,6 +18,8 @@
 #include "WordLenses.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include <assert.h>
+#include <stdlib.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //

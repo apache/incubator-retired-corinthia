@@ -21,6 +21,10 @@
 #include "DFHashTable.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //

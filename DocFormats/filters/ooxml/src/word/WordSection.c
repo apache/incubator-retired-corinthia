@@ -18,6 +18,8 @@
 #include "CSSLength.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include <math.h>
+#include <stdlib.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //

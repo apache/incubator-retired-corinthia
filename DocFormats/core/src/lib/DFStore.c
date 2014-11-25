@@ -17,6 +17,10 @@
 #include "DFString.h"
 #include "DFFilesystem.h"
 #include "DFBuffer.h"
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 typedef struct DFStoreOps DFStoreOps;
 

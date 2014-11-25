@@ -15,6 +15,8 @@
 #include "ODFManifest.h"
 #include "DFXMLNames.h"
 #include "DFCommon.h"
+#include <stdlib.h>
+#include <string.h>
 
 static void ODFManifestParse(ODFManifest *manifest)
 {

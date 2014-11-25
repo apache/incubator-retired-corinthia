@@ -28,6 +28,13 @@
 #include "CSS.h"
 #include "HTMLToLaTeX.h"
 #include "DFCommon.h"
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#ifndef WIN32
+#include <unistd.h>
+#endif
 
 static DFBuffer *readData(const char *filename, DFError **error)
 {

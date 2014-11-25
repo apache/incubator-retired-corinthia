@@ -14,6 +14,8 @@
 
 #include "CSSLength.h"
 #include "DFCommon.h"
+#include <stdio.h>
+#include <string.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //

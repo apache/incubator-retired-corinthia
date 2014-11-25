@@ -16,6 +16,11 @@
 #include "DFNameMap.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include <assert.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define MAX_DEPTH 256
 

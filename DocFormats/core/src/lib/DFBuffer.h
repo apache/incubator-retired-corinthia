@@ -18,6 +18,7 @@
 #include "DFError.h"
 #include "DFTypes.h"
 #include "DFStore.h"
+#include <stdarg.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //

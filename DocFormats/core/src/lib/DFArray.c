@@ -14,6 +14,9 @@
 
 #include "DFArray.h"
 #include "DFCommon.h"
+#include <assert.h>
+#include <stdlib.h>
+#include <string.h>
 
 struct DFArray {
     size_t retainCount;

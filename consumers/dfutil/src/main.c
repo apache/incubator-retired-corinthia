@@ -20,6 +20,8 @@
 #include "StringTests.h"
 #include "DFZipFile.h"
 #include "DFCommon.h"
+#include <stdio.h>
+#include <string.h>
 
 static int runCommand(int argc, const char **argv, DFError **dferr)
 {

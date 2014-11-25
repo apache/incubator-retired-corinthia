@@ -17,6 +17,8 @@
 #include "DFXML.h"
 #include "DFCommon.h"
 #include "DFHashTable.h"
+#include <assert.h>
+#include <stdlib.h>
 
 int nullIsVisible(void *ctx, DFNode *concrete)
 {

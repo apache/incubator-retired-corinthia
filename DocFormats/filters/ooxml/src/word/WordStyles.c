@@ -26,6 +26,9 @@
 #include "DFString.h"
 #include "DFHashTable.h"
 #include "DFCommon.h"
+#include <assert.h>
+#include <stdlib.h>
+#include <string.h>
 
 static Tag WordSectPr_Children[] = {
     WORD_FOOTNOTEPR,

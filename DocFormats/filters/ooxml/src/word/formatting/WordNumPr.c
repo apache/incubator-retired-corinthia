@@ -18,6 +18,10 @@
 #include "CSS.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include <assert.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
 
 static char *parseLvlText(const char *input, WordConcreteNum *num)
 {

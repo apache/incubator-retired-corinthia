@@ -17,41 +17,13 @@
 
 #include "DFTypes.h"
 
-#include <assert.h>
-#include <ctype.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <limits.h>
-#include <math.h>
-#include <stdarg.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-
 #ifdef WIN32
-#include <io.h>
-#include <direct.h>
-#define open _open
-#define creat _creat
-#define read _read
-#define write _write
-#define close _close
-#define getcwd _getcwd
 #define snprintf _snprintf
-#define vsnprintf _vsnprintf
 #define strcasecmp _stricmp
-#define strncasecmp _strnicmp
-#define strdup _strdup
-#define rmdir _rmdir
-#define unlink _unlink
 #define bzero(mem,size) memset(mem,0,size)
 #pragma warning(disable: 4090) // 'function': different 'const' qualifiers
+#pragma warning(disable: 4996) // The POSIX name for this item is deprecated
 #else // not WIN32
-#include <dirent.h>
-#include <unistd.h>
 #endif
 
 #ifndef S_ISDIR

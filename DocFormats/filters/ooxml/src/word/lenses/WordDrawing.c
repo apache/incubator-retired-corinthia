@@ -25,6 +25,10 @@
 #include "DFString.h"
 #include "DFPlatform.h"
 #include "DFCommon.h"
+#include <assert.h>
+#include <math.h>
+#include <stdlib.h>
+#include <string.h>
 
 static int internalPut(WordPutData *put, DFNode *abstract, DFNode *concrete, int isNew);
 static void populateDrawingElement(WordConverter *converter, DFNode *root, double widthPts,

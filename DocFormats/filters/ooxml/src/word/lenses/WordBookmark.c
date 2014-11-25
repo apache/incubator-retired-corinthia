@@ -23,6 +23,9 @@
 #include "DFHTML.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include <assert.h>
+#include <stdlib.h>
+#include <string.h>
 
 static void findTargetAndType(WordBookmark *bookmark, WordSheet *sheet);
 void findLabel(WordBookmark *bookmark);

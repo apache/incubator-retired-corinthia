@@ -19,8 +19,10 @@
 #include "DFBuffer.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include <assert.h>
 #include <libxml/tree.h>
 #include <libxml/xmlwriter.h>
+#include <string.h>
 
 const xmlChar *INDENT =
 (const xmlChar *)"\n                                                                                "\

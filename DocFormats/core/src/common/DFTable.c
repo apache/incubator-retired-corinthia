@@ -15,6 +15,9 @@
 #include "DFTable.h"
 #include "DFDOM.h"
 #include "DFCommon.h"
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 DFTableDimensions DFTableDimensionsMake(unsigned int rows, unsigned int cols)
 {

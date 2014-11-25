@@ -17,6 +17,9 @@
 #include "DFHashTable.h"
 #include "DFCommon.h"
 #include "DFPlatform.h"
+#include <assert.h>
+#include <stdlib.h>
+#include <string.h>
 
 static void NameMap_staticInit();
 

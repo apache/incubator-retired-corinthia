@@ -18,6 +18,8 @@
 #include "DFString.h"
 #include "DFFilesystem.h"
 #include "DFCommon.h"
+#include <stdlib.h>
+#include <string.h>
 
 static DFDocument *readOrCreateDocument(ODFPackage *package, const char *filename, Tag rootTag, Tag childTag)
 {

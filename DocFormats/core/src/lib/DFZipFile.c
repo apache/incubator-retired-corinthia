@@ -19,6 +19,8 @@
 #include "DFString.h"
 #include "DFCommon.h"
 #include "DFBuffer.h"
+#include <stdlib.h>
+#include <string.h>
 
 static int zipError(DFError **error, const char *format, ...) ATTRIBUTE_FORMAT(printf,2,3);
 

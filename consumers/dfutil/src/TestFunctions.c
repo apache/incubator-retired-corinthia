@@ -26,6 +26,9 @@
 #include "HTMLToLaTeX.h"
 #include "DFXML.h"
 #include "DFCommon.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 typedef void (*TestFunction)(TestCase *script, int argc, const char **argv);
 

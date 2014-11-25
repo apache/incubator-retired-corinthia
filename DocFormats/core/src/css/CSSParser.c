@@ -18,6 +18,9 @@
 #include "DFString.h"
 #include "DFCharacterSet.h"
 #include "DFCommon.h"
+#include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
 
 static int matchPast(CSSParser *p, uint16_t endChar, int *invalid);
 

@@ -18,6 +18,7 @@
 #include "WordNotes.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include <stdlib.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //

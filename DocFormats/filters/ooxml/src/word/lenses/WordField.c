@@ -23,6 +23,10 @@
 #include "DFString.h"
 #include "DFArray.h"
 #include "DFCommon.h"
+#include <assert.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
 
 static void WordFieldPut(WordPutData *put, DFNode *abstract, DFNode *concrete);
 

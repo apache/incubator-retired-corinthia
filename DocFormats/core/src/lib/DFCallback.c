@@ -14,6 +14,8 @@
 
 #include "DFCallback.h"
 #include "DFCommon.h"
+#include <assert.h>
+#include <stdlib.h>
 
 void DFCallbackAdd(DFCallback **list, DFCallbackFunction fun, void *ctx)
 {

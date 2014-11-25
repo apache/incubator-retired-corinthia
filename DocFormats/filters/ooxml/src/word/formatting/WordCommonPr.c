@@ -20,6 +20,9 @@
 #include "DFHTML.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include <math.h>
+#include <stdlib.h>
+#include <string.h>
 
 int Word_parseOnOff(const char *value)
 {

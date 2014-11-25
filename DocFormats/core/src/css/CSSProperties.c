@@ -17,6 +17,10 @@
 #include "DFString.h"
 #include "DFHashTable.h"
 #include "DFCommon.h"
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 char *CSSPropertiesCopyDescription(CSSProperties *properties)
 {

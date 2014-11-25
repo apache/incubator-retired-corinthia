@@ -16,6 +16,7 @@
 #define DocFormats_DFError_h
 
 #include "DFTypes.h"
+#include <stdarg.h>
 
 typedef struct DFError DFError;
 

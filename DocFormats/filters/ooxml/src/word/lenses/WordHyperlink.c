@@ -18,6 +18,8 @@
 #include "CSSProperties.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include <assert.h>
+#include <string.h>
 
 static void WordHyperlinkPut(WordPutData *put, DFNode *abstract, DFNode *concrete);
 

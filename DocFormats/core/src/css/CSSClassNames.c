@@ -26,6 +26,8 @@
 #include "WordStyles.h"
 #include "Word.h"
 #include "DFCommon.h"
+#include <stdlib.h>
+#include <string.h>
 
 static const char *classPrefixForElementName(const char *elementName);
 

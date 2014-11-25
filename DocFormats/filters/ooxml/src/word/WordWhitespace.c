@@ -17,6 +17,7 @@
 #include "DFClassNames.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include <stdlib.h>
 
 static void addNbsps(DFNode *node, int inParagraph, int *havePrecedingSpace)
 {

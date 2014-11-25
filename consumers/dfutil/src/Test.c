@@ -20,6 +20,9 @@
 #include "DFString.h"
 #include "DFFilesystem.h"
 #include "DFCommon.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //

@@ -16,12 +16,17 @@
 #include "DFPlatform.h"
 #include "DFFilesystem.h"
 #include "DFString.h"
+#include <errno.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
 
 // This file contains functions that are applicable to all Unix-based platforms, including Linux, iOS, and OS X
 
 #ifndef WIN32
 
 #include <pthread.h>
+#include <dirent.h>
 
 static int testAndSet(int *var, int value, pthread_mutex_t *lock)
 {

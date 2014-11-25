@@ -16,6 +16,9 @@
 #include "WordConverter.h"
 #include "DFDOM.h"
 #include "DFCommon.h"
+#include <assert.h>
+#include <stdlib.h>
+#include <string.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
