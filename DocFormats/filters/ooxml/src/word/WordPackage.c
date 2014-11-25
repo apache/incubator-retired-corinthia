@@ -199,7 +199,6 @@ WordPackage *WordPackageOpenNew(DFStore *store, DFError **error)
 
     ok = 1;
 
-end:
     if (ok)
         return package;
     WordPackageRelease(package);
