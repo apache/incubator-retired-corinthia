@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="OutlineTest.js"></script>
+<script>
+
+function performTest()
+{
+    Outline_init();
+    if (Outline_detectSectionNumbering())
+        setupOutlineNumbering();
+    PostponedActions_perform();
+
+    var ref1 = DOM_createElement(document,"A");
+    var ref2 = DOM_createElement(document,"A");
+    var ref3 = DOM_createElement(document,"A");
+    DOM_setAttribute(ref1,"href","#one");
+    DOM_setAttribute(ref2,"href","#two");
+    DOM_setAttribute(ref3,"href","#three");
+
+    Clipboard_pasteNodes([ref1,ref2,ref3]);
+    PostponedActions_perform();
+}
+</script>
+</head>
+<body>
+<figure id="one"><figcaption>Figure 4</figcaption></figure>
+<figure id="two"><figcaption>Figure 4</figcaption></figure>
+<figure id="three"><figcaption>Figure 4</figcaption></figure>
+[]
+</body>
+</html>

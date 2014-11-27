@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="UndoTests.js"></script>
+<script>
+function performTest()
+{
+    Outline_init();
+    PostponedActions_perform();
+
+    var versions = new Array();
+
+    var element = DOM_createElementNS(document,"urn:somens","element");
+    versions.push(DOM_cloneNode(element,true));
+
+    DOM_setAttributeNS(element,"urn:test","x:attrname","0");
+    versions.push(DOM_cloneNode(element,true));
+    UndoManager_newGroup();
+
+    DOM_setAttributeNS(element,"urn:test","x:attrname","1");
+    versions.push(DOM_cloneNode(element,true));
+    UndoManager_newGroup();
+
+    DOM_setAttributeNS(element,"urn:test","x:attrname",null);
+    versions.push(DOM_cloneNode(element,true));
+    UndoManager_newGroup();
+
+    DOM_setAttributeNS(element,"urn:test","x:attrname","3");
+    versions.push(DOM_cloneNode(element,true));
+    UndoManager_newGroup();
+
+    testUndo(versions,element);
+
+    outputOptions.showNamespaceDetails = true;
+}
+</script>
+</head>
+<body>
+</body>
+</html>

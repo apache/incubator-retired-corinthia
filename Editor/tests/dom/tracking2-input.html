@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var messages = new Array();
+
+    var ps = document.getElementsByTagName("P");
+    var position = new Position(document.body,document.body.childNodes.length);
+    messages.push("Before insertion: position = "+position);
+    Position_trackWhileExecuting([position],function() {
+        DOM_appendChild(ps[0],DOM_createTextNode(document,"X"));
+    });
+    messages.push("After insertion: position = "+position);
+
+    var position = new Position(document.body,document.body.childNodes.length);
+    messages.push("Before removal: position = "+position);
+    Position_trackWhileExecuting([position],function() {
+        DOM_deleteNode(ps[0].firstChild);
+    });
+    messages.push("After removal: position = "+position);
+
+    DOM_deleteAllChildren(document.body);
+    DOM_appendChild(document.body,DOM_createTextNode(document,"-\n"+messages.join("\n")+"\n-"));
+}
+</script>
+</head>
+<body><p>One</p><p>Two</p><p>Three</p></body>
+</html>

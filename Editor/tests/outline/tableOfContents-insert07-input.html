@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../generic.css" rel="stylesheet"/>
+<script type="text/javascript" src="OutlineTest.js"></script>
+<script>
+function performTest()
+{
+    Outline_init();
+    if (Outline_detectSectionNumbering())
+        setupOutlineNumbering();
+    PostponedActions_perform();
+
+    var h1 = document.getElementsByTagName("h1")[0];
+    Selection_set(h1,0,h1,0);
+    Outline_insertTableOfContents();
+    PostponedActions_perform();
+    simplifyTOCs();
+}
+</script>
+</head>
+<body>
+<h1>4 First</h1>
+<h1>4 Section 1</h1>
+<h1>4 Section 2</h1>
+<h1>4 Section 3</h1>
+</body>
+</html>

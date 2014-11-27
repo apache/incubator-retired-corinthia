@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="validPositions.js"></script>
+<script>
+function performTest()
+{
+    Outline_init();
+    PostponedActions_perform();
+    Outline_insertTableOfContents();
+    PostponedActions_perform();
+    Outline_removeListeners();
+    showValidPositions();
+}
+</script>
+</head>
+<body>
+<p>First paragraph[]</p>
+<p>Second paragraph</p>
+<h1>Section 1</h1>
+<h1>Section 2</h1>
+<h1>Section 3</h1>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../generic.css" rel="stylesheet"/>
+<script>
+function performTest()
+{
+    Outline_init();
+    PostponedActions_perform();
+
+    Figures_insertFigure("nothing.png",null,true,null);
+    PostponedActions_perform();
+}
+</script>
+</head>
+<body>
+
+<figure>
+  <img src="nothing.png"/>
+  <figcaption>First figure[]</figcaption>
+</figure>
+
+</body>
+</html>

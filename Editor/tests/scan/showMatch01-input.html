@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../generic.css" rel="stylesheet"/>
+<script src="ScanTests.js"></script>
+<script>
+function performTest()
+{
+    Scan_reset();
+    Scan_next();
+    var id1 = Scan_addMatch(0,3);
+    Scan_showMatch(id1);
+    Scan_next();
+    var id2 = Scan_addMatch(4,9);
+    Scan_showMatch(id2);
+    Scan_next();
+    var id3 = Scan_addMatch(9,12);
+    Scan_showMatch(id3);
+}
+</script>
+</head>
+<body>
+<p>The quick brown</p>
+<p>fox jumps over</p>
+<p>the lazy dog</p>
+</body>
+</html>

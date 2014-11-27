@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="RangeTest.js"></script>
+<script>
+
+function performTest()
+{
+    // DOM_wrapNode() should not affect any positions, because the node itself remains in the
+    // tree unmodified.
+
+    removeWhitespaceAndCommentNodes(document.body);
+
+    var p1 = document.getElementById("p1");
+    var p2 = document.getElementById("p2");
+
+    var result = comparePositionsBeforeAndAfter(function() {
+        DOM_insertBefore(p2,p1.childNodes[1],p2.childNodes[3]);
+    });
+
+    DOM_deleteAllChildren(document.body);
+    DOM_appendChild(document.body,DOM_createTextNode(document,"-\n"+result+"\n-"));
+}
+</script>
+</head>
+<body>
+<p id="p1">
+<b>ab<br></b>
+<b>cd<br></b>
+<b>ef<br></b>
+<b>gh<br></b>
+<b>ij<br></b>
+</p>
+<p id="p2">
+<b>kl<br></b>
+<b>mn<br></b>
+<b>op<br></b>
+<b>qr<br></b>
+<b>st<br></b>
+</p>
+</html>

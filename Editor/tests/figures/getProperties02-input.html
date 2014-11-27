@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="FiguresTest.js"></script>
+<script>
+function performTest()
+{
+    Outline_init();
+    PostponedActions_perform();
+
+    Figures_insertFigure("nothing.png","60%",false,null);
+    PostponedActions_perform();
+
+    return figurePropertiesString(0);
+}
+</script>
+</head>
+<body>
+[]
+</body>
+</html>

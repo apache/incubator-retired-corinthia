@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="OutlineTest.js"></script>
+<script>
+
+function performTest()
+{
+    Outline_init();
+    if (Outline_detectSectionNumbering())
+        setupOutlineNumbering();
+    PostponedActions_perform();
+    setNumbering(true);
+    setNumbering(false);
+    return Outline_plainText()+PrettyPrinter.getHTML(document.documentElement);
+}
+</script>
+</head>
+<body>
+<h1>First section</h1>
+<figure><figcaption>First figure</figcaption></figure>
+<table><caption>First table</caption></table>
+<h1>Second section</h1>
+<figure><figcaption>Second figure</figcaption></figure>
+<table><caption>Second table</caption></table>
+<h1>Third section</h1>
+<figure><figcaption>Third figure</figcaption></figure>
+<table><caption>Third table</caption></table>
+</body>
+</html>

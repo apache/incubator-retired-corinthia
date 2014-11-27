@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="AutoCorrectTests.js"></script>
+<script>
+function performTest()
+{
+    Outline_init();
+    AutoCorrect_init();
+    PostponedActions_perform();
+
+    Cursor_insertCharacter("teh");
+    AutoCorrect_correctPrecedingWord(3,"the");
+    Cursor_insertCharacter(" ");
+    PostponedActions_perform();
+    Cursor_deleteCharacter();
+    PostponedActions_perform();
+    Cursor_insertCharacter("x");
+    PostponedActions_perform();
+    showSelection();
+}
+</script>
+</head>
+<body>
+[]
+</body>
+</html>

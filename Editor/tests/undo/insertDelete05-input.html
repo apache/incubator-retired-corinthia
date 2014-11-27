@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="UndoTests.js"></script>
+<script>
+function performTest()
+{
+    Outline_init();
+    PostponedActions_perform();
+
+    var versions = new Array();
+
+    var images = document.getElementsByTagName("IMG");
+    var one = images[0];
+    var two = images[1];
+    var three = images[2];
+
+    var b = document.getElementsByTagName("B")[0];
+    var i = document.getElementsByTagName("I")[0];
+    var u = document.getElementsByTagName("U")[0];
+    var s = document.getElementsByTagName("S")[0];
+
+    var div = document.getElementsByTagName("DIV")[0];
+    versions.push(DOM_cloneNode(div,true));
+
+    DOM_deleteNode(s);
+    versions.push(DOM_cloneNode(div,true));
+    UndoManager_newGroup();
+
+    DOM_deleteNode(u);
+    versions.push(DOM_cloneNode(div,true));
+    UndoManager_newGroup();
+
+    DOM_deleteNode(i);
+    versions.push(DOM_cloneNode(div,true));
+    UndoManager_newGroup();
+
+    DOM_deleteNode(b);
+    versions.push(DOM_cloneNode(div,true));
+    UndoManager_newGroup();
+
+    testUndo(versions,div);
+}
+</script>
+</head>
+<body>
+<div>
+  <b>Bold</b>
+  <img src="one.png">
+  <i>Italic</i>
+  <img src="two.png">
+  <u>Underline</u>
+  <img src="three.png">
+  <s>Strikethrough</s>
+</div>
+</body>
+</html>

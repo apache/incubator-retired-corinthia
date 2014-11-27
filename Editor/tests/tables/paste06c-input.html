@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../generic.css" rel="stylesheet"/>
+<script>
+function performTest()
+{
+    Outline_init();
+    PostponedActions_perform();
+
+    Clipboard_pasteHTML("<table>"+
+                        "<tr>"+
+                        "<td id='foo'>A</td>"+
+                        "<td id='foo'>B</td>"+
+                        "</tr>"+
+                        "<tr>"+
+                        "<td id='foo'>C</td>"+
+                        "<td id='foo'>D</td>"+
+                        "</tr>"+
+                        "</table>");
+
+    showSelection();
+}
+</script>
+</head>
+<body>
+  <table width="100%">
+    <col width="25%">
+    <col width="25%">
+    <col width="25%">
+    <col width="25%">
+    <tr>
+      <td id="bdt1">One</td>
+      <td id="bdt2">Two</td>
+      <td id="bdt3">Three</td>
+      <td id="bdt4">Four</td>
+    </tr>
+    <tr>
+      <td id="bdt5">Five</td>
+      <td id="bdt6">Six</td>
+      <td id="bdt7">Seven</td>
+      <td id="bdt8">Eight</td>
+    </tr>
+    <tr>
+      <td id="bdt9">Nine</td>
+      <td id="bdt10">Ten</td>
+      <td id="bdt11">[Eleven</td>
+      <td id="bdt12">Twelve</td>
+    </tr>
+    <tr>
+      <td id="bdt13">Thirteen</td>
+      <td id="bdt14">Fourteen</td>
+      <td id="bdt15">Fifteen</td>
+      <td id="bdt16">Sixteen]</td>
+    </tr>
+  </table>
+</body>
+</html>

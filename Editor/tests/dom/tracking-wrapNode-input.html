@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="RangeTest.js"></script>
+<script>
+
+function performTest()
+{
+    // DOM_wrapNode() should only affect positions which come directly
+    // before or after the node.
+
+    var result = comparePositionsBeforeAndAfter(function() {
+        DOM_wrapNode(document.getElementById("p2"),"DIV");
+    });
+
+    DOM_deleteAllChildren(document.body);
+    DOM_appendChild(document.body,DOM_createTextNode(document,"-\n"+result+"\n-"));
+}
+</script>
+</head>
+<body><p id="p1">ab<br></p><p id="p2">cd<br></p><p id="p3">ef<br></p></body>
+</html>

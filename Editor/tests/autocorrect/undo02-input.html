@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="AutoCorrectTests.js"></script>
+<script>
+function performTest()
+{
+    Outline_init();
+    AutoCorrect_init();
+    PostponedActions_perform();
+
+    Cursor_insertCharacter("one");
+    Cursor_insertCharacter(" twox");
+    AutoCorrect_correctPrecedingWord(4,"two");
+    PostponedActions_perform();
+    Cursor_insertCharacter(" three");
+    Cursor_insertCharacter(" fourx");
+    AutoCorrect_correctPrecedingWord(5,"four");
+    PostponedActions_perform();
+    Cursor_insertCharacter(" five");
+
+    for (var i = 0; i < 3; i++) {
+        UndoManager_undo();
+    }
+
+    showSelection();
+
+    return showCorrections();
+}
+</script>
+</head>
+<body>
+<p>[]</p>
+</body>
+</html>

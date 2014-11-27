@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var p0 = document.getElementsByTagName("P")[0];
+    var p1 = document.getElementsByTagName("P")[1];
+    Hierarchy_ensureValidHierarchy(p0.firstChild,true);
+    Hierarchy_ensureValidHierarchy(p1.firstChild,true);
+}
+</script>
+</head>
+<body>
+
+<b><p>Sample text</p><p>More text</p></b>
+
+</body>
+</html>

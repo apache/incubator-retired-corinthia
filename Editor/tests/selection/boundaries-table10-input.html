@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var range = Selection_get();
+    var table = document.getElementsByTagName("TABLE")[0];
+    var offset = DOM_nodeOffset(table);
+    range.end = new Position(table.parentNode,DOM_nodeOffset(table)+1);
+    Selection_set(range.start.node,range.start.offset,range.end.node,range.end.offset);
+    showSelection();
+}
+</script>
+</head>
+<body>
+<p>Text before</p>
+<table>
+  <tr>
+    <td>One</td>
+    <td>Tw[]o</td>
+  </tr>
+  <tr>
+    <td>Three</td>
+    <td>Four</td>
+  </tr>
+</table>
+<p>Text after</p>
+</body>
+</html>

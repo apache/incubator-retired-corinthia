@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var p = document.getElementsByTagName("P")[2];
+    Selection_set(p.firstChild,3,p.firstChild,9);
+    DOM_replaceElement(p,"DIV");
+    showSelection();
+}
+</script>
+</head>
+<body>
+
+<p>One</p>
+<p>Two</p>
+<p>Sample text</p>
+<p>Six</p>
+<p>Seven</p>
+
+</body>
+</html>

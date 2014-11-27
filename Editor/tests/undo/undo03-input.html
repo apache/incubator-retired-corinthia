@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+
+var value = 0;
+var strings = new Array();
+
+function setValue(newValue)
+{
+    var oldValue = value;
+    UndoManager_addAction(setValue,oldValue);
+
+    strings.push("value = "+newValue);
+    value = newValue;
+}
+
+function performTest()
+{
+    setValue(1);
+    setValue(2);
+    UndoManager_newGroup();
+
+    setValue(3);
+    setValue(4);
+    UndoManager_newGroup();
+
+    setValue(5);
+    setValue(6);
+    UndoManager_newGroup();
+
+    setValue(7);
+    setValue(8);
+    UndoManager_newGroup();
+
+    strings.push("\nTwo steps backwards");
+    UndoManager_undo();
+    UndoManager_undo();
+
+    strings.push("\nMore changes");
+    UndoManager_newGroup();
+    setValue(20);
+    setValue(21);
+
+    strings.push("\nOne step forwards (should do nothing)");
+    UndoManager_redo();
+
+    strings.push("\nOne step backwards, one step forwards");
+    UndoManager_undo();
+    UndoManager_redo();
+
+    strings.push("\nTwo steps backwards, two steps forwards");
+    UndoManager_undo();
+    UndoManager_undo();
+    UndoManager_redo();
+    UndoManager_redo();
+
+    strings.push("\nOne step forwards (should do nothing)");
+    UndoManager_redo();
+
+    return strings.join("\n");
+}
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var ul = document.getElementsByTagName("UL")[0];
+    Hierarchy_ensureValidHierarchy(ul,true);
+}
+</script>
+</head>
+<body>
+
+<b>
+  <i>
+    Beginning
+    <ul>
+      <li id="1">
+      One<br>
+      Two<br>
+      <p>Hello</p>
+      Three<br>
+      Four<br>
+      <ul>
+        <li>List item 1</li>
+        <li>List item 2</li>
+      </ul>
+      Five<br>
+    </li>
+    <li id="2">Two</li>
+    <li id="3"><p>Three</p></li>
+    </ul>
+    Middle
+    <ol>
+      <li>Four</li>
+      <li>Five</li>
+      <li>Six</li>
+    </ol>
+    End
+  </i>
+</b>
+
+<br>
+One
+<br>
+Two
+<br>
+
+</body>
+</html>

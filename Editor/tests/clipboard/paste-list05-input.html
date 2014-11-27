@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    Clipboard_pasteHTML("<ol>"+
+                        "  <li>First</li>"+
+                        "  <li>Second</li>"+
+                        "  <li>Third</li>"+
+                        "</ol>");
+    showSelection();
+}
+</script>
+</head>
+<body>
+<ul>
+  <li>One</li>
+  [<li>Two</li>]
+  <li>Three</li>
+</ul>
+</body>
+</html>

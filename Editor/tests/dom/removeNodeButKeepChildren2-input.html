@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var p = document.getElementsByTagName("P")[1];
+    var positions = new Array();
+    for (var i = 0; i <= p.childNodes.length; i++)
+        positions[i] = new Position(p,i);
+
+    Position_trackWhileExecuting(positions,function() {
+        DOM_removeNodeButKeepChildren(p);
+
+        for (var i = 0; i < positions.length; i++)
+            insertTextAtPosition(positions[i],"("+i+")");
+    });
+}
+</script>
+</head>
+<body><p>Zero</p><p><span>One</span><span>Two</span></p><p>Three</p></body></html>

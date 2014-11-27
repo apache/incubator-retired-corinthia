@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    Clipboard_pasteHTML(
+                        "ST<u>AR</u>T"+
+                        "  <li>AAA</li>"+
+                        "  <li>BBB</li>"+
+                        "  <li>CCC</li>"+
+                        "MI<u>DD</u>LE"+
+                        "  <li>DDD</li>"+
+                        "  <li>EEE</li>"+
+                        "  <li>FFF</li>"+
+                        "E<u>N</u>D"
+                        );
+    showSelection();
+}
+</script>
+</head>
+<body>
+<ul>
+  <li>One</li>
+  [<li>Two</li>]
+  <li>Three</li>
+</ul>
+</body>
+</html>

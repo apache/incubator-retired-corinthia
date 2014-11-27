@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+
+var value = 0;
+var strings = new Array();
+
+function setValue(newValue)
+{
+    var oldValue = value;
+    UndoManager_addAction(setValue,oldValue);
+
+    strings.push("value = "+newValue);
+    value = newValue;
+}
+
+function performTest()
+{
+    setValue(1);
+    setValue(2);
+    UndoManager_newGroup();
+
+    setValue(3);
+    UndoManager_newGroup();
+
+    setValue(4);
+    setValue(5);
+    setValue(6);
+    UndoManager_newGroup();
+
+    strings.push("\nOne step backwards, one step forwards");
+    UndoManager_undo();
+    UndoManager_redo();
+
+    strings.push("\nTwo steps backwards, two steps forwards");
+    UndoManager_undo();
+    UndoManager_undo();
+    UndoManager_redo();
+    UndoManager_redo();
+
+    strings.push("\nThree steps backwards, three steps forwards");
+    UndoManager_undo();
+    UndoManager_undo();
+    UndoManager_undo();
+    UndoManager_redo();
+    UndoManager_redo();
+    UndoManager_redo();
+
+    strings.push("\nThree steps backwards");
+    UndoManager_undo();
+    UndoManager_undo();
+    UndoManager_undo();
+
+    strings.push("\nOne step forwards, one step backwards");
+    UndoManager_redo();
+    UndoManager_undo();
+
+    strings.push("\nTwo steps forwards, two steps backwards");
+    UndoManager_redo();
+    UndoManager_redo();
+    UndoManager_undo();
+    UndoManager_undo();
+
+    strings.push("\nThree steps forwards, three steps backwards");
+    UndoManager_redo();
+    UndoManager_redo();
+    UndoManager_redo();
+    UndoManager_undo();
+    UndoManager_undo();
+    UndoManager_undo();
+
+    return strings.join("\n");
+}
+</script>
+</head>
+<body>
+</body>
+</html>

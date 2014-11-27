@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    Formatting_applyFormattingChanges(null,{"margin-left": null});
+
+    // An unrelated part of the code adds "id" attributes to heading elements to keep track of
+    // sections - we're not testing that functionality here, so we want to ignore them
+    removeIds();
+}
+</script>
+</head>
+<body>
+<p style="margin-left: 1%; margin-right: 11%">One</p>
+[<h1 style="margin-left: 2%; margin-right: 22%">Two</h1>]
+<div style="margin-left: 3%; margin-right: 33%">Three</div>
+</body>
+</html>

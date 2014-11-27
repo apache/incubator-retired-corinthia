@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var p = document.getElementsByTagName("P")[0];
+    var text = DOM_createTextNode(document,"");
+    DOM_appendChild(p,text);
+    Selection_setEmptySelectionAt(text,0);
+    Cursor_insertCharacter("X");
+    showSelection();
+}
+</script>
+</head>
+<body>
+<p><br></p>
+</body>
+</html>

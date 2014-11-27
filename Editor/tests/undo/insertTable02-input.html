@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="UndoTests.js"></script>
+<script>
+
+function performTest()
+{
+    Outline_init();
+    PostponedActions_perform();
+    UndoManager_clear();
+
+    var versions = new Array();
+
+    var body = document.body;
+    versions.push(DOM_cloneNode(body,true));
+
+    Tables_insertTable(1,1,"100%",false,"First table");
+    PostponedActions_perform();
+    versions.push(DOM_cloneNode(body,true));
+
+    placeCursorAfterElement("item1");
+    Tables_insertTable(1,2,"90%",false,"Second table");
+    PostponedActions_perform();
+    versions.push(DOM_cloneNode(body,true));
+
+    placeCursorAfterElement("item1");
+
+    Tables_insertTable(1,3,"80%",false,"Third table");
+    PostponedActions_perform();
+    versions.push(DOM_cloneNode(body,true));
+
+    placeCursorAfterElement("item2");
+    Tables_insertTable(1,4,"70%",false,"Fourth table");
+    PostponedActions_perform();
+    versions.push(DOM_cloneNode(body,true));
+
+    testUndo(versions,body);
+}
+</script>
+</head>
+<body>
+[]
+</body>
+</html>

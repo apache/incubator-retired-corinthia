@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    // Use DOM APIs here because we can't include literal [ and ] in page
+    removeWhitespaceAndCommentNodes(document.body);
+    var text = DOM_createTextNode(document,
+                                  "[Daring Fireball](http://daringfireball.net) "+
+                                  "[Apple](http://www.apple.com)");
+    DOM_appendChild(document.body,text);
+    Selection_set(document.body,0,document.body,document.body.childNodes.length);
+    return showClipboard(Clipboard_copy());
+}
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="OutlineTest.js"></script>
+<script>
+
+function performTest()
+{
+    Outline_init();
+    if (Outline_detectSectionNumbering())
+        setupOutlineNumbering();
+    PostponedActions_perform();
+    return Outline_plainText()+PrettyPrinter.getHTML(document.documentElement);
+}
+</script>
+</head>
+<body>
+<h1>First section - not numbered</h1>
+<h1>99 Second section</h1>
+<h1>99 Third section</h1>
+<h1>Fourth section - not numbered</h1>
+<h1>Fifth section - not numbered</h1>
+<h1>99 Sixth section</h1>
+<h1>99 Seventh section</h1>
+<h1>Eighth section - not numbered</h1>
+</body>
+</html>

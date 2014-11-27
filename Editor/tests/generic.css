@@ -1,0 +1,62 @@
+body {
+    counter-reset: h1 h2 h3 h4 h5 h6 figure table;
+}
+
+table {
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+}
+td > :first-child, th > :first-child {
+    margin-top: 0;
+}
+td > :last-child, th > :last-child {
+    margin-bottom: 0;
+}
+td, th {
+    border: 1px solid black;
+}
+
+figure {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.toc1 {
+    margin-bottom: 6pt;
+    margin-left: 0pt;
+    margin-top: 12pt;
+}
+.toc2 {
+    margin-bottom: 6pt;
+    margin-left: 24pt;
+    margin-top: 6pt;
+}
+.toc3 {
+    margin-bottom: 6pt;
+    margin-left: 48pt;
+    margin-top: 6pt;
+}
+
+caption {
+  caption-side: bottom;
+  counter-increment: table;
+}
+
+caption::before {
+  content: "Table " counter(table) ": ";
+}
+
+figcaption {
+  counter-increment: figure;
+}
+
+figcaption::before {
+  content: "Figure " counter(figure) ": ";
+}
+
+.uxwrite-autocorrect { background-color: #c0ffc0; }
+.uxwrite-selection { background-color: rgb(201,221,238); }
+.uxwrite-spelling { background-color: rgb(255,128,128); }
+.uxwrite-match { background-color: rgb(255,255,0); }

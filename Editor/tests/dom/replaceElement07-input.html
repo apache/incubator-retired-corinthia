@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var p = document.getElementsByTagName("P")[2];
+    var offset = DOM_nodeOffset(p);
+    Selection_set(document.body,offset,document.body,offset+1);
+    DOM_replaceElement(p,"DIV");
+    showSelection();
+}
+</script>
+</head>
+<body>
+
+<p>One</p>
+<p>Two</p>
+<p>Sample text</p>
+<p>Six</p>
+<p>Seven</p>
+
+</body>
+</html>

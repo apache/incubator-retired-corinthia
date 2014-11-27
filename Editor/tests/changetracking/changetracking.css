@@ -1,0 +1,8 @@
+ins {
+    color: blue;
+}
+
+del {
+    color: red;
+    text-decoration: line-through;
+}

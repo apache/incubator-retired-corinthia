@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var range = Selection_get();
+    Input_replaceRange(range.start,range.end,"HELLO");
+    showSelection();
+}
+</script>
+</head>
+<body>
+<p>[Sam]ple text</p>
+</body>
+</html>

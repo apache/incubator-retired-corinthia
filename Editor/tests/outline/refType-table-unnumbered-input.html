@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+td { border: thin solid black; }
+table { caption-side: bottom; }
+</style>
+<script type="text/javascript" src="OutlineTest.js"></script>
+<script>
+function performTest()
+{
+    Outline_init();
+    if (Outline_detectSectionNumbering())
+        setupOutlineNumbering();
+    PostponedActions_perform();
+}
+</script>
+</head>
+<body>
+<table id="item1" style="width: 100%">
+  <caption>Test table</caption>
+  <tr>
+    <td>a</td>
+    <td>a</td>
+  </tr>
+  <tr>
+    <td>a</td>
+    <td>a</td>
+  </tr>
+</table>
+<p>Default <a href="#item1"></a></p>
+<p>uxwrite-ref-num <a class="uxwrite-ref-num" href="#item1"></a></p>
+<p>uxwrite-ref-text <a class="uxwrite-ref-text" href="#item1"></a></p>
+<p>uxwrite-ref-caption-text <a class="uxwrite-ref-caption-text" href="#item1"></a></p>
+<p>uxwrite-ref-label-num <a class="uxwrite-ref-label-num" href="#item1"></a></p>
+</body>
+</html>

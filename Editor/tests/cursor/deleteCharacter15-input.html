@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    Cursor_insertCharacter("A  B");
+    Cursor_enterPressed();
+    Cursor_deleteCharacter();
+    Cursor_deleteCharacter();
+    UndoManager_newGroup();
+    showSelection();
+}
+</script>
+</head>
+<body>
+[]
+</body>
+</html>

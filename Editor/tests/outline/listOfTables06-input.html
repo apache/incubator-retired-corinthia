@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../generic.css" rel="stylesheet"/>
+<script type="text/javascript" src="OutlineTest.js"></script>
+<script>
+function performTest()
+{
+    Outline_init();
+    Outline_detectSectionNumbering();
+    PostponedActions_perform();
+
+    // Add a list of tables
+    Selection_set(document.body,0,document.body,0);
+    Outline_insertListOfTables();
+    PostponedActions_perform();
+}
+</script>
+</head>
+<body>
+<table id="item1" style="width: 100%">
+  <caption>Test table A</caption>
+  <col width="100%"/>
+  <tr><td><p><br/></p></td></tr>
+</table>
+<table id="item2" style="width: 100%">
+  <caption>Test table B</caption>
+  <col width="100%"/>
+  <tr><td><p><br/></p></td></tr>
+</table>
+<table id="item3" style="width: 100%">
+  <caption>Test table C</caption>
+  <col width="100%"/>
+  <tr><td><p><br/></p></td></tr>
+</table>
+<table id="item4" style="width: 100%">
+  <caption>Test table D</caption>
+  <col width="100%"/>
+  <tr><td><p><br/></p></td></tr>
+</table>
+</body>
+</html>

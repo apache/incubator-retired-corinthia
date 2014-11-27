@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+
+// Test that autocorrect spans are removed
+
+function performTest()
+{
+    AutoCorrect_init();
+    PostponedActions_perform();
+
+    Cursor_insertCharacter("one");
+    Cursor_insertCharacter(" twox");
+    AutoCorrect_correctPrecedingWord(4,"two");
+    Cursor_insertCharacter(" three");
+    PostponedActions_perform();
+
+    var before = PrettyPrinter.getHTML(document.documentElement,outputOptions);
+    Main_removeSpecial(document.documentElement);
+    var after = PrettyPrinter.getHTML(document.documentElement,outputOptions);
+    return "Before\n------\n\n"+before+"\nAfter\n-----\n\n"+after;
+}
+</script>
+</head>
+<body>
+<p>[]</p>
+</body>
+</html>

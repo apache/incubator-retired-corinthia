@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../generic.css" rel="stylesheet"/>
+<script>
+function performTest()
+{
+    Outline_init();
+    PostponedActions_perform();
+
+    Tables_addAdjacentRow();
+    showSelection();
+}
+</script>
+</head>
+<body>
+  <table style="width: 100%">
+    <tr>
+      <td>[One</td>
+      <td>Two</td>
+      <td>Three</td>
+      <td rowspan="4">Four</td>
+    </tr>
+    <tr>
+      <td>Five</td>
+      <td>Six</td>
+      <td rowspan="3">Seven</td>
+    </tr>
+    <tr>
+      <td>Nine</td>
+      <td rowspan="2">Ten</td>
+    </tr>
+    <tr>
+      <td>Thirteen]</td>
+    </tr>
+  </table>
+</body>
+</html>

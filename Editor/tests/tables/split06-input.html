@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../generic.css" rel="stylesheet"/>
+<script>
+function performTest()
+{
+    Outline_init();
+    PostponedActions_perform();
+
+    Tables_splitSelection();
+    showSelection();
+}
+</script>
+</head>
+<body>
+  <table style="width: 100%">
+    <col width="25%">
+    <col width="25%">
+    <col width="25%">
+    <col width="25%">
+    <tr>
+      <td rowspan="2">[One</td>
+      <td colspan="2">Two</td>
+      <td rowspan="2">Four</td>
+    </tr>
+    <tr>
+      <td>Six</td>
+      <td>Seven</td>
+    </tr>
+    <tr>
+      <td rowspan="2">Nine</td>
+      <td>Ten</td>
+      <td>Eleven</td>
+      <td rowspan="2">Twelve]</td>
+    </tr>
+    <tr>
+      <td colspan="2">Fourteen</td>
+    </tr>
+  </table>
+</body>
+</html>

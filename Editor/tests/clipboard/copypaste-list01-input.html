@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var dest = document.getElementById("dest");
+    var clip = Clipboard_cut();
+    Selection_set(dest,dest.childNodes.length,dest,dest.childNodes.length);
+    Clipboard_pasteHTML(clip["text/html"]);
+    Cursor_insertCharacter("X");
+    showSelection();
+}
+</script>
+</head>
+<body>
+<ul>
+  <li><p>One</p></li>
+  <li><p>[Two]</p></li>
+  <li><p>Three</p></li>
+</ul>
+<p>Sample text</p>
+<ul>
+  <li><p>Four</p></li>
+  <li><p>Five</p></li>
+  <li><p id="dest">Six</p></li>
+</ul>
+</body>
+</html>

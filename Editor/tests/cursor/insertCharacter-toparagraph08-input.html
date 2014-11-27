@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    DOM_deleteAllChildren(document.body);
+
+
+    var p1 = DOM_createElement(document,"P");
+    var p2 = DOM_createElement(document,"P");
+    DOM_appendChild(p1,DOM_createTextNode(document,"First"));
+    DOM_appendChild(p2,DOM_createTextNode(document,"Second"));
+
+    DOM_appendChild(document.body,p1);
+    DOM_appendChild(document.body,DOM_createTextNode(document,"  "));
+    DOM_appendChild(document.body,DOM_createTextNode(document,"  "));
+    DOM_appendChild(document.body,DOM_createTextNode(document,"  "));
+    DOM_appendChild(document.body,DOM_createTextNode(document,"  "));
+    DOM_appendChild(document.body,p2);
+
+    Selection_setEmptySelectionAt(document.body.childNodes[3],0);
+
+    Cursor_insertCharacter("X");
+    showSelection();
+}
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    // This tests that updateTableSelection() correctly tracks and updates the current
+    // selection when it removes selection highlights
+    var tds = document.getElementsByTagName("TD");
+    var selRange = Selection_get();
+    Selection_set(selRange.start.node,selRange.start.offset,
+                  tds[1].firstChild,13);
+    selRange = Selection_get();
+    Range_assertValid(selRange,"Selection");
+    showSelection();
+}
+</script>
+</head>
+<body>
+<table>
+  <tr>
+    <td>one [two] three</td>
+    <td>four five six</td>
+  </tr>
+  <tr>
+    <td>seven eight nine</td>
+    <td>ten eleven twelve</td>
+  </tr>
+</table>
+</body>
+</html>

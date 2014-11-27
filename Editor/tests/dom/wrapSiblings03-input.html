@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var p = DOM_createElement(document,"P");
+    var nchildren = 8;
+    var positions = new Array();
+    var baseCode = "A".charCodeAt(0);
+    for (var i = 0; i < nchildren; i++) {
+        var b = DOM_createElement(document,"B");
+        DOM_appendChild(b,DOM_createTextNode(document,String.fromCharCode(baseCode+i)));
+        DOM_appendChild(p,b);
+        positions.push(new Position(p,i));
+    }
+    positions.push(new Position(p,nchildren));
+    DOM_appendChild(document.body,p);
+
+    Position_trackWhileExecuting(positions,function() {
+        DOM_wrapSiblings(p.childNodes[0],p.childNodes[4],"I");
+    });
+
+    var lines = new Array();
+    for (var i = 0; i < positions.length; i++)
+        lines.push(positions[i].toString()+"\n");
+
+    for (var i = positions.length-1; i >= 0; i--) {
+        var pos = positions[i];
+        var text = DOM_createTextNode(document,pos.toString());
+        DOM_insertBefore(pos.node,text,pos.node.childNodes[pos.offset]);
+    }
+}
+</script>
+</head>
+<body>
+</body>
+</html>

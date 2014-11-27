@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="UndoTests.js"></script>
+<script>
+function performTest()
+{
+    Outline_init();
+    PostponedActions_perform();
+
+    var versions = new Array();
+
+    var p = document.getElementsByTagName("p")[0];
+    versions.push(DOM_cloneNode(p,true));
+
+    DOM_setNodeValue(p.firstChild,"Two");
+    versions.push(DOM_cloneNode(p,true));
+    UndoManager_newGroup();
+
+    DOM_setNodeValue(p.firstChild,"Three");
+    versions.push(DOM_cloneNode(p,true));
+    UndoManager_newGroup();
+
+    DOM_setNodeValue(p.firstChild,"Four");
+    versions.push(DOM_cloneNode(p,true));
+    UndoManager_newGroup();
+
+    testUndo(versions,p);
+}
+</script>
+</head>
+<body>
+<p>One</p>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    Selection_selectAll();
+    PostponedActions_perform();
+    Clipboard_cut();
+    PostponedActions_perform();
+
+    UndoManager_undo();
+    PostponedActions_perform();
+
+    selectNode(document.getElementsByTagName("P")[2]);
+
+    outputOptions.keepSelectionHighlights = true;
+}
+</script>
+</head>
+<body>
+<p>First paragraph</p>
+<p>Second paragraph</p>
+<p>Third paragraph</p>
+</body>
+</html>

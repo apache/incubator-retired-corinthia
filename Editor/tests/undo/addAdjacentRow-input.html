@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="UndoTests.js"></script>
+<script>
+
+function performTest()
+{
+    Outline_init();
+    PostponedActions_perform();
+
+    var versions = new Array();
+
+    UndoManager_clear();
+
+    var table = document.getElementsByTagName("TABLE")[0];
+    versions.push(DOM_cloneNode(table,true));
+
+    Tables_addAdjacentRow();
+    versions.push(DOM_cloneNode(table,true));
+
+    Tables_addAdjacentRow();
+    versions.push(DOM_cloneNode(table,true));
+
+    Tables_addAdjacentRow();
+    versions.push(DOM_cloneNode(table,true));
+
+    testUndo(versions,table);
+}
+</script>
+</head>
+<body>
+<table border="1" width="100%">
+  <col width="33%">
+  <col width="33%">
+  <col width="33%">
+  <tr>
+     <td>One</td>
+     <td>Two</td>
+     <td>Three</td>
+  </tr>
+  <tr>
+     <td>[Four</td>
+     <td>Five</td>
+     <td>Six]</td>
+  </tr>
+  <tr>
+     <td>Seven</td>
+     <td>Eight</td>
+     <td>Nine</td>
+  </tr>
+</table>
+</body>
+</html>

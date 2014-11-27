@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var range = Selection_get();
+    var table = document.getElementsByTagName("TABLE")[0];
+    var offset = DOM_nodeOffset(table);
+    Selection_set(table.parentNode,offset,table.parentNode,offset);
+    Selection_selectWordAtCursor();
+    showSelection();
+}
+</script>
+</head>
+<body>
+<p>Text before</p>
+<table>
+  <tr>
+    <td>One</td>
+    <td>Two</td>
+  </tr>
+  <tr>
+    <td>Three</td>
+    <td>Four</td>
+  </tr>
+</table>
+<p>Text after</p>
+</body>
+</html>

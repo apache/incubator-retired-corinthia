@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    Styles_setCSSText(" ",{ "p": { "-uxwrite-next": "\"blockquote.Foo\"" } });
+    Cursor_enterPressed();
+    Selection_preserveWhileExecuting(showEmptyTextNodes);
+    showSelection();
+}
+</script>
+</head>
+<body>
+<p id="item1">Sample t[]ext</p>
+</body>
+</html>

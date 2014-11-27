@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    Selection_preserveWhileExecuting(function() {
+        var range = Selection_get();
+        Formatting_splitAroundSelection(range);
+        var outermost = Range_getOutermostNodes(range);
+        Formatting_pushDownInlineProperties(outermost);
+    });
+}
+</script>
+</head>
+<body>
+<p style="margin-left: 20%; color: blue">Here [is some] text</p>
+</body>
+</html>

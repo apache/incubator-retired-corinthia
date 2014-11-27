@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var table = document.getElementsByTagName("TABLE")[0];
+    var offset = DOM_nodeOffset(table);
+    Cursor_set(table.parentNode,offset,table.parentNode,offset);
+    Cursor_deleteCharacter();
+    showSelection();
+}
+</script>
+</head>
+<body>
+<p>Text before</p>
+<table width="100%">
+  <caption>Test caption</caption>
+  <tr>
+    <td>One</td>
+    <td>Two</td>
+  </tr>
+  <tr>
+    <td>Three</td>
+    <td>Four</td>
+  </tr>
+</table>
+<p>Text after</p>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<html>
+  <head>
+  </head>
+  <body>
+    ==================== Version 0 ====================
+    <element/>
+    ==================== Version 1 ====================
+    <element {urn:test,x,attrname}x:attrname="0"/>
+    ==================== Version 2 ====================
+    <element {urn:test,x,attrname}x:attrname="1"/>
+    ==================== Version 3 ====================
+    <element {urn:test,x,attrname}x:attrname="2"/>
+    ==================== Version 4 ====================
+    <element {urn:test,x,attrname}x:attrname="3"/>
+    ===================================================
+    First undo to version 3: OK
+    First undo to version 2: OK
+    First undo to version 1: OK
+    First undo to version 0: OK
+    Redo to version 1: OK
+    Redo to version 2: OK
+    Redo to version 3: OK
+    Redo to version 4: OK
+    Second undo to version 3: OK
+    Second undo to version 2: OK
+    Second undo to version 1: OK
+    Second undo to version 0: OK
+  </body>
+</html>

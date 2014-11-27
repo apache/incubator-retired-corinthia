@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var p = document.getElementsByTagName("P")[2];
+    var offset = DOM_nodeOffset(p);
+    var range = new Range(document.body,offset,document.body,offset+1);
+    Range_trackWhileExecuting(range,function() {
+        DOM_replaceElement(p,"DIV");
+    });
+    showRangeAsBrackets(range);
+}
+</script>
+</head>
+<body>
+
+<p>One</p>
+<p>Two</p>
+<p>A<br>B<br>C<br>D<br>E</p>
+<p>Six</p>
+<p>Seven</p>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="OutlineTest.js"></script>
+<script>
+
+function performTest()
+{
+    setupOutlineNumbering();
+    setupOutline([[2,2],[2,2],[2,2]]);
+
+    Outline_moveSection("item1","item0","item8");
+
+    cleanupOutline();
+}
+</script>
+</head>
+<body>
+<nav class="tableofcontents"></nav>
+</body>
+</html>

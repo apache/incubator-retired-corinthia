@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var b = document.getElementsByTagName("B")[0];
+    var range = new Range(b.firstChild,4,b.firstChild,14);
+    Formatting_splitAroundSelection(range);
+    showRangeAsBrackets(range);
+}
+</script>
+</head>
+<body><p>One <b>Two Three Four</b> Five</p></body>
+</html>

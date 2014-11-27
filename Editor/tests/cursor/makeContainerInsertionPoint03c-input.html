@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    Outline_init();
+    if (Outline_detectSectionNumbering())
+        setupOutlineNumbering();
+    PostponedActions_perform();
+    Cursor_makeContainerInsertionPoint();
+    PostponedActions_perform();
+    showSelection();
+}
+</script>
+</head>
+<body>
+<h1>4 Sam[ple text]</h1>
+</body>
+</html>

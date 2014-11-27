@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    // null is valid JSON but is not a string, and should be ignored
+    Styles_setCSSText(" ",{ "p": { "-uxwrite-next": "null" } });
+    Cursor_enterPressed();
+    Selection_preserveWhileExecuting(showEmptyTextNodes);
+    showSelection();
+}
+</script>
+</head>
+<body>
+<p id="item1">Sample t[]ext</p>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="validPositions.js"></script>
+<script>
+function performTest()
+{
+    var p = document.getElementsByTagName("P")[0];
+    DOM_deleteAllChildren(p);
+    DOM_appendChild(p,DOM_createTextNode(document," \n "));
+    DOM_appendChild(p,DOM_createTextNode(document," \n "));
+    DOM_appendChild(p,DOM_createTextNode(document," \n "));
+    showValidPositions();
+}
+</script>
+</head>
+<body><p></p></body></html>

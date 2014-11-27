@@ -1,0 +1,27 @@
+From "one [two three four] five"
+To   "one two [three four] five"
+
+"|one two three four five"   ->   "|one "             ->   "|one two "     ->   YES/YES
+"o|ne two three four five"   ->   "o|ne "             ->   "o|ne two "     ->   YES/YES
+"on|e two three four five"   ->   "on|e "             ->   "on|e two "     ->   YES/YES
+"one| two three four five"   ->   "one| "             ->   "one| two "     ->   YES/YES
+"one |two three four five"   ->   "|two three four"   ->   "one |two "     ->   YES/YES
+"one t|wo three four five"   ->   "t|wo three four"   ->   "one t|wo "     ->   YES/YES
+"one tw|o three four five"   ->   "tw|o three four"   ->   "one tw|o "     ->   YES/YES
+"one two| three four five"   ->   "two| three four"   ->   "one two| "     ->   YES/YES
+"one two |three four five"   ->   "two |three four"   ->   "|three four"   ->   YES/YES
+"one two t|hree four five"   ->   "two t|hree four"   ->   "t|hree four"   ->   YES/YES
+"one two th|ree four five"   ->   "two th|ree four"   ->   "th|ree four"   ->   YES/YES
+"one two thr|ee four five"   ->   "two thr|ee four"   ->   "thr|ee four"   ->   YES/YES
+"one two thre|e four five"   ->   "two thre|e four"   ->   "thre|e four"   ->   YES/YES
+"one two three| four five"   ->   "two three| four"   ->   "three| four"   ->   YES/YES
+"one two three |four five"   ->   "two three |four"   ->   "three |four"   ->   YES/YES
+"one two three f|our five"   ->   "two three f|our"   ->   "three f|our"   ->   YES/YES
+"one two three fo|ur five"   ->   "two three fo|ur"   ->   "three fo|ur"   ->   YES/YES
+"one two three fou|r five"   ->   "two three fou|r"   ->   "three fou|r"   ->   YES/YES
+"one two three four| five"   ->   "two three four|"   ->   "three four|"   ->   YES/YES
+"one two three four |five"   ->   " |five"            ->   " |five"        ->   YES/YES
+"one two three four f|ive"   ->   " f|ive"            ->   " f|ive"        ->   YES/YES
+"one two three four fi|ve"   ->   " fi|ve"            ->   " fi|ve"        ->   YES/YES
+"one two three four fiv|e"   ->   " fiv|e"            ->   " fiv|e"        ->   YES/YES
+"one two three four five|"   ->   " five|"            ->   " five|"        ->   YES/YES

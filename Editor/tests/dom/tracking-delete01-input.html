@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    Selection_preserveWhileExecuting(function() {
+        DOM_deleteNode(document.getElementsByTagName("P")[0]);
+    });
+    showSelection();
+}
+</script>
+</head>
+<body><p>[]</p></body>
+</html>

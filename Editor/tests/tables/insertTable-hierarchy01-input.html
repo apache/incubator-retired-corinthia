@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../generic.css" rel="stylesheet"/>
+<script>
+function performTest()
+{
+    Outline_init();
+    PostponedActions_perform();
+
+    Tables_insertTable(1,2,"100%",false,null);
+    PostponedActions_perform();
+}
+</script>
+</head>
+<body>
+
+<table width="100%">
+  <caption>First Table[]</caption>
+  <tr>
+    <td>Cell</td>
+    <td>Cell</td>
+  </tr>
+</table>
+
+</body>
+</html>

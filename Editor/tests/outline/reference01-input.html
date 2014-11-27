@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Test document</title>
+<style>
+</style>
+<script type="text/javascript">
+
+function performTest()
+{
+    Outline_init();
+    if (Outline_detectSectionNumbering())
+        setupOutlineNumbering();
+    PostponedActions_perform();
+    setNumbering(true);
+
+    for (var i = 0; i < 3; i++) {
+        var ref = DOM_createElement(document,"A");
+        DOM_setAttribute(ref,"href","#hb");
+        DOM_appendChild(ref,DOM_createTextNode(document,"abcde"));
+
+        var p = DOM_createElement(document,"P");
+        DOM_appendChild(p,DOM_createTextNode(document,"Dynamically added reference: "));
+        DOM_appendChild(p,ref);
+        DOM_insertBefore(document.body,p,document.body.firstChild);
+    }
+
+    var newSection = DOM_createElement(document,"H1");
+    DOM_appendChild(newSection,DOM_createTextNode(document,"New section"));
+
+    var newFigure = DOM_createElement(document,"FIGURE");
+    var newTable = DOM_createElement(document,"TABLE");
+    DOM_appendChild(newFigure,DOM_createElement(document,"FIGCAPTION"));
+    DOM_appendChild(newTable,DOM_createElement(document,"CAPTION"));
+    DOM_insertBefore(document.body,newTable,document.body.firstChild);
+    DOM_insertBefore(document.body,newFigure,document.body.firstChild);
+    DOM_insertBefore(document.body,newSection,document.body.firstChild);
+    PostponedActions_perform();
+}
+</script>
+</head>
+<body>
+
+<ul>
+  <li>Reference to <a href="#ha">First heading</a></li>
+  <li>Reference to <a href="#hb">Second heading</a></li>
+  <li>Reference to <a href="#hc">Third heading</a></li>
+  <li>Reference to <a href="#hd">Fourth heading</a></li>
+  <li>Reference to <a href="#he">Fifth heading</a></li>
+  <li>Reference to <a href="#hf">Sixth heading</a></li>
+
+  <li>Reference to <a href="#fa">First figure</a></li>
+  <li>Reference to <a href="#fb">Second figure</a></li>
+  <li>Reference to <a href="#fc">Third figure</a></li>
+
+  <li>Reference to <a href="#ta">First table</a></li>
+  <li>Reference to <a href="#tb">Second table</a></li>
+  <li>Reference to <a href="#tc">Third table</a></li>
+</ul>
+
+<h1 id="ha">1 Heading A</h1>
+<h2 id="hb">1 Heading B</h2>
+<h2 id="hc">1 Heading C</h2>
+<h1 id="hd">1 Heading D</h1>
+<h2 id="he">1 Heading E</h2>
+<h2 id="hf">1 Heading F</h2>
+
+<table id="ta" width="80%" align="center">
+  <caption>First table caption</caption>
+  <tr>
+    <td>First</td>
+    <td>First</td>
+  </tr>
+  <tr>
+    <td>First</td>
+    <td>First</td>
+  </tr>
+</table>
+
+<figure id="fa">
+  <p>[First figure content]</p>
+  <figcaption>
+    First figure caption
+  </figcaption>
+</figure>
+
+<table id="tb" width="80%" align="center">
+  <caption>Second table caption</caption>
+  <tr>
+    <td>Second</td>
+    <td>Second</td>
+  </tr>
+  <tr>
+    <td>Second</td>
+    <td>Second</td>
+  </tr>
+</table>
+
+<figure id="fb">
+  <p>[Second figure content]</p>
+  <figcaption>
+    Second figure caption
+  </figcaption>
+</figure>
+
+<table id="tc" width="80%" align="center">
+  <tr>
+    <td>Third</td>
+    <td>Third</td>
+  </tr>
+  <tr>
+    <td>Third</td>
+    <td>Third</td>
+  </tr>
+</table>
+
+<figure id="fc">
+  <p>[Third figure content]</p>
+</figure>
+
+</body>
+</html>

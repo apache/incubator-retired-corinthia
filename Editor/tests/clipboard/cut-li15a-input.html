@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var clip = Clipboard_cut();
+    showSelection();
+    var html = PrettyPrinter.getHTML(document.documentElement);
+    return html+"\n"+showClipboard(clip);
+}
+</script>
+</head>
+<body>
+<ul>
+  <li><p>One</p></li>
+  <li><p>[Two</p></li>
+  <li><p>Three]</p></li>
+</ul>
+</body>
+</html>

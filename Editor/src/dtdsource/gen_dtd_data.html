@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title></title>
+<script src="../DOM_js"></script>
+<script>
+
+function ElementDeclaration(name)
+{
+    this.name = name;
+    this.allowedChildren = new Object();
+}
+
+ElementDeclaration.prototype.addAllowedChild = function(name)
+{
+    this.allowedChildren[name] = true;
+}
+
+ElementDeclaration.prototype.removeAllowedChild = function(name)
+{
+    delete this.allowedChildren[name];
+}
+
+ElementDeclaration.prototype.print = function()
+{
+    for (var childName in this.allowedChildren)
+        println(this.name+" -> "+childName);
+}
+
+ElementDeclaration.prototype.printAllowedChildren = function()
+{
+    println("    \""+this.name+"\": {");
+    for (var childName in this.allowedChildren)
+        println("        \""+childName+"\": true,");
+    println("    },");
+}
+
+ElementDeclaration.prototype.setAllowedParents = function(allowedParents)
+{
+    for (var childName in this.allowedChildren) {
+        if (allowedParents[childName] == null)
+            allowedParents[childName] = new Object();
+        allowedParents[childName][this.name] = true;
+    }
+}
+
+function debug(str)
+{
+    console.log(str);
+}
+
+function println(str)
+{
+    var text = DOM_createTextNode(document,str+"\n");
+    var output = document.getElementById("output");
+    DOM_appendChild(output,text);
+}
+
+function readFile(filename)
+{
+    var req = new XMLHttpRequest();
+    req.open("GET",filename,false);
+    req.send();
+    return req.responseXML;
+}
+
+function printTree(node,indent)
+{
+    if (indent == null)
+        indent = "";
+    println(indent+node);
+    for (var child = node.firstChild; child != null; child = child.nextSibling)
+        printTree(child,indent+"    ");
+}
+
+function parseOrGroup(decl,element)
+{
+    for (var child = element.firstChild; child != null; child = child.nextSibling) {
+        if (child.nodeName == "element-name") {
+            decl.addAllowedChild(child.getAttribute("name"));
+        }
+        else if (child.nodeName == "pcdata") {
+        }
+        else if (child.nodeName == "or-group") {
+            parseOrGroup(decl,child);
+        }
+        else if (child.nodeType == Node.ELEMENT_NODE) {
+            println("ERROR: unexpected element: "+child.nodeName+" (parent "+element.nodeName+")");
+        }
+    }
+}
+
+function parseSequenceGroup(decl,element)
+{
+    for (var child = element.firstChild; child != null; child = child.nextSibling) {
+        if (child.nodeName == "element-name") {
+            decl.addAllowedChild(child.getAttribute("name"));
+        }
+        else if (child.nodeName == "or-group") {
+            parseOrGroup(decl,child);
+        }
+        else if (child.nodeName == "pcdata") {
+        }
+        else if (child.nodeType == Node.ELEMENT_NODE) {
+            println("ERROR: unexpected element: "+child.nodeName+" (parent "+element.nodeName+")");
+        }
+    }
+}
+
+function parseContentModelExpanded(decl,element)
+{
+    for (var child = element.firstChild; child != null; child = child.nextSibling) {
+        if (child.nodeName == "or-group") {
+            parseOrGroup(decl,child);
+        }
+        else if (child.nodeName == "and-group") {
+            parseOrGroup(decl,child);
+        }
+        else if (child.nodeName == "sequence-group") {
+            parseSequenceGroup(decl,child);
+        }
+        else if (child.nodeName == "empty") {
+        }
+        else if (child.nodeName == "cdata") {
+        }
+        else if (child.nodeType == Node.ELEMENT_NODE) {
+            println("ERROR: unexpected element: "+child.nodeName+" (parent "+element.nodeName+")");
+        }
+    }
+}
+
+function parseInclusions(decl,element)
+{
+    for (var child = element.firstChild; child != null; child = child.nextSibling) {
+        if (child.nodeName == "or-group") {
+            parseOrGroup(decl,child);
+        }
+        else if (child.nodeType == Node.ELEMENT_NODE) {
+            println("ERROR: unexpected element: "+child.nodeName+" (parent "+element.nodeName+")");
+        }
+    }
+}
+
+function parseOrGroupExclusions(decl,element)
+{
+    for (var child = element.firstChild; child != null; child = child.nextSibling) {
+        if (child.nodeName == "element-name") {
+            decl.removeAllowedChild(child.getAttribute("name"));
+        }
+        else if (child.nodeType == Node.ELEMENT_NODE) {
+            println("ERROR: unexpected element: "+child.nodeName+" (parent "+element.nodeName+")");
+        }
+    }
+}
+
+function parseSequenceGroupExclusions(decl,element)
+{
+    parseOrGroupExclusions(decl,element);
+}
+
+function parseExclusions(decl,element)
+{
+    for (var child = element.firstChild; child != null; child = child.nextSibling) {
+        if (child.nodeName == "or-group") {
+            parseOrGroupExclusions(decl,child);
+        }
+        else if (child.nodeName == "sequence-group") {
+            parseSequenceGroupExclusions(decl,child);
+        }
+        else if (child.nodeType == Node.ELEMENT_NODE) {
+            println("ERROR: unexpected element: "+child.nodeName+" (parent "+element.nodeName+")");
+        }
+    }
+}
+
+function parseElement(element)
+{
+    var decl = new ElementDeclaration(element.getAttribute("name"));
+
+    for (var child = element.firstChild; child != null; child = child.nextSibling) {
+        if (child.nodeName == "content-model-expanded") {
+            parseContentModelExpanded(decl,child);
+        }
+        else if (child.nodeName == "inclusions") {
+            parseInclusions(decl,child);
+        }
+        else if (child.nodeName == "exclusions") {
+            parseExclusions(decl,child);
+        }
+        else if (child.nodeName == "content-model") {
+        }
+        else if (child.nodeType == Node.ELEMENT_NODE) {
+            println("ERROR: unexpected element: "+child.nodeName+" (parent "+element.nodeName+")");
+        }
+    }
+
+//    decl.println();
+    return decl;
+}
+
+function loaded()
+{
+    var dtd = readFile("html4.xml");
+//    printTree(dtd);
+
+    var decls = new Array();
+    for (var node = dtd.documentElement.firstChild; node != null; node = node.nextSibling) {
+        if (node.nodeName == "element") {
+            decls.push(parseElement(node));
+        }
+    }
+
+    println("// Automatically generated from HTML 4.01 dtd using dtdparse and gen_dtd_data.html");
+    println("// See http://nwalsh.com/perl/dtdparse/");
+    println("");
+
+    println("var ALLOWED_CHILDREN = {");
+    for (var i = 0; i < decls.length; i++) {
+        decls[i].printAllowedChildren();
+    }
+    println("};");
+
+    println("");
+
+    var allowedParents = new Object();
+    for (var i = 0; i < decls.length; i++) {
+        decls[i].setAllowedParents(allowedParents);
+    }
+
+    println("var ALLOWED_PARENTS = {");
+    for (var childName in allowedParents) {
+        println("    \""+childName+"\": {");
+        for (var parentName in allowedParents[childName]) {
+            println("        \""+parentName+"\": true,");
+        }
+        println("    },");
+    }
+    println("};");
+
+}
+</script>
+</head>
+
+<body onload="loaded()">
+<pre id="output">
+</pre>
+</body>
+</html>

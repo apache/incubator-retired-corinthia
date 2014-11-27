@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var node = document.getElementsByTagName("H1")[0];
+    DOM_deleteAllChildren(node);
+    Selection_set(node,0,node,0);
+    var properties = Formatting_getFormatting();
+    delete properties["-uxwrite-shift"];
+    Selection_clearSelection();
+
+    var lines = new Array();
+    var names = Object.getOwnPropertyNames(properties).sort();
+    for (var i = 0; i < names.length; i++)
+        lines.push(names[i]+" = "+properties[names[i]]+"\n");
+    return lines.join("");
+}
+</script>
+</head>
+<body>
+<h1></h1>
+</body>
+</html>

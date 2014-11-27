@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="UndoTests.js"></script>
+<script>
+function performTest()
+{
+    Outline_init();
+    PostponedActions_perform();
+
+    var versions = new Array();
+
+    var img = document.getElementsByTagName("IMG")[0];
+    versions.push(DOM_cloneNode(img,true));
+
+    DOM_setStyleProperties(img,{"width": "200px"});
+    versions.push(DOM_cloneNode(img,true));
+    UndoManager_newGroup();
+
+    DOM_setStyleProperties(img,{"height": "150px"});
+    versions.push(DOM_cloneNode(img,true));
+    UndoManager_newGroup();
+
+    DOM_setStyleProperties(img,{"width": null});
+    versions.push(DOM_cloneNode(img,true));
+    UndoManager_newGroup();
+
+    DOM_setStyleProperties(img,{"height": null});
+    versions.push(DOM_cloneNode(img,true));
+    UndoManager_newGroup();
+
+    DOM_setStyleProperties(img,{"height": "100px"});
+    versions.push(DOM_cloneNode(img,true));
+    UndoManager_newGroup();
+
+    testUndo(versions,img);
+}
+</script>
+</head>
+<body>
+<img src="0.png">
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+
+// TOC: This test isn't so meaningful any more, since we're not
+// actually automatic addition of numbering. Perhaps add a TOC,
+// to test that it's reflected?
+
+function performTest()
+{
+    setupOutlineNumbering();
+    Outline_init();
+    PostponedActions_perform();
+    setNumbering(true);
+    PostponedActions_perform();
+    Formatting_applyFormattingChanges("H1",{});
+    PostponedActions_perform();
+}
+</script>
+</head>
+<body>
+<nav class="tableofcontents"></nav>
+<h1>One</h1>
+    <h2>[One - first subsection]</h2>
+    <h2>One - second subsection</h2>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var p = DOM_createElement(document,"P");
+    var text1 = DOM_createTextNode(document,"One");
+    var text2 = DOM_createTextNode(document,"Two");
+    var text3 = DOM_createTextNode(document,"Three");
+    var text4 = DOM_createTextNode(document,"Four");
+    var text5 = DOM_createTextNode(document,"Five");
+    DOM_appendChild(p,text1);
+    DOM_appendChild(p,text2);
+    DOM_appendChild(p,text3);
+    DOM_appendChild(p,text4);
+    DOM_appendChild(p,text5);
+    DOM_appendChild(document.body,p);
+
+    var range = new Range(p,2,p,4);
+    Range_trackWhileExecuting(range,function() {
+        Formatting_mergeWithNeighbours(text3,Formatting_MERGEABLE_INLINE);
+    });
+    showRangeAsBrackets(range);
+}
+</script>
+</head>
+<body>
+
+</body>
+</html>

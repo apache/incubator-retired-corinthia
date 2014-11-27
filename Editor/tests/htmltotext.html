@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title></title>
+
+<script src="../tests/nulleditor.js"></script>
+<script src="../Clipboard_js"></script>
+<script src="../Cursor_js"></script>
+<script src="../DOM_js"></script>
+<script src="../Formatting_js"></script>
+<script src="../Hierarchy_js"></script>
+<script src="../init.js"></script>
+<script src="../Lists_js"></script>
+<script src="../NodeSet.js"></script>
+<script src="../Outline_js"></script>
+<script src="../Position.js"></script>
+<script src="../PostponedActions_js"></script>
+<script src="../Range.js"></script>
+<script src="../StringBuilder.js"></script>
+<script src="../traversal.js"></script>
+<script src="../types.js"></script>
+<script src="../UndoManager_js"></script>
+<script src="../util.js"></script>
+<script src="../Viewport_js"></script>
+<script src="../Selection_js"></script>
+<script src="../tests/testlib.js"></script>
+<script>
+function debug(str)
+{
+    console.log(str);
+}
+
+function loaded()
+{
+    DOM_assignNodeIds(document);
+    var text = Clipboard_htmlToText(document.body);
+    DOM_deleteAllChildren(document.body);
+    var pre = DOM_createElement(document,"PRE");
+    DOM_setStyleProperties(pre,{"white-space": "pre-wrap"});
+    DOM_appendChild(pre,DOM_createTextNode(document,text));
+    DOM_appendChild(document.body,pre);
+}
+</script>
+
+</head>
+
+<body onload="loaded()">
+
+<blockquote>
+<p>Here is some text in a blockquote. Here is some text in a blockquote.Here is some text in a blockquote.Here is some text in a blockquote.Here is some text in a blockquote.Here is some text in a blockquote.</p>
+
+<p>Here is some text in a blockquote. Here is some text in a blockquote.Here is some text in a blockquote.Here is some text in a blockquote.Here is some text in a blockquote.Here is some text in a blockquote.</p>
+
+<p>Here is some text in a blockquote. Here is some text in a blockquote.Here is some text in a blockquote.Here is some text in a blockquote.Here is some text in a blockquote.Here is some text in a blockquote.</p>
+
+<blockquote>
+This is a nested blockquote. This is a nested blockquote. This is a nested blockquote. This is a nested blockquote. This is a nested blockquote. This is a nested blockquote. This is a nested blockquote. This is a nested blockquote. 
+</blockquote>
+
+<ul>
+    <li>One</li>
+    <li>Two</li>
+    <li>Three</li>
+</ul>
+
+</blockquote>
+
+<p>First paragraph</p>
+<p>Third paragraph</p>
+<h1>Heading 1</h1>
+<h2>Heading 2</h2>
+<h3>Heading 3</h3>
+<h4>Heading 4</h4>
+<h5>Heading 5</h5>
+<h6>Heading 6</h6>
+<div><div><div>Content inside nested div</div></div></div>
+<p>One <b>Two</b> <i>Three</i></p>
+<ul><li>Item one</li><li>Item two</li><li>Item three</li><li>Item four<ul><li>AAAAA</li><li>BBBBB</li><li>CCCCC</li></ul></li><li><p>Item five para 1</p><p>Item five para 2</p><p>Item five para 3</p></li>
+</ul>
+<p>Fourth paragraph</p>
+<p>Fifth paragraph</p>
+
+
+Some text that is not in a paragraph. Some text that is not in a paragraph. Some text that is not in a paragraph. Some text that is not in a paragraph. Some text that is not in a paragraph. Some text that is not in a paragraph. Some text that is not in a paragraph. Some text that is not in a paragraph. Some text that is not in a paragraph. Some text that is not in a paragraph. Some text that is not in a paragraph. Some text that is not in a paragraph. Some text that is not in a paragraph. Some text that is not in a paragraph.
+
+<i>italic</i> <b>bold</b> <em>emphasis</em> <strong>strong</strong>
+
+<p><u>one</u><u>two</u><u>three</u></p>
+
+<p><u>one </u> <u> two </u> <u> three</u></p>
+
+Here is a link to the <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> (a good reference)
+
+<p>First paragraph</p>
+
+<p>Third paragraph</p>
+<p>One <b>Two</b> <i>Three</i></p>
+
+<ol>
+  <li>Item one</li>
+  <li>Item two</li>
+  <li>Item three</li>
+  <li>Item four
+    <ol>
+      <li>AAAAA</li>
+      <li>BBBBB<p>BBBBB</p>BBBBB<p>BBBBB</p>BBBBB<ul><li>one<p>x</p></li><li>two</li></ul></li>
+      <li>CCCCC</li>
+    </ol>
+  </li>
+  <li>Item five</li>
+  <li>Item</li>
+  <li>Item</li>
+  <li>Item</li>
+  <li>Item</li>
+  <li>Item<h1>Heading 1</h1><h2>Heading 2</h2>Rest of item</li>
+  <li>Item</li>
+  <li>Item</li>
+  <li>Item</li>
+</ol>
+
+<p>Fourth paragraph</p>
+
+<p>Fifth paragraph</p>
+
+</body>
+</html>

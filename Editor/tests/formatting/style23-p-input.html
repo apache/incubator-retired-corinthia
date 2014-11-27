@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+
+function performTest()
+{
+    Formatting_applyFormattingChanges("h1",null);
+
+    // An unrelated part of the code adds "id" attributes to heading elements to keep track of
+    // sections - we're not testing that functionality here, so we want to ignore them
+    removeIds();
+}
+</script>
+</head>
+<body>
+<p>Paragraph one</p>
+<p>Paragraph t[]wo</p>
+<p>Paragraph three</p>
+</body>
+</html>

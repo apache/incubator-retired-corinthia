@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var p = document.getElementsByTagName("P")[0];
+    var pos = new Position(p,2);
+    Input_replaceRange(pos,pos,"HELLO");
+    showSelection();
+}
+</script>
+</head>
+<body>
+<p>Sample<img src="../figures/nothing.png"><img src="../figures/nothing.png">text</p>
+</body>
+</html>

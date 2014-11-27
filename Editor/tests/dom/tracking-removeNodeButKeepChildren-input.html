@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="RangeTest.js"></script>
+<script>
+
+function performTest()
+{
+    // DOM_wrapNode() should not affect any positions, because the node itself remains in the
+    // tree unmodified.
+
+   var result = comparePositionsBeforeAndAfter(function() {
+        DOM_removeNodeButKeepChildren(document.getElementById("p2"),"DIV");
+    });
+
+    DOM_deleteAllChildren(document.body);
+    DOM_appendChild(document.body,DOM_createTextNode(document,"-\n"+result+"\n-"));
+}
+</script>
+</head>
+<body><p id="p1">ab<br></p><p id="p2">cd<b>ef<br></b>gh</b></p><p id="p3">ij<br></p></body>
+</html>

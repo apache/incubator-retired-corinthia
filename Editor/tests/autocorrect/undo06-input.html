@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="AutoCorrectTests.js"></script>
+<script src="../undo/UndoTests.js"></script>
+<script>
+function performTest()
+{
+    Outline_init();
+    AutoCorrect_init();
+    PostponedActions_perform();
+
+    UndoManager_clear();
+    var versions = new Array();
+    var p = document.getElementsByTagName("P")[0];
+    versions.push(DOM_cloneNode(p,true));
+    Cursor_insertCharacter("one");
+    Cursor_insertCharacter(" twox");
+    versions.push(DOM_cloneNode(p,true));
+    AutoCorrect_correctPrecedingWord(4,"two");
+    PostponedActions_perform();
+    versions.push(DOM_cloneNode(p,true));
+    Cursor_insertCharacter(" three");
+    Cursor_insertCharacter(" fourx");
+    versions.push(DOM_cloneNode(p,true));
+    AutoCorrect_correctPrecedingWord(5,"four");
+    PostponedActions_perform();
+    versions.push(DOM_cloneNode(p,true));
+    Cursor_insertCharacter(" five");
+
+    Selection_set(p,0,p,p.childNodes.length);
+    versions.push(DOM_cloneNode(p,true));
+    var clip = Clipboard_cut();
+    versions.push(DOM_cloneNode(p,true));
+    Clipboard_pasteHTML(clip["text/html"]);
+    versions.push(DOM_cloneNode(p,true));
+
+    testUndo(versions,p);
+}
+</script>
+</head>
+<body>
+<p>[]</p>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var ps = document.getElementsByTagName("P");
+    var position = new Position(ps[0],0);
+
+    Position_trackWhileExecuting([position],function() {
+        DOM_insertBefore(document.body,ps[0].childNodes[0],ps[3]);
+    });
+
+    var tt = DOM_createElement(document,"tt");
+    insertAtPosition(position,tt);
+}
+</script>
+</head>
+<body><p><span>Zero</span><span>One</span></p><p>Two</p><p>Three</p></body></html>

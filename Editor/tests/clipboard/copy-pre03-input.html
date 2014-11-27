@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    return showClipboard(Clipboard_copy());
+}
+</script>
+</head>
+<body>
+[Normal text
+<pre>
+var stop = false;
+for (var i = 0; i < 10 && !stop; i++) {
+    if (i >= 5)
+        print("Big: "+i);
+    else
+        print("Small: "+i);
+}
+</pre>
+Normal text
+<pre>
+var stop = false;
+for (var i = 0; i < 10 && !stop; i++) {
+    if (i >= 5)
+        print("Big: "+i);
+    else
+        print("Small: "+i);
+}
+</pre>
+Normal text]
+</body>
+</html>

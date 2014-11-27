@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="changetracking.css" rel="stylesheet"/>
+<script>
+function performTest()
+{
+    ChangeTracking_acceptSelectedChanges();
+    showSelection();
+}
+</script>
+</head>
+<body>
+  <ul>
+    <li>one</li>
+    <li><ins>t[wo</ins></li>
+    <li>three</li>
+    <li><ins>fo]ur</ins></li>
+    <li>five</li>
+  </ul>
+  <ul>
+    <li>ONE</li>
+    <li><ins>TWO</ins></li>
+    <li>THREE</li>
+    <li><ins>FOUR</ins></li>
+    <li>FIVE</li>
+  </ul>
+</body>
+</html>

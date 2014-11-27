@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="OutlineTest.js"></script>
+<script>
+
+function performTest()
+{
+    Outline_init();
+    if (Outline_detectSectionNumbering())
+        setupOutlineNumbering();
+    PostponedActions_perform();
+}
+</script>
+</head>
+<body>
+<p>Reference <a href="#one">x</a></p>
+<p>Reference <a href="#two">x</a></p>
+<p>Reference <a href="#three">x</a></p>
+<figure id="one"><figcaption>Figure 4</figcaption></figure>
+<figure id="two"><figcaption>Figure 4</figcaption></figure>
+<figure id="three"><figcaption>Figure 4</figcaption></figure>
+<p>Reference <a href="#one">x</a></p>
+<p>Reference <a href="#two">x</a></p>
+<p>Reference <a href="#three">x</a></p>
+</body>
+</html>

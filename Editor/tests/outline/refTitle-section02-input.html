@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="OutlineTest.js"></script>
+<script>
+function performTest()
+{
+    Outline_init();
+    if (Outline_detectSectionNumbering())
+        setupOutlineNumbering();
+    PostponedActions_perform();
+
+    var headings = document.getElementsByTagName("h1");
+
+    // Change heading text
+    for (var i = 0; i < headings.length; i++) {
+        DOM_appendChild(headings[i],DOM_createTextNode(document,"XYZ"));
+    }
+
+    // Add another set of references
+    for (var i = 0; i < headings.length; i++) {
+        var a = DOM_createElement(document,"A");
+        DOM_setAttribute(a,"href","#"+headings[i].getAttribute("id"));
+        var p = DOM_createElement(document,"P");
+        DOM_appendChild(p,a);
+        DOM_appendChild(document.body,p);
+    }
+
+    PostponedActions_perform();
+
+    return Outline_plainText()+PrettyPrinter.getHTML(document.documentElement);
+}
+</script>
+</head>
+<body>
+<h1 id="item1">9 First heading</h1>
+<h1 id="item2">9 Second heading</h1>
+<h1 id="item3">Third heading</h1>
+<h1 id="item4">Fourth heading</h1>
+<p>First ref: Section <a href="#item1"></a></p>
+<p>Second ref: Section <a href="#item2"></a></p>
+<p>Third ref: Section <a href="#item3"></a></p>
+<p>Fourth ref: Section <a href="#item4"></a></p>
+</body>
+</html>

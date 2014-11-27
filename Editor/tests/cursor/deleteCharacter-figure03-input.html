@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var figure = document.getElementsByTagName("FIGURE")[0];
+    var offset = DOM_nodeOffset(figure);
+    Cursor_set(figure.parentNode,offset+1,figure.parentNode,offset+1);
+    Cursor_deleteCharacter();
+    showSelection();
+}
+</script>
+</head>
+<body>
+<p>Text before</p>
+<figure>
+  <img src="../figures/nothing.png">
+  <figcaption>Test figure</figcaption>
+</figure>
+<p>Text after</p>
+</body>
+</html>

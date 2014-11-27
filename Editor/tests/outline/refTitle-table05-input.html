@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="OutlineTest.js"></script>
+<script>
+function performTest()
+{
+    Outline_init();
+    if (Outline_detectSectionNumbering())
+        setupOutlineNumbering();
+    PostponedActions_perform();
+
+    var captions = document.getElementsByTagName("caption");
+
+    // Change table caption
+    for (var i = 0; i < captions.length; i++) {
+        DOM_setNodeValue(captions[i].lastChild,"Table "+String.fromCharCode(65+i));
+    }
+
+    // Add another set of references
+    for (var i = 0; i < captions.length; i++) {
+        var a = DOM_createElement(document,"A");
+        DOM_setAttribute(a,"href","#"+captions[i].parentNode.getAttribute("id"));
+        var p = DOM_createElement(document,"P");
+        DOM_appendChild(p,a);
+        DOM_appendChild(document.body,p);
+    }
+
+    PostponedActions_perform();
+
+    return Outline_plainText()+PrettyPrinter.getHTML(document.documentElement);
+}
+</script>
+</head>
+<body>
+<table id="item1"><caption>Table 9: First table</caption></table>
+<table id="item2"><caption>Table 9: Second table</caption></table>
+<table id="item3"><caption>Third table</caption></table>
+<table id="item4"><caption>Fourth table</caption></table>
+<p>First ref: Table <a href="#item1"></a></p>
+<p>Second ref: Table <a href="#item2"></a></p>
+<p>Third ref: Table <a href="#item3"></a></p>
+<p>Fourth ref: Table <a href="#item4"></a></p>
+</body>
+</html>

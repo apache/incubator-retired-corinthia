@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="TableTests.js"></script>
+<script>
+function performTest()
+{
+    var element = document.getElementsByTagName("table")[0];
+    var structure = Tables_analyseStructure(element);
+    return JSON.stringify(Tables_getColWidths(structure));
+}
+</script>
+</head>
+<body>
+  <table id="table1" border="1" width="100%">
+    <tr>
+      <td>0,0</td>
+      <td>0,1</td>
+      <td>0,2</td>
+    </tr>
+    <tr>
+      <td>1,0</td>
+      <td>1,1</td>
+      <td>1,2</td>
+    </tr>
+  </table>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    Selection_preserveWhileExecuting(function() {
+        Formatting_splitAroundSelection(Selection_get());
+    });
+}
+</script>
+</head>
+<body>
+<p>
+  <b>
+    <i>
+      <s>Text1</s>
+      [<s>Text2</s>
+      <s>Text3</s>]
+    </i>
+  </b>
+</p>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var p = document.getElementsByTagName("P")[0];
+    var text = p.firstChild;
+    var positions = new Array();
+    for (var i = 0; i <= text.nodeValue.length; i++)
+        positions.push(new Position(text,i));
+
+    var messages = new Array();
+    messages.push("Before text change:");
+    for (var i = 0; i < positions.length; i++)
+        messages.push("positions["+i+"] = "+positions[i]);
+
+    Position_trackWhileExecuting(positions,function() {
+        DOM_deleteCharacters(text,12);
+    });
+
+    messages.push("After text change:");
+    for (var i = 0; i < positions.length; i++)
+        messages.push("positions["+i+"] = "+positions[i]);
+
+    DOM_deleteAllChildren(document.body);
+    DOM_appendChild(document.body,DOM_createTextNode(document,"-\n"+messages.join("\n")+"\n-"));
+}
+</script>
+</head>
+<body><p>Here is some text</p></body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="RangeTest.js"></script>
+<script>
+
+function arraysEqual(a,b)
+{
+    if (a.length != b.length)
+        return false;
+
+    for (var i = 0; i < a.length; i++) {
+        if (a[i] != b[i])
+            return false;
+    }
+
+    return true;
+}
+
+function performTest()
+{
+    var root = document.getElementById("root");
+    removeWhitespaceTextNodes(root);
+    setup(root);
+
+    var total = 0;
+    var pass = 0;
+    var fail = 0;
+    for (var startIndex = 0; startIndex < allPositions.length; startIndex++) {
+        for (var endIndex = 0; endIndex < allPositions.length; endIndex++) {
+            var start = allPositions[startIndex];
+            var end = allPositions[endIndex];
+            var range = new Range(start.node,start.offset,end.node,end.offset);
+
+            total++;
+
+            var actual = Range_isForwards(range);
+            var expected = isForwardsSimple(range);
+            if (actual == expected)
+                pass++;
+            else
+                fail++;
+        }
+    }
+
+    var message1 = "allPositions.length = "+allPositions.length;
+    var message2 = "Test results: total "+total+", pass "+pass+", fail "+fail;
+    DOM_deleteAllChildren(document.body);
+    DOM_appendChild(document.body,DOM_createTextNode(document,message1));
+    DOM_appendChild(document.body,DOM_createElement(document,"BR"));
+    DOM_appendChild(document.body,DOM_createTextNode(document,message2));
+}
+</script>
+</head>
+<body>
+
+<div id="root" style="display: none">
+    <div>
+        <div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div>
+            <div>One</div>
+            <div>Two</div>
+            <div></div>
+        </div>
+    </div>
+    <div>
+        <div>ONE</div>
+        <div>TWO</div>
+        <div>THREE</div>
+    </div>
+    <div>
+        <div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div>
+            <div></div>
+            <div></div>
+        </div>
+        <div>
+            <div></div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

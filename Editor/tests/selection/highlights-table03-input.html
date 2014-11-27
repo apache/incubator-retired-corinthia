@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+caption {
+    caption-side: bottom;
+}
+table {
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+}
+td > :first-child, th > :first-child {
+    margin-top: 0;
+}
+td > :last-child, th > :last-child {
+    margin-bottom: 0;
+}
+td, th {
+    border: 1px solid black;
+}
+</style>
+<script>
+function performTest()
+{
+    outputOptions.keepSelectionHighlights = true;
+
+    var tds = document.getElementsByTagName("TD");
+    var text = tds[0].firstChild;
+    Selection_set(text,0,text,1);
+}
+</script>
+</head>
+<body>
+<p>Text [before</p>
+<table width="100%">
+  <caption>Test caption</caption>
+  <tr>
+    <td>One</td>
+    <td>Two</td>
+  </tr>
+  <tr>
+    <td>Three</td>
+    <td>Four</td>
+  </tr>
+</table>
+<p>Text] after</p>
+</body>
+</html>

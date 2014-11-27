@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+
+function performTest()
+{
+    Outline_init();
+    PostponedActions_perform();
+    Formatting_applyFormattingChanges("H1",{});
+    PostponedActions_perform();
+    showSelection();
+}
+</script>
+</head>
+<body>
+<ol>
+  <li>One</li>
+  <li>Two</li>
+  <li>[Three]</li>
+  <li>Four</li>
+  <li>Five</li>
+</ol>
+</body>
+</html>

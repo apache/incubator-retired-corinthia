@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var ps = document.getElementsByTagName("P");
+
+    var messages = new Array();
+    var nodeCount = document.body.childNodes.length;
+    for (var posOffset = 0; posOffset <= nodeCount; posOffset++) {
+        for (var nodeOffset = 0; nodeOffset <= nodeCount; nodeOffset++) {
+            var position = new Position(document.body,posOffset);
+            var temp = DOM_createElement(document,"B");
+            Position_trackWhileExecuting([position],function() {
+                var message = "posOffset "+posOffset+", nodeOffset "+nodeOffset+": "+position;
+                DOM_insertBefore(document.body,temp,document.body.childNodes[nodeOffset]);
+                message += " "+position;
+                DOM_deleteNode(temp);
+                message += " "+position;
+                messages.push(message);
+            });
+        }
+    }
+
+    DOM_deleteAllChildren(document.body);
+    DOM_appendChild(document.body,DOM_createTextNode(document,"-\n"+messages.join("\n")+"\n-"));
+}
+</script>
+</head>
+<body><p>One</p><p>Two</p><p>Three</p></body>
+</html>

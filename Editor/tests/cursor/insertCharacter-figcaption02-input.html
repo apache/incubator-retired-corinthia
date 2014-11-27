@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../generic.css" rel="stylesheet"/>
+<script>
+function performTest()
+{
+    Outline_init();
+    if (Outline_detectSectionNumbering())
+        setupOutlineNumbering();
+    PostponedActions_perform();
+
+    var caption = document.getElementsByTagName("FIGCAPTION")[0];
+    var last = caption.lastChild;
+    Selection_set(last,3,last,3);
+    Cursor_insertCharacter("X");
+    showSelection();
+}
+</script>
+</head>
+<body>
+  <figure>
+    <img src="../figures/nothing.png">
+    <figcaption>Figure 1: Test</figcaption>
+  </figure>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var tr1 = document.getElementsByTagName("TR")[1];
+    var tr2 = document.getElementsByTagName("TR")[2];
+    var tr1Offset = DOM_nodeOffset(tr1);
+    var tr2Offset = DOM_nodeOffset(tr2);
+    Selection_set(tr1.parentNode,tr1Offset,tr2.parentNode,tr2Offset+1);
+    Selection_deleteContents();
+}
+</script>
+</head>
+<body>
+<table border="1">
+  <tr>
+    <td>One</td>
+    <td>Two</td>
+    <td>Three</td>
+  </tr>
+  <tr>
+    <td>Four</td>
+    <td>Five</td>
+    <td>Six</td>
+  </tr>
+  <tr>
+    <td>Seven</td>
+    <td>Eight</td>
+    <td>Nine</td>
+  </tr>
+</table>
+</body>
+</html>

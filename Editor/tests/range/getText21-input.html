@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var p = document.getElementsByTagName("P")[0];
+    var output = new Array();
+    for (var i = 0; i <= p.childNodes.length; i++) {
+        var range = new Range(p,i,p,i);
+        output.push("At offset "+i+": "+JSON.stringify(Range_getText(range)));
+    }
+    return output.join("\n");
+}
+</script>
+</head>
+<body>
+<p>One <b>two</b> three <i>four</i> five</p>
+<p>Here is some text</p>
+</body>
+</html>

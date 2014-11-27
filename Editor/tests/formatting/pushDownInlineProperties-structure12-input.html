@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    Selection_preserveWhileExecuting(function() {
+        var range = Selection_get();
+        Range_ensureValidHierarchy(range);
+        Formatting_splitAroundSelection(range);
+        var outermost = Range_getOutermostNodes(range);
+        Formatting_pushDownInlineProperties(outermost);
+    });
+}
+</script>
+</head>
+<body>
+<ul style="font-size: 18pt">
+  <li style="color: red">First [line</li>
+  <li style="color: green">Second line</li>
+  <li style="color: blue">Third line</li>
+</ul>
+<ul style="font-size: 24pt">
+  <li style="color: yellow">Fourth line</li>
+  <li style="color: fuchsia">Fifth] line</li>
+</ul>
+</body>
+</html>

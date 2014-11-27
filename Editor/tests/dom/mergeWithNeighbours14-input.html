@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var p = document.getElementsByTagName("P")[0];
+    var bs = document.getElementsByTagName("B");
+    var is = document.getElementsByTagName("I");
+
+    var range = new Range(p,0,p,7);
+
+    Range_trackWhileExecuting(range,function() {
+       Formatting_mergeWithNeighbours(bs[1],Formatting_MERGEABLE_INLINE);
+    });
+    showRangeAsBrackets(range);
+}
+</script>
+</head>
+<body>
+
+<p><br><br><b><i>One</i><i>Two</i><i>Three</i></b><b><i>Four</i><i>Five</i><i>Six</i></b><b><i>Seven</i><i>Eight</i><i>Nine</i></b><br><br></p>
+
+</body>
+</html>

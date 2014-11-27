@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    Selection_preserveWhileExecuting(function() {
+        var range = Selection_get();
+        Formatting_splitAroundSelection(range);
+        var outermost = Range_getOutermostNodes(range);
+        Formatting_pushDownInlineProperties(outermost);
+    });
+}
+</script>
+</head>
+<body>
+<p style="color: blue">
+  <s>
+    <s>
+      <s>O[ne</s>
+      <s>Two</s>
+      <s>Three</s>
+    </s>
+    <s>
+      <s>Four</s>
+      <s>Five</s>
+      <s>Six</s>
+    </s>
+  </s>
+  <s>
+    <s>Seven</s>
+    <s>Eight</s>
+    <s>Nin]e</s>
+  </s>
+</p>
+</body>
+</html>

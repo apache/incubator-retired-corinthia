@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="OutlineTest.js"></script>
+<script>
+
+function performTest()
+{
+    Outline_init();
+    if (Outline_detectSectionNumbering())
+        setupOutlineNumbering();
+    PostponedActions_perform();
+    setNumbering(false);
+    return Outline_plainText()+PrettyPrinter.getHTML(document.documentElement);
+}
+</script>
+</head>
+<body>
+<h1>6 First section</h1>
+<figure><figcaption>Figure 4: First figure</figcaption></figure>
+<table><caption>Table 9: First table</caption></table>
+<h1>12.3 Second section</h1>
+<figure><figcaption>Figure 5.11: Second figure</figcaption></figure>
+<table><caption>Table 9.13: Second table</caption></table>
+<h1>14.5.3 Third section</h1>
+<figure><figcaption>Figure 3.12.199: Third figure</figcaption></figure>
+<table><caption>Table 88.55.44: Third table</caption></table>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="AutoCorrectTests.js"></script>
+<script src="../undo/UndoTests.js"></script>
+<script>
+function performTest()
+{
+    Outline_init();
+    AutoCorrect_init();
+    PostponedActions_perform();
+
+    UndoManager_clear();
+    var p = document.getElementsByTagName("P")[0];
+    var versions = new Array();
+    versions.push(DOM_cloneNode(p,true));
+    Cursor_insertCharacter("one");
+    Cursor_insertCharacter(" twox");
+    versions.push(DOM_cloneNode(p,true));
+    AutoCorrect_correctPrecedingWord(4,"two");
+    PostponedActions_perform();
+    versions.push(DOM_cloneNode(p,true));
+    Cursor_insertCharacter(" three");
+    Cursor_insertCharacter(" fourx");
+    versions.push(DOM_cloneNode(p,true));
+    AutoCorrect_correctPrecedingWord(5,"four");
+    PostponedActions_perform();
+    versions.push(DOM_cloneNode(p,true));
+    Cursor_insertCharacter(" five");
+    versions.push(DOM_cloneNode(p,true));
+
+    testUndo(versions,p);
+}
+</script>
+</head>
+<body>
+<p>[]</p>
+</body>
+</html>

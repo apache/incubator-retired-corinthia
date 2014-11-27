@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var first = document.getElementById("first");
+    var second = document.getElementById("second");
+    Hierarchy_ensureInlineNodesInParagraph(first,true);
+    Hierarchy_ensureInlineNodesInParagraph(second,true);
+}
+</script>
+</head>
+<body>
+
+<br>
+One
+<br id="first">
+Two
+<br>
+
+<p>Explicit paragraph</p>
+
+<br>
+Three
+<br id="second">
+Four
+<br>
+
+</body>
+</html>

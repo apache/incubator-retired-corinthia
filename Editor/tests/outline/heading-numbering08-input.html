@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+</style>
+<script>
+function performTest()
+{
+    Outline_init();
+    if (Outline_detectSectionNumbering())
+        setupOutlineNumbering();
+    PostponedActions_perform();
+    Formatting_applyFormattingChanges("H1",{});
+    PostponedActions_perform();
+    simplifyTOCs();
+}
+</script>
+</head>
+<body>
+<nav class="tableofcontents"></nav>
+<h1>One</h1>
+[<p>Two</p>]
+<h1>7 Three</h1>
+</body>
+</html>
