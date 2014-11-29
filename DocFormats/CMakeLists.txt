@@ -30,8 +30,7 @@ include_directories(./filters/ooxml/src/word/lenses)
 
 set(GroupRoot
     DFCommon.h
-    DFTypes.h
-    DocFormats.h)
+    DFTypes.h)
 
 set(GroupCoreCommon
     core/src/common/DFBDT.c

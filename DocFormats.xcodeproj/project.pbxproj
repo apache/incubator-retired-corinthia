@@ -176,7 +176,6 @@
 		D0A1283317EF7E9D005FE158 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A1283217EF7E9D005FE158 /* Cocoa.framework */; };
 		D0A1283D17EF7E9D005FE158 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D0A1283B17EF7E9D005FE158 /* InfoPlist.strings */; };
 		D0A1286317EF7ED5005FE158 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A1286217EF7ED5005FE158 /* Foundation.framework */; };
-		D0A1288517EF7F09005FE158 /* DocFormats.h in Headers */ = {isa = PBXBuildFile; fileRef = D0A1283F17EF7E9D005FE158 /* DocFormats.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0A786881A210EA900723FE8 /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = D0A7839D1A210EA700723FE8 /* crypt.h */; };
 		D0A786891A210EA900723FE8 /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = D0A7839D1A210EA700723FE8 /* crypt.h */; };
 		D0A7868A1A210EA900723FE8 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = D0A7839E1A210EA700723FE8 /* ioapi.c */; };
@@ -429,7 +428,6 @@
 		D0B113CD1A205F67009610A5 /* HTMLToLaTeX.h in Headers */ = {isa = PBXBuildFile; fileRef = D0B113CB1A205F67009610A5 /* HTMLToLaTeX.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0B113CE1A205F70009610A5 /* HTMLToLaTeX.c in Sources */ = {isa = PBXBuildFile; fileRef = D0B113CA1A205F67009610A5 /* HTMLToLaTeX.c */; };
 		D0B113CF1A205F70009610A5 /* HTMLToLaTeX.h in Headers */ = {isa = PBXBuildFile; fileRef = D0B113CB1A205F67009610A5 /* HTMLToLaTeX.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D0B5E87317F0859800FBD99F /* DocFormats.h in Headers */ = {isa = PBXBuildFile; fileRef = D0A1283F17EF7E9D005FE158 /* DocFormats.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0B5E8B517F086BD00FBD99F /* FileClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B5E8B417F086BD00FBD99F /* FileClient.framework */; };
 		D0B5E8B717F086C100FBD99F /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B5E8B617F086C100FBD99F /* libxml2.dylib */; };
 		D0B5E8B917F086C700FBD99F /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B5E8B817F086C700FBD99F /* libz.dylib */; };
@@ -545,7 +543,6 @@
 		D0A1283A17EF7E9D005FE158 /* DocFormats-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DocFormats-Info.plist"; sourceTree = "<group>"; };
 		D0A1283C17EF7E9D005FE158 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D0A1283E17EF7E9D005FE158 /* DocFormats-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DocFormats-Prefix.pch"; sourceTree = "<group>"; };
-		D0A1283F17EF7E9D005FE158 /* DocFormats.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DocFormats.h; sourceTree = "<group>"; };
 		D0A1284717EF7E9D005FE158 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		D0A1286117EF7ED5005FE158 /* libDocFormats.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libDocFormats.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A1286217EF7ED5005FE158 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -932,7 +929,6 @@
 				D0A1283917EF7E9D005FE158 /* Supporting Files */,
 				D0BC41601984101D00882CD1 /* DFCommon.h */,
 				D0BC4163198413B900882CD1 /* DFTypes.h */,
-				D0A1283F17EF7E9D005FE158 /* DocFormats.h */,
 			);
 			path = DocFormats;
 			sourceTree = "<group>";
@@ -1265,7 +1261,6 @@
 				D0B113CD1A205F67009610A5 /* HTMLToLaTeX.h in Headers */,
 				D01E24AD1A205A1500F4C04D /* DFBuffer.h in Headers */,
 				D01E24911A205A1500F4C04D /* DFHTML.h in Headers */,
-				D0A1288517EF7F09005FE158 /* DocFormats.h in Headers */,
 				D01E24CD1A205A1500F4C04D /* DFZipFile.h in Headers */,
 				D0BC41611984106300882CD1 /* DFCommon.h in Headers */,
 				D01E24B91A205A1500F4C04D /* DFError.h in Headers */,
@@ -1330,7 +1325,6 @@
 				D01E248E1A205A1500F4C04D /* DFHTDocument.h in Headers */,
 				D0A787351A210EA900723FE8 /* access.h in Headers */,
 				D0ADB3811A2054C6003D645D /* WordGC.h in Headers */,
-				D0B5E87317F0859800FBD99F /* DocFormats.h in Headers */,
 				D0ADB3751A2054C6003D645D /* Word.h in Headers */,
 				D01E246E1A205A1500F4C04D /* CSSClassNames.h in Headers */,
 				D01E247A1A205A1500F4C04D /* CSSProperties.h in Headers */,
