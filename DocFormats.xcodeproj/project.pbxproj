@@ -121,10 +121,6 @@
 		D01E24C01A205A1500F4C04D /* DFHashTable.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E24461A205A1500F4C04D /* DFHashTable.c */; };
 		D01E24C11A205A1500F4C04D /* DFHashTable.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E24471A205A1500F4C04D /* DFHashTable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01E24C21A205A1500F4C04D /* DFHashTable.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E24471A205A1500F4C04D /* DFHashTable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D01E24C31A205A1500F4C04D /* DFStore.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E24481A205A1500F4C04D /* DFStore.c */; };
-		D01E24C41A205A1500F4C04D /* DFStore.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E24481A205A1500F4C04D /* DFStore.c */; };
-		D01E24C51A205A1500F4C04D /* DFStore.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E24491A205A1500F4C04D /* DFStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D01E24C61A205A1500F4C04D /* DFStore.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E24491A205A1500F4C04D /* DFStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01E24C71A205A1500F4C04D /* DFString.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E244A1A205A1500F4C04D /* DFString.c */; };
 		D01E24C81A205A1500F4C04D /* DFString.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E244A1A205A1500F4C04D /* DFString.c */; };
 		D01E24C91A205A1500F4C04D /* DFString.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E244B1A205A1500F4C04D /* DFString.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -443,6 +439,10 @@
 		D0BC4165198413F500882CD1 /* DFTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = D0BC4163198413B900882CD1 /* DFTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0FA2D821A2B05B400B44D96 /* DocFormats.h in Headers */ = {isa = PBXBuildFile; fileRef = D074ED561A2B04BC000C3704 /* DocFormats.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0FA2D831A2B05B400B44D96 /* Operations.h in Headers */ = {isa = PBXBuildFile; fileRef = D074ED571A2B04BC000C3704 /* Operations.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0FBA10A1A2B16F700B066C1 /* DFPackage.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FBA1081A2B16F700B066C1 /* DFPackage.c */; };
+		D0FBA10B1A2B16F700B066C1 /* DFPackage.h in Headers */ = {isa = PBXBuildFile; fileRef = D0FBA1091A2B16F700B066C1 /* DFPackage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0FBA10C1A2B173000B066C1 /* DFPackage.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FBA1081A2B16F700B066C1 /* DFPackage.c */; };
+		D0FBA10D1A2B173000B066C1 /* DFPackage.h in Headers */ = {isa = PBXBuildFile; fileRef = D0FBA1091A2B16F700B066C1 /* DFPackage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -515,8 +515,6 @@
 		D01E24451A205A1500F4C04D /* DFFilesystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFFilesystem.h; sourceTree = "<group>"; };
 		D01E24461A205A1500F4C04D /* DFHashTable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFHashTable.c; sourceTree = "<group>"; };
 		D01E24471A205A1500F4C04D /* DFHashTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFHashTable.h; sourceTree = "<group>"; };
-		D01E24481A205A1500F4C04D /* DFStore.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFStore.c; sourceTree = "<group>"; };
-		D01E24491A205A1500F4C04D /* DFStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFStore.h; sourceTree = "<group>"; };
 		D01E244A1A205A1500F4C04D /* DFString.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFString.c; sourceTree = "<group>"; };
 		D01E244B1A205A1500F4C04D /* DFString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFString.h; sourceTree = "<group>"; };
 		D01E244C1A205A1500F4C04D /* DFZipFile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFZipFile.c; sourceTree = "<group>"; };
@@ -693,6 +691,8 @@
 		D0B5E8C417F086ED00FBD99F /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
 		D0BC41601984101D00882CD1 /* DFCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DFCommon.h; sourceTree = "<group>"; };
 		D0BC4163198413B900882CD1 /* DFTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DFTypes.h; sourceTree = "<group>"; };
+		D0FBA1081A2B16F700B066C1 /* DFPackage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFPackage.c; sourceTree = "<group>"; };
+		D0FBA1091A2B16F700B066C1 /* DFPackage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFPackage.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -833,8 +833,8 @@
 				D01E24451A205A1500F4C04D /* DFFilesystem.h */,
 				D01E24461A205A1500F4C04D /* DFHashTable.c */,
 				D01E24471A205A1500F4C04D /* DFHashTable.h */,
-				D01E24481A205A1500F4C04D /* DFStore.c */,
-				D01E24491A205A1500F4C04D /* DFStore.h */,
+				D0FBA1081A2B16F700B066C1 /* DFPackage.c */,
+				D0FBA1091A2B16F700B066C1 /* DFPackage.h */,
 				D01E244A1A205A1500F4C04D /* DFString.c */,
 				D01E244B1A205A1500F4C04D /* DFString.h */,
 				D01E244C1A205A1500F4C04D /* DFZipFile.c */,
@@ -1219,6 +1219,7 @@
 				D0A787901A210EA900723FE8 /* version.h in Headers */,
 				D01E24E71A205A1500F4C04D /* DFXMLForward.h in Headers */,
 				D0ADB38C1A2054C6003D645D /* WordNumbering.h in Headers */,
+				D0FBA10B1A2B16F700B066C1 /* DFPackage.h in Headers */,
 				D01E24891A205A1500F4C04D /* CSSSyntax.h in Headers */,
 				D01E24E11A205A1500F4C04D /* DFNameMap.h in Headers */,
 				D01E245F1A205A1500F4C04D /* DFBDT.h in Headers */,
@@ -1231,7 +1232,6 @@
 				D0ADB37C1A2054C6003D645D /* WordConverter.h in Headers */,
 				D01E24B51A205A1500F4C04D /* DFCharacterSet.h in Headers */,
 				D0ADB3781A2054C6003D645D /* WordCaption.h in Headers */,
-				D01E24C51A205A1500F4C04D /* DFStore.h in Headers */,
 				D01E249D1A205A1500F4C04D /* DFTidyHelper.h in Headers */,
 				D04459381A20635B00A2E37E /* ODF.h in Headers */,
 				D0A787481A210EA900723FE8 /* charsets.h in Headers */,
@@ -1329,6 +1329,7 @@
 				D0A787911A210EA900723FE8 /* version.h in Headers */,
 				D01E24CA1A205A1500F4C04D /* DFString.h in Headers */,
 				D01E24E81A205A1500F4C04D /* DFXMLForward.h in Headers */,
+				D0FBA10D1A2B173000B066C1 /* DFPackage.h in Headers */,
 				D0ADB3391A2054C6003D645D /* WordCommonPr.h in Headers */,
 				D01E248A1A205A1500F4C04D /* CSSSyntax.h in Headers */,
 				D01E24E21A205A1500F4C04D /* DFNameMap.h in Headers */,
@@ -1341,7 +1342,6 @@
 				D0ADB37D1A2054C6003D645D /* WordConverter.h in Headers */,
 				D01E24B61A205A1500F4C04D /* DFCharacterSet.h in Headers */,
 				D0ADB3791A2054C6003D645D /* WordCaption.h in Headers */,
-				D01E24C61A205A1500F4C04D /* DFStore.h in Headers */,
 				D04459401A20636F00A2E37E /* ODF.h in Headers */,
 				D01E249E1A205A1500F4C04D /* DFTidyHelper.h in Headers */,
 				D0A787491A210EA900723FE8 /* charsets.h in Headers */,
@@ -1522,7 +1522,6 @@
 				D0A787761A210EA900723FE8 /* pprint.c in Sources */,
 				D0A7873A1A210EA900723FE8 /* attrdict.c in Sources */,
 				D0ADB35A1A2054C6003D645D /* WordEquation.c in Sources */,
-				D01E24C31A205A1500F4C04D /* DFStore.c in Sources */,
 				D0165AE31A206A55000F1267 /* Apple.c in Sources */,
 				D0165AE61A206A55000F1267 /* Win32.c in Sources */,
 				D01E24AF1A205A1500F4C04D /* DFCallback.c in Sources */,
@@ -1609,6 +1608,7 @@
 				D0ADB3921A2054C6003D645D /* WordPackage.c in Sources */,
 				D01E24DB1A205A1500F4C04D /* DFMarkupCompatibility.c in Sources */,
 				D0A7873E1A210EA900723FE8 /* attrget.c in Sources */,
+				D0FBA10A1A2B16F700B066C1 /* DFPackage.c in Sources */,
 				D01E24D31A205A1500F4C04D /* DFXMLNamespaces.c in Sources */,
 				D01E24AB1A205A1500F4C04D /* DFBuffer.c in Sources */,
 			);
@@ -1642,7 +1642,6 @@
 				D0ADB35B1A2054C6003D645D /* WordEquation.c in Sources */,
 				D0165AE81A206A7A000F1267 /* Apple.c in Sources */,
 				D0165AEB1A206A7A000F1267 /* Win32.c in Sources */,
-				D01E24C41A205A1500F4C04D /* DFStore.c in Sources */,
 				D0165AE91A206A7A000F1267 /* Linux.c in Sources */,
 				D01E24B01A205A1500F4C04D /* DFCallback.c in Sources */,
 				D01E24D01A205A1500F4C04D /* DFXMLNames.c in Sources */,
@@ -1727,6 +1726,7 @@
 				D01E24DC1A205A1500F4C04D /* DFMarkupCompatibility.c in Sources */,
 				D01E24D41A205A1500F4C04D /* DFXMLNamespaces.c in Sources */,
 				D0A7873F1A210EA900723FE8 /* attrget.c in Sources */,
+				D0FBA10C1A2B173000B066C1 /* DFPackage.c in Sources */,
 				D0ADB3931A2054C6003D645D /* WordPackage.c in Sources */,
 				D01E24AC1A205A1500F4C04D /* DFBuffer.c in Sources */,
 			);

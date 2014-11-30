@@ -33,7 +33,7 @@ static int zipError(DFError **error, const char *format, ...)
     return 0;
 }
 
-int DFUnzip(const char *zipFilename, DFStore *store, DFError **error)
+int DFUnzip(const char *zipFilename, DFPackage *package, DFError **error)
 {
     unzFile zipFile = unzOpen(zipFilename);
     if (zipFile == NULL)
@@ -67,7 +67,7 @@ int DFUnzip(const char *zipFilename, DFStore *store, DFError **error)
                 return zipError(error,"%s: decompression failed",entryName);
             }
 
-            if (!DFBufferWriteToStore(content,store,entryName,error)) {
+            if (!DFBufferWriteToPackage(content,package,entryName,error)) {
                 DFBufferRelease(content);
                 return zipError(error,"%s: %s",entryName,DFErrorMessage(error));
             }
@@ -110,14 +110,14 @@ static int zipAddFile(zipFile zip, const char *dest, DFBuffer *content, DFError 
     return 1;
 }
 
-int DFZip(const char *zipFilename, DFStore *store, DFError **error)
+int DFZip(const char *zipFilename, DFPackage *package, DFError **error)
 {
     const char **allPaths = NULL;
     zipFile zip = NULL;
     DFBuffer *content = NULL;
     int ok = 0;
 
-    allPaths = DFStoreList(store,error);
+    allPaths = DFPackageList(package,error);
     if (allPaths == NULL)
         goto end;
 
@@ -131,7 +131,7 @@ int DFZip(const char *zipFilename, DFStore *store, DFError **error)
         const char *path = allPaths[i];
 
         DFBufferRelease(content);
-        content = DFBufferReadFromStore(store,path,error);
+        content = DFBufferReadFromPackage(package,path,error);
         if (content == NULL) {
             DFErrorFormat(error,"%s: %s",path,DFErrorMessage(error));
             goto end;

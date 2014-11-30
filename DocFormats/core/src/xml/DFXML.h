@@ -20,17 +20,17 @@
 #include "DFXMLForward.h"
 #include "DFError.h"
 #include "DFBuffer.h"
-#include "DFStore.h"
+#include "DFPackage.h"
 
 DFDocument *DFParseXMLString(const char *str, DFError **error);
 DFDocument *DFParseXMLFile(const char *filename, DFError **error);
-DFDocument *DFParseXMLStore(DFStore *store, const char *storeFilename, DFError **error);
+DFDocument *DFParseXMLPackage(DFPackage *package, const char *filename, DFError **error);
 
 void DFSerializeXMLBuffer(DFDocument *doc, NamespaceID defaultNS, int indent, DFBuffer *buf);
 char *DFSerializeXMLString(DFDocument *doc, NamespaceID defaultNS, int indent);
 int DFSerializeXMLFile(DFDocument *doc, NamespaceID defaultNS, int indent, const char *filename, DFError **error);
-int DFSerializeXMLStore(DFDocument *doc, NamespaceID defaultNS, int indent,
-                        DFStore *store, const char *storeFilename,
+int DFSerializeXMLPackage(DFDocument *doc, NamespaceID defaultNS, int indent,
+                        DFPackage *package, const char *filename,
                         DFError **error);
 
 #endif

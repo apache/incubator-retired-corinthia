@@ -177,7 +177,7 @@ static void addMissingParts(WordPackage *package)
         package->endnotes = DFDocumentNewWithRoot(WORD_ENDNOTES);
 }
 
-WordPackage *WordPackageOpenNew(DFStore *store, DFError **error)
+WordPackage *WordPackageOpenNew(DFPackage *store, DFError **error)
 {
     OPCPackage *opc = OPCPackageOpenNew(store,error);
     if (opc == NULL)
@@ -208,7 +208,7 @@ WordPackage *WordPackageOpenNew(DFStore *store, DFError **error)
     return NULL;
 }
 
-WordPackage *WordPackageOpenFrom(DFStore *store, const char *filename, DFError **error)
+WordPackage *WordPackageOpenFrom(DFPackage *store, const char *filename, DFError **error)
 {
     OPCPackage *opc = OPCPackageOpenFrom(store,filename,error);
     if (opc == NULL)

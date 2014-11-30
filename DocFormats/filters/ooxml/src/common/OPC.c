@@ -251,9 +251,9 @@ static const char *OPCContentTypesTypeForPartName(OPCContentTypes *ct, const cha
     return "";
 }
 
-static int OPCContentTypesLoadFromFile(OPCContentTypes *ct, DFStore *store, const char *relPath, DFError **error)
+static int OPCContentTypesLoadFromFile(OPCContentTypes *ct, DFPackage *package, const char *relPath, DFError **error)
 {
-    DFDocument *doc = DFParseXMLStore(store,relPath,error);
+    DFDocument *doc = DFParseXMLPackage(package,relPath,error);
     if (doc == NULL) {
         char *filename = DFPathBaseName(relPath);
         DFErrorFormat(error,"%s: %s",filename,DFErrorMessage(error));
@@ -289,7 +289,7 @@ static int OPCContentTypesLoadFromFile(OPCContentTypes *ct, DFStore *store, cons
     return 1;
 }
 
-static int OPCContentTypesSaveToFile(OPCContentTypes *ct, DFStore *store, const char *relPath, DFError **error)
+static int OPCContentTypesSaveToFile(OPCContentTypes *ct, DFPackage *package, const char *relPath, DFError **error)
 {
     DFDocument *doc = DFDocumentNew();
     DFNode *types = DFCreateElement(doc,CT_TYPES);
@@ -316,7 +316,7 @@ static int OPCContentTypesSaveToFile(OPCContentTypes *ct, DFStore *store, const 
         DFAppendChild(types,override);
     }
     free(keys);
-    if (!DFSerializeXMLStore(doc,NAMESPACE_CT,0,store,relPath,error)) {
+    if (!DFSerializeXMLPackage(doc,NAMESPACE_CT,0,package,relPath,error)) {
         char *filename = DFPathBaseName(relPath);
         DFErrorFormat(error,"%s: %s",filename,DFErrorMessage(error));
         free(filename);
@@ -348,10 +348,10 @@ void OPCContentTypesRemoveOverride(OPCContentTypes *ct, const char *partName)
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static OPCPackage *OPCPackageNew(DFStore *store)
+static OPCPackage *OPCPackageNew(DFPackage *store)
 {
     OPCPackage *pkg = (OPCPackage *)calloc(1,sizeof(OPCPackage));
-    pkg->store = DFStoreRetain(store);
+    pkg->store = DFPackageRetain(store);
     pkg->contentTypes = OPCContentTypesNew();
     pkg->relationships = OPCRelationshipSetNew();
     pkg->partsByName = DFHashTableNew((DFCopyFunction)OPCPartRetain,(DFFreeFunction)OPCPartRelease);
@@ -361,7 +361,7 @@ static OPCPackage *OPCPackageNew(DFStore *store)
 
 void OPCPackageFree(OPCPackage *pkg)
 {
-    DFStoreRelease(pkg->store);
+    DFPackageRelease(pkg->store);
     OPCContentTypesFree(pkg->contentTypes);
     OPCRelationshipSetFree(pkg->relationships);
     DFHashTableRelease(pkg->partsByName);
@@ -405,7 +405,7 @@ static void saveRelationships(OPCPackage *pkg, OPCRelationshipSet *rels, const c
 
     if (idCount == 0) {
         DFError *error = NULL;
-        if (DFStoreExists(pkg->store,relativePath) && !DFStoreDelete(pkg->store,relativePath,&error)) {
+        if (DFPackageExists(pkg->store,relativePath) && !DFPackageDelete(pkg->store,relativePath,&error)) {
             OPCPackageError(pkg,"%s: %s",relativePath,DFErrorMessage(&error));
             DFErrorRelease(error);
         }
@@ -413,7 +413,7 @@ static void saveRelationships(OPCPackage *pkg, OPCRelationshipSet *rels, const c
     else {
         DFError *error = NULL;
         DFDocument *doc = OPCRelationshipSetToDocument(rels);
-        if (!DFSerializeXMLStore(doc,NAMESPACE_REL,0,pkg->store,relativePath,&error)) {
+        if (!DFSerializeXMLPackage(doc,NAMESPACE_REL,0,pkg->store,relativePath,&error)) {
             OPCPackageError(pkg,"%s: %s",relativePath,DFErrorMessage(&error));
             DFErrorRelease(error);
         }
@@ -426,9 +426,9 @@ static void saveRelationships(OPCPackage *pkg, OPCRelationshipSet *rels, const c
 static void readRelationships(OPCPackage *pkg, OPCRelationshipSet *rels, const char *partURI)
 {
     char *relFilename = relRelationshipsPathForURI(partURI);
-    if (DFStoreExists(pkg->store,relFilename)) {
+    if (DFPackageExists(pkg->store,relFilename)) {
         DFError *localError = NULL;
-        DFDocument *relDoc = DFParseXMLStore(pkg->store,relFilename,&localError);
+        DFDocument *relDoc = DFParseXMLPackage(pkg->store,relFilename,&localError);
         if (relDoc == NULL) {
             OPCPackageError(pkg,"%s: %s",relFilename,DFErrorMessage(&localError));
             DFErrorRelease(localError);
@@ -494,7 +494,7 @@ void OPCPackageReadRelationships(OPCPackage *pkg, OPCRelationshipSet *rels, cons
 static void findParts(OPCPackage *pkg)
 {
     DFError *error = NULL;
-    const char **contents = DFStoreList(pkg->store,&error);
+    const char **contents = DFPackageList(pkg->store,&error);
     if (contents == NULL) {
         OPCPackageError(pkg,"findParts: %s",DFErrorMessage(&error));
         DFErrorRelease(error);
@@ -504,7 +504,7 @@ static void findParts(OPCPackage *pkg)
     for (int i = 0; contents[i]; i++) {
         const char *relPath = contents[i];
         char *absPath = DFFormatString("/%s",relPath);
-        if (!DFStoreExists(pkg->store,relPath)) {
+        if (!DFPackageExists(pkg->store,relPath)) {
             OPCPackageError(pkg,"%s: No such file or directory",relPath);
         }
         else if (!DFStringEqualsCI(absPath,"/[Content_Types].xml") && (strstr(absPath,"/_rels/") == NULL)) {
@@ -516,12 +516,12 @@ static void findParts(OPCPackage *pkg)
     free(contents);
 }
 
-OPCPackage *OPCPackageOpenNew(DFStore *store, DFError **error)
+OPCPackage *OPCPackageOpenNew(DFPackage *store, DFError **error)
 {
     return OPCPackageNew(store);
 }
 
-OPCPackage *OPCPackageOpenFrom(DFStore *store, const char *filename, DFError **error)
+OPCPackage *OPCPackageOpenFrom(DFPackage *store, const char *filename, DFError **error)
 {
     int ok = 0;
     OPCPackage *pkg = OPCPackageNew(store);
@@ -624,7 +624,7 @@ void OPCPackageRemoveRelatedPart(OPCPackage *pkg, const char *URI, const char *r
 
 DFBuffer *OPCPackageReadPart(OPCPackage *pkg, OPCPart *part, DFError **error)
 {
-    DFBuffer *buffer = DFBufferReadFromStore(pkg->store,part->URI,error);
+    DFBuffer *buffer = DFBufferReadFromPackage(pkg->store,part->URI,error);
     if (buffer == NULL) {
         DFErrorFormat(error,"%s: %s",part->URI,DFErrorMessage(error));
         return NULL;
@@ -638,7 +638,7 @@ int OPCPackageWritePart(OPCPackage *pkg, const char *data, size_t len, OPCPart *
     int result = 0;
     DFBuffer *buffer = DFBufferNew();
     DFBufferAppendData(buffer,data,len);
-    if (!DFBufferWriteToStore(buffer,pkg->store,part->URI,error))
+    if (!DFBufferWriteToPackage(buffer,pkg->store,part->URI,error))
         DFErrorFormat(error,"%s: %s",part->URI,DFErrorMessage(error));
     else
         result = 1;
@@ -648,8 +648,8 @@ int OPCPackageWritePart(OPCPackage *pkg, const char *data, size_t len, OPCPart *
 
 int OPCPackageDeletePart(OPCPackage *pkg, OPCPart *part, DFError **error)
 {
-    if (DFStoreExists(pkg->store,part->URI) &&
-        !DFStoreDelete(pkg->store,part->URI,error)) {
+    if (DFPackageExists(pkg->store,part->URI) &&
+        !DFPackageDelete(pkg->store,part->URI,error)) {
         DFErrorFormat(error,"%s: %s",part->URI,DFErrorMessage(error));
         return 0;
     }

@@ -17,7 +17,7 @@
 
 #include "DFError.h"
 #include "DFTypes.h"
-#include "DFStore.h"
+#include "DFPackage.h"
 #include <stdarg.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,9 +45,9 @@ void DFBufferAppendChar(DFBuffer *buf, char ch);
 void DFBufferVFormat(DFBuffer *buf, const char *format, va_list ap);
 void DFBufferFormat(DFBuffer *buf, const char *format, ...) ATTRIBUTE_FORMAT(printf,2,3);
 DFBuffer *DFBufferReadFromFile(const char *filename, DFError **error);
-DFBuffer *DFBufferReadFromStore(DFStore *store, const char *storeFilename, DFError **error);
+DFBuffer *DFBufferReadFromPackage(DFPackage *package, const char *filename, DFError **error);
 int DFBufferWriteToFile(DFBuffer *buf, const char *filename, DFError **error);
-int DFBufferWriteToStore(DFBuffer *buf, DFStore *store, const char *storeFilename, DFError **error);
+int DFBufferWriteToPackage(DFBuffer *buf, DFPackage *package, const char *filename, DFError **error);
 
 int DFWriteDataToFile(const void *data, size_t len, const char *filename, DFError **error);
 

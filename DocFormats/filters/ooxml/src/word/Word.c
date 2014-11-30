@@ -28,8 +28,8 @@ int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error)
     char *htmlPath = DFPathDirName(sourcePath);
     DFDocument *htmlDoc = NULL;
     DFBuffer *warnings = DFBufferNew();
-    DFStore *store = DFStoreNewMemory();
-    WordPackage *package = NULL;
+    DFPackage *rawPackage = DFPackageNewMemory();
+    WordPackage *wordPackage = NULL;
 
     htmlDoc = DFParseHTMLFile(sourcePath,0,error);
     if (htmlDoc == NULL) {
@@ -39,11 +39,11 @@ int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error)
         goto end;
     }
 
-    package = WordPackageOpenNew(store,error);
-    if (package == NULL)
+    wordPackage = WordPackageOpenNew(rawPackage,error);
+    if (wordPackage == NULL)
         goto end;
 
-    if (!WordPackageUpdateFromHTML(package,htmlDoc,htmlPath,idPrefix,error,warnings))
+    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,htmlPath,idPrefix,error,warnings))
         goto end;
 
     if (warnings->len > 0) {
@@ -51,7 +51,7 @@ int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error)
         goto end;
     }
 
-    if (!WordPackageSaveTo(package,destPath,error))
+    if (!WordPackageSaveTo(wordPackage,destPath,error))
         goto end;
 
     ok = 1;
@@ -61,7 +61,7 @@ end:
     free(htmlPath);
     DFDocumentRelease(htmlDoc);
     DFBufferRelease(warnings);
-    DFStoreRelease(store);
-    WordPackageRelease(package);
+    DFPackageRelease(rawPackage);
+    WordPackageRelease(wordPackage);
     return ok;
 }

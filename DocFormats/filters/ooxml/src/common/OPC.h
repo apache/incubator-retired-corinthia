@@ -18,7 +18,7 @@
 #include "DFXMLForward.h"
 #include "DFError.h"
 #include "DFBuffer.h"
-#include "DFStore.h"
+#include "DFPackage.h"
 #include "OOXMLTypedefs.h"
 
 // Essentials of the Open Packaging Conventions
@@ -99,7 +99,7 @@ void OPCContentTypesRemoveOverride(OPCContentTypes *ct, const char *partName);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 struct OPCPackage {
-    DFStore *store;
+    DFPackage *store;
     int isOpen;
     OPCContentTypes *contentTypes;
     OPCRelationshipSet *relationships;
@@ -107,8 +107,8 @@ struct OPCPackage {
     struct DFHashTable *partsByName;
 };
 
-OPCPackage *OPCPackageOpenNew(DFStore *store, DFError **error);
-OPCPackage *OPCPackageOpenFrom(DFStore *store, const char *filename, DFError **error);
+OPCPackage *OPCPackageOpenNew(DFPackage *store, DFError **error);
+OPCPackage *OPCPackageOpenFrom(DFPackage *store, const char *filename, DFError **error);
 void OPCPackageFree(OPCPackage *pkg);
 int OPCPackageSaveToDir(OPCPackage *pkg);
 int OPCPackageSaveTo(OPCPackage *pkg, const char *filename);

@@ -16,9 +16,9 @@
 #define DocFormats_DFZipFile_h
 
 #include "DFError.h"
-#include "DFStore.h"
+#include "DFPackage.h"
 
-int DFUnzip(const char *zipFilename, DFStore *store, DFError **error);
-int DFZip(const char *zipFilename, DFStore *store, DFError **error);
+int DFUnzip(const char *zipFilename, DFPackage *package, DFError **error);
+int DFZip(const char *zipFilename, DFPackage *package, DFError **error);
 
 #endif

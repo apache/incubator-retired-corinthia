@@ -107,8 +107,8 @@ set(GroupCoreLib
     core/src/lib/DFFilesystem.h
     core/src/lib/DFHashTable.c
     core/src/lib/DFHashTable.h
-    core/src/lib/DFStore.c
-    core/src/lib/DFStore.h
+    core/src/lib/DFPackage.c
+    core/src/lib/DFPackage.h
     core/src/lib/DFString.c
     core/src/lib/DFString.h
     core/src/lib/DFZipFile.c

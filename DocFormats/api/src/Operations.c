@@ -15,7 +15,7 @@
 #include <DocFormats/Operations.h>
 #include "DFFilesystem.h"
 #include "DFString.h"
-#include "DFStore.h"
+#include "DFPackage.h"
 #include "WordPackage.h"
 #include "DFHTML.h"
 #include "DFDOM.h"
@@ -25,17 +25,17 @@
 static int generateHTML(const char *packageFilename, const char *htmlFilename, DFError **error)
 {
     int ok = 0;
-    DFStore *store = DFStoreNewMemory();
-    WordPackage *package = NULL;
+    DFPackage *rawPackage = DFPackageNewMemory();
+    WordPackage *wordPackage = NULL;
     char *htmlPath = DFPathDirName(htmlFilename);
     DFBuffer *warnings = DFBufferNew();
     DFDocument *htmlDoc = NULL;
 
-    package = WordPackageOpenFrom(store,packageFilename,error);
-    if (package == NULL)
+    wordPackage = WordPackageOpenFrom(rawPackage,packageFilename,error);
+    if (wordPackage == NULL)
         goto end;
 
-    htmlDoc = WordPackageGenerateHTML(package,htmlPath,"word",error,warnings);
+    htmlDoc = WordPackageGenerateHTML(wordPackage,htmlPath,"word",error,warnings);
     if (htmlDoc == NULL)
         goto end;
 
@@ -57,16 +57,16 @@ end:
     free(htmlPath);
     DFBufferRelease(warnings);
     DFDocumentRelease(htmlDoc);
-    DFStoreRelease(store);
-    WordPackageRelease(package);
+    DFPackageRelease(rawPackage);
+    WordPackageRelease(wordPackage);
     return ok;
 }
 
 static int updateFrom(const char *packageFilename, const char *htmlFilename, DFError **error)
 {
     int ok = 0;
-    DFStore *store = DFStoreNewMemory();
-    WordPackage *package = NULL;
+    DFPackage *rawPackage = DFPackageNewMemory();
+    WordPackage *wordPackage = NULL;
     DFDocument *htmlDoc = NULL;
     DFBuffer *warnings = DFBufferNew();
     char *htmlPath = DFPathDirName(htmlFilename);
@@ -80,8 +80,8 @@ static int updateFrom(const char *packageFilename, const char *htmlFilename, DFE
     const char *idPrefix = "word";
 
     if (!DFFileExists(packageFilename)) {
-        package = WordPackageOpenNew(store,error);
-        if (package == NULL)
+        wordPackage = WordPackageOpenNew(rawPackage,error);
+        if (wordPackage == NULL)
             goto end;
 
         // Change any id attributes starting with "word" or "odf" to a different prefix, so they
@@ -91,12 +91,12 @@ static int updateFrom(const char *packageFilename, const char *htmlFilename, DFE
         HTMLBreakBDTRefs(htmlDoc->docNode,idPrefix);
     }
     else {
-        package = WordPackageOpenFrom(store,packageFilename,error);
-        if (package == NULL)
+        wordPackage = WordPackageOpenFrom(rawPackage,packageFilename,error);
+        if (wordPackage == NULL)
             goto end;
     }
 
-    if (!WordPackageUpdateFromHTML(package,htmlDoc,htmlPath,idPrefix,error,warnings))
+    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,htmlPath,idPrefix,error,warnings))
         goto end;
 
     if (warnings->len > 0) {
@@ -104,14 +104,14 @@ static int updateFrom(const char *packageFilename, const char *htmlFilename, DFE
         goto end;
     }
 
-    if (!WordPackageSaveTo(package,packageFilename,error))
+    if (!WordPackageSaveTo(wordPackage,packageFilename,error))
         goto end;
 
     ok = 1;
 
 end:
-    DFStoreRelease(store);
-    WordPackageRelease(package);
+    DFPackageRelease(rawPackage);
+    WordPackageRelease(wordPackage);
     DFDocumentRelease(htmlDoc);
     DFBufferRelease(warnings);
     free(htmlPath);

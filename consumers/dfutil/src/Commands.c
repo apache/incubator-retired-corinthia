@@ -110,18 +110,18 @@ static int prettyPrintWordFile(const char *filename, DFError **error)
     char *wordTempPath = DFAppendPathComponent(tempPath,"word");
     char *plainTempPath = DFAppendPathComponent(tempPath,"plain");
     char *plain = NULL;
-    WordPackage *package = NULL;
-    DFStore *store = DFStoreNewMemory();
+    WordPackage *wordPackage = NULL;
+    DFPackage *rawPackage = DFPackageNewMemory();
 
     if (!DFEmptyDirectory(wordTempPath,error))
         goto end;
 
-    package = WordPackageOpenFrom(store,filename,error);
-    if (package == NULL)
+    wordPackage = WordPackageOpenFrom(rawPackage,filename,error);
+    if (wordPackage == NULL)
         goto end;
 
-    WordPackageRemovePointlessElements(package);
-    plain = Word_toPlain(package,NULL,plainTempPath);
+    WordPackageRemovePointlessElements(wordPackage);
+    plain = Word_toPlain(wordPackage,NULL,plainTempPath);
     printf("%s",plain);
 
     ok = 1;
@@ -131,8 +131,8 @@ end:
     free(wordTempPath);
     free(plainTempPath);
     free(plain);
-    DFStoreRelease(store);
-    WordPackageRelease(package);
+    DFPackageRelease(rawPackage);
+    WordPackageRelease(wordPackage);
     DFDeleteFile(tempPath,NULL);
     return ok;
 }
@@ -324,23 +324,23 @@ int simplifyFields(const char *inFilename, const char *outFilename, DFError **er
         return 0;
     }
 
-    DFStore *store = DFStoreNewMemory();
-    WordPackage *package = WordPackageOpenFrom(store,inFilename,error);
-    DFStoreRelease(store);
-    if (package == NULL) {
+    DFPackage *rawPackage = DFPackageNewMemory();
+    WordPackage *wordPackage = WordPackageOpenFrom(rawPackage,inFilename,error);
+    DFPackageRelease(rawPackage);
+    if (wordPackage == NULL) {
         DFErrorFormat(error,"%s: %s",inFilename,DFErrorMessage(error));
         return 0;
     }
 
-    WordPackageSimplifyFields(package);
+    WordPackageSimplifyFields(wordPackage);
 
-    if (!WordPackageSaveTo(package,outFilename,error)) {
+    if (!WordPackageSaveTo(wordPackage,outFilename,error)) {
         DFErrorFormat(error,"%s: %s",outFilename,DFErrorMessage(error));
-        WordPackageRelease(package);
+        WordPackageRelease(wordPackage);
         return 0;
     }
 
-    WordPackageRelease(package);
+    WordPackageRelease(wordPackage);
     return 1;
 }
 

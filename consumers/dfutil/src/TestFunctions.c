@@ -207,8 +207,8 @@ static DFHashTable *getFlags(int argc, const char **argv)
 
 static void Word_testCreate(TestCase *script, int argc, const char **argv)
 {
-    DFStore *store = DFStoreNewMemory();
-    WordPackage *package = NULL;
+    DFPackage *package = DFPackageNewMemory();
+    WordPackage *wordPackage = NULL;
 
     DFDocument *htmlDoc = NULL;
     DFHashTable *parts = NULL;
@@ -222,14 +222,14 @@ static void Word_testCreate(TestCase *script, int argc, const char **argv)
         goto end;;
 
     // Create the docx file
-    package = WordPackageOpenNew(store,&error);
-    if (package == NULL) {
+    wordPackage = WordPackageOpenNew(package,&error);
+    if (wordPackage == NULL) {
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         goto end;
     }
 
     DFBuffer *warnings = DFBufferNew();
-    if (!WordPackageUpdateFromHTML(package,htmlDoc,script->abstractPath,"word",&error,warnings)) {
+    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,script->abstractPath,"word",&error,warnings)) {
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         goto end;
     }
@@ -242,12 +242,12 @@ static void Word_testCreate(TestCase *script, int argc, const char **argv)
     DFBufferRelease(warnings);
 
     // We don't actually "save" the package as such; this is just to ensure the missing OPC parts are added
-    WordPackageSaveTo(package,NULL,NULL);
+    WordPackageSaveTo(wordPackage,NULL,NULL);
 
     // Output the docx file
     parts = getFlags(argc,argv);
     plainTempPath = DFAppendPathComponent(script->tempPath,"plain");
-    plain = Word_toPlain(package,parts,plainTempPath);
+    plain = Word_toPlain(wordPackage,parts,plainTempPath);
     DFBufferFormat(script->output,"%s",plain);
 
 end:
@@ -256,8 +256,8 @@ end:
     free(plain);
     DFHashTableRelease(parts);
     DFErrorRelease(error);
-    DFStoreRelease(store);
-    WordPackageRelease(package);
+    DFPackageRelease(package);
+    WordPackageRelease(wordPackage);
 }
 
 static void Word_testUpdate2(TestCase *script, WordPackage *package, int argc, const char **argv)

@@ -202,7 +202,7 @@ static DFNode *imageWithFilename(WordGetData *get, const char *filename, double 
         goto end;
     }
 
-    content = DFBufferReadFromStore(get->conv->package->opc->store,filename,&error);
+    content = DFBufferReadFromPackage(get->conv->package->opc->store,filename,&error);
     if (content == NULL) {
         WordConverterWarning(get->conv,"Copy %s to %s: %s",filename,dstImagePath,DFErrorMessage(&error));
         DFErrorRelease(error);
@@ -342,9 +342,9 @@ int WordDrawingIsVisible(WordPutData *put, DFNode *concrete)
     return 1;
 }
 
-static char *genImageFilename(DFStore *store, const char *mediaRelDir, const char *extension, DFError **error)
+static char *genImageFilename(DFPackage *package, const char *mediaRelDir, const char *extension, DFError **error)
 {
-    const char **paths = DFStoreList(store,error);
+    const char **paths = DFPackageList(package,error);
     if (paths == NULL)
         return NULL;;
 
@@ -380,11 +380,11 @@ static char *genImageFilename(DFStore *store, const char *mediaRelDir, const cha
 
 static OPCRelationship *addImageRelationship(WordConverter *converter, const char *src, DFError **error)
 {
-    DFStore *store = converter->package->opc->store;
+    DFPackage *package = converter->package->opc->store;
     const char *mediaDir = "word/media";
 
     char *ext = DFPathExtension(src);
-    char *filename = genImageFilename(store,mediaDir,ext,error);
+    char *filename = genImageFilename(package,mediaDir,ext,error);
     free(ext);
     if (filename == NULL)
         return NULL;
@@ -396,7 +396,7 @@ static OPCRelationship *addImageRelationship(WordConverter *converter, const cha
 
     OPCRelationship *result = NULL;
     DFBuffer *content = DFBufferReadFromFile(srcPath,error);
-    if ((content != NULL) && DFBufferWriteToStore(content,store,destPath,error)) {
+    if ((content != NULL) && DFBufferWriteToPackage(content,package,destPath,error)) {
         OPCRelationshipSet *rels = converter->package->documentPart->relationships;
         char *relPath = DFFormatString("/word/media/%s",filename);
         result = OPCRelationshipSetAddType(rels,WORDREL_IMAGE,relPath,0);
@@ -549,16 +549,16 @@ static int internalPut2(WordPutData *put, DFNode *abstract, DFNode *concrete, in
 
         if ((wordInfo != NULL) && (wordInfo->widthPts > 0) && (wordInfo->heightPts > 0) && (rel != NULL)) {
             const char *wordSrc = rel->target;
-            DFStore *store = put->conv->package->opc->store;
+            DFPackage *package = put->conv->package->opc->store;
 
-            if (!DFStoreExists(store,wordSrc)) {
+            if (!DFPackageExists(package,wordSrc)) {
                 WordConverterWarning(put->conv,"Word image %s does not exist",wordSrc);
                 ImageInfoFree(wordInfo);
                 return 0;
             }
 
             DFBuffer *content1 = DFBufferReadFromFile(htmlPath,NULL);
-            DFBuffer *content2 = DFBufferReadFromStore(store,wordSrc,NULL);
+            DFBuffer *content2 = DFBufferReadFromPackage(package,wordSrc,NULL);
             int contentsEqual = ((content1 != NULL) && (content2 != NULL) &&
                                  (content1->len == content2->len) &&
                                  !memcmp(content1->data,content2->data,content1->len));

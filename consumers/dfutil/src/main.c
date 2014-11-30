@@ -95,15 +95,15 @@ static int runCommand(int argc, const char **argv, DFError **dferr)
     }
 #endif
     else if ((argc == 4) && !strcmp(argv[1],"-zip")) {
-        DFStore *store = DFStoreNewFilesystem(argv[3]);
-        int r = DFZip(argv[2],store,dferr);
-        DFStoreRelease(store);
+        DFPackage *package = DFPackageNewFilesystem(argv[3]);
+        int r = DFZip(argv[2],package,dferr);
+        DFPackageRelease(package);
         return r;
     }
     else if ((argc == 4) && !strcmp(argv[1],"-unzip")) {
-        DFStore *store = DFStoreNewFilesystem(argv[3]);
-        int r = DFUnzip(argv[2],store,dferr);
-        DFStoreRelease(store);
+        DFPackage *package = DFPackageNewFilesystem(argv[3]);
+        int r = DFUnzip(argv[2],package,dferr);
+        DFPackageRelease(package);
         return r;
     }
     else if (argc == 3) {
