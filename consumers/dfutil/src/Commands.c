@@ -28,6 +28,7 @@
 #include "CSS.h"
 #include "HTMLToLaTeX.h"
 #include "DFCommon.h"
+#include <DocFormats/DocFormats.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -222,103 +223,6 @@ int normalizeFile(const char *filename, DFError **error)
     return 1;
 }
 
-static int generateHTML(const char *packageFilename, const char *htmlFilename, DFError **error)
-{
-    int ok = 0;
-    DFStore *store = DFStoreNewMemory();
-    WordPackage *package = NULL;
-    char *htmlPath = DFPathDirName(htmlFilename);
-    DFBuffer *warnings = DFBufferNew();
-    DFDocument *htmlDoc = NULL;
-
-    package = WordPackageOpenFrom(store,packageFilename,error);
-    if (package == NULL)
-        goto end;
-
-    htmlDoc = WordPackageGenerateHTML(package,htmlPath,"word",error,warnings);
-    if (htmlDoc == NULL)
-        goto end;
-
-    if (warnings->len > 0) {
-        DFErrorFormat(error,"%s",warnings->data);
-        goto end;
-    }
-
-    HTML_safeIndent(htmlDoc->docNode,0);
-
-    if (!DFSerializeXMLFile(htmlDoc,0,0,htmlFilename,error)) {
-        DFErrorFormat(error,"%s: %s",htmlFilename,DFErrorMessage(error));
-        goto end;
-    }
-
-    printf("Created %s\n",htmlFilename);
-    ok = 1;
-
-end:
-    free(htmlPath);
-    DFBufferRelease(warnings);
-    DFDocumentRelease(htmlDoc);
-    DFStoreRelease(store);
-    WordPackageRelease(package);
-    return ok;
-}
-
-static int updateFrom(const char *packageFilename, const char *htmlFilename, DFError **error)
-{
-    int ok = 0;
-    DFStore *store = DFStoreNewMemory();
-    WordPackage *package = NULL;
-    DFDocument *htmlDoc = NULL;
-    DFBuffer *warnings = DFBufferNew();
-    char *htmlPath = DFPathDirName(htmlFilename);
-
-    htmlDoc = DFParseHTMLFile(htmlFilename,0,error);
-    if (htmlDoc == NULL) {
-        DFErrorFormat(error,"%s: %s",htmlFilename,DFErrorMessage(error));
-        goto end;
-    }
-
-    const char *idPrefix = "word";
-
-    if (!DFFileExists(packageFilename)) {
-        package = WordPackageOpenNew(store,error);
-        if (package == NULL)
-            goto end;
-
-        // Change any id attributes starting with "word" or "odf" to a different prefix, so they
-        // are not treated as references to nodes in the destination document. This is necessary
-        // if the HTML file was previously generated from a word or odf file, and we are creating
-        // a new word or odf file from it.
-        HTMLBreakBDTRefs(htmlDoc->docNode,idPrefix);
-    }
-    else {
-        package = WordPackageOpenFrom(store,packageFilename,error);
-        if (package == NULL)
-            goto end;
-    }
-
-    if (!WordPackageUpdateFromHTML(package,htmlDoc,htmlPath,idPrefix,error,warnings))
-        goto end;
-
-    if (warnings->len > 0) {
-        DFErrorFormat(error,"%s",warnings->data);
-        goto end;
-    }
-
-    if (!WordPackageSaveTo(package,packageFilename,error))
-        goto end;
-
-    ok = 1;
-
-end:
-    DFStoreRelease(store);
-    WordPackageRelease(package);
-    DFDocumentRelease(htmlDoc);
-    DFBufferRelease(warnings);
-    free(htmlPath);
-    return ok;
-}
-
 static int convertHTMLToLaTeX(const char *inFilename, const char *outFilename, DFError **error)
 {
     DFDocument *htmlDoc = DFParseHTMLFile(inFilename,0,error);
@@ -351,11 +255,14 @@ int convertFile(const char *inFilename, const char *outFilename, DFError **error
 
     if (DFStringEqualsCI(inExt,"docx") && DFStringEqualsCI(outExt,"html")) {
         // Generate new HTML file from .docx
-        result = generateHTML(inFilename,outFilename,error);
+        result = DFGetFile(inFilename,outFilename,error);
     }
     else if (DFStringEqualsCI(inExt,"html") && DFStringEqualsCI(outExt,"docx")) {
         // Update existing .docx file from HTML
-        result = updateFrom(outFilename,inFilename,error);
+        if (DFFileExists(inFilename))
+            result = DFPutFile(outFilename,inFilename,error);
+        else
+            result = DFCreateFile(outFilename,inFilename,error);
     }
     else if (DFStringEqualsCI(inExt,"html") && DFStringEqualsCI(outExt,"tex")) {
         // Create new .tex file from HTML

@@ -13,6 +13,7 @@ include_directories(../DocFormats/3rdparty/external/w3c-tidy-html5/src)
 include_directories(../DocFormats/3rdparty/external/minizip)
 
 include_directories(SYSTEM ${INCLUDE_DIRS})
+include_directories(SYSTEM ./api/headers)
 include_directories(.)
 include_directories(./platform/headers)
 include_directories(./core/src/common)
@@ -31,6 +32,11 @@ include_directories(./filters/ooxml/src/word/lenses)
 set(GroupRoot
     DFCommon.h
     DFTypes.h)
+
+set(GroupAPI
+    api/headers/DocFormats/DocFormats.h
+    api/headers/DocFormats/Operations.h
+    api/src/Operations.c)
 
 set(GroupCoreCommon
     core/src/common/DFBDT.c
@@ -208,6 +214,7 @@ set(GroupCoreXML
 
 add_library(DocFormats
     ${GroupRoot}
+    ${GroupAPI}
     ${GroupCoreCommon}
     ${GroupCoreCSS}
     ${GroupCoreHTML}
@@ -223,6 +230,7 @@ add_library(DocFormats
     ${GroupCoreXML})
 
 source_group(\\ FILES ${GroupRoot})
+source_group(api FILES ${GroupAPI})
 source_group(core\\common FILES ${GroupCoreCommon})
 source_group(core\\css FILES ${GroupCoreCSS})
 source_group(core\\html FILES ${GroupCoreHTML})

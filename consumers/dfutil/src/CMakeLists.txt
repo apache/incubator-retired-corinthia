@@ -13,6 +13,7 @@ set(SOURCES
 )
 
 include_directories(SYSTEM ${INCLUDE_DIRS})
+include_directories(SYSTEM ../../../DocFormats/api/headers)
 include_directories(.)
 include_directories(../../../DocFormats)
 include_directories(../../../DocFormats/platform/headers)
