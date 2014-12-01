@@ -91,52 +91,56 @@ static void CSS_setHeadingNumbering(TestCase *script, int argc, const char **arg
 static void Word_testCollapseBookmarks(TestCase *script, int argc, const char **argv)
 {
     DFError *error = NULL;
-    WordPackage *package = TestCaseOpenWordPackage(script,&error); // Logs error itself on failure
-    if (package == NULL) {
+    WordPackage *wordPackage = NULL;
+    DFPackage *rawPackage = NULL;
+    if (!TestCaseOpenWordPackage(script,&wordPackage,&rawPackage,&error)) { // Logs error itself on failure
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
         return;
     }
 
-    WordPackageCollapseBookmarks(package);
+    WordPackageCollapseBookmarks(wordPackage);
 
     DFHashTable *parts = DFHashTableNew((DFCopyFunction)strdup,free);
     DFHashTableAdd(parts,"document","");
 
     // Output the docx file
     char *plainTempPath = DFAppendPathComponent(script->tempPath,"plain");
-    char *plain = Word_toPlain(package,parts,plainTempPath);
+    char *plain = Word_toPlain(wordPackage,rawPackage,parts,plainTempPath);
     free(plainTempPath);
     DFBufferFormat(script->output,"%s",plain);
     free(plain);
     DFHashTableRelease(parts);
-    WordPackageRelease(package);
+    WordPackageRelease(wordPackage);
+    DFPackageRelease(rawPackage);
 }
 
 
 static void Word_testExpandBookmarks(TestCase *script, int argc, const char **argv)
 {
     DFError *error = NULL;
-    WordPackage *package = TestCaseOpenWordPackage(script,&error); // Logs error itself on failure
-    if (package == NULL) {
+    WordPackage *wordPackage = NULL;
+    DFPackage *rawPackage = NULL;
+    if (!TestCaseOpenWordPackage(script,&wordPackage,&rawPackage,&error)) { // Logs error itself on failure
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
         return;
     }
 
-    WordPackageExpandBookmarks(package);
+    WordPackageExpandBookmarks(wordPackage);
 
     DFHashTable *parts = DFHashTableNew((DFCopyFunction)strdup,free);
     DFHashTableAdd(parts,"document","");
 
     // Output the docx file
     char *plainTempPath = DFAppendPathComponent(script->tempPath,"plain");
-    char *plain = Word_toPlain(package,parts,plainTempPath);
+    char *plain = Word_toPlain(wordPackage,rawPackage,parts,plainTempPath);
     free(plainTempPath);
     DFBufferFormat(script->output,"%s",plain);
     free(plain);
     DFHashTableRelease(parts);
-    WordPackageRelease(package);
+    WordPackageRelease(wordPackage);
+    DFPackageRelease(rawPackage);
 }
 
 static void Word_testGet2(TestCase *script, WordPackage *package, int argc, const char **argv)
@@ -169,15 +173,17 @@ static void Word_testGet2(TestCase *script, WordPackage *package, int argc, cons
 static void Word_testGet(TestCase *script, int argc, const char **argv)
 {
     DFError *error = NULL;
-    WordPackage *package = TestCaseOpenWordPackage(script,&error); // Logs error itself on failure
-    if (package == NULL) {
+    WordPackage *wordPackage = NULL;
+    DFPackage *rawPackage = NULL;
+    if (!TestCaseOpenWordPackage(script,&wordPackage,&rawPackage,&error)) { // Logs error itself on failure
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
         return;
     }
 
-    Word_testGet2(script,package,argc,argv);
-    WordPackageRelease(package);
+    Word_testGet2(script,wordPackage,argc,argv);
+    WordPackageRelease(wordPackage);
+    DFPackageRelease(rawPackage);
 }
 
 static DFHashTable *getFlags(int argc, const char **argv)
@@ -207,7 +213,7 @@ static DFHashTable *getFlags(int argc, const char **argv)
 
 static void Word_testCreate(TestCase *script, int argc, const char **argv)
 {
-    DFPackage *package = DFPackageNewMemory();
+    DFPackage *rawPackage = DFPackageNewMemory();
     WordPackage *wordPackage = NULL;
 
     DFDocument *htmlDoc = NULL;
@@ -222,7 +228,7 @@ static void Word_testCreate(TestCase *script, int argc, const char **argv)
         goto end;;
 
     // Create the docx file
-    wordPackage = WordPackageOpenNew(package,&error);
+    wordPackage = WordPackageOpenNew(rawPackage,&error);
     if (wordPackage == NULL) {
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         goto end;
@@ -247,7 +253,7 @@ static void Word_testCreate(TestCase *script, int argc, const char **argv)
     // Output the docx file
     parts = getFlags(argc,argv);
     plainTempPath = DFAppendPathComponent(script->tempPath,"plain");
-    plain = Word_toPlain(wordPackage,parts,plainTempPath);
+    plain = Word_toPlain(wordPackage,rawPackage,parts,plainTempPath);
     DFBufferFormat(script->output,"%s",plain);
 
 end:
@@ -256,11 +262,11 @@ end:
     free(plain);
     DFHashTableRelease(parts);
     DFErrorRelease(error);
-    DFPackageRelease(package);
+    DFPackageRelease(rawPackage);
     WordPackageRelease(wordPackage);
 }
 
-static void Word_testUpdate2(TestCase *script, WordPackage *package, int argc, const char **argv)
+static void Word_testUpdate2(TestCase *script, WordPackage *wordPackage, DFPackage *rawPackage, int argc, const char **argv)
 {
     // Read input.html
     DFDocument *htmlDoc = TestCaseGetHTML(script);
@@ -269,19 +275,19 @@ static void Word_testUpdate2(TestCase *script, WordPackage *package, int argc, c
 
     // Update the docx file based on the contents of the HTML file
     DFError *error = NULL;
-    if (!WordPackageUpdateFromHTML(package,htmlDoc,script->abstractPath,"word",&error,NULL)) {
+    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,script->abstractPath,"word",&error,NULL)) {
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
         return;
     }
 
     // We don't actually "save" the package as such; this is just to ensure the missing OPC parts are added
-    WordPackageSaveTo(package,NULL,NULL);
+    WordPackageSaveTo(wordPackage,NULL,NULL);
 
     // Output the updated docx file
     DFHashTable *parts = getFlags(argc,argv);
     char *plainTempPath = DFAppendPathComponent(script->tempPath,"plain");
-    char *plain = Word_toPlain(package,parts,plainTempPath);
+    char *plain = Word_toPlain(wordPackage,rawPackage,parts,plainTempPath);
     free(plainTempPath);
     DFBufferFormat(script->output,"%s",plain);
     free(plain);
@@ -292,15 +298,17 @@ static void Word_testUpdate2(TestCase *script, WordPackage *package, int argc, c
 static void Word_testUpdate(TestCase *script, int argc, const char **argv)
 {
     DFError *error = NULL;
-    WordPackage *package = TestCaseOpenWordPackage(script,&error); // Logs error itself on failure
-    if (package == NULL) {
+    WordPackage *wordPackage = NULL;
+    DFPackage *rawPackage = NULL;
+    if (!TestCaseOpenWordPackage(script,&wordPackage,&rawPackage,&error)) { // Logs error itself on failure
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
         return;
     }
 
-    Word_testUpdate2(script,package,argc,argv);
-    WordPackageRelease(package);
+    Word_testUpdate2(script,wordPackage,rawPackage,argc,argv);
+    WordPackageRelease(wordPackage);
+    DFPackageRelease(rawPackage);
 }
 
 static void LaTeX_testCreate(TestCase *script, int argc, const char **argv)

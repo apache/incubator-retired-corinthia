@@ -121,7 +121,7 @@ static int prettyPrintWordFile(const char *filename, DFError **error)
         goto end;
 
     WordPackageRemovePointlessElements(wordPackage);
-    plain = Word_toPlain(wordPackage,NULL,plainTempPath);
+    plain = Word_toPlain(wordPackage,rawPackage,NULL,plainTempPath);
     printf("%s",plain);
 
     ok = 1;
@@ -169,12 +169,14 @@ static int fromPlain2(const char *tempPath, const char *inStr, const char *inPat
         goto end;
     }
 
-    WordPackage *package = Word_fromPlain(inStr,inPath,zipPath,error);
-    if (package == NULL)
+    WordPackage *wordPackage = NULL;
+    DFPackage *rawPackage = NULL;
+    if (!Word_fromPlain(inStr,inPath,zipPath,&wordPackage,&rawPackage,error))
         goto end;
 
-    ok = WordPackageSaveTo(package,outFilename,error);
-    WordPackageRelease(package);
+    ok = WordPackageSaveTo(wordPackage,outFilename,error);
+    WordPackageRelease(wordPackage);
+    DFPackageRelease(rawPackage);
 
     return ok;
 end:

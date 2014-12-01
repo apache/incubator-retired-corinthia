@@ -280,10 +280,10 @@ end:
     }
 }
 
-static char *Word_toPlainOrError(WordPackage *wordPackage, DFHashTable *parts, const char *tempPath, DFError **error)
+static char *Word_toPlainOrError(WordPackage *wordPackage, DFPackage *rawPackage,
+                                 DFHashTable *parts, const char *tempPath, DFError **error)
 {
     char *docxPath = DFAppendPathComponent(tempPath,"file.docx");
-    DFPackage *contentsStore = DFPackageNewMemory();
     char *result = NULL;
     int ok = 0;
 
@@ -297,27 +297,21 @@ static char *Word_toPlainOrError(WordPackage *wordPackage, DFHashTable *parts, c
         goto end;
     }
 
-    if (!DFUnzip(docxPath,contentsStore,error)) {
-        DFErrorFormat(error,"DFUnzip: %s",DFErrorMessage(error));
-        goto end;
-    }
-
-    result = Word_toPlainFromDir(contentsStore,parts,error);
+    result = Word_toPlainFromDir(rawPackage,parts,error);
     ok = 1;
 
 end:
     free(docxPath);
-    DFPackageRelease(contentsStore);
     if (ok)
         return result;
     free(result);
     return 0;
 }
 
-char *Word_toPlain(WordPackage *wordPackage, DFHashTable *parts, const char *tempPath)
+char *Word_toPlain(WordPackage *wordPackage, DFPackage *rawPackage, DFHashTable *parts, const char *tempPath)
 {
     DFError *error = NULL;
-    char *result = Word_toPlainOrError(wordPackage,parts,tempPath,&error);
+    char *result = Word_toPlainOrError(wordPackage,rawPackage,parts,tempPath,&error);
     if (result == NULL) {
         result = DFFormatString("%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
@@ -590,7 +584,8 @@ end:
     return ok;
 }
 
-WordPackage *Word_fromPlain(const char *plain, const char *plainPath, const char *zipTempPath, DFError **error)
+int Word_fromPlain(const char *plain, const char *plainPath, const char *zipTempPath,
+                   WordPackage **outWordPackage, DFPackage **outRawPackage, DFError **error)
 {
     int ok = 0;
     char *docxPath = DFAppendPathComponent(zipTempPath,"document.docx");
@@ -636,14 +631,18 @@ WordPackage *Word_fromPlain(const char *plain, const char *plainPath, const char
 end:
     free(docxPath);
     DFPackageRelease(firstStore);
-    DFPackageRelease(secondStore);
     TextPackageRelease(tp);
     if (ok) {
-        return wp;
+        *outWordPackage = wp;
+        *outRawPackage = secondStore;
+        return 1;
     }
     else {
         WordPackageRelease(wp);
-        return NULL;
+        DFPackageRelease(secondStore);
+        *outWordPackage = NULL;
+        *outRawPackage = NULL;
+        return 0;
     }
 }
 
