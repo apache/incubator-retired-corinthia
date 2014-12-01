@@ -105,9 +105,7 @@ static void Word_testCollapseBookmarks(TestCase *script, int argc, const char **
     DFHashTableAdd(parts,"document","");
 
     // Output the docx file
-    char *plainTempPath = DFAppendPathComponent(script->tempPath,"plain");
-    char *plain = Word_toPlain(wordPackage,rawPackage,parts,plainTempPath);
-    free(plainTempPath);
+    char *plain = Word_toPlain(wordPackage,rawPackage,parts);
     DFBufferFormat(script->output,"%s",plain);
     free(plain);
     DFHashTableRelease(parts);
@@ -133,9 +131,7 @@ static void Word_testExpandBookmarks(TestCase *script, int argc, const char **ar
     DFHashTableAdd(parts,"document","");
 
     // Output the docx file
-    char *plainTempPath = DFAppendPathComponent(script->tempPath,"plain");
-    char *plain = Word_toPlain(wordPackage,rawPackage,parts,plainTempPath);
-    free(plainTempPath);
+    char *plain = Word_toPlain(wordPackage,rawPackage,parts);
     DFBufferFormat(script->output,"%s",plain);
     free(plain);
     DFHashTableRelease(parts);
@@ -218,7 +214,6 @@ static void Word_testCreate(TestCase *script, int argc, const char **argv)
 
     DFDocument *htmlDoc = NULL;
     DFHashTable *parts = NULL;
-    char *plainTempPath = NULL;
     char *plain = NULL;
     DFError *error = NULL;
 
@@ -248,17 +243,15 @@ static void Word_testCreate(TestCase *script, int argc, const char **argv)
     DFBufferRelease(warnings);
 
     // We don't actually "save" the package as such; this is just to ensure the missing OPC parts are added
-    WordPackageSaveTo(wordPackage,NULL,NULL);
+    WordPackageSave(wordPackage,NULL);
 
     // Output the docx file
     parts = getFlags(argc,argv);
-    plainTempPath = DFAppendPathComponent(script->tempPath,"plain");
-    plain = Word_toPlain(wordPackage,rawPackage,parts,plainTempPath);
+    plain = Word_toPlain(wordPackage,rawPackage,parts);
     DFBufferFormat(script->output,"%s",plain);
 
 end:
     DFDocumentRelease(htmlDoc);
-    free(plainTempPath);
     free(plain);
     DFHashTableRelease(parts);
     DFErrorRelease(error);
@@ -282,13 +275,11 @@ static void Word_testUpdate2(TestCase *script, WordPackage *wordPackage, DFPacka
     }
 
     // We don't actually "save" the package as such; this is just to ensure the missing OPC parts are added
-    WordPackageSaveTo(wordPackage,NULL,NULL);
+    WordPackageSave(wordPackage,NULL);
 
     // Output the updated docx file
     DFHashTable *parts = getFlags(argc,argv);
-    char *plainTempPath = DFAppendPathComponent(script->tempPath,"plain");
-    char *plain = Word_toPlain(wordPackage,rawPackage,parts,plainTempPath);
-    free(plainTempPath);
+    char *plain = Word_toPlain(wordPackage,rawPackage,parts);
     DFBufferFormat(script->output,"%s",plain);
     free(plain);
     DFHashTableRelease(parts);

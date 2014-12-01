@@ -280,20 +280,13 @@ end:
     }
 }
 
-static char *Word_toPlainOrError(WordPackage *wordPackage, DFPackage *rawPackage,
-                                 DFHashTable *parts, const char *tempPath, DFError **error)
+static char *Word_toPlainOrError(WordPackage *wordPackage, DFPackage *rawPackage, DFHashTable *parts, DFError **error)
 {
-    char *docxPath = DFAppendPathComponent(tempPath,"file.docx");
     char *result = NULL;
     int ok = 0;
 
-    if (!DFEmptyDirectory(tempPath,error)) {
-        DFErrorFormat(error,"%s: %s",tempPath,DFErrorMessage(error));
-        goto end;
-    }
-
-    if (!WordPackageSaveTo(wordPackage,docxPath,error)) {
-        DFErrorFormat(error,"WordPackageSaveTo: %s",DFErrorMessage(error));
+    if (!WordPackageSave(wordPackage,error)) {
+        DFErrorFormat(error,"WordPackageSave: %s",DFErrorMessage(error));
         goto end;
     }
 
@@ -301,17 +294,16 @@ static char *Word_toPlainOrError(WordPackage *wordPackage, DFPackage *rawPackage
     ok = 1;
 
 end:
-    free(docxPath);
     if (ok)
         return result;
     free(result);
     return 0;
 }
 
-char *Word_toPlain(WordPackage *wordPackage, DFPackage *rawPackage, DFHashTable *parts, const char *tempPath)
+char *Word_toPlain(WordPackage *wordPackage, DFPackage *rawPackage, DFHashTable *parts)
 {
     DFError *error = NULL;
-    char *result = Word_toPlainOrError(wordPackage,rawPackage,parts,tempPath,&error);
+    char *result = Word_toPlainOrError(wordPackage,rawPackage,parts,&error);
     if (result == NULL) {
         result = DFFormatString("%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
@@ -621,7 +613,11 @@ int Word_fromPlain(const char *plain, const char *plainPath, const char *zipTemp
 
     // Now we have a .docx file; access it using what will be the new way (this API will change so we just say
     // "open a word document from here", without having to separately create the package object first.
-    wp = WordPackageOpenFrom(secondStore,docxPath,error);
+    if (!DFUnzip(docxPath,secondStore,error)) {
+        DFErrorFormat(error,"DFUnzip %s: %s\n",docxPath,DFErrorMessage(error));
+        goto end;
+    }
+    wp = WordPackageOpenFrom(secondStore,error);
     if (wp == NULL) {
         DFErrorFormat(error,"WordPackageStartFrom %s: %s",docxPath,DFErrorMessage(error));
         goto end;

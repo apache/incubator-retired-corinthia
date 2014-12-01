@@ -20,6 +20,7 @@
 #include "DFHTML.h"
 #include "DFDOM.h"
 #include "DFXML.h"
+#include "DFZipFile.h"
 #include <stdlib.h>
 
 static int generateHTML(const char *packageFilename, const char *htmlFilename, DFError **error)
@@ -31,7 +32,9 @@ static int generateHTML(const char *packageFilename, const char *htmlFilename, D
     DFBuffer *warnings = DFBufferNew();
     DFDocument *htmlDoc = NULL;
 
-    wordPackage = WordPackageOpenFrom(rawPackage,packageFilename,error);
+    if (!DFUnzip(packageFilename,rawPackage,error))
+        goto end;
+    wordPackage = WordPackageOpenFrom(rawPackage,error);
     if (wordPackage == NULL)
         goto end;
 
@@ -91,7 +94,9 @@ static int updateFrom(const char *packageFilename, const char *htmlFilename, DFE
         HTMLBreakBDTRefs(htmlDoc->docNode,idPrefix);
     }
     else {
-        wordPackage = WordPackageOpenFrom(rawPackage,packageFilename,error);
+        if (!DFUnzip(packageFilename,rawPackage,error))
+            goto end;
+        wordPackage = WordPackageOpenFrom(rawPackage,error);
         if (wordPackage == NULL)
             goto end;
     }
@@ -104,7 +109,9 @@ static int updateFrom(const char *packageFilename, const char *htmlFilename, DFE
         goto end;
     }
 
-    if (!WordPackageSaveTo(wordPackage,packageFilename,error))
+    if (!WordPackageSave(wordPackage,error))
+        goto end;
+    if (!DFZip(packageFilename,rawPackage,error))
         goto end;
 
     ok = 1;

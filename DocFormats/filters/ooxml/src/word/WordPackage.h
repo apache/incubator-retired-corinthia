@@ -57,8 +57,8 @@ void WordPackageCollapseBookmarks(WordPackage *package);
 void WordPackageExpandBookmarks(WordPackage *package);
 
 WordPackage *WordPackageOpenNew(DFPackage *store, DFError **error);
-WordPackage *WordPackageOpenFrom(DFPackage *store, const char *filename, DFError **error);
-int WordPackageSaveTo(WordPackage *package, const char *filename, DFError **error);
+WordPackage *WordPackageOpenFrom(DFPackage *store, DFError **error);
+int WordPackageSave(WordPackage *package, DFError **error);
 DFDocument *WordPackageGenerateHTML(WordPackage *package, const char *path, const char *idPrefix,
                                     DFError **error, DFBuffer *warnings);
 int WordPackageUpdateFromHTML(WordPackage *package, DFDocument *input, const char *path,

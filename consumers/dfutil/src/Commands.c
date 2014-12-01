@@ -28,6 +28,7 @@
 #include "CSS.h"
 #include "HTMLToLaTeX.h"
 #include "DFCommon.h"
+#include "DFZipFile.h"
 #include <DocFormats/DocFormats.h>
 #include <errno.h>
 #include <stdio.h>
@@ -108,7 +109,6 @@ static int prettyPrintWordFile(const char *filename, DFError **error)
         return 0;;
     int ok = 0;
     char *wordTempPath = DFAppendPathComponent(tempPath,"word");
-    char *plainTempPath = DFAppendPathComponent(tempPath,"plain");
     char *plain = NULL;
     WordPackage *wordPackage = NULL;
     DFPackage *rawPackage = DFPackageNewMemory();
@@ -116,12 +116,14 @@ static int prettyPrintWordFile(const char *filename, DFError **error)
     if (!DFEmptyDirectory(wordTempPath,error))
         goto end;
 
-    wordPackage = WordPackageOpenFrom(rawPackage,filename,error);
+    if (!DFUnzip(filename,rawPackage,error))
+        goto end;
+    wordPackage = WordPackageOpenFrom(rawPackage,error);
     if (wordPackage == NULL)
         goto end;
 
     WordPackageRemovePointlessElements(wordPackage);
-    plain = Word_toPlain(wordPackage,rawPackage,NULL,plainTempPath);
+    plain = Word_toPlain(wordPackage,rawPackage,NULL);
     printf("%s",plain);
 
     ok = 1;
@@ -129,7 +131,6 @@ static int prettyPrintWordFile(const char *filename, DFError **error)
 end:
     free(tempPath);
     free(wordTempPath);
-    free(plainTempPath);
     free(plain);
     DFPackageRelease(rawPackage);
     WordPackageRelease(wordPackage);
@@ -174,7 +175,9 @@ static int fromPlain2(const char *tempPath, const char *inStr, const char *inPat
     if (!Word_fromPlain(inStr,inPath,zipPath,&wordPackage,&rawPackage,error))
         goto end;
 
-    ok = WordPackageSaveTo(wordPackage,outFilename,error);
+    ok = WordPackageSave(wordPackage,error);
+    if (!DFZip(outFilename,rawPackage,error))
+        ok = 0;
     WordPackageRelease(wordPackage);
     DFPackageRelease(rawPackage);
 
@@ -327,7 +330,11 @@ int simplifyFields(const char *inFilename, const char *outFilename, DFError **er
     }
 
     DFPackage *rawPackage = DFPackageNewMemory();
-    WordPackage *wordPackage = WordPackageOpenFrom(rawPackage,inFilename,error);
+    if (!DFUnzip(inFilename,rawPackage,error)) {
+        DFErrorFormat(error,"%s: %s",inFilename,DFErrorMessage(error));
+        return 0;
+    }
+    WordPackage *wordPackage = WordPackageOpenFrom(rawPackage,error);
     DFPackageRelease(rawPackage);
     if (wordPackage == NULL) {
         DFErrorFormat(error,"%s: %s",inFilename,DFErrorMessage(error));
@@ -336,7 +343,12 @@ int simplifyFields(const char *inFilename, const char *outFilename, DFError **er
 
     WordPackageSimplifyFields(wordPackage);
 
-    if (!WordPackageSaveTo(wordPackage,outFilename,error)) {
+    if (!WordPackageSave(wordPackage,error)) {
+        DFErrorFormat(error,"%s: %s",outFilename,DFErrorMessage(error));
+        WordPackageRelease(wordPackage);
+        return 0;
+    }
+    if (!DFZip(outFilename,rawPackage,error)) {
         DFErrorFormat(error,"%s: %s",outFilename,DFErrorMessage(error));
         WordPackageRelease(wordPackage);
         return 0;

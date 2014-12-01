@@ -19,6 +19,7 @@
 #include "CSSProperties.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include "DFZipFile.h"
 #include <stdlib.h>
 
 int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error)
@@ -51,7 +52,9 @@ int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error)
         goto end;
     }
 
-    if (!WordPackageSaveTo(wordPackage,destPath,error))
+    if (!WordPackageSave(wordPackage,error))
+        goto end;
+    if (!DFZip(destPath,rawPackage,error))
         goto end;
 
     ok = 1;

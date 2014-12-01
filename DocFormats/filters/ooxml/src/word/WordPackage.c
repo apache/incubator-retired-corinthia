@@ -208,9 +208,9 @@ WordPackage *WordPackageOpenNew(DFPackage *store, DFError **error)
     return NULL;
 }
 
-WordPackage *WordPackageOpenFrom(DFPackage *store, const char *filename, DFError **error)
+WordPackage *WordPackageOpenFrom(DFPackage *store, DFError **error)
 {
-    OPCPackage *opc = OPCPackageOpenFrom(store,filename,error);
+    OPCPackage *opc = OPCPackageOpenFrom(store,error);
     if (opc == NULL)
         return NULL;
 
@@ -331,7 +331,7 @@ static int savePart(WordPackage *package, DFDocument *document,
     return 1;
 }
 
-int WordPackageSaveTo(WordPackage *package, const char *filename, DFError **error)
+int WordPackageSave(WordPackage *package, DFError **error)
 {
     // Document
     assert(package->document != NULL);
@@ -364,10 +364,8 @@ int WordPackageSaveTo(WordPackage *package, const char *filename, DFError **erro
         return 0;
 
     // Build .docx zip archive, if requested
-    if ((filename != NULL) && !OPCPackageSaveTo(package->opc,filename)) {
-        DFErrorFormat(error,"%s",package->opc->errors->data);
+    if (!OPCPackageSave(package->opc,error))
         return 0;
-    }
 
     return 1;
 }

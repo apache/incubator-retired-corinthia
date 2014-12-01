@@ -20,7 +20,7 @@
 #include "DFDOM.h"
 #include "WordPackage.h"
 
-char *Word_toPlain(WordPackage *wordPackage, DFPackage *rawPackage, DFHashTable *parts, const char *tempPath);
+char *Word_toPlain(WordPackage *wordPackage, DFPackage *rawPackage, DFHashTable *parts);
 int Word_fromPlain(const char *plain, const char *plainPath, const char *zipTempPath,
                    WordPackage **outWordPackage, DFPackage **outRawPackage, DFError **error);
 char *HTML_toPlain(DFDocument *doc, const char *imagePath, DFError **error);

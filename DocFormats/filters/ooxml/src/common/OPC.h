@@ -108,10 +108,10 @@ struct OPCPackage {
 };
 
 OPCPackage *OPCPackageOpenNew(DFPackage *store, DFError **error);
-OPCPackage *OPCPackageOpenFrom(DFPackage *store, const char *filename, DFError **error);
+OPCPackage *OPCPackageOpenFrom(DFPackage *store, DFError **error);
 void OPCPackageFree(OPCPackage *pkg);
 int OPCPackageSaveToDir(OPCPackage *pkg);
-int OPCPackageSaveTo(OPCPackage *pkg, const char *filename);
+int OPCPackageSave(OPCPackage *pkg, DFError **error);
 
 OPCPart *OPCPackagePartWithURI(OPCPackage *pkg, const char *URI);
 OPCPart *OPCPackageAddRelatedPart(OPCPackage *pkg, const char *URI, const char *contentType,

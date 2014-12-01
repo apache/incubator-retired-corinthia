@@ -521,13 +521,10 @@ OPCPackage *OPCPackageOpenNew(DFPackage *store, DFError **error)
     return OPCPackageNew(store);
 }
 
-OPCPackage *OPCPackageOpenFrom(DFPackage *store, const char *filename, DFError **error)
+OPCPackage *OPCPackageOpenFrom(DFPackage *store, DFError **error)
 {
     int ok = 0;
     OPCPackage *pkg = OPCPackageNew(store);
-
-    if (!DFUnzip(filename,pkg->store,error))
-        goto end;
 
     if (!OPCContentTypesLoadFromFile(pkg->contentTypes,pkg->store,"[Content_Types].xml",error))
         goto end;
@@ -579,19 +576,11 @@ int OPCPackageSaveToDir(OPCPackage *pkg)
     return (pkg->errors->len == 0);
 }
 
-int OPCPackageSaveTo(OPCPackage *pkg, const char *filename)
+int OPCPackageSave(OPCPackage *pkg, DFError **error)
 {
     if (!OPCPackageSaveToDir(pkg))
-        return 0;;
-    DFError *dferror = NULL;
-    // Build zip file
-    if (!DFZip(filename,pkg->store,&dferror)) {
-        OPCPackageError(pkg,"%s",DFErrorMessage(&dferror));
-        DFErrorRelease(dferror);
         return 0;
-    }
-
-    return 1;
+    return DFPackageSave(pkg->store,error);
 }
 
 OPCPart *OPCPackagePartWithURI(OPCPackage *pkg, const char *URI)
