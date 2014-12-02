@@ -12,5 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <DocFormats/Operations.h>
-#include <DocFormats/Formats.h>
+#ifndef DocFormats_Formats_h
+#define DocFormats_Formats_h
+
+typedef enum {
+    DFFileFormatUnknown  = 0,
+    DFFileFormatHTML,
+    DFFileFormatDocx,
+    DFFileFormatXlsx,
+    DFFileFormatPptx,
+    DFFileFormatOdt,
+    DFFileFormatOds,
+    DFFileFormatOdp,
+    DFFileFormatMarkdown,
+    DFFileFormatLaTeX,
+    DFFileFormatRTF,
+    DFFileFormatScriv,
+    DFFileFormatEPUB,
+} DFFileFormat;
+
+DFFileFormat DFFileFormatFromFilename(const char *filename);
+DFFileFormat DFFileFormatFromExtension(const char *ext);
+const char *DFFileFormatToExtension(DFFileFormat format);
+
+#endif

@@ -209,7 +209,7 @@ static DFHashTable *getFlags(int argc, const char **argv)
 
 static void Word_testCreate(TestCase *script, int argc, const char **argv)
 {
-    DFPackage *rawPackage = DFPackageNewMemory();
+    DFPackage *rawPackage = DFPackageNewMemory(DFFileFormatDocx);
     WordPackage *wordPackage = NULL;
 
     DFDocument *htmlDoc = NULL;

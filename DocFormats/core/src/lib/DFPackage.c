@@ -36,6 +36,7 @@ struct DFPackageOps {
 
 struct DFPackage {
     size_t retainCount;
+    DFFileFormat format;
     char *rootPath;
     char *zipFilename;
     DFHashTable *files;
@@ -316,21 +317,26 @@ static char *fixPath(const char *input)
     return result;
 }
 
-DFPackage *DFPackageNewFilesystem(const char *rootPath)
+static DFPackage *DFPackageNew(DFFileFormat format, const DFPackageOps *ops)
 {
     DFPackage *package = (DFPackage *)calloc(1,sizeof(DFPackage));
     package->retainCount = 1;
-    package->rootPath = strdup(rootPath);
-    package->ops = &fsOps;
+    package->format = format;
+    package->ops = ops;
     return package;
 }
 
-DFPackage *DFPackageNewMemory(void)
+DFPackage *DFPackageNewFilesystem(const char *rootPath, DFFileFormat format)
 {
-    DFPackage *package = (DFPackage *)calloc(1,sizeof(DFPackage));
-    package->retainCount = 1;
+    DFPackage *package = DFPackageNew(format,&fsOps);
+    package->rootPath = strdup(rootPath);
+    return package;
+}
+
+DFPackage *DFPackageNewMemory(DFFileFormat format)
+{
+    DFPackage *package = DFPackageNew(format,&memOps);
     package->files = DFHashTableNew((DFCopyFunction)DFBufferRetain,(DFFreeFunction)DFBufferRelease);
-    package->ops = &memOps;
     return package;
 }
 
@@ -342,10 +348,8 @@ DFPackage *DFPackageCreateZip(const char *filename, DFError **error)
         return NULL;
     }
 
-    DFPackage *package = (DFPackage *)calloc(1,sizeof(DFPackage));
-    package->retainCount = 1;
+    DFPackage *package = DFPackageNew(DFFileFormatFromFilename(filename),&zipOps);
     package->files = DFHashTableNew((DFCopyFunction)DFBufferRetain,(DFFreeFunction)DFBufferRelease);
-    package->ops = &zipOps;
     package->zipFilename = strdup(filename);
     return package;
 }
@@ -357,10 +361,8 @@ DFPackage *DFPackageOpenZip(const char *filename, DFError **error)
         return NULL;
     }
 
-    DFPackage *package = (DFPackage *)calloc(1,sizeof(DFPackage));
-    package->retainCount = 1;
+    DFPackage *package = DFPackageNew(DFFileFormatFromFilename(filename),&zipOps);
     package->files = DFHashTableNew((DFCopyFunction)DFBufferRetain,(DFFreeFunction)DFBufferRelease);
-    package->ops = &zipOps;
     package->zipFilename = strdup(filename);
 
     if (!DFUnzip(filename,package,error)) {
@@ -386,6 +388,11 @@ void DFPackageRelease(DFPackage *package)
     free(package->rootPath);
     free(package->zipFilename);
     free(package);
+}
+
+DFFileFormat DFPackageFormat(DFPackage *package)
+{
+    return package->format;
 }
 
 int DFPackageSave(DFPackage *package, DFError **error)

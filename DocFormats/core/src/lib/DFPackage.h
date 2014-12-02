@@ -17,15 +17,17 @@
 
 #include "DFError.h"
 #include "DFTypes.h"
+#include <DocFormats/Formats.h>
 
 typedef struct DFPackage DFPackage;
 
-DFPackage *DFPackageNewFilesystem(const char *rootPath);
-DFPackage *DFPackageNewMemory(void);
+DFPackage *DFPackageNewFilesystem(const char *rootPath, DFFileFormat format);
+DFPackage *DFPackageNewMemory(DFFileFormat format);
 DFPackage *DFPackageCreateZip(const char *filename, DFError **error);
 DFPackage *DFPackageOpenZip(const char *filename, DFError **error);
 DFPackage *DFPackageRetain(DFPackage *package);
 void DFPackageRelease(DFPackage *package);
+DFFileFormat DFPackageFormat(DFPackage *package);
 int DFPackageSave(DFPackage *package, DFError **error);
 
 int DFPackageRead(DFPackage *package, const char *path, void **buf, size_t *nbytes, DFError **error);

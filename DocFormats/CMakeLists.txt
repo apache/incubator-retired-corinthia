@@ -35,7 +35,9 @@ set(GroupRoot
 
 set(GroupAPI
     api/headers/DocFormats/DocFormats.h
+    api/headers/DocFormats/Formats.h
     api/headers/DocFormats/Operations.h
+    api/src/Formats.c
     api/src/Operations.c)
 
 set(GroupCoreCommon

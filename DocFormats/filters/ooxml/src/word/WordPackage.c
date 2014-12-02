@@ -179,6 +179,12 @@ static void addMissingParts(WordPackage *package)
 
 WordPackage *WordPackageOpenNew(DFPackage *store, DFError **error)
 {
+    if (DFPackageFormat(store) != DFFileFormatDocx) {
+        DFErrorFormat(error,"Incorrect format: Expected %s, got %s",
+                      DFFileFormatToExtension(DFFileFormatDocx),DFFileFormatToExtension(DFPackageFormat(store)));
+        return NULL;
+    }
+
     OPCPackage *opc = OPCPackageOpenNew(store,error);
     if (opc == NULL)
         return NULL;
@@ -210,6 +216,12 @@ WordPackage *WordPackageOpenNew(DFPackage *store, DFError **error)
 
 WordPackage *WordPackageOpenFrom(DFPackage *store, DFError **error)
 {
+    if (DFPackageFormat(store) != DFFileFormatDocx) {
+        DFErrorFormat(error,"Incorrect format: Expected %s, got %s",
+                      DFFileFormatToExtension(DFFileFormatDocx),DFFileFormatToExtension(DFPackageFormat(store)));
+        return NULL;
+    }
+
     OPCPackage *opc = OPCPackageOpenFrom(store,error);
     if (opc == NULL)
         return NULL;

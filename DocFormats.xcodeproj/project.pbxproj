@@ -155,6 +155,10 @@
 		D01E24E61A205A1500F4C04D /* DFXML.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E245B1A205A1500F4C04D /* DFXML.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01E24E71A205A1500F4C04D /* DFXMLForward.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E245C1A205A1500F4C04D /* DFXMLForward.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01E24E81A205A1500F4C04D /* DFXMLForward.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E245C1A205A1500F4C04D /* DFXMLForward.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0416D171A2DD7F20064BE57 /* Formats.h in Headers */ = {isa = PBXBuildFile; fileRef = D0416D161A2DD7F20064BE57 /* Formats.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0416D181A2DD7F40064BE57 /* Formats.h in Headers */ = {isa = PBXBuildFile; fileRef = D0416D161A2DD7F20064BE57 /* Formats.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0416D1A1A2DD8060064BE57 /* Formats.c in Sources */ = {isa = PBXBuildFile; fileRef = D0416D191A2DD8060064BE57 /* Formats.c */; };
+		D0416D1B1A2DD8060064BE57 /* Formats.c in Sources */ = {isa = PBXBuildFile; fileRef = D0416D191A2DD8060064BE57 /* Formats.c */; };
 		D04459371A20635B00A2E37E /* ODF.c in Sources */ = {isa = PBXBuildFile; fileRef = D044592F1A20635B00A2E37E /* ODF.c */; };
 		D04459381A20635B00A2E37E /* ODF.h in Headers */ = {isa = PBXBuildFile; fileRef = D04459301A20635B00A2E37E /* ODF.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D04459391A20635B00A2E37E /* ODFManifest.c in Sources */ = {isa = PBXBuildFile; fileRef = D04459311A20635B00A2E37E /* ODFManifest.c */; };
@@ -532,6 +536,8 @@
 		D01E245A1A205A1500F4C04D /* DFXML.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFXML.c; sourceTree = "<group>"; };
 		D01E245B1A205A1500F4C04D /* DFXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFXML.h; sourceTree = "<group>"; };
 		D01E245C1A205A1500F4C04D /* DFXMLForward.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFXMLForward.h; sourceTree = "<group>"; };
+		D0416D161A2DD7F20064BE57 /* Formats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Formats.h; path = api/headers/DocFormats/Formats.h; sourceTree = "<group>"; };
+		D0416D191A2DD8060064BE57 /* Formats.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Formats.c; path = api/src/Formats.c; sourceTree = "<group>"; };
 		D044592F1A20635B00A2E37E /* ODF.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ODF.c; sourceTree = "<group>"; };
 		D04459301A20635B00A2E37E /* ODF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODF.h; sourceTree = "<group>"; };
 		D04459311A20635B00A2E37E /* ODFManifest.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ODFManifest.c; sourceTree = "<group>"; };
@@ -724,6 +730,8 @@
 			isa = PBXGroup;
 			children = (
 				D074ED561A2B04BC000C3704 /* DocFormats.h */,
+				D0416D191A2DD8060064BE57 /* Formats.c */,
+				D0416D161A2DD7F20064BE57 /* Formats.h */,
 				D00C675E1A2ACDB0000233A3 /* Operations.c */,
 				D074ED571A2B04BC000C3704 /* Operations.h */,
 			);
@@ -1277,6 +1285,7 @@
 				D0A787941A210EA900723FE8 /* win32tc.h in Headers */,
 				D01E24691A205A1500F4C04D /* CSS.h in Headers */,
 				D0ADB3941A2054C6003D645D /* WordPackage.h in Headers */,
+				D0416D171A2DD7F20064BE57 /* Formats.h in Headers */,
 				D01E24E51A205A1500F4C04D /* DFXML.h in Headers */,
 				D0A787621A210EA900723FE8 /* iconvtc.h in Headers */,
 				D0B113CD1A205F67009610A5 /* HTMLToLaTeX.h in Headers */,
@@ -1387,6 +1396,7 @@
 				D0ADB3A91A2054C6003D645D /* WordTheme.h in Headers */,
 				D01E246A1A205A1500F4C04D /* CSS.h in Headers */,
 				D0ADB3951A2054C6003D645D /* WordPackage.h in Headers */,
+				D0416D181A2DD7F40064BE57 /* Formats.h in Headers */,
 				D0A787631A210EA900723FE8 /* iconvtc.h in Headers */,
 				D0B113CF1A205F70009610A5 /* HTMLToLaTeX.h in Headers */,
 				D01E24E61A205A1500F4C04D /* DFXML.h in Headers */,
@@ -1586,6 +1596,7 @@
 				D0ADB3621A2054C6003D645D /* WordLenses.c in Sources */,
 				D01E24CB1A205A1500F4C04D /* DFZipFile.c in Sources */,
 				D0A7874E1A210EA900723FE8 /* config.c in Sources */,
+				D0416D1A1A2DD8060064BE57 /* Formats.c in Sources */,
 				D0B113CC1A205F67009610A5 /* HTMLToLaTeX.c in Sources */,
 				D0ADB3A61A2054C6003D645D /* WordTheme.c in Sources */,
 				D0A7878C1A210EA900723FE8 /* utf8.c in Sources */,
@@ -1704,6 +1715,7 @@
 				D0ADB3631A2054C6003D645D /* WordLenses.c in Sources */,
 				D01E24CC1A205A1500F4C04D /* DFZipFile.c in Sources */,
 				D0A7874F1A210EA900723FE8 /* config.c in Sources */,
+				D0416D1B1A2DD8060064BE57 /* Formats.c in Sources */,
 				D0B113CE1A205F70009610A5 /* HTMLToLaTeX.c in Sources */,
 				D0ADB3A71A2054C6003D645D /* WordTheme.c in Sources */,
 				D0A7878D1A210EA900723FE8 /* utf8.c in Sources */,
