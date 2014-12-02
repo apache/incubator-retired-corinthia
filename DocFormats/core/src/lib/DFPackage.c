@@ -17,6 +17,7 @@
 #include "DFString.h"
 #include "DFFilesystem.h"
 #include "DFBuffer.h"
+#include "DFZipFile.h"
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,6 +37,7 @@ struct DFPackageOps {
 struct DFPackage {
     size_t retainCount;
     char *rootPath;
+    char *zipFilename;
     DFHashTable *files;
     const DFPackageOps *ops;
 };
@@ -225,6 +227,74 @@ static DFPackageOps memOps = {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
+//                                         DFPackage (Zip)                                        //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Currently, zip packages operate just like memory packages, in that they store their contents in
+// a hash table. The only difference is that they extract all the entries from a zip file on
+// creation, and overwrite the zip file on save.
+//
+// Eventually, we should make it so the entries are read on-demand, and also that a new, temporary
+// zip file is written if the package is modified, and that new version replaces the existing one on
+// save.
+
+static int zipSave(DFPackage *package, DFError **error)
+{
+    return DFZip(package->zipFilename,package,error);
+}
+
+static int zipRead(DFPackage *package, const char *path, void **buf, size_t *nbytes, DFError **error)
+{
+    DFBuffer *buffer = DFHashTableLookup(package->files,path);
+    if (buffer == NULL) {
+        DFErrorSetPosix(error,ENOENT);
+        return 0;
+    }
+
+    *buf = malloc(buffer->len);
+    memcpy(*buf,buffer->data,buffer->len);
+    *nbytes = buffer->len;
+
+    return 1;
+}
+
+static int zipWrite(DFPackage *package, const char *path, void *buf, size_t nbytes, DFError **error)
+{
+    DFBuffer *buffer = DFBufferNew();
+    DFBufferAppendData(buffer,buf,nbytes);
+    DFHashTableAdd(package->files,path,buffer);
+    DFBufferRelease(buffer);
+    return 1;
+}
+
+static int zipExists(DFPackage *package, const char *path)
+{
+    return (DFHashTableLookup(package->files,path) != NULL);
+}
+
+static int zipDelete(DFPackage *package, const char *path, DFError **error)
+{
+    DFHashTableRemove(package->files,path);
+    return 1;
+}
+
+static const char **zipList(DFPackage *package, DFError **error)
+{
+    return DFHashTableCopyKeys(package->files);
+}
+
+static DFPackageOps zipOps = {
+    .save = zipSave,
+    .read = zipRead,
+    .write = zipWrite,
+    .exists = zipExists,
+    .delete = zipDelete,
+    .list = zipList,
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                //
 //                                            DFPackage                                           //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -264,6 +334,20 @@ DFPackage *DFPackageNewMemory(void)
     return package;
 }
 
+DFPackage *DFPackageNewZip(const char *filename, int mustExist, DFError **error)
+{
+    DFPackage *package = (DFPackage *)calloc(1,sizeof(DFPackage));
+    package->retainCount = 1;
+    package->files = DFHashTableNew((DFCopyFunction)DFBufferRetain,(DFFreeFunction)DFBufferRelease);
+    package->ops = &zipOps;
+    package->zipFilename = strdup(filename);
+    if (mustExist && !DFUnzip(filename,package,error)) {
+        DFPackageRelease(package);
+        return NULL;
+    }
+    return package;
+}
+
 DFPackage *DFPackageRetain(DFPackage *package)
 {
     if (package != NULL)
@@ -278,6 +362,7 @@ void DFPackageRelease(DFPackage *package)
 
     DFHashTableRelease(package->files);
     free(package->rootPath);
+    free(package->zipFilename);
     free(package);
 }
 

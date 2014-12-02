@@ -22,6 +22,7 @@ typedef struct DFPackage DFPackage;
 
 DFPackage *DFPackageNewFilesystem(const char *rootPath);
 DFPackage *DFPackageNewMemory(void);
+DFPackage *DFPackageNewZip(const char *filename, int mustExist, DFError **error);
 DFPackage *DFPackageRetain(DFPackage *package);
 void DFPackageRelease(DFPackage *package);
 int DFPackageSave(DFPackage *package, DFError **error);

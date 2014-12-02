@@ -111,13 +111,17 @@ static int prettyPrintWordFile(const char *filename, DFError **error)
     char *wordTempPath = DFAppendPathComponent(tempPath,"word");
     char *plain = NULL;
     WordPackage *wordPackage = NULL;
-    DFPackage *rawPackage = DFPackageNewMemory();
+    DFPackage *rawPackage = NULL;
 
     if (!DFEmptyDirectory(wordTempPath,error))
         goto end;
 
-    if (!DFUnzip(filename,rawPackage,error))
+    rawPackage = DFPackageNewZip(filename,1,error);
+    if (rawPackage == NULL) {
+        DFErrorFormat(error,"%s: %s",filename,DFErrorMessage(error));
         goto end;
+    }
+
     wordPackage = WordPackageOpenFrom(rawPackage,error);
     if (wordPackage == NULL)
         goto end;

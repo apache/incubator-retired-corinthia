@@ -581,8 +581,8 @@ int Word_fromPlain(const char *plain, const char *plainPath, const char *zipTemp
 {
     int ok = 0;
     char *docxPath = DFAppendPathComponent(zipTempPath,"document.docx");
-    DFPackage *firstStore = DFPackageNewMemory();
-    DFPackage *secondStore = DFPackageNewMemory();
+    DFPackage *firstStore = NULL;
+    DFPackage *secondStore = NULL;
     WordPackage *wp = NULL;
     TextPackage *tp = NULL;
 
@@ -600,21 +600,28 @@ int Word_fromPlain(const char *plain, const char *plainPath, const char *zipTemp
         goto end;
     }
 
+    firstStore = DFPackageNewZip(docxPath,0,error);
+    if (firstStore == NULL) {
+        DFErrorFormat(error,"%s: %s",docxPath,DFErrorMessage(error));
+        goto end;
+    }
+
     if (!Word_fromPackage(tp,firstStore,error)) {
         DFErrorFormat(error,"Word_fromPackageNew: %s",DFErrorMessage(error));
         printf("%s\n",DFErrorMessage(error));
         goto end;
     }
 
-    if (!DFZip(docxPath,firstStore,error)) {
+    if (!DFPackageSave(firstStore,error)) {
         DFErrorFormat(error,"zip %s: %s",docxPath,DFErrorMessage(error));
         goto end;
     }
 
     // Now we have a .docx file; access it using what will be the new way (this API will change so we just say
     // "open a word document from here", without having to separately create the package object first.
-    if (!DFUnzip(docxPath,secondStore,error)) {
-        DFErrorFormat(error,"DFUnzip %s: %s\n",docxPath,DFErrorMessage(error));
+    secondStore = DFPackageNewZip(docxPath,1,error);
+    if (secondStore == NULL) {
+        DFErrorFormat(error,"%s: %s\n",docxPath,DFErrorMessage(error));
         goto end;
     }
     wp = WordPackageOpenFrom(secondStore,error);

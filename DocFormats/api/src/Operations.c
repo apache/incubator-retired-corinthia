@@ -26,17 +26,23 @@
 static int generateHTML(const char *packageFilename, const char *htmlFilename, DFError **error)
 {
     int ok = 0;
-    DFPackage *rawPackage = DFPackageNewMemory();
+    DFPackage *rawPackage = NULL;
     WordPackage *wordPackage = NULL;
     char *htmlPath = DFPathDirName(htmlFilename);
     DFBuffer *warnings = DFBufferNew();
     DFDocument *htmlDoc = NULL;
 
-    if (!DFUnzip(packageFilename,rawPackage,error))
+    rawPackage = DFPackageNewZip(packageFilename,1,error);
+    if (rawPackage == NULL) {
+        DFErrorFormat(error,"%s: %s",packageFilename,DFErrorMessage(error));
         goto end;
+    }
+
     wordPackage = WordPackageOpenFrom(rawPackage,error);
-    if (wordPackage == NULL)
+    if (wordPackage == NULL) {
+        DFErrorFormat(error,"%s: %s",packageFilename,DFErrorMessage(error));
         goto end;
+    }
 
     htmlDoc = WordPackageGenerateHTML(wordPackage,htmlPath,"word",error,warnings);
     if (htmlDoc == NULL)
@@ -68,7 +74,7 @@ end:
 static int updateFrom(const char *packageFilename, const char *htmlFilename, DFError **error)
 {
     int ok = 0;
-    DFPackage *rawPackage = DFPackageNewMemory();
+    DFPackage *rawPackage = NULL;
     WordPackage *wordPackage = NULL;
     DFDocument *htmlDoc = NULL;
     DFBuffer *warnings = DFBufferNew();
@@ -83,6 +89,13 @@ static int updateFrom(const char *packageFilename, const char *htmlFilename, DFE
     const char *idPrefix = "word";
 
     if (!DFFileExists(packageFilename)) {
+
+        rawPackage = DFPackageNewZip(packageFilename,0,error);
+        if (rawPackage == NULL) {
+            DFErrorFormat(error,"%s: %s",packageFilename,DFErrorMessage(error));
+            goto end;
+        }
+
         wordPackage = WordPackageOpenNew(rawPackage,error);
         if (wordPackage == NULL)
             goto end;
@@ -94,8 +107,11 @@ static int updateFrom(const char *packageFilename, const char *htmlFilename, DFE
         HTMLBreakBDTRefs(htmlDoc->docNode,idPrefix);
     }
     else {
-        if (!DFUnzip(packageFilename,rawPackage,error))
+        rawPackage = DFPackageNewZip(packageFilename,1,error);
+        if (rawPackage == NULL) {
+            DFErrorFormat(error,"%s: %s",packageFilename,DFErrorMessage(error));
             goto end;
+        }
         wordPackage = WordPackageOpenFrom(rawPackage,error);
         if (wordPackage == NULL)
             goto end;
@@ -110,8 +126,6 @@ static int updateFrom(const char *packageFilename, const char *htmlFilename, DFE
     }
 
     if (!WordPackageSave(wordPackage,error))
-        goto end;
-    if (!DFZip(packageFilename,rawPackage,error))
         goto end;
 
     ok = 1;

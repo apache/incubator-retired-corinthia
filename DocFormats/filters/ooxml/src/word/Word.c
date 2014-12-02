@@ -29,7 +29,7 @@ int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error)
     char *htmlPath = DFPathDirName(sourcePath);
     DFDocument *htmlDoc = NULL;
     DFBuffer *warnings = DFBufferNew();
-    DFPackage *rawPackage = DFPackageNewMemory();
+    DFPackage *rawPackage = NULL;
     WordPackage *wordPackage = NULL;
 
     htmlDoc = DFParseHTMLFile(sourcePath,0,error);
@@ -39,6 +39,13 @@ int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error)
         free(sourceFilename);
         goto end;
     }
+
+    if (DFFileExists(destPath) && !DFDeleteFile(destPath,error))
+        goto end;
+
+    rawPackage = DFPackageNewZip(destPath,0,error);
+    if (rawPackage == NULL)
+        goto end;
 
     wordPackage = WordPackageOpenNew(rawPackage,error);
     if (wordPackage == NULL)
@@ -53,8 +60,6 @@ int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error)
     }
 
     if (!WordPackageSave(wordPackage,error))
-        goto end;
-    if (!DFZip(destPath,rawPackage,error))
         goto end;
 
     ok = 1;
