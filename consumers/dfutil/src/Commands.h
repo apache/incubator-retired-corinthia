@@ -24,7 +24,6 @@ int normalizeFile(const char *filename, DFError **error);
 int convertFile(const char *inFilename, const char *outFilename, DFError **error);
 int testCSS(const char *filename, DFError **error);
 int parseHTMLFile(const char *filename, DFError **error);
-int simplifyFields(const char *inFilename, const char *outFilename, DFError **error);
 int textPackageList(const char *filename, DFError **error);
 int textPackageGet(const char *filename, const char *itemPath, DFError **error);
 int runTests(int argc, const char **argv, int diff, DFError **error);

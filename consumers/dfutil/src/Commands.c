@@ -318,46 +318,6 @@ int parseHTMLFile(const char *filename, DFError **error)
     return 1;
 }
 
-int simplifyFields(const char *inFilename, const char *outFilename, DFError **error)
-{
-    char *outExtension = DFPathExtension(outFilename);
-    int isDocx = DFStringEqualsCI(outExtension,"docx");
-    free(outExtension);
-
-    if (!isDocx) {
-        DFErrorFormat(error,"%s: Simplify fields only applies to docx files",inFilename);
-        return 0;
-    }
-
-    DFPackage *rawPackage = DFPackageNewMemory();
-    if (!DFUnzip(inFilename,rawPackage,error)) {
-        DFErrorFormat(error,"%s: %s",inFilename,DFErrorMessage(error));
-        return 0;
-    }
-    WordPackage *wordPackage = WordPackageOpenFrom(rawPackage,error);
-    DFPackageRelease(rawPackage);
-    if (wordPackage == NULL) {
-        DFErrorFormat(error,"%s: %s",inFilename,DFErrorMessage(error));
-        return 0;
-    }
-
-    WordPackageSimplifyFields(wordPackage);
-
-    if (!WordPackageSave(wordPackage,error)) {
-        DFErrorFormat(error,"%s: %s",outFilename,DFErrorMessage(error));
-        WordPackageRelease(wordPackage);
-        return 0;
-    }
-    if (!DFZip(outFilename,rawPackage,error)) {
-        DFErrorFormat(error,"%s: %s",outFilename,DFErrorMessage(error));
-        WordPackageRelease(wordPackage);
-        return 0;
-    }
-
-    WordPackageRelease(wordPackage);
-    return 1;
-}
-
 static int textPackageListRecursive(const char *input, const char *filePath, DFError **error, int indent)
 {
     TextPackage *package = TextPackageNewWithString(input,filePath,error);

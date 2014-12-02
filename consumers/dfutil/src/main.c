@@ -50,9 +50,6 @@ static int runCommand(int argc, const char **argv, DFError **dferr)
     else if ((argc == 3) && !strcmp(argv[1],"-parsehtml")) {
         return parseHTMLFile(argv[2],dferr);
     }
-    else if ((argc == 4) && !strcmp(argv[1],"-simplify")) {
-        return simplifyFields(argv[2],argv[3],dferr);
-    }
     else if ((argc == 3) && !strcmp(argv[1],"-tplist")) {
         return textPackageList(argv[2],dferr);
     }
