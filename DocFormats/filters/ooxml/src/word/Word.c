@@ -43,7 +43,7 @@ int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error)
     if (DFFileExists(destPath) && !DFDeleteFile(destPath,error))
         goto end;
 
-    rawPackage = DFPackageNewZip(destPath,0,error);
+    rawPackage = DFPackageCreateZip(destPath,error);
     if (rawPackage == NULL)
         goto end;
 

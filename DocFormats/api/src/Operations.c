@@ -32,7 +32,7 @@ static int generateHTML(const char *packageFilename, const char *htmlFilename, D
     DFBuffer *warnings = DFBufferNew();
     DFDocument *htmlDoc = NULL;
 
-    rawPackage = DFPackageNewZip(packageFilename,1,error);
+    rawPackage = DFPackageOpenZip(packageFilename,error);
     if (rawPackage == NULL) {
         DFErrorFormat(error,"%s: %s",packageFilename,DFErrorMessage(error));
         goto end;
@@ -90,7 +90,7 @@ static int updateFrom(const char *packageFilename, const char *htmlFilename, DFE
 
     if (!DFFileExists(packageFilename)) {
 
-        rawPackage = DFPackageNewZip(packageFilename,0,error);
+        rawPackage = DFPackageCreateZip(packageFilename,error);
         if (rawPackage == NULL) {
             DFErrorFormat(error,"%s: %s",packageFilename,DFErrorMessage(error));
             goto end;
@@ -107,7 +107,7 @@ static int updateFrom(const char *packageFilename, const char *htmlFilename, DFE
         HTMLBreakBDTRefs(htmlDoc->docNode,idPrefix);
     }
     else {
-        rawPackage = DFPackageNewZip(packageFilename,1,error);
+        rawPackage = DFPackageOpenZip(packageFilename,error);
         if (rawPackage == NULL) {
             DFErrorFormat(error,"%s: %s",packageFilename,DFErrorMessage(error));
             goto end;

@@ -334,14 +334,36 @@ DFPackage *DFPackageNewMemory(void)
     return package;
 }
 
-DFPackage *DFPackageNewZip(const char *filename, int mustExist, DFError **error)
+DFPackage *DFPackageCreateZip(const char *filename, DFError **error)
 {
+    // Note that with the current implementation, the file doesn't actually get saved until we do a DFPackageSave.
+    if (DFFileExists(filename)) {
+        DFErrorFormat(error,"File already exists");
+        return NULL;
+    }
+
     DFPackage *package = (DFPackage *)calloc(1,sizeof(DFPackage));
     package->retainCount = 1;
     package->files = DFHashTableNew((DFCopyFunction)DFBufferRetain,(DFFreeFunction)DFBufferRelease);
     package->ops = &zipOps;
     package->zipFilename = strdup(filename);
-    if (mustExist && !DFUnzip(filename,package,error)) {
+    return package;
+}
+
+DFPackage *DFPackageOpenZip(const char *filename, DFError **error)
+{
+    if (!DFFileExists(filename)) {
+        DFErrorFormat(error,"File does not exist");
+        return NULL;
+    }
+
+    DFPackage *package = (DFPackage *)calloc(1,sizeof(DFPackage));
+    package->retainCount = 1;
+    package->files = DFHashTableNew((DFCopyFunction)DFBufferRetain,(DFFreeFunction)DFBufferRelease);
+    package->ops = &zipOps;
+    package->zipFilename = strdup(filename);
+
+    if (!DFUnzip(filename,package,error)) {
         DFPackageRelease(package);
         return NULL;
     }

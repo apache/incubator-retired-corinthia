@@ -116,7 +116,7 @@ static int prettyPrintWordFile(const char *filename, DFError **error)
     if (!DFEmptyDirectory(wordTempPath,error))
         goto end;
 
-    rawPackage = DFPackageNewZip(filename,1,error);
+    rawPackage = DFPackageOpenZip(filename,error);
     if (rawPackage == NULL) {
         DFErrorFormat(error,"%s: %s",filename,DFErrorMessage(error));
         goto end;

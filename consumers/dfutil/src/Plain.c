@@ -600,7 +600,7 @@ int Word_fromPlain(const char *plain, const char *plainPath, const char *zipTemp
         goto end;
     }
 
-    firstStore = DFPackageNewZip(docxPath,0,error);
+    firstStore = DFPackageCreateZip(docxPath,error);
     if (firstStore == NULL) {
         DFErrorFormat(error,"%s: %s",docxPath,DFErrorMessage(error));
         goto end;
@@ -619,7 +619,7 @@ int Word_fromPlain(const char *plain, const char *plainPath, const char *zipTemp
 
     // Now we have a .docx file; access it using what will be the new way (this API will change so we just say
     // "open a word document from here", without having to separately create the package object first.
-    secondStore = DFPackageNewZip(docxPath,1,error);
+    secondStore = DFPackageOpenZip(docxPath,error);
     if (secondStore == NULL) {
         DFErrorFormat(error,"%s: %s\n",docxPath,DFErrorMessage(error));
         goto end;
