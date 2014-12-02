@@ -23,6 +23,16 @@
 #include "DFZipFile.h"
 #include <stdlib.h>
 
+struct DFConcreteDocument {
+    size_t retainCount;
+    DFPackage *package;
+};
+
+struct DFAbstractDocument {
+    size_t retainCount;
+    DFPackage *package;
+};
+
 static int generateHTML(const char *packageFilename, const char *htmlFilename, DFError **error)
 {
     int ok = 0;
@@ -187,4 +197,116 @@ end:
     free(conExt);
     free(absExt);
     return r;
+}
+
+DFConcreteDocument *DFConcreteDocumentNew(DFPackage *package)
+{
+    DFConcreteDocument *concrete = (DFConcreteDocument *)calloc(1,sizeof(DFConcreteDocument));
+    concrete->retainCount = 1;
+    concrete->package = DFPackageRetain(package);
+    return concrete;
+}
+
+DFConcreteDocument *DFConcreteDocumentCreateFile(const char *filename, DFError **error)
+{
+    DFFileFormat format = DFFileFormatFromFilename(filename);
+    switch (format) {
+        case DFFileFormatDocx:
+        case DFFileFormatXlsx:
+        case DFFileFormatPptx:
+        case DFFileFormatOdt:
+        case DFFileFormatOds:
+        case DFFileFormatOdp: {
+            DFPackage *package = DFPackageCreateZip(filename,error);
+            if (package == NULL)
+                return NULL;;
+            DFConcreteDocument *concrete = DFConcreteDocumentNew(package);
+            DFPackageRelease(package);
+            return concrete;
+        }
+        default:
+            DFErrorFormat(error,"Unsupported format for DFConcreteDocumentCreateFile");
+            return NULL;
+    }
+}
+
+DFConcreteDocument *DFConcreteDocumentOpenFile(const char *filename, DFError **error)
+{
+    DFFileFormat format = DFFileFormatFromFilename(filename);
+    switch (format) {
+        case DFFileFormatDocx:
+        case DFFileFormatXlsx:
+        case DFFileFormatPptx:
+        case DFFileFormatOdt:
+        case DFFileFormatOds:
+        case DFFileFormatOdp: {
+            DFPackage *package = DFPackageOpenZip(filename,error);
+            if (package == NULL)
+                return NULL;;
+            DFConcreteDocument *concrete = DFConcreteDocumentNew(package);
+            DFPackageRelease(package);
+            return concrete;
+        }
+        default:
+            DFErrorFormat(error,"Unsupported format for DFConcreteDocumentCreateFile");
+            return NULL;
+    }
+}
+
+DFConcreteDocument *DFConcreteDocumentRetain(DFConcreteDocument *concrete)
+{
+    if (concrete != NULL)
+        concrete->retainCount++;
+    return concrete;
+}
+
+void DFConcreteDocumentRelease(DFConcreteDocument *concrete)
+{
+    if ((concrete == NULL) || (--concrete->retainCount > 0))
+        return;
+
+    DFPackageRelease(concrete->package);
+    free(concrete);
+}
+
+DFAbstractDocument *DFAbstractDocumentNew(DFPackage *package)
+{
+    DFAbstractDocument *abstract = (DFAbstractDocument *)calloc(1,sizeof(DFAbstractDocument));
+    abstract->retainCount = 1;
+    abstract->package = DFPackageRetain(package);
+    return abstract;
+}
+
+DFAbstractDocument *DFAbstractDocumentRetain(DFAbstractDocument *abstract)
+{
+    if (abstract != NULL)
+        abstract->retainCount++;
+    return abstract;
+}
+
+void DFAbstractDocumentRelease(DFAbstractDocument *abstract)
+{
+    if ((abstract == NULL) || (--abstract->retainCount > 0))
+        return;
+
+    DFPackageRelease(abstract->package);
+    free(abstract);
+}
+
+int DFGet(DFConcreteDocument *concrete, DFAbstractDocument *abstract, DFError **error)
+{
+    DFErrorFormat(error,"DFGet not yet implemented");
+    return 0;
+}
+
+int DFPut(DFConcreteDocument *concrete, DFAbstractDocument *abstract, DFError **error)
+{
+    DFErrorFormat(error,"DFPut not yet implemented");
+    return 0;
+}
+
+int DFCreate(DFConcreteDocument *concrete, DFAbstractDocument *abstract, DFError **error)
+{
+    DFErrorFormat(error,"DFCreate not yet implemented");
+    return 0;
 }
