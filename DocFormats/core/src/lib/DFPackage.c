@@ -328,6 +328,8 @@ static DFPackage *DFPackageNew(DFFileFormat format, const DFPackageOps *ops)
 
 DFPackage *DFPackageNewFilesystem(const char *rootPath, DFFileFormat format)
 {
+    if ((rootPath == NULL) || (strlen(rootPath) == 0))
+        rootPath = ".";;
     DFPackage *package = DFPackageNew(format,&fsOps);
     package->rootPath = strdup(rootPath);
     return package;

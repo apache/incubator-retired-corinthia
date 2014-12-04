@@ -54,7 +54,9 @@ static int generateHTML(const char *packageFilename, const char *htmlFilename, D
         goto end;
     }
 
-    htmlDoc = WordPackageGenerateHTML(wordPackage,htmlPath,"word",error,warnings);
+    DFPackage *abstractPackage = DFPackageNewFilesystem(htmlPath,DFFileFormatHTML);
+    htmlDoc = WordPackageGenerateHTML(wordPackage,abstractPackage,"word",error,warnings);
+    DFPackageRelease(abstractPackage);
     if (htmlDoc == NULL)
         goto end;
 
@@ -89,6 +91,7 @@ static int updateFrom(const char *packageFilename, const char *htmlFilename, DFE
     DFDocument *htmlDoc = NULL;
     DFBuffer *warnings = DFBufferNew();
     char *htmlPath = DFPathDirName(htmlFilename);
+    DFPackage *abstractPackage = DFPackageNewFilesystem(htmlPath,DFFileFormatHTML);
 
     htmlDoc = DFParseHTMLFile(htmlFilename,0,error);
     if (htmlDoc == NULL) {
@@ -127,7 +130,7 @@ static int updateFrom(const char *packageFilename, const char *htmlFilename, DFE
             goto end;
     }
 
-    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,htmlPath,idPrefix,error,warnings))
+    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,abstractPackage,idPrefix,error,warnings))
         goto end;
 
     if (warnings->len > 0) {
@@ -146,6 +149,7 @@ end:
     DFDocumentRelease(htmlDoc);
     DFBufferRelease(warnings);
     free(htmlPath);
+    DFPackageRelease(abstractPackage);
     return ok;
 }
 

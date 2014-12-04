@@ -29,6 +29,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 static int internalPut(WordPutData *put, DFNode *abstract, DFNode *concrete, int isNew);
 static void populateDrawingElement(WordConverter *converter, DFNode *root, double widthPts,
@@ -181,36 +182,22 @@ static DFNode *createAbstractPlaceholder(WordGetData *get, const char *placehold
 
 static DFNode *imageWithFilename(WordGetData *get, const char *filename, double widthPts, DFNode *concrete)
 {
-    const char *abstractPath = get->conv->abstractPath;
-
-    char *abstractImagesPath = DFAppendPathComponent(abstractPath,"images");
     char *lastComponent = DFPathBaseName(filename);
-    char *dstImagePath = DFAppendPathComponent(abstractImagesPath,lastComponent);
+    char *relImagePath = DFAppendPathComponent("images",lastComponent);
     DFBuffer *content = NULL;
-
-    if (DFFileExists(dstImagePath))
-        DFDeleteFile(dstImagePath,NULL);;
 
     DFError *error = NULL;
     DFNode *imageNode = NULL;
 
-    if (!DFFileExists(abstractImagesPath) &&
-        !DFCreateDirectory(abstractImagesPath,1,&error)) {
-        WordConverterWarning(get->conv,"Create %s: %s",abstractImagesPath,DFErrorMessage(&error));
-        DFErrorRelease(error);
-        imageNode = createAbstractPlaceholder(get,"[Error reading image]",concrete);
-        goto end;
-    }
-
     content = DFBufferReadFromPackage(get->conv->package->opc->store,filename,&error);
     if (content == NULL) {
-        WordConverterWarning(get->conv,"Copy %s to %s: %s",filename,dstImagePath,DFErrorMessage(&error));
+        WordConverterWarning(get->conv,"Copy %s to %s: %s",filename,relImagePath,DFErrorMessage(&error));
         DFErrorRelease(error);
         goto end;
     }
 
-    if (!DFBufferWriteToFile(content,dstImagePath,&error)) {
-        WordConverterWarning(get->conv,"Copy %s to %s: %s",filename,dstImagePath,DFErrorMessage(&error));
+    if (!DFBufferWriteToPackage(content,get->conv->abstractPackage,relImagePath,&error)) {
+        WordConverterWarning(get->conv,"Copy %s to %s: %s",filename,relImagePath,DFErrorMessage(&error));
         DFErrorRelease(error);
         goto end;
     }
@@ -232,9 +219,8 @@ static DFNode *imageWithFilename(WordGetData *get, const char *filename, double 
     goto end;
 
 end:
-    free(abstractImagesPath);
     free(lastComponent);
-    free(dstImagePath);
+    free(relImagePath);
     DFBufferRelease(content);
     if (imageNode != NULL)
         return imageNode;
@@ -378,24 +364,21 @@ static char *genImageFilename(DFPackage *package, const char *mediaRelDir, const
     return result;
 }
 
-static OPCRelationship *addImageRelationship(WordConverter *converter, const char *src, DFError **error)
+static OPCRelationship *addImageRelationship(WordConverter *converter, const char *unescapedSrc, DFError **error)
 {
     DFPackage *package = converter->package->opc->store;
     const char *mediaDir = "word/media";
 
-    char *ext = DFPathExtension(src);
+    char *ext = DFPathExtension(unescapedSrc);
     char *filename = genImageFilename(package,mediaDir,ext,error);
     free(ext);
     if (filename == NULL)
         return NULL;
 
-    char *abstractPathSlash = DFFormatString("%s/",converter->abstractPath);
-    char *unescapedSrc = DFRemovePercentEncoding(src);
-    char *srcPath = DFPathResolveAbsolute(abstractPathSlash,unescapedSrc);
     char *destPath = DFAppendPathComponent(mediaDir,filename);
 
     OPCRelationship *result = NULL;
-    DFBuffer *content = DFBufferReadFromFile(srcPath,error);
+    DFBuffer *content = DFBufferReadFromPackage(converter->abstractPackage,unescapedSrc,error);
     if ((content != NULL) && DFBufferWriteToPackage(content,package,destPath,error)) {
         OPCRelationshipSet *rels = converter->package->documentPart->relationships;
         char *relPath = DFFormatString("/word/media/%s",filename);
@@ -405,36 +388,26 @@ static OPCRelationship *addImageRelationship(WordConverter *converter, const cha
     DFBufferRelease(content);
 
     free(filename);
-    free(abstractPathSlash);
-    free(unescapedSrc);
-    free(srcPath);
     free(destPath);
     return result;
 }
 
-static int getImageFile(WordConverter *converter, const char *src, PixelSize *size, DFError **error)
+static int getImageFile(WordConverter *converter, const char *unescapedSrc, PixelSize *size, DFError **error)
 {
     size->widthPx = 0;
     size->heightPx = 0;
 
+    char *ext = DFPathExtension(unescapedSrc);
     int ok = 0;
-    char *ext = DFPathExtension(src);
-    char *unescapedSrc = DFRemovePercentEncoding(src);
-    char *abstractPathSlash = DFFormatString("%s/",converter->abstractPath);
-    char *newSrcPath = DFPathResolveAbsolute(abstractPathSlash,unescapedSrc);
 
-    DFBuffer *imageData = DFBufferReadFromFile(newSrcPath,error);
+    DFBuffer *imageData = DFBufferReadFromPackage(converter->abstractPackage,unescapedSrc,error);
     if (imageData == NULL)
         goto end;
 
     ok = DFGetImageDimensions(imageData->data,imageData->len,ext,&size->widthPx,&size->heightPx,error);
-
 end:
-    free(abstractPathSlash);
-    free(unescapedSrc);
-    free(newSrcPath);
-    free(ext);
     DFBufferRelease(imageData);
+    free(ext);
     return ok;
 }
 
@@ -494,8 +467,7 @@ DFNode *WordDrawingCreate(WordPutData *put, DFNode *abstract)
         return NULL;
 }
 
-static int internalPut2(WordPutData *put, DFNode *abstract, DFNode *concrete, int isNew,
-                        const char *htmlSrc, const char *htmlPath);
+static int internalPut2(WordPutData *put, DFNode *abstract, DFNode *concrete, int isNew, const char *htmlFilename);
 
 static int internalPut(WordPutData *put, DFNode *abstract, DFNode *concrete, int isNew)
 {
@@ -516,27 +488,24 @@ static int internalPut(WordPutData *put, DFNode *abstract, DFNode *concrete, int
         return 0;
 
     char *htmlFilename = DFRemovePercentEncoding(htmlSrc);
-    char *htmlPath = DFAppendPathComponent(put->conv->abstractPath,htmlFilename);
-    int r = internalPut2(put,abstract,concrete,isNew,htmlSrc,htmlPath);
+    int r = internalPut2(put,abstract,concrete,isNew,htmlFilename);
     free(htmlFilename);
-    free(htmlPath);
     return r;
 }
 
-static int internalPut2(WordPutData *put, DFNode *abstract, DFNode *concrete, int isNew,
-                        const char *htmlSrc, const char *htmlPath)
+static int internalPut2(WordPutData *put, DFNode *abstract, DFNode *concrete, int isNew, const char *htmlFilename)
 {
     int imageChanged = 0;
     int sizeChanged = 0;
 
-    if (!DFFileExists(htmlPath)) {
-        WordConverterWarning(put->conv,"HTML image %s does not exist",htmlSrc);
+    if (!DFPackageExists(put->conv->abstractPackage,htmlFilename)) {
+        WordConverterWarning(put->conv,"HTML image %s does not exist",htmlFilename);
         return 0;
     }
 
     PixelSize htmlFileSize = PixelSizeZero;
     DFError *error = NULL;
-    if (!getImageFile(put->conv,htmlSrc,&htmlFileSize,&error)) {
+    if (!getImageFile(put->conv,htmlFilename,&htmlFileSize,&error)) {
         WordConverterWarning(put->conv,"Could not get aspect ratio of image: %s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
         return 0;
@@ -567,7 +536,7 @@ static int internalPut2(WordPutData *put, DFNode *abstract, DFNode *concrete, in
                 return 0;
             }
 
-            DFBuffer *content1 = DFBufferReadFromFile(htmlPath,NULL);
+            DFBuffer *content1 = DFBufferReadFromPackage(put->conv->abstractPackage,htmlFilename,NULL);
             DFBuffer *content2 = DFBufferReadFromPackage(package,wordSrc,NULL);
             int contentsEqual = ((content1 != NULL) && (content2 != NULL) &&
                                  (content1->len == content2->len) &&
@@ -593,7 +562,7 @@ static int internalPut2(WordPutData *put, DFNode *abstract, DFNode *concrete, in
 
         if (imageChanged || (rel == NULL)) { // FIXME: is the rel == NULL needed?
             DFError *error = NULL;
-            rel = addImageRelationship(put->conv,htmlSrc,&error);
+            rel = addImageRelationship(put->conv,htmlFilename,&error);
             if (rel == NULL) {
                 WordConverterWarning(put->conv,"%s",DFErrorMessage(&error));
                 return 0;

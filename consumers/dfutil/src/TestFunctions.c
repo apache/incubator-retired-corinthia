@@ -144,7 +144,9 @@ static void Word_testGet2(TestCase *script, WordPackage *package, int argc, cons
     DFError *error = NULL;
     // Create the HTML file
     // FIXME: maybe use a temporary directory for the image path?
-    DFDocument *htmlDoc = WordPackageGenerateHTML(package,script->abstractPath,"word",&error,NULL);
+    DFPackage *abstractPackage = DFPackageNewFilesystem(script->abstractPath,DFFileFormatHTML);
+    DFDocument *htmlDoc = WordPackageGenerateHTML(package,abstractPackage,"word",&error,NULL);
+    DFPackageRelease(abstractPackage);
     if (htmlDoc == NULL) {
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
@@ -216,6 +218,7 @@ static void Word_testCreate(TestCase *script, int argc, const char **argv)
     DFHashTable *parts = NULL;
     char *plain = NULL;
     DFError *error = NULL;
+    DFPackage *abstractPackage = NULL;
 
     // Read input.html
     htmlDoc = TestCaseGetHTML(script);
@@ -230,7 +233,8 @@ static void Word_testCreate(TestCase *script, int argc, const char **argv)
     }
 
     DFBuffer *warnings = DFBufferNew();
-    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,script->abstractPath,"word",&error,warnings)) {
+    abstractPackage = DFPackageNewFilesystem(script->abstractPath,DFFileFormatHTML);
+    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,abstractPackage,"word",&error,warnings)) {
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         goto end;
     }
@@ -257,6 +261,7 @@ end:
     DFErrorRelease(error);
     DFPackageRelease(rawPackage);
     WordPackageRelease(wordPackage);
+    DFPackageRelease(abstractPackage);
 }
 
 static void Word_testUpdate2(TestCase *script, WordPackage *wordPackage, DFPackage *rawPackage, int argc, const char **argv)
@@ -268,11 +273,14 @@ static void Word_testUpdate2(TestCase *script, WordPackage *wordPackage, DFPacka
 
     // Update the docx file based on the contents of the HTML file
     DFError *error = NULL;
-    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,script->abstractPath,"word",&error,NULL)) {
+    DFPackage *abstractPackage = DFPackageNewFilesystem(script->abstractPath,DFFileFormatHTML);
+    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,abstractPackage,"word",&error,NULL)) {
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
+        DFPackageRelease(abstractPackage);
         return;
     }
+    DFPackageRelease(abstractPackage);
 
     // We don't actually "save" the package as such; this is just to ensure the missing OPC parts are added
     WordPackageSave(wordPackage,NULL);

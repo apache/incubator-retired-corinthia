@@ -382,11 +382,11 @@ int WordPackageSave(WordPackage *package, DFError **error)
     return 1;
 }
 
-DFDocument *WordPackageGenerateHTML(WordPackage *package, const char *path, const char *idPrefix,
+DFDocument *WordPackageGenerateHTML(WordPackage *package, DFPackage *abstractPackage, const char *idPrefix,
                                     DFError **error, DFBuffer *warnings)
 {
     DFDocument *html = DFDocumentNew();
-    WordConverter *converter = WordConverterNew(html,path,idPrefix,package,warnings);
+    WordConverter *converter = WordConverterNew(html,abstractPackage,idPrefix,package,warnings);
     int ok = WordConverterConvertToHTML(converter,error);
     WordConverterFree(converter);
     if (!ok)
@@ -394,12 +394,12 @@ DFDocument *WordPackageGenerateHTML(WordPackage *package, const char *path, cons
     return html;
 }
 
-int WordPackageUpdateFromHTML(WordPackage *package, DFDocument *input, const char *path,
+int WordPackageUpdateFromHTML(WordPackage *package, DFDocument *input, DFPackage *abstractPackage,
                               const char *idPrefix, DFError **error, DFBuffer *warnings)
 {
     HTML_normalizeDocument(input);
     HTML_pushDownInlineProperties(input->docNode);
-    WordConverter *converter = WordConverterNew(input,path,idPrefix,package,warnings);
+    WordConverter *converter = WordConverterNew(input,abstractPackage,idPrefix,package,warnings);
     int ok = WordConverterUpdateFromHTML(converter,error);
     WordConverterFree(converter);
     if (!ok)

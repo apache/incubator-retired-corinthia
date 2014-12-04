@@ -24,6 +24,7 @@
 #include "CSSSelector.h"
 #include "CSSSheet.h"
 #include "OOXMLTypedefs.h"
+#include "DFPackage.h"
 
 #define EMUS_PER_POINT 12700
 
@@ -80,7 +81,7 @@ struct WordPutData {
 
 struct WordConverter {
     DFDocument *html;
-    char *abstractPath;
+    DFPackage *abstractPackage;
     char *idPrefix;
     WordPackage *package;
     struct WordSheet *styles;
@@ -96,7 +97,7 @@ struct WordConverter {
     CSSSheet *styleSheet;
 };
 
-WordConverter *WordConverterNew(DFDocument *html, const char *abstractPath,
+WordConverter *WordConverterNew(DFDocument *html, DFPackage *abstractPackage,
                                 const char *idPrefix, WordPackage *package,
                                 DFBuffer *warnings);
 void WordConverterFree(WordConverter *converter);

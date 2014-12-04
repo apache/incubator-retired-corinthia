@@ -31,6 +31,7 @@ int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error)
     DFBuffer *warnings = DFBufferNew();
     DFPackage *rawPackage = NULL;
     WordPackage *wordPackage = NULL;
+    DFPackage *abstractPackage = NULL;
 
     htmlDoc = DFParseHTMLFile(sourcePath,0,error);
     if (htmlDoc == NULL) {
@@ -51,7 +52,8 @@ int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error)
     if (wordPackage == NULL)
         goto end;
 
-    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,htmlPath,idPrefix,error,warnings))
+    abstractPackage = DFPackageNewFilesystem(htmlPath,DFFileFormatHTML);
+    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,abstractPackage,idPrefix,error,warnings))
         goto end;
 
     if (warnings->len > 0) {
@@ -71,5 +73,6 @@ end:
     DFBufferRelease(warnings);
     DFPackageRelease(rawPackage);
     WordPackageRelease(wordPackage);
+    DFPackageRelease(abstractPackage);
     return ok;
 }
