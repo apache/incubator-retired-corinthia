@@ -417,14 +417,24 @@ static int getImageFile(WordConverter *converter, const char *src, PixelSize *si
     size->widthPx = 0;
     size->heightPx = 0;
 
+    int ok = 0;
+    char *ext = DFPathExtension(src);
     char *unescapedSrc = DFRemovePercentEncoding(src);
     char *abstractPathSlash = DFFormatString("%s/",converter->abstractPath);
     char *newSrcPath = DFPathResolveAbsolute(abstractPathSlash,unescapedSrc);
 
-    int ok = DFGetImageDimensions(newSrcPath,&size->widthPx,&size->heightPx,error);
+    DFBuffer *imageData = DFBufferReadFromFile(newSrcPath,error);
+    if (imageData == NULL)
+        goto end;
+
+    ok = DFGetImageDimensions(imageData->data,imageData->len,ext,&size->widthPx,&size->heightPx,error);
+
+end:
     free(abstractPathSlash);
     free(unescapedSrc);
     free(newSrcPath);
+    free(ext);
+    DFBufferRelease(imageData);
     return ok;
 }
 

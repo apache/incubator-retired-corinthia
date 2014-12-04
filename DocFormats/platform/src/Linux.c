@@ -22,9 +22,10 @@
 
 #include <SDL2/SDL_image.h>
 
-int DFGetImageDimensions(const char *path, unsigned int *width, unsigned int *height, DFError **error)
+int DFGetImageDimensions(const void *data, size_t len, const char *ext,
+                         unsigned int *width, unsigned int *height, DFError **error)
 {
-    SDL_Surface *image = IMG_Load(path);
+    SDL_Surface *image = IMG_Load_RW(SDL_RWFromMem((void *)data,len),1);
     if (image == NULL) {
         DFErrorFormat(error,"%s",IMG_GetError());
         return 0;

@@ -17,10 +17,12 @@
 
 #include "DFError.h"
 #include "DFArray.h"
+#include <stddef.h>
 
 int DFMkdirIfAbsent(const char *path, DFError **error);
 int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DFArray *array, DFError **error);
-int DFGetImageDimensions(const char *path, unsigned int *width, unsigned int *height, DFError **error);
+int DFGetImageDimensions(const void *data, size_t len, const char *ext,
+                         unsigned int *width, unsigned int *height, DFError **error);
 
 #define DF_ONCE_INIT 0
 typedef int DFOnce;

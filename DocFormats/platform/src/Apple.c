@@ -21,22 +21,16 @@
 
 #include <ImageIO/ImageIO.h>
 
-int DFGetImageDimensions(const char *path, unsigned int *width, unsigned int *height, DFError **error)
+int DFGetImageDimensions(const void *data, size_t len, const char *ext,
+                         unsigned int *width, unsigned int *height, DFError **error)
 {
-    CFStringRef srcPath = CFStringCreateWithBytes(kCFAllocatorDefault,(const UInt8 *)path,
-                                                  strlen(path),kCFStringEncodingUTF8,0);
-    if (srcPath == NULL)
-        return 0;
+    // FIXME: Should use ext here to determine the UTI, and pass that in the options directory
+    // (the second parameter to CGImageSourceCreateWithData)
 
-    CFURLRef srcURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault,srcPath,kCFURLPOSIXPathStyle,0);
-    CFRelease(srcPath);
-    if (srcURL == NULL) {
-        CFRelease(srcPath);
-        return 0;
-    }
+    CFDataRef cfdata = CFDataCreate(NULL,data,len);
+    CGImageSourceRef imageSrc = CGImageSourceCreateWithData(cfdata,NULL);
+    CFRelease(cfdata);
 
-    CGImageSourceRef imageSrc = CGImageSourceCreateWithURL(srcURL,NULL);
-    CFRelease(srcURL);
     if (imageSrc == NULL)
         return 0;
 
