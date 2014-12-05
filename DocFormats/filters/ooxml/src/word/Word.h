@@ -16,6 +16,7 @@
 #define DocFormats_Word_h
 
 #include "DFError.h"
+#include "DFPackage.h"
 #include "CSSStyle.h"
 #include "CSSSheet.h"
 
@@ -27,5 +28,9 @@
 CSSStyle *WordSetupTableGridStyle(CSSSheet *styleSheet, int *changed);
 
 int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error);
+
+DFDocument *WordGet(DFPackage *concretePackage, DFPackage *abstractPackage, DFError **error);
+int WordPut(DFPackage *concretePackage, DFPackage *abstractPackage, DFDocument *htmlDoc, DFError **error);
+int WordCreate(DFPackage *concretePackage, DFPackage *abstractPackage, DFDocument *htmlDoc, DFError **error);
 
 #endif

@@ -16,7 +16,7 @@
 #include "DFFilesystem.h"
 #include "DFString.h"
 #include "DFPackage.h"
-#include "WordPackage.h"
+#include "Word.h"
 #include "DFHTML.h"
 #include "DFDOM.h"
 #include "DFXML.h"
@@ -31,177 +31,8 @@ struct DFConcreteDocument {
 struct DFAbstractDocument {
     size_t retainCount;
     DFPackage *package;
+    DFDocument *htmlDoc;
 };
-
-static int generateHTML(const char *packageFilename, const char *htmlFilename, DFError **error)
-{
-    int ok = 0;
-    DFPackage *rawPackage = NULL;
-    WordPackage *wordPackage = NULL;
-    char *htmlPath = DFPathDirName(htmlFilename);
-    DFBuffer *warnings = DFBufferNew();
-    DFDocument *htmlDoc = NULL;
-
-    rawPackage = DFPackageOpenZip(packageFilename,error);
-    if (rawPackage == NULL) {
-        DFErrorFormat(error,"%s: %s",packageFilename,DFErrorMessage(error));
-        goto end;
-    }
-
-    wordPackage = WordPackageOpenFrom(rawPackage,error);
-    if (wordPackage == NULL) {
-        DFErrorFormat(error,"%s: %s",packageFilename,DFErrorMessage(error));
-        goto end;
-    }
-
-    DFPackage *abstractPackage = DFPackageNewFilesystem(htmlPath,DFFileFormatHTML);
-    htmlDoc = WordPackageGenerateHTML(wordPackage,abstractPackage,"word",error,warnings);
-    DFPackageRelease(abstractPackage);
-    if (htmlDoc == NULL)
-        goto end;
-
-    if (warnings->len > 0) {
-        DFErrorFormat(error,"%s",warnings->data);
-        goto end;
-    }
-
-    HTML_safeIndent(htmlDoc->docNode,0);
-
-    if (!DFSerializeXMLFile(htmlDoc,0,0,htmlFilename,error)) {
-        DFErrorFormat(error,"%s: %s",htmlFilename,DFErrorMessage(error));
-        goto end;
-    }
-
-    ok = 1;
-
-end:
-    free(htmlPath);
-    DFBufferRelease(warnings);
-    DFDocumentRelease(htmlDoc);
-    DFPackageRelease(rawPackage);
-    WordPackageRelease(wordPackage);
-    return ok;
-}
-
-static int updateFrom(const char *packageFilename, const char *htmlFilename, DFError **error)
-{
-    int ok = 0;
-    DFPackage *rawPackage = NULL;
-    WordPackage *wordPackage = NULL;
-    DFDocument *htmlDoc = NULL;
-    DFBuffer *warnings = DFBufferNew();
-    char *htmlPath = DFPathDirName(htmlFilename);
-    DFPackage *abstractPackage = DFPackageNewFilesystem(htmlPath,DFFileFormatHTML);
-
-    htmlDoc = DFParseHTMLFile(htmlFilename,0,error);
-    if (htmlDoc == NULL) {
-        DFErrorFormat(error,"%s: %s",htmlFilename,DFErrorMessage(error));
-        goto end;
-    }
-
-    const char *idPrefix = "word";
-
-    if (!DFFileExists(packageFilename)) {
-
-        rawPackage = DFPackageCreateZip(packageFilename,error);
-        if (rawPackage == NULL) {
-            DFErrorFormat(error,"%s: %s",packageFilename,DFErrorMessage(error));
-            goto end;
-        }
-
-        wordPackage = WordPackageOpenNew(rawPackage,error);
-        if (wordPackage == NULL)
-            goto end;
-
-        // Change any id attributes starting with "word" or "odf" to a different prefix, so they
-        // are not treated as references to nodes in the destination document. This is necessary
-        // if the HTML file was previously generated from a word or odf file, and we are creating
-        // a new word or odf file from it.
-        HTMLBreakBDTRefs(htmlDoc->docNode,idPrefix);
-    }
-    else {
-        rawPackage = DFPackageOpenZip(packageFilename,error);
-        if (rawPackage == NULL) {
-            DFErrorFormat(error,"%s: %s",packageFilename,DFErrorMessage(error));
-            goto end;
-        }
-        wordPackage = WordPackageOpenFrom(rawPackage,error);
-        if (wordPackage == NULL)
-            goto end;
-    }
-
-    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,abstractPackage,idPrefix,error,warnings))
-        goto end;
-
-    if (warnings->len > 0) {
-        DFErrorFormat(error,"%s",warnings->data);
-        goto end;
-    }
-
-    if (!WordPackageSave(wordPackage,error))
-        goto end;
-
-    ok = 1;
-
-end:
-    DFPackageRelease(rawPackage);
-    WordPackageRelease(wordPackage);
-    DFDocumentRelease(htmlDoc);
-    DFBufferRelease(warnings);
-    free(htmlPath);
-    DFPackageRelease(abstractPackage);
-    return ok;
-}
-
-int DFGetFile(const char *concrete, const char *abstract, DFError **error)
-{
-    int r = 0;
-    char *conExt = DFPathExtension(concrete);
-    char *absExt = DFPathExtension(abstract);
-
-    if (DFStringEqualsCI(conExt,"docx") && DFStringEqualsCI(absExt,"html")) {
-        r = generateHTML(concrete,abstract,error);
-    }
-
-//end:
-    free(conExt);
-    free(absExt);
-    return r;
-}
-
-int DFPutFile(const char *concrete, const char *abstract, DFError **error)
-{
-    int r = 0;
-    char *conExt = DFPathExtension(concrete);
-    char *absExt = DFPathExtension(abstract);
-
-    if (DFStringEqualsCI(conExt,"docx") && DFStringEqualsCI(absExt,"html")) {
-        r = updateFrom(concrete,abstract,error);
-    }
-
-//end:
-    free(conExt);
-    free(absExt);
-    return r;
-}
-
-int DFCreateFile(const char *concrete, const char *abstract, DFError **error)
-{
-    int r = 0;
-    char *conExt = DFPathExtension(concrete);
-    char *absExt = DFPathExtension(abstract);
-
-    if (DFStringEqualsCI(conExt,"docx") && DFStringEqualsCI(absExt,"html")) {
-        if (DFFileExists(concrete) && !DFDeleteFile(concrete,error))
-            goto end;
-        r = updateFrom(concrete,abstract,error);
-    }
-
-end:
-    free(conExt);
-    free(absExt);
-    return r;
-}
 
 DFConcreteDocument *DFConcreteDocumentNew(DFPackage *package)
 {
@@ -294,23 +125,180 @@ void DFAbstractDocumentRelease(DFAbstractDocument *abstract)
         return;
 
     DFPackageRelease(abstract->package);
+    DFDocumentRelease(abstract->htmlDoc);
     free(abstract);
 }
 
 int DFGet(DFConcreteDocument *concrete, DFAbstractDocument *abstract, DFError **error)
 {
-    DFErrorFormat(error,"DFGet not yet implemented");
-    return 0;
+    if (DFPackageFormat(abstract->package) != DFFileFormatHTML) {
+        DFErrorFormat(error,"Abstract document must be in HTML format");
+        return 0;
+    }
+
+    DFDocument *htmlDoc = NULL;
+    switch (DFPackageFormat(concrete->package)) {
+        case DFFileFormatDocx:
+            htmlDoc = WordGet(concrete->package,abstract->package,error);
+            break;
+        default:
+            DFErrorFormat(error,"Unsupported file format");
+            break;
+    }
+
+    if (htmlDoc == NULL)
+        return 0;
+
+    DFDocumentRelease(abstract->htmlDoc);
+    abstract->htmlDoc = htmlDoc;
+    return 1;
 }
 
-int DFPut(DFConcreteDocument *concrete, DFAbstractDocument *abstract, DFError **error)
+int DFPut(DFConcreteDocument *concreteDoc, DFAbstractDocument *abstractDoc, DFError **error)
 {
-    DFErrorFormat(error,"DFPut not yet implemented");
-    return 0;
+    if (DFPackageFormat(abstractDoc->package) != DFFileFormatHTML) {
+        DFErrorFormat(error,"Abstract document must be in HTML format");
+        return 0;
+    }
+
+    int ok = 0;
+    switch (DFPackageFormat(concreteDoc->package)) {
+        case DFFileFormatDocx:
+            ok = WordPut(concreteDoc->package,abstractDoc->package,abstractDoc->htmlDoc,error);
+            break;
+        default:
+            DFErrorFormat(error,"Unsupported file format");
+            break;
+    }
+    return ok;
 }
 
-int DFCreate(DFConcreteDocument *concrete, DFAbstractDocument *abstract, DFError **error)
+int DFCreate(DFConcreteDocument *concreteDoc, DFAbstractDocument *abstractDoc, DFError **error)
 {
-    DFErrorFormat(error,"DFCreate not yet implemented");
-    return 0;
+    if (DFPackageFormat(abstractDoc->package) != DFFileFormatHTML) {
+        DFErrorFormat(error,"Abstract document must be in HTML format");
+        return 0;
+    }
+
+    int ok = 0;
+    switch (DFPackageFormat(concreteDoc->package)) {
+        case DFFileFormatDocx:
+            ok = WordCreate(concreteDoc->package,abstractDoc->package,abstractDoc->htmlDoc,error);
+            break;
+        default:
+            DFErrorFormat(error,"Unsupported file format");
+            break;
+    }
+    return ok;
+}
+
+int DFGetFile(const char *concreteFilename, const char *abstractFilename, DFError **error)
+{
+    int r = 0;
+    char *abstractPath = DFPathDirName(abstractFilename);
+    DFPackage *abstractPackage = DFPackageNewFilesystem(abstractPath,DFFileFormatHTML);
+    DFConcreteDocument *concreteDoc = NULL;
+    DFAbstractDocument *abstractDoc = NULL;
+
+    concreteDoc = DFConcreteDocumentOpenFile(concreteFilename,error);
+    if (concreteDoc == NULL) {
+        DFErrorFormat(error,"%s: %s",concreteFilename,DFErrorMessage(error));
+        goto end;
+    }
+
+    abstractDoc = DFAbstractDocumentNew(abstractPackage);
+
+    if (!DFGet(concreteDoc,abstractDoc,error) || (abstractDoc->htmlDoc == NULL)) {
+        DFErrorFormat(error,"%s: %s",concreteFilename,DFErrorMessage(error));
+        goto end;
+    }
+
+    if (DFFileExists(abstractFilename)) {
+        DFErrorFormat(error,"%s: File already exists",abstractFilename);
+        goto end;
+    }
+
+    if (!DFSerializeXMLFile(abstractDoc->htmlDoc,0,0,abstractFilename,error)) {
+        DFErrorFormat(error,"%s: %s",abstractFilename,DFErrorMessage(error));
+        goto end;
+    }
+
+    r = 1;
+
+end:
+    free(abstractPath);
+    DFPackageRelease(abstractPackage);
+    DFConcreteDocumentRelease(concreteDoc);
+    DFAbstractDocumentRelease(abstractDoc);
+    return r;
+}
+
+int DFPutFile(const char *concreteFilename, const char *abstractFilename, DFError **error)
+{
+    int ok = 0;
+    DFDocument *htmlDoc2 = NULL;
+    char *abstractPath = DFPathDirName(abstractFilename);
+    DFPackage *abstractPackage2 = DFPackageNewFilesystem(abstractPath,DFFileFormatHTML);
+    DFConcreteDocument *concreteDoc = NULL;
+    DFAbstractDocument *abstractDoc = NULL;
+
+    htmlDoc2 = DFParseHTMLFile(abstractFilename,0,error);
+    if (htmlDoc2 == NULL) {
+        DFErrorFormat(error,"%s: %s",abstractFilename,DFErrorMessage(error));
+        goto end;
+    }
+
+    concreteDoc = DFConcreteDocumentOpenFile(concreteFilename,error);
+    if (concreteDoc == NULL) {
+        DFErrorFormat(error,"%s: %s",concreteFilename,DFErrorMessage(error));
+        goto end;
+    }
+
+    abstractDoc = DFAbstractDocumentNew(abstractPackage2);
+    abstractDoc->htmlDoc = DFDocumentRetain(htmlDoc2);
+
+    ok = DFPut(concreteDoc,abstractDoc,error);
+
+end:
+    DFDocumentRelease(htmlDoc2);
+    free(abstractPath);
+    DFPackageRelease(abstractPackage2);
+    DFConcreteDocumentRelease(concreteDoc);
+    DFAbstractDocumentRelease(abstractDoc);
+    return ok;
+}
+
+int DFCreateFile(const char *concreteFilename, const char *abstractFilename, DFError **error)
+{
+    int ok = 0;
+    DFDocument *htmlDoc = NULL;
+    char *abstractPath = DFPathDirName(abstractFilename);
+    DFPackage *abstractPackage = DFPackageNewFilesystem(abstractPath,DFFileFormatHTML);
+    DFConcreteDocument *concreteDoc = NULL;
+    DFAbstractDocument *abstractDoc = NULL;
+
+    htmlDoc = DFParseHTMLFile(abstractFilename,0,error);
+    if (htmlDoc == NULL) {
+        DFErrorFormat(error,"%s: %s",abstractFilename,DFErrorMessage(error));
+        goto end;
+    }
+
+    concreteDoc = DFConcreteDocumentCreateFile(concreteFilename,error);
+    if (concreteDoc == NULL) {
+        DFErrorFormat(error,"%s: %s",concreteFilename,DFErrorMessage(error));
+        goto end;
+    }
+
+    abstractDoc = DFAbstractDocumentNew(abstractPackage);
+    abstractDoc->htmlDoc = DFDocumentRetain(htmlDoc);
+
+    ok = DFCreate(concreteDoc,abstractDoc,error);
+
+end:
+    DFDocumentRelease(htmlDoc);
+    free(abstractPath);
+    DFPackageRelease(abstractPackage);
+    DFConcreteDocumentRelease(concreteDoc);
+    DFAbstractDocumentRelease(abstractDoc);
+    return ok;
 }
