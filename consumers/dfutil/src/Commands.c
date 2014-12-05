@@ -232,61 +232,6 @@ int normalizeFile(const char *filename, DFError **error)
     return 1;
 }
 
-static int convertHTMLToLaTeX(const char *inFilename, const char *outFilename, DFError **error)
-{
-    DFDocument *htmlDoc = DFParseHTMLFile(inFilename,0,error);
-    if (htmlDoc == NULL) {
-        DFErrorFormat(error,"%s: %s",inFilename,DFErrorMessage(error));
-        return 0;
-    }
-
-    HTML_normalizeDocument(htmlDoc);
-    char *latex = HTMLToLaTeX(htmlDoc);
-
-
-    if (!DFStringWriteToFile(latex,outFilename,error)) {
-        DFErrorFormat(error,"%s: %s",inFilename,DFErrorMessage(error));
-        free(latex);
-        DFDocumentRelease(htmlDoc);
-        return 0;
-    }
-
-    free(latex);
-    DFDocumentRelease(htmlDoc);
-    return 1;
-}
-
-int convertFile(const char *inFilename, const char *outFilename, DFError **error)
-{
-    char *inExt = DFPathExtension(inFilename);
-    char *outExt = DFPathExtension(outFilename);
-    int result = 0;
-
-    if (DFStringEqualsCI(inExt,"docx") && DFStringEqualsCI(outExt,"html")) {
-        // Generate new HTML file from .docx
-        result = DFGetFile(inFilename,outFilename,error);
-    }
-    else if (DFStringEqualsCI(inExt,"html") && DFStringEqualsCI(outExt,"docx")) {
-        // Update existing .docx file from HTML
-        if (DFFileExists(inFilename))
-            result = DFPutFile(outFilename,inFilename,error);
-        else
-            result = DFCreateFile(outFilename,inFilename,error);
-    }
-    else if (DFStringEqualsCI(inExt,"html") && DFStringEqualsCI(outExt,"tex")) {
-        // Create new .tex file from HTML
-        result = convertHTMLToLaTeX(inFilename,outFilename,error);
-    }
-    else {
-        DFErrorFormat(error,"Unknown conversion type");
-        result = 0;
-    }
-
-    free(inExt);
-    free(outExt);
-    return result;
-}
-
 int testCSS(const char *filename, DFError **error)
 {
     char *input = DFStringReadFromFile(filename,error);
