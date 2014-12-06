@@ -17,6 +17,7 @@
 
 #include "DFError.h"
 #include "DFPackage.h"
+#include "DFXMLForward.h"
 
 // Abstraction level 2
 
@@ -32,6 +33,8 @@ void DFConcreteDocumentRelease(DFConcreteDocument *concrete);
 DFAbstractDocument *DFAbstractDocumentNew(DFPackage *package);
 DFAbstractDocument *DFAbstractDocumentRetain(DFAbstractDocument *abstract);
 void DFAbstractDocumentRelease(DFAbstractDocument *abstract);
+DFDocument *DFAbstractDocumentGetHTML(DFAbstractDocument *abstract);
+void DFAbstractDocumentSetHTML(DFAbstractDocument *abstract, DFDocument *htmlDoc);
 
 int DFGet(DFConcreteDocument *concrete, DFAbstractDocument *abstract, DFError **error);
 int DFPut(DFConcreteDocument *concrete, DFAbstractDocument *abstract, DFError **error);

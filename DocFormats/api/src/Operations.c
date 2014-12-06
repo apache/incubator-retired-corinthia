@@ -129,6 +129,17 @@ void DFAbstractDocumentRelease(DFAbstractDocument *abstract)
     free(abstract);
 }
 
+DFDocument *DFAbstractDocumentGetHTML(DFAbstractDocument *abstract)
+{
+    return abstract->htmlDoc;
+}
+
+void DFAbstractDocumentSetHTML(DFAbstractDocument *abstract, DFDocument *htmlDoc)
+{
+    DFDocumentRelease(abstract->htmlDoc);
+    abstract->htmlDoc = DFDocumentRetain(htmlDoc);
+}
+
 int DFGet(DFConcreteDocument *concrete, DFAbstractDocument *abstract, DFError **error)
 {
     if (DFPackageFormat(abstract->package) != DFFileFormatHTML) {
