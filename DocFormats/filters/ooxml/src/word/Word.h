@@ -27,8 +27,6 @@
 
 CSSStyle *WordSetupTableGridStyle(CSSSheet *styleSheet, int *changed);
 
-int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error);
-
 DFDocument *WordGet(DFPackage *concretePackage, DFPackage *abstractPackage, DFError **error);
 int WordPut(DFPackage *concretePackage, DFPackage *abstractPackage, DFDocument *htmlDoc, DFError **error);
 int WordCreate(DFPackage *concretePackage, DFPackage *abstractPackage, DFDocument *htmlDoc, DFError **error);

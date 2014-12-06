@@ -22,61 +22,6 @@
 #include "DFZipFile.h"
 #include <stdlib.h>
 
-int DFHTMLToWord(const char *sourcePath, const char *destPath, DFError **error)
-{
-    int ok = 0;
-    char *idPrefix = DFFormatString("bdt%u-",(unsigned int)rand());
-    char *htmlPath = DFPathDirName(sourcePath);
-    DFDocument *htmlDoc = NULL;
-    DFBuffer *warnings = DFBufferNew();
-    DFPackage *rawPackage = NULL;
-    WordPackage *wordPackage = NULL;
-    DFPackage *abstractPackage = NULL;
-
-    htmlDoc = DFParseHTMLFile(sourcePath,0,error);
-    if (htmlDoc == NULL) {
-        char *sourceFilename = DFPathBaseName(sourcePath);
-        DFErrorFormat(error,"%s: %s",sourceFilename,DFErrorMessage(error));
-        free(sourceFilename);
-        goto end;
-    }
-
-    if (DFFileExists(destPath) && !DFDeleteFile(destPath,error))
-        goto end;
-
-    rawPackage = DFPackageCreateZip(destPath,error);
-    if (rawPackage == NULL)
-        goto end;
-
-    wordPackage = WordPackageOpenNew(rawPackage,error);
-    if (wordPackage == NULL)
-        goto end;
-
-    abstractPackage = DFPackageNewFilesystem(htmlPath,DFFileFormatHTML);
-    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,abstractPackage,idPrefix,error,warnings))
-        goto end;
-
-    if (warnings->len > 0) {
-        DFErrorFormat(error,"%s",warnings->data);
-        goto end;
-    }
-
-    if (!WordPackageSave(wordPackage,error))
-        goto end;
-
-    ok = 1;
-
-end:
-    free(idPrefix);
-    free(htmlPath);
-    DFDocumentRelease(htmlDoc);
-    DFBufferRelease(warnings);
-    DFPackageRelease(rawPackage);
-    WordPackageRelease(wordPackage);
-    DFPackageRelease(abstractPackage);
-    return ok;
-}
-
 DFDocument *WordGet(DFPackage *concretePackage, DFPackage *abstractPackage, DFError **error)
 {
     int ok = 0;
