@@ -28,6 +28,7 @@ include_directories(./filters/ooxml/src/common)
 include_directories(./filters/ooxml/src/word)
 include_directories(./filters/ooxml/src/word/formatting)
 include_directories(./filters/ooxml/src/word/lenses)
+include_directories(./unittest)
 
 set(GroupRoot
     DFCommon.h
@@ -38,7 +39,8 @@ set(GroupAPI
     api/headers/DocFormats/Formats.h
     api/headers/DocFormats/Operations.h
     api/src/Formats.c
-    api/src/Operations.c)
+    api/src/Operations.c
+    api/tests/APITests.c)
 
 set(GroupCoreCommon
     core/src/common/DFBDT.c
@@ -121,6 +123,10 @@ set(GroupCoreNames
     core/src/names/DFXMLNames.h
     core/src/names/DFXMLNamespaces.c
     core/src/names/DFXMLNamespaces.h)
+
+set(GroupUnitTest
+    unittest/DFUnitTest.h
+    unittest/DFUnitTest.c)
 
 set(GroupODF
     filters/odf/src/ODF.c
@@ -225,6 +231,7 @@ add_library(DocFormats
     ${GroupCoreNames}
     ${GroupODF}
     ${GroupPlatform}
+    ${GroupUnitTest}
     ${GroupOOXMLCommon}
     ${GroupOOXMLWord}
     ${GroupOOXMLWordFormatting}
@@ -240,6 +247,7 @@ source_group(core\\lib FILES ${GroupCoreLib})
 source_group(core\\names FILES ${GroupCoreNames})
 source_group(core\\xml FILES ${GroupCoreXML})
 source_group(platform FILES ${GroupPlatform})
+source_group(unittest FILES ${GroupUnitTest})
 source_group(filters\\latex FILES ${GroupLaTeX})
 source_group(filters\\odf FILES ${GroupODF})
 source_group(filters\\ooxml\\common FILES ${GroupOOXMLCommon})
