@@ -125,3 +125,43 @@ end:
     DFBufferRelease(warnings);
     return ok;
 }
+
+int WordCollapseBookmarks(DFPackage *concretePackage, DFError **error)
+{
+    int ok = 0;
+    WordPackage *wordPackage = NULL;
+
+    wordPackage = WordPackageOpenFrom(concretePackage,error);
+    if (wordPackage == NULL)
+        goto end;
+
+    WordPackageCollapseBookmarks(wordPackage);
+
+    if (!WordPackageSave(wordPackage,error))
+        goto end;
+
+    ok = 1;
+end:
+    WordPackageRelease(wordPackage);
+    return ok;
+}
+
+int WordExpandBookmarks(DFPackage *concretePackage, DFError **error)
+{
+    int ok = 0;
+    WordPackage *wordPackage = NULL;
+
+    wordPackage = WordPackageOpenFrom(concretePackage,error);
+    if (wordPackage == NULL)
+        goto end;
+
+    WordPackageExpandBookmarks(wordPackage);
+
+    if (!WordPackageSave(wordPackage,error))
+        goto end;
+
+    ok = 1;
+end:
+    WordPackageRelease(wordPackage);
+    return ok;
+}

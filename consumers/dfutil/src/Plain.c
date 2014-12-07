@@ -280,30 +280,10 @@ end:
     }
 }
 
-static char *Word_toPlainOrError(WordPackage *wordPackage, DFPackage *rawPackage, DFHashTable *parts, DFError **error)
-{
-    char *result = NULL;
-    int ok = 0;
-
-    if (!WordPackageSave(wordPackage,error)) {
-        DFErrorFormat(error,"WordPackageSave: %s",DFErrorMessage(error));
-        goto end;
-    }
-
-    result = Word_toPlainFromDir(rawPackage,parts,error);
-    ok = 1;
-
-end:
-    if (ok)
-        return result;
-    free(result);
-    return 0;
-}
-
-char *Word_toPlain(WordPackage *wordPackage, DFPackage *rawPackage, DFHashTable *parts)
+char *Word_toPlain(DFPackage *rawPackage, DFHashTable *parts)
 {
     DFError *error = NULL;
-    char *result = Word_toPlainOrError(wordPackage,rawPackage,parts,&error);
+    char *result = Word_toPlainFromDir(rawPackage,parts,&error);
     if (result == NULL) {
         result = DFFormatString("%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
@@ -576,76 +556,37 @@ end:
     return ok;
 }
 
-int Word_fromPlain(const char *plain, const char *plainPath, const char *zipTempPath,
-                   WordPackage **outWordPackage, DFPackage **outRawPackage, DFError **error)
+DFPackage *Word_fromPlain(const char *plain, const char *plainPath, DFError **error)
 {
     int ok = 0;
-    char *docxPath = DFAppendPathComponent(zipTempPath,"document.docx");
-    DFPackage *firstStore = NULL;
-    DFPackage *secondStore = NULL;
-    WordPackage *wp = NULL;
-    TextPackage *tp = NULL;
+    DFPackage *concretePackage = NULL;
+    TextPackage *textPackage = NULL;
 
-    tp = TextPackageNewWithString(plain,plainPath,error);
-    if (tp == NULL)
+    textPackage = TextPackageNewWithString(plain,plainPath,error);
+    if (textPackage == NULL)
         goto end;
 
-    if (DFFileExists(zipTempPath) && !DFDeleteFile(zipTempPath,error)) {
-        DFErrorFormat(error,"delete %s: %s",zipTempPath,DFErrorMessage(error));
-        goto end;
-    }
+    concretePackage = DFPackageNewMemory(DFFileFormatDocx);
 
-    if (!DFCreateDirectory(zipTempPath,1,error)) {
-        DFErrorFormat(error,"create %s: %s",zipTempPath,DFErrorMessage(error));
-        goto end;
-    }
-
-    firstStore = DFPackageCreateZip(docxPath,error);
-    if (firstStore == NULL) {
-        DFErrorFormat(error,"%s: %s",docxPath,DFErrorMessage(error));
-        goto end;
-    }
-
-    if (!Word_fromPackage(tp,firstStore,error)) {
-        DFErrorFormat(error,"Word_fromPackageNew: %s",DFErrorMessage(error));
+    if (!Word_fromPackage(textPackage,concretePackage,error)) {
+        DFErrorFormat(error,"Word_fromPackage: %s",DFErrorMessage(error));
         printf("%s\n",DFErrorMessage(error));
         goto end;
     }
 
-    if (!DFPackageSave(firstStore,error)) {
-        DFErrorFormat(error,"zip %s: %s",docxPath,DFErrorMessage(error));
+    if (!DFPackageSave(concretePackage,error))
         goto end;
-    }
 
-    // Now we have a .docx file; access it using what will be the new way (this API will change so we just say
-    // "open a word document from here", without having to separately create the package object first.
-    secondStore = DFPackageOpenZip(docxPath,error);
-    if (secondStore == NULL) {
-        DFErrorFormat(error,"%s: %s\n",docxPath,DFErrorMessage(error));
-        goto end;
-    }
-    wp = WordPackageOpenFrom(secondStore,error);
-    if (wp == NULL) {
-        DFErrorFormat(error,"WordPackageStartFrom %s: %s",docxPath,DFErrorMessage(error));
-        goto end;
-    }
     ok = 1;
 
 end:
-    free(docxPath);
-    DFPackageRelease(firstStore);
-    TextPackageRelease(tp);
+    TextPackageRelease(textPackage);
     if (ok) {
-        *outWordPackage = wp;
-        *outRawPackage = secondStore;
-        return 1;
+        return concretePackage;
     }
     else {
-        WordPackageRelease(wp);
-        DFPackageRelease(secondStore);
-        *outWordPackage = NULL;
-        *outRawPackage = NULL;
-        return 0;
+        DFPackageRelease(concretePackage);
+        return NULL;
     }
 }
 
@@ -670,7 +611,7 @@ static const char **HTML_getImageSources(DFDocument *doc)
     return result;
 }
 
-char *HTML_toPlain(DFDocument *doc, const char *imagePath, DFError **error)
+char *HTML_toPlain(DFDocument *doc, DFPackage *package, DFError **error)
 {
     DFBuffer *output = DFBufferNew();
     char *docStr = DFSerializeXMLString(doc,0,0);
@@ -684,16 +625,13 @@ char *HTML_toPlain(DFDocument *doc, const char *imagePath, DFError **error)
             DFBufferFormat(output,"#item %s\n",src);
         else
             DFBufferFormat(output,"#item images/%s\n",src);
-        char *srcPath = DFAppendPathComponent(imagePath,src);
-        DFBuffer *imageData = DFBufferReadFromFile(srcPath,error);
+        DFBuffer *imageData = DFBufferReadFromPackage(package,src,error);
         if (imageData == NULL) {
-            DFErrorFormat(error,"%s: %s",srcPath,DFErrorMessage(error));
-            free(srcPath);
+            DFErrorFormat(error,"%s: %s",src,DFErrorMessage(error));
             return NULL;
         }
         char *imageStr = binaryToString(imageData);
         DFBufferFormat(output,"%s",imageStr);
-        free(srcPath);
         free(imageStr);
         DFBufferRelease(imageData);
     }
@@ -704,9 +642,9 @@ char *HTML_toPlain(DFDocument *doc, const char *imagePath, DFError **error)
     return str;
 }
 
-static DFDocument *HTML_fromPackage(TextPackage *tp, const char *path, const char *htmlPath, DFError **error)
+static DFDocument *HTML_fromTextPackage(TextPackage *textPackage, DFPackage *htmlPackage, DFError **error)
 {
-    const char *html = DFHashTableLookup(tp->items,"");
+    const char *html = DFHashTableLookup(textPackage->items,"");
     if (html == NULL) {
         DFErrorFormat(error,"No HTML data");
         return NULL;
@@ -716,33 +654,22 @@ static DFDocument *HTML_fromPackage(TextPackage *tp, const char *path, const cha
     if (doc == NULL)
         return NULL;
 
-    for (size_t ki = 0; ki < tp->nkeys; ki++) {
-        const char *key = tp->keys[ki];
+    for (size_t ki = 0; ki < textPackage->nkeys; ki++) {
+        const char *key = textPackage->keys[ki];
         if (strlen(key) == 0)
             continue;
 
-        char *thisFullPath = DFAppendPathComponent(htmlPath,key);
-        char *thisFullParentPath = DFPathDirName(thisFullPath);
-
         int ok = 1;
 
-        if (!DFFileExists(thisFullParentPath) && !DFCreateDirectory(thisFullParentPath,1,error)) {
-            DFErrorFormat(error,"%s: %s",thisFullParentPath,DFErrorMessage(error));
-            DFDocumentRelease(doc);
-            ok = 0;
-        }
-
-        const char *str = DFHashTableLookup(tp->items,key);
+        const char *str = DFHashTableLookup(textPackage->items,key);
         DFBuffer *data = stringToBinary(str);
-        if (!DFBufferWriteToFile(data,thisFullPath,error)) {
-            DFErrorFormat(error,"%s: %s",thisFullPath,DFErrorMessage(error));
+        if (!DFBufferWriteToPackage(data,htmlPackage,key,error)) {
+            DFErrorFormat(error,"%s: %s",key,DFErrorMessage(error));
             DFDocumentRelease(doc);
             ok = 0;
         }
 
         DFBufferRelease(data);
-        free(thisFullPath);
-        free(thisFullParentPath);
 
         if (!ok)
             return NULL;
@@ -751,12 +678,12 @@ static DFDocument *HTML_fromPackage(TextPackage *tp, const char *path, const cha
     return doc;
 }
 
-DFDocument *HTML_fromPlain(const char *plain, const char *path, const char *htmlPath, DFError **error)
+DFDocument *HTML_fromPlain(const char *plain, const char *path, DFPackage *htmlPackage, DFError **error)
 {
-    TextPackage *tp = TextPackageNewWithString(plain,path,error);
-    if (tp == NULL)
+    TextPackage *textPackage = TextPackageNewWithString(plain,path,error);
+    if (textPackage == NULL)
         return NULL;;
-    DFDocument *result = HTML_fromPackage(tp,path,htmlPath,error);
-    TextPackageRelease(tp);
+    DFDocument *result = HTML_fromTextPackage(textPackage,htmlPackage,error);
+    TextPackageRelease(textPackage);
     return result;
 }

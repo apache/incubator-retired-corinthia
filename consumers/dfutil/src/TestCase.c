@@ -46,45 +46,23 @@ void TestCaseFree(TestCase *tc)
     free(tc);
 }
 
-int TestCaseOpenWordPackage(TestCase *tc, WordPackage **outWordPackage, DFPackage **outRawPackage, DFError **error)
+DFPackage *TestCaseOpenPackage(TestCase *tc, DFError **error)
 {
     const char *inputDocx = DFHashTableLookup(tc->input,"input.docx");
     if (inputDocx == NULL) {
         DFErrorFormat(error,"input.docx not defined");
-        return 0;
+        return NULL;
     }
 
-    char *zipPath = DFAppendPathComponent(tc->tempPath,"zip");
-    WordPackage *wordPackage = NULL;
-    DFPackage *rawPackage = NULL;
-    int ok = Word_fromPlain(inputDocx,tc->path,zipPath,&wordPackage,&rawPackage,error);
-    free(zipPath);
-    if (!ok)
-        return 0;
-
-    if (wordPackage->document == NULL) {
-        DFErrorFormat(error,"document.xml not found");
-        WordPackageRelease(wordPackage);
-        DFPackageRelease(rawPackage);
-        return 0;
-    }
-    *outWordPackage = wordPackage;
-    *outRawPackage = rawPackage;
-    return 1;
+    return Word_fromPlain(inputDocx,tc->path,error);
 }
 
-DFDocument *TestCaseGetHTML(TestCase *tc)
+DFDocument *TestCaseGetHTML(TestCase *tc, DFPackage *htmlPackage, DFError **error)
 {
     const char *inputHtml = DFHashTableLookup(tc->input,"input.html");
     if (inputHtml == NULL) {
-        DFBufferFormat(tc->output,"input.html not defined\n");
+        DFErrorFormat(error,"input.html not defined");
         return NULL;
     }
-    DFError *error = NULL;
-    DFDocument *htmlDoc = HTML_fromPlain(inputHtml,tc->path,tc->abstractPath,&error);
-    if (htmlDoc == NULL) {
-        DFBufferFormat(tc->output,"%s\n",DFErrorMessage(&error));
-        DFErrorRelease(error);
-    }
-    return htmlDoc;
+    return HTML_fromPlain(inputHtml,tc->path,htmlPackage,error);
 }

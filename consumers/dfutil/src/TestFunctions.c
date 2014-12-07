@@ -19,6 +19,7 @@
 #include "Commands.h"
 #include "DFChanges.h"
 #include "WordConverter.h"
+#include "Word.h"
 #include "DFHTML.h"
 #include "DFHTMLNormalization.h"
 #include "DFFilesystem.h"
@@ -26,6 +27,7 @@
 #include "HTMLToLaTeX.h"
 #include "DFXML.h"
 #include "DFCommon.h"
+#include <DocFormats/DocFormats.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -91,25 +93,28 @@ static void CSS_setHeadingNumbering(TestCase *script, int argc, const char **arg
 static void Word_testCollapseBookmarks(TestCase *script, int argc, const char **argv)
 {
     DFError *error = NULL;
-    WordPackage *wordPackage = NULL;
-    DFPackage *rawPackage = NULL;
-    if (!TestCaseOpenWordPackage(script,&wordPackage,&rawPackage,&error)) { // Logs error itself on failure
+    DFPackage *rawPackage = TestCaseOpenPackage(script,&error);
+    if (rawPackage == NULL) {
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
         return;
     }
 
-    WordPackageCollapseBookmarks(wordPackage);
+    if (!WordCollapseBookmarks(rawPackage,&error)) {
+        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
+        DFErrorRelease(error);
+        DFPackageRelease(rawPackage);
+        return;
+    }
 
     DFHashTable *parts = DFHashTableNew((DFCopyFunction)strdup,free);
     DFHashTableAdd(parts,"document","");
 
     // Output the docx file
-    char *plain = Word_toPlain(wordPackage,rawPackage,parts);
+    char *plain = Word_toPlain(rawPackage,parts);
     DFBufferFormat(script->output,"%s",plain);
     free(plain);
     DFHashTableRelease(parts);
-    WordPackageRelease(wordPackage);
     DFPackageRelease(rawPackage);
 }
 
@@ -117,71 +122,71 @@ static void Word_testCollapseBookmarks(TestCase *script, int argc, const char **
 static void Word_testExpandBookmarks(TestCase *script, int argc, const char **argv)
 {
     DFError *error = NULL;
-    WordPackage *wordPackage = NULL;
-    DFPackage *rawPackage = NULL;
-    if (!TestCaseOpenWordPackage(script,&wordPackage,&rawPackage,&error)) { // Logs error itself on failure
+    DFPackage *rawPackage = TestCaseOpenPackage(script,&error);
+    if (rawPackage == NULL) {
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
         return;
     }
 
-    WordPackageExpandBookmarks(wordPackage);
+    if (!WordExpandBookmarks(rawPackage,&error)) {
+        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
+        DFErrorRelease(error);
+        DFPackageRelease(rawPackage);
+        return;
+    }
 
     DFHashTable *parts = DFHashTableNew((DFCopyFunction)strdup,free);
     DFHashTableAdd(parts,"document","");
 
     // Output the docx file
-    char *plain = Word_toPlain(wordPackage,rawPackage,parts);
+    char *plain = Word_toPlain(rawPackage,parts);
     DFBufferFormat(script->output,"%s",plain);
     free(plain);
     DFHashTableRelease(parts);
-    WordPackageRelease(wordPackage);
     DFPackageRelease(rawPackage);
-}
-
-static void Word_testGet2(TestCase *script, WordPackage *package, int argc, const char **argv)
-{
-    DFError *error = NULL;
-    // Create the HTML file
-    // FIXME: maybe use a temporary directory for the image path?
-    DFPackage *abstractPackage = DFPackageNewFilesystem(script->abstractPath,DFFileFormatHTML);
-    DFDocument *htmlDoc = WordPackageGenerateHTML(package,abstractPackage,"word",&error,NULL);
-    DFPackageRelease(abstractPackage);
-    if (htmlDoc == NULL) {
-        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
-        DFErrorRelease(error);
-        return;
-    }
-
-    // Output the HTML file
-    HTML_safeIndent(htmlDoc->docNode,0);
-
-    char *htmlPlain = HTML_toPlain(htmlDoc,script->abstractPath,&error);
-    DFDocumentRelease(htmlDoc);
-
-    if (htmlPlain == NULL) {
-        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
-        DFErrorRelease(error);
-        return;
-    }
-    DFBufferFormat(script->output,"%s",htmlPlain);
-    free(htmlPlain);
 }
 
 static void Word_testGet(TestCase *script, int argc, const char **argv)
 {
     DFError *error = NULL;
-    WordPackage *wordPackage = NULL;
-    DFPackage *rawPackage = NULL;
-    if (!TestCaseOpenWordPackage(script,&wordPackage,&rawPackage,&error)) { // Logs error itself on failure
-        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
-        DFErrorRelease(error);
-        return;
+    DFPackage *abstractPackage = NULL;
+    DFPackage *concretePackage = NULL;
+    DFAbstractDocument *abstractDoc = NULL;
+    DFConcreteDocument *concreteDoc = NULL;
+    char *htmlPlain = NULL;
+
+    concretePackage = TestCaseOpenPackage(script,&error);
+    if (concretePackage == NULL)
+        goto end;
+
+    concreteDoc = DFConcreteDocumentNew(concretePackage);
+    abstractPackage = DFPackageNewMemory(DFFileFormatHTML);
+    abstractDoc = DFAbstractDocumentNew(abstractPackage);
+
+    if (!DFGet(concreteDoc,abstractDoc,&error))
+        goto end;;
+
+    DFDocument *htmlDoc = DFAbstractDocumentGetHTML(abstractDoc);
+    if (htmlDoc == NULL) {
+        DFErrorFormat(&error,"Abstract document has no HTML");
+        goto end;
     }
 
-    Word_testGet2(script,wordPackage,argc,argv);
-    WordPackageRelease(wordPackage);
-    DFPackageRelease(rawPackage);
+    htmlPlain = HTML_toPlain(htmlDoc,abstractPackage,&error);
+
+end:
+    if (htmlPlain != NULL)
+        DFBufferFormat(script->output,"%s",htmlPlain);
+    else
+        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
+
+    DFErrorRelease(error);
+    DFPackageRelease(abstractPackage);
+    DFPackageRelease(concretePackage);
+    DFAbstractDocumentRelease(abstractDoc);
+    DFConcreteDocumentRelease(concreteDoc);
+    free(htmlPlain);
 }
 
 static DFHashTable *getFlags(int argc, const char **argv)
@@ -211,110 +216,105 @@ static DFHashTable *getFlags(int argc, const char **argv)
 
 static void Word_testCreate(TestCase *script, int argc, const char **argv)
 {
-    DFPackage *rawPackage = DFPackageNewMemory(DFFileFormatDocx);
-    WordPackage *wordPackage = NULL;
-
-    DFDocument *htmlDoc = NULL;
-    DFHashTable *parts = NULL;
-    char *plain = NULL;
     DFError *error = NULL;
-    DFPackage *abstractPackage = NULL;
+    DFDocument *htmlDoc = NULL;
+    DFPackage *abstractPackage = DFPackageNewMemory(DFFileFormatHTML);
+    DFPackage *concretePackage = DFPackageNewMemory(DFFileFormatDocx);
+    DFAbstractDocument *abstractDoc = DFAbstractDocumentNew(abstractPackage);
+    DFConcreteDocument *concreteDoc = DFConcreteDocumentNew(concretePackage);
+    DFHashTable *parts = NULL;
+    char *wordPlain = NULL;
 
     // Read input.html
-    htmlDoc = TestCaseGetHTML(script);
+    htmlDoc = TestCaseGetHTML(script,abstractPackage,&error);
     if (htmlDoc == NULL)
-        goto end;;
-
-    // Create the docx file
-    wordPackage = WordPackageOpenNew(rawPackage,&error);
-    if (wordPackage == NULL) {
-        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         goto end;
-    }
 
-    DFBuffer *warnings = DFBufferNew();
-    abstractPackage = DFPackageNewFilesystem(script->abstractPath,DFFileFormatHTML);
-    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,abstractPackage,"word",&error,warnings)) {
-        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
+    DFAbstractDocumentSetHTML(abstractDoc,htmlDoc);
+
+    if (!DFCreate(concreteDoc,abstractDoc,&error))
         goto end;
-    }
 
-    if (warnings->len > 0) {
-        DFBufferFormat(script->output,"%s",warnings->data);
-        DFBufferRelease(warnings);
-        goto end;
-    }
-    DFBufferRelease(warnings);
-
-    // We don't actually "save" the package as such; this is just to ensure the missing OPC parts are added
-    WordPackageSave(wordPackage,NULL);
-
-    // Output the docx file
     parts = getFlags(argc,argv);
-    plain = Word_toPlain(wordPackage,rawPackage,parts);
-    DFBufferFormat(script->output,"%s",plain);
+    wordPlain = Word_toPlain(concretePackage,parts);
 
 end:
-    DFDocumentRelease(htmlDoc);
-    free(plain);
-    DFHashTableRelease(parts);
-    DFErrorRelease(error);
-    DFPackageRelease(rawPackage);
-    WordPackageRelease(wordPackage);
-    DFPackageRelease(abstractPackage);
-}
-
-static void Word_testUpdate2(TestCase *script, WordPackage *wordPackage, DFPackage *rawPackage, int argc, const char **argv)
-{
-    // Read input.html
-    DFDocument *htmlDoc = TestCaseGetHTML(script);
-    if (htmlDoc == NULL)
-        return;;
-
-    // Update the docx file based on the contents of the HTML file
-    DFError *error = NULL;
-    DFPackage *abstractPackage = DFPackageNewFilesystem(script->abstractPath,DFFileFormatHTML);
-    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,abstractPackage,"word",&error,NULL)) {
+    if (wordPlain != NULL)
+        DFBufferFormat(script->output,"%s",wordPlain);
+    else
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
-        DFErrorRelease(error);
-        DFPackageRelease(abstractPackage);
-        return;
-    }
-    DFPackageRelease(abstractPackage);
 
-    // We don't actually "save" the package as such; this is just to ensure the missing OPC parts are added
-    WordPackageSave(wordPackage,NULL);
-
-    // Output the updated docx file
-    DFHashTable *parts = getFlags(argc,argv);
-    char *plain = Word_toPlain(wordPackage,rawPackage,parts);
-    DFBufferFormat(script->output,"%s",plain);
-    free(plain);
-    DFHashTableRelease(parts);
+    DFErrorRelease(error);
     DFDocumentRelease(htmlDoc);
+    DFPackageRelease(abstractPackage);
+    DFPackageRelease(concretePackage);
+    DFAbstractDocumentRelease(abstractDoc);
+    DFConcreteDocumentRelease(concreteDoc);
+    DFHashTableRelease(parts);
+    free(wordPlain);
 }
 
 static void Word_testUpdate(TestCase *script, int argc, const char **argv)
 {
     DFError *error = NULL;
-    WordPackage *wordPackage = NULL;
-    DFPackage *rawPackage = NULL;
-    if (!TestCaseOpenWordPackage(script,&wordPackage,&rawPackage,&error)) { // Logs error itself on failure
-        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
-        DFErrorRelease(error);
-        return;
-    }
+    DFDocument *htmlDoc = NULL;
+    DFPackage *abstractPackage = NULL;
+    DFPackage *concretePackage = NULL;
+    DFAbstractDocument *abstractDoc = NULL;
+    DFConcreteDocument *concreteDoc = NULL;
+    DFHashTable *parts = NULL;
+    char *wordPlain = NULL;
 
-    Word_testUpdate2(script,wordPackage,rawPackage,argc,argv);
-    WordPackageRelease(wordPackage);
-    DFPackageRelease(rawPackage);
+    concretePackage = TestCaseOpenPackage(script,&error);
+    if (concretePackage == NULL)
+        goto end;
+
+    abstractPackage = DFPackageNewMemory(DFFileFormatHTML);
+    abstractDoc = DFAbstractDocumentNew(abstractPackage);
+    concreteDoc = DFConcreteDocumentNew(concretePackage);
+
+    // Read input.html
+    htmlDoc = TestCaseGetHTML(script,abstractPackage,&error);
+    if (htmlDoc == NULL)
+        goto end;
+
+    DFAbstractDocumentSetHTML(abstractDoc,htmlDoc);
+
+    // Update the docx file based on the contents of the HTML file
+    if (!DFPut(concreteDoc,abstractDoc,&error))
+        goto end;
+
+    // Output the updated docx file
+    parts = getFlags(argc,argv);
+    wordPlain = Word_toPlain(concretePackage,parts);
+
+end:
+    if (wordPlain != NULL)
+        DFBufferFormat(script->output,"%s",wordPlain);
+    else
+        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
+
+    DFErrorRelease(error);
+    DFDocumentRelease(htmlDoc);
+    DFPackageRelease(abstractPackage);
+    DFPackageRelease(concretePackage);
+    DFAbstractDocumentRelease(abstractDoc);
+    DFConcreteDocumentRelease(concreteDoc);
+    DFHashTableRelease(parts);
+    free(wordPlain);
 }
 
 static void LaTeX_testCreate(TestCase *script, int argc, const char **argv)
 {
-    DFDocument *htmlDoc = TestCaseGetHTML(script);
-    if (htmlDoc == NULL)
+    DFError *error = NULL;
+    DFPackage *htmlPackage = DFPackageNewFilesystem(script->abstractPath,DFFileFormatHTML);
+    DFDocument *htmlDoc = TestCaseGetHTML(script,htmlPackage,&error);
+    DFPackageRelease(htmlPackage);
+    if (htmlDoc == NULL) {
+        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
+        DFErrorRelease(error);
         return;
+    }
 
     HTML_normalizeDocument(htmlDoc);
     char *latex = HTMLToLaTeX(htmlDoc);

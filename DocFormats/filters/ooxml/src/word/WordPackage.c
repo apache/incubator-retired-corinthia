@@ -417,15 +417,6 @@ static DFDocument *parsePart(WordPackage *package, OPCPart *part, DFError **erro
     return doc;
 }
 
-void WordPackageRemovePointlessElements(WordPackage *package)
-{
-    if (package->styles != NULL) {
-        DFNode *latentStyles = DFChildWithTag(package->styles->root,WORD_LATENTSTYLES);
-        if (latentStyles != NULL)
-            DFRemoveNode(latentStyles);
-    }
-}
-
 const char *WordPackageTargetForDocumentRel(WordPackage *package, const char *relId)
 {
     OPCRelationship *rel = OPCRelationshipSetLookupById(package->documentPart->relationships,relId);

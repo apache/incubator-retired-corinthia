@@ -50,7 +50,6 @@ void WordPackageSetEndnotes(WordPackage *package, DFDocument *endnotes);
 WordPackage *WordPackageRetain(WordPackage *package);
 void WordPackageRelease(WordPackage *package);
 
-void WordPackageRemovePointlessElements(WordPackage *package);
 const char *WordPackageTargetForDocumentRel(WordPackage *package, const char *relId);
 int WordPackageSimplifyFields(WordPackage *package);
 void WordPackageCollapseBookmarks(WordPackage *package);

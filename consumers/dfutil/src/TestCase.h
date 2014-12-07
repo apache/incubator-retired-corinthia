@@ -16,7 +16,9 @@
 #define dfutil_TestCase_h
 
 #include "DFHashTable.h"
-#include "WordPackage.h"
+#include "DFBuffer.h"
+#include "DFPackage.h"
+#include "DFXMLForward.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
@@ -36,7 +38,7 @@ struct TestCase {
 
 TestCase *TestCaseNew(const char *path, DFHashTable *input);
 void TestCaseFree(TestCase *tc);
-int TestCaseOpenWordPackage(TestCase *tc, WordPackage **outWordPackage, DFPackage **outRawPackage, DFError **error);
-DFDocument *TestCaseGetHTML(TestCase *script);
+DFPackage *TestCaseOpenPackage(TestCase *tc, DFError **error);
+DFDocument *TestCaseGetHTML(TestCase *tc, DFPackage *htmlPackage, DFError **error);
 
 #endif

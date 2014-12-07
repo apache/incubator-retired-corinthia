@@ -110,7 +110,6 @@ static int prettyPrintWordFile(const char *filename, DFError **error)
     int ok = 0;
     char *wordTempPath = DFAppendPathComponent(tempPath,"word");
     char *plain = NULL;
-    WordPackage *wordPackage = NULL;
     DFPackage *rawPackage = NULL;
 
     if (!DFEmptyDirectory(wordTempPath,error))
@@ -122,12 +121,7 @@ static int prettyPrintWordFile(const char *filename, DFError **error)
         goto end;
     }
 
-    wordPackage = WordPackageOpenFrom(rawPackage,error);
-    if (wordPackage == NULL)
-        goto end;
-
-    WordPackageRemovePointlessElements(wordPackage);
-    plain = Word_toPlain(wordPackage,rawPackage,NULL);
+    plain = Word_toPlain(rawPackage,NULL);
     printf("%s",plain);
 
     ok = 1;
@@ -137,7 +131,6 @@ end:
     free(wordTempPath);
     free(plain);
     DFPackageRelease(rawPackage);
-    WordPackageRelease(wordPackage);
     DFDeleteFile(tempPath,NULL);
     return ok;
 }
@@ -164,8 +157,6 @@ static int fromPlain2(const char *tempPath, const char *inStr, const char *inPat
                       const char *outFilename, DFError **error)
 {
     char *outExtension = DFPathExtension(outFilename);
-    char *packagePath = DFAppendPathComponent(tempPath,"package");
-    char *zipPath = DFAppendPathComponent(tempPath,"zip");
     int isDocx = DFStringEqualsCI(outExtension,"docx");
     int ok = 0;
 
@@ -174,21 +165,17 @@ static int fromPlain2(const char *tempPath, const char *inStr, const char *inPat
         goto end;
     }
 
-    WordPackage *wordPackage = NULL;
     DFPackage *rawPackage = NULL;
-    if (!Word_fromPlain(inStr,inPath,zipPath,&wordPackage,&rawPackage,error))
+
+    rawPackage = Word_fromPlain(inStr,inPath,error);
+    if (rawPackage == NULL)
         goto end;
 
-    ok = WordPackageSave(wordPackage,error);
-    if (!DFZip(outFilename,rawPackage,error))
-        ok = 0;
-    WordPackageRelease(wordPackage);
+    ok = DFZip(outFilename,rawPackage,error);
     DFPackageRelease(rawPackage);
 
     return ok;
 end:
-    free(packagePath);
-    free(zipPath);
     free(outExtension);
     return ok;
 }
