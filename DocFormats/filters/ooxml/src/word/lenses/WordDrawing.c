@@ -460,7 +460,7 @@ static int checkContentType(WordConverter *converter, const char *htmlSrc)
 
 DFNode *WordDrawingCreate(WordPutData *put, DFNode *abstract)
 {
-    DFNode *concrete = DFCreateElement(put->conv->package->document,WORD_DRAWING);
+    DFNode *concrete = DFCreateElement(put->contentDoc,WORD_DRAWING);
     if (internalPut(put,abstract,concrete,1))
         return concrete;
     else

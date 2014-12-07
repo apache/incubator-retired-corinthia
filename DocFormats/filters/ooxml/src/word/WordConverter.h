@@ -75,6 +75,7 @@ struct WordGetData {
 
 struct WordPutData {
     WordConverter *conv;
+    DFDocument *contentDoc;
     DFHashTable *numIdByHtmlId;
     DFHashTable *htmlIdByNumId;
 };

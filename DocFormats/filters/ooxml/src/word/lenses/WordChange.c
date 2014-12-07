@@ -61,12 +61,12 @@ static DFNode *WordChangeCreate(WordPutData *put, DFNode *abstract)
 {
     switch (abstract->tag) {
         case HTML_INS: {
-            DFNode *concrete = DFCreateElement(put->conv->package->document,WORD_INS);
+            DFNode *concrete = DFCreateElement(put->contentDoc,WORD_INS);
             WordChangePut(put,abstract,concrete);
             return concrete;
         }
         case HTML_DEL: {
-            DFNode *concrete = DFCreateElement(put->conv->package->document,WORD_INS);
+            DFNode *concrete = DFCreateElement(put->contentDoc,WORD_INS);
             WordChangePut(put,abstract,concrete);
             return concrete;
         }

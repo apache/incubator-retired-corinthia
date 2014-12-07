@@ -63,7 +63,7 @@ static DFNode *WordHyperlinkCreate(WordPutData *put, DFNode *abstract)
 {
     if (DFGetAttribute(abstract,HTML_HREF) == NULL)
         return NULL;;
-    DFNode *concrete = DFCreateElement(put->conv->package->document,WORD_HYPERLINK);
+    DFNode *concrete = DFCreateElement(put->contentDoc,WORD_HYPERLINK);
     DFSetAttribute(concrete,WORD_HISTORY,"1");
     WordHyperlinkPut(put,abstract,concrete);
 
@@ -73,7 +73,7 @@ static DFNode *WordHyperlinkCreate(WordPutData *put, DFNode *abstract)
         if (child->tag == WORD_R) {
             DFNode *rPr = DFChildWithTag(child,WORD_RPR);
             if (rPr == NULL) {
-                rPr = DFCreateElement(put->conv->package->document,WORD_RPR);
+                rPr = DFCreateElement(put->contentDoc,WORD_RPR);
                 DFInsertBefore(child,rPr,child->first);
             }
             CSSProperties *properties = CSSPropertiesNew();

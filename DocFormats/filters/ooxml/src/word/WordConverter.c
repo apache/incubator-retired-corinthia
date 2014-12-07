@@ -518,7 +518,7 @@ static void Word_postProcessHTML(WordConverter *conv, DFNode *node)
                 if (HTML_isParagraphTag(node->tag)) {
 
                     if (child->prev != NULL) {
-                        DFNode *beforeP = DFCreateElement(conv->package->document,node->tag);
+                        DFNode *beforeP = DFCreateElement(conv->html,node->tag);
                         while (child->prev != NULL)
                             DFInsertBefore(beforeP,child->prev,beforeP->first);
                         DFInsertBefore(node->parent,beforeP,node);
@@ -849,6 +849,7 @@ int WordConverterUpdateFromHTML(WordConverter *converter, DFError **error)
 
     WordPutData put;
     put.conv = converter;
+    put.contentDoc = converter->package->document;
     put.numIdByHtmlId = DFHashTableNew((DFCopyFunction)strdup,free);
     put.htmlIdByNumId = DFHashTableNew((DFCopyFunction)strdup,free);
 

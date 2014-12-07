@@ -182,7 +182,7 @@ static void WordParagraphPut(WordPutData *put, DFNode *abstract, DFNode *concret
 
     DFNode *pPr = DFChildWithTag(concrete,WORD_PPR);
     if (pPr == NULL)
-        pPr = DFCreateElement(put->conv->package->document,WORD_PPR);
+        pPr = DFCreateElement(put->contentDoc,WORD_PPR);
     DFInsertBefore(concrete,pPr,concrete->first); // Ensure first, in case BDTContainerPut moved it
 
     char *selector = CSSMakeNodeSelector(abstract);
@@ -241,7 +241,7 @@ static void WordParagraphPut(WordPutData *put, DFNode *abstract, DFNode *concret
 
 static DFNode *WordParagraphCreate(WordPutData *put, DFNode *abstract)
 {
-    DFNode *concrete = DFCreateElement(put->conv->package->document,WORD_P);
+    DFNode *concrete = DFCreateElement(put->contentDoc,WORD_P);
     WordParagraphPut(put,abstract,concrete);
     return concrete;
 }

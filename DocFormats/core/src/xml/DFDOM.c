@@ -209,6 +209,9 @@ DFNode *DFCreateProcessingInstruction(DFDocument *doc, const char *target, const
 
 void DFInsertBefore(DFNode *parent, DFNode *newChild, DFNode *refChild)
 {
+    assert(newChild->doc == parent->doc);
+    assert((refChild == NULL) || (refChild->doc == parent->doc));
+
     if (newChild == refChild)
         return;
 

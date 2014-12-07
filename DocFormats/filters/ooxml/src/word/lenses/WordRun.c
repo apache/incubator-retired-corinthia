@@ -48,7 +48,7 @@ static void WordRunPut(WordPutData *put, DFNode *abstract, DFNode *concrete)
 
     DFNode *rPr = DFChildWithTag(concrete,WORD_RPR);
     if (rPr == NULL)
-        rPr = DFCreateElement(put->conv->package->document,WORD_RPR);
+        rPr = DFCreateElement(put->contentDoc,WORD_RPR);
     DFInsertBefore(concrete,rPr,concrete->first); // Ensure first, in case [super put] moved it
 
     char *selector = CSSMakeNodeSelector(abstract);

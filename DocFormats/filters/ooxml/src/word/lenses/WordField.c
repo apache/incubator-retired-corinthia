@@ -381,7 +381,7 @@ static int WordFieldIsVisible(WordPutData *put, DFNode *concrete)
 
 static DFNode *WordFieldCreate(WordPutData *put, DFNode *abstract)
 {
-    DFNode *concrete = DFCreateElement(put->conv->package->document,WORD_FLDSIMPLE);
+    DFNode *concrete = DFCreateElement(put->contentDoc,WORD_FLDSIMPLE);
     // fldSimple elements are required to have an instr attribute (even if it's empty), so set
     // it here in case update doesn't change it for some reason
     DFSetAttribute(concrete,WORD_INSTR,"");

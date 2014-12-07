@@ -88,7 +88,7 @@ static DFNode *WordBlockLevelCreate(WordPutData *put, DFNode *abstract)
         case HTML_FIGURE:
             return WordParagraphLens.create(put,abstract);
         case HTML_TABLE:
-            concrete = DFCreateElement(put->conv->package->document,WORD_TBL);
+            concrete = DFCreateElement(put->contentDoc,WORD_TBL);
             break;
     }
     if (concrete != NULL)

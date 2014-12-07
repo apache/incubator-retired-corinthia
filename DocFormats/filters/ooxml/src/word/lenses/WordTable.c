@@ -419,7 +419,7 @@ static DFNode *concreteRowForAbstractRow(WordPutData *put, DFNode *htmlTr)
 {
     DFNode *wordTr = WordConverterGetConcrete(put,htmlTr);
     if (wordTr == NULL) {
-        wordTr = DFCreateElement(put->conv->package->document,WORD_TR);
+        wordTr = DFCreateElement(put->contentDoc,WORD_TR);
     }
     else {
         // We're reusing an existing row element, but we first need to clear all the cells in

@@ -92,7 +92,7 @@ static DFNode *WordRunContentCreate(WordPutData *put, DFNode *abstract)
 {
     switch (abstract->tag) {
         case DOM_TEXT: {
-            DFNode *text = DFCreateTextNode(put->conv->package->document,abstract->value);
+            DFNode *text = DFCreateTextNode(put->contentDoc,abstract->value);
 
             // Text inside a <w:del> element must be stored in a <w:delText> element
             // Text *not* inside a <w:del> element is stored in a <w:t> element
@@ -101,7 +101,7 @@ static DFNode *WordRunContentCreate(WordPutData *put, DFNode *abstract)
                 if (a->tag == HTML_DEL)
                     tag = WORD_DELTEXT;
             }
-            DFNode *t = DFCreateElement(put->conv->package->document,tag);
+            DFNode *t = DFCreateElement(put->contentDoc,tag);
             DFAppendChild(t,text);
 
             char *trimmed = DFStringTrimWhitespace(abstract->value);
@@ -114,11 +114,11 @@ static DFNode *WordRunContentCreate(WordPutData *put, DFNode *abstract)
         case HTML_IMG:
             return WordDrawingCreate(put,abstract);
         case HTML_BR:
-            return DFCreateElement(put->conv->package->document,WORD_BR);
+            return DFCreateElement(put->contentDoc,WORD_BR);
         case HTML_SPAN: {
             const char *className = DFGetAttribute(abstract,HTML_CLASS);
             if (DFStringEquals(className,DFTabClass))
-                return DFCreateElement(put->conv->package->document,WORD_TAB);
+                return DFCreateElement(put->contentDoc,WORD_TAB);
             return NULL;
         }
         default:

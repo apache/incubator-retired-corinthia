@@ -193,7 +193,13 @@ int WordRunPutNote(WordPutData *put, DFNode *abstract, DFNode *concrete)
         wordP = DFCreateChildElement(note->element,WORD_P);
     }
 
+    // wordP and its descendants must go in footnotes.xml or endnotes.xml, instead of document.xml. Normally,
+    // put->contentDoc refers to the latter, but we temporary swap it out so that new nodes created for the
+    // footnote or endnote go in the format.
+    DFDocument *savedContentDoc = put->contentDoc;
+    put->contentDoc = note->element->doc;
     WordParagraphLens.put(put,htmlP,wordP);
+    put->contentDoc = savedContentDoc;
 
     // Remove existing paragraph style information
     DFNode *pPr = DFChildWithTag(wordP,WORD_PPR);

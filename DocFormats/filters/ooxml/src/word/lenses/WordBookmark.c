@@ -261,10 +261,10 @@ static DFHashTable *findReferences(DFDocument *doc)
     return references;
 }
 
-static WordBookmark *createBookmark(WordConverter *converter)
+static WordBookmark *createBookmark(WordPutData *put)
 {
-    WordBookmark *bookmark = WordObjectsAddBookmark(converter->objects);
-    DFNode *bookmarkSpan = DFCreateElement(converter->package->document,HTML_SPAN);
+    WordBookmark *bookmark = WordObjectsAddBookmark(put->conv->objects);
+    DFNode *bookmarkSpan = DFCreateElement(put->conv->html,HTML_SPAN);
     DFSetAttribute(bookmarkSpan,HTML_CLASS,DFBookmarkClass);
     DFSetAttribute(bookmarkSpan,WORD_NAME,bookmark->bookmarkName);
     DFSetAttribute(bookmarkSpan,WORD_ID,bookmark->bookmarkId);
@@ -343,7 +343,7 @@ void Word_setupBookmarkLinks(WordPutData *put)
                     bookmarkName = bookmark->bookmarkName;
                 }
 
-                DFNode *bookmarkSpan = DFCreateElement(put->conv->package->document,HTML_SPAN);
+                DFNode *bookmarkSpan = DFCreateElement(put->conv->html,HTML_SPAN);
                 DFSetAttribute(bookmarkSpan,HTML_CLASS,DFBookmarkClass);
 
                 if (bookmarkElem != NULL) {
@@ -381,7 +381,7 @@ void Word_setupBookmarkLinks(WordPutData *put)
                     refText = 1;
 
                 if (refCaptionText) {
-                    captionTextBookmark = createBookmark(put->conv);
+                    captionTextBookmark = createBookmark(put);
                     DFNode *nnext;
                     for (DFNode *n = caption->contentStart; n != NULL; n = nnext) {
                         nnext = n->next;
@@ -390,7 +390,7 @@ void Word_setupBookmarkLinks(WordPutData *put)
                     DFAppendChild(caption->element,captionTextBookmark->element);
                 }
                 if (refLabelNum && (caption->number != NULL)) {
-                    labelNumBookmark = createBookmark(put->conv);
+                    labelNumBookmark = createBookmark(put);
                     DFNode *numberNext = caption->number->next;
                     DFNode *nnext;
                     for (DFNode *n = caption->element->first; (n != NULL) && (n != numberNext); n = nnext) {
@@ -400,7 +400,7 @@ void Word_setupBookmarkLinks(WordPutData *put)
                     DFInsertBefore(caption->element,labelNumBookmark->element,caption->element->first);
                 }
                 if (refText) {
-                    textBookmark = createBookmark(put->conv);
+                    textBookmark = createBookmark(put);
                     DFNode *nnext;
                     for (DFNode *n = caption->element->first; n != NULL; n = nnext) {
                         nnext = n->next;

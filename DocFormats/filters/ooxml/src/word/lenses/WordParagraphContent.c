@@ -88,7 +88,7 @@ static DFNode *WordParagraphContentCreate(WordPutData *put, DFNode *abstract)
         case HTML_SPAN: {
             const char *spanClass = DFGetAttribute(abstract,HTML_CLASS);
             if (DFStringEquals(spanClass,DFFieldClass)) {
-                DFNode *concrete = DFCreateElement(put->conv->package->document,WORD_FLDSIMPLE);
+                DFNode *concrete = DFCreateElement(put->contentDoc,WORD_FLDSIMPLE);
                 char *nodeText = DFNodeTextToString(abstract);
                 DFSetAttribute(concrete,WORD_INSTR,nodeText);
                 free(nodeText);
@@ -103,7 +103,7 @@ static DFNode *WordParagraphContentCreate(WordPutData *put, DFNode *abstract)
                 WordBookmark *bookmark = WordObjectsBookmarkWithName(put->conv->objects,bookmarkName);
                 if (bookmark == NULL)
                     return NULL;;
-                DFNode *concrete = DFCreateElement(put->conv->package->document,WORD_BOOKMARK);
+                DFNode *concrete = DFCreateElement(put->contentDoc,WORD_BOOKMARK);
                 DFSetAttribute(concrete,WORD_ID,bookmarkId);
                 DFSetAttribute(concrete,WORD_NAME,bookmarkName);
                 bookmark->element = concrete;
@@ -111,7 +111,7 @@ static DFNode *WordParagraphContentCreate(WordPutData *put, DFNode *abstract)
                 return concrete;
             }
             else {
-                DFNode *concrete = DFCreateElement(put->conv->package->document,WORD_R);
+                DFNode *concrete = DFCreateElement(put->contentDoc,WORD_R);
                 WordParagraphContentPut(put,abstract,concrete);
                 return concrete;
             }
