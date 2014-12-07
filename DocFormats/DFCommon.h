@@ -21,8 +21,6 @@
 #define snprintf _snprintf
 #define strcasecmp _stricmp
 #define bzero(mem,size) memset(mem,0,size)
-#pragma warning(disable: 4090) // 'function': different 'const' qualifiers
-#pragma warning(disable: 4996) // The POSIX name for this item is deprecated
 #else // not WIN32
 #endif
 

@@ -28,6 +28,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
         ${PROJECT_SOURCE_DIR}/libs/SDL2/lib/x86
         ${PROJECT_SOURCE_DIR}/libs/SDL2_image/lib/x86)
     set(LIBS ${LIBS} libxml2 zdll iconv SDL2 SDL2_image)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4090 /wd4996")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
 add_subdirectory(DocFormats/3rdparty/external/minizip)
