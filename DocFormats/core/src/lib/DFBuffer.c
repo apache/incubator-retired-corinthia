@@ -132,11 +132,11 @@ DFBuffer *DFBufferReadFromFile(const char *filename, DFError **error)
     return buf;
 }
 
-DFBuffer *DFBufferReadFromPackage(DFPackage *package, const char *filename, DFError **error)
+DFBuffer *DFBufferReadFromStorage(DFStorage *storage, const char *filename, DFError **error)
 {
     void *data = 0;
     size_t len = 0;
-    if (!DFPackageRead(package,filename,&data,&len,error))
+    if (!DFStorageRead(storage,filename,&data,&len,error))
         return NULL;;
     DFBuffer *r = DFBufferNew();;
     DFBufferAppendData(r,data,len);
@@ -144,9 +144,9 @@ DFBuffer *DFBufferReadFromPackage(DFPackage *package, const char *filename, DFEr
     return r;
 }
 
-int DFBufferWriteToPackage(DFBuffer *buf, DFPackage *package, const char *filename, DFError **error)
+int DFBufferWriteToStorage(DFBuffer *buf, DFStorage *storage, const char *filename, DFError **error)
 {
-    return DFPackageWrite(package,filename,buf->data,buf->len,error);
+    return DFStorageWrite(storage,filename,buf->data,buf->len,error);
 }
 
 int DFBufferWriteToFile(DFBuffer *buf, const char *filename, DFError **error)

@@ -177,6 +177,10 @@
 		D04459461A20636F00A2E37E /* ODFSheet.h in Headers */ = {isa = PBXBuildFile; fileRef = D04459361A20635B00A2E37E /* ODFSheet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D074ED581A2B04BC000C3704 /* DocFormats.h in Headers */ = {isa = PBXBuildFile; fileRef = D074ED561A2B04BC000C3704 /* DocFormats.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D074ED591A2B04BC000C3704 /* Operations.h in Headers */ = {isa = PBXBuildFile; fileRef = D074ED571A2B04BC000C3704 /* Operations.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D078117A1A35801200768ACF /* DFStorage.c in Sources */ = {isa = PBXBuildFile; fileRef = D07811781A35801200768ACF /* DFStorage.c */; };
+		D078117B1A35801200768ACF /* DFStorage.c in Sources */ = {isa = PBXBuildFile; fileRef = D07811781A35801200768ACF /* DFStorage.c */; };
+		D078117C1A35801200768ACF /* DFStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = D07811791A35801200768ACF /* DFStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D078117D1A35801200768ACF /* DFStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = D07811791A35801200768ACF /* DFStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0A1283317EF7E9D005FE158 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A1283217EF7E9D005FE158 /* Cocoa.framework */; };
 		D0A1283D17EF7E9D005FE158 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D0A1283B17EF7E9D005FE158 /* InfoPlist.strings */; };
 		D0A1286317EF7ED5005FE158 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A1286217EF7ED5005FE158 /* Foundation.framework */; };
@@ -443,10 +447,6 @@
 		D0BC4165198413F500882CD1 /* DFTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = D0BC4163198413B900882CD1 /* DFTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0FA2D821A2B05B400B44D96 /* DocFormats.h in Headers */ = {isa = PBXBuildFile; fileRef = D074ED561A2B04BC000C3704 /* DocFormats.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0FA2D831A2B05B400B44D96 /* Operations.h in Headers */ = {isa = PBXBuildFile; fileRef = D074ED571A2B04BC000C3704 /* Operations.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D0FBA10A1A2B16F700B066C1 /* DFPackage.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FBA1081A2B16F700B066C1 /* DFPackage.c */; };
-		D0FBA10B1A2B16F700B066C1 /* DFPackage.h in Headers */ = {isa = PBXBuildFile; fileRef = D0FBA1091A2B16F700B066C1 /* DFPackage.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D0FBA10C1A2B173000B066C1 /* DFPackage.c in Sources */ = {isa = PBXBuildFile; fileRef = D0FBA1081A2B16F700B066C1 /* DFPackage.c */; };
-		D0FBA10D1A2B173000B066C1 /* DFPackage.h in Headers */ = {isa = PBXBuildFile; fileRef = D0FBA1091A2B16F700B066C1 /* DFPackage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -548,6 +548,8 @@
 		D04459361A20635B00A2E37E /* ODFSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODFSheet.h; sourceTree = "<group>"; };
 		D074ED561A2B04BC000C3704 /* DocFormats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DocFormats.h; path = api/headers/DocFormats/DocFormats.h; sourceTree = "<group>"; };
 		D074ED571A2B04BC000C3704 /* Operations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Operations.h; path = api/headers/DocFormats/Operations.h; sourceTree = "<group>"; };
+		D07811781A35801200768ACF /* DFStorage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFStorage.c; sourceTree = "<group>"; };
+		D07811791A35801200768ACF /* DFStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFStorage.h; sourceTree = "<group>"; };
 		D0A1282F17EF7E9D005FE158 /* DocFormats.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DocFormats.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A1283217EF7E9D005FE158 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D0A1283517EF7E9D005FE158 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -697,8 +699,6 @@
 		D0B5E8C417F086ED00FBD99F /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
 		D0BC41601984101D00882CD1 /* DFCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DFCommon.h; sourceTree = "<group>"; };
 		D0BC4163198413B900882CD1 /* DFTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DFTypes.h; sourceTree = "<group>"; };
-		D0FBA1081A2B16F700B066C1 /* DFPackage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFPackage.c; sourceTree = "<group>"; };
-		D0FBA1091A2B16F700B066C1 /* DFPackage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFPackage.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -841,8 +841,8 @@
 				D01E24451A205A1500F4C04D /* DFFilesystem.h */,
 				D01E24461A205A1500F4C04D /* DFHashTable.c */,
 				D01E24471A205A1500F4C04D /* DFHashTable.h */,
-				D0FBA1081A2B16F700B066C1 /* DFPackage.c */,
-				D0FBA1091A2B16F700B066C1 /* DFPackage.h */,
+				D07811781A35801200768ACF /* DFStorage.c */,
+				D07811791A35801200768ACF /* DFStorage.h */,
 				D01E244A1A205A1500F4C04D /* DFString.c */,
 				D01E244B1A205A1500F4C04D /* DFString.h */,
 				D01E244C1A205A1500F4C04D /* DFZipFile.c */,
@@ -1227,7 +1227,6 @@
 				D0A787901A210EA900723FE8 /* version.h in Headers */,
 				D01E24E71A205A1500F4C04D /* DFXMLForward.h in Headers */,
 				D0ADB38C1A2054C6003D645D /* WordNumbering.h in Headers */,
-				D0FBA10B1A2B16F700B066C1 /* DFPackage.h in Headers */,
 				D01E24891A205A1500F4C04D /* CSSSyntax.h in Headers */,
 				D01E24E11A205A1500F4C04D /* DFNameMap.h in Headers */,
 				D01E245F1A205A1500F4C04D /* DFBDT.h in Headers */,
@@ -1251,6 +1250,7 @@
 				D01E24791A205A1500F4C04D /* CSSProperties.h in Headers */,
 				D01E24751A205A1500F4C04D /* CSSParser.h in Headers */,
 				D0165ADE1A206A4D000F1267 /* DFPlatform.h in Headers */,
+				D078117C1A35801200768ACF /* DFStorage.h in Headers */,
 				D01E24D91A205A1500F4C04D /* DFDOM.h in Headers */,
 				D0ADB3641A2054C6003D645D /* WordLenses.h in Headers */,
 				D0A786941A210EA900723FE8 /* zip.h in Headers */,
@@ -1338,7 +1338,6 @@
 				D0A787911A210EA900723FE8 /* version.h in Headers */,
 				D01E24CA1A205A1500F4C04D /* DFString.h in Headers */,
 				D01E24E81A205A1500F4C04D /* DFXMLForward.h in Headers */,
-				D0FBA10D1A2B173000B066C1 /* DFPackage.h in Headers */,
 				D0ADB3391A2054C6003D645D /* WordCommonPr.h in Headers */,
 				D01E248A1A205A1500F4C04D /* CSSSyntax.h in Headers */,
 				D01E24E21A205A1500F4C04D /* DFNameMap.h in Headers */,
@@ -1362,6 +1361,7 @@
 				D01E247A1A205A1500F4C04D /* CSSProperties.h in Headers */,
 				D0165AE71A206A7A000F1267 /* DFPlatform.h in Headers */,
 				D01E24761A205A1500F4C04D /* CSSParser.h in Headers */,
+				D078117D1A35801200768ACF /* DFStorage.h in Headers */,
 				D01E24DA1A205A1500F4C04D /* DFDOM.h in Headers */,
 				D0A786951A210EA900723FE8 /* zip.h in Headers */,
 				D04459421A20636F00A2E37E /* ODFManifest.h in Headers */,
@@ -1585,6 +1585,7 @@
 				D0A7875C1A210EA900723FE8 /* gdoc.c in Sources */,
 				D01E24971A205A1500F4C04D /* DFHTMLTables.c in Sources */,
 				D0ADB3A21A2054C6003D645D /* WordStyles.c in Sources */,
+				D078117A1A35801200768ACF /* DFStorage.c in Sources */,
 				D0ADB37E1A2054C6003D645D /* WordGC.c in Sources */,
 				D0ADB3421A2054C6003D645D /* WordRPr.c in Sources */,
 				D0ADB3821A2054C6003D645D /* WordLists.c in Sources */,
@@ -1619,7 +1620,6 @@
 				D0ADB3921A2054C6003D645D /* WordPackage.c in Sources */,
 				D01E24DB1A205A1500F4C04D /* DFMarkupCompatibility.c in Sources */,
 				D0A7873E1A210EA900723FE8 /* attrget.c in Sources */,
-				D0FBA10A1A2B16F700B066C1 /* DFPackage.c in Sources */,
 				D01E24D31A205A1500F4C04D /* DFXMLNamespaces.c in Sources */,
 				D01E24AB1A205A1500F4C04D /* DFBuffer.c in Sources */,
 			);
@@ -1704,6 +1704,7 @@
 				D0A7875D1A210EA900723FE8 /* gdoc.c in Sources */,
 				D01E24981A205A1500F4C04D /* DFHTMLTables.c in Sources */,
 				D0ADB3A31A2054C6003D645D /* WordStyles.c in Sources */,
+				D078117B1A35801200768ACF /* DFStorage.c in Sources */,
 				D0ADB37F1A2054C6003D645D /* WordGC.c in Sources */,
 				D0ADB3431A2054C6003D645D /* WordRPr.c in Sources */,
 				D0ADB3831A2054C6003D645D /* WordLists.c in Sources */,
@@ -1738,7 +1739,6 @@
 				D01E24DC1A205A1500F4C04D /* DFMarkupCompatibility.c in Sources */,
 				D01E24D41A205A1500F4C04D /* DFXMLNamespaces.c in Sources */,
 				D0A7873F1A210EA900723FE8 /* attrget.c in Sources */,
-				D0FBA10C1A2B173000B066C1 /* DFPackage.c in Sources */,
 				D0ADB3931A2054C6003D645D /* WordPackage.c in Sources */,
 				D01E24AC1A205A1500F4C04D /* DFBuffer.c in Sources */,
 			);

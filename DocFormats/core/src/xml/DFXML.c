@@ -556,9 +556,9 @@ DFDocument *DFParseXMLFile(const char *filename, DFError **error)
     return doc;
 }
 
-DFDocument *DFParseXMLPackage(DFPackage *package, const char *filename, DFError **error)
+DFDocument *DFParseXMLStorage(DFStorage *storage, const char *filename, DFError **error)
 {
-    DFBuffer *content = DFBufferReadFromPackage(package,filename,error);
+    DFBuffer *content = DFBufferReadFromStorage(storage,filename,error);
     if (content == NULL)
         return NULL;;
     DFDocument *doc = DFParseXMLString(content->data,error);
@@ -621,14 +621,14 @@ int DFSerializeXMLFile(DFDocument *doc, NamespaceID defaultNS, int indent, const
     return r;
 }
 
-int DFSerializeXMLPackage(DFDocument *doc, NamespaceID defaultNS, int indent,
-                          DFPackage *package, const char *filename,
+int DFSerializeXMLStorage(DFDocument *doc, NamespaceID defaultNS, int indent,
+                          DFStorage *storage, const char *filename,
                           DFError **error)
 {
     char *str = DFSerializeXMLString(doc,defaultNS,indent);
     DFBuffer *content = DFBufferNew();
     DFBufferAppendString(content,str);
-    int r = DFBufferWriteToPackage(content,package,filename,error);
+    int r = DFBufferWriteToStorage(content,storage,filename,error);
     DFBufferRelease(content);
     free(str);
     return r;

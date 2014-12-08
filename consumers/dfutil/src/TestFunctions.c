@@ -93,17 +93,17 @@ static void CSS_setHeadingNumbering(TestCase *script, int argc, const char **arg
 static void Word_testCollapseBookmarks(TestCase *script, int argc, const char **argv)
 {
     DFError *error = NULL;
-    DFPackage *rawPackage = TestCaseOpenPackage(script,&error);
-    if (rawPackage == NULL) {
+    DFStorage *storage = TestCaseOpenPackage(script,&error);
+    if (storage == NULL) {
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
         return;
     }
 
-    if (!WordCollapseBookmarks(rawPackage,&error)) {
+    if (!WordCollapseBookmarks(storage,&error)) {
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
-        DFPackageRelease(rawPackage);
+        DFStorageRelease(storage);
         return;
     }
 
@@ -111,28 +111,28 @@ static void Word_testCollapseBookmarks(TestCase *script, int argc, const char **
     DFHashTableAdd(parts,"document","");
 
     // Output the docx file
-    char *plain = Word_toPlain(rawPackage,parts);
+    char *plain = Word_toPlain(storage,parts);
     DFBufferFormat(script->output,"%s",plain);
     free(plain);
     DFHashTableRelease(parts);
-    DFPackageRelease(rawPackage);
+    DFStorageRelease(storage);
 }
 
 
 static void Word_testExpandBookmarks(TestCase *script, int argc, const char **argv)
 {
     DFError *error = NULL;
-    DFPackage *rawPackage = TestCaseOpenPackage(script,&error);
-    if (rawPackage == NULL) {
+    DFStorage *storage = TestCaseOpenPackage(script,&error);
+    if (storage == NULL) {
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
         return;
     }
 
-    if (!WordExpandBookmarks(rawPackage,&error)) {
+    if (!WordExpandBookmarks(storage,&error)) {
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
-        DFPackageRelease(rawPackage);
+        DFStorageRelease(storage);
         return;
     }
 
@@ -140,29 +140,29 @@ static void Word_testExpandBookmarks(TestCase *script, int argc, const char **ar
     DFHashTableAdd(parts,"document","");
 
     // Output the docx file
-    char *plain = Word_toPlain(rawPackage,parts);
+    char *plain = Word_toPlain(storage,parts);
     DFBufferFormat(script->output,"%s",plain);
     free(plain);
     DFHashTableRelease(parts);
-    DFPackageRelease(rawPackage);
+    DFStorageRelease(storage);
 }
 
 static void Word_testGet(TestCase *script, int argc, const char **argv)
 {
     DFError *error = NULL;
-    DFPackage *abstractPackage = NULL;
-    DFPackage *concretePackage = NULL;
+    DFStorage *abstractStorage = NULL;
+    DFStorage *concreteStorage = NULL;
     DFAbstractDocument *abstractDoc = NULL;
     DFConcreteDocument *concreteDoc = NULL;
     char *htmlPlain = NULL;
 
-    concretePackage = TestCaseOpenPackage(script,&error);
-    if (concretePackage == NULL)
+    concreteStorage = TestCaseOpenPackage(script,&error);
+    if (concreteStorage == NULL)
         goto end;
 
-    concreteDoc = DFConcreteDocumentNew(concretePackage);
-    abstractPackage = DFPackageNewMemory(DFFileFormatHTML);
-    abstractDoc = DFAbstractDocumentNew(abstractPackage);
+    concreteDoc = DFConcreteDocumentNew(concreteStorage);
+    abstractStorage = DFStorageNewMemory(DFFileFormatHTML);
+    abstractDoc = DFAbstractDocumentNew(abstractStorage);
 
     if (!DFGet(concreteDoc,abstractDoc,&error))
         goto end;;
@@ -173,7 +173,7 @@ static void Word_testGet(TestCase *script, int argc, const char **argv)
         goto end;
     }
 
-    htmlPlain = HTML_toPlain(htmlDoc,abstractPackage,&error);
+    htmlPlain = HTML_toPlain(htmlDoc,abstractStorage,&error);
 
 end:
     if (htmlPlain != NULL)
@@ -182,8 +182,8 @@ end:
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
 
     DFErrorRelease(error);
-    DFPackageRelease(abstractPackage);
-    DFPackageRelease(concretePackage);
+    DFStorageRelease(abstractStorage);
+    DFStorageRelease(concreteStorage);
     DFAbstractDocumentRelease(abstractDoc);
     DFConcreteDocumentRelease(concreteDoc);
     free(htmlPlain);
@@ -218,15 +218,15 @@ static void Word_testCreate(TestCase *script, int argc, const char **argv)
 {
     DFError *error = NULL;
     DFDocument *htmlDoc = NULL;
-    DFPackage *abstractPackage = DFPackageNewMemory(DFFileFormatHTML);
-    DFPackage *concretePackage = DFPackageNewMemory(DFFileFormatDocx);
-    DFAbstractDocument *abstractDoc = DFAbstractDocumentNew(abstractPackage);
-    DFConcreteDocument *concreteDoc = DFConcreteDocumentNew(concretePackage);
+    DFStorage *abstractStorage = DFStorageNewMemory(DFFileFormatHTML);
+    DFStorage *concreteStorage = DFStorageNewMemory(DFFileFormatDocx);
+    DFAbstractDocument *abstractDoc = DFAbstractDocumentNew(abstractStorage);
+    DFConcreteDocument *concreteDoc = DFConcreteDocumentNew(concreteStorage);
     DFHashTable *parts = NULL;
     char *wordPlain = NULL;
 
     // Read input.html
-    htmlDoc = TestCaseGetHTML(script,abstractPackage,&error);
+    htmlDoc = TestCaseGetHTML(script,abstractStorage,&error);
     if (htmlDoc == NULL)
         goto end;
 
@@ -236,7 +236,7 @@ static void Word_testCreate(TestCase *script, int argc, const char **argv)
         goto end;
 
     parts = getFlags(argc,argv);
-    wordPlain = Word_toPlain(concretePackage,parts);
+    wordPlain = Word_toPlain(concreteStorage,parts);
 
 end:
     if (wordPlain != NULL)
@@ -246,8 +246,8 @@ end:
 
     DFErrorRelease(error);
     DFDocumentRelease(htmlDoc);
-    DFPackageRelease(abstractPackage);
-    DFPackageRelease(concretePackage);
+    DFStorageRelease(abstractStorage);
+    DFStorageRelease(concreteStorage);
     DFAbstractDocumentRelease(abstractDoc);
     DFConcreteDocumentRelease(concreteDoc);
     DFHashTableRelease(parts);
@@ -258,23 +258,23 @@ static void Word_testUpdate(TestCase *script, int argc, const char **argv)
 {
     DFError *error = NULL;
     DFDocument *htmlDoc = NULL;
-    DFPackage *abstractPackage = NULL;
-    DFPackage *concretePackage = NULL;
+    DFStorage *abstractStorage = NULL;
+    DFStorage *concreteStorage = NULL;
     DFAbstractDocument *abstractDoc = NULL;
     DFConcreteDocument *concreteDoc = NULL;
     DFHashTable *parts = NULL;
     char *wordPlain = NULL;
 
-    concretePackage = TestCaseOpenPackage(script,&error);
-    if (concretePackage == NULL)
+    concreteStorage = TestCaseOpenPackage(script,&error);
+    if (concreteStorage == NULL)
         goto end;
 
-    abstractPackage = DFPackageNewMemory(DFFileFormatHTML);
-    abstractDoc = DFAbstractDocumentNew(abstractPackage);
-    concreteDoc = DFConcreteDocumentNew(concretePackage);
+    abstractStorage = DFStorageNewMemory(DFFileFormatHTML);
+    abstractDoc = DFAbstractDocumentNew(abstractStorage);
+    concreteDoc = DFConcreteDocumentNew(concreteStorage);
 
     // Read input.html
-    htmlDoc = TestCaseGetHTML(script,abstractPackage,&error);
+    htmlDoc = TestCaseGetHTML(script,abstractStorage,&error);
     if (htmlDoc == NULL)
         goto end;
 
@@ -286,7 +286,7 @@ static void Word_testUpdate(TestCase *script, int argc, const char **argv)
 
     // Output the updated docx file
     parts = getFlags(argc,argv);
-    wordPlain = Word_toPlain(concretePackage,parts);
+    wordPlain = Word_toPlain(concreteStorage,parts);
 
 end:
     if (wordPlain != NULL)
@@ -296,8 +296,8 @@ end:
 
     DFErrorRelease(error);
     DFDocumentRelease(htmlDoc);
-    DFPackageRelease(abstractPackage);
-    DFPackageRelease(concretePackage);
+    DFStorageRelease(abstractStorage);
+    DFStorageRelease(concreteStorage);
     DFAbstractDocumentRelease(abstractDoc);
     DFConcreteDocumentRelease(concreteDoc);
     DFHashTableRelease(parts);
@@ -307,9 +307,9 @@ end:
 static void LaTeX_testCreate(TestCase *script, int argc, const char **argv)
 {
     DFError *error = NULL;
-    DFPackage *htmlPackage = DFPackageNewMemory(DFFileFormatHTML);
-    DFDocument *htmlDoc = TestCaseGetHTML(script,htmlPackage,&error);
-    DFPackageRelease(htmlPackage);
+    DFStorage *htmlStorage = DFStorageNewMemory(DFFileFormatHTML);
+    DFDocument *htmlDoc = TestCaseGetHTML(script,htmlStorage,&error);
+    DFStorageRelease(htmlStorage);
     if (htmlDoc == NULL) {
         DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);

@@ -16,7 +16,7 @@
 #define DocFormats_Operations_h
 
 #include "DFError.h"
-#include "DFPackage.h"
+#include "DFStorage.h"
 #include "DFXMLForward.h"
 
 // Abstraction level 2
@@ -24,13 +24,13 @@
 typedef struct DFConcreteDocument DFConcreteDocument;
 typedef struct DFAbstractDocument DFAbstractDocument;
 
-DFConcreteDocument *DFConcreteDocumentNew(DFPackage *package);
+DFConcreteDocument *DFConcreteDocumentNew(DFStorage *storage);
 DFConcreteDocument *DFConcreteDocumentCreateFile(const char *filename, DFError **error);
 DFConcreteDocument *DFConcreteDocumentOpenFile(const char *filename, DFError **error);
 DFConcreteDocument *DFConcreteDocumentRetain(DFConcreteDocument *concrete);
 void DFConcreteDocumentRelease(DFConcreteDocument *concrete);
 
-DFAbstractDocument *DFAbstractDocumentNew(DFPackage *package);
+DFAbstractDocument *DFAbstractDocumentNew(DFStorage *storage);
 DFAbstractDocument *DFAbstractDocumentRetain(DFAbstractDocument *abstract);
 void DFAbstractDocumentRelease(DFAbstractDocument *abstract);
 DFDocument *DFAbstractDocumentGetHTML(DFAbstractDocument *abstract);

@@ -16,7 +16,7 @@
 #define DocFormats_Word_h
 
 #include "DFError.h"
-#include "DFPackage.h"
+#include "DFStorage.h"
 #include "CSSStyle.h"
 #include "CSSSheet.h"
 
@@ -27,10 +27,10 @@
 
 CSSStyle *WordSetupTableGridStyle(CSSSheet *styleSheet, int *changed);
 
-DFDocument *WordGet(DFPackage *concretePackage, DFPackage *abstractPackage, DFError **error);
-int WordPut(DFPackage *concretePackage, DFPackage *abstractPackage, DFDocument *htmlDoc, DFError **error);
-int WordCreate(DFPackage *concretePackage, DFPackage *abstractPackage, DFDocument *htmlDoc, DFError **error);
-int WordCollapseBookmarks(DFPackage *concretePackage, DFError **error);
-int WordExpandBookmarks(DFPackage *concretePackage, DFError **error);
+DFDocument *WordGet(DFStorage *concreteStorage, DFStorage *abstractStorage, DFError **error);
+int WordPut(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *htmlDoc, DFError **error);
+int WordCreate(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *htmlDoc, DFError **error);
+int WordCollapseBookmarks(DFStorage *concreteStorage, DFError **error);
+int WordExpandBookmarks(DFStorage *concreteStorage, DFError **error);
 
 #endif

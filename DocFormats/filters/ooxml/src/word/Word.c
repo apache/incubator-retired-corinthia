@@ -22,18 +22,18 @@
 #include "DFZipFile.h"
 #include <stdlib.h>
 
-DFDocument *WordGet(DFPackage *concretePackage, DFPackage *abstractPackage, DFError **error)
+DFDocument *WordGet(DFStorage *concreteStorage, DFStorage *abstractStorage, DFError **error)
 {
     int ok = 0;
     WordPackage *wordPackage = NULL;
     DFBuffer *warnings = DFBufferNew();
     DFDocument *htmlDoc = NULL;
 
-    wordPackage = WordPackageOpenFrom(concretePackage,error);
+    wordPackage = WordPackageOpenFrom(concreteStorage,error);
     if (wordPackage == NULL)
         goto end;
 
-    htmlDoc = WordPackageGenerateHTML(wordPackage,abstractPackage,"word",error,warnings);
+    htmlDoc = WordPackageGenerateHTML(wordPackage,abstractStorage,"word",error,warnings);
     if (htmlDoc == NULL)
         goto end;
 
@@ -58,7 +58,7 @@ end:
     }
 }
 
-int WordPut(DFPackage *concretePackage, DFPackage *abstractPackage, DFDocument *htmlDoc, DFError **error)
+int WordPut(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *htmlDoc, DFError **error)
 {
     int ok = 0;
     WordPackage *wordPackage = NULL;
@@ -66,11 +66,11 @@ int WordPut(DFPackage *concretePackage, DFPackage *abstractPackage, DFDocument *
 
     const char *idPrefix = "word";
 
-    wordPackage = WordPackageOpenFrom(concretePackage,error);
+    wordPackage = WordPackageOpenFrom(concreteStorage,error);
     if (wordPackage == NULL)
         goto end;
 
-    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,abstractPackage,idPrefix,error,warnings))
+    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,abstractStorage,idPrefix,error,warnings))
         goto end;
 
     if (warnings->len > 0) {
@@ -89,7 +89,7 @@ end:
     return ok;
 }
 
-int WordCreate(DFPackage *concretePackage, DFPackage *abstractPackage, DFDocument *htmlDoc, DFError **error)
+int WordCreate(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *htmlDoc, DFError **error)
 {
     int ok = 0;
     WordPackage *wordPackage = NULL;
@@ -97,7 +97,7 @@ int WordCreate(DFPackage *concretePackage, DFPackage *abstractPackage, DFDocumen
 
     const char *idPrefix = "word";
 
-    wordPackage = WordPackageOpenNew(concretePackage,error);
+    wordPackage = WordPackageOpenNew(concreteStorage,error);
     if (wordPackage == NULL)
         goto end;
 
@@ -107,7 +107,7 @@ int WordCreate(DFPackage *concretePackage, DFPackage *abstractPackage, DFDocumen
     // a new word or odf file from it.
     HTMLBreakBDTRefs(htmlDoc->docNode,idPrefix);
 
-    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,abstractPackage,idPrefix,error,warnings))
+    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,abstractStorage,idPrefix,error,warnings))
         goto end;
 
     if (warnings->len > 0) {
@@ -126,12 +126,12 @@ end:
     return ok;
 }
 
-int WordCollapseBookmarks(DFPackage *concretePackage, DFError **error)
+int WordCollapseBookmarks(DFStorage *concreteStorage, DFError **error)
 {
     int ok = 0;
     WordPackage *wordPackage = NULL;
 
-    wordPackage = WordPackageOpenFrom(concretePackage,error);
+    wordPackage = WordPackageOpenFrom(concreteStorage,error);
     if (wordPackage == NULL)
         goto end;
 
@@ -146,12 +146,12 @@ end:
     return ok;
 }
 
-int WordExpandBookmarks(DFPackage *concretePackage, DFError **error)
+int WordExpandBookmarks(DFStorage *concreteStorage, DFError **error)
 {
     int ok = 0;
     WordPackage *wordPackage = NULL;
 
-    wordPackage = WordPackageOpenFrom(concretePackage,error);
+    wordPackage = WordPackageOpenFrom(concreteStorage,error);
     if (wordPackage == NULL)
         goto end;
 

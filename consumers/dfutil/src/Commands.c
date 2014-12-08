@@ -110,18 +110,18 @@ static int prettyPrintWordFile(const char *filename, DFError **error)
     int ok = 0;
     char *wordTempPath = DFAppendPathComponent(tempPath,"word");
     char *plain = NULL;
-    DFPackage *rawPackage = NULL;
+    DFStorage *storage = NULL;
 
     if (!DFEmptyDirectory(wordTempPath,error))
         goto end;
 
-    rawPackage = DFPackageOpenZip(filename,error);
-    if (rawPackage == NULL) {
+    storage = DFStorageOpenZip(filename,error);
+    if (storage == NULL) {
         DFErrorFormat(error,"%s: %s",filename,DFErrorMessage(error));
         goto end;
     }
 
-    plain = Word_toPlain(rawPackage,NULL);
+    plain = Word_toPlain(storage,NULL);
     printf("%s",plain);
 
     ok = 1;
@@ -130,7 +130,7 @@ end:
     free(tempPath);
     free(wordTempPath);
     free(plain);
-    DFPackageRelease(rawPackage);
+    DFStorageRelease(storage);
     DFDeleteFile(tempPath,NULL);
     return ok;
 }
@@ -165,14 +165,14 @@ static int fromPlain2(const char *tempPath, const char *inStr, const char *inPat
         goto end;
     }
 
-    DFPackage *rawPackage = NULL;
+    DFStorage *storage = NULL;
 
-    rawPackage = Word_fromPlain(inStr,inPath,error);
-    if (rawPackage == NULL)
+    storage = Word_fromPlain(inStr,inPath,error);
+    if (storage == NULL)
         goto end;
 
-    ok = DFZip(outFilename,rawPackage,error);
-    DFPackageRelease(rawPackage);
+    ok = DFZip(outFilename,storage,error);
+    DFStorageRelease(storage);
 
     return ok;
 end:

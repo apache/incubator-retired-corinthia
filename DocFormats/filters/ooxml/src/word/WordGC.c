@@ -67,7 +67,7 @@ static void collect(WordPackage *package, DFHashTable *referencedIds)
         OPCRelationship *rel = OPCRelationshipSetLookupById(relationships,rId);
         if (rel->needsRemoveCheck && (DFHashTableLookup(referencedIds,rel->rId) == NULL)) {
             if (!rel->external)
-                DFPackageDelete(package->opc->store,rel->target,NULL);
+                DFStorageDelete(package->opc->storage,rel->target,NULL);
             OPCRelationshipSetRemove(relationships,rel);
         }
     }

@@ -44,7 +44,7 @@ void TestCaseFree(TestCase *tc)
     free(tc);
 }
 
-DFPackage *TestCaseOpenPackage(TestCase *tc, DFError **error)
+DFStorage *TestCaseOpenPackage(TestCase *tc, DFError **error)
 {
     const char *inputDocx = DFHashTableLookup(tc->input,"input.docx");
     if (inputDocx == NULL) {
@@ -55,12 +55,12 @@ DFPackage *TestCaseOpenPackage(TestCase *tc, DFError **error)
     return Word_fromPlain(inputDocx,tc->path,error);
 }
 
-DFDocument *TestCaseGetHTML(TestCase *tc, DFPackage *htmlPackage, DFError **error)
+DFDocument *TestCaseGetHTML(TestCase *tc, DFStorage *htmlStorage, DFError **error)
 {
     const char *inputHtml = DFHashTableLookup(tc->input,"input.html");
     if (inputHtml == NULL) {
         DFErrorFormat(error,"input.html not defined");
         return NULL;
     }
-    return HTML_fromPlain(inputHtml,tc->path,htmlPackage,error);
+    return HTML_fromPlain(inputHtml,tc->path,htmlStorage,error);
 }

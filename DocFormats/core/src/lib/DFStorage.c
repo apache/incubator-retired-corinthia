@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "DFPackage.h"
+#include "DFStorage.h"
 #include "DFCommon.h"
 #include "DFString.h"
 #include "DFFilesystem.h"
@@ -23,42 +23,42 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct DFPackageOps DFPackageOps;
+typedef struct DFStorageOps DFStorageOps;
 
-struct DFPackageOps {
-    int (*save)(DFPackage *package, DFError **error);
-    int (*read)(DFPackage *package, const char *path, void **buf, size_t *nbytes, DFError **error);
-    int (*write)(DFPackage *package, const char *path, void *buf, size_t nbytes, DFError **error);
-    int (*exists)(DFPackage *package, const char *path);
-    int (*delete)(DFPackage *package, const char *path, DFError **error);
-    const char **(*list)(DFPackage *package, DFError **error);
+struct DFStorageOps {
+    int (*save)(DFStorage *storage, DFError **error);
+    int (*read)(DFStorage *storage, const char *path, void **buf, size_t *nbytes, DFError **error);
+    int (*write)(DFStorage *storage, const char *path, void *buf, size_t nbytes, DFError **error);
+    int (*exists)(DFStorage *storage, const char *path);
+    int (*delete)(DFStorage *storage, const char *path, DFError **error);
+    const char **(*list)(DFStorage *storage, DFError **error);
 };
 
-struct DFPackage {
+struct DFStorage {
     size_t retainCount;
     DFFileFormat format;
     char *rootPath;
     char *zipFilename;
     DFHashTable *files;
-    const DFPackageOps *ops;
+    const DFStorageOps *ops;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
-//                                     DFPackage (Filesystem)                                     //
+//                                     DFStorage (Filesystem)                                     //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static int fsSave(DFPackage *package, DFError **error)
+static int fsSave(DFStorage *storage, DFError **error)
 {
     // Nothing to do here; we've already written everything to the filesystem
     // at the time the calls were made.
     return 1;
 }
 
-static int fsRead(DFPackage *package, const char *path, void **buf, size_t *nbytes, DFError **error)
+static int fsRead(DFStorage *storage, const char *path, void **buf, size_t *nbytes, DFError **error)
 {
-    char *fullPath = DFAppendPathComponent(package->rootPath,path);
+    char *fullPath = DFAppendPathComponent(storage->rootPath,path);
     int ok = 0;
 
     FILE *file = fopen(fullPath,"rb");
@@ -89,9 +89,9 @@ end:
     return ok;
 }
 
-static int fsWrite(DFPackage *package, const char *path, void *buf, size_t nbytes, DFError **error)
+static int fsWrite(DFStorage *storage, const char *path, void *buf, size_t nbytes, DFError **error)
 {
-    char *fullPath = DFAppendPathComponent(package->rootPath,path);
+    char *fullPath = DFAppendPathComponent(storage->rootPath,path);
     char *parentPath = DFPathDirName(fullPath);
     int r = 0;
     FILE *file = NULL;
@@ -119,32 +119,32 @@ end:
     return r;
 }
 
-static int fsExists(DFPackage *package, const char *path)
+static int fsExists(DFStorage *storage, const char *path)
 {
-    char *fullPath = DFAppendPathComponent(package->rootPath,path);
+    char *fullPath = DFAppendPathComponent(storage->rootPath,path);
     int r = DFFileExists(fullPath);
     free(fullPath);
     return r;
 }
 
-static int fsDelete(DFPackage *package, const char *path, DFError **error)
+static int fsDelete(DFStorage *storage, const char *path, DFError **error)
 {
-    char *fullPath = DFAppendPathComponent(package->rootPath,path);
+    char *fullPath = DFAppendPathComponent(storage->rootPath,path);
     int r = DFDeleteFile(fullPath,error);
     free(fullPath);
     return r;
 }
 
-const char **fsList(DFPackage *package, DFError **error)
+const char **fsList(DFStorage *storage, DFError **error)
 {
-    const char **allPaths = DFContentsOfDirectory(package->rootPath,1,error);
+    const char **allPaths = DFContentsOfDirectory(storage->rootPath,1,error);
     if (allPaths == NULL)
         return NULL;;
 
     DFArray *filesOnly = DFArrayNew((DFCopyFunction)strdup,(DFFreeFunction)free);
     for (int i = 0; allPaths[i]; i++) {
         const char *relPath = allPaths[i];
-        char *absPath = DFAppendPathComponent(package->rootPath,relPath);
+        char *absPath = DFAppendPathComponent(storage->rootPath,relPath);
         if (!DFIsDirectory(absPath))
             DFArrayAppend(filesOnly,(void *)relPath);
         free(absPath);
@@ -156,7 +156,7 @@ const char **fsList(DFPackage *package, DFError **error)
     return result;
 }
 
-static DFPackageOps fsOps = {
+static DFStorageOps fsOps = {
     .save = fsSave,
     .read = fsRead,
     .write = fsWrite,
@@ -167,19 +167,20 @@ static DFPackageOps fsOps = {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
-//                                       DFPackage (Memory)                                       //
+//                                       DFStorage (Memory)                                       //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static int memSave(DFPackage *package, DFError **error)
+static int memSave(DFStorage *storage, DFError **error)
 {
-    // Nothing to do here; memory packages are intended to be temporary, and are never saved to disk
+    // Nothing to do here; memory-backed storage objects are intended to be temporary, and are never
+    // saved to disk
     return 1;
 }
 
-static int memRead(DFPackage *package, const char *path, void **buf, size_t *nbytes, DFError **error)
+static int memRead(DFStorage *storage, const char *path, void **buf, size_t *nbytes, DFError **error)
 {
-    DFBuffer *buffer = DFHashTableLookup(package->files,path);
+    DFBuffer *buffer = DFHashTableLookup(storage->files,path);
     if (buffer == NULL) {
         DFErrorSetPosix(error,ENOENT);
         return 0;
@@ -192,32 +193,32 @@ static int memRead(DFPackage *package, const char *path, void **buf, size_t *nby
     return 1;
 }
 
-static int memWrite(DFPackage *package, const char *path, void *buf, size_t nbytes, DFError **error)
+static int memWrite(DFStorage *storage, const char *path, void *buf, size_t nbytes, DFError **error)
 {
     DFBuffer *buffer = DFBufferNew();
     DFBufferAppendData(buffer,buf,nbytes);
-    DFHashTableAdd(package->files,path,buffer);
+    DFHashTableAdd(storage->files,path,buffer);
     DFBufferRelease(buffer);
     return 1;
 }
 
-static int memExists(DFPackage *package, const char *path)
+static int memExists(DFStorage *storage, const char *path)
 {
-    return (DFHashTableLookup(package->files,path) != NULL);
+    return (DFHashTableLookup(storage->files,path) != NULL);
 }
 
-static int memDelete(DFPackage *package, const char *path, DFError **error)
+static int memDelete(DFStorage *storage, const char *path, DFError **error)
 {
-    DFHashTableRemove(package->files,path);
+    DFHashTableRemove(storage->files,path);
     return 1;
 }
 
-static const char **memList(DFPackage *package, DFError **error)
+static const char **memList(DFStorage *storage, DFError **error)
 {
-    return DFHashTableCopyKeys(package->files);
+    return DFHashTableCopyKeys(storage->files);
 }
 
-static DFPackageOps memOps = {
+static DFStorageOps memOps = {
     .save = memSave,
     .read = memRead,
     .write = memWrite,
@@ -228,26 +229,26 @@ static DFPackageOps memOps = {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
-//                                         DFPackage (Zip)                                        //
+//                                         DFStorage (Zip)                                        //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Currently, zip packages operate just like memory packages, in that they store their contents in
-// a hash table. The only difference is that they extract all the entries from a zip file on
-// creation, and overwrite the zip file on save.
+// Currently, zip storage objects operate just like memory storage objects, in that they store their
+// contents in a hash table. The only difference is that they extract all the entries from a zip
+// file on creation, and overwrite the zip file on save.
 //
 // Eventually, we should make it so the entries are read on-demand, and also that a new, temporary
-// zip file is written if the package is modified, and that new version replaces the existing one on
+// zip file is written if the storage is modified, and that new version replaces the existing one on
 // save.
 
-static int zipSave(DFPackage *package, DFError **error)
+static int zipSave(DFStorage *storage, DFError **error)
 {
-    return DFZip(package->zipFilename,package,error);
+    return DFZip(storage->zipFilename,storage,error);
 }
 
-static int zipRead(DFPackage *package, const char *path, void **buf, size_t *nbytes, DFError **error)
+static int zipRead(DFStorage *storage, const char *path, void **buf, size_t *nbytes, DFError **error)
 {
-    DFBuffer *buffer = DFHashTableLookup(package->files,path);
+    DFBuffer *buffer = DFHashTableLookup(storage->files,path);
     if (buffer == NULL) {
         DFErrorSetPosix(error,ENOENT);
         return 0;
@@ -260,32 +261,32 @@ static int zipRead(DFPackage *package, const char *path, void **buf, size_t *nby
     return 1;
 }
 
-static int zipWrite(DFPackage *package, const char *path, void *buf, size_t nbytes, DFError **error)
+static int zipWrite(DFStorage *storage, const char *path, void *buf, size_t nbytes, DFError **error)
 {
     DFBuffer *buffer = DFBufferNew();
     DFBufferAppendData(buffer,buf,nbytes);
-    DFHashTableAdd(package->files,path,buffer);
+    DFHashTableAdd(storage->files,path,buffer);
     DFBufferRelease(buffer);
     return 1;
 }
 
-static int zipExists(DFPackage *package, const char *path)
+static int zipExists(DFStorage *storage, const char *path)
 {
-    return (DFHashTableLookup(package->files,path) != NULL);
+    return (DFHashTableLookup(storage->files,path) != NULL);
 }
 
-static int zipDelete(DFPackage *package, const char *path, DFError **error)
+static int zipDelete(DFStorage *storage, const char *path, DFError **error)
 {
-    DFHashTableRemove(package->files,path);
+    DFHashTableRemove(storage->files,path);
     return 1;
 }
 
-static const char **zipList(DFPackage *package, DFError **error)
+static const char **zipList(DFStorage *storage, DFError **error)
 {
-    return DFHashTableCopyKeys(package->files);
+    return DFHashTableCopyKeys(storage->files);
 }
 
-static DFPackageOps zipOps = {
+static DFStorageOps zipOps = {
     .save = zipSave,
     .read = zipRead,
     .write = zipWrite,
@@ -296,14 +297,14 @@ static DFPackageOps zipOps = {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
-//                                            DFPackage                                           //
+//                                            DFStorage                                           //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Normalize the path to remove multiple consecutive / characters, and to remove any trailing /
 // character. This ensures that for implementations which rely on an exact match of the path
-// (specifically, the memory package), that any non-essential differences in the supplied path will
-// not matter.
+// (specifically, the memory storage object), that any non-essential differences in the supplied
+// path will not matter.
 
 static char *fixPath(const char *input)
 {
@@ -317,124 +318,124 @@ static char *fixPath(const char *input)
     return result;
 }
 
-static DFPackage *DFPackageNew(DFFileFormat format, const DFPackageOps *ops)
+static DFStorage *DFStorageNew(DFFileFormat format, const DFStorageOps *ops)
 {
-    DFPackage *package = (DFPackage *)calloc(1,sizeof(DFPackage));
-    package->retainCount = 1;
-    package->format = format;
-    package->ops = ops;
-    return package;
+    DFStorage *storage = (DFStorage *)calloc(1,sizeof(DFStorage));
+    storage->retainCount = 1;
+    storage->format = format;
+    storage->ops = ops;
+    return storage;
 }
 
-DFPackage *DFPackageNewFilesystem(const char *rootPath, DFFileFormat format)
+DFStorage *DFStorageNewFilesystem(const char *rootPath, DFFileFormat format)
 {
     if ((rootPath == NULL) || (strlen(rootPath) == 0))
         rootPath = ".";;
-    DFPackage *package = DFPackageNew(format,&fsOps);
-    package->rootPath = strdup(rootPath);
-    return package;
+    DFStorage *storage = DFStorageNew(format,&fsOps);
+    storage->rootPath = strdup(rootPath);
+    return storage;
 }
 
-DFPackage *DFPackageNewMemory(DFFileFormat format)
+DFStorage *DFStorageNewMemory(DFFileFormat format)
 {
-    DFPackage *package = DFPackageNew(format,&memOps);
-    package->files = DFHashTableNew((DFCopyFunction)DFBufferRetain,(DFFreeFunction)DFBufferRelease);
-    return package;
+    DFStorage *storage = DFStorageNew(format,&memOps);
+    storage->files = DFHashTableNew((DFCopyFunction)DFBufferRetain,(DFFreeFunction)DFBufferRelease);
+    return storage;
 }
 
-DFPackage *DFPackageCreateZip(const char *filename, DFError **error)
+DFStorage *DFStorageCreateZip(const char *filename, DFError **error)
 {
-    // Note that with the current implementation, the file doesn't actually get saved until we do a DFPackageSave.
+    // Note that with the current implementation, the file doesn't actually get saved until we do a DFStorageSave.
     if (DFFileExists(filename)) {
         DFErrorFormat(error,"File already exists");
         return NULL;
     }
 
-    DFPackage *package = DFPackageNew(DFFileFormatFromFilename(filename),&zipOps);
-    package->files = DFHashTableNew((DFCopyFunction)DFBufferRetain,(DFFreeFunction)DFBufferRelease);
-    package->zipFilename = strdup(filename);
-    return package;
+    DFStorage *storage = DFStorageNew(DFFileFormatFromFilename(filename),&zipOps);
+    storage->files = DFHashTableNew((DFCopyFunction)DFBufferRetain,(DFFreeFunction)DFBufferRelease);
+    storage->zipFilename = strdup(filename);
+    return storage;
 }
 
-DFPackage *DFPackageOpenZip(const char *filename, DFError **error)
+DFStorage *DFStorageOpenZip(const char *filename, DFError **error)
 {
     if (!DFFileExists(filename)) {
         DFErrorFormat(error,"File does not exist");
         return NULL;
     }
 
-    DFPackage *package = DFPackageNew(DFFileFormatFromFilename(filename),&zipOps);
-    package->files = DFHashTableNew((DFCopyFunction)DFBufferRetain,(DFFreeFunction)DFBufferRelease);
-    package->zipFilename = strdup(filename);
+    DFStorage *storage = DFStorageNew(DFFileFormatFromFilename(filename),&zipOps);
+    storage->files = DFHashTableNew((DFCopyFunction)DFBufferRetain,(DFFreeFunction)DFBufferRelease);
+    storage->zipFilename = strdup(filename);
 
-    if (!DFUnzip(filename,package,error)) {
-        DFPackageRelease(package);
+    if (!DFUnzip(filename,storage,error)) {
+        DFStorageRelease(storage);
         return NULL;
     }
-    return package;
+    return storage;
 }
 
-DFPackage *DFPackageRetain(DFPackage *package)
+DFStorage *DFStorageRetain(DFStorage *storage)
 {
-    if (package != NULL)
-        package->retainCount++;
-    return package;
+    if (storage != NULL)
+        storage->retainCount++;
+    return storage;
 }
 
-void DFPackageRelease(DFPackage *package)
+void DFStorageRelease(DFStorage *storage)
 {
-    if ((package == NULL) || (--package->retainCount > 0))
+    if ((storage == NULL) || (--storage->retainCount > 0))
         return;
 
-    DFHashTableRelease(package->files);
-    free(package->rootPath);
-    free(package->zipFilename);
-    free(package);
+    DFHashTableRelease(storage->files);
+    free(storage->rootPath);
+    free(storage->zipFilename);
+    free(storage);
 }
 
-DFFileFormat DFPackageFormat(DFPackage *package)
+DFFileFormat DFStorageFormat(DFStorage *storage)
 {
-    return package->format;
+    return storage->format;
 }
 
-int DFPackageSave(DFPackage *package, DFError **error)
+int DFStorageSave(DFStorage *storage, DFError **error)
 {
-    return package->ops->save(package,error);
+    return storage->ops->save(storage,error);
 }
 
-int DFPackageRead(DFPackage *package, const char *path, void **buf, size_t *nbytes, DFError **error)
+int DFStorageRead(DFStorage *storage, const char *path, void **buf, size_t *nbytes, DFError **error)
 {
     char *fixed = fixPath(path);
-    int r = package->ops->read(package,fixed,buf,nbytes,error);
+    int r = storage->ops->read(storage,fixed,buf,nbytes,error);
     free(fixed);
     return r;
 }
 
-int DFPackageWrite(DFPackage *package, const char *path, void *buf, size_t nbytes, DFError **error)
+int DFStorageWrite(DFStorage *storage, const char *path, void *buf, size_t nbytes, DFError **error)
 {
     char *fixed = fixPath(path);
-    int r = package->ops->write(package,fixed,buf,nbytes,error);
+    int r = storage->ops->write(storage,fixed,buf,nbytes,error);
     free(fixed);
     return r;
 }
 
-int DFPackageExists(DFPackage *package, const char *path)
+int DFStorageExists(DFStorage *storage, const char *path)
 {
     char *fixed = fixPath(path);
-    int r = package->ops->exists(package,fixed);
+    int r = storage->ops->exists(storage,fixed);
     free(fixed);
     return r;
 }
 
-int DFPackageDelete(DFPackage *package, const char *path, DFError **error)
+int DFStorageDelete(DFStorage *storage, const char *path, DFError **error)
 {
     char *fixed = fixPath(path);
-    int r = package->ops->delete(package,fixed,error);
+    int r = storage->ops->delete(storage,fixed,error);
     free(fixed);
     return r;
 }
 
-const char **DFPackageList(DFPackage *package, DFError **error)
+const char **DFStorageList(DFStorage *storage, DFError **error)
 {
-    return package->ops->list(package,error);
+    return storage->ops->list(storage,error);
 }

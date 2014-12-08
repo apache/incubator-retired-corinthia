@@ -17,7 +17,7 @@
 
 #include "DFHashTable.h"
 #include "DFBuffer.h"
-#include "DFPackage.h"
+#include "DFStorage.h"
 #include "DFXMLForward.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,7 +36,7 @@ struct TestCase {
 
 TestCase *TestCaseNew(const char *path, DFHashTable *input);
 void TestCaseFree(TestCase *tc);
-DFPackage *TestCaseOpenPackage(TestCase *tc, DFError **error);
-DFDocument *TestCaseGetHTML(TestCase *tc, DFPackage *htmlPackage, DFError **error);
+DFStorage *TestCaseOpenPackage(TestCase *tc, DFError **error);
+DFDocument *TestCaseGetHTML(TestCase *tc, DFStorage *htmlStorage, DFError **error);
 
 #endif

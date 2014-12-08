@@ -177,15 +177,15 @@ static void addMissingParts(WordPackage *package)
         package->endnotes = DFDocumentNewWithRoot(WORD_ENDNOTES);
 }
 
-WordPackage *WordPackageOpenNew(DFPackage *store, DFError **error)
+WordPackage *WordPackageOpenNew(DFStorage *storage, DFError **error)
 {
-    if (DFPackageFormat(store) != DFFileFormatDocx) {
+    if (DFStorageFormat(storage) != DFFileFormatDocx) {
         DFErrorFormat(error,"Incorrect format: Expected %s, got %s",
-                      DFFileFormatToExtension(DFFileFormatDocx),DFFileFormatToExtension(DFPackageFormat(store)));
+                      DFFileFormatToExtension(DFFileFormatDocx),DFFileFormatToExtension(DFStorageFormat(storage)));
         return NULL;
     }
 
-    OPCPackage *opc = OPCPackageOpenNew(store,error);
+    OPCPackage *opc = OPCPackageOpenNew(storage,error);
     if (opc == NULL)
         return NULL;
 
@@ -214,15 +214,15 @@ WordPackage *WordPackageOpenNew(DFPackage *store, DFError **error)
     return NULL;
 }
 
-WordPackage *WordPackageOpenFrom(DFPackage *store, DFError **error)
+WordPackage *WordPackageOpenFrom(DFStorage *storage, DFError **error)
 {
-    if (DFPackageFormat(store) != DFFileFormatDocx) {
+    if (DFStorageFormat(storage) != DFFileFormatDocx) {
         DFErrorFormat(error,"Incorrect format: Expected %s, got %s",
-                      DFFileFormatToExtension(DFFileFormatDocx),DFFileFormatToExtension(DFPackageFormat(store)));
+                      DFFileFormatToExtension(DFFileFormatDocx),DFFileFormatToExtension(DFStorageFormat(storage)));
         return NULL;
     }
 
-    OPCPackage *opc = OPCPackageOpenFrom(store,error);
+    OPCPackage *opc = OPCPackageOpenFrom(storage,error);
     if (opc == NULL)
         return NULL;
 
@@ -382,11 +382,11 @@ int WordPackageSave(WordPackage *package, DFError **error)
     return 1;
 }
 
-DFDocument *WordPackageGenerateHTML(WordPackage *package, DFPackage *abstractPackage, const char *idPrefix,
+DFDocument *WordPackageGenerateHTML(WordPackage *package, DFStorage *abstractStorage, const char *idPrefix,
                                     DFError **error, DFBuffer *warnings)
 {
     DFDocument *html = DFDocumentNew();
-    WordConverter *converter = WordConverterNew(html,abstractPackage,idPrefix,package,warnings);
+    WordConverter *converter = WordConverterNew(html,abstractStorage,idPrefix,package,warnings);
     int ok = WordConverterConvertToHTML(converter,error);
     WordConverterFree(converter);
     if (!ok)
@@ -394,12 +394,12 @@ DFDocument *WordPackageGenerateHTML(WordPackage *package, DFPackage *abstractPac
     return html;
 }
 
-int WordPackageUpdateFromHTML(WordPackage *package, DFDocument *input, DFPackage *abstractPackage,
+int WordPackageUpdateFromHTML(WordPackage *package, DFDocument *input, DFStorage *abstractStorage,
                               const char *idPrefix, DFError **error, DFBuffer *warnings)
 {
     HTML_normalizeDocument(input);
     HTML_pushDownInlineProperties(input->docNode);
-    WordConverter *converter = WordConverterNew(input,abstractPackage,idPrefix,package,warnings);
+    WordConverter *converter = WordConverterNew(input,abstractStorage,idPrefix,package,warnings);
     int ok = WordConverterUpdateFromHTML(converter,error);
     WordConverterFree(converter);
     if (!ok)

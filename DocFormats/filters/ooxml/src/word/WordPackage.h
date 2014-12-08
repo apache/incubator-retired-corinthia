@@ -17,7 +17,7 @@
 
 #include "DFXMLForward.h"
 #include "OPC.h"
-#include "DFPackage.h"
+#include "DFStorage.h"
 #include "OOXMLTypedefs.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,12 +55,12 @@ int WordPackageSimplifyFields(WordPackage *package);
 void WordPackageCollapseBookmarks(WordPackage *package);
 void WordPackageExpandBookmarks(WordPackage *package);
 
-WordPackage *WordPackageOpenNew(DFPackage *store, DFError **error);
-WordPackage *WordPackageOpenFrom(DFPackage *store, DFError **error);
+WordPackage *WordPackageOpenNew(DFStorage *storage, DFError **error);
+WordPackage *WordPackageOpenFrom(DFStorage *storage, DFError **error);
 int WordPackageSave(WordPackage *package, DFError **error);
-DFDocument *WordPackageGenerateHTML(WordPackage *package, DFPackage *abstractPackage, const char *idPrefix,
+DFDocument *WordPackageGenerateHTML(WordPackage *package, DFStorage *abstractStorage, const char *idPrefix,
                                     DFError **error, DFBuffer *warnings);
-int WordPackageUpdateFromHTML(WordPackage *package, DFDocument *input, DFPackage *abstractPackage,
+int WordPackageUpdateFromHTML(WordPackage *package, DFDocument *input, DFStorage *abstractStorage,
                               const char *idPrefix, DFError **error, DFBuffer *warnings);
 
 #endif

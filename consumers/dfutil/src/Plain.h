@@ -18,11 +18,11 @@
 #include "DFError.h"
 #include "DFHashTable.h"
 #include "DFDOM.h"
-#include "DFPackage.h"
+#include "DFStorage.h"
 
-char *Word_toPlain(DFPackage *rawPackage, DFHashTable *parts);
-DFPackage *Word_fromPlain(const char *plain, const char *plainPath, DFError **error);
-char *HTML_toPlain(DFDocument *doc, DFPackage *package, DFError **error);
-DFDocument *HTML_fromPlain(const char *plain, const char *path, DFPackage *htmlPackage, DFError **error);
+char *Word_toPlain(DFStorage *rawStorage, DFHashTable *parts);
+DFStorage *Word_fromPlain(const char *plain, const char *plainPath, DFError **error);
+char *HTML_toPlain(DFDocument *doc, DFStorage *storage, DFError **error);
+DFDocument *HTML_fromPlain(const char *plain, const char *path, DFStorage *htmlStorage, DFError **error);
 
 #endif

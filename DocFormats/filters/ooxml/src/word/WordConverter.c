@@ -555,14 +555,14 @@ static void Word_postProcessHTMLDoc(WordConverter *conv)
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-WordConverter *WordConverterNew(DFDocument *html, DFPackage *abstractPackage,
+WordConverter *WordConverterNew(DFDocument *html, DFStorage *abstractStorage,
                                 const char *idPrefix, WordPackage *package,
                                 DFBuffer *warnings)
 {
     WordConverter *converter = (WordConverter *)calloc(1,sizeof(WordConverter));
     converter->html = DFDocumentRetain(html);
-    converter->abstractPackage = DFPackageRetain(abstractPackage);
-    assert(DFPackageFormat(converter->abstractPackage) == DFFileFormatHTML);
+    converter->abstractStorage = DFStorageRetain(abstractStorage);
+    assert(DFStorageFormat(converter->abstractStorage) == DFFileFormatHTML);
     converter->idPrefix = DFStrDup(idPrefix);
     converter->package = WordPackageRetain(package);
     converter->styles = WordSheetNew(converter->package->styles);
@@ -587,7 +587,7 @@ WordConverter *WordConverterNew(DFDocument *html, DFPackage *abstractPackage,
 void WordConverterFree(WordConverter *converter)
 {
     DFDocumentRelease(converter->html);
-    DFPackageRelease(converter->abstractPackage);
+    DFStorageRelease(converter->abstractStorage);
     free(converter->idPrefix);
     WordSheetFree(converter->styles);
     WordNumberingFree(converter->numbering);
