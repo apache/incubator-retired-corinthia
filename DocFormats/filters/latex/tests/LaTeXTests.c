@@ -13,32 +13,15 @@
 // limitations under the License.
 
 #include "DFUnitTest.h"
-#include <stdio.h>
+#include <stddef.h>
 
-extern TestGroup APITests;
-extern TestGroup CSSTests;
-extern TestGroup HTMLTests;
-extern TestGroup LibTests;
-extern TestGroup XMLTests;
-extern TestGroup LaTeXTests;
-extern TestGroup WordTests;
-extern TestGroup PlatformTests;
-
-TestGroup *groups[] = {
-    &APITests,
-    &CSSTests,
-    &HTMLTests,
-    &LibTests,
-    &XMLTests,
-    &LaTeXTests,
-    &WordTests,
-    &PlatformTests,
-    NULL
-};
-
-int main(int argc, const char **argv)
+static void test_sample(void)
 {
-    setbuf(stdout,NULL);
-    utrun(groups);
-    return 0;
 }
+
+TestGroup LaTeXTests = {
+    "latex", {
+        { "sample", test_sample },
+        { NULL, NULL }
+    }
+};

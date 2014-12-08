@@ -54,7 +54,8 @@ set(GroupPlatform
     platform/src/Apple.c
     platform/src/Linux.c
     platform/src/Unix.c
-    platform/src/Win32.c)
+    platform/src/Win32.c
+    platform/tests/PlatformTests.c)
 
 set(GroupCoreCSS
     core/src/css/CSS.c
@@ -74,7 +75,8 @@ set(GroupCoreCSS
     core/src/css/CSSStyle.c
     core/src/css/CSSStyle.h
     core/src/css/CSSSyntax.c
-    core/src/css/CSSSyntax.h)
+    core/src/css/CSSSyntax.h
+    core/tests/css/CSSTests.c)
 
 set(GroupCoreHTML
     core/src/html/DFHTDocument.c
@@ -88,11 +90,13 @@ set(GroupCoreHTML
     core/src/html/DFTidyHelper.c
     core/src/html/DFTidyHelper.h
     core/src/html/DFTidyWrapper.c
-    core/src/html/DFTidyWrapper.h)
+    core/src/html/DFTidyWrapper.h
+    core/tests/html/HTMLTests.c)
 
 set(GroupLaTeX
     filters/latex/src/HTMLToLaTeX.c
-    filters/latex/src/HTMLToLaTeX.h)
+    filters/latex/src/HTMLToLaTeX.h
+    filters/latex/tests/LaTeXTests.c)
 
 set(GroupCoreLib
     core/src/lib/DFAllocator.c
@@ -116,7 +120,8 @@ set(GroupCoreLib
     core/src/lib/DFString.c
     core/src/lib/DFString.h
     core/src/lib/DFZipFile.c
-    core/src/lib/DFZipFile.h)
+    core/src/lib/DFZipFile.h
+    core/tests/lib/LibTests.c)
 
 set(GroupCoreNames
     core/src/names/DFXMLNames.c
@@ -173,7 +178,8 @@ set(GroupOOXMLWord
     filters/ooxml/src/word/WordTheme.c
     filters/ooxml/src/word/WordTheme.h
     filters/ooxml/src/word/WordWhitespace.c
-    filters/ooxml/src/word/WordWhitespace.h)
+    filters/ooxml/src/word/WordWhitespace.h
+    filters/ooxml/tests/word/WordTests.c)
 
 set(GroupOOXMLWordFormatting
     filters/ooxml/src/word/formatting/WordCommonPr.c
@@ -218,7 +224,8 @@ set(GroupCoreXML
     core/src/xml/DFNameMap.h
     core/src/xml/DFXML.c
     core/src/xml/DFXML.h
-    core/src/xml/DFXMLForward.h)
+    core/src/xml/DFXMLForward.h
+    core/tests/xml/XMLTests.c)
 
 add_library(DocFormats
     ${GroupRoot}
