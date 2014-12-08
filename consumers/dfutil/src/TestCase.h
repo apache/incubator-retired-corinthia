@@ -32,8 +32,6 @@ struct TestCase {
     char *path;
     DFHashTable *input;
     DFBuffer *output;
-    char *tempPath;
-    char *abstractPath;
 };
 
 TestCase *TestCaseNew(const char *path, DFHashTable *input);

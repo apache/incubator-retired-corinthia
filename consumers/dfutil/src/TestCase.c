@@ -41,8 +41,6 @@ void TestCaseFree(TestCase *tc)
     free(tc->path);
     DFHashTableRelease(tc->input);
     DFBufferRelease(tc->output);
-    free(tc->tempPath);
-    free(tc->abstractPath);
     free(tc);
 }
 

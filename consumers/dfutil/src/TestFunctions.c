@@ -307,7 +307,7 @@ end:
 static void LaTeX_testCreate(TestCase *script, int argc, const char **argv)
 {
     DFError *error = NULL;
-    DFPackage *htmlPackage = DFPackageNewFilesystem(script->abstractPath,DFFileFormatHTML);
+    DFPackage *htmlPackage = DFPackageNewMemory(DFFileFormatHTML);
     DFDocument *htmlDoc = TestCaseGetHTML(script,htmlPackage,&error);
     DFPackageRelease(htmlPackage);
     if (htmlDoc == NULL) {
@@ -423,40 +423,11 @@ static struct {
     { NULL, NULL },
 };
 
-static int testSetup(TestCase *script)
-{
-    DFError *error = NULL;
-    script->tempPath = createTempDir(&error);
-    if (script->tempPath == NULL) {
-        DFBufferFormat(script->output,"createTempDir: %s\n",DFErrorMessage(&error));
-        DFErrorRelease(error);
-        return 0;
-    }
-
-    script->abstractPath = DFAppendPathComponent(script->tempPath,"abstract");
-
-    if (!DFCreateDirectory(script->abstractPath,1,&error)) {
-        DFBufferFormat(script->output,"%s: %s",script->abstractPath,DFErrorMessage(&error));
-        DFErrorRelease(error);
-        return 0;
-    }
-
-    return 1;
-}
-
-static void testTeardown(TestCase *script)
-{
-    DFDeleteFile(script->tempPath,NULL);
-}
-
 void runTest(TestCase *script, const char *name, int argc, const char **argv)
 {
     for (int i = 0; testFunctions[i].name != NULL; i++) {
         if (!strcmp(testFunctions[i].name,name)) {
-            if (testSetup(script)) {
-                testFunctions[i].fun(script,argc,argv);
-                testTeardown(script);
-            }
+            testFunctions[i].fun(script,argc,argv);
             return;
         }
     }
