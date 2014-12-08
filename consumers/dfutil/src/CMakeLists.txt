@@ -2,13 +2,23 @@ cmake_minimum_required(VERSION 2.8)
 
 set(SOURCES
     BDTTest.c
+    BDTTest.h
     Commands.c
+    Commands.h
     DFChanges.c
+    DFChanges.h
+    FunctionTests.h
     Plain.c
+    Plain.h
+    StringTests.h
     Test.c
+    Test.h
     TestCase.c
+    TestCase.h
     TestFunctions.c
+    TestFunctions.h
     TextPackage.c
+    TextPackage.h
     main.c
 )
 
@@ -38,3 +48,5 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 add_executable(dfutil ${SOURCES})
 target_link_libraries(dfutil DocFormats ${LIBS})
+
+source_group(\\ FILES ${SOURCES})
