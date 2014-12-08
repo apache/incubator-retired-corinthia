@@ -15,7 +15,7 @@
 #ifndef DocFormats_WordBookmark_h
 #define DocFormats_WordBookmark_h
 
-#include "DFXMLForward.h"
+#include <DocFormats/DFXMLForward.h>
 #include "WordSheet.h"
 #include "OOXMLTypedefs.h"
 

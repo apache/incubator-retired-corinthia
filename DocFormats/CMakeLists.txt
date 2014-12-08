@@ -35,6 +35,9 @@ set(GroupRoot
     DFTypes.h)
 
 set(GroupAPI
+    api/headers/DocFormats/DFError.h
+    api/headers/DocFormats/DFStorage.h
+    api/headers/DocFormats/DFXMLForward.h
     api/headers/DocFormats/DocFormats.h
     api/headers/DocFormats/Formats.h
     api/headers/DocFormats/Operations.h
@@ -110,7 +113,6 @@ set(GroupCoreLib
     core/src/lib/DFCharacterSet.c
     core/src/lib/DFCharacterSet.h
     core/src/lib/DFError.c
-    core/src/lib/DFError.h
     core/src/lib/DFFilesystem.c
     core/src/lib/DFFilesystem.h
     core/src/lib/DFHashTable.c
@@ -118,7 +120,6 @@ set(GroupCoreLib
     core/src/lib/DFString.c
     core/src/lib/DFString.h
     core/src/lib/DFStorage.c
-    core/src/lib/DFStorage.h
     core/src/lib/DFZipFile.c
     core/src/lib/DFZipFile.h
     core/tests/lib/LibTests.c)
@@ -224,7 +225,6 @@ set(GroupCoreXML
     core/src/xml/DFNameMap.h
     core/src/xml/DFXML.c
     core/src/xml/DFXML.h
-    core/src/xml/DFXMLForward.h
     core/tests/xml/XMLTests.c)
 
 add_library(DocFormats

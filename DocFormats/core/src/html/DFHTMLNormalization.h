@@ -16,7 +16,7 @@
 #define DocFormats_DFHTMLNormalization_h
 
 #include "DFXMLNames.h"
-#include "DFXMLForward.h"
+#include <DocFormats/DFXMLForward.h>
 
 void HTML_normalizeDocument(DFDocument *doc);
 

@@ -15,7 +15,7 @@
 #ifndef DocFormats_WordSheet_h
 #define DocFormats_WordSheet_h
 
-#include "DFXMLForward.h"
+#include <DocFormats/DFXMLForward.h>
 #include "DFHashTable.h"
 #include "DFTypes.h"
 #include "OOXMLTypedefs.h"

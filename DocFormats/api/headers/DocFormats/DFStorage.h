@@ -15,9 +15,9 @@
 #ifndef DocFormats_DFStorage_h
 #define DocFormats_DFStorage_h
 
-#include "DFError.h"
-#include "DFTypes.h"
+#include <DocFormats/DFError.h>
 #include <DocFormats/Formats.h>
+#include <stddef.h>
 
 typedef struct DFStorage DFStorage;
 

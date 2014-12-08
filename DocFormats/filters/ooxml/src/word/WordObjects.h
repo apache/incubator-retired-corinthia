@@ -15,7 +15,7 @@
 #ifndef DocFormats_WordObjects_h
 #define DocFormats_WordObjects_h
 
-#include "DFXMLForward.h"
+#include <DocFormats/DFXMLForward.h>
 #include "WordSheet.h"
 #include "WordPackage.h"
 #include "OOXMLTypedefs.h"

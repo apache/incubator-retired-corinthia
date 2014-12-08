@@ -20,11 +20,11 @@
 #include "DFBDT.h"
 #include "DFDOM.h"
 #include "DFClassNames.h"
-#include "DFXMLForward.h"
+#include <DocFormats/DFXMLForward.h>
 #include "CSSSelector.h"
 #include "CSSSheet.h"
 #include "OOXMLTypedefs.h"
-#include "DFStorage.h"
+#include <DocFormats/DFStorage.h>
 
 #define EMUS_PER_POINT 12700
 

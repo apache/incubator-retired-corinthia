@@ -15,7 +15,7 @@
 #include <DocFormats/Operations.h>
 #include "DFFilesystem.h"
 #include "DFString.h"
-#include "DFStorage.h"
+#include <DocFormats/DFStorage.h>
 #include "Word.h"
 #include "DFHTML.h"
 #include "DFDOM.h"

@@ -15,10 +15,10 @@
 #ifndef DocFormats_OPC_h
 #define DocFormats_OPC_h
 
-#include "DFXMLForward.h"
-#include "DFError.h"
+#include <DocFormats/DFXMLForward.h>
+#include <DocFormats/DFError.h>
 #include "DFBuffer.h"
-#include "DFStorage.h"
+#include <DocFormats/DFStorage.h>
 #include "OOXMLTypedefs.h"
 
 // Essentials of the Open Packaging Conventions

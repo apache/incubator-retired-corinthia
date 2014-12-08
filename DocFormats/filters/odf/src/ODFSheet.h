@@ -15,7 +15,7 @@
 #ifndef DocFormats_ODFSheet_h
 #define DocFormats_ODFSheet_h
 
-#include "DFXMLForward.h"
+#include <DocFormats/DFXMLForward.h>
 #include "DFTypes.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

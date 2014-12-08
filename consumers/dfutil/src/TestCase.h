@@ -17,8 +17,8 @@
 
 #include "DFHashTable.h"
 #include "DFBuffer.h"
-#include "DFStorage.h"
-#include "DFXMLForward.h"
+#include <DocFormats/DFStorage.h>
+#include <DocFormats/DFXMLForward.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //

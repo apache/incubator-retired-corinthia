@@ -15,7 +15,7 @@
 #ifndef dfutil_Commands_h
 #define dfutil_Commands_h
 
-#include "DFError.h"
+#include <DocFormats/DFError.h>
 #include "DFBuffer.h"
 
 int prettyPrintFile(const char *filename, DFError **error);

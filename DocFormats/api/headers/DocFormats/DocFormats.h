@@ -14,3 +14,6 @@
 
 #include <DocFormats/Operations.h>
 #include <DocFormats/Formats.h>
+#include <DocFormats/DFStorage.h>
+#include <DocFormats/DFError.h>
+#include <DocFormats/DFXMLForward.h>

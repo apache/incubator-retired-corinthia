@@ -15,7 +15,7 @@
 #ifndef dfutil_TextPackage_h
 #define dfutil_TextPackage_h
 
-#include "DFError.h"
+#include <DocFormats/DFError.h>
 #include "DFHashTable.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

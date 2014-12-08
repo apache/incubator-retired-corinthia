@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "DFStorage.h"
+#include <DocFormats/DFStorage.h>
 #include "DFCommon.h"
 #include "DFString.h"
 #include "DFFilesystem.h"

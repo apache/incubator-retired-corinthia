@@ -15,7 +15,7 @@
 #ifndef DocFormats_DFPlatform_h
 #define DocFormats_DFPlatform_h
 
-#include "DFError.h"
+#include <DocFormats/DFError.h>
 #include "DFArray.h"
 #include <stddef.h>
 

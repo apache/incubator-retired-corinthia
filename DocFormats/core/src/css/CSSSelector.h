@@ -16,7 +16,7 @@
 #define DocFormats_CSSSelector_h
 
 #include "DFXMLNames.h"
-#include "DFXMLForward.h"
+#include <DocFormats/DFXMLForward.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //

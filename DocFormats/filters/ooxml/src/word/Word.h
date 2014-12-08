@@ -15,8 +15,8 @@
 #ifndef DocFormats_Word_h
 #define DocFormats_Word_h
 
-#include "DFError.h"
-#include "DFStorage.h"
+#include <DocFormats/DFError.h>
+#include <DocFormats/DFStorage.h>
 #include "CSSStyle.h"
 #include "CSSSheet.h"
 

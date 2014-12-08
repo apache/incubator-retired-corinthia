@@ -15,7 +15,7 @@
 #ifndef DocFormats_WordWhitespace_h
 #define DocFormats_WordWhitespace_h
 
-#include "DFXMLForward.h"
+#include <DocFormats/DFXMLForward.h>
 
 void WordAddNbsps(DFDocument *doc);
 void WordRemoveNbsps(DFDocument *doc);

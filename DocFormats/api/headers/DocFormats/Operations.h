@@ -15,9 +15,9 @@
 #ifndef DocFormats_Operations_h
 #define DocFormats_Operations_h
 
-#include "DFError.h"
-#include "DFStorage.h"
-#include "DFXMLForward.h"
+#include <DocFormats/DFError.h>
+#include <DocFormats/DFStorage.h>
+#include <DocFormats/DFXMLForward.h>
 
 // Abstraction level 2
 

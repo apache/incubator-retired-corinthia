@@ -90,7 +90,7 @@
 
 #include "DFXMLNamespaces.h"
 #include "DFXMLNames.h"
-#include "DFXMLForward.h"
+#include <DocFormats/DFXMLForward.h>
 #include "DFBuffer.h"
 #include <stdarg.h>
 

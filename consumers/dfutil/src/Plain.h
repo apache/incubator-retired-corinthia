@@ -15,10 +15,10 @@
 #ifndef dfutil_Plain_h
 #define dfutil_Plain_h
 
-#include "DFError.h"
+#include <DocFormats/DFError.h>
 #include "DFHashTable.h"
 #include "DFDOM.h"
-#include "DFStorage.h"
+#include <DocFormats/DFStorage.h>
 
 char *Word_toPlain(DFStorage *rawStorage, DFHashTable *parts);
 DFStorage *Word_fromPlain(const char *plain, const char *plainPath, DFError **error);

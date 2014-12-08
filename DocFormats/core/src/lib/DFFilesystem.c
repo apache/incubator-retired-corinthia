@@ -16,7 +16,7 @@
 #include "DFString.h"
 #include "DFArray.h"
 #include "DFBuffer.h"
-#include "DFError.h"
+#include <DocFormats/DFError.h>
 #include "DFCharacterSet.h"
 #include "DFPlatform.h"
 #include "DFCommon.h"

@@ -16,7 +16,7 @@
 #define DocFormats_WordNumbering_h
 
 #include "WordConverter.h"
-#include "DFXMLForward.h"
+#include <DocFormats/DFXMLForward.h>
 #include "OOXMLTypedefs.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

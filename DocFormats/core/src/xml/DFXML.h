@@ -17,10 +17,10 @@
 
 #include "DFXMLNamespaces.h"
 #include "DFXMLNames.h"
-#include "DFXMLForward.h"
-#include "DFError.h"
+#include <DocFormats/DFXMLForward.h>
+#include <DocFormats/DFError.h>
 #include "DFBuffer.h"
-#include "DFStorage.h"
+#include <DocFormats/DFStorage.h>
 
 DFDocument *DFParseXMLString(const char *str, DFError **error);
 DFDocument *DFParseXMLFile(const char *filename, DFError **error);

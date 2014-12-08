@@ -15,7 +15,7 @@
 #ifndef DocFormats_DFUtil_h
 #define DocFormats_DFUtil_h
 
-#include "DFError.h"
+#include <DocFormats/DFError.h>
 #include "DFHashTable.h"
 
 int DFFileExists(const char *path);

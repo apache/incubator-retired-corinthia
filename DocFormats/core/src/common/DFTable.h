@@ -15,7 +15,7 @@
 #ifndef DocFormats_DFTable_h
 #define DocFormats_DFTable_h
 
-#include "DFXMLForward.h"
+#include <DocFormats/DFXMLForward.h>
 #include "DFTypes.h"
 
 typedef struct {

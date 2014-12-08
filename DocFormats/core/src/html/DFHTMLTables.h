@@ -15,7 +15,7 @@
 #ifndef DocFormats_DFHTMLTables_h
 #define DocFormats_DFHTMLTables_h
 
-#include "DFXMLForward.h"
+#include <DocFormats/DFXMLForward.h>
 #include "DFTable.h"
 
 DFTable *HTML_tableStructure(DFNode *table);

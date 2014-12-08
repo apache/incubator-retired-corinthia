@@ -114,7 +114,7 @@
 
  */
 
-#include "DFXMLForward.h"
+#include <DocFormats/DFXMLForward.h>
 #include "CSSSelector.h"
 #include "CSSProperties.h"
 #include "DFCallback.h"
