@@ -104,40 +104,9 @@ static int runCommand(int argc, const char **argv, DFError **dferr)
         DFStorageRelease(storage);
         return r;
     }
-    else if ((argc == 4) && !strcmp(argv[1],"get")) {
-        return DFGetFile(argv[2],argv[3],dferr);
-    }
-    else if ((argc == 4) && !strcmp(argv[1],"put")) {
-        return DFPutFile(argv[2],argv[3],dferr);
-    }
-    else if ((argc == 4) && !strcmp(argv[1],"create")) {
-        return DFCreateFile(argv[2],argv[3],dferr);
-    }
     else {
                ////////////////////////////////////////////////////////////////////////////////
         printf("Usage:\n"
-               "\n"
-               "dfutil get concrete.docx abstract.html\n"
-               "\n"
-               "    Create a new HTML file from a Word document. The HTML file must not\n"
-               "    already exist.\n"
-               "\n"
-               "dfutil put concrete.docx abstract.html\n"
-               "\n"
-               "    Update an existing Word document based on a modified HTML file. The\n"
-               "    Word document must already exist, and must be same document from\n"
-               "    which the HTML file was originally generated.\n"
-               "\n"
-               "    The put operation cannot be executed twice on the same Word\n"
-               "    document, because after the first time, the fact that the document\n"
-               "    is modified will mean that the ids become out of sync with the HTML\n"
-               "    file.  If you want to update a document multiple times, you must\n"
-               "    create a copy of the .docx file each time, and update that.\n"
-               "\n"
-               "dfutil create concrete.docx abstract.html\n"
-               "\n"
-               "    Create a new Word document from a HTML file. The Word document must\n"
-               "    not already exist.\n"
                "\n"
               "dfutil -pp filename\n"
               "    Print a plain text version of a .docx or .odt file to standard output\n"
