@@ -15,7 +15,8 @@
 #include "Commands.h"
 #include "BDTTest.h"
 #include "Test.h"
-#include "Plain.h"
+#include "WordPlain.h"
+#include "HTMLPlain.h"
 #include "TextPackage.h"
 #include "StringTests.h"
 #include "DFChanges.h"
@@ -478,55 +479,4 @@ char *createTempDir(DFError **error)
     }
     return ctemplate;
 #endif
-}
-
-char *binaryToString(DFBuffer *input)
-{
-    const char *hexchars = "0123456789ABCDEF";
-    DFBuffer *charBuf = DFBufferNew();
-    for (size_t pos = 0; pos < input->len; pos++) {
-        if ((pos > 0) && (pos % 40 == 0))
-            DFBufferAppendChar(charBuf,'\n');
-        unsigned char hi = ((unsigned char *)input->data)[pos] >> 4;
-        unsigned char lo = ((unsigned char *)input->data)[pos] & 0x0F;
-        DFBufferAppendChar(charBuf,hexchars[hi]);
-        DFBufferAppendChar(charBuf,hexchars[lo]);
-    }
-    if ((input->len % 40) != 0)
-        DFBufferAppendChar(charBuf,'\n');
-    char *result = strdup(charBuf->data);
-
-    DFBufferRelease(charBuf);
-    return result;
-}
-
-DFBuffer *stringToBinary(const char *str)
-{
-    size_t length = strlen(str);
-    DFBuffer *outbuf = DFBufferNew();
-
-    int wantHi = 1;
-    unsigned char hi = 0;
-
-    for (size_t inpos = 0; inpos < length; inpos++) {
-        char c = str[inpos];
-        unsigned char nibble = 0;
-
-        if ((c >= '0') && (c <= '9'))
-            nibble = c - '0';
-        else if ((c >= 'a') && (c <= 'f'))
-            nibble = 10 + (c - 'a');
-        else if ((c >= 'A') && (c <= 'F'))
-            nibble = 10 + (c - 'A');
-        else
-            continue;
-
-        if (wantHi)
-            hi = nibble << 4;
-        else
-            DFBufferAppendChar(outbuf,hi | nibble);
-        wantHi = !wantHi;
-    }
-
-    return outbuf;
 }

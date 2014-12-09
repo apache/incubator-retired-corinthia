@@ -14,7 +14,8 @@
 
 #include "TestCase.h"
 #include "TestFunctions.h"
-#include "Plain.h"
+#include "WordPlain.h"
+#include "HTMLPlain.h"
 #include "DFCommon.h"
 #include "DFString.h"
 #include "DFFilesystem.h"

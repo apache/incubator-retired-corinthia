@@ -12,17 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef dfutil_Plain_h
-#define dfutil_Plain_h
+#ifndef DocFormats_WordPlain_h
+#define DocFormats_WordPlain_h
 
 #include <DocFormats/DFError.h>
+#include <DocFormats/DFStorage.h>
 #include "DFHashTable.h"
 #include "DFDOM.h"
-#include <DocFormats/DFStorage.h>
 
 char *Word_toPlain(DFStorage *rawStorage, DFHashTable *parts);
 DFStorage *Word_fromPlain(const char *plain, const char *plainPath, DFError **error);
-char *HTML_toPlain(DFDocument *doc, DFStorage *storage, DFError **error);
-DFDocument *HTML_fromPlain(const char *plain, const char *path, DFStorage *htmlStorage, DFError **error);
 
 #endif

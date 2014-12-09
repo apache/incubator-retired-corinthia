@@ -35,7 +35,5 @@ int escapeCSSIdent(const char *filename, DFError **error);
 int unescapeCSSIdent(const char *filename, DFError **error);
 
 char *createTempDir(DFError **error);
-char *binaryToString(DFBuffer *input);
-DFBuffer *stringToBinary(const char *str);
 
 #endif

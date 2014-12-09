@@ -60,6 +60,8 @@ set(GroupSrcHTML
     src/html/DFTidyWrapper.h)
 
 set(GroupTestsHTML
+    tests/html/HTMLPlain.c
+    tests/html/HTMLPlain.h
     tests/html/HTMLTests.c)
 
 set(GroupSrcLib
@@ -82,7 +84,9 @@ set(GroupSrcLib
     src/lib/DFString.h
     src/lib/DFStorage.c
     src/lib/DFZipFile.c
-    src/lib/DFZipFile.h)
+    src/lib/DFZipFile.h
+    src/lib/TextPackage.c
+    src/lib/TextPackage.h)
 
 set(GroupTestsLib
     tests/lib/LibTests.c)

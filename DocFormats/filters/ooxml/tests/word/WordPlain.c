@@ -12,10 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "Plain.h"
+#include "WordPlain.h"
 #include "TextPackage.h"
-#include "Plain.h"
-#include "Commands.h"
 #include "OPC.h"
 #include "WordConverter.h"
 #include "DFXML.h"
@@ -573,12 +571,12 @@ DFStorage *Word_fromPlain(const char *plain, const char *plainPath, DFError **er
         printf("%s\n",DFErrorMessage(error));
         goto end;
     }
-
+    
     if (!DFStorageSave(concreteStorage,error))
         goto end;
-
+    
     ok = 1;
-
+    
 end:
     TextPackageRelease(textPackage);
     if (ok) {
@@ -588,102 +586,4 @@ end:
         DFStorageRelease(concreteStorage);
         return NULL;
     }
-}
-
-static void HTML_getImageSourcesRecursive(DFNode *node, DFHashTable *result)
-{
-    if (node->tag == HTML_IMG) {
-        const char *src = DFGetAttribute(node,HTML_SRC);
-        if (src != NULL)
-            DFHashTableAdd(result,src,"");
-    }
-
-    for (DFNode *child = node->first; child != NULL; child = child->next)
-        HTML_getImageSourcesRecursive(child,result);
-}
-
-static const char **HTML_getImageSources(DFDocument *doc)
-{
-    DFHashTable *set = DFHashTableNew(NULL,NULL);
-    HTML_getImageSourcesRecursive(doc->docNode,set);
-    const char **result = DFHashTableCopyKeys(set);
-    DFHashTableRelease(set);
-    return result;
-}
-
-char *HTML_toPlain(DFDocument *doc, DFStorage *storage, DFError **error)
-{
-    DFBuffer *output = DFBufferNew();
-    char *docStr = DFSerializeXMLString(doc,0,0);
-    DFBufferFormat(output,"%s",docStr);
-    free(docStr);
-    const char **imageSources = HTML_getImageSources(doc);
-    DFSortStringsCaseInsensitive(imageSources);
-    for (size_t i = 0; imageSources[i]; i++) {
-        const char *src = imageSources[i];
-        if (DFStringHasPrefix(src,"images/"))
-            DFBufferFormat(output,"#item %s\n",src);
-        else
-            DFBufferFormat(output,"#item images/%s\n",src);
-        DFBuffer *imageData = DFBufferReadFromStorage(storage,src,error);
-        if (imageData == NULL) {
-            DFErrorFormat(error,"%s: %s",src,DFErrorMessage(error));
-            return NULL;
-        }
-        char *imageStr = binaryToString(imageData);
-        DFBufferFormat(output,"%s",imageStr);
-        free(imageStr);
-        DFBufferRelease(imageData);
-    }
-    free(imageSources);
-
-    char *str = strdup(output->data);
-    DFBufferRelease(output);
-    return str;
-}
-
-static DFDocument *HTML_fromTextPackage(TextPackage *textPackage, DFStorage *htmlStorage, DFError **error)
-{
-    const char *html = DFHashTableLookup(textPackage->items,"");
-    if (html == NULL) {
-        DFErrorFormat(error,"No HTML data");
-        return NULL;
-    }
-
-    DFDocument *doc = DFParseHTMLString(html,0,error);
-    if (doc == NULL)
-        return NULL;
-
-    for (size_t ki = 0; ki < textPackage->nkeys; ki++) {
-        const char *key = textPackage->keys[ki];
-        if (strlen(key) == 0)
-            continue;
-
-        int ok = 1;
-
-        const char *str = DFHashTableLookup(textPackage->items,key);
-        DFBuffer *data = stringToBinary(str);
-        if (!DFBufferWriteToStorage(data,htmlStorage,key,error)) {
-            DFErrorFormat(error,"%s: %s",key,DFErrorMessage(error));
-            DFDocumentRelease(doc);
-            ok = 0;
-        }
-
-        DFBufferRelease(data);
-
-        if (!ok)
-            return NULL;
-    }
-
-    return doc;
-}
-
-DFDocument *HTML_fromPlain(const char *plain, const char *path, DFStorage *htmlStorage, DFError **error)
-{
-    TextPackage *textPackage = TextPackageNewWithString(plain,path,error);
-    if (textPackage == NULL)
-        return NULL;;
-    DFDocument *result = HTML_fromTextPackage(textPackage,htmlStorage,error);
-    TextPackageRelease(textPackage);
-    return result;
 }

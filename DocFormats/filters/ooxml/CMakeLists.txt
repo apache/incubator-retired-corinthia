@@ -95,6 +95,8 @@ set(GroupOOXMLWordLenses
     src/word/lenses/WordTable.c)
 
 set(GroupOOXMLWordTests
+    tests/word/WordPlain.c
+    tests/word/WordPlain.h
     tests/word/WordTests.c)
 
 add_library(ooxml OBJECT

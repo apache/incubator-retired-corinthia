@@ -8,8 +8,6 @@ set(SOURCES
     DFChanges.c
     DFChanges.h
     FunctionTests.h
-    Plain.c
-    Plain.h
     StringTests.h
     Test.c
     Test.h
@@ -17,8 +15,6 @@ set(SOURCES
     TestCase.h
     TestFunctions.c
     TestFunctions.h
-    TextPackage.c
-    TextPackage.h
     main.c
 )
 
@@ -32,13 +28,15 @@ include_directories(../../../DocFormats/core/src/css)
 include_directories(../../../DocFormats/core/src/html)
 include_directories(../../../DocFormats/core/src/lib)
 include_directories(../../../DocFormats/core/src/names)
+include_directories(../../../DocFormats/core/src/xml)
+include_directories(../../../DocFormats/core/tests/html)
 include_directories(../../../DocFormats/filters/latex/src)
 include_directories(../../../DocFormats/filters/odf/src)
 include_directories(../../../DocFormats/filters/ooxml/src/common)
 include_directories(../../../DocFormats/filters/ooxml/src/word)
 include_directories(../../../DocFormats/filters/ooxml/src/word/formatting)
 include_directories(../../../DocFormats/filters/ooxml/src/word/lenses)
-include_directories(../../../DocFormats/core/src/xml)
+include_directories(../../../DocFormats/filters/ooxml/tests/word)
 include_directories(/usr/include/libxml2)
 link_directories(${LIB_DIRS})
 

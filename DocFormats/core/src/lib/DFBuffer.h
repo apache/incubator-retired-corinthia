@@ -51,4 +51,7 @@ int DFBufferWriteToStorage(DFBuffer *buf, DFStorage *storage, const char *filena
 
 int DFWriteDataToFile(const void *data, size_t len, const char *filename, DFError **error);
 
+char *binaryToString(DFBuffer *input);
+DFBuffer *stringToBinary(const char *str);
+
 #endif
