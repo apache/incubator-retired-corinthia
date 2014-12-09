@@ -21,18 +21,26 @@ include_directories(../filters/ooxml/src/word/formatting)
 include_directories(../filters/ooxml/src/word/lenses)
 include_directories(../unittest)
 
-set(GroupAPI
+set(GroupHeaders
     headers/DocFormats/DFError.h
     headers/DocFormats/DFStorage.h
     headers/DocFormats/DFXMLForward.h
     headers/DocFormats/DocFormats.h
     headers/DocFormats/Formats.h
-    headers/DocFormats/Operations.h
+    headers/DocFormats/Operations.h)
+
+set(GroupSrc
     src/Formats.c
-    src/Operations.c
+    src/Operations.c)
+
+set(GroupTests
     tests/APITests.c)
 
 add_library(api OBJECT
-    ${GroupAPI})
+    ${GroupHeaders}
+    ${GroupSrc}
+    ${GroupTests})
 
-source_group(\\ FILES ${GroupAPI})
+source_group(headers FILES ${GroupHeaders})
+source_group(src FILES ${GroupSrc})
+source_group(tests FILES ${GroupTests})

@@ -15,14 +15,16 @@ include_directories(src/names)
 include_directories(src/xml)
 include_directories(../unittest)
 
-set(GroupCoreCommon
+set(GroupSrcCommon
     src/common/DFBDT.c
     src/common/DFBDT.h
     src/common/DFClassNames.h
     src/common/DFTable.c
     src/common/DFTable.h)
 
-set(GroupCoreCSS
+set(GroupTestsCommon)
+
+set(GroupSrcCSS
     src/css/CSS.c
     src/css/CSS.h
     src/css/CSSLength.c
@@ -38,10 +40,12 @@ set(GroupCoreCSS
     src/css/CSSStyle.c
     src/css/CSSStyle.h
     src/css/CSSSyntax.c
-    src/css/CSSSyntax.h
+    src/css/CSSSyntax.h)
+
+set(GroupTestsCSS
     tests/css/CSSTests.c)
 
-set(GroupCoreHTML
+set(GroupSrcHTML
     src/html/DFHTDocument.c
     src/html/DFHTDocument.h
     src/html/DFHTML.c
@@ -53,10 +57,12 @@ set(GroupCoreHTML
     src/html/DFTidyHelper.c
     src/html/DFTidyHelper.h
     src/html/DFTidyWrapper.c
-    src/html/DFTidyWrapper.h
+    src/html/DFTidyWrapper.h)
+
+set(GroupTestsHTML
     tests/html/HTMLTests.c)
 
-set(GroupCoreLib
+set(GroupSrcLib
     src/lib/DFAllocator.c
     src/lib/DFAllocator.h
     src/lib/DFArray.c
@@ -76,16 +82,18 @@ set(GroupCoreLib
     src/lib/DFString.h
     src/lib/DFStorage.c
     src/lib/DFZipFile.c
-    src/lib/DFZipFile.h
+    src/lib/DFZipFile.h)
+
+set(GroupTestsLib
     tests/lib/LibTests.c)
 
-set(GroupCoreNames
+set(GroupSrcNames
     src/names/DFXMLNames.c
     src/names/DFXMLNames.h
     src/names/DFXMLNamespaces.c
     src/names/DFXMLNamespaces.h)
 
-set(GroupCoreXML
+set(GroupSrcXML
     src/xml/DFDOM.c
     src/xml/DFDOM.h
     src/xml/DFMarkupCompatibility.c
@@ -93,20 +101,33 @@ set(GroupCoreXML
     src/xml/DFNameMap.c
     src/xml/DFNameMap.h
     src/xml/DFXML.c
-    src/xml/DFXML.h
+    src/xml/DFXML.h)
+
+set(GroupTestsXML
     tests/xml/XMLTests.c)
 
 add_library(core OBJECT
-    ${GroupCoreCommon}
-    ${GroupCoreCSS}
-    ${GroupCoreHTML}
-    ${GroupCoreLib}
-    ${GroupCoreNames}
-    ${GroupCoreXML})
+    ${GroupSrcCommon}
+    ${GroupSrcCSS}
+    ${GroupSrcHTML}
+    ${GroupSrcLib}
+    ${GroupSrcNames}
+    ${GroupSrcXML}
+    ${GroupTestsCommon}
+    ${GroupTestsCSS}
+    ${GroupTestsHTML}
+    ${GroupTestsLib}
+    ${GroupTestsXML})
 
-source_group(common FILES ${GroupCoreCommon})
-source_group(css FILES ${GroupCoreCSS})
-source_group(html FILES ${GroupCoreHTML})
-source_group(lib FILES ${GroupCoreLib})
-source_group(names FILES ${GroupCoreNames})
-source_group(xml FILES ${GroupCoreXML})
+source_group(src\\common FILES ${GroupSrcCommon})
+source_group(src\\css FILES ${GroupSrcCSS})
+source_group(src\\html FILES ${GroupSrcHTML})
+source_group(src\\lib FILES ${GroupSrcLib})
+source_group(src\\names FILES ${GroupSrcNames})
+source_group(src\\xml FILES ${GroupSrcXML})
+
+source_group(tests\\common FILES ${GroupTestsCommon})
+source_group(tests\\css FILES ${GroupTestsCSS})
+source_group(tests\\html FILES ${GroupTestsHTML})
+source_group(tests\\lib FILES ${GroupTestsLib})
+source_group(tests\\xml FILES ${GroupTestsXML})

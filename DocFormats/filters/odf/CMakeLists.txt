@@ -21,7 +21,9 @@ include_directories(../../filters/ooxml/src/word/formatting)
 include_directories(../../filters/ooxml/src/word/lenses)
 include_directories(../../unittest)
 
-set(GroupODF
+set(GroupHeaders)
+
+set(GroupSrc
     src/ODF.c
     src/ODF.h
     src/ODFManifest.c
@@ -31,7 +33,14 @@ set(GroupODF
     src/ODFSheet.c
     src/ODFSheet.h)
 
-add_library(odf OBJECT
-    ${GroupODF})
+set(GroupTests
+    tests/ODFTests.c)
 
-source_group(\\ FILES ${GroupODF})
+add_library(odf OBJECT
+    ${GroupHeaders}
+    ${GroupSrc}
+    ${GroupTests})
+
+source_group(headers FILES ${GroupHeaders})
+source_group(src FILES ${GroupSrc})
+source_group(tests FILES ${GroupTests})

@@ -58,8 +58,7 @@ set(GroupOOXMLWord
     src/word/WordTheme.c
     src/word/WordTheme.h
     src/word/WordWhitespace.c
-    src/word/WordWhitespace.h
-    tests/word/WordTests.c)
+    src/word/WordWhitespace.h)
 
 set(GroupOOXMLWordFormatting
     src/word/formatting/WordCommonPr.c
@@ -95,13 +94,18 @@ set(GroupOOXMLWordLenses
     src/word/lenses/WordSmartTag.c
     src/word/lenses/WordTable.c)
 
+set(GroupOOXMLWordTests
+    tests/word/WordTests.c)
+
 add_library(ooxml OBJECT
     ${GroupOOXMLCommon}
     ${GroupOOXMLWord}
     ${GroupOOXMLWordFormatting}
-    ${GroupOOXMLWordLenses})
+    ${GroupOOXMLWordLenses}
+    ${GroupOOXMLWordTests})
 
-source_group(common FILES ${GroupOOXMLCommon})
-source_group(word FILES ${GroupOOXMLWord})
-source_group(word\\formatting FILES ${GroupOOXMLWordFormatting})
-source_group(word\\lenses FILES ${GroupOOXMLWordLenses})
+source_group(src\\common FILES ${GroupOOXMLCommon})
+source_group(src\\word FILES ${GroupOOXMLWord})
+source_group(src\\word\\formatting FILES ${GroupOOXMLWordFormatting})
+source_group(src\\word\\lenses FILES ${GroupOOXMLWordLenses})
+source_group(tests\\word FILES ${GroupOOXMLWordTests})

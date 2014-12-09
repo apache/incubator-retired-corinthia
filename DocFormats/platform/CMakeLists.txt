@@ -21,15 +21,23 @@ include_directories(../filters/ooxml/src/word/formatting)
 include_directories(../filters/ooxml/src/word/lenses)
 include_directories(../unittest)
 
-set(GroupPlatform
-    headers/DFPlatform.h
+set(GroupHeaders
+    headers/DFPlatform.h)
+
+set(GroupSrc
     src/Apple.c
     src/Linux.c
     src/Unix.c
-    src/Win32.c
+    src/Win32.c)
+
+set(GroupTests
     tests/PlatformTests.c)
 
 add_library(platform OBJECT
-    ${GroupPlatform})
+    ${GroupHeaders}
+    ${GroupSrc}
+    ${GroupTests})
 
-source_group(\\ FILES ${GroupPlatform})
+source_group(headers FILES ${GroupHeaders})
+source_group(src FILES ${GroupSrc})
+source_group(tests FILES ${GroupTests})
