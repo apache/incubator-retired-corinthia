@@ -48,7 +48,7 @@ static void runGroup(TestGroup *group)
     }
 }
 
-void utrun(TestGroup **groups)
+void utrun(TestGroup **groups, int plain, int data, const char **filenames)
 {
     for (int i = 0; groups[i]; i++)
         runGroup(groups[i]);

@@ -37,10 +37,10 @@ static void test_api_four(void)
 
 TestGroup APITests = {
     "api", {
-        { "one", test_api_one },
-        { "two", test_api_two },
-        { "three", test_api_three },
-        { "four", test_api_four },
-        { NULL, NULL },
+        { "one", PlainTest, test_api_one },
+        { "two", PlainTest, test_api_two },
+        { "three", PlainTest, test_api_three },
+        { "four", PlainTest, test_api_four },
+        { NULL, PlainTest, NULL },
     }
 };

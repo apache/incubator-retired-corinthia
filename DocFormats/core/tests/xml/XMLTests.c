@@ -21,7 +21,7 @@ static void test_sample(void)
 
 TestGroup XMLTests = {
     "core.xml", {
-        { "sample", test_sample },
-        { NULL, NULL }
+        { "sample", PlainTest, test_sample },
+        { NULL, PlainTest, NULL }
     }
 };

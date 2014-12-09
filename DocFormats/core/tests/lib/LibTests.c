@@ -21,7 +21,7 @@ static void test_sample(void)
 
 TestGroup LibTests = {
     "core.lib", {
-        { "sample", test_sample },
-        { NULL, NULL }
+        { "sample", PlainTest, test_sample },
+        { NULL, PlainTest, NULL }
     }
 };

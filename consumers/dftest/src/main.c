@@ -41,6 +41,7 @@ TestGroup *groups[] = {
 int main(int argc, const char **argv)
 {
     setbuf(stdout,NULL);
-    utrun(groups);
+    // For now, just run the 'plain' tests.
+    utrun(groups,1,0,NULL);
     return 0;
 }
