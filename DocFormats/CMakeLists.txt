@@ -63,8 +63,6 @@ set(GroupPlatform
 set(GroupCoreCSS
     core/src/css/CSS.c
     core/src/css/CSS.h
-    core/src/css/CSSClassNames.c
-    core/src/css/CSSClassNames.h
     core/src/css/CSSLength.c
     core/src/css/CSSLength.h
     core/src/css/CSSParser.c
@@ -150,6 +148,8 @@ set(GroupOOXMLCommon
     filters/ooxml/src/common/OPC.h)
 
 set(GroupOOXMLWord
+    filters/ooxml/src/word/CSSClassNames.c
+    filters/ooxml/src/word/CSSClassNames.h
     filters/ooxml/src/word/Word.c
     filters/ooxml/src/word/Word.h
     filters/ooxml/src/word/WordCaption.c

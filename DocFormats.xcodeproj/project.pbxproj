@@ -33,10 +33,6 @@
 		D01E24681A205A1500F4C04D /* CSS.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E24181A205A1500F4C04D /* CSS.c */; };
 		D01E24691A205A1500F4C04D /* CSS.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E24191A205A1500F4C04D /* CSS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01E246A1A205A1500F4C04D /* CSS.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E24191A205A1500F4C04D /* CSS.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D01E246B1A205A1500F4C04D /* CSSClassNames.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E241A1A205A1500F4C04D /* CSSClassNames.c */; };
-		D01E246C1A205A1500F4C04D /* CSSClassNames.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E241A1A205A1500F4C04D /* CSSClassNames.c */; };
-		D01E246D1A205A1500F4C04D /* CSSClassNames.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E241B1A205A1500F4C04D /* CSSClassNames.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D01E246E1A205A1500F4C04D /* CSSClassNames.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E241B1A205A1500F4C04D /* CSSClassNames.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01E246F1A205A1500F4C04D /* CSSLength.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E241C1A205A1500F4C04D /* CSSLength.c */; };
 		D01E24701A205A1500F4C04D /* CSSLength.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E241C1A205A1500F4C04D /* CSSLength.c */; };
 		D01E24711A205A1500F4C04D /* CSSLength.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E241D1A205A1500F4C04D /* CSSLength.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -111,8 +107,6 @@
 		D01E24B61A205A1500F4C04D /* DFCharacterSet.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E24411A205A1500F4C04D /* DFCharacterSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01E24B71A205A1500F4C04D /* DFError.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E24421A205A1500F4C04D /* DFError.c */; };
 		D01E24B81A205A1500F4C04D /* DFError.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E24421A205A1500F4C04D /* DFError.c */; };
-		D01E24B91A205A1500F4C04D /* DFError.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E24431A205A1500F4C04D /* DFError.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D01E24BA1A205A1500F4C04D /* DFError.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E24431A205A1500F4C04D /* DFError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01E24BB1A205A1500F4C04D /* DFFilesystem.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E24441A205A1500F4C04D /* DFFilesystem.c */; };
 		D01E24BC1A205A1500F4C04D /* DFFilesystem.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E24441A205A1500F4C04D /* DFFilesystem.c */; };
 		D01E24BD1A205A1500F4C04D /* DFFilesystem.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E24451A205A1500F4C04D /* DFFilesystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -153,8 +147,6 @@
 		D01E24E41A205A1500F4C04D /* DFXML.c in Sources */ = {isa = PBXBuildFile; fileRef = D01E245A1A205A1500F4C04D /* DFXML.c */; };
 		D01E24E51A205A1500F4C04D /* DFXML.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E245B1A205A1500F4C04D /* DFXML.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01E24E61A205A1500F4C04D /* DFXML.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E245B1A205A1500F4C04D /* DFXML.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D01E24E71A205A1500F4C04D /* DFXMLForward.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E245C1A205A1500F4C04D /* DFXMLForward.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D01E24E81A205A1500F4C04D /* DFXMLForward.h in Headers */ = {isa = PBXBuildFile; fileRef = D01E245C1A205A1500F4C04D /* DFXMLForward.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0416D171A2DD7F20064BE57 /* Formats.h in Headers */ = {isa = PBXBuildFile; fileRef = D0416D161A2DD7F20064BE57 /* Formats.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0416D181A2DD7F40064BE57 /* Formats.h in Headers */ = {isa = PBXBuildFile; fileRef = D0416D161A2DD7F20064BE57 /* Formats.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0416D1A1A2DD8060064BE57 /* Formats.c in Sources */ = {isa = PBXBuildFile; fileRef = D0416D191A2DD8060064BE57 /* Formats.c */; };
@@ -179,11 +171,13 @@
 		D074ED591A2B04BC000C3704 /* Operations.h in Headers */ = {isa = PBXBuildFile; fileRef = D074ED571A2B04BC000C3704 /* Operations.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D078117A1A35801200768ACF /* DFStorage.c in Sources */ = {isa = PBXBuildFile; fileRef = D07811781A35801200768ACF /* DFStorage.c */; };
 		D078117B1A35801200768ACF /* DFStorage.c in Sources */ = {isa = PBXBuildFile; fileRef = D07811781A35801200768ACF /* DFStorage.c */; };
-		D078117C1A35801200768ACF /* DFStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = D07811791A35801200768ACF /* DFStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D078117D1A35801200768ACF /* DFStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = D07811791A35801200768ACF /* DFStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0A1283317EF7E9D005FE158 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A1283217EF7E9D005FE158 /* Cocoa.framework */; };
 		D0A1283D17EF7E9D005FE158 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D0A1283B17EF7E9D005FE158 /* InfoPlist.strings */; };
 		D0A1286317EF7ED5005FE158 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A1286217EF7ED5005FE158 /* Foundation.framework */; };
+		D0A278AB1A373C8D00CE7C2E /* CSSClassNames.c in Sources */ = {isa = PBXBuildFile; fileRef = D0A278A91A373C8D00CE7C2E /* CSSClassNames.c */; };
+		D0A278AC1A373C8D00CE7C2E /* CSSClassNames.h in Headers */ = {isa = PBXBuildFile; fileRef = D0A278AA1A373C8D00CE7C2E /* CSSClassNames.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0A278AD1A373C9100CE7C2E /* CSSClassNames.c in Sources */ = {isa = PBXBuildFile; fileRef = D0A278A91A373C8D00CE7C2E /* CSSClassNames.c */; };
+		D0A278AE1A373C9400CE7C2E /* CSSClassNames.h in Headers */ = {isa = PBXBuildFile; fileRef = D0A278AA1A373C8D00CE7C2E /* CSSClassNames.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0A786881A210EA900723FE8 /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = D0A7839D1A210EA700723FE8 /* crypt.h */; };
 		D0A786891A210EA900723FE8 /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = D0A7839D1A210EA700723FE8 /* crypt.h */; };
 		D0A7868A1A210EA900723FE8 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = D0A7839E1A210EA700723FE8 /* ioapi.c */; };
@@ -436,6 +430,12 @@
 		D0B113CD1A205F67009610A5 /* HTMLToLaTeX.h in Headers */ = {isa = PBXBuildFile; fileRef = D0B113CB1A205F67009610A5 /* HTMLToLaTeX.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0B113CE1A205F70009610A5 /* HTMLToLaTeX.c in Sources */ = {isa = PBXBuildFile; fileRef = D0B113CA1A205F67009610A5 /* HTMLToLaTeX.c */; };
 		D0B113CF1A205F70009610A5 /* HTMLToLaTeX.h in Headers */ = {isa = PBXBuildFile; fileRef = D0B113CB1A205F67009610A5 /* HTMLToLaTeX.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0B50BAB1A373BE50015076A /* DFXMLForward.h in Headers */ = {isa = PBXBuildFile; fileRef = D0B50BAA1A373BE50015076A /* DFXMLForward.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0B50BAC1A373BE70015076A /* DFXMLForward.h in Headers */ = {isa = PBXBuildFile; fileRef = D0B50BAA1A373BE50015076A /* DFXMLForward.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0B50BAF1A373C080015076A /* DFError.h in Headers */ = {isa = PBXBuildFile; fileRef = D0B50BAD1A373C080015076A /* DFError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0B50BB01A373C080015076A /* DFError.h in Headers */ = {isa = PBXBuildFile; fileRef = D0B50BAD1A373C080015076A /* DFError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0B50BB11A373C080015076A /* DFStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = D0B50BAE1A373C080015076A /* DFStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0B50BB21A373C080015076A /* DFStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = D0B50BAE1A373C080015076A /* DFStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0B5E8B517F086BD00FBD99F /* FileClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B5E8B417F086BD00FBD99F /* FileClient.framework */; };
 		D0B5E8B717F086C100FBD99F /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B5E8B617F086C100FBD99F /* libxml2.dylib */; };
 		D0B5E8B917F086C700FBD99F /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B5E8B817F086C700FBD99F /* libz.dylib */; };
@@ -475,8 +475,6 @@
 		D01E24161A205A1500F4C04D /* DFTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFTable.h; sourceTree = "<group>"; };
 		D01E24181A205A1500F4C04D /* CSS.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CSS.c; sourceTree = "<group>"; };
 		D01E24191A205A1500F4C04D /* CSS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSS.h; sourceTree = "<group>"; };
-		D01E241A1A205A1500F4C04D /* CSSClassNames.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CSSClassNames.c; sourceTree = "<group>"; };
-		D01E241B1A205A1500F4C04D /* CSSClassNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSClassNames.h; sourceTree = "<group>"; };
 		D01E241C1A205A1500F4C04D /* CSSLength.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CSSLength.c; sourceTree = "<group>"; };
 		D01E241D1A205A1500F4C04D /* CSSLength.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSLength.h; sourceTree = "<group>"; };
 		D01E241E1A205A1500F4C04D /* CSSParser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CSSParser.c; sourceTree = "<group>"; };
@@ -514,7 +512,6 @@
 		D01E24401A205A1500F4C04D /* DFCharacterSet.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFCharacterSet.c; sourceTree = "<group>"; };
 		D01E24411A205A1500F4C04D /* DFCharacterSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFCharacterSet.h; sourceTree = "<group>"; };
 		D01E24421A205A1500F4C04D /* DFError.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFError.c; sourceTree = "<group>"; };
-		D01E24431A205A1500F4C04D /* DFError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFError.h; sourceTree = "<group>"; };
 		D01E24441A205A1500F4C04D /* DFFilesystem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFFilesystem.c; sourceTree = "<group>"; };
 		D01E24451A205A1500F4C04D /* DFFilesystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFFilesystem.h; sourceTree = "<group>"; };
 		D01E24461A205A1500F4C04D /* DFHashTable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFHashTable.c; sourceTree = "<group>"; };
@@ -535,7 +532,6 @@
 		D01E24591A205A1500F4C04D /* DFNameMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFNameMap.h; sourceTree = "<group>"; };
 		D01E245A1A205A1500F4C04D /* DFXML.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFXML.c; sourceTree = "<group>"; };
 		D01E245B1A205A1500F4C04D /* DFXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFXML.h; sourceTree = "<group>"; };
-		D01E245C1A205A1500F4C04D /* DFXMLForward.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFXMLForward.h; sourceTree = "<group>"; };
 		D0416D161A2DD7F20064BE57 /* Formats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Formats.h; path = api/headers/DocFormats/Formats.h; sourceTree = "<group>"; };
 		D0416D191A2DD8060064BE57 /* Formats.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Formats.c; path = api/src/Formats.c; sourceTree = "<group>"; };
 		D044592F1A20635B00A2E37E /* ODF.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ODF.c; sourceTree = "<group>"; };
@@ -549,7 +545,6 @@
 		D074ED561A2B04BC000C3704 /* DocFormats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DocFormats.h; path = api/headers/DocFormats/DocFormats.h; sourceTree = "<group>"; };
 		D074ED571A2B04BC000C3704 /* Operations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Operations.h; path = api/headers/DocFormats/Operations.h; sourceTree = "<group>"; };
 		D07811781A35801200768ACF /* DFStorage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DFStorage.c; sourceTree = "<group>"; };
-		D07811791A35801200768ACF /* DFStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFStorage.h; sourceTree = "<group>"; };
 		D0A1282F17EF7E9D005FE158 /* DocFormats.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DocFormats.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A1283217EF7E9D005FE158 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D0A1283517EF7E9D005FE158 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -562,6 +557,8 @@
 		D0A1286117EF7ED5005FE158 /* libDocFormats.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libDocFormats.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A1286217EF7ED5005FE158 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D0A1287217EF7ED5005FE158 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		D0A278A91A373C8D00CE7C2E /* CSSClassNames.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CSSClassNames.c; sourceTree = "<group>"; };
+		D0A278AA1A373C8D00CE7C2E /* CSSClassNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSClassNames.h; sourceTree = "<group>"; };
 		D0A7839D1A210EA700723FE8 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
 		D0A7839E1A210EA700723FE8 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
 		D0A7839F1A210EA700723FE8 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
@@ -688,6 +685,9 @@
 		D0ADB32F1A2054C6003D645D /* WordWhitespace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordWhitespace.h; sourceTree = "<group>"; };
 		D0B113CA1A205F67009610A5 /* HTMLToLaTeX.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HTMLToLaTeX.c; sourceTree = "<group>"; };
 		D0B113CB1A205F67009610A5 /* HTMLToLaTeX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLToLaTeX.h; sourceTree = "<group>"; };
+		D0B50BAA1A373BE50015076A /* DFXMLForward.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DFXMLForward.h; path = DocFormats/api/headers/DocFormats/DFXMLForward.h; sourceTree = SOURCE_ROOT; };
+		D0B50BAD1A373C080015076A /* DFError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DFError.h; path = DocFormats/api/headers/DocFormats/DFError.h; sourceTree = SOURCE_ROOT; };
+		D0B50BAE1A373C080015076A /* DFStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DFStorage.h; path = DocFormats/api/headers/DocFormats/DFStorage.h; sourceTree = SOURCE_ROOT; };
 		D0B5E8B417F086BD00FBD99F /* FileClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FileClient.framework; path = ../FileClient/build/Debug/FileClient.framework; sourceTree = "<group>"; };
 		D0B5E8B617F086C100FBD99F /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		D0B5E8B817F086C700FBD99F /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -781,8 +781,6 @@
 			children = (
 				D01E24181A205A1500F4C04D /* CSS.c */,
 				D01E24191A205A1500F4C04D /* CSS.h */,
-				D01E241A1A205A1500F4C04D /* CSSClassNames.c */,
-				D01E241B1A205A1500F4C04D /* CSSClassNames.h */,
 				D01E241C1A205A1500F4C04D /* CSSLength.c */,
 				D01E241D1A205A1500F4C04D /* CSSLength.h */,
 				D01E241E1A205A1500F4C04D /* CSSParser.c */,
@@ -836,13 +834,13 @@
 				D01E24401A205A1500F4C04D /* DFCharacterSet.c */,
 				D01E24411A205A1500F4C04D /* DFCharacterSet.h */,
 				D01E24421A205A1500F4C04D /* DFError.c */,
-				D01E24431A205A1500F4C04D /* DFError.h */,
+				D0B50BAD1A373C080015076A /* DFError.h */,
 				D01E24441A205A1500F4C04D /* DFFilesystem.c */,
 				D01E24451A205A1500F4C04D /* DFFilesystem.h */,
 				D01E24461A205A1500F4C04D /* DFHashTable.c */,
 				D01E24471A205A1500F4C04D /* DFHashTable.h */,
 				D07811781A35801200768ACF /* DFStorage.c */,
-				D07811791A35801200768ACF /* DFStorage.h */,
+				D0B50BAE1A373C080015076A /* DFStorage.h */,
 				D01E244A1A205A1500F4C04D /* DFString.c */,
 				D01E244B1A205A1500F4C04D /* DFString.h */,
 				D01E244C1A205A1500F4C04D /* DFZipFile.c */,
@@ -875,7 +873,7 @@
 				D01E24591A205A1500F4C04D /* DFNameMap.h */,
 				D01E245A1A205A1500F4C04D /* DFXML.c */,
 				D01E245B1A205A1500F4C04D /* DFXML.h */,
-				D01E245C1A205A1500F4C04D /* DFXMLForward.h */,
+				D0B50BAA1A373BE50015076A /* DFXMLForward.h */,
 			);
 			name = xml;
 			path = core/src/xml;
@@ -1095,6 +1093,8 @@
 			children = (
 				D0ADB2F21A2054C6003D645D /* formatting */,
 				D0ADB2FD1A2054C6003D645D /* lenses */,
+				D0A278A91A373C8D00CE7C2E /* CSSClassNames.c */,
+				D0A278AA1A373C8D00CE7C2E /* CSSClassNames.h */,
 				D0ADB3121A2054C6003D645D /* Word.c */,
 				D0ADB3131A2054C6003D645D /* Word.h */,
 				D0ADB3141A2054C6003D645D /* WordCaption.c */,
@@ -1218,6 +1218,7 @@
 				D01E24BD1A205A1500F4C04D /* DFFilesystem.h in Headers */,
 				D0ADB3501A2054C6003D645D /* WordBookmark.h in Headers */,
 				D0ADB3901A2054C6003D645D /* WordObjects.h in Headers */,
+				D0A278AC1A373C8D00CE7C2E /* CSSClassNames.h in Headers */,
 				D01E24A11A205A1500F4C04D /* DFTidyWrapper.h in Headers */,
 				D01E24C11A205A1500F4C04D /* DFHashTable.h in Headers */,
 				D0A787681A210EA900723FE8 /* lexer.h in Headers */,
@@ -1225,7 +1226,6 @@
 				D0A787741A210EA900723FE8 /* parser.h in Headers */,
 				D01E24C91A205A1500F4C04D /* DFString.h in Headers */,
 				D0A787901A210EA900723FE8 /* version.h in Headers */,
-				D01E24E71A205A1500F4C04D /* DFXMLForward.h in Headers */,
 				D0ADB38C1A2054C6003D645D /* WordNumbering.h in Headers */,
 				D01E24891A205A1500F4C04D /* CSSSyntax.h in Headers */,
 				D01E24E11A205A1500F4C04D /* DFNameMap.h in Headers */,
@@ -1246,12 +1246,11 @@
 				D0A787341A210EA900723FE8 /* access.h in Headers */,
 				D0ADB3801A2054C6003D645D /* WordGC.h in Headers */,
 				D0ADB3741A2054C6003D645D /* Word.h in Headers */,
-				D01E246D1A205A1500F4C04D /* CSSClassNames.h in Headers */,
 				D01E24791A205A1500F4C04D /* CSSProperties.h in Headers */,
 				D01E24751A205A1500F4C04D /* CSSParser.h in Headers */,
 				D0165ADE1A206A4D000F1267 /* DFPlatform.h in Headers */,
-				D078117C1A35801200768ACF /* DFStorage.h in Headers */,
 				D01E24D91A205A1500F4C04D /* DFDOM.h in Headers */,
+				D0B50BB11A373C080015076A /* DFStorage.h in Headers */,
 				D0ADB3641A2054C6003D645D /* WordLenses.h in Headers */,
 				D0A786941A210EA900723FE8 /* zip.h in Headers */,
 				D01E24A51A205A1500F4C04D /* DFAllocator.h in Headers */,
@@ -1293,8 +1292,8 @@
 				D01E24911A205A1500F4C04D /* DFHTML.h in Headers */,
 				D01E24CD1A205A1500F4C04D /* DFZipFile.h in Headers */,
 				D0BC41611984106300882CD1 /* DFCommon.h in Headers */,
-				D01E24B91A205A1500F4C04D /* DFError.h in Headers */,
 				D0A7873C1A210EA900723FE8 /* attrdict.h in Headers */,
+				D0B50BAB1A373BE50015076A /* DFXMLForward.h in Headers */,
 				D01E24D11A205A1500F4C04D /* DFXMLNames.h in Headers */,
 				D01E24711A205A1500F4C04D /* CSSLength.h in Headers */,
 				D0A7876E1A210EA900723FE8 /* mappedio.h in Headers */,
@@ -1309,6 +1308,7 @@
 				D0A7875A1A210EA900723FE8 /* forward.h in Headers */,
 				D0A7878A1A210EA900723FE8 /* tmbstr.h in Headers */,
 				D0A787841A210EA900723FE8 /* tidy-int.h in Headers */,
+				D0B50BAF1A373C080015076A /* DFError.h in Headers */,
 				D0ADB35E1A2054C6003D645D /* WordField.h in Headers */,
 				D01E24D51A205A1500F4C04D /* DFXMLNamespaces.h in Headers */,
 				D0ADB3301A2054C6003D645D /* OOXMLTypedefs.h in Headers */,
@@ -1329,6 +1329,7 @@
 				D0ADB3511A2054C6003D645D /* WordBookmark.h in Headers */,
 				D01E24BE1A205A1500F4C04D /* DFFilesystem.h in Headers */,
 				D0ADB3911A2054C6003D645D /* WordObjects.h in Headers */,
+				D0A278AE1A373C9400CE7C2E /* CSSClassNames.h in Headers */,
 				D01E24A21A205A1500F4C04D /* DFTidyWrapper.h in Headers */,
 				D01E24C21A205A1500F4C04D /* DFHashTable.h in Headers */,
 				D0A787691A210EA900723FE8 /* lexer.h in Headers */,
@@ -1337,7 +1338,6 @@
 				D0ADB38D1A2054C6003D645D /* WordNumbering.h in Headers */,
 				D0A787911A210EA900723FE8 /* version.h in Headers */,
 				D01E24CA1A205A1500F4C04D /* DFString.h in Headers */,
-				D01E24E81A205A1500F4C04D /* DFXMLForward.h in Headers */,
 				D0ADB3391A2054C6003D645D /* WordCommonPr.h in Headers */,
 				D01E248A1A205A1500F4C04D /* CSSSyntax.h in Headers */,
 				D01E24E21A205A1500F4C04D /* DFNameMap.h in Headers */,
@@ -1357,12 +1357,11 @@
 				D0A787351A210EA900723FE8 /* access.h in Headers */,
 				D0ADB3811A2054C6003D645D /* WordGC.h in Headers */,
 				D0ADB3751A2054C6003D645D /* Word.h in Headers */,
-				D01E246E1A205A1500F4C04D /* CSSClassNames.h in Headers */,
 				D01E247A1A205A1500F4C04D /* CSSProperties.h in Headers */,
 				D0165AE71A206A7A000F1267 /* DFPlatform.h in Headers */,
 				D01E24761A205A1500F4C04D /* CSSParser.h in Headers */,
-				D078117D1A35801200768ACF /* DFStorage.h in Headers */,
 				D01E24DA1A205A1500F4C04D /* DFDOM.h in Headers */,
+				D0B50BB21A373C080015076A /* DFStorage.h in Headers */,
 				D0A786951A210EA900723FE8 /* zip.h in Headers */,
 				D04459421A20636F00A2E37E /* ODFManifest.h in Headers */,
 				D0A7875F1A210EA900723FE8 /* gdoc.h in Headers */,
@@ -1404,8 +1403,8 @@
 				D01E24921A205A1500F4C04D /* DFHTML.h in Headers */,
 				D0BC41621984106400882CD1 /* DFCommon.h in Headers */,
 				D01E24CE1A205A1500F4C04D /* DFZipFile.h in Headers */,
-				D01E24BA1A205A1500F4C04D /* DFError.h in Headers */,
 				D0A7873D1A210EA900723FE8 /* attrdict.h in Headers */,
+				D0B50BAC1A373BE70015076A /* DFXMLForward.h in Headers */,
 				D01E24D21A205A1500F4C04D /* DFXMLNames.h in Headers */,
 				D01E24721A205A1500F4C04D /* CSSLength.h in Headers */,
 				D0A7876F1A210EA900723FE8 /* mappedio.h in Headers */,
@@ -1420,6 +1419,7 @@
 				D0A7875B1A210EA900723FE8 /* forward.h in Headers */,
 				D0A7878B1A210EA900723FE8 /* tmbstr.h in Headers */,
 				D0A787851A210EA900723FE8 /* tidy-int.h in Headers */,
+				D0B50BB01A373C080015076A /* DFError.h in Headers */,
 				D01E24AA1A205A1500F4C04D /* DFArray.h in Headers */,
 				D01E24D61A205A1500F4C04D /* DFXMLNamespaces.h in Headers */,
 				D0ADB3311A2054C6003D645D /* OOXMLTypedefs.h in Headers */,
@@ -1593,6 +1593,7 @@
 				D01E24771A205A1500F4C04D /* CSSProperties.c in Sources */,
 				D04459371A20635B00A2E37E /* ODF.c in Sources */,
 				D0A7877E1A210EA900723FE8 /* tagask.c in Sources */,
+				D0A278AB1A373C8D00CE7C2E /* CSSClassNames.c in Sources */,
 				D0ADB38A1A2054C6003D645D /* WordNumbering.c in Sources */,
 				D0ADB3621A2054C6003D645D /* WordLenses.c in Sources */,
 				D01E24CB1A205A1500F4C04D /* DFZipFile.c in Sources */,
@@ -1607,7 +1608,6 @@
 				D0ADB34E1A2054C6003D645D /* WordBookmark.c in Sources */,
 				D0A787881A210EA900723FE8 /* tmbstr.c in Sources */,
 				D044593B1A20635B00A2E37E /* ODFPackage.c in Sources */,
-				D01E246B1A205A1500F4C04D /* CSSClassNames.c in Sources */,
 				D0ADB37A1A2054C6003D645D /* WordConverter.c in Sources */,
 				D0A787661A210EA900723FE8 /* lexer.c in Sources */,
 				D0ADB39A1A2054C6003D645D /* WordSettings.c in Sources */,
@@ -1712,6 +1712,7 @@
 				D01E24781A205A1500F4C04D /* CSSProperties.c in Sources */,
 				D0ADB38B1A2054C6003D645D /* WordNumbering.c in Sources */,
 				D0A7877F1A210EA900723FE8 /* tagask.c in Sources */,
+				D0A278AD1A373C9100CE7C2E /* CSSClassNames.c in Sources */,
 				D044593F1A20636F00A2E37E /* ODF.c in Sources */,
 				D0ADB3631A2054C6003D645D /* WordLenses.c in Sources */,
 				D01E24CC1A205A1500F4C04D /* DFZipFile.c in Sources */,
@@ -1725,7 +1726,6 @@
 				D0ADB3611A2054C6003D645D /* WordHyperlink.c in Sources */,
 				D04459431A20636F00A2E37E /* ODFPackage.c in Sources */,
 				D0A787891A210EA900723FE8 /* tmbstr.c in Sources */,
-				D01E246C1A205A1500F4C04D /* CSSClassNames.c in Sources */,
 				D0ADB34F1A2054C6003D645D /* WordBookmark.c in Sources */,
 				D0ADB37B1A2054C6003D645D /* WordConverter.c in Sources */,
 				D0A787671A210EA900723FE8 /* lexer.c in Sources */,
