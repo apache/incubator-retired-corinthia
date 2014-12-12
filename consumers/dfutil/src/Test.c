@@ -20,6 +20,7 @@
 #include "DFString.h"
 #include "DFFilesystem.h"
 #include "DFCommon.h"
+#include "DFUnitTest.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -160,14 +161,16 @@ void TestRun(TestHarness *harness, const char *path)
             DFHashTableRemove(dict,"expected");
 
             char *parentPath = DFPathDirName(path);
-            TestCase *script = TestCaseNew(parentPath,dict);
-            runTest(script,arguments[0],(int)(DFStringArrayCount(arguments)-1),&arguments[1]);
+            DFBuffer *outputBuf = DFBufferNew();
+            utsetup(parentPath,dict,(int)(DFStringArrayCount(arguments)-1),&arguments[1],
+                    outputBuf);
+            runTest(arguments[0]);
 
-            char *output = DFStringTrimWhitespace(script->output->data);
+            char *output = DFStringTrimWhitespace(outputBuf->data);
             char *expected = DFStringTrimWhitespace(expectedRaw);
 
             if (harness->showResults && !harness->showDiffs) {
-                printf("%s",script->output->data);
+                printf("%s",outputBuf->data);
             }
             else {
                 pass = ((expected != NULL) && DFStringEquals(expected,output));
@@ -185,7 +188,8 @@ void TestRun(TestHarness *harness, const char *path)
             free(expectedRaw);
             free(parentPath);
             free(expected);
-            TestCaseFree(script);
+            utteardown();
+            DFBufferRelease(outputBuf);
             DFHashTableRelease(dict);
         }
         else {

@@ -19,49 +19,27 @@
 #include "DFCommon.h"
 #include "DFString.h"
 #include "DFFilesystem.h"
+#include "DFUnitTest.h"
 #include <stdlib.h>
 #include <string.h>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                //
-//                                            TestCase                                            //
-//                                                                                                //
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-TestCase *TestCaseNew(const char *path, DFHashTable *input)
+DFStorage *TestCaseOpenPackage(DFError **error)
 {
-    TestCase *tc = (TestCase *)calloc(1,sizeof(TestCase));
-    tc->path = strdup(path);
-    tc->input = DFHashTableRetain(input);
-    tc->output = DFBufferNew();
-    return tc;
-}
-
-void TestCaseFree(TestCase *tc)
-{
-    free(tc->path);
-    DFHashTableRelease(tc->input);
-    DFBufferRelease(tc->output);
-    free(tc);
-}
-
-DFStorage *TestCaseOpenPackage(TestCase *tc, DFError **error)
-{
-    const char *inputDocx = DFHashTableLookup(tc->input,"input.docx");
+    const char *inputDocx = DFHashTableLookup(utgetdata(),"input.docx");
     if (inputDocx == NULL) {
         DFErrorFormat(error,"input.docx not defined");
         return NULL;
     }
 
-    return Word_fromPlain(inputDocx,tc->path,error);
+    return Word_fromPlain(inputDocx,utgetpath(),error);
 }
 
-DFDocument *TestCaseGetHTML(TestCase *tc, DFStorage *htmlStorage, DFError **error)
+DFDocument *TestCaseGetHTML(DFStorage *storage, DFError **error)
 {
-    const char *inputHtml = DFHashTableLookup(tc->input,"input.html");
+    const char *inputHtml = DFHashTableLookup(utgetdata(),"input.html");
     if (inputHtml == NULL) {
         DFErrorFormat(error,"input.html not defined");
         return NULL;
     }
-    return HTML_fromPlain(inputHtml,tc->path,htmlStorage,error);
+    return HTML_fromPlain(inputHtml,utgetpath(),storage,error);
 }

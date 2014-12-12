@@ -17,6 +17,6 @@
 
 #include "TestCase.h"
 
-void runTest(TestCase *script, const char *name, int argc, const char **argv);
+void runTest(const char *name);
 
 #endif

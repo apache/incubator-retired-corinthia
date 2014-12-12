@@ -28,81 +28,82 @@
 #include "HTMLToLaTeX.h"
 #include "DFXML.h"
 #include "DFCommon.h"
+#include "DFUnitTest.h"
 #include <DocFormats/DocFormats.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-typedef void (*TestFunction)(TestCase *script, int argc, const char **argv);
+typedef void (*TestFunction)(void);
 
-static void move(TestCase *script, int argc, const char **argv)
+static void move(void)
 {
-    if (argc < 3) {
-        DFBufferFormat(script->output,"move: insufficient arguments");
+    if (utgetargc() < 3) {
+        DFBufferFormat(utgetoutput(),"move: insufficient arguments");
         return;
     }
 
-    int count = atoi(argv[0]);
-    int from = atoi(argv[1]);
-    int to = atoi(argv[2]);
+    int count = atoi(utgetargv()[0]);
+    int from = atoi(utgetargv()[1]);
+    int to = atoi(utgetargv()[2]);
 
     DFBuffer *output = DFBufferNew();
     BDT_testMove(count,from,to,output);
-    DFBufferFormat(script->output,"%s",output->data);
+    DFBufferFormat(utgetoutput(),"%s",output->data);
     DFBufferRelease(output);
 }
 
-static void removeChildren(TestCase *script, int argc, const char **argv)
+static void removeChildren(void)
 {
-    int *indices = (int *)malloc(argc*sizeof(int));
+    int *indices = (int *)malloc(utgetargc()*sizeof(int));
 
-    for (int i = 0; i < argc; i++) {
-        int index = atoi(argv[i]);
+    for (int i = 0; i < utgetargc(); i++) {
+        int index = atoi(utgetargv()[i]);
         indices[i] = index;
     }
 
     DFBuffer *output = DFBufferNew();
-    BDT_testRemove(indices,argc,output);
-    DFBufferFormat(script->output,"%s",output->data);
+    BDT_testRemove(indices,utgetargc(),output);
+    DFBufferFormat(utgetoutput(),"%s",output->data);
     DFBufferRelease(output);
 
     free(indices);
 }
 
-static void CSS_setHeadingNumbering(TestCase *script, int argc, const char **argv)
+static void CSS_setHeadingNumbering(void)
 {
-    const char *inputCSS = DFHashTableLookup(script->input,"input.css");
+    const char *inputCSS = DFHashTableLookup(utgetdata(),"input.css");
     if (inputCSS == NULL) {
-        DFBufferFormat(script->output,"CSS_setHeadingNumbering: input.css not defined");
+        DFBufferFormat(utgetoutput(),"CSS_setHeadingNumbering: input.css not defined");
         return;
     }
-    if (argc < 1) {
-        DFBufferFormat(script->output,"CSS_setHeadingNumbering: expected 1 argument");
+    if (utgetargc() < 1) {
+        DFBufferFormat(utgetoutput(),"CSS_setHeadingNumbering: expected 1 argument");
         return;
     }
 
     CSSSheet *styleSheet = CSSSheetNew();
     CSSSheetUpdateFromCSSText(styleSheet,inputCSS);
-    int on = !strcasecmp(argv[0],"true");
+    int on = !strcasecmp(utgetargv()[0],"true");
     CSSSheetSetHeadingNumbering(styleSheet,on);
     char *cssText = CSSSheetCopyCSSText(styleSheet);
-    DFBufferFormat(script->output,"%s",cssText);
+    DFBufferFormat(utgetoutput(),"%s",cssText);
     free(cssText);
     CSSSheetRelease(styleSheet);
 }
 
-static void Word_testCollapseBookmarks(TestCase *script, int argc, const char **argv)
+static void Word_testCollapseBookmarks(void)
 {
     DFError *error = NULL;
-    DFStorage *storage = TestCaseOpenPackage(script,&error);
+    DFStorage *storage = TestCaseOpenPackage(&error);
     if (storage == NULL) {
-        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
+        DFBufferFormat(utgetoutput(),"%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
         return;
     }
 
     if (!WordCollapseBookmarks(storage,&error)) {
-        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
+        DFBufferFormat(utgetoutput(),"%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
         DFStorageRelease(storage);
         return;
@@ -113,25 +114,25 @@ static void Word_testCollapseBookmarks(TestCase *script, int argc, const char **
 
     // Output the docx file
     char *plain = Word_toPlain(storage,parts);
-    DFBufferFormat(script->output,"%s",plain);
+    DFBufferFormat(utgetoutput(),"%s",plain);
     free(plain);
     DFHashTableRelease(parts);
     DFStorageRelease(storage);
 }
 
 
-static void Word_testExpandBookmarks(TestCase *script, int argc, const char **argv)
+static void Word_testExpandBookmarks(void)
 {
     DFError *error = NULL;
-    DFStorage *storage = TestCaseOpenPackage(script,&error);
+    DFStorage *storage = TestCaseOpenPackage(&error);
     if (storage == NULL) {
-        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
+        DFBufferFormat(utgetoutput(),"%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
         return;
     }
 
     if (!WordExpandBookmarks(storage,&error)) {
-        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
+        DFBufferFormat(utgetoutput(),"%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
         DFStorageRelease(storage);
         return;
@@ -142,13 +143,13 @@ static void Word_testExpandBookmarks(TestCase *script, int argc, const char **ar
 
     // Output the docx file
     char *plain = Word_toPlain(storage,parts);
-    DFBufferFormat(script->output,"%s",plain);
+    DFBufferFormat(utgetoutput(),"%s",plain);
     free(plain);
     DFHashTableRelease(parts);
     DFStorageRelease(storage);
 }
 
-static void Word_testGet(TestCase *script, int argc, const char **argv)
+static void Word_testGet(void)
 {
     DFError *error = NULL;
     DFStorage *abstractStorage = NULL;
@@ -157,7 +158,7 @@ static void Word_testGet(TestCase *script, int argc, const char **argv)
     DFConcreteDocument *concreteDoc = NULL;
     char *htmlPlain = NULL;
 
-    concreteStorage = TestCaseOpenPackage(script,&error);
+    concreteStorage = TestCaseOpenPackage(&error);
     if (concreteStorage == NULL)
         goto end;
 
@@ -178,9 +179,9 @@ static void Word_testGet(TestCase *script, int argc, const char **argv)
 
 end:
     if (htmlPlain != NULL)
-        DFBufferFormat(script->output,"%s",htmlPlain);
+        DFBufferFormat(utgetoutput(),"%s",htmlPlain);
     else
-        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
+        DFBufferFormat(utgetoutput(),"%s\n",DFErrorMessage(&error));
 
     DFErrorRelease(error);
     DFStorageRelease(abstractStorage);
@@ -190,18 +191,18 @@ end:
     free(htmlPlain);
 }
 
-static DFHashTable *getFlags(int argc, const char **argv)
+static DFHashTable *getFlags(void)
 {
-    if (argc == 0)
+    if (utgetargc() == 0)
         return NULL;;
     DFHashTable *set = DFHashTableNew((DFCopyFunction)strdup,free);
-    for (int i = 0; i < argc; i++) {
-        const char *colon = strchr(argv[i],':');
+    for (int i = 0; i < utgetargc(); i++) {
+        const char *colon = strchr(utgetargv()[i],':');
         if (colon == NULL)
             continue;
-        size_t colonPos = colon - argv[i];
-        char *rawName = DFSubstring(argv[i],0,colonPos);
-        char *rawValue = DFSubstring(argv[i],colonPos+1,strlen(argv[i]));
+        size_t colonPos = colon - utgetargv()[i];
+        char *rawName = DFSubstring(utgetargv()[i],0,colonPos);
+        char *rawValue = DFSubstring(utgetargv()[i],colonPos+1,strlen(utgetargv()[i]));
         char *name = DFStringTrimWhitespace(rawName);
         char *value = DFStringTrimWhitespace(rawValue);
         if (!strcasecmp(value,"true"))
@@ -215,7 +216,7 @@ static DFHashTable *getFlags(int argc, const char **argv)
     return set;
 }
 
-static void Word_testCreate(TestCase *script, int argc, const char **argv)
+static void Word_testCreate(void)
 {
     DFError *error = NULL;
     DFDocument *htmlDoc = NULL;
@@ -227,7 +228,7 @@ static void Word_testCreate(TestCase *script, int argc, const char **argv)
     char *wordPlain = NULL;
 
     // Read input.html
-    htmlDoc = TestCaseGetHTML(script,abstractStorage,&error);
+    htmlDoc = TestCaseGetHTML(abstractStorage,&error);
     if (htmlDoc == NULL)
         goto end;
 
@@ -236,14 +237,14 @@ static void Word_testCreate(TestCase *script, int argc, const char **argv)
     if (!DFCreate(concreteDoc,abstractDoc,&error))
         goto end;
 
-    parts = getFlags(argc,argv);
+    parts = getFlags();
     wordPlain = Word_toPlain(concreteStorage,parts);
 
 end:
     if (wordPlain != NULL)
-        DFBufferFormat(script->output,"%s",wordPlain);
+        DFBufferFormat(utgetoutput(),"%s",wordPlain);
     else
-        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
+        DFBufferFormat(utgetoutput(),"%s\n",DFErrorMessage(&error));
 
     DFErrorRelease(error);
     DFDocumentRelease(htmlDoc);
@@ -255,7 +256,7 @@ end:
     free(wordPlain);
 }
 
-static void Word_testUpdate(TestCase *script, int argc, const char **argv)
+static void Word_testUpdate(void)
 {
     DFError *error = NULL;
     DFDocument *htmlDoc = NULL;
@@ -266,7 +267,7 @@ static void Word_testUpdate(TestCase *script, int argc, const char **argv)
     DFHashTable *parts = NULL;
     char *wordPlain = NULL;
 
-    concreteStorage = TestCaseOpenPackage(script,&error);
+    concreteStorage = TestCaseOpenPackage(&error);
     if (concreteStorage == NULL)
         goto end;
 
@@ -275,7 +276,7 @@ static void Word_testUpdate(TestCase *script, int argc, const char **argv)
     concreteDoc = DFConcreteDocumentNew(concreteStorage);
 
     // Read input.html
-    htmlDoc = TestCaseGetHTML(script,abstractStorage,&error);
+    htmlDoc = TestCaseGetHTML(abstractStorage,&error);
     if (htmlDoc == NULL)
         goto end;
 
@@ -286,14 +287,14 @@ static void Word_testUpdate(TestCase *script, int argc, const char **argv)
         goto end;
 
     // Output the updated docx file
-    parts = getFlags(argc,argv);
+    parts = getFlags();
     wordPlain = Word_toPlain(concreteStorage,parts);
 
 end:
     if (wordPlain != NULL)
-        DFBufferFormat(script->output,"%s",wordPlain);
+        DFBufferFormat(utgetoutput(),"%s",wordPlain);
     else
-        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
+        DFBufferFormat(utgetoutput(),"%s\n",DFErrorMessage(&error));
 
     DFErrorRelease(error);
     DFDocumentRelease(htmlDoc);
@@ -305,58 +306,58 @@ end:
     free(wordPlain);
 }
 
-static void LaTeX_testCreate(TestCase *script, int argc, const char **argv)
+static void LaTeX_testCreate(void)
 {
     DFError *error = NULL;
     DFStorage *htmlStorage = DFStorageNewMemory(DFFileFormatHTML);
-    DFDocument *htmlDoc = TestCaseGetHTML(script,htmlStorage,&error);
+    DFDocument *htmlDoc = TestCaseGetHTML(htmlStorage,&error);
     DFStorageRelease(htmlStorage);
     if (htmlDoc == NULL) {
-        DFBufferFormat(script->output,"%s\n",DFErrorMessage(&error));
+        DFBufferFormat(utgetoutput(),"%s\n",DFErrorMessage(&error));
         DFErrorRelease(error);
         return;
     }
 
     HTML_normalizeDocument(htmlDoc);
     char *latex = HTMLToLaTeX(htmlDoc);
-    DFBufferFormat(script->output,"%s",latex);
+    DFBufferFormat(utgetoutput(),"%s",latex);
     free(latex);
     DFDocumentRelease(htmlDoc);
 }
 
-static void HTML_testNormalize(TestCase *script, int argc, const char **argv)
+static void HTML_testNormalize(void)
 {
-    const char *inputHtml = DFHashTableLookup(script->input,"input.html");
+    const char *inputHtml = DFHashTableLookup(utgetdata(),"input.html");
     if (inputHtml == NULL) {
-        DFBufferFormat(script->output,"input.html not defined");
+        DFBufferFormat(utgetoutput(),"input.html not defined");
         return;
     }
     DFError *error = NULL;
     DFDocument *doc = DFParseHTMLString(inputHtml,0,&error);
     if (doc == NULL) {
-        DFBufferFormat(script->output,"%s",DFErrorMessage(&error));
+        DFBufferFormat(utgetoutput(),"%s",DFErrorMessage(&error));
         DFErrorRelease(error);
         return;
     }
     HTML_normalizeDocument(doc);
     HTML_safeIndent(doc->docNode,0);
     char *docStr = DFSerializeXMLString(doc,0,0);
-    DFBufferFormat(script->output,"%s",docStr);
+    DFBufferFormat(utgetoutput(),"%s",docStr);
     free(docStr);
     DFDocumentRelease(doc);
 }
 
-static void HTML_showChanges(TestCase *script, int argc, const char **argv)
+static void HTML_showChanges(void)
 {
-    const char *input1 = DFHashTableLookup(script->input,"input1.html");
+    const char *input1 = DFHashTableLookup(utgetdata(),"input1.html");
     if (input1 == NULL) {
-        DFBufferFormat(script->output,"input.html not defined");
+        DFBufferFormat(utgetoutput(),"input.html not defined");
         return;
     }
 
-    const char *input2 = DFHashTableLookup(script->input,"input2.html");
+    const char *input2 = DFHashTableLookup(utgetdata(),"input2.html");
     if (input2 == NULL) {
-        DFBufferFormat(script->output,"input.html not defined");
+        DFBufferFormat(utgetoutput(),"input.html not defined");
         return;
     }
 
@@ -364,14 +365,14 @@ static void HTML_showChanges(TestCase *script, int argc, const char **argv)
     DFError *error = NULL;
     DFDocument *doc1 = DFParseHTMLString(input1,0,&error);
     if (doc1 == NULL) {
-        DFBufferFormat(script->output,"%s",DFErrorMessage(&error));
+        DFBufferFormat(utgetoutput(),"%s",DFErrorMessage(&error));
         DFErrorRelease(error);
         return;
     }
 
     DFDocument *doc2 = DFParseHTMLString(input2,0,&error);
     if (doc2 == NULL) {
-        DFBufferFormat(script->output,"%s",DFErrorMessage(&error));
+        DFBufferFormat(utgetoutput(),"%s",DFErrorMessage(&error));
         DFErrorRelease(error);
         DFDocumentRelease(doc1);
     }
@@ -379,28 +380,28 @@ static void HTML_showChanges(TestCase *script, int argc, const char **argv)
     DFComputeChanges(doc1->root,doc2->root,HTML_ID);
 
     char *changesStr = DFChangesToString(doc1->root);
-    DFBufferFormat(script->output,"%s",changesStr);
+    DFBufferFormat(utgetoutput(),"%s",changesStr);
     free(changesStr);
     DFDocumentRelease(doc1);
     DFDocumentRelease(doc2);
 }
 
-static void CSS_test(TestCase *script, int argc, const char **argv)
+static void CSS_test(void)
 {
-    const char *inputCSS = DFHashTableLookup(script->input,"input.css");
+    const char *inputCSS = DFHashTableLookup(utgetdata(),"input.css");
     if (inputCSS == NULL) {
-        DFBufferFormat(script->output,"input.css not defined");
+        DFBufferFormat(utgetoutput(),"input.css not defined");
         return;
     }
     CSSSheet *styleSheet = CSSSheetNew();
     CSSSheetUpdateFromCSSText(styleSheet,inputCSS);
     char *text = CSSSheetCopyText(styleSheet);
-    DFBufferFormat(script->output,"%s",text);
+    DFBufferFormat(utgetoutput(),"%s",text);
     free(text);
-    DFBufferFormat(script->output,
+    DFBufferFormat(utgetoutput(),
         "================================================================================\n");
     char *cssText = CSSSheetCopyCSSText(styleSheet);
-    DFBufferFormat(script->output,"%s",cssText);
+    DFBufferFormat(utgetoutput(),"%s",cssText);
     free(cssText);
     CSSSheetRelease(styleSheet);
 }
@@ -424,17 +425,17 @@ static struct {
     { NULL, NULL },
 };
 
-void runTest(TestCase *script, const char *name, int argc, const char **argv)
+void runTest(const char *name)
 {
     for (int i = 0; testFunctions[i].name != NULL; i++) {
         if (!strcmp(testFunctions[i].name,name)) {
-            testFunctions[i].fun(script,argc,argv);
+            testFunctions[i].fun();
             return;
         }
     }
     printf("runTest %s\n",name);
-    for (int i = 0; i < argc; i++) {
-        printf("    argv[%d] = %s\n",i,argv[i]);
+    for (int i = 0; i < utgetargc(); i++) {
+        printf("    utgetargv()[%d] = %s\n",i,utgetargv()[i]);
     }
-    DFBufferFormat(script->output,"Unknown test: %s\n",name);
+    DFBufferFormat(utgetoutput(),"Unknown test: %s\n",name);
 }

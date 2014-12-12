@@ -69,9 +69,20 @@ struct TestGroup {
 
 // Functions to be called by the test harness
 
+struct DFHashTable;
+struct DFBuffer;
+
+void utsetup(const char *path, struct DFHashTable *data, int argc, const char **argv, struct DFBuffer *output);
+void utteardown(void);
 void utrun(TestGroup **groups, int plain, int data, const char **filenames);
 
 // Functions to be called from within test cases
+
+const char *utgetpath(void);
+void *utgetdata(void);
+int utgetargc(void);
+const char **utgetargv(void);
+void *utgetoutput(void);
 
 void utassert(int condition, const char *description);
 void utexpect(const char *actual, const char *expected);

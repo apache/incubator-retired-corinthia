@@ -20,23 +20,7 @@
 #include <DocFormats/DFStorage.h>
 #include <DocFormats/DFXMLForward.h>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                //
-//                                            TestCase                                            //
-//                                                                                                //
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef struct TestCase TestCase;
-
-struct TestCase {
-    char *path;
-    DFHashTable *input;
-    DFBuffer *output;
-};
-
-TestCase *TestCaseNew(const char *path, DFHashTable *input);
-void TestCaseFree(TestCase *tc);
-DFStorage *TestCaseOpenPackage(TestCase *tc, DFError **error);
-DFDocument *TestCaseGetHTML(TestCase *tc, DFStorage *htmlStorage, DFError **error);
+DFStorage *TestCaseOpenPackage(DFError **error);
+DFDocument *TestCaseGetHTML(DFStorage *storage, DFError **error);
 
 #endif

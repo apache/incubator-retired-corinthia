@@ -75,3 +75,52 @@ void utfail(const char *reason)
     curtest.failed = 1;
     curtest.reason = strdup(reason);
 }
+
+static const char *testPath = NULL;
+static struct DFHashTable *testData = NULL;
+static int testArgc = 0;
+static const char **testArgv = NULL;
+static struct DFBuffer *testOutput = NULL;
+
+void utsetup(const char *path, struct DFHashTable *data, int argc, const char **argv, struct DFBuffer *output)
+{
+    testPath = path;
+    testData = data;
+    testArgc = argc;
+    testArgv = argv;
+    testOutput = output;
+}
+
+void utteardown(void)
+{
+    testPath = NULL;
+    testData = NULL;
+    testArgc = 0;
+    testArgv = NULL;
+    testOutput = NULL;
+}
+
+const char *utgetpath(void)
+{
+    return testPath;
+}
+
+void *utgetdata(void)
+{
+    return testData;
+}
+
+int utgetargc(void)
+{
+    return testArgc;
+}
+
+const char **utgetargv(void)
+{
+    return testArgv;
+}
+
+void *utgetoutput(void)
+{
+    return testOutput;
+}
