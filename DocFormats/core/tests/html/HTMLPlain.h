@@ -23,4 +23,6 @@
 char *HTML_toPlain(DFDocument *doc, DFStorage *storage, DFError **error);
 DFDocument *HTML_fromPlain(const char *plain, const char *path, DFStorage *htmlStorage, DFError **error);
 
+DFDocument *TestCaseGetHTML(DFStorage *storage, DFError **error);
+
 #endif

@@ -23,6 +23,7 @@
 #include "DFHTML.h"
 #include "DFCommon.h"
 #include "DFZipFile.h"
+#include "DFUnitTest.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -586,4 +587,15 @@ end:
         DFStorageRelease(concreteStorage);
         return NULL;
     }
+}
+
+DFStorage *TestCaseOpenPackage(DFError **error)
+{
+    const char *inputDocx = DFHashTableLookup(utgetdata(),"input.docx");
+    if (inputDocx == NULL) {
+        DFErrorFormat(error,"input.docx not defined");
+        return NULL;
+    }
+
+    return Word_fromPlain(inputDocx,utgetpath(),error);
 }

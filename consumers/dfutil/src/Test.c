@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #include "Test.h"
-#include "TestCase.h"
 #include "TextPackage.h"
 #include "Commands.h"
 #include "TestFunctions.h"

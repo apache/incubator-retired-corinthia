@@ -1,18 +1,12 @@
 cmake_minimum_required(VERSION 2.8)
 
 set(SOURCES
-    BDTTest.c
-    BDTTest.h
     Commands.c
     Commands.h
-    DFChanges.c
-    DFChanges.h
     FunctionTests.h
     StringTests.h
     Test.c
     Test.h
-    TestCase.c
-    TestCase.h
     TestFunctions.c
     TestFunctions.h
     main.c
@@ -31,6 +25,7 @@ include_directories(../../../DocFormats/core/src/lib)
 include_directories(../../../DocFormats/core/src/names)
 include_directories(../../../DocFormats/core/src/xml)
 include_directories(../../../DocFormats/core/tests/html)
+include_directories(../../../DocFormats/core/tests/common)
 include_directories(../../../DocFormats/filters/latex/src)
 include_directories(../../../DocFormats/filters/odf/src)
 include_directories(../../../DocFormats/filters/ooxml/src/common)

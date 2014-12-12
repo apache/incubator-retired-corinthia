@@ -13,7 +13,54 @@
 // limitations under the License.
 
 #include "DFUnitTest.h"
-#include <stddef.h>
+#include "DFHashTable.h"
+#include "DFBuffer.h"
+#include "CSSSheet.h"
+#include "DFCommon.h"
+#include <string.h>
+#include <stdlib.h>
+
+void test_CSS_setHeadingNumbering(void)
+{
+    const char *inputCSS = DFHashTableLookup(utgetdata(),"input.css");
+    if (inputCSS == NULL) {
+        DFBufferFormat(utgetoutput(),"CSS_setHeadingNumbering: input.css not defined");
+        return;
+    }
+    if (utgetargc() < 1) {
+        DFBufferFormat(utgetoutput(),"CSS_setHeadingNumbering: expected 1 argument");
+        return;
+    }
+
+    CSSSheet *styleSheet = CSSSheetNew();
+    CSSSheetUpdateFromCSSText(styleSheet,inputCSS);
+    int on = !strcasecmp(utgetargv()[0],"true");
+    CSSSheetSetHeadingNumbering(styleSheet,on);
+    char *cssText = CSSSheetCopyCSSText(styleSheet);
+    DFBufferFormat(utgetoutput(),"%s",cssText);
+    free(cssText);
+    CSSSheetRelease(styleSheet);
+}
+
+void test_CSS_parse(void)
+{
+    const char *inputCSS = DFHashTableLookup(utgetdata(),"input.css");
+    if (inputCSS == NULL) {
+        DFBufferFormat(utgetoutput(),"input.css not defined");
+        return;
+    }
+    CSSSheet *styleSheet = CSSSheetNew();
+    CSSSheetUpdateFromCSSText(styleSheet,inputCSS);
+    char *text = CSSSheetCopyText(styleSheet);
+    DFBufferFormat(utgetoutput(),"%s",text);
+    free(text);
+    DFBufferFormat(utgetoutput(),
+                   "================================================================================\n");
+    char *cssText = CSSSheetCopyCSSText(styleSheet);
+    DFBufferFormat(utgetoutput(),"%s",cssText);
+    free(cssText);
+    CSSSheetRelease(styleSheet);
+}
 
 static void test_sample(void)
 {

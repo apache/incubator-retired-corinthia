@@ -21,6 +21,7 @@
 #include "DFHTML.h"
 #include "DFCommon.h"
 #include "DFZipFile.h"
+#include "DFUnitTest.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -121,4 +122,14 @@ DFDocument *HTML_fromPlain(const char *plain, const char *path, DFStorage *htmlS
     DFDocument *result = HTML_fromTextPackage(textPackage,htmlStorage,error);
     TextPackageRelease(textPackage);
     return result;
+}
+
+DFDocument *TestCaseGetHTML(DFStorage *storage, DFError **error)
+{
+    const char *inputHtml = DFHashTableLookup(utgetdata(),"input.html");
+    if (inputHtml == NULL) {
+        DFErrorFormat(error,"input.html not defined");
+        return NULL;
+    }
+    return HTML_fromPlain(inputHtml,utgetpath(),storage,error);
 }

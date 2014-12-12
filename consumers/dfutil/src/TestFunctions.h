@@ -15,8 +15,6 @@
 #ifndef dfutil_TestFunctions_h
 #define dfutil_TestFunctions_h
 
-#include "TestCase.h"
-
 void runTest(const char *name);
 
 #endif

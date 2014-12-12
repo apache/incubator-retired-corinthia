@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "BDTTest.h"
+#include "BDTTests.h"
 #include "DFDOM.h"
 #include "DFBDT.h"
 #include "DFString.h"
 #include "DFXML.h"
 #include "DFCommon.h"
+#include "DFUnitTest.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -366,4 +367,38 @@ int BDT_Test(int argc, const char **argv)
     printf("%s",output->data);
     DFBufferRelease(output);
     return 0;
+}
+
+void test_move(void)
+{
+    if (utgetargc() < 3) {
+        DFBufferFormat(utgetoutput(),"move: insufficient arguments");
+        return;
+    }
+
+    int count = atoi(utgetargv()[0]);
+    int from = atoi(utgetargv()[1]);
+    int to = atoi(utgetargv()[2]);
+
+    DFBuffer *output = DFBufferNew();
+    BDT_testMove(count,from,to,output);
+    DFBufferFormat(utgetoutput(),"%s",output->data);
+    DFBufferRelease(output);
+}
+
+void test_removeChildren(void)
+{
+    int *indices = (int *)malloc(utgetargc()*sizeof(int));
+
+    for (int i = 0; i < utgetargc(); i++) {
+        int index = atoi(utgetargv()[i]);
+        indices[i] = index;
+    }
+
+    DFBuffer *output = DFBufferNew();
+    BDT_testRemove(indices,utgetargc(),output);
+    DFBufferFormat(utgetoutput(),"%s",output->data);
+    DFBufferRelease(output);
+
+    free(indices);
 }

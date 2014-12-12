@@ -13,7 +13,74 @@
 // limitations under the License.
 
 #include "DFUnitTest.h"
-#include <stddef.h>
+#include "HTMLPlain.h"
+#include "DFHTML.h"
+#include "DFHTMLNormalization.h"
+#include "DFXML.h"
+#include "DFDOM.h"
+#include "DFChanges.h"
+#include <stdlib.h>
+
+void test_HTML_testNormalize(void)
+{
+    const char *inputHtml = DFHashTableLookup(utgetdata(),"input.html");
+    if (inputHtml == NULL) {
+        DFBufferFormat(utgetoutput(),"input.html not defined");
+        return;
+    }
+    DFError *error = NULL;
+    DFDocument *doc = DFParseHTMLString(inputHtml,0,&error);
+    if (doc == NULL) {
+        DFBufferFormat(utgetoutput(),"%s",DFErrorMessage(&error));
+        DFErrorRelease(error);
+        return;
+    }
+    HTML_normalizeDocument(doc);
+    HTML_safeIndent(doc->docNode,0);
+    char *docStr = DFSerializeXMLString(doc,0,0);
+    DFBufferFormat(utgetoutput(),"%s",docStr);
+    free(docStr);
+    DFDocumentRelease(doc);
+}
+
+void test_HTML_showChanges(void)
+{
+    const char *input1 = DFHashTableLookup(utgetdata(),"input1.html");
+    if (input1 == NULL) {
+        DFBufferFormat(utgetoutput(),"input.html not defined");
+        return;
+    }
+
+    const char *input2 = DFHashTableLookup(utgetdata(),"input2.html");
+    if (input2 == NULL) {
+        DFBufferFormat(utgetoutput(),"input.html not defined");
+        return;
+    }
+
+
+    DFError *error = NULL;
+    DFDocument *doc1 = DFParseHTMLString(input1,0,&error);
+    if (doc1 == NULL) {
+        DFBufferFormat(utgetoutput(),"%s",DFErrorMessage(&error));
+        DFErrorRelease(error);
+        return;
+    }
+
+    DFDocument *doc2 = DFParseHTMLString(input2,0,&error);
+    if (doc2 == NULL) {
+        DFBufferFormat(utgetoutput(),"%s",DFErrorMessage(&error));
+        DFErrorRelease(error);
+        DFDocumentRelease(doc1);
+    }
+
+    DFComputeChanges(doc1->root,doc2->root,HTML_ID);
+
+    char *changesStr = DFChangesToString(doc1->root);
+    DFBufferFormat(utgetoutput(),"%s",changesStr);
+    free(changesStr);
+    DFDocumentRelease(doc1);
+    DFDocumentRelease(doc2);
+}
 
 static void test_sample(void)
 {

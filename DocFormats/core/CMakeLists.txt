@@ -22,7 +22,9 @@ set(GroupSrcCommon
     src/common/DFTable.c
     src/common/DFTable.h)
 
-set(GroupTestsCommon)
+set(GroupTestsCommon
+    tests/common/BDTTests.c
+    tests/common/BDTTests.h)
 
 set(GroupSrcCSS
     src/css/CSS.c
@@ -98,6 +100,8 @@ set(GroupSrcNames
     src/names/DFXMLNamespaces.h)
 
 set(GroupSrcXML
+    src/xml/DFChanges.c
+    src/xml/DFChanges.h
     src/xml/DFDOM.c
     src/xml/DFDOM.h
     src/xml/DFMarkupCompatibility.c

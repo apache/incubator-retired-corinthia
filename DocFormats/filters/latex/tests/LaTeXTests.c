@@ -13,7 +13,29 @@
 // limitations under the License.
 
 #include "DFUnitTest.h"
-#include <stddef.h>
+#include "HTMLPlain.h"
+#include "HTMLToLaTeX.h"
+#include "DFHTMLNormalization.h"
+#include <stdlib.h>
+
+void test_LaTeX_testCreate(void)
+{
+    DFError *error = NULL;
+    DFStorage *htmlStorage = DFStorageNewMemory(DFFileFormatHTML);
+    DFDocument *htmlDoc = TestCaseGetHTML(htmlStorage,&error);
+    DFStorageRelease(htmlStorage);
+    if (htmlDoc == NULL) {
+        DFBufferFormat(utgetoutput(),"%s\n",DFErrorMessage(&error));
+        DFErrorRelease(error);
+        return;
+    }
+
+    HTML_normalizeDocument(htmlDoc);
+    char *latex = HTMLToLaTeX(htmlDoc);
+    DFBufferFormat(utgetoutput(),"%s",latex);
+    free(latex);
+    DFDocumentRelease(htmlDoc);
+}
 
 static void test_sample(void)
 {

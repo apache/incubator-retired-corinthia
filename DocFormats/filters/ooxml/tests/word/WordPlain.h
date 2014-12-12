@@ -23,4 +23,6 @@
 char *Word_toPlain(DFStorage *rawStorage, DFHashTable *parts);
 DFStorage *Word_fromPlain(const char *plain, const char *plainPath, DFError **error);
 
+DFStorage *TestCaseOpenPackage(DFError **error);
+
 #endif

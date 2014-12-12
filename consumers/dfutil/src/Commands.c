@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include "Commands.h"
-#include "BDTTest.h"
+#include "BDTTests.h"
 #include "Test.h"
 #include "WordPlain.h"
 #include "HTMLPlain.h"
