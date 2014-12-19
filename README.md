@@ -26,13 +26,17 @@ from the email address to receive list messages at.  The reply from
 the list robot to that address provides confirmation instructions and
 information on managing the subscription.
 
-There is a [Corinthia incubator web
-site](http://corinthia.incubator.apache.org/) and there will be a project
-wiki and JIRA issue tracker.
+There are a [Corinthia incubator web
+site](http://corinthia.incubator.apache.org/), a
+[project wiki](http://incubator.apache.org/projects/corinthia.html), and a
+[JIRA issue tracker](https://issues.apache.org/jira/browse/COR).
+
 
 The sites and documentation for this project are at a preliminary
 stage. Content will be moved to Apache and improved as incubation moves
-ahead.
+along.
+
+Meanwhile, there is a [Facebook page](https://www.facebook.com/CorinthiaProject) and a Twitter account, [@ApacheCorinthia](https://twitter.com/ApacheCorinthia).
 
 # License
 
