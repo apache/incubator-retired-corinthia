@@ -1,4 +1,4 @@
-Word_testCollapseBookmarks();
+ooxml.word.collapseBookmarks
 #item input.docx
 ##item document.xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>

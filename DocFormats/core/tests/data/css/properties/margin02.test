@@ -1,4 +1,4 @@
-CSS_test();
+core.css.parse
 #item input.css
 p.test1 {
     margin-bottom: 10px;

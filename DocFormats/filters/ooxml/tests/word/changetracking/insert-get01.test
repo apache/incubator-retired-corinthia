@@ -1,5 +1,5 @@
 // 01 "One" <-> "One Two"
-Word_testGet();
+ooxml.word.get
 #item input.docx
 ##item document.xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>

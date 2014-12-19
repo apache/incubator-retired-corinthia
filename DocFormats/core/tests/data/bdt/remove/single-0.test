@@ -1,4 +1,4 @@
-remove(0);
+core.bdt.remove(0);
 #item expected
 <!DOCTYPE html>                <!DOCTYPE html>                         
 <html>                         <html>                                  

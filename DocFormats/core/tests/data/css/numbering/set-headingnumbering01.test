@@ -1,5 +1,5 @@
 // Empty stylesheet - heading styles should be created, with numbering set
-CSS_setHeadingNumbering(true);
+core.css.setHeadingNumbering(true);
 #item input.css
 #item expected
 h1 {

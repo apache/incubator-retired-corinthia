@@ -1,4 +1,4 @@
-HTML_showChanges();
+core.html.showChanges
 #item input1.html
 <!DOCTYPE html>
 <html id="1">

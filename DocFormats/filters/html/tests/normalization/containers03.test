@@ -1,4 +1,4 @@
-HTML_testNormalize();
+core.html.normalize
 #item input.html
 <!DOCTYPE html>
 <html>

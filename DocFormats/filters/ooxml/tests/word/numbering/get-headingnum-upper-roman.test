@@ -1,4 +1,4 @@
-Word_testGet();
+ooxml.word.get
 #item input.docx
 ##item document.xml
 #include "headingnum-document.xml"

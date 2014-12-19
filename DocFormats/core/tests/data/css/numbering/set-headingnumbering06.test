@@ -1,7 +1,7 @@
 // Turn heading numbering off on a stylesheet containing the
 // "Unnumbered" styles that we used to add in previous versions of UX
 // Write. All styles have properties.
-CSS_setHeadingNumbering(false);
+core.css.setHeadingNumbering(false);
 #item input.css
 h1.heading_1 {
     -uxwrite-display-name: "heading 1";

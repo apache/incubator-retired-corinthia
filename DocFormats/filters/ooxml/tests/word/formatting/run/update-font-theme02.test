@@ -1,4 +1,4 @@
-Word_testUpdate({ document: true, styles: true, theme: true });
+ooxml.word.put({ document: true, styles: true, theme: true });
 #item input.docx
 ##item document.xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>

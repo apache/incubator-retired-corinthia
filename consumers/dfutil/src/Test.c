@@ -93,6 +93,14 @@ static const char **parseCommand(const char *command, DFError **error)
     const char *openbr = strchr(command,'(');
     const char *closebr = strrchr(command,')');
 
+    if ((openbr == NULL) && (closebr == NULL)) {
+        DFArray *array = DFArrayNew((DFCopyFunction)strdup,free);
+        DFArrayAppend(array,(void *)command);
+        const char **result = DFStringArrayFlatten(array);
+        DFArrayRelease(array);
+        return result;
+    }
+
     if ((openbr == NULL) || (closebr == NULL)) {
         DFErrorFormat(error,"Malformed command: %s\n",command);
         return NULL;

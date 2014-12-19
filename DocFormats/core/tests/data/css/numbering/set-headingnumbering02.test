@@ -1,5 +1,5 @@
 // One style at each level, with a class name - should be modified to add numbering information
-CSS_setHeadingNumbering(true);
+core.css.setHeadingNumbering(true);
 #item input.css
 h1.heading_1 { }
 h2.heading_2 { }

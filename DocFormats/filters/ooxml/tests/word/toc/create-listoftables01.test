@@ -1,4 +1,4 @@
-Word_testCreate({ document: true, styles: true, settings: true });
+ooxml.word.create({ document: true, styles: true, settings: true });
 #item input.html
 <!DOCTYPE html>
 <html>

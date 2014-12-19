@@ -1,5 +1,5 @@
 // Default numbering - h1 and h2
-Word_testCreate();
+ooxml.word.create
 #item input.html
 <!DOCTYPE html>
 <html>

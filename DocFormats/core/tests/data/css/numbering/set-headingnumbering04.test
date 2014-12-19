@@ -2,7 +2,7 @@
 // without. Only those without a class name should get numbering information set,
 // since the ones that do have a class name implicitly inherit all
 // properties from the former.
-CSS_setHeadingNumbering(true);
+core.css.setHeadingNumbering(true);
 #item input.css
 h1 { }
 h2 { }

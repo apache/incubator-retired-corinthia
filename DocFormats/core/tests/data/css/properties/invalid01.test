@@ -1,4 +1,4 @@
-CSS_test();
+core.css.parse
 #item input.css
 h1::before {
                 border-left-color: red;

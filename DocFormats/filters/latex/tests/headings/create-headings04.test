@@ -1,5 +1,5 @@
 // Default numbering - h1 only
-LaTeX_testCreate();
+latex.create
 #item input.html
 <!DOCTYPE html>
 <html>

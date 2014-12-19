@@ -59,42 +59,13 @@ TestGroup *allGroups[] = {
     NULL
 };
 
-static struct {
-    const char *oldName;
-    const char *newName;
-} substitutions[] = {
-    { "CSS_setHeadingNumbering", "core.css.setHeadingNumbering" },
-    { "Word_testCollapseBookmarks", "ooxml.word.collapseBookmarks" },
-    { "Word_testExpandBookmarks", "ooxml.word.expandBookmarks" },
-    { "Word_testGet", "ooxml.word.get" },
-    { "Word_testCreate", "ooxml.word.create" },
-    { "Word_testUpdate", "ooxml.word.put" },
-    { "LaTeX_testCreate", "latex.create" },
-    { "HTML_testNormalize", "core.html.normalize" },
-    { "HTML_showChanges", "core.html.showChanges" },
-    { "CSS_test", "core.css.parse" },
-    { "move", "core.bdt.move" },
-    { "remove", "core.bdt.removeChildren" },
-    { NULL, NULL },
-};
-
 void runTest(const char *name)
 {
-    const char *actualName = name;
-    for (int i = 0; substitutions[i].oldName != NULL; i++) {
-        if (!strcmp(name,substitutions[i].oldName)) {
-            actualName = substitutions[i].newName;
-        }
-    }
-    TestCase *tc = utlookup(allGroups,actualName);
+    TestCase *tc = utlookup(allGroups,name);
     if (tc != NULL) {
         tc->fun();
         return;
     }
 
-    printf("runTest %s\n",name);
-    for (int i = 0; i < utgetargc(); i++) {
-        printf("    utgetargv()[%d] = %s\n",i,utgetargv()[i]);
-    }
     DFBufferFormat(utgetoutput(),"Unknown test: %s\n",name);
 }

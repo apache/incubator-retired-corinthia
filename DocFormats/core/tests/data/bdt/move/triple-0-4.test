@@ -1,4 +1,4 @@
-move(3,0,4)
+core.bdt.move(3,0,4)
 #item expected
 <!DOCTYPE html>                <!DOCTYPE html>                         
 <html>                         <html>                                  

@@ -386,7 +386,7 @@ static void test_move(void)
     DFBufferRelease(output);
 }
 
-static void test_removeChildren(void)
+static void test_remove(void)
 {
     int *indices = (int *)malloc(utgetargc()*sizeof(int));
 
@@ -406,7 +406,7 @@ static void test_removeChildren(void)
 TestGroup BDTTests = {
     "core.bdt", {
         { "move", DataTest, test_move },
-        { "removeChildren", DataTest, test_removeChildren },
+        { "remove", DataTest, test_remove },
         { NULL, PlainTest, NULL }
     }
 };
