@@ -23,7 +23,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-void test_Word_testCollapseBookmarks(void)
+static void test_collapseBookmarks(void)
 {
     DFError *error = NULL;
     DFStorage *storage = TestCaseOpenPackage(&error);
@@ -51,8 +51,7 @@ void test_Word_testCollapseBookmarks(void)
     DFStorageRelease(storage);
 }
 
-
-void test_Word_testExpandBookmarks(void)
+static void test_expandBookmarks(void)
 {
     DFError *error = NULL;
     DFStorage *storage = TestCaseOpenPackage(&error);
@@ -80,7 +79,7 @@ void test_Word_testExpandBookmarks(void)
     DFStorageRelease(storage);
 }
 
-void test_Word_testGet(void)
+static void test_get(void)
 {
     DFError *error = NULL;
     DFStorage *abstractStorage = NULL;
@@ -147,7 +146,7 @@ static DFHashTable *getFlags(void)
     return set;
 }
 
-void test_Word_testCreate(void)
+static void test_create(void)
 {
     DFError *error = NULL;
     DFDocument *htmlDoc = NULL;
@@ -187,7 +186,7 @@ end:
     free(wordPlain);
 }
 
-void test_Word_testUpdate(void)
+static void test_put(void)
 {
     DFError *error = NULL;
     DFDocument *htmlDoc = NULL;
@@ -237,13 +236,13 @@ end:
     free(wordPlain);
 }
 
-static void test_sample(void)
-{
-}
-
 TestGroup WordTests = {
-    "word", {
-        { "sample", PlainTest, test_sample },
+    "ooxml.word", {
+        { "collapseBookmarks", DataTest, test_collapseBookmarks },
+        { "expandBookmarks", DataTest, test_expandBookmarks },
+        { "get", DataTest, test_get },
+        { "create", DataTest, test_create },
+        { "put", DataTest, test_put },
         { NULL, PlainTest, NULL }
     }
 };

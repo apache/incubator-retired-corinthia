@@ -21,7 +21,7 @@
 #include "DFChanges.h"
 #include <stdlib.h>
 
-void test_HTML_testNormalize(void)
+static void test_normalize(void)
 {
     const char *inputHtml = DFHashTableLookup(utgetdata(),"input.html");
     if (inputHtml == NULL) {
@@ -43,7 +43,7 @@ void test_HTML_testNormalize(void)
     DFDocumentRelease(doc);
 }
 
-void test_HTML_showChanges(void)
+static void test_showChanges(void)
 {
     const char *input1 = DFHashTableLookup(utgetdata(),"input1.html");
     if (input1 == NULL) {
@@ -82,13 +82,10 @@ void test_HTML_showChanges(void)
     DFDocumentRelease(doc2);
 }
 
-static void test_sample(void)
-{
-}
-
 TestGroup HTMLTests = {
     "core.html", {
-        { "sample", PlainTest, test_sample },
+        { "normalize", DataTest, test_normalize },
+        { "showChanges", DataTest, test_showChanges },
         { NULL, PlainTest, NULL }
     }
 };

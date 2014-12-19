@@ -76,6 +76,25 @@ void utfail(const char *reason)
     curtest.reason = strdup(reason);
 }
 
+TestCase *utlookup(TestGroup **groups, const char *name)
+{
+    for (int gi = 0; groups[gi]; gi++) {
+        TestGroup *group = groups[gi];
+        if (!strncmp(name,group->name,strlen(group->name)) &&
+            (name[strlen(group->name)] == '.')) {
+            const char *testName = &name[strlen(group->name)+1];
+            for (int ti = 0; group->tests[ti].name; ti++) {
+                TestCase *test = &group->tests[ti];
+                if (!strcmp(test->name,testName)) {
+                    return test;
+                }
+            }
+            return NULL;
+        }
+    }
+    return NULL;
+}
+
 static const char *testPath = NULL;
 static struct DFHashTable *testData = NULL;
 static int testArgc = 0;

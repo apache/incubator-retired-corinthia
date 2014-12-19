@@ -18,7 +18,7 @@
 #include "DFHTMLNormalization.h"
 #include <stdlib.h>
 
-void test_LaTeX_testCreate(void)
+static void test_create(void)
 {
     DFError *error = NULL;
     DFStorage *htmlStorage = DFStorageNewMemory(DFFileFormatHTML);
@@ -37,13 +37,9 @@ void test_LaTeX_testCreate(void)
     DFDocumentRelease(htmlDoc);
 }
 
-static void test_sample(void)
-{
-}
-
 TestGroup LaTeXTests = {
     "latex", {
-        { "sample", PlainTest, test_sample },
+        { "create", DataTest, test_create },
         { NULL, PlainTest, NULL }
     }
 };

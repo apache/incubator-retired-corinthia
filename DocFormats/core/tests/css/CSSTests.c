@@ -20,7 +20,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-void test_CSS_setHeadingNumbering(void)
+static void test_setHeadingNumbering(void)
 {
     const char *inputCSS = DFHashTableLookup(utgetdata(),"input.css");
     if (inputCSS == NULL) {
@@ -42,7 +42,7 @@ void test_CSS_setHeadingNumbering(void)
     CSSSheetRelease(styleSheet);
 }
 
-void test_CSS_parse(void)
+static void test_parse(void)
 {
     const char *inputCSS = DFHashTableLookup(utgetdata(),"input.css");
     if (inputCSS == NULL) {
@@ -62,13 +62,10 @@ void test_CSS_parse(void)
     CSSSheetRelease(styleSheet);
 }
 
-static void test_sample(void)
-{
-}
-
 TestGroup CSSTests = {
     "core.css", {
-        { "sample", PlainTest, test_sample },
+        { "setHeadingNumbering", DataTest, test_setHeadingNumbering },
+        { "parse", DataTest, test_parse },
         { NULL, PlainTest, NULL }
     }
 };

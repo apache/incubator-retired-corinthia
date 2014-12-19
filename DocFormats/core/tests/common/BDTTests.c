@@ -369,7 +369,7 @@ int BDT_Test(int argc, const char **argv)
     return 0;
 }
 
-void test_move(void)
+static void test_move(void)
 {
     if (utgetargc() < 3) {
         DFBufferFormat(utgetoutput(),"move: insufficient arguments");
@@ -386,7 +386,7 @@ void test_move(void)
     DFBufferRelease(output);
 }
 
-void test_removeChildren(void)
+static void test_removeChildren(void)
 {
     int *indices = (int *)malloc(utgetargc()*sizeof(int));
 
@@ -402,3 +402,11 @@ void test_removeChildren(void)
 
     free(indices);
 }
+
+TestGroup BDTTests = {
+    "core.bdt", {
+        { "move", DataTest, test_move },
+        { "removeChildren", DataTest, test_removeChildren },
+        { NULL, PlainTest, NULL }
+    }
+};

@@ -72,6 +72,7 @@ struct TestGroup {
 struct DFHashTable;
 struct DFBuffer;
 
+TestCase *utlookup(TestGroup **groups, const char *name);
 void utsetup(const char *path, struct DFHashTable *data, int argc, const char **argv, struct DFBuffer *output);
 void utteardown(void);
 void utrun(TestGroup **groups, int plain, int data, const char **filenames);

@@ -34,59 +34,64 @@
 #include <stdlib.h>
 #include <string.h>
 
-// BDTTests.c
-void test_move(void);
-void test_removeChildren(void);
+extern TestGroup APITests;
+extern TestGroup CSSTests;
+extern TestGroup HTMLTests;
+extern TestGroup LibTests;
+extern TestGroup XMLTests;
+extern TestGroup LaTeXTests;
+extern TestGroup ODFTests;
+extern TestGroup WordTests;
+extern TestGroup PlatformTests;
+extern TestGroup BDTTests;
 
-// CSSTests.c
-void test_CSS_setHeadingNumbering(void);
-void test_CSS_parse(void);
-
-// WordTests.c
-void test_Word_testCollapseBookmarks(void);
-void test_Word_testExpandBookmarks(void);
-void test_Word_testGet(void);
-void test_Word_testCreate(void);
-void test_Word_testUpdate(void);
-
-// LaTeXTests.c
-void test_LaTeX_testCreate(void);
-
-// HTMLTests.c
-void test_HTML_testNormalize(void);
-void test_HTML_showChanges(void);
-
-
-
-typedef void (*TestFunction)(void);
+TestGroup *allGroups[] = {
+    &APITests,
+    &BDTTests,
+    &CSSTests,
+    &HTMLTests,
+    &LibTests,
+    &XMLTests,
+    &LaTeXTests,
+    &ODFTests,
+    &WordTests,
+    &PlatformTests,
+    NULL
+};
 
 static struct {
-    const char *name;
-    TestFunction fun;
-} testFunctions[] = {
-    { "CSS_setHeadingNumbering", test_CSS_setHeadingNumbering },
-    { "Word_testCollapseBookmarks", test_Word_testCollapseBookmarks },
-    { "Word_testExpandBookmarks", test_Word_testExpandBookmarks },
-    { "Word_testGet", test_Word_testGet },
-    { "Word_testCreate", test_Word_testCreate },
-    { "Word_testUpdate", test_Word_testUpdate },
-    { "LaTeX_testCreate", test_LaTeX_testCreate },
-    { "HTML_testNormalize", test_HTML_testNormalize },
-    { "HTML_showChanges", test_HTML_showChanges },
-    { "CSS_test", test_CSS_parse },
-    { "move", test_move },
-    { "remove", test_removeChildren },
+    const char *oldName;
+    const char *newName;
+} substitutions[] = {
+    { "CSS_setHeadingNumbering", "core.css.setHeadingNumbering" },
+    { "Word_testCollapseBookmarks", "ooxml.word.collapseBookmarks" },
+    { "Word_testExpandBookmarks", "ooxml.word.expandBookmarks" },
+    { "Word_testGet", "ooxml.word.get" },
+    { "Word_testCreate", "ooxml.word.create" },
+    { "Word_testUpdate", "ooxml.word.put" },
+    { "LaTeX_testCreate", "latex.create" },
+    { "HTML_testNormalize", "core.html.normalize" },
+    { "HTML_showChanges", "core.html.showChanges" },
+    { "CSS_test", "core.css.parse" },
+    { "move", "core.bdt.move" },
+    { "remove", "core.bdt.removeChildren" },
     { NULL, NULL },
 };
 
 void runTest(const char *name)
 {
-    for (int i = 0; testFunctions[i].name != NULL; i++) {
-        if (!strcmp(testFunctions[i].name,name)) {
-            testFunctions[i].fun();
-            return;
+    const char *actualName = name;
+    for (int i = 0; substitutions[i].oldName != NULL; i++) {
+        if (!strcmp(name,substitutions[i].oldName)) {
+            actualName = substitutions[i].newName;
         }
     }
+    TestCase *tc = utlookup(allGroups,actualName);
+    if (tc != NULL) {
+        tc->fun();
+        return;
+    }
+
     printf("runTest %s\n",name);
     for (int i = 0; i < utgetargc(); i++) {
         printf("    utgetargv()[%d] = %s\n",i,utgetargv()[i]);
