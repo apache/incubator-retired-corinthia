@@ -160,15 +160,41 @@ int DFDeleteFile(const char *path, DFError **error)
     return ok;
 }
 
+static void freeDirEntryList(DFDirEntryList *list)
+{
+    DFDirEntryList *next;
+    for (DFDirEntryList *l = list; l != NULL; l = next) {
+        next = l->next;
+        free(l->name);
+        free(l);
+    }
+}
+
+static DFArray *arrayFromDirEntryList(DFDirEntryList *list)
+{
+    DFArray *array = DFArrayNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    for (DFDirEntryList *l = list; l != NULL; l = l->next)
+        DFArrayAppend(array,l->name);
+    return array;
+}
+
 const char **DFContentsOfDirectory(const char *path, int recursive, DFError **error)
 {
-    const char **entries = NULL;
-    DFArray *array = DFArrayNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFDirEntryList *list = NULL;
+    DFDirEntryList **listptr = &list;
+    char *errmsg = NULL;
 
-    if (DFAddDirContents(path,"",recursive,array,error))
-        entries = DFStringArrayFlatten(array);
+    if (!DFAddDirContents(path,"",recursive,&listptr,&errmsg)) {
+        DFErrorFormat(error,"%s",errmsg);
+        free(errmsg);
+        freeDirEntryList(list);
+        return NULL;
+    }
 
+    DFArray *array = arrayFromDirEntryList(list);
+    const char **entries = DFStringArrayFlatten(array);
     DFArrayRelease(array);
+    freeDirEntryList(list);
     return entries;
 }
 

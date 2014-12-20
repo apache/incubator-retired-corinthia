@@ -19,8 +19,15 @@
 #include "DFArray.h"
 #include <stddef.h>
 
+typedef struct DFDirEntryList DFDirEntryList;
+
+struct DFDirEntryList {
+    char *name;
+    DFDirEntryList *next;
+};
+
 int DFMkdirIfAbsent(const char *path, DFError **error);
-int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DFArray *array, DFError **error);
+int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DFDirEntryList ***list, char **errmsg);
 int DFGetImageDimensions(const void *data, size_t len, const char *ext,
                          unsigned int *width, unsigned int *height, DFError **error);
 

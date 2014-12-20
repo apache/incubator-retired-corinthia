@@ -19,6 +19,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include <sys/stat.h>
 
 // This file contains functions that are applicable to all Unix-based platforms, including Linux, iOS, and OS X
@@ -53,11 +54,17 @@ int DFMkdirIfAbsent(const char *path, DFError **error)
     return 1;
 }
 
-int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DFArray *array, DFError **error)
+int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DFDirEntryList ***list, char **errmsg)
 {
+    DFDirEntryList **listptr = *list;
+
     DIR *dir = opendir(absPath);
     if (dir == NULL) {
-        DFErrorFormat(error,"%s: %s",relPath,strerror(errno));
+        if (errmsg != NULL) {
+            char temp[1024];
+            snprintf(temp,1024,"%s: %s",relPath,strerror(errno));
+            *errmsg = strdup(temp);
+        }
         return 0;
     }
 
@@ -71,18 +78,24 @@ int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DF
         char *absSubPath = DFAppendPathComponent(absPath,result->d_name);
         char *relSubPath = DFAppendPathComponent(relPath,result->d_name);
 
+        char *entryName;
         if (relSubPath[0] == '/')
-            DFArrayAppend(array,&relSubPath[1]);
+            entryName = &relSubPath[1];
         else
-            DFArrayAppend(array,relSubPath);
+            entryName = relSubPath;
+
+        *listptr = (DFDirEntryList *)calloc(1,sizeof(DFDirEntryList));
+        (*listptr)->name = strdup(entryName);
+        listptr = &(*listptr)->next;
 
         if (recursive && DFIsDirectory(absSubPath))
-            ok = DFAddDirContents(absSubPath,relSubPath,recursive,array,error);
+            ok = DFAddDirContents(absSubPath,relSubPath,recursive,&listptr,errmsg);
 
         free(absSubPath);
         free(relSubPath);
     }
     closedir(dir);
+    *list = listptr;
     return ok;
 }
 

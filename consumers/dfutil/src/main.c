@@ -21,9 +21,11 @@
 #include "StringTests.h"
 #include "DFZipFile.h"
 #include "DFCommon.h"
+#include "DFFilesystem.h"
 #include <DocFormats/DocFormats.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 static int runCommand(int argc, const char **argv, DFError **dferr)
 {
