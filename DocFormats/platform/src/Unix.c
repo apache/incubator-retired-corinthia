@@ -12,10 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "DFCommon.h"
 #include "DFPlatform.h"
-#include "DFFilesystem.h"
-#include "DFString.h"
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
@@ -45,10 +42,12 @@ void DFInitOnce(DFOnce *once, DFOnceFunction fun)
         fun();
 }
 
-int DFMkdirIfAbsent(const char *path, DFError **error)
+int DFMkdirIfAbsent(const char *path, char **errmsg)
 {
     if ((mkdir(path,0777) != 0) && (errno != EEXIST)) {
-        DFErrorSetPosix(error,errno);
+        printf("DFMkdirIfAbsent: errno = %d (%s)\n",errno,strerror(errno));
+        if (errmsg != NULL)
+            *errmsg = strdup(strerror(errno));
         return 0;
     }
     return 1;
@@ -75,8 +74,14 @@ int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DF
         if (!strcmp(result->d_name,".") || !strcmp(result->d_name,".."))
             continue;
 
-        char *absSubPath = DFAppendPathComponent(absPath,result->d_name);
-        char *relSubPath = DFAppendPathComponent(relPath,result->d_name);
+        size_t absSubPathLen = strlen(absPath) + 1 + strlen(result->d_name);
+        size_t relSubPathLen = strlen(relPath) + 1 + strlen(result->d_name);
+
+        char *absSubPath = (char *)malloc(absSubPathLen+1);
+        char *relSubPath = (char *)malloc(relSubPathLen+1);
+
+        snprintf(absSubPath,absSubPathLen+1,"%s/%s",absPath,result->d_name);
+        snprintf(relSubPath,relSubPathLen+1,"%s/%s",relPath,result->d_name);
 
         char *entryName;
         if (relSubPath[0] == '/')
@@ -88,7 +93,8 @@ int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DF
         (*listptr)->name = strdup(entryName);
         listptr = &(*listptr)->next;
 
-        if (recursive && DFIsDirectory(absSubPath))
+        struct stat statbuf;
+        if (recursive && (0 == stat(absSubPath,&statbuf)) && S_ISDIR(statbuf.st_mode))
             ok = DFAddDirContents(absSubPath,relSubPath,recursive,&listptr,errmsg);
 
         free(absSubPath);

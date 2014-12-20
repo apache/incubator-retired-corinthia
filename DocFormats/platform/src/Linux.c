@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "DFCommon.h"
 #include "DFPlatform.h"
 
 // This file contains functions that are applicable to Linux (or more generally, any non-Apple Unix platform)
@@ -23,11 +22,12 @@
 #include <SDL2/SDL_image.h>
 
 int DFGetImageDimensions(const void *data, size_t len, const char *ext,
-                         unsigned int *width, unsigned int *height, DFError **error)
+                         unsigned int *width, unsigned int *height, char **errmsg)
 {
     SDL_Surface *image = IMG_Load_RW(SDL_RWFromMem((void *)data,len),1);
     if (image == NULL) {
-        DFErrorFormat(error,"%s",IMG_GetError());
+        if (errmsg != NULL)
+            *errmsg = strdup(IMG_GetError());
         return 0;
     }
 

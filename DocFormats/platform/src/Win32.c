@@ -12,10 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "DFCommon.h"
 #include "DFPlatform.h"
-#include "DFFilesystem.h"
-#include "DFString.h"
 
 // This file contains functions that are applicable to Windows
 
@@ -25,27 +22,9 @@
 #include <SDL_image.h>
 #include <stdio.h>
 
-void DFErrorSetWin32(DFError **error, DWORD code)
-{
-    char *lpMsgBuf;
-    FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
-                  FORMAT_MESSAGE_FROM_SYSTEM |
-                  FORMAT_MESSAGE_IGNORE_INSERTS,
-                  NULL,
-                  code,
-                  MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-                  (LPTSTR)&lpMsgBuf,
-                  0, NULL);
-    size_t len = strlen(lpMsgBuf);
-    while ((len > 0) &&
-           ((lpMsgBuf[len - 1] == '\n') ||
-            (lpMsgBuf[len - 1] == '\r') ||
-            (lpMsgBuf[len - 1] == '.')))
-        len--;
-    lpMsgBuf[len] = '\0';
-    DFErrorFormat(error, "%s", lpMsgBuf);
-    LocalFree(lpMsgBuf);
-}
+#ifndef snprintf
+#define snprintf _snprintf
+#endif
 
 void DFErrorMsgSetWin32(char **errmsg, DWORD code)
 {
@@ -97,10 +76,10 @@ void DFInitOnce(DFOnce *once, DFOnceFunction fun)
         fun();
 }
 
-int DFMkdirIfAbsent(const char *path,DFError **error)
+int DFMkdirIfAbsent(const char *path, char **errmsg)
 {
     if (!CreateDirectory(path,NULL) && (GetLastError() != ERROR_ALREADY_EXISTS)) {
-        DFErrorSetWin32(error,GetLastError());
+        DFErrorMsgSetWin32(errmsg,GetLastError());
         return 0;
     }
     return 1;
@@ -111,7 +90,10 @@ int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DF
     DFDirEntryList **listptr = *list;
     WIN32_FIND_DATA ffd;
     HANDLE hFind = INVALID_HANDLE_VALUE;
-    char *pattern = DFFormatString("%s/*",absPath);
+
+    size_t patternLen = strlen(absPath) + 2;
+    char *pattern = (char *)malloc(patternLen+1);
+    snprintf(pattern,patternLen+1,"%s/*",absPath);
     hFind = FindFirstFile(pattern,&ffd);
     if (hFind == INVALID_HANDLE_VALUE) {
         DFErrorMsgSetWin32(errmsg,GetLastError());
@@ -124,8 +106,14 @@ int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DF
         if (!strcmp(ffd.cFileName,".") || !strcmp(ffd.cFileName,".."))
             continue;
 
-        char *absSubPath = DFAppendPathComponent(absPath,ffd.cFileName);
-        char *relSubPath = DFAppendPathComponent(relPath,ffd.cFileName);
+        size_t absSubPathLen = strlen(absPath) + 1 + strlen(ffd.cFileName);
+        size_t relSubPathLen = strlen(relPath) + 1 + strlen(ffd.cFileName);
+
+        char *absSubPath = (char *)malloc(absSubPathLen+1);
+        char *relSubPath = (char *)malloc(relSubPathLen+1);
+
+        snprintf(absSubPath,absSubPathLen+1,"%s/%s",absPath,ffd.cFileName);
+        snprintf(relSubPath,relSubPathLen+1,"%s/%s",relPath,ffd.cFileName);
 
         char *entryName;
         if (relSubPath[0] == '/')
@@ -151,11 +139,12 @@ int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DF
 }
 
 int DFGetImageDimensions(const void *data, size_t len, const char *ext,
-                         unsigned int *width, unsigned int *height, DFError **error)
+                         unsigned int *width, unsigned int *height, char **errmsg)
 {
     SDL_Surface *image = IMG_Load_RW(SDL_RWFromMem((void *)data,len),1);
     if (image == NULL) {
-        DFErrorFormat(error,"%s",IMG_GetError());
+        if (errmsg != NULL)
+            *errmsg = strdup(IMG_GetError());
         return 0;
     }
 

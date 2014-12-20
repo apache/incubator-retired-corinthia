@@ -15,8 +15,6 @@
 #ifndef DocFormats_DFPlatform_h
 #define DocFormats_DFPlatform_h
 
-#include <DocFormats/DFError.h>
-#include "DFArray.h"
 #include <stddef.h>
 
 typedef struct DFDirEntryList DFDirEntryList;
@@ -26,10 +24,10 @@ struct DFDirEntryList {
     DFDirEntryList *next;
 };
 
-int DFMkdirIfAbsent(const char *path, DFError **error);
+int DFMkdirIfAbsent(const char *path, char **errmsg);
 int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DFDirEntryList ***list, char **errmsg);
 int DFGetImageDimensions(const void *data, size_t len, const char *ext,
-                         unsigned int *width, unsigned int *height, DFError **error);
+                         unsigned int *width, unsigned int *height, char **errmsg);
 
 #define DF_ONCE_INIT 0
 typedef int DFOnce;

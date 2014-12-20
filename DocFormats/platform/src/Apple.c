@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "DFCommon.h"
 #include "DFPlatform.h"
 
 // This file contains functions that are applicable to iOS and OS X
@@ -22,7 +21,7 @@
 #include <ImageIO/ImageIO.h>
 
 int DFGetImageDimensions(const void *data, size_t len, const char *ext,
-                         unsigned int *width, unsigned int *height, DFError **error)
+                         unsigned int *width, unsigned int *height, char **errmsg)
 {
     // FIXME: Should use ext here to determine the UTI, and pass that in the options directory
     // (the second parameter to CGImageSourceCreateWithData)

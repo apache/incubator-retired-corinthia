@@ -404,7 +404,13 @@ static int getImageFile(WordConverter *converter, const char *unescapedSrc, Pixe
     if (imageData == NULL)
         goto end;
 
-    ok = DFGetImageDimensions(imageData->data,imageData->len,ext,&size->widthPx,&size->heightPx,error);
+    char *errmsg = NULL;
+    ok = DFGetImageDimensions(imageData->data,imageData->len,ext,&size->widthPx,&size->heightPx,&errmsg);
+    if (!ok) {
+        DFErrorFormat(error,"%s",errmsg);
+        free(errmsg);
+    }
+
 end:
     DFBufferRelease(imageData);
     free(ext);

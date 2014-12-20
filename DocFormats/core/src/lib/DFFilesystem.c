@@ -52,10 +52,14 @@ int DFCreateDirectory(const char *path, int intermediates, DFError **error)
             if (pos == 0)
                 continue;
             char *partial = DFSubstring(path,0,pos);
-            int ok = DFMkdirIfAbsent(partial,error);
+            char *errmsg = NULL;
+            int ok = DFMkdirIfAbsent(partial,&errmsg);
             free(partial);
-            if (!ok)
+            if (!ok) {
+                DFErrorFormat(error,"%s",errmsg);
+                free(errmsg);
                 return 0;
+            }
         }
     }
     return 1;
