@@ -14,7 +14,6 @@
 
 #include "Commands.h"
 #include "BDTTests.h"
-#include "Test.h"
 #include "WordPlain.h"
 #include "HTMLPlain.h"
 #include "FunctionTests.h"
@@ -37,12 +36,6 @@ static int runCommand(int argc, const char **argv, DFError **dferr)
     }
     else if ((argc == 3) && !strcmp(argv[1],"-normalize")) {
         return normalizeFile(argv[2],dferr);
-    }
-    else if ((argc >= 3) && !strcmp(argv[1],"-test")) {
-        return runTests(argc-2,&argv[2],0,dferr);
-    }
-    else if ((argc >= 3) && !strcmp(argv[1],"-testdiff")) {
-        return runTests(argc-2,&argv[2],1,dferr);
     }
     else if ((argc >= 2) && !strcmp(argv[1],"-bdt")) {
         BDT_Test(argc-2,&argv[2]);
@@ -120,12 +113,6 @@ static int runCommand(int argc, const char **argv, DFError **dferr)
               "\n"
               "dfutil -normalize filename\n"
               "    Normalize a HTML file\n"
-              "\n"
-              "dfutil -test path1 path2 ...\n"
-              "    Run a series of automated tests, consisting of all the .test files in the\n"
-              "    specified path(s). If only one file is found, the test is run and the\n"
-              "    result is printed to standard output. If multiple files are found, they are\n"
-              "    all run, and their pass/fail status is printed.\n"
               "\n"
               "dfutil -parsecontent string\n"
               "    Parse a value as if it were given as a CSS 'content' property, and print parts\n"

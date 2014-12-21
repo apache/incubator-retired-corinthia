@@ -25,7 +25,6 @@ int testCSS(const char *filename, DFError **error);
 int parseHTMLFile(const char *filename, DFError **error);
 int textPackageList(const char *filename, DFError **error);
 int textPackageGet(const char *filename, const char *itemPath, DFError **error);
-int runTests(int argc, const char **argv, int diff, DFError **error);
 int printTree(const char *filename, DFError **error);
 int diffFiles(const char *filename1, const char *filename2, DFError **error);
 void parseContent(const char *content);

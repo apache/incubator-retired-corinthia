@@ -14,7 +14,6 @@
 
 #include "Commands.h"
 #include "BDTTests.h"
-#include "Test.h"
 #include "WordPlain.h"
 #include "HTMLPlain.h"
 #include "TextPackage.h"
@@ -332,39 +331,6 @@ int textPackageGet(const char *filename, const char *itemPath, DFError **error)
 
     printf("%s",value);
     free(value);
-    return 1;
-}
-
-int runTests(int argc, const char **argv, int diff, DFError **error)
-{
-    DFArray *tests = DFArrayNew((DFCopyFunction)strdup,(DFFreeFunction)free);
-    for (int i = 0; i < argc; i++) {
-        const char *path = argv[i];
-        if (!DFFileExists(path)) {
-            DFErrorFormat(error,"%s: No such file or directory",path);
-            DFArrayRelease(tests);
-            return 0;
-        }
-        TestGetFilenamesRecursive(path,tests);
-    }
-
-    TestHarness harness;
-    bzero(&harness,sizeof(TestHarness));
-    harness.showResults = (DFArrayCount(tests) == 1);
-    harness.showDiffs = diff;
-
-    if (DFArrayCount(tests) == 1) {
-        TestRun(&harness,(const char *)DFArrayItemAt(tests,0));
-    }
-    else {
-        for (size_t i = 0; i < DFArrayCount(tests); i++) {
-            const char *test = DFArrayItemAt(tests,i);
-            TestRun(&harness,test);
-        }
-        printf("Passed: %d\n",harness.passed);
-        printf("Failed: %d\n",harness.failed);
-    }
-    DFArrayRelease(tests);
     return 1;
 }
 
