@@ -5,10 +5,6 @@ set(SOURCES
     Commands.h
     FunctionTests.h
     StringTests.h
-    Test.c
-    Test.h
-    TestFunctions.c
-    TestFunctions.h
     main.c
 )
 

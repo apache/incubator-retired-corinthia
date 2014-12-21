@@ -44,7 +44,8 @@ static void runGroup(TestGroup *group)
 {
     printf("Test group: %s\n",group->name);
     for (int i = 0; group->tests[i].name; i++) {
-        runTest(&group->tests[i]);
+        if (group->tests[i].type == PlainTest)
+            runTest(&group->tests[i]);
     }
 }
 
