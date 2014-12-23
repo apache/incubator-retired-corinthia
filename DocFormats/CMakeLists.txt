@@ -38,11 +38,11 @@ set(GroupRoot
     DocFormats.c
     $<TARGET_OBJECTS:api>
     $<TARGET_OBJECTS:core>
-    $<TARGET_OBJECTS:platform>
     $<TARGET_OBJECTS:unittest>
     $<TARGET_OBJECTS:ooxml>
     $<TARGET_OBJECTS:latex>
     $<TARGET_OBJECTS:odf>
+    $<TARGET_OBJECTS:platform>
 )
 
 add_library(DocFormats

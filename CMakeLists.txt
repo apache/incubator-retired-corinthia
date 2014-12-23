@@ -9,7 +9,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/bin)
 
-set(LIBS tidy minizip)
+set(LIBS )
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     find_library(FOUNDATION_LIBRARY Foundation)
@@ -31,8 +31,6 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4090 /wd4996")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
-add_subdirectory(DocFormats/platform/3rdparty/minizip)
-add_subdirectory(DocFormats/platform/3rdparty/w3c-tidy-html5)
 add_subdirectory(DocFormats)
 add_subdirectory(consumers/dftest/src)
 add_subdirectory(consumers/dfconvert/src)
