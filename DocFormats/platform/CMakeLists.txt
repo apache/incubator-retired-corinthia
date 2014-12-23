@@ -116,19 +116,22 @@ include_directories(3rdparty/w3c-tidy-html5/src)
 include_directories(../../external/include)
 include_directories(SYSTEM ${INCLUDE_DIRS})
 include_directories(headers)
-#include_directories(../unittest)
+include_directories(../unittest)
 
 
 
+###
+# Prebuild library (needed to use different compile options)
+###
 add_library(platform OBJECT
     ${GroupMinizip}
 	${GroupHtml5}
     ${GroupHeaders}
     ${GroupSrc}
     ${GroupTests})
-source_group(headers FILES ${GroupHeaders})
-source_group(src FILES ${GroupSrc})
-source_group(tests FILES ${GroupTests})
-source_group("src\\minizip" FILES ${GroupMinizip})
-source_group("src\\w3c-tidy-html5" FILES ${GroupHtml5})
+source_group(headers             FILES ${GroupHeaders})
+source_group(src                 FILES ${GroupSrc})
+source_group(tests               FILES ${GroupTests})
+source_group(src\\minizip        FILES ${GroupMinizip})
+source_group(src\\w3c-tidy-html5 FILES ${GroupHtml5})
 set_property(TARGET platform PROPERTY FOLDER DocFormats)

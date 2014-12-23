@@ -18,6 +18,7 @@ include_directories(SYSTEM ${INCLUDE_DIRS})
 include_directories(SYSTEM ./api/headers)
 include_directories(.)
 include_directories(./platform/headers)
+include_directories(./core/headers)
 include_directories(./core/src/common)
 include_directories(./core/src/css)
 include_directories(./core/src/html)
@@ -30,11 +31,9 @@ include_directories(./filters/ooxml/src/common)
 include_directories(./filters/ooxml/src/word)
 include_directories(./filters/ooxml/src/word/formatting)
 include_directories(./filters/ooxml/src/word/lenses)
-include_directories(./unittest)
+include_directories(../unittest)
 
 set(GroupRoot
-    DFCommon.h
-    DFTypes.h
     DocFormats.c
     $<TARGET_OBJECTS:api>
     $<TARGET_OBJECTS:core>
@@ -43,6 +42,7 @@ set(GroupRoot
     $<TARGET_OBJECTS:latex>
     $<TARGET_OBJECTS:odf>
     $<TARGET_OBJECTS:platform>
+    $<TARGET_OBJECTS:core>
 )
 
 add_library(DocFormats

@@ -1,19 +1,25 @@
-include_directories(/usr/include/libxml2)
-include_directories(../../DocFormats/platform/3rdparty/w3c-tidy-html5/include)
-include_directories(../../DocFormats/platform/3rdparty//w3c-tidy-html5/src)
-include_directories(../../DocFormats/platform/3rdparty/minizip)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-include_directories(SYSTEM ${INCLUDE_DIRS})
-include_directories(SYSTEM ../api/headers)
-include_directories(..)
-include_directories(../platform/headers)
-include_directories(src/common)
-include_directories(src/css)
-include_directories(src/html)
-include_directories(src/lib)
-include_directories(src/names)
-include_directories(src/xml)
-include_directories(../unittest)
+
+
+###
+## group common objects incl test
+###
+set(GroupHeaders
+    headers/DFCore.h
+    headers/DFCommon.h
+    headers/DFTypes.h)
 
 set(GroupSrcCommon
     src/common/DFBDT.c
@@ -26,6 +32,11 @@ set(GroupTestsCommon
     tests/common/BDTTests.c
     tests/common/BDTTests.h)
 
+
+
+###
+## group CSS objects incl test
+###
 set(GroupSrcCSS
     src/css/CSS.c
     src/css/CSS.h
@@ -47,6 +58,11 @@ set(GroupSrcCSS
 set(GroupTestsCSS
     tests/css/CSSTests.c)
 
+
+
+###
+## group HTML objects incl test
+###
 set(GroupSrcHTML
     src/html/DFHTDocument.c
     src/html/DFHTDocument.h
@@ -66,6 +82,11 @@ set(GroupTestsHTML
     tests/html/HTMLPlain.h
     tests/html/HTMLTests.c)
 
+
+
+###
+## group LIB objects incl test
+###
 set(GroupSrcLib
     src/lib/DFAllocator.c
     src/lib/DFAllocator.h
@@ -93,12 +114,25 @@ set(GroupSrcLib
 set(GroupTestsLib
     tests/lib/LibTests.c)
 
+
+
+###
+## group NAMES objects incl test
+###
 set(GroupSrcNames
     src/names/DFXMLNames.c
     src/names/DFXMLNames.h
     src/names/DFXMLNamespaces.c
     src/names/DFXMLNamespaces.h)
 
+set(GroupTestsNames
+    tests/names/NamesTests.c)
+
+
+
+###
+## group XML objects incl test
+###
 set(GroupSrcXML
     src/xml/DFChanges.c
     src/xml/DFChanges.h
@@ -114,7 +148,35 @@ set(GroupSrcXML
 set(GroupTestsXML
     tests/xml/XMLTests.c)
 
+
+
+###
+# Common include for all core files
+###
+include_directories()
+include_directories(/usr/include/libxml2)
+include_directories(../../DocFormats/platform/3rdparty/w3c-tidy-html5/include)
+include_directories(../../DocFormats/platform/3rdparty//w3c-tidy-html5/src)
+include_directories(../../DocFormats/platform/3rdparty/minizip)
+include_directories(SYSTEM ${INCLUDE_DIRS})
+include_directories(SYSTEM ../api/headers)
+include_directories(../platform/headers)
+include_directories(src/common)
+include_directories(src/css)
+include_directories(src/html)
+include_directories(src/lib)
+include_directories(src/names)
+include_directories(src/xml)
+include_directories(../unittest)
+include_directories(headers)
+
+
+
+###
+# Prebuild library (needed to use different compile options)
+###
 add_library(core OBJECT
+    ${GroupHeaders}
     ${GroupSrcCommon}
     ${GroupSrcCSS}
     ${GroupSrcHTML}
@@ -125,17 +187,20 @@ add_library(core OBJECT
     ${GroupTestsCSS}
     ${GroupTestsHTML}
     ${GroupTestsLib}
+    ${GroupTestsNames}
     ${GroupTestsXML})
 
-source_group(src\\common FILES ${GroupSrcCommon})
-source_group(src\\css FILES ${GroupSrcCSS})
-source_group(src\\html FILES ${GroupSrcHTML})
-source_group(src\\lib FILES ${GroupSrcLib})
-source_group(src\\names FILES ${GroupSrcNames})
-source_group(src\\xml FILES ${GroupSrcXML})
-
+source_group(headers       FILES ${GroupHeaders})
+source_group(src\\common   FILES ${GroupSrcCommon})
+source_group(src\\css      FILES ${GroupSrcCSS})
+source_group(src\\html     FILES ${GroupSrcHTML})
+source_group(src\\lib      FILES ${GroupSrcLib})
+source_group(src\\names    FILES ${GroupSrcNames})
+source_group(src\\xml      FILES ${GroupSrcXML})
 source_group(tests\\common FILES ${GroupTestsCommon})
-source_group(tests\\css FILES ${GroupTestsCSS})
-source_group(tests\\html FILES ${GroupTestsHTML})
-source_group(tests\\lib FILES ${GroupTestsLib})
-source_group(tests\\xml FILES ${GroupTestsXML})
+source_group(tests\\css    FILES ${GroupTestsCSS})
+source_group(tests\\html   FILES ${GroupTestsHTML})
+source_group(tests\\lib    FILES ${GroupTestsLib})
+source_group(tests\\names  FILES ${GroupTestsNames})
+source_group(tests\\xml    FILES ${GroupTestsXML})
+set_property(TARGET core PROPERTY FOLDER DocFormats)

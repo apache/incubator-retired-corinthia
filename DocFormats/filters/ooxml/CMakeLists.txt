@@ -5,7 +5,7 @@ include_directories(../../DocFormats/3rdparty/external/minizip)
 
 include_directories(SYSTEM ${INCLUDE_DIRS})
 include_directories(SYSTEM ../../api/headers)
-include_directories(../..)
+include_directories(../../core/headers)
 include_directories(../../platform/headers)
 include_directories(../../core/src/common)
 include_directories(../../core/src/css)
