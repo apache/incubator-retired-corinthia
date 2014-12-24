@@ -1,6 +1,29 @@
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+
+###
+## global definitions
+###
 cmake_minimum_required(VERSION 2.8)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+
+
+###
+## run subprojects
+###
 add_subdirectory(api)
 add_subdirectory(core)
 add_subdirectory(platform)
@@ -9,32 +32,20 @@ add_subdirectory(filters/ooxml)
 add_subdirectory(filters/latex)
 add_subdirectory(filters/odf)
 
-include_directories(/usr/include/libxml2)
-include_directories(../DocFormats/platform/3rdparty/w3c-tidy-html5/include)
-include_directories(../DocFormats/platform/3rdparty/w3c-tidy-html5/src)
-include_directories(../DocFormats/platform/3rdparty/minizip)
 
-include_directories(SYSTEM ${INCLUDE_DIRS})
-include_directories(SYSTEM ./api/headers)
-include_directories(.)
-include_directories(./platform/headers)
-include_directories(./core/headers)
-include_directories(./core/src/common)
-include_directories(./core/src/css)
-include_directories(./core/src/html)
-include_directories(./core/src/lib)
-include_directories(./core/src/names)
-include_directories(./core/src/xml)
-include_directories(./filters/latex/src)
-include_directories(./filters/odf/src)
-include_directories(./filters/ooxml/src/common)
-include_directories(./filters/ooxml/src/word)
-include_directories(./filters/ooxml/src/word/formatting)
-include_directories(./filters/ooxml/src/word/lenses)
-include_directories(../unittest)
 
-set(GroupRoot
-    DocFormats.c
+###
+## group main objects
+###
+set(GroupSrcRoot
+    DocFormats.c)
+
+
+
+###
+## group subproject objects
+###
+set(GroupObjRoot
     $<TARGET_OBJECTS:api>
     $<TARGET_OBJECTS:core>
     $<TARGET_OBJECTS:unittest>
@@ -42,10 +53,16 @@ set(GroupRoot
     $<TARGET_OBJECTS:latex>
     $<TARGET_OBJECTS:odf>
     $<TARGET_OBJECTS:platform>
-    $<TARGET_OBJECTS:core>
-)
+    $<TARGET_OBJECTS:core>)
 
+
+
+###
+# library (release artifact)
+###
 add_library(DocFormats
-    ${GroupRoot})
+    ${GroupSrcRoot}
+    ${GroupObjRoot})
 
-source_group(\\ FILES ${GroupRoot})
+source_group(src FILES ${GroupSrcRoot})
+set_property(TARGET DocFormats PROPERTY FOLDER DocFormats)

@@ -16,11 +16,6 @@
 ###
 ## group common objects incl test
 ###
-set(GroupHeaders
-    headers/DFCore.h
-    headers/DFCommon.h
-    headers/DFTypes.h)
-
 set(GroupSrcCommon
     src/common/DFBDT.c
     src/common/DFBDT.h
@@ -168,7 +163,7 @@ include_directories(src/lib)
 include_directories(src/names)
 include_directories(src/xml)
 include_directories(../unittest)
-include_directories(headers)
+include_directories(../headers)
 
 
 
@@ -190,7 +185,6 @@ add_library(core OBJECT
     ${GroupTestsNames}
     ${GroupTestsXML})
 
-source_group(headers       FILES ${GroupHeaders})
 source_group(src\\common   FILES ${GroupSrcCommon})
 source_group(src\\css      FILES ${GroupSrcCSS})
 source_group(src\\html     FILES ${GroupSrcHTML})
