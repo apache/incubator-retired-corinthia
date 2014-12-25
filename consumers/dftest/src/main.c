@@ -345,8 +345,22 @@ int main(int argc, const char **argv)
     // we still get the partial output.
     setbuf(stdout,NULL);
 
-    if ((argc == 2) && !strcmp(argv[1],"-plain")) {
-        utrun(allGroups,1,0,NULL);
+    if ((argc >= 2) && !strcmp(argv[1],"-plain")) {
+      if (argc == 2)
+        utrun(allGroups, 1, 0, NULL);
+      else {
+        // Arg[2] == testgroup to run
+        TestGroup *singleGroup[] = { NULL, NULL };
+        int        i = 0;
+
+        for (i; allGroups[i] && strcmp(argv[2], allGroups[i]->name); i++) ;
+        if (allGroups[i]) {
+          singleGroup[0] = allGroups[i];
+          utrun(singleGroup, 1, 0, NULL);
+        }
+        else
+          printf("\n function group \"%s\" does not exist!\n\n", argv[2]);
+      }
     }
     else if ((argc >= 3) && !strcmp(argv[1],"-diff")) {
         runTests(argc-2,&argv[2],1);
