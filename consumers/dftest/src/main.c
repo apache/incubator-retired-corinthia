@@ -353,7 +353,7 @@ int main(int argc, const char **argv)
         TestGroup *singleGroup[] = { NULL, NULL };
         int        i = 0;
 
-        for (i; allGroups[i] && strcmp(argv[2], allGroups[i]->name); i++) ;
+        for (int i = 0; allGroups[i] && strcmp(argv[2], allGroups[i]->name); i++) ;
         if (allGroups[i]) {
           singleGroup[0] = allGroups[i];
           utrun(singleGroup, 1, 0, NULL);
