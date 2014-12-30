@@ -41,5 +41,6 @@ mv packages/libxml2/libxml2-2.7.8.win32/bin/* bin
 
 mv packages/zlib/include/* include
 mv packages/zlib/lib/* lib
+mv packages/zlib/*.dll bin
 
 rm -rf packages
