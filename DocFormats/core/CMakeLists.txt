@@ -120,9 +120,6 @@ set(GroupSrcNames
     src/names/DFXMLNamespaces.c
     src/names/DFXMLNamespaces.h)
 
-set(GroupTestsNames
-    tests/names/NamesTests.c)
-
 
 
 ###
@@ -182,7 +179,6 @@ add_library(core OBJECT
     ${GroupTestsCSS}
     ${GroupTestsHTML}
     ${GroupTestsLib}
-    ${GroupTestsNames}
     ${GroupTestsXML})
 
 source_group(src\\common   FILES ${GroupSrcCommon})
@@ -195,6 +191,5 @@ source_group(tests\\common FILES ${GroupTestsCommon})
 source_group(tests\\css    FILES ${GroupTestsCSS})
 source_group(tests\\html   FILES ${GroupTestsHTML})
 source_group(tests\\lib    FILES ${GroupTestsLib})
-source_group(tests\\names  FILES ${GroupTestsNames})
 source_group(tests\\xml    FILES ${GroupTestsXML})
 set_property(TARGET core PROPERTY FOLDER DocFormats)
