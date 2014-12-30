@@ -17,6 +17,12 @@ mkdir packages/zlib
 (cd packages/zlib && unzip ../../download/zlib128-dll.zip)
 chmod -R u+w packages/zlib
 
+for i in bin lib include; do
+    if [ ! -d $i ]; then
+        mkdir $i
+    fi
+done
+
 mv packages/SDL2/SDL2-2.0.3/include/* include
 mv packages/SDL2/SDL2-2.0.3/lib/x86/*.lib lib
 mv packages/SDL2/SDL2-2.0.3/lib/x86/*.dll bin
