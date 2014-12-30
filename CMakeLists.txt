@@ -45,7 +45,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
         ${PROJECT_SOURCE_DIR}/external/include)
     set(LIB_DIRS
         ${PROJECT_SOURCE_DIR}/external/lib)
-    set(LIBS ${LIBS} libxml2 zlib libiconv SDL2 SDL2_image)
+    set(LIBS ${LIBS} libxml2 zdll iconv SDL2 SDL2_image)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4090 /wd4996")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
