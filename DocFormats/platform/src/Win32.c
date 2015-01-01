@@ -26,7 +26,7 @@
 #define snprintf _snprintf
 #endif
 
-void DFErrorMsgSetWin32(char **errmsg, DWORD code)
+static void DFErrorMsgSetWin32(char **errmsg, DWORD code)
 {
     if (errmsg == NULL)
         return;
@@ -62,7 +62,7 @@ static int testAndSet(int *var,int value,HANDLE lock)
     return oldValue;
 }
 
-BOOL CALLBACK initOnceMutex(PINIT_ONCE initOnce,PVOID Parameter,PVOID *Context)
+static BOOL CALLBACK initOnceMutex(PINIT_ONCE initOnce,PVOID Parameter,PVOID *Context)
 {
     onceMutex = CreateMutex(NULL,FALSE,NULL);
     return TRUE;
