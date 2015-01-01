@@ -7,6 +7,11 @@
  *
  * This script is designed to be used from the fetch_downloads.bat file
  * That should be nearby in the same directory.
+ *
+ * With   Cscript wget-win.js url file
+ *
+ *            url is the absolute URL of the file to download
+ *           file is the full-path file address to store the download at
  */
 
 var WinHttpReq = new ActiveXObject("WinHttp.WinHttpRequest.5.1");
