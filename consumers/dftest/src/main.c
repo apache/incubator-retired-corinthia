@@ -36,7 +36,8 @@ extern TestGroup XMLTests;
 extern TestGroup LaTeXTests;
 extern TestGroup ODFTests;
 extern TestGroup WordTests;
-extern TestGroup PlatformTests;
+extern TestGroup PlatformOSTests;
+extern TestGroup PlatformWrapperTests;
 extern TestGroup BDTTests;
 
 TestGroup *allGroups[] = {
@@ -49,7 +50,8 @@ TestGroup *allGroups[] = {
     &LaTeXTests,
     &ODFTests,
     &WordTests,
-    &PlatformTests,
+    &PlatformOSTests,
+    &PlatformWrapperTests,
     NULL
 };
 

@@ -34,4 +34,21 @@ typedef int DFOnce;
 typedef void (*DFOnceFunction)(void);
 void DFInitOnce(DFOnce *once, DFOnceFunction fun);
 
+// Zip functions
+typedef struct {
+        void *handle;
+        int   zipFlag;
+        int   zipFirst;
+        } DFextZipHandle;
+typedef DFextZipHandle * DFextZipHandleP;
+
+DFextZipHandleP DFextZipOpen(const char *zipFilename, int doUnzip);
+int             DFextZipClose(DFextZipHandleP zipHandle);
+
+int             DFextZipOpenNextFile(DFextZipHandleP zipHandle, char *entryName, const int maxName);
+int             DFextZipAppendNewFile(DFextZipHandleP zipHandle, const char *entryName);
+int             DFextZipCloseFile(DFextZipHandleP zipHandle);
+
+int DFextZipReadCurrentFile(DFextZipHandleP zipHandle, void *buf, const int maxLen);
+int DFextZipWriteCurrentFile(DFextZipHandleP zipHandle, const void *buf, const int len);
 #endif

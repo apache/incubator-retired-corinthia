@@ -99,10 +99,12 @@ set(GroupSrc
     src/Apple.c
     src/Linux.c
     src/Unix.c
-    src/Win32.c)
+    src/Win32.c
+    src/Wrapper.c)
 
 set(GroupTests
-    tests/PlatformTests.c)
+    tests/OStests.c
+    tests/WrapperTests.c)
 
 
 
@@ -125,7 +127,7 @@ include_directories(../unittest)
 ###
 add_library(platform OBJECT
     ${GroupMinizip}
-	${GroupHtml5}
+    ${GroupHtml5}
     ${GroupHeaders}
     ${GroupSrc}
     ${GroupTests})

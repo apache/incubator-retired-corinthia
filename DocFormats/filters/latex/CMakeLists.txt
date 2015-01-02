@@ -31,7 +31,6 @@ include_directories()
 include_directories(/usr/include/libxml2)
 include_directories(../../DocFormats/3rdparty/external/w3c-tidy-html5/include)
 include_directories(../../DocFormats/3rdparty/external/w3c-tidy-html5/src)
-include_directories(../../DocFormats/3rdparty/external/minizip)
 
 include_directories(SYSTEM ${INCLUDE_DIRS})
 include_directories(SYSTEM ../../api/headers)

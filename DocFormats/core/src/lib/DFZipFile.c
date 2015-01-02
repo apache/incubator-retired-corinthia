@@ -13,8 +13,7 @@
 // limitations under the License.
 
 #include "DFZipFile.h"
-#include "unzip.h"
-#include "zip.h"
+#include "DFPlatform.h"
 #include "DFFilesystem.h"
 #include "DFString.h"
 #include "DFCommon.h"
@@ -35,118 +34,96 @@ static int zipError(DFError **error, const char *format, ...)
 
 int DFUnzip(const char *zipFilename, DFStorage *storage, DFError **error)
 {
-    unzFile zipFile = unzOpen(zipFilename);
-    if (zipFile == NULL)
-        return zipError(error,"Cannot open file");
+    char            entryName[4096];
+    DFextZipHandleP zipHandle;
+
+    zipHandle = DFextZipOpen(zipFilename, 1);
+    if (!zipHandle)
+      return zipError(error,"Cannot open file");
 
     int ret;
-    for (ret = unzGoToFirstFile(zipFile); ret == UNZ_OK; ret = unzGoToNextFile(zipFile)) {
-        unz_file_info info;
-        char entryName[4096];
-        if (UNZ_OK != unzGetCurrentFileInfo(zipFile,&info,entryName,4096,NULL,0,NULL,0))
-            return zipError(error,"Zip directory is corrupt");
+    for (; (ret = DFextZipOpenNextFile(zipHandle, entryName, sizeof(entryName))) > 0;) {
+        DFBuffer *content = DFBufferNew();
 
-        if (!DFStringHasSuffix(entryName,"/")) {
-            // Regular file
-            if (UNZ_OK != unzOpenCurrentFile(zipFile))
-                return zipError(error,"%s: Cannot open zip entry",entryName);;
-
-            DFBuffer *content = DFBufferNew();
-
-            unsigned char buf[4096];
-            int r;
-            while (0 < (r = unzReadCurrentFile(zipFile,buf,4096)))
-                DFBufferAppendData(content,(void *)buf,r);
-            if (0 > r) {
-                DFBufferRelease(content);
-                return zipError(error,"%s: decompression failed",entryName);
-            }
-
-            if (UNZ_OK != unzCloseCurrentFile(zipFile)) {
-                DFBufferRelease(content);
-                return zipError(error,"%s: decompression failed",entryName);
-            }
-
-            if (!DFBufferWriteToStorage(content,storage,entryName,error)) {
-                DFBufferRelease(content);
-                return zipError(error,"%s: %s",entryName,DFErrorMessage(error));
-            }
+        unsigned char buf[4096];
+        int r;
+        while (0 < (r = DFextZipReadCurrentFile(zipHandle, buf, sizeof(buf))))
+            DFBufferAppendData(content,(void *)buf,r);
+        if (0 > r) {
             DFBufferRelease(content);
+            return zipError(error,"%s: decompression failed",entryName);
         }
+
+        if (DFextZipCloseFile(zipHandle) < 0) {
+            DFBufferRelease(content);
+            return zipError(error,"%s: decompression failed",entryName);
+        }
+
+        if (!DFBufferWriteToStorage(content,storage,entryName,error)) {
+            DFBufferRelease(content);
+            return zipError(error,"%s: %s",entryName,DFErrorMessage(error));
+        }
+        DFBufferRelease(content);
     }
 
-    if (UNZ_END_OF_LIST_OF_FILE != ret)
+    if (ret < 0)
         return zipError(error,"Zip directory is corrupt");
 
-    if (UNZ_OK != unzClose(zipFile))
-        return zipError(error,"Cannot close file");
+    DFextZipClose(zipHandle);
 
     return 1;
 }
 
-static int zipAddFile(zipFile zip, const char *dest, DFBuffer *content, DFError **error)
+static int zipAddFile(DFextZipHandleP zipHandle, const char *dest, DFBuffer *content, DFError **error)
 {
-    zip_fileinfo fileinfo;
-    bzero(&fileinfo,sizeof(fileinfo));
-
-    if (ZIP_OK != zipOpenNewFileInZip(zip,
-                                      dest,
-                                      &fileinfo,
-                                      NULL,0,
-                                      NULL,0,
-                                      NULL,
-                                      Z_DEFLATED,
-                                      Z_DEFAULT_COMPRESSION)) {
+    if (DFextZipAppendNewFile(zipHandle, dest) < 0)
         return zipError(error,"%s: Cannot create entry in zip file",dest);
-    }
 
-    if (ZIP_OK != zipWriteInFileInZip(zip,content->data,(unsigned int)content->len))
+    if (DFextZipWriteCurrentFile(zipHandle, content->data, (unsigned int)content->len) < 0)
         return zipError(error,"%s: Error writing to entry in zip file",dest);
 
-
-    if (ZIP_OK != zipCloseFileInZip(zip))
+    if (DFextZipCloseFile(zipHandle) <0)
         return zipError(error,"%s: Error closing entry in zip file",dest);
-
     return 1;
 }
+
+
 
 int DFZip(const char *zipFilename, DFStorage *storage, DFError **error)
 {
     const char **allPaths = NULL;
-    zipFile zip = NULL;
     DFBuffer *content = NULL;
     int ok = 0;
+    DFextZipHandleP zipHandle = NULL;
 
     allPaths = DFStorageList(storage,error);
-    if (allPaths == NULL)
-        goto end;
-
-    zip = zipOpen(zipFilename,APPEND_STATUS_CREATE);
-    if (zip == NULL) {
-        DFErrorFormat(error,"Cannot create file");
-        goto end;
+    if (allPaths == NULL || !(zipHandle = DFextZipOpen(zipFilename, 0)))
+    {
+      DFErrorFormat(error,"Cannot create file");
     }
+    else
+    {
+      for (int i = 0; allPaths[i]; i++) {
+          const char *path = allPaths[i];
 
-    for (int i = 0; allPaths[i]; i++) {
-        const char *path = allPaths[i];
+          DFBufferRelease(content);
+          content = DFBufferReadFromStorage(storage,path,error);
+          if (content == NULL) {
+              DFErrorFormat(error,"%s: %s",path,DFErrorMessage(error));
+              goto end;
+          }
 
-        DFBufferRelease(content);
-        content = DFBufferReadFromStorage(storage,path,error);
-        if (content == NULL) {
-            DFErrorFormat(error,"%s: %s",path,DFErrorMessage(error));
-            goto end;
-        }
+          if (!zipAddFile(zipHandle, path, content, error))
+              goto end;
+      }
 
-        if (!zipAddFile(zip,path,content,error))
-            goto end;
+      ok = 1;
     }
-
-    ok = 1;
 
 end:
     DFBufferRelease(content);
     free(allPaths);
-    if ((zip != NULL) && (ZIP_OK != zipClose(zip,NULL)))
-        return zipError(error,"Cannot close file");
+    if (zipHandle != NULL)
+        DFextZipClose(zipHandle);
     return ok;
 }
