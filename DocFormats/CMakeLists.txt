@@ -43,6 +43,16 @@ set(GroupSrcRoot
 
 
 ###
+## group main headers
+###
+set(GroupHeaderRoot
+    headers/DFCommon.h
+    headers/DFCore.h
+    headers/DFPlatform.h
+	headers/DFTypes.h)
+
+
+###
 ## group subproject objects
 ###
 set(GroupObjRoot
@@ -61,7 +71,9 @@ set(GroupObjRoot
 ###
 add_library(DocFormats
     ${GroupSrcRoot}
+    ${GroupHeaderRoot}
     ${GroupObjRoot})
 
-source_group(src FILES ${GroupSrcRoot})
+source_group(src     FILES ${GroupSrcRoot})
+source_group(headers FILES ${GroupHeaderRoot})
 set_property(TARGET DocFormats PROPERTY FOLDER DocFormats)

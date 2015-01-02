@@ -22,9 +22,6 @@
 #include <SDL_image.h>
 #include <stdio.h>
 
-#ifndef snprintf
-#define snprintf _snprintf
-#endif
 
 static void DFErrorMsgSetWin32(char **errmsg, DWORD code)
 {

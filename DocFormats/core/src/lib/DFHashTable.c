@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "DFPlatform.h"
 #include "DFHashTable.h"
 #include "DFCommon.h"
 #include <assert.h>

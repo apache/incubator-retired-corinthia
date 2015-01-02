@@ -88,13 +88,6 @@ set(GroupHtml5
     3rdparty/w3c-tidy-html5/src/win32tc.h
    )
 
-
-###
-## group platform code
-###
-set(GroupHeaders
-    headers/DFPlatform.h)
-
 set(GroupSrc
     src/Apple.c
     src/Linux.c
@@ -117,7 +110,7 @@ include_directories(3rdparty/w3c-tidy-html5/include)
 include_directories(3rdparty/w3c-tidy-html5/src)
 include_directories(../../external/include)
 include_directories(SYSTEM ${INCLUDE_DIRS})
-include_directories(headers)
+include_directories(../headers)
 include_directories(../unittest)
 
 
@@ -128,10 +121,8 @@ include_directories(../unittest)
 add_library(platform OBJECT
     ${GroupMinizip}
     ${GroupHtml5}
-    ${GroupHeaders}
     ${GroupSrc}
     ${GroupTests})
-source_group(headers             FILES ${GroupHeaders})
 source_group(src                 FILES ${GroupSrc})
 source_group(tests               FILES ${GroupTests})
 source_group(src\\minizip        FILES ${GroupMinizip})

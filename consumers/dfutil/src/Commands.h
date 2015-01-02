@@ -33,6 +33,4 @@ int stobFile(const char *inFilename, const char *outFilename, DFError **error);
 int escapeCSSIdent(const char *filename, DFError **error);
 int unescapeCSSIdent(const char *filename, DFError **error);
 
-char *createTempDir(DFError **error);
-
 #endif
