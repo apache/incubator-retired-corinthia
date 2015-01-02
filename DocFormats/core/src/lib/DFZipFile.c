@@ -94,7 +94,7 @@ int DFZip(const char *zipFilename, DFStorage *storage, DFError **error)
     const char **allPaths = NULL;
     DFBuffer *content = NULL;
     int ok = 0;
-    DFextZipHandleP zipHandle;
+    DFextZipHandleP zipHandle = NULL;
 
     allPaths = DFStorageList(storage,error);
     if (allPaths == NULL || !(zipHandle = DFextZipOpen(zipFilename, 0)))
@@ -123,6 +123,7 @@ int DFZip(const char *zipFilename, DFStorage *storage, DFError **error)
 end:
     DFBufferRelease(content);
     free(allPaths);
-    DFextZipClose(zipHandle);
+    if (zipHandle != NULL)
+        DFextZipClose(zipHandle);
     return ok;
 }
