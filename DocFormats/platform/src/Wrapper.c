@@ -93,25 +93,34 @@ int DFextZipOpenNextFile(DFextZipHandleP zipHandle, char *entryName, const int m
             return -1;
     }
     else {
-        zip_fileinfo fileinfo;
-        memset(&fileinfo, 0, sizeof(fileinfo));
-
-        if (zipOpenNewFileInZip(zipHandle->handle,
-            entryName,
-            &fileinfo,
-            NULL, 0,
-            NULL, 0,
-            NULL,
-            Z_DEFLATED,
-            Z_DEFAULT_COMPRESSION) != ZIP_OK)
-            return -1;
+        return -1; // Zip file is open in write-only mode
     }
 
     // ready to read
     return 1;
 }
 
+int DFextZipAppendNewFile(DFextZipHandleP zipHandle, const char *entryName)
+{
+    zip_fileinfo fileinfo;
+    memset(&fileinfo, 0, sizeof(fileinfo));
 
+    if (zipHandle->zipFlag)
+        return -1; // Zip file is open in read-only mode
+
+    if (zipOpenNewFileInZip(zipHandle->handle,
+                            entryName,
+                            &fileinfo,
+                            NULL, 0,
+                            NULL, 0,
+                            NULL,
+                            Z_DEFLATED,
+                            Z_DEFAULT_COMPRESSION) != ZIP_OK) {
+        return -1;
+    }
+
+    return 1;
+}
 
 int DFextZipCloseFile(DFextZipHandleP zipHandle)
 {

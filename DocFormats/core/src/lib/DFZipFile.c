@@ -76,7 +76,7 @@ int DFUnzip(const char *zipFilename, DFStorage *storage, DFError **error)
 
 static int zipAddFile(DFextZipHandleP zipHandle, const char *dest, DFBuffer *content, DFError **error)
 {
-    if (DFextZipOpenNextFile(zipHandle, dest, 0) < 0)
+    if (DFextZipAppendNewFile(zipHandle, dest) < 0)
         return zipError(error,"%s: Cannot create entry in zip file",dest);
 
     if (DFextZipWriteCurrentFile(zipHandle, content->data, (unsigned int)content->len) < 0)

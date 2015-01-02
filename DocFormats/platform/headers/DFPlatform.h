@@ -46,6 +46,7 @@ DFextZipHandleP DFextZipOpen(const char *zipFilename, int doUnzip);
 int             DFextZipClose(DFextZipHandleP zipHandle);
 
 int             DFextZipOpenNextFile(DFextZipHandleP zipHandle, char *entryName, const int maxName);
+int             DFextZipAppendNewFile(DFextZipHandleP zipHandle, const char *entryName);
 int             DFextZipCloseFile(DFextZipHandleP zipHandle);
 
 int DFextZipReadCurrentFile(DFextZipHandleP zipHandle, char *buf, const int maxLen);
