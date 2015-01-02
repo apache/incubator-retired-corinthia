@@ -133,14 +133,14 @@ int DFextZipCloseFile(DFextZipHandleP zipHandle)
 
  
 
-int DFextZipReadCurrentFile(DFextZipHandleP zipHandle, char *buf, const int maxLen)
+int DFextZipReadCurrentFile(DFextZipHandleP zipHandle, void *buf, const int maxLen)
 {
     return unzReadCurrentFile(zipHandle->handle, buf, maxLen);
 }
 
 
 
-int DFextZipWriteCurrentFile(DFextZipHandleP zipHandle, char *buf, const int len)
+int DFextZipWriteCurrentFile(DFextZipHandleP zipHandle, const void *buf, const int len)
 {
     return (zipWriteInFileInZip(zipHandle->handle, buf, len) == ZIP_OK) ? 1 : -1;
 }
