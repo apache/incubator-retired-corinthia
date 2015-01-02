@@ -44,7 +44,7 @@ DFextZipHandleP DFextZipOpen(const char *zipFilename, int doUnzip) {
 
 int DFextZipClose(DFextZipHandleP zipHandle)
 {
-    int rc;
+    int rc = 0;
 
     if (zipHandle->handle) {
         if (zipHandle->zipFlag)
