@@ -34,6 +34,17 @@
 #endif
 
 
+#ifndef ATTRIBUTE_FORMAT
+#ifdef _MSC_VER
+#define ATTRIBUTE_FORMAT(archetype,index,first)
+#define ATTRIBUTE_ALIGNED(n) __declspec(align(8))
+#else
+#define ATTRIBUTE_FORMAT(archetype,index,first) __attribute__((format(archetype,index,first)))
+#define ATTRIBUTE_ALIGNED(n) __attribute__((aligned (n)))
+#endif
+#endif
+
+
 
 typedef struct DFDirEntryList DFDirEntryList;
 

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include <DocFormats/Formats.h>
+#include "DFPlatform.h"
 #include "DFFilesystem.h"
 #include "DFString.h"
 #include <stdlib.h>

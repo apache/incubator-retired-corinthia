@@ -15,11 +15,6 @@
 #include "DFUnitTest.h"
 #include "DFPlatform.h"
 #include <stddef.h>
-#ifdef WIN32
-#include <direct.h>
-#else
-#include <unistd.h>
-#endif
 
 
 static void test_DFGetImageDimensions_gif(void)

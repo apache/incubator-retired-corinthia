@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "DFPlatform.h"
 #include "DFBuffer.h"
 #include "DFCommon.h"
 #include "DFString.h"
