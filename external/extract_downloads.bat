@@ -1,5 +1,5 @@
 @echo off
-rem extract_downloads.bat 1.00       UTF-8
+rem extract_downloads.bat 1.01       UTF-8
 rem    EXTRACT THE EXTERNAL DOWNLOADS TO INCLUDE, LIB, AND BIN FOLDERS
 
 rem Fetch downloads in case not done yet
@@ -21,6 +21,7 @@ CALL :CLEAN
 rem For extractions, use the zip name listed and the path, if any, from the
 rem root of the zipped hierarchy to the level where include and libs are found
 
+rem           File Name                       Top Path
 CALL :SDL2x86 SDL2-devel-2.0.3-VC.zip         SDL2-2.0.3\
 CALL :SDL2x86 SDL2_image-devel-2.0.0-VC.zip   SDL2_image-2.0.0\
 CALL :ICONV   iconv-1.9.2.win32.zip           iconv-1.9.2.win32\
@@ -29,7 +30,7 @@ CALL :ZLIB    zlib128-dll.zip                 ""
 
 EXIT /B 0
 
-rem MOST MAINTENANCE IS BY UPDATING THE FILENAMES AND TOP PATHES ABOVE.
+rem MOST MAINTENANCE IS BY UPDATING THE FILENAMES AND TOP PATHS ABOVE.
 rem    The extraction procedure do not require maintenance unless there is
 rem    a Zip layout change or new extraction cases are needed.
 
@@ -77,7 +78,7 @@ EXIT /B 0
 rem EXTRACT ALL OF ZIP "%~dp0download\%1" TO "%~dp0download\T"
 rem     "%~dp0download\T" is not deleted until needed again, leaving the
 rem     last one for inspection when trouble-shooting.
-RMDIR /S /Q "%~dp0download\T" >nul
+RMDIR /S /Q "%~dp0download\T" >nul 2>&1
 ECHO:     extracting %1
 Cscript /nologo "%~dp0unzip-win.js" //B "%~dp0download\%1" "%~dp0download\T"
 EXIT /B 0
@@ -91,9 +92,9 @@ EXIT /B 2
 
 :CLEAN
 rem clean out any previous material and be quiet about it
-RMDIR /S /Q "%~dp0download\include" >nul
-RMDIR /S /Q "%~dp0download\lib" >nul
-RMDIR /S /Q "%~dp0download\bin" >nul
+RMDIR /S /Q "%~dp0download\include" >nul 2>&1
+RMDIR /S /Q "%~dp0download\lib" >nul 2>&1
+RMDIR /S /Q "%~dp0download\bin" >nul 2>&1
 rem set up empty include, lib, and bin to receive fresh extractions
 MKDIR "%~dp0download\include"
 MKDIR "%~dp0download\lib"
@@ -111,6 +112,8 @@ ECHO: ***    No extractions have been performed.
 ECHO:
 EXIT /B 2
 
+rem 1.01 2015-01-02-17:03 Silence warnings when removing non-existent
+rem      directories
 rem 1.00 2015-01-02-16:25 Complete Full-Functioning Externals Extraction
 rem      Delivering the download\include, donwload\lib, and download\bin
 rem      collections established for the current external downloads.
