@@ -1,0 +1,25 @@
+# .gitattributes                       UTF-8
+#
+#           GIT ATTRIBUTES FOR THE CORINTHIA GIT REPOSITORY
+
+# Set the default behavior in case people don't have core.autocrlf set.
+# This will automatically convert between line-ending style of the client
+# and whatever line-ending style that is found in the repository.  (On the
+# client, always use a Git package that is compiled for the native OS.)
+
+* text=auto
+# This declares files to be text by default and to be line-ending alterable.
+# Be careful.  See the group below.
+
+# Denote all files that are truly binary and must not be scanned for line-end.
+# Some of these might also be .gitignored.  Better safe than sorry.
+
+*.bmp binary
+*.jpg binary
+*.png binary
+*.suo binary
+*.zip binary
+
+#                          *** end of .gitattributes ***
+
+
