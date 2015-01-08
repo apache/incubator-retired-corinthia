@@ -1,4 +1,4 @@
-# .gitattributes                       UTF-8
+# .gitattributes 1.1.0                UTF-8                     2015-01-08
 #
 #           GIT ATTRIBUTES FOR THE CORINTHIA GIT REPOSITORY
 
@@ -13,12 +13,71 @@
 
 # Denote all files that are truly binary and must not be scanned for line-end.
 # Some of these might also be .gitignored.  Better safe than sorry.
+#   NOT AN EXHAUSTIVE LIST.  Before adding a binary format to the repository,
+# verify that it is listed here.
 
+# Common binary formats
+*.bin binary
 *.bmp binary
+*.dat binary
+*.jpeg binary
 *.jpg binary
+*.pdf binary
 *.png binary
 *.suo binary
+*.wav binary
 *.zip binary
+
+# ODF/OpenOffice binary document formats
+*.odt binary
+*.ott binary
+*.odg binary
+*.otg binary
+*.odp binary
+*.otp binary
+*.ods binary
+*.ots binary
+*.odc binary
+*.otc binary
+*.odi binary
+*.oti binary
+*.odf binary
+*.otf binary
+*.odm binary
+*.oxt binary
+
+# OOXML/Microsoft Office binary document formats (common ones)
+*.doc  binary
+*.docm binary
+*.docx binary
+*.dot  binary
+*.dotx binary
+*.emf  binary
+*.pub  binary
+*.ppt  binary
+*.pptm binary
+*.pptx binary
+*.vsd  binary
+*.xls  binary
+*.xlsm binary
+*.xlsx binary
+
+# Other folks binary document formats
+*.adm    binary
+*.dib    binary
+*.mdb    binary
+*.mpp    binary
+*.msg    binary
+*.ole2   binary
+*.ooxml  binary
+*.pfx    binary
+*.qwp    binary
+*.shw    binary
+*.sldprt binary
+*.wps    binary
+*.zvi    binary
+
+
 
 #                          *** end of .gitattributes ***
 
