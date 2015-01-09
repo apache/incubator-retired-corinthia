@@ -1,5 +1,5 @@
 @echo off
-rem extract_downloads.bat 1.01       UTF-8
+rem extract_downloads.bat 1.1.0       UTF-8
 rem    EXTRACT THE EXTERNAL DOWNLOADS TO INCLUDE, LIB, AND BIN FOLDERS
 
 rem Fetch downloads in case not done yet
@@ -44,10 +44,12 @@ rem          path segments each ending with "\".
 
 :SDL2x86
 rem taking T\%2include and T\%2lib\*.lib across, with T\%2lib\*.dll to bin
+rem move any license *.txt files to the bin also.
 CALL :UNZIP %1
 XCOPY "%~dp0download\T\%2include\*.*" "%~dp0download\include" /I /Q /Y >nul
 XCOPY "%~dp0download\T\%2lib\x86\*.lib" "%~dp0download\lib" /I /Q /Y >nul
 XCOPY "%~dp0download\T\%2lib\x86\*.dll" "%~dp0download\bin" /I /Q /Y >nul
+XCOPY "%~dp0download\T\%2lib\x86\*.txt" "%~dp0download\bin" /I /Q /Y >nul 2>&1
 EXIT /B 0
 
 :ICONV
@@ -112,10 +114,12 @@ ECHO: ***    No extractions have been performed.
 ECHO:
 EXIT /B 2
 
-rem 1.01 2015-01-02-17:03 Silence warnings when removing non-existent
-rem      directories
-rem 1.00 2015-01-02-16:25 Complete Full-Functioning Externals Extraction
-rem      Delivering the download\include, donwload\lib, and download\bin
-rem      collections established for the current external downloads.
+rem 1.1.0 2015-01-08-14:41 Extract SDL2 Licenses
+rem       The license files are added to the bin\ extraction.
+rem 1.01  2015-01-02-17:03 Silence warnings when removing non-existent
+rem       directories
+rem 1.00  2015-01-02-16:25 Complete Full-Functioning Externals Extraction
+rem       Delivering the download\include, donwload\lib, and download\bin
+rem       collections established for the current external downloads.
 
 rem                 *** end of extract_downloads.bat ***

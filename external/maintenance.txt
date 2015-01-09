@@ -1,0 +1,166 @@
+maintenance.txt 1.0.0                 UTF-8                       2015-01-08
+
+                  MAINTAIN THE EXTERNAL DOWNLOADS PROCEDURES
+                  ==========================================
+
+    The external\ folder holds scripts that provide for specific downloads
+    to be obtained over the internet and retained in a download\ sub-folder.
+    The scripts also provide for the extraction of code and libraries from
+    the downloaded archives and making them available for use in builds on
+    Windows and in deployed packages on Windows.
+
+    When the source or version of downloads change, and other downloads are
+    added, these procedures must be maintained.  Almost all of the maintenance
+    and related customization is in the two procedure fetch_downloads.bat
+    and extract_downloads.bat.
+
+    There are interdependencies among the two scripts and within the second
+    script that must be maintained and carefully verified.
+
+    This file provides guidance on how to preserve correct, tested operation
+    as maintenance and customization are performed.
+
+MAINTAINING FETCH_DOWNLOADS.BAT
+-------------------------------
+
+CREATING THE DOWNLOAD\ SUB-FOLDER
+
+This file creates the download\ subdirectory in the same folder as the script
+when it is not present already.  It does not remove anything from a folder
+that is already there.
+
+The single command
+
+        MKDIR "%~dp0download" >nul 2>&1
+
+accomplishes that.  The script parameter %~dp0 uses the drive and path of
+the location of the script itself (ending in "\") and appends the download
+name for the desired subdirectory.  (This scheme is used throughout the
+scripts.)  Any console output is routed to nul, and any error message output
+is routed to the same place as the console.  This eliminates nuisance warnings
+about directories already existing, etc.
+
+DOWNLOADING THE EXTERNAL CONTENT
+
+Each download is accomplished with one of the lines that performs a
+CALL :FETCH operation.  The one parameter on the same line is the full URL
+of a file to download.
+
+There are two important variables to observe.  The full URL must be the
+complete location for accessing the file on the Internet using HTTP.  The
+downloads must use HTTP in this implementation.
+
+Furthermore, the name by which the download will be stored will be the
+file name at the end of the URL.  The :FETCH procedure takes apart the
+URL and specifies the correct file name to use when storing in the download\
+folder.
+
+The fetch_downloads.bat procedure is mostly silent.  If it is discovered
+that a file to be downloaded is already present, it is left intact and not
+downloaded again.  If there is a download operation, and the file is present
+afterwards, the name of the file is announced on the console.  And if that
+download fails, there is also silence.
+
+TESTING AND TROUBLE-SHOOTING
+
+If there is any doubt about a download, the easiest way to determine if it
+is working is by putting the URL in the address bar of a browser and seeing
+whether the file is delivered.
+
+It is possible to run fetch_downloads.bat multiple times.  Once all of the
+files are all present (if downloadable), there will be no further output.
+Look in the download\ directory to see what files are present.
+
+It may be necessary to trouble-shoot collisions of names that are the same
+when case is ignored, and there can be other problems with special characters
+that are not permitted in Windows file names (or that are reserved names, like
+"nul").
+
+Finally, the wget-win.js never fails, and it will always store *something*
+at the destination location.  This can lead to file-not-found messages in the extract_downloads.bat script.
+
+
+MAINTAINING EXTRACT_DOWNLOADS.BAT
+---------------------------------
+
+The extract_downloads.bat script first does a CALL fetch_downloads.bat.  This
+does no harm and it automatically obtains the downloads if they are not there
+already.
+
+CHECKING THAT THE DOWNLOADS ARE PRESENT
+
+The first part of extract_downloads.bat is a series of CALL :CHECK commands.
+Each one of these names one of the downloads that should now be present.
+If they are not all there, the procedure will report that and stop.
+
+The important feature of the CALL :CHECK commands is they must list exactly
+the same files that are specified in the CALL :FETCH commands in
+fetch_downloads.bat.  These are the names the files should have been stored
+with.
+
+It is possible that a file is present but it is incorrect.  This will usually
+show up with unusual results from the extract operations.
+
+PERFORMING EXTRACTIONS
+
+The actual extraction procedure is very specific to the individual downloads.
+There is some abstraction into general, reusable procedures, but they are
+still very specific to the nature of the download.
+
+There is a consistent extraction API for these custom routines.  The first
+parameter is the name of the downloaded file.  This should agree with the
+name in the CALL :CHECK operation.
+
+The second parameter indicates where inside of a Zip, the interesting data
+starts.  Many of the Zip files unload a single directory as their top level
+and then the actual payload is at the level below that directory.  When that
+is the case, the path prior to the payload is specified with a non-empty
+second parameter.
+
+This can be seen by examining some of the calls and comparing with how the
+Zip files are organized by inspecting them in the Windows file system.
+
+What's important:
+ 1. When an existing download is upgraded to use a new version, the file name
+    will change and so many any second parameter, since it often is a folder
+    whose name is based on the version of the related library.
+ 2. When an existing download is upgraded, the structure of the main material
+    may change, so a different set of XCOPY operations may be required to
+    extract the material correctly.
+
+This is even more involved when a new custom download is introduced.
+
+TESTING AND TROUBLESHOOTING
+
+The easiest way to test individual extractions is to remark-out all of the
+CALL procedures but the one to be tested.  The extraction from the one
+archive can be seen in the download\T\ folder, and one can verify the
+download\include\, download\lib\, and download\bin results manually.
+
+
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      Licensed to the Apache Software Foundation (ASF) under one
+      or more contributor license agreements.  See the NOTICE file
+      distributed with this work for additional information
+      regarding copyright ownership.  The ASF licenses this file
+      to you under the Apache License, Version 2.0 (the
+      "License"); you may not use this file except in compliance
+      with the License.  You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+      Unless required by applicable law or agreed to in writing,
+      software distributed under the License is distributed on an
+      "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+      KIND, either express or implied.  See the License for the
+      specific language governing permissions and limitations
+      under the License.
+
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+ 1.0.0 2015-01-08-19:12 Create initial version to account for the way
+       the scripts operate and will need to be modified on upgrades of
+       any of the downloads.
+
+                     *** end of maintenance.txt ***
