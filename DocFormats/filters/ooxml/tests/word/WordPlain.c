@@ -110,7 +110,7 @@ static char *computeDocumentRelsPath(const char *documentPath)
 static void parseDocumentRels(const char *documentPath, DFDocument *relsDoc, DFHashTable *rels, DFError **error)
 {
     if (relsDoc == NULL)
-        return;
+        return;;
     const char *basePrefix = (documentPath[0] == '/') ? "" : "/";
     char *basePath = DFFormatString("%s%s",basePrefix,documentPath);
     for (DFNode *child = relsDoc->root->first; child != NULL; child = child->next) {
