@@ -102,16 +102,9 @@ static int prettyPrintXMLFile(const char *filename, int html, DFError **error)
 
 static int prettyPrintWordFile(const char *filename, DFError **error)
 {
-    char *tempPath = DFCreateTempDir(error);
-    if (tempPath == NULL)
-        return 0;;
     int ok = 0;
-    char *wordTempPath = DFAppendPathComponent(tempPath,"word");
     char *plain = NULL;
     DFStorage *storage = NULL;
-
-    if (!DFEmptyDirectory(wordTempPath,error))
-        goto end;
 
     storage = DFStorageOpenZip(filename,error);
     if (storage == NULL) {
@@ -125,11 +118,8 @@ static int prettyPrintWordFile(const char *filename, DFError **error)
     ok = 1;
 
 end:
-    free(tempPath);
-    free(wordTempPath);
     free(plain);
     DFStorageRelease(storage);
-    DFDeleteFile(tempPath,NULL);
     return ok;
 }
 
@@ -151,8 +141,7 @@ int prettyPrintFile(const char *filename, DFError **error)
     return ok;
 }
 
-static int fromPlain2(const char *tempPath, const char *inStr, const char *inPath,
-                      const char *outFilename, DFError **error)
+static int fromPlain2(const char *inStr, const char *inPath, const char *outFilename, DFError **error)
 {
     char *outExtension = DFPathExtension(outFilename);
     int isDocx = DFStringEqualsCI(outExtension,"docx");
@@ -185,17 +174,9 @@ int fromPlain(const char *inFilename, const char *outFilename, DFError **error)
     if (inStr == NULL)
         return 0;
 
-    char *tempPath = DFCreateTempDir(error);
-    if (tempPath == NULL) {
-        free(inStr);
-        return 0;
-    }
-
     char *inPath = fromStdin ? strdup(".") : DFPathDirName(inFilename);
-    int ok = fromPlain2(tempPath,inStr,inPath,outFilename,error);
-    DFDeleteFile(tempPath,NULL);
+    int ok = fromPlain2(inStr,inPath,outFilename,error);
     free(inPath);
-    free(tempPath);
     free(inStr);
     return ok;
 }

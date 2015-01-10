@@ -392,19 +392,3 @@ char *DFRemovePercentEncoding(const char *encoded)
     output[outpos] = 0;
     return output;
 }
-
-
-char *DFCreateTempDir(DFError **error)
-{
-    char *ctemplate = strdup("dfutil.XXXXXX");
-    char *name      = mktemp(ctemplate);
-    if (!name) {
-        free(ctemplate);
-        return NULL;
-    }
-    if (!DFCreateDirectory(name, 1, error)) {
-        free(ctemplate);
-        return NULL;
-    }
-    return name;
-}
