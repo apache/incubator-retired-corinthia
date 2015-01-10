@@ -98,13 +98,12 @@ struct WordConverter {
     CSSSheet *styleSheet;
 };
 
-WordConverter *WordConverterNew(DFDocument *html, DFStorage *abstractStorage,
-                                const char *idPrefix, WordPackage *package,
-                                DFBuffer *warnings);
-void WordConverterFree(WordConverter *converter);
-
-int WordConverterConvertToHTML(WordConverter *converter, DFError **error);
-int WordConverterUpdateFromHTML(WordConverter *converter, DFError **error);
+int WordConverterGet(DFDocument *html, DFStorage *abstractStorage,
+                     const char *idPrefix, WordPackage *package,
+                     DFBuffer *warnings, DFError **error);
+int WordConverterPut(DFDocument *html, DFStorage *abstractStorage,
+                     const char *idPrefix, WordPackage *package,
+                     DFBuffer *warnings, DFError **error);
 void WordConverterWarning(WordConverter *converter, const char *format, ...) ATTRIBUTE_FORMAT(printf,2,3);
 
 char *WordStyleIdForStyle(CSSStyle *style);

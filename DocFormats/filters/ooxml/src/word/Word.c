@@ -34,16 +34,9 @@ DFDocument *WordGet(DFStorage *concreteStorage, DFStorage *abstractStorage, DFEr
     if (wordPackage == NULL)
         goto end;
 
-    htmlDoc = WordPackageGenerateHTML(wordPackage,abstractStorage,"word",error,warnings);
-    if (htmlDoc == NULL)
+    htmlDoc = DFDocumentNew();
+    if (!WordConverterGet(htmlDoc,abstractStorage,"word",wordPackage,warnings,error))
         goto end;
-
-    if (warnings->len > 0) {
-        DFErrorFormat(error,"%s",warnings->data);
-        goto end;
-    }
-
-    HTML_safeIndent(htmlDoc->docNode,0);
 
     ok = 1;
 
@@ -71,13 +64,8 @@ int WordPut(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *
     if (wordPackage == NULL)
         goto end;
 
-    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,abstractStorage,idPrefix,error,warnings))
+    if (!WordConverterPut(htmlDoc,abstractStorage,idPrefix,wordPackage,warnings,error))
         goto end;
-
-    if (warnings->len > 0) {
-        DFErrorFormat(error,"%s",warnings->data);
-        goto end;
-    }
 
     if (!WordPackageSave(wordPackage,error))
         goto end;
@@ -108,13 +96,8 @@ int WordCreate(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocumen
     // a new word or odf file from it.
     HTMLBreakBDTRefs(htmlDoc->docNode,idPrefix);
 
-    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,abstractStorage,idPrefix,error,warnings))
+    if (!WordConverterPut(htmlDoc,abstractStorage,idPrefix,wordPackage,warnings,error))
         goto end;
-
-    if (warnings->len > 0) {
-        DFErrorFormat(error,"%s",warnings->data);
-        goto end;
-    }
 
     if (!WordPackageSave(wordPackage,error))
         goto end;

@@ -60,10 +60,10 @@ typedef struct {
     int failed;
 } TestHarness;
 
-static int diffResults2(const char *from, const char *to, const char *tempDir, DFError **error)
+static int diffResults(const char *from, const char *to, DFError **error)
 {
-    char *fromFilename = DFAppendPathComponent(tempDir,"from");
-    char *toFilename = DFAppendPathComponent(tempDir,"to");
+    const char *fromFilename = "dftest-diff-from.tmp";
+    const char *toFilename = "dftest-diff-to.tmp";
     int result = 0;
     if (!DFStringWriteToFile(from,fromFilename,error)) {
         DFErrorFormat(error,"%s: %s",fromFilename,DFErrorMessage(error));
@@ -72,25 +72,13 @@ static int diffResults2(const char *from, const char *to, const char *tempDir, D
         DFErrorFormat(error,"%s: %s",toFilename,DFErrorMessage(error));
     }
     else {
-        char *cmd = DFFormatString("diff -u %s/from %s/to",tempDir,tempDir);
+        char *cmd = DFFormatString("diff -u %s %s",fromFilename,toFilename);
         system(cmd);
         free(cmd);
         result = 1;
     }
-    free(fromFilename);
-    free(toFilename);
-    return result;
-}
-
-static int diffResults(const char *from, const char *to, DFError **error)
-{
-    char *tempDir = DFCreateTempDir(error);
-    if (tempDir == NULL)
-        return 0;
-
-    int result = diffResults2(from,to,tempDir,error);
-    DFDeleteFile(tempDir,NULL);
-    free(tempDir);
+    DFDeleteFile(fromFilename,NULL);
+    DFDeleteFile(toFilename,NULL);
     return result;
 }
 

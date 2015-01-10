@@ -32,6 +32,7 @@
 #include "OPC.h"
 #include "DFDOM.h"
 #include "DFHTML.h"
+#include "DFHTMLNormalization.h"
 #include "DFBDT.h"
 #include "CSS.h"
 #include "CSSProperties.h"
@@ -556,9 +557,9 @@ static void Word_postProcessHTMLDoc(WordConverter *conv)
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-WordConverter *WordConverterNew(DFDocument *html, DFStorage *abstractStorage,
-                                const char *idPrefix, WordPackage *package,
-                                DFBuffer *warnings)
+static WordConverter *WordConverterNew(DFDocument *html, DFStorage *abstractStorage,
+                                       const char *idPrefix, WordPackage *package,
+                                       DFBuffer *warnings)
 {
     WordConverter *converter = (WordConverter *)calloc(1,sizeof(WordConverter));
     converter->html = DFDocumentRetain(html);
@@ -585,7 +586,7 @@ WordConverter *WordConverterNew(DFDocument *html, DFStorage *abstractStorage,
     return converter;
 }
 
-void WordConverterFree(WordConverter *converter)
+static void WordConverterFree(WordConverter *converter)
 {
     DFDocumentRelease(converter->html);
     DFStorageRelease(converter->abstractStorage);
@@ -674,7 +675,7 @@ DFNode *WordConverterGetConcrete(WordPutData *put, DFNode *abstract)
     return node;
 }
 
-int WordConverterConvertToHTML(WordConverter *converter, DFError **error)
+static int WordConverterGet2(WordConverter *converter, DFError **error)
 {
     converter->haveFields = Word_simplifyFields(converter->package);
     Word_mergeRuns(converter->package);
@@ -709,7 +710,24 @@ int WordConverterConvertToHTML(WordConverter *converter, DFError **error)
     HTMLAddInternalStyleSheet(converter->html,cssText);
     free(cssText);
 
+    HTML_safeIndent(converter->html->docNode,0);
+
+    if (converter->warnings->len > 0) {
+        DFErrorFormat(error,"%s",converter->warnings->data);
+        return 0;
+    }
+
     return 1;
+}
+
+int WordConverterGet(DFDocument *html, DFStorage *abstractStorage,
+                     const char *idPrefix, WordPackage *package,
+                     DFBuffer *warnings, DFError **error)
+{
+    WordConverter *converter = WordConverterNew(html,abstractStorage,idPrefix,package,warnings);
+    int ok = WordConverterGet2(converter,error);
+    WordConverterFree(converter);
+    return ok;
 }
 
 static void buildListMapFromHTML(WordPutData *put, DFNode *node)
@@ -796,8 +814,11 @@ static void addMissingDefaultStyles(WordConverter *converter)
     }
 }
 
-int WordConverterUpdateFromHTML(WordConverter *converter, DFError **error)
+static int WordConverterPut2(WordConverter *converter, DFError **error)
 {
+    HTML_normalizeDocument(converter->html);
+    HTML_pushDownInlineProperties(converter->html->docNode);
+
     if (converter->package->document == NULL) {
         DFErrorFormat(error,"document.xml not found");
         return 0;
@@ -886,7 +907,22 @@ int WordConverterUpdateFromHTML(WordConverter *converter, DFError **error)
     DFHashTableRelease(put.numIdByHtmlId);
     DFHashTableRelease(put.htmlIdByNumId);
 
+    if (converter->warnings->len > 0) {
+        DFErrorFormat(error,"%s",converter->warnings->data);
+        return 0;
+    }
+
     return 1;
+}
+
+int WordConverterPut(DFDocument *html, DFStorage *abstractStorage,
+                     const char *idPrefix, WordPackage *package,
+                     DFBuffer *warnings, DFError **error)
+{
+    WordConverter *converter = WordConverterNew(html,abstractStorage,idPrefix,package,warnings);
+    int ok = WordConverterPut2(converter,error);
+    WordConverterFree(converter);
+    return ok;
 }
 
 void WordConverterWarning(WordConverter *converter, const char *format, ...)
