@@ -103,8 +103,8 @@ WordConverter *WordConverterNew(DFDocument *html, DFStorage *abstractStorage,
                                 DFBuffer *warnings);
 void WordConverterFree(WordConverter *converter);
 
-int WordConverterConvertToHTML(WordConverter *converter, DFError **error);
-int WordConverterUpdateFromHTML(WordConverter *converter, DFError **error);
+int WordConverterGet(WordConverter *converter, DFError **error);
+int WordConverterPut(WordConverter *converter, DFError **error);
 void WordConverterWarning(WordConverter *converter, const char *format, ...) ATTRIBUTE_FORMAT(printf,2,3);
 
 char *WordStyleIdForStyle(CSSStyle *style);

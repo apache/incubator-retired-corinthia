@@ -34,7 +34,7 @@ DFDocument *WordGet(DFStorage *concreteStorage, DFStorage *abstractStorage, DFEr
     if (wordPackage == NULL)
         goto end;
 
-    htmlDoc = WordPackageGenerateHTML(wordPackage,abstractStorage,"word",error,warnings);
+    htmlDoc = WordPackageGet(wordPackage,abstractStorage,"word",error,warnings);
     if (htmlDoc == NULL)
         goto end;
 
@@ -71,7 +71,7 @@ int WordPut(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *
     if (wordPackage == NULL)
         goto end;
 
-    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,abstractStorage,idPrefix,error,warnings))
+    if (!WordPackagePut(wordPackage,htmlDoc,abstractStorage,idPrefix,error,warnings))
         goto end;
 
     if (warnings->len > 0) {
@@ -108,7 +108,7 @@ int WordCreate(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocumen
     // a new word or odf file from it.
     HTMLBreakBDTRefs(htmlDoc->docNode,idPrefix);
 
-    if (!WordPackageUpdateFromHTML(wordPackage,htmlDoc,abstractStorage,idPrefix,error,warnings))
+    if (!WordPackagePut(wordPackage,htmlDoc,abstractStorage,idPrefix,error,warnings))
         goto end;
 
     if (warnings->len > 0) {

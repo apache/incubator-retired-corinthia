@@ -674,7 +674,7 @@ DFNode *WordConverterGetConcrete(WordPutData *put, DFNode *abstract)
     return node;
 }
 
-int WordConverterConvertToHTML(WordConverter *converter, DFError **error)
+int WordConverterGet(WordConverter *converter, DFError **error)
 {
     converter->haveFields = Word_simplifyFields(converter->package);
     Word_mergeRuns(converter->package);
@@ -796,7 +796,7 @@ static void addMissingDefaultStyles(WordConverter *converter)
     }
 }
 
-int WordConverterUpdateFromHTML(WordConverter *converter, DFError **error)
+int WordConverterPut(WordConverter *converter, DFError **error)
 {
     if (converter->package->document == NULL) {
         DFErrorFormat(error,"document.xml not found");
