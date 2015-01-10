@@ -21,7 +21,6 @@
 #include "DFXML.h"
 #include "OPC.h"
 #include "DFHTML.h"
-#include "DFHTMLNormalization.h"
 #include "WordField.h"
 #include "WordBookmark.h"
 #include "DFCommon.h"
@@ -380,31 +379,6 @@ int WordPackageSave(WordPackage *package, DFError **error)
     if (!OPCPackageSave(package->opc,error))
         return 0;
 
-    return 1;
-}
-
-DFDocument *WordPackageGet(WordPackage *package, DFStorage *abstractStorage, const char *idPrefix,
-                                    DFError **error, DFBuffer *warnings)
-{
-    DFDocument *html = DFDocumentNew();
-    WordConverter *converter = WordConverterNew(html,abstractStorage,idPrefix,package,warnings);
-    int ok = WordConverterGet(converter,error);
-    WordConverterFree(converter);
-    if (!ok)
-        return 0;
-    return html;
-}
-
-int WordPackagePut(WordPackage *package, DFDocument *input, DFStorage *abstractStorage,
-                              const char *idPrefix, DFError **error, DFBuffer *warnings)
-{
-    HTML_normalizeDocument(input);
-    HTML_pushDownInlineProperties(input->docNode);
-    WordConverter *converter = WordConverterNew(input,abstractStorage,idPrefix,package,warnings);
-    int ok = WordConverterPut(converter,error);
-    WordConverterFree(converter);
-    if (!ok)
-        return 0;
     return 1;
 }
 
