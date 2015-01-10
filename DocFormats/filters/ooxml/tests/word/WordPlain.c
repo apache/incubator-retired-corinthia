@@ -107,10 +107,12 @@ static char *computeDocumentRelsPath(const char *documentPath)
     return documentRelsPath;
 }
 
-static void parseDocumentRels(DFDocument *relsDoc, DFHashTable *rels, DFError **error)
+static void parseDocumentRels(const char *documentPath, DFDocument *relsDoc, DFHashTable *rels, DFError **error)
 {
     if (relsDoc == NULL)
         return;
+    const char *basePrefix = (documentPath[0] == '/') ? "" : "/";
+    char *basePath = DFFormatString("%s%s",basePrefix,documentPath);
     for (DFNode *child = relsDoc->root->first; child != NULL; child = child->next) {
         if (child->tag != REL_RELATIONSHIP)
             continue;
@@ -119,8 +121,11 @@ static void parseDocumentRels(DFDocument *relsDoc, DFHashTable *rels, DFError **
         if ((type == NULL) || (target == NULL))
             continue;
 
-        DFHashTableAdd(rels,type,target);
+        char *absTarget = DFPathResolveAbsolute(basePath,target);
+        DFHashTableAdd(rels,type,absTarget);
+        free(absTarget);
     }
+    free(basePath);
 }
 
 static int addRelatedDoc(DFHashTable *parts, DFHashTable *documentRels, const char *relName, const char *filename,
@@ -257,7 +262,7 @@ static char *Word_toPlainFromDir(DFStorage *storage, DFHashTable *parts, DFError
         goto end;
     }
 
-    parseDocumentRels(relsDoc,rels,error);
+    parseDocumentRels(documentPath,relsDoc,rels,error);
 
     if (!processParts(parts,documentPath,relsDoc,rels,output,storage,error))
         goto end;
