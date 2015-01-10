@@ -34,5 +34,5 @@ char *DFPathWithoutExtension(const char *path);
 char *DFPathResolveAbsolute(const char *base, const char *relative);
 char *DFPathNormalize(const char *path);
 char *DFRemovePercentEncoding(const char *encoded);
-
+char *DFCreateTempDir(DFError **error);
 #endif

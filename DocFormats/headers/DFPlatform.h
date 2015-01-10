@@ -15,7 +15,37 @@
 #ifndef DocFormats_DFPlatform_h
 #define DocFormats_DFPlatform_h
 
-#include <stddef.h>
+#ifdef WIN32
+#include <direct.h>
+#include <io.h>
+
+#define _CRT_SECURE_NO_WARNINGS
+#define snprintf _snprintf
+#define strcasecmp _stricmp
+#define mktemp _mktemp
+#define mkdir  _mkdir
+#define bzero(mem,size) memset(mem,0,size)
+
+#ifndef snprintf
+#define snprintf _snprintf
+#endif
+
+#else
+#include <unistd.h>
+#endif
+
+
+#ifndef ATTRIBUTE_FORMAT
+#ifdef _MSC_VER
+#define ATTRIBUTE_FORMAT(archetype,index,first)
+#define ATTRIBUTE_ALIGNED(n) __declspec(align(8))
+#else
+#define ATTRIBUTE_FORMAT(archetype,index,first) __attribute__((format(archetype,index,first)))
+#define ATTRIBUTE_ALIGNED(n) __attribute__((aligned (n)))
+#endif
+#endif
+
+
 
 typedef struct DFDirEntryList DFDirEntryList;
 

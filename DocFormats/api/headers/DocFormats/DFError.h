@@ -15,7 +15,6 @@
 #ifndef DocFormats_DFError_h
 #define DocFormats_DFError_h
 
-//#include "DFTypes.h"
 #include <stdarg.h>
 
 // It's really not nice having this here, but is the only way to get the compiler to typecheck the

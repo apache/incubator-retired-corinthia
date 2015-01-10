@@ -17,13 +17,6 @@
 
 #include "DFTypes.h"
 
-#ifdef WIN32
-#define snprintf _snprintf
-#define strcasecmp _stricmp
-#define bzero(mem,size) memset(mem,0,size)
-#else // not WIN32
-#endif
-
 #ifndef S_ISDIR
 #define S_ISDIR(m)      (((m) & S_IFMT) == S_IFDIR)     /* directory */
 #endif

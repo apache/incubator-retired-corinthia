@@ -1,168 +1,184 @@
-Download external developer libraries to here, and you dont need to modify CMakeList.txt
+README.txt 1.1.0                     UTF-8
 
-in order to compile on windows you need:
+                        EXTERNAL DOWNLOADS SETUP AND USE
+                        ================================
 
-Zlib developer files:
-    http://zlib.net/zlib128-dll.zip
+The Corinthia repository external/ area is a section of the repository used
+for downloading external dependencies required in constructing Corinthia code.
+These dependencies are required when constructing Corinthia components on and
+for Microsoft Windows.
 
-Iconv developer files:
-    ftp://ftp.zlatkovic.com/libxml/iconv-1.9.2.win32.zip
+The downloads are created in an externals\download\ subdirectory.  This is
+not part of the repository and is created in a local working copy whenever
+needed.  The scripts in externals\ provide the necessary downloading and
+organization of the external material.
 
-libxml2 developer files:
-    ftp://ftp.zlatkovic.com/libxml/libxml2-2.7.8.win32.zip
+The files directly in externals\ level provide documentation and scripts for
+carrying out the download and extraction of material that Corinthia components
+depend on for their compilation and executable operation.  These files are
+part of the Corinthia source code repository and are maintained with it.
 
-SDL2 developer files:
-    https://www.libsdl.org/release/SDL2-devel-2.0.3-VC.zip
+There are two uses for the externals\ source code,
 
-SDL2_image developer files:
-    https://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.0-VC.zip
+  1. as maintained scripts for downloading the current dependencies into
+     the download/ folder in a form that is used by build procedures where
+     these dependencies matter,
 
-We are working on reducing these dependencies.
+  2. as templates for introducing other download folders that a project
+     may require as part of its capture of external material that is
+     needed on Microsoft Windows.
 
-On a Unix system (and possibly under cygwin), you can run the
-fetch_downloads.sh script to download these. The extract_downloads.sh
-script places all the files in the bin, lib, and include
-directories. The result should look like this the listing below.
 
-After building Corinthia, you will need to copy all of the DLL files from
-external/bin into the bin directory within your build directory,
-alongside dfconvert and dftest.
+   CONTENT
+     1. Prerequisites for Using the Scripts
+     2. Operation
+     3. Compile-Time Dependency on the External/Download Content
+     4. External Files to be Included with Corinthia Software on Windows
+     5. Maintenance and Customization Procedures
+     6. Caveats
 
-bin/SDL2.dll
-bin/SDL2_image.dll
-bin/iconv.dll
-bin/iconv.exe
-bin/libjpeg-9.dll
-bin/libpng16-16.dll
-bin/libtiff-5.dll
-bin/libwebp-4.dll
-bin/libxml2.dll
-bin/xmlcatalog.exe
-bin/xmllint.exe
-bin/zlib1.dll
-include/SDL.h
-include/SDL_assert.h
-include/SDL_atomic.h
-include/SDL_audio.h
-include/SDL_bits.h
-include/SDL_blendmode.h
-include/SDL_clipboard.h
-include/SDL_config.h
-include/SDL_cpuinfo.h
-include/SDL_endian.h
-include/SDL_error.h
-include/SDL_events.h
-include/SDL_filesystem.h
-include/SDL_gamecontroller.h
-include/SDL_gesture.h
-include/SDL_haptic.h
-include/SDL_hints.h
-include/SDL_image.h
-include/SDL_joystick.h
-include/SDL_keyboard.h
-include/SDL_keycode.h
-include/SDL_loadso.h
-include/SDL_log.h
-include/SDL_main.h
-include/SDL_messagebox.h
-include/SDL_mouse.h
-include/SDL_mutex.h
-include/SDL_name.h
-include/SDL_opengl.h
-include/SDL_opengles.h
-include/SDL_opengles2.h
-include/SDL_pixels.h
-include/SDL_platform.h
-include/SDL_power.h
-include/SDL_quit.h
-include/SDL_rect.h
-include/SDL_render.h
-include/SDL_revision.h
-include/SDL_rwops.h
-include/SDL_scancode.h
-include/SDL_shape.h
-include/SDL_stdinc.h
-include/SDL_surface.h
-include/SDL_system.h
-include/SDL_syswm.h
-include/SDL_test.h
-include/SDL_test_assert.h
-include/SDL_test_common.h
-include/SDL_test_compare.h
-include/SDL_test_crc32.h
-include/SDL_test_font.h
-include/SDL_test_fuzzer.h
-include/SDL_test_harness.h
-include/SDL_test_images.h
-include/SDL_test_log.h
-include/SDL_test_md5.h
-include/SDL_test_random.h
-include/SDL_thread.h
-include/SDL_timer.h
-include/SDL_touch.h
-include/SDL_types.h
-include/SDL_version.h
-include/SDL_video.h
-include/begin_code.h
-include/close_code.h
-include/iconv.h
-include/libxml/DOCBparser.h
-include/libxml/HTMLparser.h
-include/libxml/HTMLtree.h
-include/libxml/SAX.h
-include/libxml/SAX2.h
-include/libxml/c14n.h
-include/libxml/catalog.h
-include/libxml/chvalid.h
-include/libxml/debugXML.h
-include/libxml/dict.h
-include/libxml/encoding.h
-include/libxml/entities.h
-include/libxml/globals.h
-include/libxml/hash.h
-include/libxml/list.h
-include/libxml/nanoftp.h
-include/libxml/nanohttp.h
-include/libxml/parser.h
-include/libxml/parserInternals.h
-include/libxml/pattern.h
-include/libxml/relaxng.h
-include/libxml/schemasInternals.h
-include/libxml/schematron.h
-include/libxml/threads.h
-include/libxml/tree.h
-include/libxml/uri.h
-include/libxml/valid.h
-include/libxml/xinclude.h
-include/libxml/xlink.h
-include/libxml/xmlIO.h
-include/libxml/xmlautomata.h
-include/libxml/xmlerror.h
-include/libxml/xmlexports.h
-include/libxml/xmlmemory.h
-include/libxml/xmlmodule.h
-include/libxml/xmlreader.h
-include/libxml/xmlregexp.h
-include/libxml/xmlsave.h
-include/libxml/xmlschemas.h
-include/libxml/xmlschemastypes.h
-include/libxml/xmlstring.h
-include/libxml/xmlunicode.h
-include/libxml/xmlversion.h
-include/libxml/xmlwriter.h
-include/libxml/xpath.h
-include/libxml/xpathInternals.h
-include/libxml/xpointer.h
-include/zconf.h
-include/zlib.h
-lib/SDL2.lib
-lib/SDL2_image.lib
-lib/SDL2main.lib
-lib/SDL2test.lib
-lib/iconv.lib
-lib/iconv_a.lib
-lib/libxml2.lib
-lib/libxml2_a.lib
-lib/libxml2_a_dll.lib
-lib/zdll.lib
-lib/zlib.def
+      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+     Licensed to the Apache Software Foundation (ASF) under one
+      or more contributor license agreements.  See the NOTICE file
+      distributed with this work for additional information
+      regarding copyright ownership.  The ASF licenses this file
+      to you under the Apache License, Version 2.0 (the
+      "License"); you may not use this file except in compliance
+      with the License.  You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+      Unless required by applicable law or agreed to in writing,
+      software distributed under the License is distributed on an
+      "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+      KIND, either express or implied.  See the License for the
+      specific language governing permissions and limitations
+      under the License.
+
+      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+ 1. PREREQUISITES FOR USING THE SCRIPTS
+    -----------------------------------
+
+To use these scripts, it is necessary to have an Internet Connection and be
+on a Microsoft Windows platform.  Operation can be in a properly-connected
+Virtual Machine guest having an installed Windows Operating System.  The
+operating system can be either x86 or x64 based.
+
+The procedures employ Microsoft Windows batch (.bat) files and rely on the
+Windows Scripting Host (WSH) for JScript access to Windows utility functions.
+The Windows Command Extensions must be in effect.  (These are usually set by
+default and Visual Studio scripts depend on them also.)
+
+The scripts can be executed using a console shell of the user's choice.  They
+have been tested using Windows cmd.exe, Windows PowerShell, MSYS2 (bash),
+CygWin (bash) and JSoft Take Command (formerly 4NT and 4DOS).  They have been
+operated on Windows XP, Windows 8.1 Pro x64 and Windows 10 x64 Technical
+Preview as of January, 2015.
+
+
+ 2. OPERATION
+    ---------
+
+In a console session, simply arrange to execute the script
+
+    external\extract_downloads.bat
+
+wherever it is located on the local system.  The other script files are used
+as needed to complete the extraction operations.  The script will operate
+relative to its own location, not where it is executed from.  That is,
+the downloads\ sub-folder is always created in the same folder that holds
+extract_downloads.bat and the other scripts.
+
+The external\download\ folder will be created if needed.  Any external package
+that is not yet downloaded will be fetched from the Internet.  Already-
+downloaded packages will not be downloaded again.  (To force a fresh set of
+downloads, simply delete the download\ subfolder.)
+
+The external packages will be stored in external\downloads\ and will remain
+there for any future use so long as that folder is preserved.
+
+If the set of external packages is complete, they will then be expanded into
+download\include\, download\lib\, and download\bin\ subdirectories with the
+files needed for compilation and execution of code that relies on the external
+dependencies.
+
+This extraction is done completely each time extract_downloads is operated.
+Extraction is not performed if any of the package downloads are missing.
+
+
+ 3. COMPILE-TIME DEPENDENCY ON THE EXTERNAL/DOWNLOAD CONTENT
+    --------------------------------------------------------
+
+The population of external\downloads\ is presumed in the root CMakeLists.txt
+file in the 'if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")' entry.  That
+definition and the current structure here must be kept synchronized.
+
+These externals are for builds targeted to Win32 x86 runtime only.  Externals
+needed for producing x64 executables require a different arrangement.
+
+
+ 4. EXTERNAL FILES TO BE INCLUDED WITH CORINTHIA SOFTWARE ON WINDOWS
+    ----------------------------------------------------------------
+
+The external\download\ folder is populated with include\, lib\, and bin\
+subfolders that carry extracted material that Corinthia code depends on when
+compiled for Windows.
+
+The compiled executables will need to be installed in folders that also have
+copies of DLLs from external\download\bin\
+
+  iconv.dll
+  exit
+  libjpeg-9.dll
+  libpng16-16.dll
+  libtiff-5.dll
+  libwebp-4.dll
+  libxml2.dll
+  SDL2.dll
+  SDL2_image.dll
+  zlib1.dll
+
+The license files in bin\ are to be carried along with the DLL files they
+apply to.
+
+Not every Corinthia component requires all of these DLLs.  For finer details,
+consult information on the individual component.
+
+
+ 5. MAINTENANCE AND CUSTOMIZATION PROCEDURES
+    ----------------------------------------
+
+    The file maintenance.txt provides more information on how to perform
+    basic maintenance on these procedures.
+
+    The file customize.txt provides more information on adaptation of
+    the procedures for use in a differen location and download situation.
+
+ 6. CAVEATS
+    -------
+
+    The Windows Command Extensions must be enabled for the .bat scripts to
+    work properly.
+
+    The Windows file system is case insensitive.  Any two file names and URLs
+    that differ only in case will collide.  There are also more restrictions
+    on special characters.  E.g., ":" may not be used in file names and "\"
+    is the path separator (not "/" which is also restricted).
+
+    The scripts can be unsuccessful without any failure indication.  It is
+    necessary to use troubleshooting procedures to confirm that a download
+    is failing or that an extraction is not producing the expected content.
+    It is possible for a download to fail with a delivered but incorrect
+    file.
+
+
+REVISIONS
+
+ 1.1.0 2015-01-08-21:20 Updated Draft with complete coverage
+ 1.0.0 2015-01-08-15:21 Initial Draft replacement of the original README.txt
+
+
+                       *** end of README.txt ***

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "DFPlatform.h"
 #include "DFUnitTest.h"
 #include "TextPackage.h"
 #include "DFString.h"
@@ -24,9 +25,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#ifndef WIN32
-#include <unistd.h>
-#endif
 
 extern TestGroup APITests;
 extern TestGroup CSSTests;
@@ -62,29 +60,6 @@ typedef struct {
     int failed;
 } TestHarness;
 
-char *createTempDir(DFError **error)
-{
-#ifdef WIN32
-    // Windows lacks mkdtemp. For the purposes of a single-threaded app it's ok just to use the same name
-    // each time we do a conversion, as long as we ensure that the directory is cleared first.
-    const char *name = "dfutil.temp";
-    if (DFFileExists(name) && !DFDeleteFile(name,error))
-        return NULL;
-    if (!DFCreateDirectory(name,1,error))
-        return NULL;
-    return strdup(name);
-#else
-    char *ctemplate = strdup("dfutil.XXXXXX");
-    char *r = mkdtemp(ctemplate);
-    if (r == NULL) {
-        DFErrorFormat(error,"mkdtemp: %s",strerror(errno));
-        free(ctemplate);
-        return NULL;
-    }
-    return ctemplate;
-#endif
-}
-
 static int diffResults2(const char *from, const char *to, const char *tempDir, DFError **error)
 {
     char *fromFilename = DFAppendPathComponent(tempDir,"from");
@@ -109,7 +84,7 @@ static int diffResults2(const char *from, const char *to, const char *tempDir, D
 
 static int diffResults(const char *from, const char *to, DFError **error)
 {
-    char *tempDir = createTempDir(error);
+    char *tempDir = DFCreateTempDir(error);
     if (tempDir == NULL)
         return 0;
 

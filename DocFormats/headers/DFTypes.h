@@ -23,10 +23,6 @@
 #define ATTRIBUTE_FORMAT(archetype,index,first) __attribute__((format(archetype,index,first)))
 #endif
 
-#ifdef WIN32
-#define _CRT_SECURE_NO_WARNINGS
-#endif
-
 #include <sys/types.h>
 #include <stdint.h>
 #include <stdarg.h>

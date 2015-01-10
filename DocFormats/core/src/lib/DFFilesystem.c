@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "DFPlatform.h"
 #include "DFFilesystem.h"
 #include "DFString.h"
 #include "DFArray.h"
@@ -26,11 +27,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
-#ifdef WIN32
-#include <direct.h>
-#else
-#include <unistd.h>
-#endif
+
+
 
 int DFFileExists(const char *path)
 {
@@ -393,4 +391,20 @@ char *DFRemovePercentEncoding(const char *encoded)
     assert(outpos <= inlen);
     output[outpos] = 0;
     return output;
+}
+
+
+char *DFCreateTempDir(DFError **error)
+{
+    char *ctemplate = strdup("dfutil.XXXXXX");
+    char *name      = mktemp(ctemplate);
+    if (!name) {
+        free(ctemplate);
+        return NULL;
+    }
+    if (!DFCreateDirectory(name, 1, error)) {
+        free(ctemplate);
+        return NULL;
+    }
+    return name;
 }

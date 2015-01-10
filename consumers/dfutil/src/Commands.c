@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "DFPlatform.h"
 #include "Commands.h"
 #include "BDTTests.h"
 #include "WordPlain.h"
@@ -34,9 +35,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifndef WIN32
-#include <unistd.h>
-#endif
 
 static DFBuffer *readData(const char *filename, DFError **error)
 {
@@ -104,7 +102,7 @@ static int prettyPrintXMLFile(const char *filename, int html, DFError **error)
 
 static int prettyPrintWordFile(const char *filename, DFError **error)
 {
-    char *tempPath = createTempDir(error);
+    char *tempPath = DFCreateTempDir(error);
     if (tempPath == NULL)
         return 0;;
     int ok = 0;
@@ -187,7 +185,7 @@ int fromPlain(const char *inFilename, const char *outFilename, DFError **error)
     if (inStr == NULL)
         return 0;
 
-    char *tempPath = createTempDir(error);
+    char *tempPath = DFCreateTempDir(error);
     if (tempPath == NULL) {
         free(inStr);
         return 0;
@@ -424,25 +422,3 @@ int unescapeCSSIdent(const char *filename, DFError **error)
     return 1;
 }
 
-char *createTempDir(DFError **error)
-{
-#ifdef WIN32
-    // Windows lacks mkdtemp. For the purposes of a single-threaded app it's ok just to use the same name
-    // each time we do a conversion, as long as we ensure that the directory is cleared first.
-    const char *name = "dfutil.temp";
-    if (DFFileExists(name) && !DFDeleteFile(name,error))
-        return NULL;
-    if (!DFCreateDirectory(name,1,error))
-        return NULL;
-    return strdup(name);
-#else
-    char *ctemplate = strdup("dfutil.XXXXXX");
-    char *r = mkdtemp(ctemplate);
-    if (r == NULL) {
-        DFErrorFormat(error,"mkdtemp: %s",strerror(errno));
-        free(ctemplate);
-        return NULL;
-    }
-    return ctemplate;
-#endif
-}
