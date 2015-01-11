@@ -558,8 +558,7 @@ static void Word_postProcessHTMLDoc(WordConverter *conv)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 static WordConverter *WordConverterNew(DFDocument *html, DFStorage *abstractStorage,
-                                       const char *idPrefix, WordPackage *package,
-                                       DFBuffer *warnings)
+                                       const char *idPrefix, WordPackage *package)
 {
     WordConverter *converter = (WordConverter *)calloc(1,sizeof(WordConverter));
     converter->html = DFDocumentRetain(html);
@@ -582,7 +581,7 @@ static WordConverter *WordConverterNew(DFDocument *html, DFStorage *abstractStor
     DFHashTableAdd(converter->supportedContentTypes,"gif","image/gif");
     DFHashTableAdd(converter->supportedContentTypes,"bmp","image/bmp");
     DFHashTableAdd(converter->supportedContentTypes,"png","image/png");
-    converter->warnings = DFBufferRetain(warnings);
+    converter->warnings = DFBufferNew();
     return converter;
 }
 
@@ -722,9 +721,9 @@ static int WordConverterGet2(WordConverter *converter, DFError **error)
 
 int WordConverterGet(DFDocument *html, DFStorage *abstractStorage,
                      const char *idPrefix, WordPackage *package,
-                     DFBuffer *warnings, DFError **error)
+                     DFError **error)
 {
-    WordConverter *converter = WordConverterNew(html,abstractStorage,idPrefix,package,warnings);
+    WordConverter *converter = WordConverterNew(html,abstractStorage,idPrefix,package);
     int ok = WordConverterGet2(converter,error);
     WordConverterFree(converter);
     return ok;
@@ -917,9 +916,9 @@ static int WordConverterPut2(WordConverter *converter, DFError **error)
 
 int WordConverterPut(DFDocument *html, DFStorage *abstractStorage,
                      const char *idPrefix, WordPackage *package,
-                     DFBuffer *warnings, DFError **error)
+                     DFError **error)
 {
-    WordConverter *converter = WordConverterNew(html,abstractStorage,idPrefix,package,warnings);
+    WordConverter *converter = WordConverterNew(html,abstractStorage,idPrefix,package);
     int ok = WordConverterPut2(converter,error);
     WordConverterFree(converter);
     return ok;
