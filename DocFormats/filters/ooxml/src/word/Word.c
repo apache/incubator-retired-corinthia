@@ -34,7 +34,7 @@ DFDocument *WordGet(DFStorage *concreteStorage, DFStorage *abstractStorage, DFEr
         goto end;
 
     htmlDoc = DFDocumentNew();
-    if (!WordConverterGet(htmlDoc,abstractStorage,"word",wordPackage,error))
+    if (!WordConverterGet(htmlDoc,abstractStorage,wordPackage,error))
         goto end;
 
     ok = 1;
@@ -55,13 +55,11 @@ int WordPut(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *
     int ok = 0;
     WordPackage *wordPackage = NULL;
 
-    const char *idPrefix = "word";
-
     wordPackage = WordPackageOpenFrom(concreteStorage,error);
     if (wordPackage == NULL)
         goto end;
 
-    if (!WordConverterPut(htmlDoc,abstractStorage,idPrefix,wordPackage,error))
+    if (!WordConverterPut(htmlDoc,abstractStorage,wordPackage,error))
         goto end;
 
     if (!WordPackageSave(wordPackage,error))
@@ -79,19 +77,17 @@ int WordCreate(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocumen
     int ok = 0;
     WordPackage *wordPackage = NULL;
 
-    const char *idPrefix = "word";
-
     wordPackage = WordPackageOpenNew(concreteStorage,error);
     if (wordPackage == NULL)
         goto end;
 
-    // Change any id attributes starting with "word" or "odf" to a different prefix, so they
+    // Change any id attributes starting with "word" to a different prefix, so they
     // are not treated as references to nodes in the destination document. This is necessary
-    // if the HTML file was previously generated from a word or odf file, and we are creating
-    // a new word or odf file from it.
-    HTMLBreakBDTRefs(htmlDoc->docNode,idPrefix);
+    // if the HTML file was previously generated from a word file, and we are creating
+    // a new word file from it.
+    HTMLBreakBDTRefs(htmlDoc->docNode,"word");
 
-    if (!WordConverterPut(htmlDoc,abstractStorage,idPrefix,wordPackage,error))
+    if (!WordConverterPut(htmlDoc,abstractStorage,wordPackage,error))
         goto end;
 
     if (!WordPackageSave(wordPackage,error))
