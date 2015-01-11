@@ -17,16 +17,6 @@
 
 #include <stdarg.h>
 
-// It's really not nice having this here, but is the only way to get the compiler to typecheck the
-// DFErrorFormat arguments when such functionality is available.
-#ifndef ATTRIBUTE_FORMAT
-#ifdef _MSC_VER
-#define ATTRIBUTE_FORMAT(archetype,index,first)
-#else
-#define ATTRIBUTE_FORMAT(archetype,index,first) __attribute__((format(archetype,index,first)))
-#endif
-#endif
-
 typedef struct DFError DFError;
 
 void DFErrorSetPosix(DFError **error, int code);

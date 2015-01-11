@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#include "DFPlatform.h"
 #include "StringTests.h"
 #include "DFString.h"
 
