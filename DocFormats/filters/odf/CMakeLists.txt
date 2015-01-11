@@ -25,6 +25,10 @@ set(GroupSrc
     src/ODFSheet.c
     src/ODFSheet.h)
 
+set(GroupSrcText
+    src/text/ODFText.h
+    src/text/ODFText.c)
+
 set(GroupTests
     tests/ODFTests.c)
 
@@ -62,7 +66,9 @@ include_directories(../../unittest)
 ###
 add_library(odf OBJECT
     ${GroupSrc}
+    ${GroupSrcText}
     ${GroupTests})
-source_group(src   FILES ${GroupSrc})
-source_group(tests FILES ${GroupTests})
+source_group(src         FILES ${GroupSrc})
+source_group(src\\text   FILES ${GroupSrcText})
+source_group(tests       FILES ${GroupTests})
 set_property(TARGET odf PROPERTY FOLDER DocFormats/filters)
