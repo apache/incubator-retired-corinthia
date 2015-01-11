@@ -558,8 +558,7 @@ static void Word_postProcessHTMLDoc(WordConverter *conv)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 static WordConverter *WordConverterNew(DFDocument *html, DFStorage *abstractStorage,
-                                       const char *idPrefix, WordPackage *package,
-                                       DFBuffer *warnings)
+                                       const char *idPrefix, WordPackage *package)
 {
     WordConverter *converter = (WordConverter *)calloc(1,sizeof(WordConverter));
     converter->html = DFDocumentRetain(html);
@@ -582,7 +581,7 @@ static WordConverter *WordConverterNew(DFDocument *html, DFStorage *abstractStor
     DFHashTableAdd(converter->supportedContentTypes,"gif","image/gif");
     DFHashTableAdd(converter->supportedContentTypes,"bmp","image/bmp");
     DFHashTableAdd(converter->supportedContentTypes,"png","image/png");
-    converter->warnings = DFBufferRetain(warnings);
+    converter->warnings = DFBufferNew();
     return converter;
 }
 
@@ -675,21 +674,26 @@ DFNode *WordConverterGetConcrete(WordPutData *put, DFNode *abstract)
     return node;
 }
 
-static int WordConverterGet2(WordConverter *converter, DFError **error)
+int WordConverterGet(DFDocument *html, DFStorage *abstractStorage,
+                     const char *idPrefix, WordPackage *package,
+                     DFError **error)
 {
-    converter->haveFields = Word_simplifyFields(converter->package);
-    Word_mergeRuns(converter->package);
-    if (converter->package->document == NULL) {
+    if (package->document == NULL) {
         DFErrorFormat(error,"document.xml not found");
         return 0;
     }
 
-    DFNode *wordDocument = DFChildWithTag(converter->package->document->docNode,WORD_DOCUMENT);
+    DFNode *wordDocument = DFChildWithTag(package->document->docNode,WORD_DOCUMENT);
     if (wordDocument == NULL) {
         DFErrorFormat(error,"word:document not found");
         return 0;
     }
 
+    int haveFields = Word_simplifyFields(package);
+    Word_mergeRuns(package);
+
+    WordConverter *converter = WordConverterNew(html,abstractStorage,idPrefix,package);
+    converter->haveFields = haveFields;
     WordAddNbsps(converter->package->document);
     WordFixLists(converter);
 
@@ -712,20 +716,12 @@ static int WordConverterGet2(WordConverter *converter, DFError **error)
 
     HTML_safeIndent(converter->html->docNode,0);
 
+    int ok = 1;
     if (converter->warnings->len > 0) {
         DFErrorFormat(error,"%s",converter->warnings->data);
-        return 0;
+        ok = 0;
     }
 
-    return 1;
-}
-
-int WordConverterGet(DFDocument *html, DFStorage *abstractStorage,
-                     const char *idPrefix, WordPackage *package,
-                     DFBuffer *warnings, DFError **error)
-{
-    WordConverter *converter = WordConverterNew(html,abstractStorage,idPrefix,package,warnings);
-    int ok = WordConverterGet2(converter,error);
     WordConverterFree(converter);
     return ok;
 }
@@ -814,21 +810,25 @@ static void addMissingDefaultStyles(WordConverter *converter)
     }
 }
 
-static int WordConverterPut2(WordConverter *converter, DFError **error)
+int WordConverterPut(DFDocument *html, DFStorage *abstractStorage,
+                     const char *idPrefix, WordPackage *package,
+                     DFError **error)
 {
-    HTML_normalizeDocument(converter->html);
-    HTML_pushDownInlineProperties(converter->html->docNode);
-
-    if (converter->package->document == NULL) {
+    if (package->document == NULL) {
         DFErrorFormat(error,"document.xml not found");
         return 0;
     }
 
-    DFNode *wordDocument = DFChildWithTag(converter->package->document->docNode,WORD_DOCUMENT);
+    DFNode *wordDocument = DFChildWithTag(package->document->docNode,WORD_DOCUMENT);
     if (wordDocument == NULL) {
         DFErrorFormat(error,"word:document not found");
         return 0;
     }
+
+    HTML_normalizeDocument(html);
+    HTML_pushDownInlineProperties(html->docNode);
+
+    WordConverter *converter = WordConverterNew(html,abstractStorage,idPrefix,package);
 
     // FIXME: Need a more reliable way of telling whether this is a new document or not - it could be that the
     // document already existed (with styles set up) but did not have any content
@@ -907,20 +907,12 @@ static int WordConverterPut2(WordConverter *converter, DFError **error)
     DFHashTableRelease(put.numIdByHtmlId);
     DFHashTableRelease(put.htmlIdByNumId);
 
+    int ok = 1;
     if (converter->warnings->len > 0) {
         DFErrorFormat(error,"%s",converter->warnings->data);
-        return 0;
+        ok = 0;
     }
 
-    return 1;
-}
-
-int WordConverterPut(DFDocument *html, DFStorage *abstractStorage,
-                     const char *idPrefix, WordPackage *package,
-                     DFBuffer *warnings, DFError **error)
-{
-    WordConverter *converter = WordConverterNew(html,abstractStorage,idPrefix,package,warnings);
-    int ok = WordConverterPut2(converter,error);
     WordConverterFree(converter);
     return ok;
 }

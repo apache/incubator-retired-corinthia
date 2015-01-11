@@ -100,10 +100,10 @@ struct WordConverter {
 
 int WordConverterGet(DFDocument *html, DFStorage *abstractStorage,
                      const char *idPrefix, WordPackage *package,
-                     DFBuffer *warnings, DFError **error);
+                     DFError **error);
 int WordConverterPut(DFDocument *html, DFStorage *abstractStorage,
                      const char *idPrefix, WordPackage *package,
-                     DFBuffer *warnings, DFError **error);
+                     DFError **error);
 void WordConverterWarning(WordConverter *converter, const char *format, ...) ATTRIBUTE_FORMAT(printf,2,3);
 
 char *WordStyleIdForStyle(CSSStyle *style);

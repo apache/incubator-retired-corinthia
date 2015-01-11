@@ -27,7 +27,6 @@ DFDocument *WordGet(DFStorage *concreteStorage, DFStorage *abstractStorage, DFEr
 {
     int ok = 0;
     WordPackage *wordPackage = NULL;
-    DFBuffer *warnings = DFBufferNew();
     DFDocument *htmlDoc = NULL;
 
     wordPackage = WordPackageOpenFrom(concreteStorage,error);
@@ -35,13 +34,12 @@ DFDocument *WordGet(DFStorage *concreteStorage, DFStorage *abstractStorage, DFEr
         goto end;
 
     htmlDoc = DFDocumentNew();
-    if (!WordConverterGet(htmlDoc,abstractStorage,"word",wordPackage,warnings,error))
+    if (!WordConverterGet(htmlDoc,abstractStorage,"word",wordPackage,error))
         goto end;
 
     ok = 1;
 
 end:
-    DFBufferRelease(warnings);
     WordPackageRelease(wordPackage);
     if (ok) {
         return htmlDoc;
@@ -56,7 +54,6 @@ int WordPut(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *
 {
     int ok = 0;
     WordPackage *wordPackage = NULL;
-    DFBuffer *warnings = DFBufferNew();
 
     const char *idPrefix = "word";
 
@@ -64,7 +61,7 @@ int WordPut(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *
     if (wordPackage == NULL)
         goto end;
 
-    if (!WordConverterPut(htmlDoc,abstractStorage,idPrefix,wordPackage,warnings,error))
+    if (!WordConverterPut(htmlDoc,abstractStorage,idPrefix,wordPackage,error))
         goto end;
 
     if (!WordPackageSave(wordPackage,error))
@@ -74,7 +71,6 @@ int WordPut(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *
 
 end:
     WordPackageRelease(wordPackage);
-    DFBufferRelease(warnings);
     return ok;
 }
 
@@ -82,7 +78,6 @@ int WordCreate(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocumen
 {
     int ok = 0;
     WordPackage *wordPackage = NULL;
-    DFBuffer *warnings = DFBufferNew();
 
     const char *idPrefix = "word";
 
@@ -96,7 +91,7 @@ int WordCreate(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocumen
     // a new word or odf file from it.
     HTMLBreakBDTRefs(htmlDoc->docNode,idPrefix);
 
-    if (!WordConverterPut(htmlDoc,abstractStorage,idPrefix,wordPackage,warnings,error))
+    if (!WordConverterPut(htmlDoc,abstractStorage,idPrefix,wordPackage,error))
         goto end;
 
     if (!WordPackageSave(wordPackage,error))
@@ -106,7 +101,6 @@ int WordCreate(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocumen
 
 end:
     WordPackageRelease(wordPackage);
-    DFBufferRelease(warnings);
     return ok;
 }
 
