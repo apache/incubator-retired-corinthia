@@ -1,4 +1,4 @@
-README.txt 1.1.0                     UTF-8
+README.txt 1.1.1                     UTF-8
 
                         EXTERNAL DOWNLOADS SETUP AND USE
                         ================================
@@ -131,7 +131,6 @@ The compiled executables will need to be installed in folders that also have
 copies of DLLs from external\download\bin\
 
   iconv.dll
-  exit
   libjpeg-9.dll
   libpng16-16.dll
   libtiff-5.dll
@@ -177,6 +176,7 @@ consult information on the individual component.
 
 REVISIONS
 
+ 1.1.1 2015-01-12-19:24 Stray word removed from the list of DLLs in Section 4
  1.1.0 2015-01-08-21:20 Updated Draft with complete coverage
  1.0.0 2015-01-08-15:21 Initial Draft replacement of the original README.txt
 
