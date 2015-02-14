@@ -70,6 +70,15 @@ MANIFEST
 
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+ TODO:
+  * Make headway on issue COR-21 to either reconcile it or figure out what
+    to do with "malformed" Zip files that create empty directories (a
+    Unix-ism).
+
+ 1.0.1 2015-02-14-11:59 Add TODO
+       Note that the *.sh files are not listed in this manifest.  They are
+       now also removed, since they conflict with changes made to where
+       the externals are unzipped.
  1.0.0 2015-01-08-21:14 Create initial version to account for the files in
        the external\ folder
 
