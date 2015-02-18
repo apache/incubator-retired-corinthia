@@ -319,6 +319,13 @@ var Selection_print;
                     newHighlights.push(wrapped);
                 }
             }
+            else if (isNoteNode(node)) {
+                if (!isSelectionHighlight(node.parentNode)) {
+                    var wrapped = DOM_wrapNode(node,"SPAN");
+                    DOM_setAttribute(wrapped,"class",Keys.SELECTION_CLASS);
+                    newHighlights.push(wrapped);
+                }
+            }
             else if (node.nodeType == Node.TEXT_NODE) {
                 createTextHighlight(node,data,newHighlights);
             }
