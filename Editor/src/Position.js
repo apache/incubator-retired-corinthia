@@ -979,6 +979,12 @@ var Position_atPoint;
 
             if ((next != null) && nodeMayContainPos(next) && elementContainsPoint(next,x,y))
                 return new Position(next,0);
+
+            if ((next != null) && isEmptyNoteNode(next)) {
+                var rect = next.getBoundingClientRect();
+                if (x > rect.right)
+                    return new Position(pos.node,pos.offset+1);
+            }
         }
 
         pos = adjustPositionForFigure(pos);
