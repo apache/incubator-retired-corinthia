@@ -690,6 +690,27 @@ var Position_atPoint;
                  height: rect.height };
     }
 
+    function zeroWidthMidRect(rect)
+    {
+        var mid = rect.left + rect.width/2;
+        return { left: mid,
+                 right: mid, // 0 width
+                 top: rect.top,
+                 bottom: rect.bottom,
+                 width: 0,
+                 height: rect.height };
+    }
+
+    function findNoteContainingPos(pos)
+    {
+        var node = Position_closestActualNode(pos);
+        for (; node != null; node = node.parentNode) {
+            if (isNoteNode(node))
+                return node;
+        }
+        return null;
+    }
+
     function exactRectAtPos(pos)
     {
         var node = pos.node;
@@ -752,6 +773,10 @@ var Position_atPoint;
         rect = exactRectAtPos(pos);
         if (rect != null)
             return rect;
+
+        var noteNode = findNoteContainingPos(pos);
+        if ((noteNode != null) && !nodeHasContent(noteNode)) // In empty footnote or endnote
+            return zeroWidthMidRect(noteNode.getBoundingClientRect());
 
         var paragraph = Text_findParagraphBoundaries(pos);
 
