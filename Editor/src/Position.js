@@ -935,6 +935,21 @@ var Position_atPoint;
     // intended if the document's last text node is a direct child of the body (as it may be in some
     // HTML documents that users open).
 
+    function posOutsideSelection(pos)
+    {
+        pos = Position_preferElementPosition(pos);
+
+        if (!isSelectionSpan(pos.node))
+            return pos;
+
+        if (pos.offset == 0)
+            return new Position(pos.node.parentNode,DOM_nodeOffset(pos.node));
+        else if (pos.offset == pos.node.childNodes.length)
+            return new Position(pos.node.parentNode,DOM_nodeOffset(pos.node)+1);
+        else
+            return pos;
+    }
+
     Position_atPoint = function(x,y)
     {
         // In general, we can use document.caretRangeFromPoint(x,y) to determine the location of the
@@ -966,8 +981,9 @@ var Position_atPoint;
         pos = Position_preferElementPosition(pos);
 
         if (pos.node.nodeType == Node.ELEMENT_NODE) {
-            var prev = pos.node.childNodes[pos.offset-1];
-            var next = pos.node.childNodes[pos.offset];
+            var outside = posOutsideSelection(pos);
+            var prev = outside.node.childNodes[outside.offset-1];
+            var next = outside.node.childNodes[outside.offset];
 
             if ((prev != null) && nodeMayContainPos(prev) && elementContainsPoint(prev,x,y))
                 return new Position(prev,0);
@@ -975,10 +991,21 @@ var Position_atPoint;
             if ((next != null) && nodeMayContainPos(next) && elementContainsPoint(next,x,y))
                 return new Position(next,0);
 
-            if ((next != null) && isEmptyNoteNode(next)) {
-                var rect = next.getBoundingClientRect();
-                if (x > rect.right)
-                    return new Position(pos.node,pos.offset+1);
+            if (next != null) {
+                var nextNode = outside.node;
+                var nextOffset = outside.offset+1;
+
+                if (isSelectionSpan(next) && (next.firstChild != null)) {
+                    nextNode = next;
+                    nextOffset = 1;
+                    next = next.firstChild;
+                }
+
+                if ((next != null) && isEmptyNoteNode(next)) {
+                    var rect = next.getBoundingClientRect();
+                    if (x > rect.right)
+                        return new Position(nextNode,nextOffset);
+                }
             }
         }
 
