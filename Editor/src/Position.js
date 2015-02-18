@@ -941,10 +941,9 @@ var Position_atPoint;
         // cursor based on screen coordinates. However, this doesn't work if the screen coordinates
         // are outside the bounding box of the document's body. So when this is true, we find either
         // the first or last non-whitespace text node, calculate a y value that is half-way between
-        // the top and bottom of its first or last rect (respectively), and then make a call to
-        // caretRangeFromPoint with the same x value but this new y value. This results in the
-        // cursor being placed on the first or last line when the user taps outside the document
-        // bounds.
+        // the top and bottom of its first or last rect (respectively), and use that instead. This
+        // results in the cursor being placed on the first or last line when the user taps outside
+        // the document bounds.
 
         var bodyRect = document.body.getBoundingClientRect();
         var boundaryRect = null;
@@ -953,12 +952,8 @@ var Position_atPoint;
         else if (y >= bodyRect.bottom)
             boundaryRect = findLastTextRect();
 
-        if (boundaryRect != null) {
-            var boundaryY = boundaryRect.top + boundaryRect.height/2;
-            var range = document.caretRangeFromPoint(x,boundaryY);
-            if (range != null)
-                return new Position(range.startContainer,range.startOffset);
-        }
+        if (boundaryRect != null)
+            y = boundaryRect.top + boundaryRect.height/2;
 
         // We get here if the coordinates are inside the document's bounding rect, or if getting the
         // position from the first or last rect failed for some reason.
