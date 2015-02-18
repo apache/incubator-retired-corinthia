@@ -175,6 +175,11 @@ function isNoteNode(node)
     return ((className == "footnote") || (className == "endnote"));
 }
 
+function isEmptyNoteNode(node)
+{
+    return isNoteNode(node) && !nodeHasContent(node);
+}
+
 function isItemNumber(node)
 {
     if (node.nodeType == Node.TEXT_NODE) {

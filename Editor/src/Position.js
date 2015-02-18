@@ -968,21 +968,29 @@ var Position_atPoint;
             return null;
 
         var pos = new Position(range.startContainer,range.startOffset);
+        pos = Position_preferElementPosition(pos);
 
         if (pos.node.nodeType == Node.ELEMENT_NODE) {
             var prev = pos.node.childNodes[pos.offset-1];
             var next = pos.node.childNodes[pos.offset];
 
-            if ((prev != null) && (prev._type == HTML_IMG) && elementContainsPoint(prev,x,y))
+            if ((prev != null) && nodeMayContainPos(prev) && elementContainsPoint(prev,x,y))
                 return new Position(prev,0);
 
-            if ((next != null) && (next._type == HTML_IMG) && elementContainsPoint(next,x,y))
+            if ((next != null) && nodeMayContainPos(next) && elementContainsPoint(next,x,y))
                 return new Position(next,0);
         }
 
         pos = adjustPositionForFigure(pos);
 
         return pos;
+    }
+
+    // This is used for nodes that can potentially be the right match for a hit test, but for
+    // which caretRangeFromPoint() returns the wrong result
+    function nodeMayContainPos(node)
+    {
+        return ((node._type == HTML_IMG) || isEmptyNoteNode(node));
     }
 
     function elementContainsPoint(element,x,y)
