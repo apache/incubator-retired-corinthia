@@ -443,6 +443,7 @@ var Position_atPoint;
                 return (haveNextChar &&
                         ((node.previousSibling == null) ||
                          (node.previousSibling._type == HTML_BR) ||
+                         isNoteNode(node.previousSibling) ||
                          (isParagraphNode(node.previousSibling)) ||
                          (getNodeText(node.previousSibling).match(/\s$/)) ||
                          isItemNumber(node.previousSibling) ||
@@ -453,6 +454,7 @@ var Position_atPoint;
             if (isWhitespaceString(followingText)) {
                 return (havePrevChar &&
                         ((node.nextSibling == null) ||
+                         isNoteNode(node.nextSibling) ||
                          (followingText.length > 0) ||
                          (spacesUntilNextContent(node) != 0)));
             }
@@ -478,6 +480,15 @@ var Position_atPoint;
             var nextNode = node.childNodes[offset];
             var prevType = (prevNode != null) ? prevNode._type : 0;
             var nextType = (nextNode != null) ? nextNode._type : 0;
+
+            var prevIsNote = (prevNode != null) && isNoteNode(prevNode);
+            var nextIsNote = (nextNode != null) && isNoteNode(nextNode);
+            if ((nextNode == null) && prevIsNote)
+                return true;
+            if ((prevNode == null) && nextIsNote)
+                return true;
+            if (prevIsNote && nextIsNote)
+                return true;
 
             if ((prevNode == null) && (nextNode == null) &&
                 (CONTAINERS_ALLOWING_CHILDREN[type] ||

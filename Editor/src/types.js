@@ -167,6 +167,14 @@ function isRefNode(node)
             node.getAttribute("href").charAt(0) == "#");
 }
 
+function isNoteNode(node)
+{
+    if (node._type != HTML_SPAN)
+        return false;
+    var className = DOM_getAttribute(node,"class");
+    return ((className == "footnote") || (className == "endnote"));
+}
+
 function isItemNumber(node)
 {
     if (node.nodeType == Node.TEXT_NODE) {
