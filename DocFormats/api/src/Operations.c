@@ -41,13 +41,15 @@ struct DFAbstractDocument {
 
 DFConcreteDocument *DFConcreteDocumentNew(DFStorage *storage)
 {
-    DFConcreteDocument *concrete = (DFConcreteDocument *)calloc(1,sizeof(DFConcreteDocument));
+    DFConcreteDocument *concrete = 
+      (DFConcreteDocument *)calloc(1,sizeof(DFConcreteDocument));
     concrete->retainCount = 1;
     concrete->storage = DFStorageRetain(storage);
     return concrete;
 }
 
-DFConcreteDocument *DFConcreteDocumentCreateFile(const char *filename, DFError **error)
+DFConcreteDocument
+*DFConcreteDocumentCreateFile(const char *filename, DFError **error)
 {
     DFFileFormat format = DFFileFormatFromFilename(filename);
     switch (format) {
@@ -57,20 +59,24 @@ DFConcreteDocument *DFConcreteDocumentCreateFile(const char *filename, DFError *
         case DFFileFormatOdt:
         case DFFileFormatOds:
         case DFFileFormatOdp: {
-            DFStorage *storage = DFStorageCreateZip(filename,error);
+            DFStorage *storage = DFStorageCreateZip(filename, error);
             if (storage == NULL)
                 return NULL;;
-            DFConcreteDocument *concrete = DFConcreteDocumentNew(storage);
+            DFConcreteDocument *concrete =
+              DFConcreteDocumentNew(storage);
             DFStorageRelease(storage);
             return concrete;
         }
         default:
-            DFErrorFormat(error,"Unsupported format for DFConcreteDocumentCreateFile");
+            DFErrorFormat(error,
+                          "Unsupported format for "
+                          "DFConcreteDocumentCreateFile");
             return NULL;
     }
 }
 
-DFConcreteDocument *DFConcreteDocumentOpenFile(const char *filename, DFError **error)
+DFConcreteDocument 
+*DFConcreteDocumentOpenFile(const char *filename, DFError **error)
 {
     DFFileFormat format = DFFileFormatFromFilename(filename);
     switch (format) {
@@ -83,17 +89,20 @@ DFConcreteDocument *DFConcreteDocumentOpenFile(const char *filename, DFError **e
             DFStorage *storage = DFStorageOpenZip(filename,error);
             if (storage == NULL)
                 return NULL;;
-            DFConcreteDocument *concrete = DFConcreteDocumentNew(storage);
+            DFConcreteDocument *concrete =
+              DFConcreteDocumentNew(storage);
             DFStorageRelease(storage);
             return concrete;
         }
         default:
-            DFErrorFormat(error,"Unsupported format for DFConcreteDocumentCreateFile");
+            DFErrorFormat(error,"Unsupported format for" 
+                          "DFConcreteDocumentCreateFile");
             return NULL;
     }
 }
 
-DFConcreteDocument *DFConcreteDocumentRetain(DFConcreteDocument *concrete)
+DFConcreteDocument 
+*DFConcreteDocumentRetain(DFConcreteDocument *concrete)
 {
     if (concrete != NULL)
         concrete->retainCount++;
@@ -111,13 +120,15 @@ void DFConcreteDocumentRelease(DFConcreteDocument *concrete)
 
 DFAbstractDocument *DFAbstractDocumentNew(DFStorage *storage)
 {
-    DFAbstractDocument *abstract = (DFAbstractDocument *)calloc(1,sizeof(DFAbstractDocument));
+    DFAbstractDocument *abstract =
+      (DFAbstractDocument *)calloc(1,sizeof(DFAbstractDocument));
     abstract->retainCount = 1;
     abstract->storage = DFStorageRetain(storage);
     return abstract;
 }
 
-DFAbstractDocument *DFAbstractDocumentRetain(DFAbstractDocument *abstract)
+DFAbstractDocument
+*DFAbstractDocumentRetain(DFAbstractDocument *abstract)
 {
     if (abstract != NULL)
         abstract->retainCount++;
@@ -139,26 +150,34 @@ DFDocument *DFAbstractDocumentGetHTML(DFAbstractDocument *abstract)
     return abstract->htmlDoc;
 }
 
-void DFAbstractDocumentSetHTML(DFAbstractDocument *abstract, DFDocument *htmlDoc)
+void DFAbstractDocumentSetHTML(DFAbstractDocument *abstract,
+                               DFDocument *htmlDoc)
 {
     DFDocumentRelease(abstract->htmlDoc);
     abstract->htmlDoc = DFDocumentRetain(htmlDoc);
 }
 
-int DFGet(DFConcreteDocument *concrete, DFAbstractDocument *abstract, DFError **error)
+int DFGet(DFConcreteDocument *concrete,
+          DFAbstractDocument *abstract,
+          DFError **error)
 {
     if (DFStorageFormat(abstract->storage) != DFFileFormatHTML) {
-        DFErrorFormat(error,"Abstract document must be in HTML format");
+        DFErrorFormat(error,
+                      "Abstract document must be in HTML format");
         return 0;
     }
 
     DFDocument *htmlDoc = NULL;
     switch (DFStorageFormat(concrete->storage)) {
         case DFFileFormatDocx:
-            htmlDoc = WordGet(concrete->storage,abstract->storage,error);
+            htmlDoc = WordGet(concrete->storage,
+                              abstract->storage,
+                              error);
             break;
         case DFFileFormatOdt:
-            htmlDoc = ODFTextGet(concrete->storage,abstract->storage,error);
+            htmlDoc = ODFTextGet(concrete->storage,
+                                 abstract->storage,
+                                 error);
             break;
         default:
             DFErrorFormat(error,"Unsupported file format");
@@ -173,20 +192,29 @@ int DFGet(DFConcreteDocument *concrete, DFAbstractDocument *abstract, DFError **
     return 1;
 }
 
-int DFPut(DFConcreteDocument *concreteDoc, DFAbstractDocument *abstractDoc, DFError **error)
+int DFPut(DFConcreteDocument *concreteDoc,
+          DFAbstractDocument *abstractDoc,
+          DFError **error)
 {
     if (DFStorageFormat(abstractDoc->storage) != DFFileFormatHTML) {
-        DFErrorFormat(error,"Abstract document must be in HTML format");
+        DFErrorFormat(error,
+                      "Abstract document must be in HTML format");
         return 0;
     }
 
     int ok = 0;
     switch (DFStorageFormat(concreteDoc->storage)) {
         case DFFileFormatDocx:
-            ok = WordPut(concreteDoc->storage,abstractDoc->storage,abstractDoc->htmlDoc,error);
+            ok = WordPut(concreteDoc->storage,
+                         abstractDoc->storage,
+                         abstractDoc->htmlDoc,
+                         error);
             break;
         case DFFileFormatOdt:
-            ok = ODFTextPut(concreteDoc->storage,abstractDoc->storage,abstractDoc->htmlDoc,error);
+            ok = ODFTextPut(concreteDoc->storage,
+                            abstractDoc->storage,
+                            abstractDoc->htmlDoc,
+                            error);
             break;
         default:
             DFErrorFormat(error,"Unsupported file format");
@@ -195,20 +223,29 @@ int DFPut(DFConcreteDocument *concreteDoc, DFAbstractDocument *abstractDoc, DFEr
     return ok;
 }
 
-int DFCreate(DFConcreteDocument *concreteDoc, DFAbstractDocument *abstractDoc, DFError **error)
+int DFCreate(DFConcreteDocument *concreteDoc,
+             DFAbstractDocument *abstractDoc,
+             DFError **error)
 {
     if (DFStorageFormat(abstractDoc->storage) != DFFileFormatHTML) {
-        DFErrorFormat(error,"Abstract document must be in HTML format");
+        DFErrorFormat(error,
+                      "Abstract document must be in HTML format");
         return 0;
     }
 
     int ok = 0;
     switch (DFStorageFormat(concreteDoc->storage)) {
         case DFFileFormatDocx:
-            ok = WordCreate(concreteDoc->storage,abstractDoc->storage,abstractDoc->htmlDoc,error);
+            ok = WordCreate(concreteDoc->storage,
+                            abstractDoc->storage,
+                            abstractDoc->htmlDoc,
+                            error);
             break;
         case DFFileFormatOdt:
-            ok = ODFTextCreate(concreteDoc->storage,abstractDoc->storage,abstractDoc->htmlDoc,error);
+            ok = ODFTextCreate(concreteDoc->storage,
+                               abstractDoc->storage,
+                               abstractDoc->htmlDoc,
+                               error);
             break;
         default:
             DFErrorFormat(error,"Unsupported file format");
@@ -217,34 +254,48 @@ int DFCreate(DFConcreteDocument *concreteDoc, DFAbstractDocument *abstractDoc, D
     return ok;
 }
 
-int DFGetFile(const char *concreteFilename, const char *abstractFilename, DFError **error)
+int DFGetFile(const char *concreteFilename,
+              const char *abstractFilename,
+              DFError **error)
 {
     int r = 0;
     char *abstractPath = DFPathDirName(abstractFilename);
-    DFStorage *abstractStorage = DFStorageNewFilesystem(abstractPath,DFFileFormatHTML);
+    DFStorage *abstractStorage =
+      DFStorageNewFilesystem(abstractPath, DFFileFormatHTML);
     DFConcreteDocument *concreteDoc = NULL;
     DFAbstractDocument *abstractDoc = NULL;
 
-    concreteDoc = DFConcreteDocumentOpenFile(concreteFilename,error);
+    concreteDoc = DFConcreteDocumentOpenFile(concreteFilename, error);
     if (concreteDoc == NULL) {
-        DFErrorFormat(error,"%s: %s",concreteFilename,DFErrorMessage(error));
+        DFErrorFormat(error, "%s: %s",
+                      concreteFilename,
+                      DFErrorMessage(error));
         goto end;
     }
 
     abstractDoc = DFAbstractDocumentNew(abstractStorage);
 
-    if (!DFGet(concreteDoc,abstractDoc,error) || (abstractDoc->htmlDoc == NULL)) {
-        DFErrorFormat(error,"%s: %s",concreteFilename,DFErrorMessage(error));
+    if (!DFGet(concreteDoc, abstractDoc, error)
+        || (abstractDoc->htmlDoc == NULL)) {
+        DFErrorFormat(error, "%s: %s",
+                      concreteFilename,
+                      DFErrorMessage(error));
         goto end;
     }
 
     if (DFFileExists(abstractFilename)) {
-        DFErrorFormat(error,"%s: File already exists",abstractFilename);
+        DFErrorFormat(error,
+                      "%s: File already exists",
+                      abstractFilename);
         goto end;
     }
 
-    if (!DFSerializeXMLFile(abstractDoc->htmlDoc,0,0,abstractFilename,error)) {
-        DFErrorFormat(error,"%s: %s",abstractFilename,DFErrorMessage(error));
+    if (!DFSerializeXMLFile(abstractDoc->htmlDoc,
+                            0, 0,
+                            abstractFilename,error)) {
+        DFErrorFormat(error, "%s: %s",
+                      abstractFilename,
+                      DFErrorMessage(error));
         goto end;
     }
 
@@ -258,31 +309,38 @@ end:
     return r;
 }
 
-int DFPutFile(const char *concreteFilename, const char *abstractFilename, DFError **error)
+int DFPutFile(const char *concreteFilename,
+              const char *abstractFilename,
+              DFError **error)
 {
     int ok = 0;
     DFDocument *htmlDoc2 = NULL;
     char *abstractPath = DFPathDirName(abstractFilename);
-    DFStorage *abstractStorage2 = DFStorageNewFilesystem(abstractPath,DFFileFormatHTML);
+    DFStorage *abstractStorage2 =
+      DFStorageNewFilesystem(abstractPath, DFFileFormatHTML);
     DFConcreteDocument *concreteDoc = NULL;
     DFAbstractDocument *abstractDoc = NULL;
 
-    htmlDoc2 = DFParseHTMLFile(abstractFilename,0,error);
+    htmlDoc2 = DFParseHTMLFile(abstractFilename, 0, error);
     if (htmlDoc2 == NULL) {
-        DFErrorFormat(error,"%s: %s",abstractFilename,DFErrorMessage(error));
+        DFErrorFormat(error,"%s: %s",
+                      abstractFilename,
+                      DFErrorMessage(error));
         goto end;
     }
 
-    concreteDoc = DFConcreteDocumentOpenFile(concreteFilename,error);
+    concreteDoc = DFConcreteDocumentOpenFile(concreteFilename, error);
     if (concreteDoc == NULL) {
-        DFErrorFormat(error,"%s: %s",concreteFilename,DFErrorMessage(error));
+        DFErrorFormat(error, "%s: %s",
+                      concreteFilename,
+                      DFErrorMessage(error));
         goto end;
     }
 
     abstractDoc = DFAbstractDocumentNew(abstractStorage2);
     abstractDoc->htmlDoc = DFDocumentRetain(htmlDoc2);
 
-    ok = DFPut(concreteDoc,abstractDoc,error);
+    ok = DFPut(concreteDoc, abstractDoc, error);
 
 end:
     DFDocumentRelease(htmlDoc2);
@@ -293,31 +351,39 @@ end:
     return ok;
 }
 
-int DFCreateFile(const char *concreteFilename, const char *abstractFilename, DFError **error)
+int DFCreateFile(const char *concreteFilename,
+                 const char *abstractFilename,
+                 DFError **error)
 {
     int ok = 0;
     DFDocument *htmlDoc = NULL;
     char *abstractPath = DFPathDirName(abstractFilename);
-    DFStorage *abstractStorage = DFStorageNewFilesystem(abstractPath,DFFileFormatHTML);
+    DFStorage *abstractStorage =
+      DFStorageNewFilesystem(abstractPath, DFFileFormatHTML);
     DFConcreteDocument *concreteDoc = NULL;
     DFAbstractDocument *abstractDoc = NULL;
 
-    htmlDoc = DFParseHTMLFile(abstractFilename,0,error);
+    htmlDoc = DFParseHTMLFile(abstractFilename, 0, error);
     if (htmlDoc == NULL) {
-        DFErrorFormat(error,"%s: %s",abstractFilename,DFErrorMessage(error));
+        DFErrorFormat(error,"%s: %s",
+                      abstractFilename,
+                      DFErrorMessage(error));
         goto end;
     }
 
-    concreteDoc = DFConcreteDocumentCreateFile(concreteFilename,error);
+    concreteDoc =
+      DFConcreteDocumentCreateFile(concreteFilename, error);
     if (concreteDoc == NULL) {
-        DFErrorFormat(error,"%s: %s",concreteFilename,DFErrorMessage(error));
+        DFErrorFormat(error, "%s: %s",
+                      concreteFilename,
+                      DFErrorMessage(error));
         goto end;
     }
 
     abstractDoc = DFAbstractDocumentNew(abstractStorage);
     abstractDoc->htmlDoc = DFDocumentRetain(htmlDoc);
 
-    ok = DFCreate(concreteDoc,abstractDoc,error);
+    ok = DFCreate(concreteDoc, abstractDoc, error);
 
 end:
     DFDocumentRelease(htmlDoc);
