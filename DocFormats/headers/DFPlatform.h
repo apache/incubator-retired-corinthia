@@ -30,12 +30,11 @@
 
 #ifndef snprintf
 #define snprintf _snprintf
-#endif
+#endif // snprintf
 
 #else
 #include <unistd.h>
-#endif
-
+#endif // WIN32
 
 #ifndef ATTRIBUTE_FORMAT
 #ifdef _MSC_VER
@@ -44,10 +43,8 @@
 #else
 #define ATTRIBUTE_FORMAT(archetype,index,first) __attribute__((format(archetype,index,first)))
 #define ATTRIBUTE_ALIGNED(n) __attribute__((aligned (n)))
-#endif
-#endif
-
-
+#endif // _MSC_VER
+#endif // ATTRIBUTE_FORMAT
 
 typedef struct DFDirEntryList DFDirEntryList;
 
@@ -57,13 +54,19 @@ struct DFDirEntryList {
 };
 
 int DFMkdirIfAbsent(const char *path, char **errmsg);
-int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DFDirEntryList ***list, char **errmsg);
-int DFGetImageDimensions(const void *data, size_t len, const char *ext,
-                         unsigned int *width, unsigned int *height, char **errmsg);
+
+int DFAddDirContents(const char *absPath, const char *relPath, 
+                     int recursive, DFDirEntryList ***list, 
+                     char **errmsg);
+
+int DFGetImageDimensions(const void *data, size_t len, 
+                         const char *ext, unsigned int *width, 
+                         unsigned int *height, char **errmsg);
 
 #define DF_ONCE_INIT 0
 typedef int DFOnce;
 typedef void (*DFOnceFunction)(void);
+
 void DFInitOnce(DFOnce *once, DFOnceFunction fun);
 
 // Zip functions
@@ -72,15 +75,28 @@ typedef struct {
         int   zipFlag;
         int   zipFirst;
         } DFextZipHandle;
+
 typedef DFextZipHandle * DFextZipHandleP;
 
 DFextZipHandleP DFextZipOpen(const char *zipFilename, int doUnzip);
-int             DFextZipClose(DFextZipHandleP zipHandle);
 
-int             DFextZipOpenNextFile(DFextZipHandleP zipHandle, char *entryName, const int maxName);
-int             DFextZipAppendNewFile(DFextZipHandleP zipHandle, const char *entryName);
-int             DFextZipCloseFile(DFextZipHandleP zipHandle);
+int DFextZipClose(DFextZipHandleP zipHandle);
 
-int DFextZipReadCurrentFile(DFextZipHandleP zipHandle, void *buf, const int maxLen);
-int DFextZipWriteCurrentFile(DFextZipHandleP zipHandle, const void *buf, const int len);
-#endif
+int DFextZipOpenNextFile(DFextZipHandleP zipHandle,
+                         char *entryName,
+                         const int maxName);
+
+int DFextZipAppendNewFile(DFextZipHandleP zipHandle,
+                          const char *entryName);
+
+int DFextZipCloseFile(DFextZipHandleP zipHandle);
+
+int DFextZipReadCurrentFile(DFextZipHandleP zipHandle,
+                            void *buf,
+                            const int maxLen);
+
+int DFextZipWriteCurrentFile(DFextZipHandleP zipHandle,
+                             const void *buf,
+                             const int len);
+
+#endif // DocFormats_DFPlatform_h
