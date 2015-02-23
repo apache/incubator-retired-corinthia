@@ -711,6 +711,16 @@ var Position_atPoint;
         return null;
     }
 
+    function findCaptionContainingPos(pos)
+    {
+        var node = Position_closestActualNode(pos);
+        for (; node != null; node = node.parentNode) {
+            if ((node._type == HTML_FIGCAPTION) || (node._type == HTML_CAPTION))
+                return node;
+        }
+        return null;
+    }
+
     function exactRectAtPos(pos)
     {
         var node = pos.node;
@@ -777,6 +787,21 @@ var Position_atPoint;
         var noteNode = findNoteContainingPos(pos);
         if ((noteNode != null) && !nodeHasContent(noteNode)) // In empty footnote or endnote
             return zeroWidthMidRect(noteNode.getBoundingClientRect());
+
+        var captionNode = findCaptionContainingPos(pos);
+        if ((captionNode != null) && !nodeHasContent(captionNode)) {
+            // Even if an empty caption has generated content (e.g. "Figure X: ") preceding it,
+            // we can't directly get the rect of that generated content. So we temporarily insert
+            // a text node containing a single space character, get the position to the right of
+            // that character, and then remove the text node.
+            var space = DOM_createTextNode(document,String.fromCharCode(160));
+            DOM_appendChild(captionNode,space);
+            var range = new Range(space,1,space,1);
+            var rects = Range_getClientRects(range);
+            DOM_deleteNode(space);
+            if (rects.length > 0)
+                return rects[0];
+        }
 
         var paragraph = Text_findParagraphBoundaries(pos);
 
