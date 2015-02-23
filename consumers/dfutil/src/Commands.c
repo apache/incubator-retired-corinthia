@@ -344,7 +344,7 @@ int diffFiles(const char *filename1, const char *filename2, DFError **error)
 void parseContent(const char *content)
 {
     DFArray *parts = CSSParseContent(content);
-    printf("parts.count = %lu\n",DFArrayCount(parts));
+    printf("parts.count = %zu\n",DFArrayCount(parts));
     for (size_t i = 0; i < DFArrayCount(parts); i++) {
         ContentPart *part = DFArrayItemAt(parts,i);
         char *quotedValue = DFQuote(part->value);
