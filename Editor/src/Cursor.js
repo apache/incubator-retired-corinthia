@@ -497,6 +497,39 @@ var Cursor_insertEndnote;
         Cursor_ensureCursorVisible();
     }
 
+    function tryDeleteEmptyCaption(pos)
+    {
+        var caption = Position_captionAncestor(pos);
+        if ((caption == null) || nodeHasContent(caption))
+            return false;
+
+        var container = Position_figureOrTableAncestor(pos);
+        if (container == null)
+            return false;
+
+        Cursor_set(container.parentNode,DOM_nodeOffset(container)+1);
+        Selection_preserveWhileExecuting(function() {
+            DOM_deleteNode(caption);
+        });
+
+        return true;
+    }
+
+    function tryDeleteEmptyNote(pos)
+    {
+        var note = Position_noteAncestor(pos);
+        if ((note == null) || nodeHasContent(note))
+            return false;
+
+        var parent = note.parentNode;
+        Cursor_set(note.parentNode,DOM_nodeOffset(note)+1);
+        Selection_preserveWhileExecuting(function() {
+            DOM_deleteNode(note);
+        });
+
+        return true;
+    }
+
     // public
     Cursor_deleteCharacter = function()
     {
@@ -536,8 +569,19 @@ var Cursor_insertEndnote;
                 }
             }
 
+            // Backspace inside an empty figure or table caption
+            if (tryDeleteEmptyCaption(currentPos))
+                return;
+
             currentPos = Position_preferTextPosition(currentPos);
             var prevPos = Position_prevMatch(currentPos,Position_okForMovement);
+
+            // Backspace inside or just after a footnote or endnote
+            if (tryDeleteEmptyNote(currentPos))
+                return;
+            if ((prevPos != null) && tryDeleteEmptyNote(prevPos))
+                return;
+
             if (prevPos != null) {
                 var startBlock = firstBlockAncestor(Position_closestActualNode(prevPos));
                 var endBlock = firstBlockAncestor(Position_closestActualNode(selRange.end));

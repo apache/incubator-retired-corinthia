@@ -30,6 +30,9 @@ var Position_closestMatchBackwards;
 var Position_track;
 var Position_untrack;
 var Position_rectAtPos;
+var Position_noteAncestor;
+var Position_captionAncestor;
+var Position_figureOrTableAncestor;
 var Position_displayRectAtPos;
 var Position_preferTextPosition;
 var Position_preferElementPosition;
@@ -701,7 +704,7 @@ var Position_atPoint;
                  height: rect.height };
     }
 
-    function findNoteContainingPos(pos)
+    Position_noteAncestor = function(pos)
     {
         var node = Position_closestActualNode(pos);
         for (; node != null; node = node.parentNode) {
@@ -711,11 +714,21 @@ var Position_atPoint;
         return null;
     }
 
-    function findCaptionContainingPos(pos)
+    Position_captionAncestor = function(pos)
     {
         var node = Position_closestActualNode(pos);
         for (; node != null; node = node.parentNode) {
             if ((node._type == HTML_FIGCAPTION) || (node._type == HTML_CAPTION))
+                return node;
+        }
+        return null;
+    }
+
+    Position_figureOrTableAncestor = function(pos)
+    {
+        var node = Position_closestActualNode(pos);
+        for (; node != null; node = node.parentNode) {
+            if ((node._type == HTML_FIGURE) || (node._type == HTML_TABLE))
                 return node;
         }
         return null;
@@ -784,11 +797,11 @@ var Position_atPoint;
         if (rect != null)
             return rect;
 
-        var noteNode = findNoteContainingPos(pos);
+        var noteNode = Position_noteAncestor(pos);
         if ((noteNode != null) && !nodeHasContent(noteNode)) // In empty footnote or endnote
             return zeroWidthMidRect(noteNode.getBoundingClientRect());
 
-        var captionNode = findCaptionContainingPos(pos);
+        var captionNode = Position_captionAncestor(pos);
         if ((captionNode != null) && !nodeHasContent(captionNode)) {
             // Even if an empty caption has generated content (e.g. "Figure X: ") preceding it,
             // we can't directly get the rect of that generated content. So we temporarily insert
