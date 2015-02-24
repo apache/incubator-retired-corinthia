@@ -5,6 +5,7 @@
 function performTest()
 {
     Cursor_insertEndnote("Endnote content");
+    Selection_preserveWhileExecuting(showEmptyTextNodes);
     showSelection();
 }
 </script>

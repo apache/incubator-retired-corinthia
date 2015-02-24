@@ -978,7 +978,22 @@ var Cursor_insertEndnote;
         range = moveRangeOutsideOfNote(range);
         Formatting_splitAroundSelection(range,false);
 
-        var pos = Position_preferElementPosition(range.start);
+        // If we're part-way through a text node, splitAroundSelection will give us an
+        // empty text node between the before and after text. For formatting purposes that's
+        // fine (not sure if necessary), but when inserting a footnote or endnote we want
+        // to avoid this as it causes problems with cursor movement - specifically, the cursor
+        // is allowed to go inside the empty text node, and this doesn't show up in the correct
+        // position on screen.
+        var pos = range.start;
+        if ((pos.node._type == HTML_TEXT) &&
+            (pos.node.nodeValue.length == 0)) {
+            var empty = pos.node;
+            pos = new Position(empty.parentNode,DOM_nodeOffset(empty));
+            DOM_deleteNode(empty);
+        }
+        else {
+            pos = Position_preferElementPosition(pos);
+        }
 
         DOM_insertBefore(pos.node,footnote,pos.node.childNodes[pos.offset]);
         Selection_set(footnote,0,footnote,footnote.childNodes.length);

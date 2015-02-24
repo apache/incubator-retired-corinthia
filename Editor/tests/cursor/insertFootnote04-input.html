@@ -5,6 +5,7 @@
 function performTest()
 {
     Cursor_insertFootnote("Footnote content");
+    Selection_preserveWhileExecuting(showEmptyTextNodes);
     showSelection();
 }
 </script>
