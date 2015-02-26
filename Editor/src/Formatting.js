@@ -1041,7 +1041,10 @@ var Formatting_MERGEABLE_BLOCK_AND_INLINE;
         if (span._type == HTML_SPAN) {
             if (span.hasAttribute(Keys.ABSTRACT_ELEMENT))
                 return true;
-            if (DOM_getStringAttribute(span,"class").indexOf(Keys.UXWRITE_PREFIX) == 0)
+            var className = DOM_getStringAttribute(span,"class");
+            if (className.indexOf(Keys.UXWRITE_PREFIX) == 0)
+                return true;
+            if ((className == "footnote") || (className == "endnote"))
                 return true;
         }
         return false;
