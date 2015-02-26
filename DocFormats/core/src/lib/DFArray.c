@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+#include "DFPlatform.h"
 #include "DFArray.h"
 #include "DFCommon.h"
 #include <assert.h>
