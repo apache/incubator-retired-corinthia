@@ -486,9 +486,9 @@ var Position_atPoint;
 
             var prevIsNote = (prevNode != null) && isNoteNode(prevNode);
             var nextIsNote = (nextNode != null) && isNoteNode(nextNode);
-            if ((nextNode == null) && prevIsNote)
+            if (((nextNode == null) || !nodeHasContent(nextNode)) && prevIsNote)
                 return true;
-            if ((prevNode == null) && nextIsNote)
+            if (((prevNode == null) || !nodeHasContent(prevNode)) && nextIsNote)
                 return true;
             if (prevIsNote && nextIsNote)
                 return true;

@@ -547,7 +547,8 @@ var Cursor_insertEndnote;
         else {
             var currentPos = selRange.start;
 
-            // Special case of pressing backspace after a table, figure, or TOC
+            // Special cases of pressing backspace after a table, figure, TOC, hyperlink,
+            // footnote, or endnote. For each of these we delete the whole thing.
             var back = Position_closestMatchBackwards(currentPos,Position_okForMovement);
             if ((back != null) && (back.node.nodeType == Node.ELEMENT_NODE) && (back.offset > 0)) {
                 var prevNode = back.node.childNodes[back.offset-1];
@@ -560,7 +561,7 @@ var Cursor_insertEndnote;
                     Cursor_ensureCursorVisible();
                     return;
                 }
-                if (prevNode._type == HTML_A) {
+                if ((prevNode._type == HTML_A) || isNoteNode(prevNode)) {
                     Cursor_set(back.node,back.offset-1);
                     Selection_preserveWhileExecuting(function() {
                         DOM_deleteNode(prevNode);
