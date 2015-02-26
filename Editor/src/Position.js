@@ -791,6 +791,19 @@ var Position_atPoint;
         }
     }
 
+    function tempSpaceRect(parentNode,nextSibling)
+    {
+        var space = DOM_createTextNode(document,String.fromCharCode(160));
+        DOM_insertBefore(parentNode,space,nextSibling);
+        var range = new Range(space,0,space,1);
+        var rects = Range_getClientRects(range);
+        DOM_deleteNode(space);
+        if (rects.length > 0)
+            return rects[0];
+        else
+            return nil;
+    }
+
     Position_displayRectAtPos = function(pos)
     {
         rect = exactRectAtPos(pos);
@@ -801,19 +814,30 @@ var Position_atPoint;
         if ((noteNode != null) && !nodeHasContent(noteNode)) // In empty footnote or endnote
             return zeroWidthMidRect(noteNode.getBoundingClientRect());
 
+        // If we're immediately before or after a footnote or endnote, calculate the rect by
+        // temporarily inserting a space character, and getting the rect at the start of that.
+        // This avoids us instead getting a rect inside the note, which is what would otherwise
+        // happen if there was no adjacent text node outside the note.
+        if ((pos.node.nodeType == Node.ELEMENT_NODE)) {
+            var before = pos.node.childNodes[pos.offset-1];
+            var after = pos.node.childNodes[pos.offset];
+            if (((before != null) && isNoteNode(before)) ||
+                ((after != null) && isNoteNode(after))) {
+                var rect = tempSpaceRect(pos.node,pos.node.childNodes[pos.offset]);
+                if (rect != null)
+                    return zeroWidthLeftRect(rect);
+            }
+        }
+
         var captionNode = Position_captionAncestor(pos);
         if ((captionNode != null) && !nodeHasContent(captionNode)) {
             // Even if an empty caption has generated content (e.g. "Figure X: ") preceding it,
             // we can't directly get the rect of that generated content. So we temporarily insert
             // a text node containing a single space character, get the position to the right of
             // that character, and then remove the text node.
-            var space = DOM_createTextNode(document,String.fromCharCode(160));
-            DOM_appendChild(captionNode,space);
-            var range = new Range(space,1,space,1);
-            var rects = Range_getClientRects(range);
-            DOM_deleteNode(space);
-            if (rects.length > 0)
-                return rects[0];
+            var rect = tempSpaceRect(captionNode,null);
+            if (rect != null)
+                return zeroWidthRightRect(rect);
         }
 
         var paragraph = Text_findParagraphBoundaries(pos);
