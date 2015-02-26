@@ -138,6 +138,11 @@ function isBlockNode(node)
     return BLOCK_ELEMENTS[node._type];
 }
 
+function isBlockOrNoteNode(node)
+{
+    return BLOCK_ELEMENTS[node._type] || isNoteNode(node);
+}
+
 function isInlineNode(node)
 {
     return INLINE_ELEMENTS[node._type];

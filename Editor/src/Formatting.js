@@ -126,12 +126,12 @@ var Formatting_MERGEABLE_BLOCK_AND_INLINE;
                 range.start.offset = 0;
             }
             else if (range.start.node.nodeType == Node.ELEMENT_NODE) {
-                Formatting_movePreceding(range.start,isBlockNode);
+                Formatting_movePreceding(range.start,isBlockOrNoteNode);
             }
             else {
                 Formatting_movePreceding(new Position(range.start.node.parentNode,
                                                       DOM_nodeOffset(range.start.node)),
-                                         isBlockNode);
+                                         isBlockOrNoteNode);
             }
 
             // Save the start and end position of the range. The mutation listeners will move it
@@ -146,12 +146,12 @@ var Formatting_MERGEABLE_BLOCK_AND_INLINE;
                 Formatting_splitTextAfter(range.end);
             }
             else if (range.end.node.nodeType == Node.ELEMENT_NODE) {
-                Formatting_moveFollowing(range.end,isBlockNode);
+                Formatting_moveFollowing(range.end,isBlockOrNoteNode);
             }
             else {
                 Formatting_moveFollowing(new Position(range.end.node.parentNode,
                                                       DOM_nodeOffset(range.end.node)+1),
-                                         isBlockNode);
+                                         isBlockOrNoteNode);
             }
 
             range.start.node = startNode;
