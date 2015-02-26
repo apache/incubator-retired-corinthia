@@ -17,13 +17,14 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "DFPlatform.h"
 #include "unzip.h"
 #include "zip.h"
 
 
 DFextZipHandleP DFextZipOpen(const char *zipFilename, int doUnzip) {
-    DFextZipHandleP zipHandle = malloc(sizeof(DFextZipHandle));
+    DFextZipHandleP zipHandle = xmalloc(sizeof(DFextZipHandle));
  
     // no more memory
     if (!zipHandle)
@@ -147,4 +148,52 @@ int DFextZipReadCurrentFile(DFextZipHandleP zipHandle, void *buf, const int maxL
 int DFextZipWriteCurrentFile(DFextZipHandleP zipHandle, const void *buf, const int len)
 {
     return (zipWriteInFileInZip(zipHandle->handle, buf, len) == ZIP_OK) ? 1 : -1;
+}
+
+void *xmalloc(size_t size)
+{
+    void *ptr = malloc(size);
+
+    if (ptr == NULL) {
+        perror("xmalloc: out of memory.\n");
+        _exit(EXIT_FAILURE);
+        return NULL;
+    }
+    // uncomment to test this function
+    // else
+    //  printf("xmalloc: %zu\n", size);
+
+    return ptr;
+}
+
+void xfree(void *ptr)
+{
+    free(ptr);
+    ptr = NULL;
+}
+
+void *xcalloc(size_t nmemb, size_t size)
+{
+    void *ptr = calloc(nmemb, size);
+
+    if (ptr == NULL) {
+        perror("xcalloc: out of memory.\n");
+        _exit(EXIT_FAILURE);
+        return NULL;
+    }
+
+    return ptr;
+}
+
+void *xrealloc(void *ptr, size_t size)
+{
+    void *ret_ptr = realloc(ptr, size);
+
+    if (ret_ptr == NULL) {
+        perror("xrealloc: out of memory.\n");
+        _exit(EXIT_FAILURE);
+        return NULL;
+    }
+
+    return ret_ptr;
 }

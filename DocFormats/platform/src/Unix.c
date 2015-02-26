@@ -80,8 +80,8 @@ int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DF
         size_t absSubPathLen = strlen(absPath) + 1 + strlen(result->d_name);
         size_t relSubPathLen = strlen(relPath) + 1 + strlen(result->d_name);
 
-        char *absSubPath = (char *)malloc(absSubPathLen+1);
-        char *relSubPath = (char *)malloc(relSubPathLen+1);
+        char *absSubPath = (char *)xmalloc(absSubPathLen+1);
+        char *relSubPath = (char *)xmalloc(relSubPathLen+1);
 
         snprintf(absSubPath,absSubPathLen+1,"%s/%s",absPath,result->d_name);
         snprintf(relSubPath,relSubPathLen+1,"%s/%s",relPath,result->d_name);

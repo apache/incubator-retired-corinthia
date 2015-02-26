@@ -79,7 +79,7 @@ static void DFNameHashTableAdd(DFNameHashTable *table, const char *name, const c
     if (URI == NULL)
         URI = "";;
     uint32_t hash = DFNameHashTableHash(name,URI)%HASH_TABLE_SIZE;
-    DFNameEntry *entry = (DFNameEntry *)malloc(sizeof(DFNameEntry));
+    DFNameEntry *entry = (DFNameEntry *)xmalloc(sizeof(DFNameEntry));
     entry->name = strdup(name);
     entry->URI = strdup(URI);
     entry->tag = tag;
@@ -126,7 +126,7 @@ DFNamespaceInfo *DFNamespaceInfoNew(NamespaceID nsId, const char *URI, const cha
 {
     DFNamespaceInfo *info = (DFNamespaceInfo *)calloc(1,sizeof(DFNamespaceInfo));
     info->nsId = nsId;
-    info->decl = (NamespaceDecl *)malloc(sizeof(NamespaceDecl));
+    info->decl = (NamespaceDecl *)xmalloc(sizeof(NamespaceDecl));
     info->decl->namespaceURI = strdup(URI);
     info->decl->prefix = strdup(prefix);
     return info;
@@ -157,7 +157,7 @@ DFTagInfo *DFTagInfoNew(Tag tag, NamespaceID nsId, const char *localName)
 {
     DFTagInfo *info = (DFTagInfo *)calloc(1,sizeof(DFTagInfo));
     info->tag = tag;
-    info->decl = (TagDecl *)malloc(sizeof(TagDecl));
+    info->decl = (TagDecl *)xmalloc(sizeof(TagDecl));
     info->decl->namespaceID = nsId;
     info->decl->localName = strdup(localName);
     return info;

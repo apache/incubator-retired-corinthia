@@ -130,7 +130,7 @@ static void DFSortInternal(char *base, size_t nel, size_t width,
 
 void DFSort(void *base, size_t nel, size_t width, void *thunk, int (*compar)(void *, const void *, const void *))
 {
-    void *work = malloc(nel*width);
+    void *work = xmalloc(nel*width);
     DFSortInternal(base,nel,width,thunk,compar,work);
     free(work);
 }

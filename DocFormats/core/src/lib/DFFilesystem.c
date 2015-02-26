@@ -297,7 +297,7 @@ char *DFPathWithoutExtension(const char *path)
 char *DFPathNormalize(const char *path)
 {
     size_t len = strlen(path);
-    char *result = (char *)malloc(len+1);
+    char *result = (char *)xmalloc(len+1);
     size_t outpos = 0;
     for (size_t pos = 0; pos < len; pos++) {
         if ((path[pos] != '/') || (pos == 0) || (path[pos-1] != '/'))
@@ -374,7 +374,7 @@ static int numFromHex(uint32_t ch)
 char *DFRemovePercentEncoding(const char *encoded)
 {
     size_t inlen = strlen(encoded);
-    char *output = (char *)malloc(inlen+1);
+    char *output = (char *)xmalloc(inlen+1);
     size_t outpos = 0;
     for (size_t inpos = 0; inpos < inlen; inpos++) {
         char ch = encoded[inpos];

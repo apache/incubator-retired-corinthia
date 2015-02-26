@@ -59,7 +59,7 @@ static void DFArrayBuilderAdd(DFArrayBuilder *builder, const char *str, size_t s
 static void DFArrayBuilderAllocate(DFArrayBuilder *builder)
 {
     int pointerBytes = (builder->pointerIndex + 1)*sizeof(char *);
-    void *mem = malloc(pointerBytes + builder->storageIndex);
+    void *mem = xmalloc(pointerBytes + builder->storageIndex);
     builder->pointers = mem;
     builder->storage = (char *)mem + pointerBytes;
 }
@@ -268,7 +268,7 @@ char *DFStringNormalizeWhitespace(const char *input)
     size_t inputLen = strlen(input);
     size_t outputLen = 0;
 
-    char *output = (char *)malloc(inputLen+1);
+    char *output = (char *)xmalloc(inputLen+1);
 
     size_t start = 0;
     while ((start < inputLen) && isspace(input[start]))
@@ -313,7 +313,7 @@ char *DFSubstring(const char *str, size_t start, size_t end)
     if (end < start)
         end = start;
 
-    char *substring = (char *)malloc(end-start+1);
+    char *substring = (char *)xmalloc(end-start+1);
     memcpy(substring,&str[start],end-start);
     substring[end-start] = '\0';
     return substring;
@@ -367,7 +367,7 @@ char *DFVFormatString(const char *format, va_list ap)
     size_t nchars = vsnprintf(NULL,0,format,ap2);
     va_end(ap2);
 
-    char *result = (char *)malloc(nchars+1);
+    char *result = (char *)xmalloc(nchars+1);
 
     va_copy(ap2,ap);
     vsnprintf(result,nchars+1,format,ap2);
@@ -547,7 +547,7 @@ char *DFQuote(const char *in)
     // UTF-8 characters pass through untouched.
 
     size_t inlen = strlen(in);
-    char *out = (char*)malloc(2*inlen+3);
+    char *out = (char*)xmalloc(2*inlen+3);
     size_t outlen = 0;
     out[outlen++] = '"';
     for (size_t i = 0; i < inlen; i++) {
@@ -602,7 +602,7 @@ char *DFUnquote(const char *in)
     char quote = in[0];
 
     size_t inlen = strlen(in);
-    char *out = (char *)malloc(inlen+1);
+    char *out = (char *)xmalloc(inlen+1);
     size_t outlen = 0;
     size_t i = 1;
     for (; i < inlen; i++) {
@@ -773,7 +773,7 @@ uint32_t *DFUTF8To32(const char *input)
     while (DFNextChar(input,&inpos) != 0)
         outlen++;
 
-    uint32_t *output = (uint32_t *)malloc((outlen+1)*sizeof(uint32_t));
+    uint32_t *output = (uint32_t *)xmalloc((outlen+1)*sizeof(uint32_t));
     inpos = 0;
     for (size_t outpos = 0; outpos < outlen; outpos++)
         output[outpos] = DFNextChar(input,&inpos);
@@ -851,7 +851,7 @@ char *DFUTF32to8(const uint32_t *input)
     }
 
     size_t outlen = DFUTF32to8n(input,NULL);
-    char *output = (char *)malloc(outlen+1);
+    char *output = (char *)xmalloc(outlen+1);
     DFUTF32to8n(input,output);
     output[outlen] = '\0';
 

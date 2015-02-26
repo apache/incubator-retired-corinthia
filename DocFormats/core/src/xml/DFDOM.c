@@ -71,7 +71,7 @@ DFDocument *DFDocumentNew(void)
 
     doc->nodesCount = 0;
     doc->nodesAlloc = 1;
-    doc->nodes = (DFNode **)malloc(doc->nodesAlloc*sizeof(DFNode *));
+    doc->nodes = (DFNode **)xmalloc(doc->nodesAlloc*sizeof(DFNode *));
     doc->docNode = DocumentCreateNode(doc,DOM_DOCUMENT);
 
     return doc;

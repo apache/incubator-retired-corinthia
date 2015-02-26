@@ -73,7 +73,7 @@ static int fsRead(DFStorage *storage, const char *path, void **buf, size_t *nbyt
 
     size_t balloc = 4096;
     size_t blen = 0;
-    char *mem = (char *)malloc(balloc);
+    char *mem = (char *)xmalloc(balloc);
 
     size_t r;
     while (0 < (r = fread(&mem[blen],1,4096,file))) {
@@ -190,7 +190,7 @@ static int memRead(DFStorage *storage, const char *path, void **buf, size_t *nby
         return 0;
     }
 
-    *buf = malloc(buffer->len);
+    *buf = xmalloc(buffer->len);
     memcpy(*buf,buffer->data,buffer->len);
     *nbytes = buffer->len;
 
@@ -258,7 +258,7 @@ static int zipRead(DFStorage *storage, const char *path, void **buf, size_t *nby
         return 0;
     }
 
-    *buf = malloc(buffer->len);
+    *buf = xmalloc(buffer->len);
     memcpy(*buf,buffer->data,buffer->len);
     *nbytes = buffer->len;
 

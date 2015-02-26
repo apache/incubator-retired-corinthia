@@ -116,7 +116,7 @@ char *CSSSelectorCopyElementName(const char *selector)
     if (dotPos < 0)
         return strdup(selector);
 
-    char *result = (char *)malloc(dotPos+1);
+    char *result = (char *)xmalloc(dotPos+1);
     memcpy(result,selector,dotPos);
     result[dotPos] = '\0';
     return result;
@@ -131,7 +131,7 @@ char *CSSSelectorCopyClassName(const char *selector)
         return NULL;
     int start = dotPos + 1;
     int len = (int)strlen(selector) - start;
-    char *result = (char *)malloc(len+1);
+    char *result = (char *)xmalloc(len+1);
     memcpy(result,&selector[start],len);
     result[len] = '\0';
     return result;

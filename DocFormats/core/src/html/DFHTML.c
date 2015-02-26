@@ -196,7 +196,7 @@ int HTML_nodeIsHyperlink(DFNode *node)
 
 static char *indentString(int depth)
 {
-    char *str = (char *)malloc(1+depth*2+1);
+    char *str = (char *)xmalloc(1+depth*2+1);
     str[0] = '\n';
     memset(&str[1],' ',depth*2);
     str[1+depth*2] = '\0';

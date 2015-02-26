@@ -28,7 +28,7 @@ char *copyTidyNodeValue(TidyNode tnode, TidyDoc tdoc)
     tidyBufInit(&buf);
     tidyNodeGetValue(tdoc,tnode,&buf);
 
-    char *str = (char *)malloc(buf.size+1);
+    char *str = (char *)xmalloc(buf.size+1);
     memcpy(str,buf.bp,buf.size);
     str[buf.size] = '\0';
 

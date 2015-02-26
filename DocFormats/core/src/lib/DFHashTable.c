@@ -133,7 +133,7 @@ const char **DFHashTableCopyKeys(DFHashTable *table)
             numBytes += strlen(entry->key)+1;
     }
 
-    void *mem = malloc(numBytes);
+    void *mem = xmalloc(numBytes);
     char **pointers = mem;
     char *storage = (char *)mem + (count+1)*sizeof(char *);
 
@@ -208,7 +208,7 @@ void DFHashTableAdd(DFHashTable *table, const char *key, const void *constValue)
     }
     else {
         size_t len = strlen(key);
-        DFHashEntry *entry = (DFHashEntry *)malloc(sizeof(DFHashEntry)+len*sizeof(char)+1);
+        DFHashEntry *entry = (DFHashEntry *)xmalloc(sizeof(DFHashEntry)+len*sizeof(char)+1);
         entry->value = value;
         entry->hash = hash;
         memcpy(&entry->key[0],key,len);

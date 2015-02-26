@@ -151,7 +151,7 @@ static void fixParagraphWhitespace(DFNode *paragraph)
 
         uint32_t *oldChars = DFUTF8To32(entry->node->value);
         size_t oldLen = DFUTF32Length(oldChars);
-        uint32_t *newChars = (uint32_t *)malloc((oldLen+1)*sizeof(uint32_t));
+        uint32_t *newChars = (uint32_t *)xmalloc((oldLen+1)*sizeof(uint32_t));
         size_t newLen = 0;
         int haveSpace = 0;
 

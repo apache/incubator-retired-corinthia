@@ -143,7 +143,7 @@ static void SAXStartElementNS(void *ctx, const xmlChar *localname,
 
         Tag attrTag = DFNameMapTagForName(parser->document->map,(const char *)attrURI,(const char *)attrLocalName);
         const TagDecl *attrTagDecl = DFNameMapNameForTag(parser->document->map,attrTag);
-        char *attrValue = (char *)malloc(attrValueLen+1);
+        char *attrValue = (char *)xmalloc(attrValueLen+1);
         memcpy(attrValue,attrValueStart,attrValueLen);
         attrValue[attrValueLen] = '\0';
         if (parser->compatibility != NULL) {
@@ -226,7 +226,7 @@ static void SAXCharacters(void *ctx, const xmlChar *ch, int len)
     DFSAXParser *parser = (DFSAXParser *)ctx;
     if (parser->ignoreDepth > 0)
         return;
-    char *data = (char *)malloc(len+1);
+    char *data = (char *)xmalloc(len+1);
     memcpy(data,ch,len);
     data[len] = '\0';
     DFNode *text = DFCreateTextNode(parser->document,data);
@@ -250,7 +250,7 @@ static void SAXCDATABlock(void *ctx, const xmlChar *value, int len)
     DFSAXParser *parser = (DFSAXParser *)ctx;
     if (parser->ignoreDepth > 0)
         return;
-    char *data = (char *)malloc(len+1);
+    char *data = (char *)xmalloc(len+1);
     memcpy(data,value,len);
     data[len] = '\0';
     DFNode *cdata = DFCreateTextNode(parser->document,data);
@@ -392,7 +392,7 @@ static void writeAttributes(Serialization *serialization, DFNode *element)
 {
     // Sort the keys by their tag, to ensure that we always write attributes out in the same order.
     // This is important for automated tests which rely on consistent output for a given XML tree.
-    DFAttribute *attrs = (DFAttribute *)malloc(element->attrsCount*sizeof(DFAttribute));
+    DFAttribute *attrs = (DFAttribute *)xmalloc(element->attrsCount*sizeof(DFAttribute));
     memcpy(attrs,element->attrs,element->attrsCount*sizeof(DFAttribute));
     qsort(attrs,element->attrsCount,sizeof(DFAttribute),compareAttrs);
 

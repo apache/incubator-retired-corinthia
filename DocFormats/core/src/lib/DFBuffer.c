@@ -37,7 +37,7 @@ DFBuffer *DFBufferNew(void)
     buf->retainCount = 1;
     buf->alloc = 1;
     buf->len = 0;
-    buf->data = (char *)malloc(buf->alloc*sizeof(char));
+    buf->data = (char *)xmalloc(buf->alloc*sizeof(char));
     buf->data[0] = '\0';
     return buf;
 }

@@ -51,7 +51,7 @@ void BDTContainerPut(void *ctx, DFLens *theLens, DFNode *abstract, DFNode *concr
     for (DFNode *abs = abstract->first; abs != NULL; abs = abs->next)
         count++;
 
-    DFNode **conChildren = (DFNode **)malloc(count*sizeof(DFNode*));
+    DFNode **conChildren = (DFNode **)xmalloc(count*sizeof(DFNode*));
     count = 0;
 
     for (DFNode *abs = abstract->first; abs != NULL; abs = abs->next) {

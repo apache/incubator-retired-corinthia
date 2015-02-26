@@ -37,8 +37,8 @@ struct DFAllocator {
 DFAllocator *DFAllocatorNew(void)
 {
     size_t initialSize = 1;
-    DFAllocator *alc = (DFAllocator *)malloc(sizeof(DFAllocator));
-    alc->blocks = (DFAllocatorBlock *)malloc(sizeof(DFAllocatorBlock)+initialSize);
+    DFAllocator *alc = (DFAllocator *)xmalloc(sizeof(DFAllocator));
+    alc->blocks = (DFAllocatorBlock *)xmalloc(sizeof(DFAllocatorBlock)+initialSize);
     alc->blocks->next = NULL;
     alc->blocks->used = 0;
     alc->blocks->size = initialSize;
@@ -66,7 +66,7 @@ void *DFAllocatorAlloc(DFAllocator *alc, size_t size)
         size_t newSize = block->size*2;
         while (size > newSize)
             newSize *= 2;
-        block = (DFAllocatorBlock *)malloc(sizeof(DFAllocatorBlock)+newSize);
+        block = (DFAllocatorBlock *)xmalloc(sizeof(DFAllocatorBlock)+newSize);
         block->used = 0;
         block->size = newSize;
         block->next = alc->blocks;
