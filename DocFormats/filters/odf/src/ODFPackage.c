@@ -25,33 +25,37 @@
 #include <stdlib.h>
 #include <string.h>
 
-static DFDocument *readOrCreateDocument(ODFPackage *package, const char *filename, Tag rootTag, Tag childTag)
+static DFDocument *createDocument(Tag rootTag, Tag childTag)
 {
-    char *fullPath = DFFormatString("%s/%s",package->tempPath,filename);
-    DFDocument *doc = DFParseXMLFile(fullPath,NULL);
-    free(fullPath);
-    if (doc != NULL)
-        return doc;
-
-    doc = DFDocumentNewWithRoot(rootTag);
+    DFDocument *doc = DFDocumentNewWithRoot(rootTag);
     DFCreateChildElement(doc->root,childTag);
     return doc;
 }
 
-static ODFManifest *readOrCreateManifest(ODFPackage *package)
+static DFDocument *readDocument(ODFPackage *package, const char *filename, DFError **error)
 {
-    char *fullPath = DFFormatString("%s/%s",package->tempPath,"META-INF/manifest.xml");
-    DFDocument *manifestDoc = DFParseXMLFile(fullPath,NULL);
-    free(fullPath);
-    return (manifestDoc != NULL) ? ODFManifestNewWithDoc(manifestDoc) : ODFManifestNew();
+    DFDocument *doc = DFParseXMLStorage(package->storage,filename,error);
+    if (doc == NULL) {
+        DFErrorFormat(error,"%s: %s",filename,DFErrorMessage(error));
+        return NULL;
+    }
+    return doc;
 }
 
-static int writeDocument(ODFPackage *package, DFDocument *doc, NamespaceID defaultNS, const char *filename, DFError **error)
+static ODFManifest *readManifest(ODFPackage *package, DFError **error)
 {
-    char *fullPath = DFFormatString("%s/%s",package->tempPath,filename);
-    int ok = DFSerializeXMLFile(doc,defaultNS,0,fullPath,error);
-    free(fullPath);
+    DFDocument *manifestDoc = DFParseXMLStorage(package->storage,"META-INF/manifest.xml",error);
+    if (manifestDoc == NULL) {
+        DFErrorFormat(error,"META-INF/manifest.xml: %s",DFErrorMessage(error));
+        return NULL;
+    }
+    return ODFManifestNewWithDoc(manifestDoc);
+}
 
+static int writeDocument(ODFPackage *package, DFDocument *doc, NamespaceID defaultNS,
+                         const char *filename, DFError **error)
+{
+    int ok = DFSerializeXMLStorage(doc,defaultNS,0,package->storage,filename,error);
     if (!ok)
         DFErrorFormat(error,"%s: %s",filename,DFErrorMessage(error));
     return ok;
@@ -59,36 +63,70 @@ static int writeDocument(ODFPackage *package, DFDocument *doc, NamespaceID defau
 
 static int writeString(ODFPackage *package, const char *str, const char *filename, DFError **error)
 {
-    char *fullPath = DFFormatString("%s/%s",package->tempPath,filename);
-    int ok = DFStringWriteToFile(str,fullPath,error);
-    free(fullPath);
+    DFBuffer *buf = DFBufferNew();
+    DFBufferAppendString(buf,str);
+    int ok = DFBufferWriteToStorage(buf,package->storage,filename,error);
+    DFBufferRelease(buf);
 
     if (!ok)
         DFErrorFormat(error,"%s: %s",filename,DFErrorMessage(error));
     return ok;
 }
 
-ODFPackage *ODFPackageNew(const char *tempPath, DFError **error)
+ODFPackage *ODFPackageOpenNew(DFStorage *storage, DFError **error)
 {
     ODFPackage *package = (ODFPackage *)calloc(1,sizeof(ODFPackage));
     package->retainCount = 1;
-    package->tempPath = strdup(tempPath);
+    package->storage = DFStorageRetain(storage);
 
-    package->contentDoc = readOrCreateDocument(package,"content.xml",OFFICE_DOCUMENT_CONTENT,OFFICE_BODY);
-    package->metaDoc = readOrCreateDocument(package,"meta.xml",OFFICE_DOCUMENT_META,OFFICE_META);
-    package->settingsDoc = readOrCreateDocument(package,"settings.xml",OFFICE_DOCUMENT_SETTINGS,OFFICE_SETTINGS);
-    package->stylesDoc = readOrCreateDocument(package,"styles.xml",OFFICE_DOCUMENT_STYLES,OFFICE_STYLES);
+    // Create XML documents
+    package->contentDoc = createDocument(OFFICE_DOCUMENT_CONTENT,OFFICE_BODY);
+    package->metaDoc = createDocument(OFFICE_DOCUMENT_META,OFFICE_META);
+    package->settingsDoc = createDocument(OFFICE_DOCUMENT_SETTINGS,OFFICE_SETTINGS);
+    package->stylesDoc = createDocument(OFFICE_DOCUMENT_STYLES,OFFICE_STYLES);
 
-    package->manifest = readOrCreateManifest(package);
+    // Create manifst
+    package->manifest = ODFManifestNew();
     ODFManifestAddEntry(package->manifest,"/","application/vnd.oasis.opendocument.text","1.2");
     ODFManifestAddEntry(package->manifest,"content.xml","text/xml",NULL);
     ODFManifestAddEntry(package->manifest,"meta.xml","text/xml",NULL);
     ODFManifestAddEntry(package->manifest,"settings.xml","text/xml",NULL);
     ODFManifestAddEntry(package->manifest,"styles.xml","text/xml",NULL);
 
+    // Setup ODF objects
     package->sheet = ODFSheetNew(package->stylesDoc,package->contentDoc);
 
     return package;
+}
+
+ODFPackage *ODFPackageOpenFrom(DFStorage *storage, DFError **error)
+{
+    ODFPackage *package = (ODFPackage *)calloc(1,sizeof(ODFPackage));
+    package->retainCount = 1;
+    package->storage = DFStorageRetain(storage);
+
+    // Read XML documents
+    if ((package->contentDoc = readDocument(package,"content.xml",error)) == NULL)
+        goto end;
+    if ((package->metaDoc = readDocument(package,"meta.xml",error)) == NULL)
+        goto end;
+    if ((package->settingsDoc = readDocument(package,"settings.xml",error)) == NULL)
+        goto end;
+    if ((package->stylesDoc = readDocument(package,"styles.xml",error)) == NULL)
+        goto end;
+
+    // Read manifest
+    if ((package->manifest = readManifest(package,error)) == NULL)
+        goto end;
+
+    // Setup ODF objects
+    package->sheet = ODFSheetNew(package->stylesDoc,package->contentDoc);
+
+    return package;
+
+end:
+    ODFPackageRelease(package);
+    return NULL;
 }
 
 ODFPackage *ODFPackageRetain(ODFPackage *package)
@@ -103,7 +141,7 @@ void ODFPackageRelease(ODFPackage *package)
     if ((package == NULL) || (--package->retainCount > 0))
         return;
 
-    free(package->tempPath);
+    DFStorageRelease(package->storage);
     ODFManifestRelease(package->manifest);
     ODFSheetRelease(package->sheet);
     DFDocumentRelease(package->contentDoc);
@@ -115,13 +153,6 @@ void ODFPackageRelease(ODFPackage *package)
 
 int ODFPackageSave(ODFPackage *package, DFError **error)
 {
-    char *metaInfPath = DFFormatString("%s/META-INF",package->tempPath);
-    if (!DFFileExists(metaInfPath) && !DFCreateDirectory(metaInfPath,1,error)) {
-        free(metaInfPath);
-        return 0;
-    }
-    free(metaInfPath);
-
     if (!writeDocument(package,package->contentDoc,NAMESPACE_NULL,"content.xml",error))
         return 0;
     if (!writeDocument(package,package->metaDoc,NAMESPACE_NULL,"meta.xml",error))
@@ -133,6 +164,8 @@ int ODFPackageSave(ODFPackage *package, DFError **error)
     if (!writeDocument(package,package->manifest->doc,NAMESPACE_NULL,"META-INF/manifest.xml",error))
         return 0;
     if (!writeString(package,"application/vnd.oasis.opendocument.text","mimetype",error))
+        return 0;
+    if (!DFStorageSave(package->storage,error))
         return 0;
 
     return 1;

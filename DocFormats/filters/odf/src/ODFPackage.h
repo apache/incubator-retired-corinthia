@@ -20,6 +20,7 @@
 
 #include <DocFormats/DFXMLForward.h>
 #include <DocFormats/DFError.h>
+#include <DocFormats/DFStorage.h>
 #include "ODFManifest.h"
 #include "ODFSheet.h"
 
@@ -27,7 +28,7 @@ typedef struct ODFPackage ODFPackage;
 
 struct ODFPackage {
     size_t retainCount;
-    char *tempPath;
+    DFStorage *storage;
     DFDocument *contentDoc;
     DFDocument *metaDoc;
     DFDocument *settingsDoc;
@@ -36,7 +37,8 @@ struct ODFPackage {
     ODFSheet *sheet;
 };
 
-ODFPackage *ODFPackageNew(const char *tempPath, DFError **error);
+ODFPackage *ODFPackageOpenNew(DFStorage *storage, DFError **error);
+ODFPackage *ODFPackageOpenFrom(DFStorage *storage, DFError **error);
 ODFPackage *ODFPackageRetain(ODFPackage *package);
 void ODFPackageRelease(ODFPackage *package);
 int ODFPackageSave(ODFPackage *package, DFError **error);
