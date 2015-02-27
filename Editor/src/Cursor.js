@@ -654,6 +654,27 @@ var Cursor_insertEndnote;
             }
         }
 
+        // Are we inside a footnote or endnote? If so, move the cursor immediately after it
+        var note = null;
+        if (selRange.start.node.nodeType == Node.TEXT_NODE) {
+            note = Position_noteAncestor(selRange.start);
+        }
+        else {
+            // We can't use Position_noteAncestor in this case, because we want to to break
+            // the paragraph *before* the note, not after
+            var checkNode = selRange.start.node;
+            for (var anc = checkNode; anc != null; anc = anc.parentNode) {
+                if (isNoteNode(anc)) {
+                    note = anc;
+                    break;
+                }
+            }
+        }
+        if (note != null) {
+            var noteOffset = DOM_nodeOffset(note);
+            selRange = new Range(note.parentNode,noteOffset+1,note.parentNode,noteOffset+1);
+        }
+
         var check = Position_preferElementPosition(selRange.start);
         if (check.node.nodeType == Node.ELEMENT_NODE) {
             var before = check.node.childNodes[check.offset-1];
