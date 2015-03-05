@@ -622,10 +622,39 @@ var TableRegion_splitCells;
         return row;
     }
 
+    function removeRowAdjacentToRange(range)
+    {
+        var table;
+
+        table = tableAtLeftOfRange(range);
+        if ((table != null) && (table.numRows >= 2)) {
+            UndoManager_newGroup("Delete one row");
+            var row = table.numRows-1;
+            Tables_deleteRegion(new TableRegion(table,row,row,0,table.numCols-1));
+            UndoManager_newGroup();
+            return;
+        }
+
+        table = tableAtRightOfRange(range);
+        if ((table != null) && (table.numRows >= 2)) {
+            UndoManager_newGroup("Delete one row");
+            Tables_deleteRegion(new TableRegion(table,0,0,0,table.numCols-1));
+            UndoManager_newGroup();
+            return;
+        }
+    }
+
     Tables_removeAdjacentRow = function()
     {
-        var region = Tables_regionFromRange(Selection_get(),true);
-        if ((region == null) || (region.structure.numRows <= 1))
+        var range = Selection_get();
+        var region = Tables_regionFromRange(range,true);
+
+        if (region == null) {
+            removeRowAdjacentToRange(range);
+            return;
+        }
+
+        if (region.structure.numRows <= 1)
             return;
 
         UndoManager_newGroup("Delete one row");
@@ -678,10 +707,39 @@ var TableRegion_splitCells;
         UndoManager_newGroup();
     }
 
+    function removeColumnAdjacentToRange(range)
+    {
+        var table;
+
+        table = tableAtLeftOfRange(range);
+        if ((table != null) && (table.numCols >= 2)) {
+            UndoManager_newGroup("Delete one column");
+            var col = table.numCols-1;
+            Tables_deleteRegion(new TableRegion(table,0,table.numRows-1,col,col));
+            UndoManager_newGroup();
+            return;
+        }
+
+        table = tableAtRightOfRange(range);
+        if ((table != null) && (table.numCols >= 2)) {
+            UndoManager_newGroup("Delete one column");
+            Tables_deleteRegion(new TableRegion(table,0,table.numRows-1,0,0));
+            UndoManager_newGroup();
+            return;
+        }
+    }
+
     Tables_removeAdjacentColumn = function()
     {
-        var region = Tables_regionFromRange(Selection_get(),true);
-        if ((region == null) || (region.structure.numCols <= 1))
+        var range = Selection_get();
+        var region = Tables_regionFromRange(range,true);
+
+        if (region == null) {
+            removeColumnAdjacentToRange(range);
+            return;
+        }
+
+        if (region.structure.numCols <= 1)
             return;
 
         UndoManager_newGroup("Delete one column");
