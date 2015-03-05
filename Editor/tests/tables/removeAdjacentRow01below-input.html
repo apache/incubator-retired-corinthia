@@ -5,7 +5,7 @@
 <script>
 function performTest()
 {
-    Tables_deleteOneRow();
+    Tables_removeAdjacentRow();
     showSelection();
 }
 </script>
@@ -18,8 +18,8 @@ function performTest()
     <col width="25%">
     <tr>
       <td><p>0,0</p></td>
-      <td><p>0,1</p></td>
-      <td><p>0,2</p></td>
+      <td><p>[0,1</p></td>
+      <td><p>0,2]</p></td>
       <td><p>0,3</p></td>
     </tr>
     <tr>
@@ -30,8 +30,8 @@ function performTest()
     </tr>
     <tr>
       <td><p>2,0</p></td>
-      <td><p>[2,1</p></td>
-      <td><p>2,2]</p></td>
+      <td><p>2,1</p></td>
+      <td><p>2,2</p></td>
       <td><p>2,3</p></td>
     </tr>
     <tr>
