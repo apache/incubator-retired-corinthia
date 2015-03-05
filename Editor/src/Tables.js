@@ -281,19 +281,84 @@ var TableRegion_splitCells;
         }
     }
 
+    function tableAtRightOfRange(range)
+    {
+        if (!Range_isEmpty(range))
+            return null;
+
+        var pos = Position_preferElementPosition(range.start);
+        if ((pos.node.nodeType == Node.ELEMENT_NODE) &&
+            (pos.offset < pos.node.childNodes.length) &&
+            (pos.node.childNodes[pos.offset]._type == HTML_TABLE)) {
+            var element = pos.node.childNodes[pos.offset];
+            var table = Tables_analyseStructure(element);
+            return table;
+        }
+        return null;
+    }
+
+    function tableAtLeftOfRange(range)
+    {
+        if (!Range_isEmpty(range))
+            return null;
+
+        var pos = Position_preferElementPosition(range.start);
+        if ((pos.node.nodeType == Node.ELEMENT_NODE) &&
+            (pos.offset > 0) &&
+            (pos.node.childNodes[pos.offset-1]._type == HTML_TABLE)) {
+            var element = pos.node.childNodes[pos.offset-1];
+            var table = Tables_analyseStructure(element);
+            return table;
+        }
+        return null;
+    }
+
+    function insertRowAbove(table,row)
+    {
+        var cell = Table_get(table,row,0);
+        var oldTR = cell.element.parentNode;
+        var newTR = DOM_createElement(document,"TR");
+        DOM_insertBefore(oldTR.parentNode,newTR,oldTR);
+        populateNewRow(table,newTR,row-1,row);
+    }
+
+    function insertRowBelow(table,row)
+    {
+        var cell = Table_get(table,row,0);
+        var oldTR = cell.element.parentNode;
+        var newTR = DOM_createElement(document,"TR");
+        DOM_insertBefore(oldTR.parentNode,newTR,oldTR.nextSibling);
+        populateNewRow(table,newTR,row+1,row);
+    }
+
+    function insertRowAdjacentToRange(range)
+    {
+        var table;
+
+        table = tableAtLeftOfRange(range);
+        if (table != null) {
+            insertRowBelow(table,table.numRows-1);
+            return;
+        }
+
+        table = tableAtRightOfRange(range);
+        if (table != null) {
+            insertRowAbove(table,0);
+            return;
+        }
+    }
+
     // public
     Tables_addAdjacentRow = function()
     {
         UndoManager_newGroup("Insert row below");
         Selection_preserveWhileExecuting(function() {
-            var region = Tables_regionFromRange(Selection_get(),true);
-            if (region != null) {
-                var cell = Table_get(region.structure,region.bottom,region.left);
-                var oldTR = cell.element.parentNode;
-                var newTR = DOM_createElement(document,"TR");
-                DOM_insertBefore(oldTR.parentNode,newTR,oldTR.nextSibling);
-                populateNewRow(region.structure,newTR,region.bottom+1,region.bottom);
-            }
+            var range = Selection_get();
+            var region = Tables_regionFromRange(range,true);
+            if (region != null)
+                insertRowBelow(region.structure,region.bottom);
+            else
+                insertRowAdjacentToRange(range);
         });
         UndoManager_newGroup();
     }
@@ -460,15 +525,40 @@ var TableRegion_splitCells;
         }
     }
 
+    function insertColumnAdjacentToRange(range)
+    {
+        var table;
+
+        table = tableAtLeftOfRange(range);
+        if (table != null) {
+            var right = table.numCols-1;
+            addColElement(table,right,right+1);
+            addColumnCells(table,right,true);
+            return;
+        }
+
+        table = tableAtRightOfRange(range);
+        if (table != null) {
+            var left = 0;
+            addColElement(table,left,left-1);
+            addColumnCells(table,left,false);
+            return;
+        }
+    }
+
     // public
     Tables_addAdjacentColumn = function()
     {
         UndoManager_newGroup("Insert column at right");
         Selection_preserveWhileExecuting(function() {
-            var region = Tables_regionFromRange(Selection_get(),true);
+            var range = Selection_get();
+            var region = Tables_regionFromRange(range,true);
             if (region != null) {
                 addColElement(region.structure,region.right,region.right+1);
                 addColumnCells(region.structure,region.right,true);
+            }
+            else {
+                insertColumnAdjacentToRange(range);
             }
         });
         UndoManager_newGroup();
