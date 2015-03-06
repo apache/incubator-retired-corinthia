@@ -77,6 +77,6 @@ void *DFAllocatorAlloc(DFAllocator *alc, size_t size)
     char *mem = block->mem + block->used;
     block->used += size;
     assert(block->used <= block->size);
-    assert((((unsigned long long)mem) % 8) == 0);
+    assert((((unsigned long)mem) % 8) == 0);
     return mem;
 }
