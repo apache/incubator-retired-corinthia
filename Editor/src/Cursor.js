@@ -871,16 +871,31 @@ var Cursor_insertEndnote;
     Cursor_getAdjacentNodeWithType = function(type)
     {
         var selRange = Selection_get();
-        var position = selRange.start;
-        while (position != null) {
-            var node = Position_closestActualNode(position);
-            for (; node != null; node = node.parentNode) {
-                if (node._type == type)
-                    return node;
+        var pos = Position_preferElementPosition(selRange.start);
+        var node = pos.node;
+        var offset = pos.offset;
+
+        while (true) {
+
+            if (node._type == type)
+                return node;
+
+            if (node.nodeType == Node.ELEMENT_NODE) {
+                var before = node.childNodes[offset-1];
+                if ((before != null) && (before._type == type))
+                    return before;
+
+                var after = node.childNodes[offset];
+                if ((after != null) && (after._type == type))
+                    return after;
             }
-            position = Position_prev(position);
+
+            if (node.parentNode == null)
+                return null;
+
+            offset = DOM_nodeOffset(node);
+            node = node.parentNode;
         }
-        return null;
     }
 
     Cursor_getLinkProperties = function()
