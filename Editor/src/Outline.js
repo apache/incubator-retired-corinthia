@@ -1102,7 +1102,19 @@ var Outline_scheduleUpdateStructure;
             }
         });
 
+        // Ensure the cursor or selection start/end positions are valid positions that the
+        // user is allowed to move to. This ensures we get an accurate rect for each position,
+        // avoiding an ugly effect where the cursor occupies the entire height of the document
+        // and is displayed on the far-left edge of the editing area.
+        var selRange = Selection_get();
+        if (selRange != null) {
+            var start = Position_closestMatchForwards(selRange.start,Position_okForMovement);
+            var end = Position_closestMatchForwards(selRange.end,Position_okForMovement);
+            Selection_set(start.node,start.offset,end.node,end.offset);
+        }
+
         scheduleUpdateStructure();
+        PostponedActions_add(Cursor_ensureCursorVisible);
         PostponedActions_add(UndoManager_newGroup);
     }
 
