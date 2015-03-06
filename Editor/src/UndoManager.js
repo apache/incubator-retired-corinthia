@@ -32,7 +32,6 @@ var UndoManager_isDisabled;
 var UndoManager_clear;
 var UndoManager_setProperty;
 var UndoManager_deleteProperty;
-var UndoManager_groupType;
 
 (function() {
 
@@ -264,14 +263,6 @@ var UndoManager_groupType;
             return; // no point in adding an undo action
         saveProperty(obj,name);
         delete obj[name];
-    }
-
-    UndoManager_groupType = function()
-    {
-        if (undoStack.length == 0)
-            return null;
-        else
-            return undoStack[undoStack.length-1].type;
     }
 
 })();
