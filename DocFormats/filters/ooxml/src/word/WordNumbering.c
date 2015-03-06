@@ -55,7 +55,7 @@ WordNumLevel *WordNumLevelNew(DFNode *element)
     if (ilvl == NULL)
         ilvl = "0";;
 
-    WordNumLevel *level = (WordNumLevel *)calloc(1,sizeof(WordNumLevel));
+    WordNumLevel *level = (WordNumLevel *)xcalloc(1,sizeof(WordNumLevel));
 
     level->ilvl = atoi(ilvl);
     level->numFmt = (numFmt != NULL) ? strdup(numFmt) : NULL;
@@ -119,7 +119,7 @@ const char *WordNumLevelToListStyleType(WordNumLevel *level)
 
 static WordAbstractNum *WordAbstractNumNew(const char *abstractNumId1, DFNode *element1)
 {
-    WordAbstractNum *abs = (WordAbstractNum *)calloc(1,sizeof(WordAbstractNum));
+    WordAbstractNum *abs = (WordAbstractNum *)xcalloc(1,sizeof(WordAbstractNum));
     abs->abstractNumId = (abstractNumId1 != NULL) ? strdup(abstractNumId1) : NULL;
     abs->element = element1;
     abs->levels = DFHashTableNew(NULL,(DFFreeFunction)WordNumLevelFree);
@@ -151,7 +151,7 @@ WordNumLevel *WordAbstractNumGetLevel(WordAbstractNum *abs, int ilvl)
 
 static WordConcreteNum *WordConcreteNumNew(const char *numId, DFNode *element, WordAbstractNum *abstractNum)
 {
-    WordConcreteNum *con = (WordConcreteNum *)calloc(1,sizeof(WordConcreteNum));
+    WordConcreteNum *con = (WordConcreteNum *)xcalloc(1,sizeof(WordConcreteNum));
     con->numId = (numId != NULL) ? strdup(numId) : NULL;
     con->element = element;
     con->abstractNum = abstractNum;
@@ -195,7 +195,7 @@ static void WordNumberingRegisterType(WordNumbering *num, ListStyleType type, co
 
 WordNumbering *WordNumberingNew(WordPackage *package)
 {
-    WordNumbering *num = (WordNumbering *)calloc(1,sizeof(WordNumbering));
+    WordNumbering *num = (WordNumbering *)xcalloc(1,sizeof(WordNumbering));
     num->_package = WordPackageRetain(package);
     num->_abstractNums = DFHashTableNew(NULL,(DFFreeFunction)WordAbstractNumFree);
     num->_concreteNums = DFHashTableNew(NULL,(DFFreeFunction)WordConcreteNumFree);

@@ -123,7 +123,7 @@ typedef struct LeafEntry {
 static void findLeafNodes(DFNode *node, int depth, DFArray *leafEntries)
 {
     if (node->first == NULL) {
-        LeafEntry *entry = (LeafEntry *)calloc(1,sizeof(LeafEntry));
+        LeafEntry *entry = (LeafEntry *)xcalloc(1,sizeof(LeafEntry));
         entry->node = node;
         entry->depth = depth;
         DFArrayAppend(leafEntries,entry);

@@ -43,7 +43,7 @@ struct ItemLens {
 
 static ItemLens *ItemLensNew(DFDocument *abstractDoc, DFDocument *concreteDoc)
 {
-    ItemLens *lens = (ItemLens *)calloc(1,sizeof(ItemLens));
+    ItemLens *lens = (ItemLens *)xcalloc(1,sizeof(ItemLens));
     lens->abstractDoc = DFDocumentRetain(abstractDoc);
     lens->concreteDoc = DFDocumentRetain(concreteDoc);
     return lens;
@@ -129,7 +129,7 @@ struct TestContainerLens {
 
 static TestContainerLens *TestContainerLensNew(DFDocument *abstractDoc, DFDocument *concreteDoc)
 {
-    TestContainerLens *lens = (TestContainerLens *)calloc(1,sizeof(TestContainerLens));
+    TestContainerLens *lens = (TestContainerLens *)xcalloc(1,sizeof(TestContainerLens));
     lens->abstractDoc = DFDocumentRetain(abstractDoc);
     lens->concreteDoc = DFDocumentRetain(concreteDoc);
     lens->itemLens = ItemLensNew(abstractDoc,concreteDoc);
@@ -392,7 +392,7 @@ static void test_move(void)
 
 static void test_remove(void)
 {
-    int *indices = (int *)malloc(utgetargc()*sizeof(int));
+    int *indices = (int *)xmalloc(utgetargc()*sizeof(int));
 
     for (int i = 0; i < utgetargc(); i++) {
         int index = atoi(utgetargv()[i]);

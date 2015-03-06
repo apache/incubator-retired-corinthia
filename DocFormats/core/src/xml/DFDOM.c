@@ -49,7 +49,7 @@ static DFNode *DocumentCreateNode(DFDocument *doc, Tag tag)
 {
     if (doc->nodesCount == doc->nodesAlloc) {
         doc->nodesAlloc *= 2;
-        doc->nodes = (DFNode **)realloc(doc->nodes,doc->nodesAlloc*sizeof(DFNode *));
+        doc->nodes = (DFNode **)xrealloc(doc->nodes,doc->nodesAlloc*sizeof(DFNode *));
     }
 
 //    Node *node = NodeNew(tag);
@@ -63,7 +63,7 @@ static DFNode *DocumentCreateNode(DFDocument *doc, Tag tag)
 
 DFDocument *DFDocumentNew(void)
 {
-    DFDocument *doc = (DFDocument *)calloc(1,sizeof(DFDocument));
+    DFDocument *doc = (DFDocument *)xcalloc(1,sizeof(DFDocument));
     doc->retainCount = 1;
     doc->allocator = DFAllocatorNew();
     doc->map = DFNameMapNew();
@@ -342,7 +342,7 @@ void DFSetAttribute(DFNode *element, Tag tag, const char *value)
     // No existing attribute with this tag - add it
     if (element->attrsCount == element->attrsAlloc) {
         element->attrsAlloc = (element->attrsAlloc == 0) ? 8 : (2*element->attrsAlloc);
-        element->attrs = (DFAttribute *)realloc(element->attrs,element->attrsAlloc*sizeof(DFAttribute));
+        element->attrs = (DFAttribute *)xrealloc(element->attrs,element->attrsAlloc*sizeof(DFAttribute));
     }
 
     element->attrs[element->attrsCount].tag = tag;

@@ -21,6 +21,7 @@
 #include "DFString.h"
 #include "DFCharacterSet.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
@@ -46,7 +47,7 @@ static void CSSParserSetError(CSSParser *p, const char *format, ...)
 
 CSSParser *CSSParserNew(const char *cinput)
 {
-    CSSParser *p = (CSSParser *)calloc(1,sizeof(CSSParser));
+    CSSParser *p = (CSSParser *)xcalloc(1,sizeof(CSSParser));
     if (cinput == NULL)
         cinput = "";
 

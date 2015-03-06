@@ -17,12 +17,13 @@
 
 #include "DFCallback.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <assert.h>
 #include <stdlib.h>
 
 void DFCallbackAdd(DFCallback **list, DFCallbackFunction fun, void *ctx)
 {
-    DFCallback *item = (DFCallback *)calloc(1,sizeof(DFCallback));
+    DFCallback *item = (DFCallback *)xcalloc(1,sizeof(DFCallback));
     item->fun = fun;
     item->ctx = ctx;
     item->next = *list;

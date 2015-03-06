@@ -24,6 +24,7 @@
 #include "DFString.h"
 #include "DFCharacterSet.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <assert.h>
 #include <ctype.h>
 #include <stdlib.h>
@@ -84,7 +85,7 @@ const char *ContentPartTypeString(ContentPartType type)
 
 ContentPart *ContentPartNew(ContentPartType type, const char *value, const char *arg)
 {
-    ContentPart *part = (ContentPart *)calloc(1,sizeof(ContentPart));
+    ContentPart *part = (ContentPart *)xcalloc(1,sizeof(ContentPart));
     part->retainCount = 1;
     part->type = type;
     part->value = DFStrDup(value);

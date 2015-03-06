@@ -137,7 +137,7 @@ struct WordNumInfo {
 
 static WordNumInfo *WordNumInfoNew(void)
 {
-    return (WordNumInfo *)calloc(1,sizeof(WordNumInfo));
+    return (WordNumInfo *)xcalloc(1,sizeof(WordNumInfo));
 }
 
 static void WordNumInfoFree(WordNumInfo *info)
@@ -278,7 +278,7 @@ void updateNumbering(WordConverter *converter, CSSSheet *cssSheet)
             CSSStyle *style = CSSSheetLookupSelector(cssSheet,allSelectors[i],0,0);
             if ((style->headingLevel >= 1) && (style->headingLevel <= 6)) {
                 int level = style->headingLevel - 1;
-                SelectorList *item = (SelectorList *)calloc(1,sizeof(SelectorList));
+                SelectorList *item = (SelectorList *)xcalloc(1,sizeof(SelectorList));
                 item->selector = strdup(style->selector);
                 item->next = DFHashTableLookupInt(selectorsByLevel,level);
                 DFHashTableAddInt(selectorsByLevel,level,item);

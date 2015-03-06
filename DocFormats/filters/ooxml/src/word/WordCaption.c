@@ -16,6 +16,7 @@
 // under the License.
 
 #include "WordCaption.h"
+#include "DFPlatform.h"
 #include "DFCommon.h"
 #include <stdlib.h>
 
@@ -27,7 +28,7 @@
 
 WordCaption *WordCaptionNew(DFNode *element)
 {
-    WordCaption *caption = (WordCaption *)calloc(1,sizeof(WordCaption));
+    WordCaption *caption = (WordCaption *)xcalloc(1,sizeof(WordCaption));
     caption->retainCount = 1;
     caption->element = element;
     return caption;

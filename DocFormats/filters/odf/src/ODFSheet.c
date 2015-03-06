@@ -19,6 +19,7 @@
 #include "DFDOM.h"
 #include "DFHashTable.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <stdlib.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,7 +30,7 @@
 
 ODFStyle *ODFStyleNew()
 {
-    ODFStyle *style = (ODFStyle *)calloc(1,sizeof(ODFStyle));
+    ODFStyle *style = (ODFStyle *)xcalloc(1,sizeof(ODFStyle));
     style->retainCount = 1;
     return style;
 }
@@ -65,7 +66,7 @@ struct ODFSheet {
 
 ODFSheet *ODFSheetNew(DFDocument *stylesDoc, DFDocument *contentDoc)
 {
-    ODFSheet *sheet = (ODFSheet *)calloc(1,sizeof(ODFSheet));
+    ODFSheet *sheet = (ODFSheet *)xcalloc(1,sizeof(ODFSheet));
     sheet->retainCount = 1;
     sheet->stylesDoc = DFDocumentRetain(stylesDoc);
     sheet->contentDoc = DFDocumentRetain(contentDoc);

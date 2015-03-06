@@ -24,6 +24,7 @@
 #include "DFString.h"
 #include "DFHashTable.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <assert.h>
 #include <stdlib.h>
 
@@ -46,7 +47,7 @@ struct WordObjects {
 
 WordObjects *WordObjectsNew(WordPackage *package)
 {
-    WordObjects *objects = (WordObjects *)calloc(1,sizeof(WordObjects));
+    WordObjects *objects = (WordObjects *)xcalloc(1,sizeof(WordObjects));
     objects->package = WordPackageRetain(package);
     objects->drawingsById = DFHashTableNew((DFCopyFunction)WordDrawingRetain,(DFFreeFunction)WordDrawingRelease);
     objects->bookmarksById = DFHashTableNew((DFCopyFunction)WordBookmarkRetain,(DFFreeFunction)WordBookmarkRelease);

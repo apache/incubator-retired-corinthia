@@ -73,7 +73,7 @@ struct DFSAXParser {
 
 DFSAXParser *DFSAXParserNew(void)
 {
-    DFSAXParser *parser = (DFSAXParser *)calloc(1,sizeof(DFSAXParser));
+    DFSAXParser *parser = (DFSAXParser *)xcalloc(1,sizeof(DFSAXParser));
     parser->document = DFDocumentNew();
     parser->parent = parser->document->docNode;
     parser->warnings = DFBufferNew();
@@ -360,7 +360,7 @@ static void findUsedNamespaces(DFDocument *doc, DFNode *node, char *used, Namesp
 static void writeNamespaceDeclarations(Serialization *serialization, DFNode *node)
 {
     NamespaceID count = DFNameMapNamespaceCount(serialization->doc->map);
-    char *used = (char *)calloc(1,count);
+    char *used = (char *)xcalloc(1,count);
     findUsedNamespaces(serialization->doc,node,used,count);
     for (NamespaceID nsId = 1; nsId < count; nsId++) { // don't write null namespace
         if (used[nsId]) {

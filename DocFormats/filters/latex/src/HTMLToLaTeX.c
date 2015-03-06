@@ -43,7 +43,7 @@ struct LaTeXConverter {
 
 LaTeXConverter *LaTeXConverterNew(DFDocument *htmlDoc)
 {
-    LaTeXConverter *conv = (LaTeXConverter *)calloc(1,sizeof(LaTeXConverter));
+    LaTeXConverter *conv = (LaTeXConverter *)xcalloc(1,sizeof(LaTeXConverter));
     conv->htmlDoc = DFDocumentRetain(htmlDoc);
     conv->packages = DFHashTableNew((DFCopyFunction)strdup,free);
     return conv;

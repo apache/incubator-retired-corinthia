@@ -92,7 +92,7 @@ int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DF
         else
             entryName = relSubPath;
 
-        *listptr = (DFDirEntryList *)calloc(1,sizeof(DFDirEntryList));
+        *listptr = (DFDirEntryList *)xcalloc(1,sizeof(DFDirEntryList));
         (*listptr)->name = strdup(entryName);
         listptr = &(*listptr)->next;
 

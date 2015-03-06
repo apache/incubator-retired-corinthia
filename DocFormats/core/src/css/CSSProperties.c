@@ -20,6 +20,7 @@
 #include "DFString.h"
 #include "DFHashTable.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -152,7 +153,7 @@ CSSProperties *CSSPropertiesNewWithExtra(CSSProperties *orig, const char *string
     DFHashTable *extra = CSSParseProperties(string);
     CSSExpandProperties(extra);
 
-    CSSProperties *result = (CSSProperties *)calloc(1,sizeof(CSSProperties));
+    CSSProperties *result = (CSSProperties *)xcalloc(1,sizeof(CSSProperties));
     result->retainCount = 1;
     result->hashTable = DFHashTableNew((DFCopyFunction)strdup,free);
     const char **names = DFHashTableCopyKeys(orig->hashTable);
@@ -176,7 +177,7 @@ CSSProperties *CSSPropertiesNewWithExtra(CSSProperties *orig, const char *string
 
 CSSProperties *CSSPropertiesNewWithRaw(DFHashTable *raw)
 {
-    CSSProperties *result = (CSSProperties *)calloc(1,sizeof(CSSProperties));
+    CSSProperties *result = (CSSProperties *)xcalloc(1,sizeof(CSSProperties));
     result->retainCount = 1;
 
     result->hashTable = DFHashTableNew((DFCopyFunction)strdup,free);

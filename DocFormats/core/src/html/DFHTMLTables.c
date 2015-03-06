@@ -21,6 +21,7 @@
 #include "DFString.h"
 #include "CSSLength.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <assert.h>
 #include <stdlib.h>
 
@@ -58,7 +59,7 @@ static void getRowList(DFNode *table, RowList **listPtr)
     for (DFNode *tableChild = table->first; tableChild != NULL; tableChild = tableChild->next) {
         switch (tableChild->tag) {
             case HTML_TR: {
-                RowList *item = (RowList *)calloc(1,sizeof(RowList));
+                RowList *item = (RowList *)xcalloc(1,sizeof(RowList));
                 item->rowNode = tableChild;
                 *listPtr = item;
                 listPtr = &item->next;
@@ -69,7 +70,7 @@ static void getRowList(DFNode *table, RowList **listPtr)
             case HTML_TFOOT: {
                 for (DFNode *partChild = tableChild->first; partChild != NULL; partChild = partChild->next) {
                     if (partChild->tag == HTML_TR) {
-                        RowList *item = (RowList *)calloc(1,sizeof(RowList));
+                        RowList *item = (RowList *)xcalloc(1,sizeof(RowList));
                         item->rowNode = partChild;
                         *listPtr = item;
                         listPtr = &item->next;

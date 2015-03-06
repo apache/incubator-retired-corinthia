@@ -267,7 +267,7 @@ void WordNoteReferenceRemove(struct WordPutData *put, DFNode *concrete)
 
 WordNote *WordNoteNew(DFNode *element, int noteId)
 {
-    WordNote *note = (WordNote *)calloc(1,sizeof(WordNote));
+    WordNote *note = (WordNote *)xcalloc(1,sizeof(WordNote));
     note->retainCount = 1;
     note->element = element;
     note->noteId = noteId;
@@ -316,7 +316,7 @@ static WordNoteGroup *WordNoteGroupNew(DFDocument *doc, Tag noteTag, Tag refTag,
     assert(doc != NULL);
     assert((noteTag == WORD_FOOTNOTE) || (noteTag == WORD_ENDNOTE));
 
-    WordNoteGroup *group = (WordNoteGroup *)calloc(1,sizeof(WordNoteGroup));
+    WordNoteGroup *group = (WordNoteGroup *)xcalloc(1,sizeof(WordNoteGroup));
     group->retainCount = 1;
     group->notesById = DFHashTableNew((DFCopyFunction)WordNoteRetain,(DFFreeFunction)WordNoteRelease);
     group->doc = DFDocumentRetain(doc);

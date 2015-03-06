@@ -57,7 +57,7 @@ struct ListFrame {
 
 ListFrame *ListFrameNew(DFNode *element, ListFrame *parent, int numId, int ilvl, ListDimensions dimensions)
 {
-    ListFrame *frame = (ListFrame *)calloc(1,sizeof(ListFrame));
+    ListFrame *frame = (ListFrame *)xcalloc(1,sizeof(ListFrame));
     frame->element = element;
     frame->parent = parent;
     frame->numId = numId;

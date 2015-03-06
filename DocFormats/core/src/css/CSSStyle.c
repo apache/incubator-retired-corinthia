@@ -24,6 +24,7 @@
 #include "DFHashTable.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -57,7 +58,7 @@ static void ruleChanged(void *ctx, void *object, void *data)
 
 CSSStyle *CSSStyleNew(const char *selector)
 {
-    CSSStyle *style = (CSSStyle *)calloc(1,sizeof(CSSStyle));
+    CSSStyle *style = (CSSStyle *)xcalloc(1,sizeof(CSSStyle));
     style->retainCount = 1;
     CSSStyleSetSelector(style,selector);
     style->rules = DFHashTableNew((DFCopyFunction)CSSPropertiesRetain,(DFFreeFunction)CSSPropertiesRelease);

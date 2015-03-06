@@ -43,7 +43,7 @@ typedef struct {
 
 static ConcreteInfo *ConcreteInfoNew(void)
 {
-    ConcreteInfo *info = (ConcreteInfo *)calloc(1,sizeof(ConcreteInfo));
+    ConcreteInfo *info = (ConcreteInfo *)xcalloc(1,sizeof(ConcreteInfo));
     info->tableProperties = CSSPropertiesNew();
     info->cellProperties = CSSPropertiesNew();
     return info;

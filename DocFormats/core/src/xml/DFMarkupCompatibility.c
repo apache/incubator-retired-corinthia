@@ -59,7 +59,7 @@ struct DFMarkupCompatibility {
 
 DFMarkupCompatibility *DFMarkupCompatibilityNew(void)
 {
-    DFMarkupCompatibility *mc = (DFMarkupCompatibility *)calloc(1,sizeof(DFMarkupCompatibility));
+    DFMarkupCompatibility *mc = (DFMarkupCompatibility *)xcalloc(1,sizeof(DFMarkupCompatibility));
     return mc;
 }
 
@@ -73,7 +73,7 @@ void DFMarkupCompatibilityFree(DFMarkupCompatibility *mc)
 static void addDeclToRecord(MCRecord *record, NamespaceID nsId, Tag tag, MCAction action)
 {
     record->count++;
-    record->decls = (MCDecl *)realloc(record->decls,record->count*sizeof(MCDecl));
+    record->decls = (MCDecl *)xrealloc(record->decls,record->count*sizeof(MCDecl));
     record->decls[record->count-1].nsId = nsId;
     record->decls[record->count-1].tag = tag;
     record->decls[record->count-1].action = action;

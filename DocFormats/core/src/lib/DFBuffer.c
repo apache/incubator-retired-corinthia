@@ -33,7 +33,7 @@
 
 DFBuffer *DFBufferNew(void)
 {
-    DFBuffer *buf = (DFBuffer *)calloc(1,sizeof(DFBuffer));
+    DFBuffer *buf = (DFBuffer *)xcalloc(1,sizeof(DFBuffer));
     buf->retainCount = 1;
     buf->alloc = 1;
     buf->len = 0;
@@ -68,7 +68,7 @@ void DFStringBufferEnsureSpace(DFBuffer *buf, size_t len)
     if (buf->alloc < want) {
         while (buf->alloc < want)
             buf->alloc *= 2;
-        buf->data = (char *)realloc(buf->data,buf->alloc);
+        buf->data = (char *)xrealloc(buf->data,buf->alloc);
     }
 }
 

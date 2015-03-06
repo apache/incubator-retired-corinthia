@@ -25,6 +25,7 @@
 #include "DFHashTable.h"
 #include "DFBuffer.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
@@ -43,7 +44,7 @@ struct CSSSheet {
 
 CSSSheet *CSSSheetNew(void)
 {
-    CSSSheet *sheet = (CSSSheet *)calloc(1,sizeof(CSSSheet));
+    CSSSheet *sheet = (CSSSheet *)xcalloc(1,sizeof(CSSSheet));
     sheet->retainCount = 1;
     sheet->_styles = DFHashTableNew((DFCopyFunction)CSSStyleRetain,(DFFreeFunction)CSSStyleRelease);
     sheet->_defaultStyles = DFHashTableNew((DFCopyFunction)CSSStyleRetain,(DFFreeFunction)CSSStyleRelease);
@@ -494,7 +495,7 @@ static DFHashTable *getStylesByHeadingLevel(CSSSheet *sheet)
         CSSStyle *style = CSSSheetLookupSelector(sheet,allSelectors[i],0,0);
         if (style->headingLevel > 0) {
             int headingLevel = style->headingLevel;
-            StyleList *item = (StyleList *)calloc(1,sizeof(StyleList));
+            StyleList *item = (StyleList *)xcalloc(1,sizeof(StyleList));
             item->style = CSSStyleRetain(style);
             item->next = DFHashTableLookupInt(stylesByHeadingLevel,headingLevel);
             DFHashTableAddInt(stylesByHeadingLevel,headingLevel,item);

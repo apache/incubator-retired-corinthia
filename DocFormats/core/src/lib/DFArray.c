@@ -33,7 +33,7 @@ struct DFArray {
 
 DFArray *DFArrayNew(DFCopyFunction copy, DFFreeFunction free)
 {
-    DFArray *array = (DFArray *)calloc(1,sizeof(DFArray));
+    DFArray *array = (DFArray *)xcalloc(1,sizeof(DFArray));
     array->retainCount = 1;
     array->copyFun = copy;
     array->freeFun = free;
@@ -90,7 +90,7 @@ void DFArrayAppend(DFArray *array, void *item)
             array->alloc = 1;
         else
             array->alloc *= 2;
-        array->items = (void **)realloc(array->items,array->alloc*sizeof(void *));
+        array->items = (void **)xrealloc(array->items,array->alloc*sizeof(void *));
     }
     array->items[array->count++] = item;
 }

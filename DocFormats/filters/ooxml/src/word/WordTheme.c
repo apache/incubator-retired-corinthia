@@ -32,7 +32,7 @@
 
 WordTheme *WordThemeNew(WordPackage *package)
 {
-    WordTheme *theme = (WordTheme *)calloc(1,sizeof(WordTheme));
+    WordTheme *theme = (WordTheme *)xcalloc(1,sizeof(WordTheme));
 
     DFDocument *doc = package->theme;
     if (doc == NULL)

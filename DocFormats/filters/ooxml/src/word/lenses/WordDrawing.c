@@ -71,7 +71,7 @@ typedef struct {
 
 static ImageInfo *ImageInfoNew(const char *rId, double widthPts, double heightPts)
 {
-    ImageInfo *info = (ImageInfo *)calloc(1,sizeof(ImageInfo));
+    ImageInfo *info = (ImageInfo *)xcalloc(1,sizeof(ImageInfo));
     info->rId = DFStrDup(rId);
     info->widthPts = widthPts;
     info->heightPts = heightPts;
@@ -147,7 +147,7 @@ static const char *DrawingInfoDrawingId(DFNode *element)
 
 WordDrawing *WordDrawingNew(const char *drawingId)
 {
-    WordDrawing *drawing = (WordDrawing *)calloc(1,sizeof(WordDrawing));
+    WordDrawing *drawing = (WordDrawing *)xcalloc(1,sizeof(WordDrawing));
     drawing->retainCount = 1;
     drawing->drawingId = strdup(drawingId);
     return drawing;

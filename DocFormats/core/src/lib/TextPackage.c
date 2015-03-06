@@ -32,10 +32,10 @@
 
 static TextPackage *TextPackageNew(void)
 {
-    TextPackage *package = (TextPackage *)calloc(1,sizeof(TextPackage));
+    TextPackage *package = (TextPackage *)xcalloc(1,sizeof(TextPackage));
     package->retainCount = 1;
     package->items = DFHashTableNew((DFCopyFunction)strdup,free);
-    package->keys = (char **)calloc(1,sizeof(char *));
+    package->keys = (char **)xcalloc(1,sizeof(char *));
     return package;
 }
 
@@ -111,7 +111,7 @@ static int parsePackage(TextPackage *package, const char *string, const char *pa
             DFBufferFormat(currentValue,"%s\n",line);
         }
         else if (DFStringHasPrefix(line,"#item ")) {
-            package->keys = (char **)realloc(package->keys,(package->nkeys+2)*sizeof(char *));
+            package->keys = (char **)xrealloc(package->keys,(package->nkeys+2)*sizeof(char *));
             package->keys[package->nkeys++] = strdup(currentKey);
             package->keys[package->nkeys] = NULL;
             DFHashTableAdd(package->items,currentKey,currentValue->data);
@@ -128,7 +128,7 @@ static int parsePackage(TextPackage *package, const char *string, const char *pa
             return 0;
         }
     }
-    package->keys = (char **)realloc(package->keys,(package->nkeys+2)*sizeof(char *));
+    package->keys = (char **)xrealloc(package->keys,(package->nkeys+2)*sizeof(char *));
     package->keys[package->nkeys++] = strdup(currentKey);
     package->keys[package->nkeys] = NULL;
     DFHashTableAdd(package->items,currentKey,currentValue->data);

@@ -26,6 +26,7 @@
 #include "DFHTML.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
@@ -71,7 +72,7 @@ int WordBookmarkTypeHasLabel(WordBookmarkType type)
 
 WordBookmark *WordBookmarkNew(const char *bookmarkId1, const char *bookmarkName1)
 {
-    WordBookmark *bookmark = (WordBookmark *)calloc(1,sizeof(WordBookmark));
+    WordBookmark *bookmark = (WordBookmark *)xcalloc(1,sizeof(WordBookmark));
     bookmark->retainCount = 1;
     bookmark->bookmarkId = (bookmarkId1 != NULL) ? strdup(bookmarkId1) : NULL;
     bookmark->bookmarkName = (bookmarkName1 != NULL) ? strdup(bookmarkName1) : NULL;
@@ -441,7 +442,7 @@ struct WordRawBookmark {
 
 WordRawBookmark *WordRawBookmarkNew(void)
 {
-    WordRawBookmark *bookmark = (WordRawBookmark *)calloc(1,sizeof(WordRawBookmark));
+    WordRawBookmark *bookmark = (WordRawBookmark *)xcalloc(1,sizeof(WordRawBookmark));
     bookmark->startOffset = -1;
     bookmark->endOffset = -1;
     return bookmark;

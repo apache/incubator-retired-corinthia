@@ -42,7 +42,7 @@ struct DFAbstractDocument {
 DFConcreteDocument *DFConcreteDocumentNew(DFStorage *storage)
 {
     DFConcreteDocument *concrete = 
-      (DFConcreteDocument *)calloc(1,sizeof(DFConcreteDocument));
+      (DFConcreteDocument *)xcalloc(1,sizeof(DFConcreteDocument));
     concrete->retainCount = 1;
     concrete->storage = DFStorageRetain(storage);
     return concrete;
@@ -121,7 +121,7 @@ void DFConcreteDocumentRelease(DFConcreteDocument *concrete)
 DFAbstractDocument *DFAbstractDocumentNew(DFStorage *storage)
 {
     DFAbstractDocument *abstract =
-      (DFAbstractDocument *)calloc(1,sizeof(DFAbstractDocument));
+      (DFAbstractDocument *)xcalloc(1,sizeof(DFAbstractDocument));
     abstract->retainCount = 1;
     abstract->storage = DFStorageRetain(storage);
     return abstract;

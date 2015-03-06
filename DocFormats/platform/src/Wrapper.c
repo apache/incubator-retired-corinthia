@@ -150,27 +150,22 @@ int DFextZipWriteCurrentFile(DFextZipHandleP zipHandle, const void *buf, const i
     return (zipWriteInFileInZip(zipHandle->handle, buf, len) == ZIP_OK) ? 1 : -1;
 }
 
+
+
 void *xmalloc(size_t size)
 {
     void *ptr = malloc(size);
 
     if (ptr == NULL) {
         perror("xmalloc: out of memory.\n");
-        _exit(EXIT_FAILURE);
+        abort();
         return NULL;
     }
-    // uncomment to test this function
-    // else
-    //  printf("xmalloc: %zu\n", size);
 
     return ptr;
 }
 
-void xfree(void *ptr)
-{
-    free(ptr);
-    ptr = NULL;
-}
+
 
 void *xcalloc(size_t nmemb, size_t size)
 {
@@ -178,22 +173,24 @@ void *xcalloc(size_t nmemb, size_t size)
 
     if (ptr == NULL) {
         perror("xcalloc: out of memory.\n");
-        _exit(EXIT_FAILURE);
+        abort();
         return NULL;
     }
 
     return ptr;
 }
 
-void *xrealloc(void *ptr, size_t size)
-{
-    void *ret_ptr = realloc(ptr, size);
 
-    if (ret_ptr == NULL) {
+
+void *xrealloc(void *in_ptr, size_t size)
+{
+    void *ptr = realloc(in_ptr, size);
+
+    if (ptr == NULL) {
         perror("xrealloc: out of memory.\n");
-        _exit(EXIT_FAILURE);
+        abort();
         return NULL;
     }
 
-    return ret_ptr;
+    return ptr;
 }

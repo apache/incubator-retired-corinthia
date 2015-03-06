@@ -193,7 +193,7 @@ WordPackage *WordPackageOpenNew(DFStorage *storage, DFError **error)
         return NULL;
 
     int ok = 0;
-    WordPackage *package = (WordPackage *)calloc(1,sizeof(WordPackage));
+    WordPackage *package = (WordPackage *)xcalloc(1,sizeof(WordPackage));
     package->retainCount = 1;
     package->opc = opc;
     package->documentPart = OPCPackagePartWithURI(package->opc,"/word/document.xml");
@@ -230,7 +230,7 @@ WordPackage *WordPackageOpenFrom(DFStorage *storage, DFError **error)
         return NULL;
 
     int ok = 0;
-    WordPackage *package = (WordPackage *)calloc(1,sizeof(WordPackage));
+    WordPackage *package = (WordPackage *)xcalloc(1,sizeof(WordPackage));
     package->retainCount = 1;
     package->opc = opc;
 

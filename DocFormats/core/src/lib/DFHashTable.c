@@ -47,10 +47,10 @@ DFHashTable *DFHashTableNew(DFCopyFunction copy, DFFreeFunction free)
 
 DFHashTable *DFHashTableNew2(DFCopyFunction copy, DFFreeFunction free, int binsCount)
 {
-    DFHashTable *table = (DFHashTable *)calloc(1,sizeof(DFHashTable));
+    DFHashTable *table = (DFHashTable *)xcalloc(1,sizeof(DFHashTable));
     table->retainCount = 1;
     table->binsCount = binsCount;
-    table->bins = (DFHashEntry **)calloc(1,table->binsCount*sizeof(DFHashEntry *));
+    table->bins = (DFHashEntry **)xcalloc(1,table->binsCount*sizeof(DFHashEntry *));
     table->copy = copy;
     table->free = free;
     return table;

@@ -35,7 +35,7 @@
 
 static OPCRelationship *OPCRelationshipNew(const char *rId, const char *type, const char *target, int external)
 {
-    OPCRelationship *rel = (OPCRelationship *)calloc(1,sizeof(OPCRelationship));
+    OPCRelationship *rel = (OPCRelationship *)xcalloc(1,sizeof(OPCRelationship));
     rel->retainCount = 1;
     rel->rId = (rId != NULL) ? strdup(rId) : NULL;
     rel->type = (type != NULL) ? strdup(type) : NULL;
@@ -76,7 +76,7 @@ struct OPCRelationshipSet {
 
 OPCRelationshipSet *OPCRelationshipSetNew(void)
 {
-    OPCRelationshipSet *set = (OPCRelationshipSet *)calloc(1,sizeof(OPCRelationshipSet));
+    OPCRelationshipSet *set = (OPCRelationshipSet *)xcalloc(1,sizeof(OPCRelationshipSet));
     set->relsById = DFHashTableNew((DFCopyFunction)OPCRelationshipRetain,(DFFreeFunction)OPCRelationshipRelease);
     set->relsByType = DFHashTableNew((DFCopyFunction)OPCRelationshipRetain,(DFFreeFunction)OPCRelationshipRelease);
     set->relsByDetail = DFHashTableNew((DFCopyFunction)OPCRelationshipRetain,(DFFreeFunction)OPCRelationshipRelease);
@@ -190,7 +190,7 @@ DFDocument *OPCRelationshipSetToDocument(OPCRelationshipSet *set)
 
 OPCPart *OPCPartNew(const char *URI, const char *contentType)
 {
-    OPCPart *part = (OPCPart *)calloc(1,sizeof(OPCPart));
+    OPCPart *part = (OPCPart *)xcalloc(1,sizeof(OPCPart));
     part->retainCount = 1;
     part->URI = (URI != NULL) ? strdup(URI) : NULL;
     part->contentType = (contentType != NULL) ? strdup(contentType) : NULL;
@@ -228,7 +228,7 @@ struct OPCContentTypes {
 
 static OPCContentTypes *OPCContentTypesNew(void)
 {
-    OPCContentTypes *ct = (OPCContentTypes *)calloc(1,sizeof(OPCContentTypes));
+    OPCContentTypes *ct = (OPCContentTypes *)xcalloc(1,sizeof(OPCContentTypes));
     ct->defaultsByExtension = DFHashTableNew((DFCopyFunction)strdup,free);
     ct->overridesByPartName = DFHashTableNew((DFCopyFunction)strdup,free);
     return ct;
@@ -354,7 +354,7 @@ void OPCContentTypesRemoveOverride(OPCContentTypes *ct, const char *partName)
 
 static OPCPackage *OPCPackageNew(DFStorage *storage)
 {
-    OPCPackage *pkg = (OPCPackage *)calloc(1,sizeof(OPCPackage));
+    OPCPackage *pkg = (OPCPackage *)xcalloc(1,sizeof(OPCPackage));
     pkg->storage = DFStorageRetain(storage);
     pkg->contentTypes = OPCContentTypesNew();
     pkg->relationships = OPCRelationshipSetNew();

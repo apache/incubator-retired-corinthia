@@ -21,6 +21,7 @@
 #include "CSSLength.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <math.h>
 #include <stdlib.h>
 
@@ -32,7 +33,7 @@
 
 WordSection *WordSectionNew(void)
 {
-    WordSection *section = (WordSection *)calloc(1,sizeof(WordSection));
+    WordSection *section = (WordSection *)xcalloc(1,sizeof(WordSection));
     section->pageWidth = A4_WIDTH_TWIPS;
     section->pageHeight = A4_HEIGHT_TWIPS;
     section->leftMargin = 0;

@@ -91,7 +91,7 @@ static void DFNameHashTableAdd(DFNameHashTable *table, const char *name, const c
 
 static DFNameHashTable *DFNameHashTableNew()
 {
-    return (DFNameHashTable*)calloc(1,sizeof(DFNameHashTable));
+    return (DFNameHashTable*)xcalloc(1,sizeof(DFNameHashTable));
 }
 
 static void DFNameHashTableFree(DFNameHashTable *table)
@@ -124,7 +124,7 @@ struct DFNamespaceInfo {
 
 DFNamespaceInfo *DFNamespaceInfoNew(NamespaceID nsId, const char *URI, const char *prefix)
 {
-    DFNamespaceInfo *info = (DFNamespaceInfo *)calloc(1,sizeof(DFNamespaceInfo));
+    DFNamespaceInfo *info = (DFNamespaceInfo *)xcalloc(1,sizeof(DFNamespaceInfo));
     info->nsId = nsId;
     info->decl = (NamespaceDecl *)xmalloc(sizeof(NamespaceDecl));
     info->decl->namespaceURI = strdup(URI);
@@ -155,7 +155,7 @@ struct DFTagInfo {
 
 DFTagInfo *DFTagInfoNew(Tag tag, NamespaceID nsId, const char *localName)
 {
-    DFTagInfo *info = (DFTagInfo *)calloc(1,sizeof(DFTagInfo));
+    DFTagInfo *info = (DFTagInfo *)xcalloc(1,sizeof(DFTagInfo));
     info->tag = tag;
     info->decl = (TagDecl *)xmalloc(sizeof(TagDecl));
     info->decl->namespaceID = nsId;
@@ -195,7 +195,7 @@ struct DFNameMap {
 
 DFNameMap *DFNameMapNew(void)
 {
-    DFNameMap *map = (DFNameMap *)calloc(1,sizeof(DFNameMap));
+    DFNameMap *map = (DFNameMap *)xcalloc(1,sizeof(DFNameMap));
     map->namespacesByID = DFHashTableNew2(NULL,NULL,997);
     map->namespacesByURI = DFHashTableNew2(NULL,(DFFreeFunction)DFNamespaceInfoFree,997);
     map->tagsByID = DFHashTableNew2(NULL,(DFFreeFunction)DFTagInfoFree,997);

@@ -106,7 +106,7 @@ static void removeSpecial(TidyDoc doc, TidyNode node)
 
 DFHTDocument *DFHTDocumentNew()
 {
-    DFHTDocument *htd = (DFHTDocument *)calloc(1,sizeof(DFHTDocument));
+    DFHTDocument *htd = (DFHTDocument *)xcalloc(1,sizeof(DFHTDocument));
     htd->doc = tidyCreate();
     tidyBufInit(&htd->errbuf);
     tidySetErrorBuffer(htd->doc,&htd->errbuf);

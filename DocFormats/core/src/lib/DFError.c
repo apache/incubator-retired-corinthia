@@ -57,7 +57,7 @@ void DFErrorVFormat(DFError **error, const char *format, va_list ap)
     }
     else {
         // Error object does not exist; create a new one
-        (*error) = (DFError *)calloc(1,sizeof(DFError));
+        (*error) = (DFError *)xcalloc(1,sizeof(DFError));
         (*error)->retainCount = 1;
         (*error)->message = message;
     }

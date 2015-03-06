@@ -562,7 +562,7 @@ static void Word_postProcessHTMLDoc(WordConverter *conv)
 
 static WordConverter *WordConverterNew(DFDocument *html, DFStorage *abstractStorage, WordPackage *package)
 {
-    WordConverter *converter = (WordConverter *)calloc(1,sizeof(WordConverter));
+    WordConverter *converter = (WordConverter *)xcalloc(1,sizeof(WordConverter));
     converter->html = DFDocumentRetain(html);
     converter->abstractStorage = DFStorageRetain(abstractStorage);
     assert(DFStorageFormat(converter->abstractStorage) == DFFileFormatHTML);

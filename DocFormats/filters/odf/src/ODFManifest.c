@@ -35,7 +35,7 @@ static void ODFManifestParse(ODFManifest *manifest)
 
 ODFManifest *ODFManifestNew(void)
 {
-    ODFManifest *manifest = (ODFManifest *)calloc(1,sizeof(ODFManifest));
+    ODFManifest *manifest = (ODFManifest *)xcalloc(1,sizeof(ODFManifest));
     manifest->retainCount = 1;
     manifest->doc = DFDocumentNewWithRoot(MF_MANIFEST);
     manifest->entriesByPath = DFHashTableNew(NULL,NULL);
@@ -44,7 +44,7 @@ ODFManifest *ODFManifestNew(void)
 
 ODFManifest *ODFManifestNewWithDoc(DFDocument *doc)
 {
-    ODFManifest *manifest = (ODFManifest *)calloc(1,sizeof(ODFManifest));
+    ODFManifest *manifest = (ODFManifest *)xcalloc(1,sizeof(ODFManifest));
     manifest->doc = DFDocumentRetain(doc);
     manifest->entriesByPath = DFHashTableNew(NULL,NULL);
     ODFManifestParse(manifest);

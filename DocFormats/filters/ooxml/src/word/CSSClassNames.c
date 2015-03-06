@@ -29,6 +29,7 @@
 #include "WordStyles.h"
 #include "Word.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -270,7 +271,7 @@ static void determineReplacements(CSSSheet *styleSheet, DFHashTable *repls)
         if (className == NULL)
             className = strdup("");;
 
-        SelectorList *item = (SelectorList *)calloc(1,sizeof(SelectorList));
+        SelectorList *item = (SelectorList *)xcalloc(1,sizeof(SelectorList));
         item->selector = strdup(selector);
         item->next = DFHashTableLookup(selectorsByClassName,className);
         DFHashTableAdd(selectorsByClassName,className,item);

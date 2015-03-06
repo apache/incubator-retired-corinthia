@@ -79,7 +79,7 @@ static int fsRead(DFStorage *storage, const char *path, void **buf, size_t *nbyt
     while (0 < (r = fread(&mem[blen],1,4096,file))) {
         balloc += r;
         blen += r;
-        mem = (char *)realloc(mem,balloc);
+        mem = (char *)xrealloc(mem,balloc);
     }
     ok = 1;
 
@@ -324,7 +324,7 @@ static char *fixPath(const char *input)
 
 static DFStorage *DFStorageNew(DFFileFormat format, const DFStorageOps *ops)
 {
-    DFStorage *storage = (DFStorage *)calloc(1,sizeof(DFStorage));
+    DFStorage *storage = (DFStorage *)xcalloc(1,sizeof(DFStorage));
     storage->retainCount = 1;
     storage->format = format;
     storage->ops = ops;

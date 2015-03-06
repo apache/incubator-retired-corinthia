@@ -21,6 +21,7 @@
 #include "DFString.h"
 #include "Word.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
@@ -63,7 +64,7 @@ static WordStyle *WordStyleNew(DFNode *element, const char *type, const char *st
     assert(styleId != NULL);
     assert(element->tag == WORD_STYLE);
 
-    WordStyle *style = (WordStyle *)calloc(1,sizeof(WordStyle));
+    WordStyle *style = (WordStyle *)xcalloc(1,sizeof(WordStyle));
     style->retainCount = 1;
     style->element = element;
     style->type = (type != NULL) ? strdup(type) : NULL;
@@ -124,7 +125,7 @@ static void determineSelectors(WordSheet *sheet);
 
 WordSheet *WordSheetNew(DFDocument *doc)
 {
-    WordSheet *sheet = (WordSheet *)calloc(1,sizeof(WordSheet));
+    WordSheet *sheet = (WordSheet *)xcalloc(1,sizeof(WordSheet));
 
     sheet->stylesByIdent = DFHashTableNew((DFCopyFunction)WordStyleRetain,(DFFreeFunction)WordStyleRelease);
     sheet->stylesByName = DFHashTableNew((DFCopyFunction)WordStyleRetain,(DFFreeFunction)WordStyleRelease);

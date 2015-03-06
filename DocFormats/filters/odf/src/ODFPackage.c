@@ -75,7 +75,7 @@ static int writeString(ODFPackage *package, const char *str, const char *filenam
 
 ODFPackage *ODFPackageOpenNew(DFStorage *storage, DFError **error)
 {
-    ODFPackage *package = (ODFPackage *)calloc(1,sizeof(ODFPackage));
+    ODFPackage *package = (ODFPackage *)xcalloc(1,sizeof(ODFPackage));
     package->retainCount = 1;
     package->storage = DFStorageRetain(storage);
 
@@ -101,7 +101,7 @@ ODFPackage *ODFPackageOpenNew(DFStorage *storage, DFError **error)
 
 ODFPackage *ODFPackageOpenFrom(DFStorage *storage, DFError **error)
 {
-    ODFPackage *package = (ODFPackage *)calloc(1,sizeof(ODFPackage));
+    ODFPackage *package = (ODFPackage *)xcalloc(1,sizeof(ODFPackage));
     package->retainCount = 1;
     package->storage = DFStorageRetain(storage);
 
