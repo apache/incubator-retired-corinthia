@@ -160,6 +160,28 @@
         }
     }
 
+    function isContainer(node)
+    {
+        switch (node._type) {
+        case HTML_BODY:
+        case HTML_SECTION:
+        case HTML_FIGURE:
+        case HTML_TABLE:
+        case HTML_TBODY:
+        case HTML_THEAD:
+        case HTML_TFOOT:
+        case HTML_TR:
+        case HTML_DIV:
+        case HTML_UL:
+        case HTML_OL:
+        case HTML_NAV:
+        case HTML_COLGROUP:
+            return true;
+        default:
+            return false;
+        }
+    }
+
     function prettyPrint(output,options,node,indent)
     {
         if ((node.nodeType == Node.ELEMENT_NODE) && (node.nodeName != "SCRIPT")) {
@@ -174,7 +196,7 @@
                         prettyPrint(output,options,child,"");
                     output.push(indent + "</" + name + ">\n");
                 }
-                else if (!options.separateLines && singleDescendents(node)) {
+                else if (!options.separateLines && singleDescendents(node) && !isContainer(node)) {
                     output.push(indent);
                     prettyPrintOneLine(output,options,node);
                     output.push("\n");
