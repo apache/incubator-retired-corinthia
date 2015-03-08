@@ -65,7 +65,7 @@ char *CSSMakeSelector(const char *elementName, const char *className)
     if (className != NULL)
         return DFFormatString("%s.%s",elementName,className);
     else
-        return strdup(elementName);
+        return xstrdup(elementName);
 }
 
 char *CSSMakeTagSelector(Tag tag, const char *className)
@@ -114,7 +114,7 @@ char *CSSSelectorCopyElementName(const char *selector)
         return NULL;
     int dotPos = findDotPos(selector);
     if (dotPos < 0)
-        return strdup(selector);
+        return xstrdup(selector);
 
     char *result = (char *)xmalloc(dotPos+1);
     memcpy(result,selector,dotPos);

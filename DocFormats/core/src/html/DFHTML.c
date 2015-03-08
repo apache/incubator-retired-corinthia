@@ -71,10 +71,10 @@ char *HTMLCopyCSSText(DFDocument *doc)
 {
     DFNode *head = DFChildWithTag(doc->root,HTML_HEAD);
     if (head == NULL)
-        return strdup("");;
+        return xstrdup("");;
     DFNode *style = DFChildWithTag(head,HTML_STYLE);
     if (style == NULL)
-        return strdup("");
+        return xstrdup("");
     return DFNodeTextToString(style);
 }
 

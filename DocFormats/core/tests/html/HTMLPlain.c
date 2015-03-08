@@ -77,7 +77,7 @@ char *HTML_toPlain(DFDocument *doc, DFStorage *storage, DFError **error)
     }
     free(imageSources);
 
-    char *str = strdup(output->data);
+    char *str = xstrdup(output->data);
     DFBufferRelease(output);
     return str;
 }

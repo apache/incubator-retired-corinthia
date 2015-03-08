@@ -87,7 +87,7 @@ static char *findDocumentPath(DFStorage *storage, DFError **error)
         if (strcmp(type,"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument"))
             continue;
 
-        result = strdup(target);
+        result = xstrdup(target);
         ok = 1;
         break;
     }
@@ -158,7 +158,7 @@ static int processParts(DFHashTable *parts, const char *documentPath, DFDocument
                         DFBuffer *output, DFStorage *storage, DFError **error)
 {
     int ok = 0;
-    DFHashTable *includeTypes = DFHashTableNew((DFCopyFunction)strdup,free);
+    DFHashTable *includeTypes = DFHashTableNew((DFCopyFunction)xstrdup,free);
     DFHashTableAdd(includeTypes,WORDREL_HYPERLINK,"");
     DFHashTableAdd(includeTypes,WORDREL_IMAGE,"");
 
@@ -225,7 +225,7 @@ static int processParts(DFHashTable *parts, const char *documentPath, DFDocument
                 if (!DFStringHasSuffix(filename,"/"))
                     absFilename = DFFormatString("/%s",filename);
                 else
-                    absFilename = strdup(filename);
+                    absFilename = xstrdup(filename);
                 DFBuffer *data = DFBufferReadFromStorage(storage,absFilename,NULL);
                 addSerializedBinary(output,data,absFilename);
                 DFBufferRelease(data);
@@ -246,7 +246,7 @@ end:
 static char *Word_toPlainFromDir(DFStorage *storage, DFHashTable *parts, DFError **error)
 {
     char *documentPath = NULL;
-    DFHashTable *rels = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFHashTable *rels = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
     DFBuffer *output = DFBufferNew();
     char *relsPathRel = NULL;
     DFDocument *relsDoc = NULL;
@@ -282,7 +282,7 @@ end:
         return NULL;
     }
     else {
-        char *result = strdup(output->data);
+        char *result = xstrdup(output->data);
         DFBufferRelease(output);
         return result;
     }
@@ -424,11 +424,11 @@ static int Word_fromStorage(TextPackage *tp, DFStorage *storage, DFError **error
 
     const char *documentStr = DFHashTableLookup(tp->items,"document.xml");
     const char **allFilenames = NULL;
-    DFHashTable *ctDefaults = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
-    DFHashTable *ctOverrides = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
-    DFHashTable *docRelURIs = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
-    DFHashTable *docRelTypes = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
-    DFHashTable *docRelModes = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFHashTable *ctDefaults = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
+    DFHashTable *ctOverrides = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
+    DFHashTable *docRelURIs = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
+    DFHashTable *docRelTypes = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
+    DFHashTable *docRelModes = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
 
 
     if (documentStr == NULL) {
@@ -519,9 +519,9 @@ static int Word_fromStorage(TextPackage *tp, DFStorage *storage, DFError **error
         DFHashTableRelease(docRelURIs);
         DFHashTableRelease(docRelTypes);
         DFHashTableRelease(docRelModes);
-        docRelURIs = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
-        docRelTypes = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
-        docRelModes = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+        docRelURIs = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
+        docRelTypes = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
+        docRelModes = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
 
         for (DFNode *child = doc->root->first; child != NULL; child = child->next) {
             if (child->tag == REL_RELATIONSHIP) {

@@ -488,7 +488,7 @@ char *DFNodeTextToString(DFNode *node)
 {
     DFBuffer *buf = DFBufferNew();
     DFNodeTextToBuffer(node,buf);
-    char *result = strdup(buf->data);
+    char *result = xstrdup(buf->data);
     DFBufferRelease(buf);
     return result;
 }

@@ -155,7 +155,7 @@ CSSProperties *CSSPropertiesNewWithExtra(CSSProperties *orig, const char *string
 
     CSSProperties *result = (CSSProperties *)xcalloc(1,sizeof(CSSProperties));
     result->retainCount = 1;
-    result->hashTable = DFHashTableNew((DFCopyFunction)strdup,free);
+    result->hashTable = DFHashTableNew((DFCopyFunction)xstrdup,free);
     const char **names = DFHashTableCopyKeys(orig->hashTable);
     for (int i = 0; names[i]; i++) {
         const char *value = DFHashTableLookup(orig->hashTable,names[i]);
@@ -180,7 +180,7 @@ CSSProperties *CSSPropertiesNewWithRaw(DFHashTable *raw)
     CSSProperties *result = (CSSProperties *)xcalloc(1,sizeof(CSSProperties));
     result->retainCount = 1;
 
-    result->hashTable = DFHashTableNew((DFCopyFunction)strdup,free);
+    result->hashTable = DFHashTableNew((DFCopyFunction)xstrdup,free);
     if (raw != NULL)
         CSSPropertiesUpdateFromRaw(result,raw);
 

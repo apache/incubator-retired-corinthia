@@ -93,7 +93,7 @@ static char *getCommandFromCode(const char *code, DFError **error)
     for (int i = 0; lines[i]; i++) {
         if (!DFStringIsWhitespace(lines[i]) && strncmp(lines[i],"//",2)) {
             if (command == NULL)
-                command = strdup(lines[i]);
+                command = xstrdup(lines[i]);
             count++;
         }
     }
@@ -115,7 +115,7 @@ static const char **parseCommand(const char *command, DFError **error)
     const char *closebr = strrchr(command,')');
 
     if ((openbr == NULL) && (closebr == NULL)) {
-        DFArray *array = DFArrayNew((DFCopyFunction)strdup,free);
+        DFArray *array = DFArrayNew((DFCopyFunction)xstrdup,free);
         DFArrayAppend(array,(void *)command);
         const char **result = DFStringArrayFlatten(array);
         DFArrayRelease(array);
@@ -140,7 +140,7 @@ static const char **parseCommand(const char *command, DFError **error)
     char *arguments = DFSubstring(command,openpos+1,closepos);
 
     const char **components = DFStringSplit(arguments,",",0);
-    DFArray *array = DFArrayNew((DFCopyFunction)strdup,free);
+    DFArray *array = DFArrayNew((DFCopyFunction)xstrdup,free);
     DFArrayAppend(array,name);
     for (int i = 0; components[i]; i++) {
         char *trimmed = DFStringTrimWhitespace(components[i]);
@@ -278,7 +278,7 @@ static void TestGetFilenamesRecursive(const char *path, DFArray *result)
 
 void runTests(int argc, const char **argv, int diff)
 {
-    DFArray *tests = DFArrayNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFArray *tests = DFArrayNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
     for (int i = 0; i < argc; i++) {
         const char *path = argv[i];
         if (!DFFileExists(path)) {

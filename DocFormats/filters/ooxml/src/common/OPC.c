@@ -37,9 +37,9 @@ static OPCRelationship *OPCRelationshipNew(const char *rId, const char *type, co
 {
     OPCRelationship *rel = (OPCRelationship *)xcalloc(1,sizeof(OPCRelationship));
     rel->retainCount = 1;
-    rel->rId = (rId != NULL) ? strdup(rId) : NULL;
-    rel->type = (type != NULL) ? strdup(type) : NULL;
-    rel->target = (target != NULL) ? strdup(target) : NULL;
+    rel->rId = (rId != NULL) ? xstrdup(rId) : NULL;
+    rel->type = (type != NULL) ? xstrdup(type) : NULL;
+    rel->target = (target != NULL) ? xstrdup(target) : NULL;
     rel->external = external;
     return rel;
 }
@@ -192,8 +192,8 @@ OPCPart *OPCPartNew(const char *URI, const char *contentType)
 {
     OPCPart *part = (OPCPart *)xcalloc(1,sizeof(OPCPart));
     part->retainCount = 1;
-    part->URI = (URI != NULL) ? strdup(URI) : NULL;
-    part->contentType = (contentType != NULL) ? strdup(contentType) : NULL;
+    part->URI = (URI != NULL) ? xstrdup(URI) : NULL;
+    part->contentType = (contentType != NULL) ? xstrdup(contentType) : NULL;
     part->relationships = OPCRelationshipSetNew();
     return part;
 }
@@ -229,8 +229,8 @@ struct OPCContentTypes {
 static OPCContentTypes *OPCContentTypesNew(void)
 {
     OPCContentTypes *ct = (OPCContentTypes *)xcalloc(1,sizeof(OPCContentTypes));
-    ct->defaultsByExtension = DFHashTableNew((DFCopyFunction)strdup,free);
-    ct->overridesByPartName = DFHashTableNew((DFCopyFunction)strdup,free);
+    ct->defaultsByExtension = DFHashTableNew((DFCopyFunction)xstrdup,free);
+    ct->overridesByPartName = DFHashTableNew((DFCopyFunction)xstrdup,free);
     return ct;
 }
 

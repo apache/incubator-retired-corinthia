@@ -56,7 +56,7 @@ static char *readString(const char *filename, DFError **error)
     DFBuffer *buffer = readData(filename,error);
     if (buffer == NULL)
         return NULL;
-    char *result = strdup(buffer->data);
+    char *result = xstrdup(buffer->data);
     DFBufferRelease(buffer);
     return result;
 }
@@ -177,7 +177,7 @@ int fromPlain(const char *inFilename, const char *outFilename, DFError **error)
     if (inStr == NULL)
         return 0;
 
-    char *inPath = fromStdin ? strdup(".") : DFPathDirName(inFilename);
+    char *inPath = fromStdin ? xstrdup(".") : DFPathDirName(inFilename);
     int ok = fromPlain2(inStr,inPath,outFilename,error);
     free(inPath);
     free(inStr);
@@ -299,7 +299,7 @@ int textPackageGet(const char *filename, const char *itemPath, DFError **error)
             return 0;
         }
         free(value);
-        value = strdup(DFHashTableLookup(package->items,name));
+        value = xstrdup(DFHashTableLookup(package->items,name));
         if (value == NULL) {
             DFErrorFormat(error,"%s: Item %s not found",filename,itemPath);
             TextPackageRelease(package);

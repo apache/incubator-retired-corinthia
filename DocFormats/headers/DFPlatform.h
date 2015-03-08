@@ -105,4 +105,6 @@ void *xcalloc(size_t nmemb, size_t size);
 
 void *xrealloc(void *ptr, size_t size);
 
+char *xstrdup(const char *s);
+
 #endif // DocFormats_DFPlatform_h

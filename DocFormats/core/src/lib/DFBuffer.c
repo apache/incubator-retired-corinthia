@@ -194,7 +194,7 @@ char *binaryToString(DFBuffer *input)
     }
     if ((input->len % 40) != 0)
         DFBufferAppendChar(charBuf,'\n');
-    char *result = strdup(charBuf->data);
+    char *result = xstrdup(charBuf->data);
 
     DFBufferRelease(charBuf);
     return result;

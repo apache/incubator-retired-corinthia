@@ -111,7 +111,7 @@ CSSStyle *CSSSheetFlattenedStyle(CSSSheet *sheet, CSSStyle *orig)
     // FIXME: Need tests for parent cycles
     CSSStyle *ancestor = orig;
     CSSStyle *result = CSSStyleNew("temp");
-    DFHashTable *visited = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFHashTable *visited = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
     const char **allSuffixes = NULL;
     while (1) {
         free(allSuffixes);
@@ -161,7 +161,7 @@ DFHashTable *CSSSheetRules(CSSSheet *sheet)
             free(escapedClassName);
         }
         else {
-            baseSelector = strdup(elementName);
+            baseSelector = xstrdup(elementName);
         }
 
         CSSStyle *flattenedStyle = CSSSheetFlattenedStyle(sheet,origStyle);
@@ -225,7 +225,7 @@ char *CSSSheetCopyText(CSSSheet *sheet)
         free(sortedSuffixes);
     }
     free(allSelectors);
-    char *str = strdup(result->data);
+    char *str = xstrdup(result->data);
     DFBufferRelease(result);
     return str;
 }
@@ -237,7 +237,7 @@ static void breakCycles(CSSSheet *sheet)
     for (int i = 0; allSelectors[i]; i++) {
         const char *selector = allSelectors[i];
         CSSStyle *style = CSSSheetLookupSelector(sheet,selector,0,0);
-        DFHashTable *visited = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+        DFHashTable *visited = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
         int depth = 0;
 
         while (style != NULL) {
@@ -268,7 +268,7 @@ static const char **reverseTopologicalSortedSelectors(CSSSheet *sheet)
             depth++;
 
         while (DFArrayCount(selectorsByDepth) < depth+1) {
-            DFArray *array = DFArrayNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+            DFArray *array = DFArrayNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
             DFArrayAppend(selectorsByDepth,array);
             DFArrayRelease(array);
         }
@@ -278,7 +278,7 @@ static const char **reverseTopologicalSortedSelectors(CSSSheet *sheet)
     }
     free(allSelectors);
 
-    DFArray *sortedSelectors = DFArrayNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFArray *sortedSelectors = DFArrayNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
     for (size_t i = DFArrayCount(selectorsByDepth); i > 0; i--) {
         DFArray *atDepth = DFArrayItemAt(selectorsByDepth,i-1);
         for (size_t j = 0; j < DFArrayCount(atDepth); j++)
@@ -353,7 +353,7 @@ static void updateFromRawCSSRules(CSSSheet *sheet, DFHashTable *rules)
         if (!strncmp(constSelector,".",1))
             selector = DFFormatString("p%s",constSelector); // FIXME: Not covered by tests
         else
-            selector = strdup(constSelector);
+            selector = xstrdup(constSelector);
 
         DFHashTable *raw = DFHashTableLookup(rules,constSelector);
         char *baseId = NULL;

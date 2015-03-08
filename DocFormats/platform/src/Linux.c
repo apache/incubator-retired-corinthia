@@ -30,7 +30,7 @@ int DFGetImageDimensions(const void *data, size_t len, const char *ext,
     SDL_Surface *image = IMG_Load_RW(SDL_RWFromMem((void *)data,len),1);
     if (image == NULL) {
         if (errmsg != NULL)
-            *errmsg = strdup(IMG_GetError());
+            *errmsg = xstrdup(IMG_GetError());
         return 0;
     }
 

@@ -611,7 +611,7 @@ char *DFSerializeXMLString(DFDocument *doc, NamespaceID defaultNS, int indent)
 {
     DFBuffer *buf = DFBufferNew();
     DFSerializeXMLBuffer(doc,defaultNS,indent,buf);
-    char *result = strdup(buf->data);
+    char *result = xstrdup(buf->data);
     DFBufferRelease(buf);
     return result;
 }

@@ -269,10 +269,10 @@ static void determineReplacements(CSSSheet *styleSheet, DFHashTable *repls)
         const char *selector = allSelectors[i];
         char *className = CSSSelectorCopyClassName(selector);
         if (className == NULL)
-            className = strdup("");;
+            className = xstrdup("");;
 
         SelectorList *item = (SelectorList *)xcalloc(1,sizeof(SelectorList));
-        item->selector = strdup(selector);
+        item->selector = xstrdup(selector);
         item->next = DFHashTableLookup(selectorsByClassName,className);
         DFHashTableAdd(selectorsByClassName,className,item);
         free(className);
@@ -399,7 +399,7 @@ static void replaceSelectorsInSheet(DFHashTable *repls, CSSSheet *styleSheet)
 
 void CSSEnsureUnique(CSSSheet *styleSheet, DFDocument *htmlDoc, int creating)
 {
-    DFHashTable *repls = DFHashTableNew((DFCopyFunction)strdup,free);
+    DFHashTable *repls = DFHashTableNew((DFCopyFunction)xstrdup,free);
     determineReplacements(styleSheet,repls);
     replaceSelectorsInSheet(repls,styleSheet);
     replaceSelectorsInNode(repls,htmlDoc->root);

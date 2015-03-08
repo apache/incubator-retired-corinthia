@@ -78,7 +78,7 @@ static char *parseLvlText(const char *input, WordConcreteNum *num)
 
     if ((result->len > 0) && !endsWithWhitespace)
         DFBufferFormat(result," \" \"");
-    char *str = strdup(result->data);
+    char *str = xstrdup(result->data);
     DFBufferRelease(result);
     return str;
 }
@@ -185,9 +185,9 @@ void updateNumbering(WordConverter *converter, CSSSheet *cssSheet)
                     if (DFStringEquals(part->value,elementName)) {
                         free(info->cssType);
                         if (part->arg != NULL)
-                            info->cssType = strdup(part->arg);
+                            info->cssType = xstrdup(part->arg);
                         else
-                            info->cssType = strdup("decimal");
+                            info->cssType = xstrdup("decimal");
                     }
                     if ((strlen(part->value) == 2) && (part->value[0] == 'h'))
                         DFBufferFormat(format,"%%%c",part->value[1]);
@@ -206,7 +206,7 @@ void updateNumbering(WordConverter *converter, CSSSheet *cssSheet)
                 format->len--;
             }
 
-            info->cssLvlText = strdup(format->data);
+            info->cssLvlText = xstrdup(format->data);
             free(elementName);
             DFBufferRelease(format);
         }
@@ -224,8 +224,8 @@ void updateNumbering(WordConverter *converter, CSSSheet *cssSheet)
                 if (concreteNum != NULL) {
                     WordNumLevel *level = WordConcreteNumGetLevel(concreteNum,atoi(ilvl));
                     if (level != NULL) {
-                        info->wordNumId = strdup(numId);
-                        info->wordIlvl = strdup(ilvl);
+                        info->wordNumId = xstrdup(numId);
+                        info->wordIlvl = xstrdup(ilvl);
                         info->wordLevel = level;
 
                         int ilvlValue = atoi(ilvl);
@@ -279,7 +279,7 @@ void updateNumbering(WordConverter *converter, CSSSheet *cssSheet)
             if ((style->headingLevel >= 1) && (style->headingLevel <= 6)) {
                 int level = style->headingLevel - 1;
                 SelectorList *item = (SelectorList *)xcalloc(1,sizeof(SelectorList));
-                item->selector = strdup(style->selector);
+                item->selector = xstrdup(style->selector);
                 item->next = DFHashTableLookupInt(selectorsByLevel,level);
                 DFHashTableAddInt(selectorsByLevel,level,item);
             }
@@ -318,13 +318,13 @@ void updateNumbering(WordConverter *converter, CSSSheet *cssSheet)
                     info = WordNumInfoNew();
                     DFHashTableAdd(infoByStyleId,style->selector,info);
                 }
-                curType = strdup(info->cssType);
-                curLvlText = strdup(info->cssLvlText);
+                curType = xstrdup(info->cssType);
+                curLvlText = xstrdup(info->cssLvlText);
             }
 
 
             if (curType == NULL)
-                curType = (prevType != NULL) ? strdup(prevType) : strdup("decimal");
+                curType = (prevType != NULL) ? xstrdup(prevType) : xstrdup("decimal");
 
             if ((curLvlText == NULL) || (strlen(curLvlText) == 0)) {
                 free(curLvlText);
@@ -343,7 +343,7 @@ void updateNumbering(WordConverter *converter, CSSSheet *cssSheet)
                 assert(info->wordLevel != NULL);
                 free(info->wordNumId);
                 free(info->wordIlvl);
-                info->wordNumId = strdup(concreteNum->numId);
+                info->wordNumId = xstrdup(concreteNum->numId);
                 info->wordIlvl = DFFormatString("%d",i);
             }
 

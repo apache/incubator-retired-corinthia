@@ -145,7 +145,7 @@ const char **fsList(DFStorage *storage, DFError **error)
     if (allPaths == NULL)
         return NULL;;
 
-    DFArray *filesOnly = DFArrayNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFArray *filesOnly = DFArrayNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
     for (int i = 0; allPaths[i]; i++) {
         const char *relPath = allPaths[i];
         char *absPath = DFAppendPathComponent(storage->rootPath,relPath);
@@ -315,9 +315,9 @@ static char *fixPath(const char *input)
     char *normalized = DFPathNormalize(input);
     char *result;
     if (normalized[0] == '/')
-        result = strdup(&normalized[1]);
+        result = xstrdup(&normalized[1]);
     else
-        result = strdup(normalized);
+        result = xstrdup(normalized);
     free(normalized);
     return result;
 }
@@ -336,7 +336,7 @@ DFStorage *DFStorageNewFilesystem(const char *rootPath, DFFileFormat format)
     if ((rootPath == NULL) || (strlen(rootPath) == 0))
         rootPath = ".";;
     DFStorage *storage = DFStorageNew(format,&fsOps);
-    storage->rootPath = strdup(rootPath);
+    storage->rootPath = xstrdup(rootPath);
     return storage;
 }
 
@@ -357,7 +357,7 @@ DFStorage *DFStorageCreateZip(const char *filename, DFError **error)
 
     DFStorage *storage = DFStorageNew(DFFileFormatFromFilename(filename),&zipOps);
     storage->files = DFHashTableNew((DFCopyFunction)DFBufferRetain,(DFFreeFunction)DFBufferRelease);
-    storage->zipFilename = strdup(filename);
+    storage->zipFilename = xstrdup(filename);
     return storage;
 }
 
@@ -370,7 +370,7 @@ DFStorage *DFStorageOpenZip(const char *filename, DFError **error)
 
     DFStorage *storage = DFStorageNew(DFFileFormatFromFilename(filename),&zipOps);
     storage->files = DFHashTableNew((DFCopyFunction)DFBufferRetain,(DFFreeFunction)DFBufferRelease);
-    storage->zipFilename = strdup(filename);
+    storage->zipFilename = xstrdup(filename);
 
     if (!DFUnzip(filename,storage,error)) {
         DFStorageRelease(storage);

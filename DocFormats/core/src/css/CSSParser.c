@@ -51,7 +51,7 @@ CSSParser *CSSParserNew(const char *cinput)
     if (cinput == NULL)
         cinput = "";
 
-    p->chars = strdup(cinput);
+    p->chars = xstrdup(cinput);
     p->length = strlen(cinput);
 
     return p;
@@ -210,7 +210,7 @@ static char *trimmedSubstring(CSSParser *p, size_t start, size_t pos)
 
 DFHashTable *CSSParserRules(CSSParser *p)
 {
-    DFHashTable *result = DFHashTableNew((DFCopyFunction)strdup,free);
+    DFHashTable *result = DFHashTableNew((DFCopyFunction)xstrdup,free);
     while (p->pos < p->length) {
         size_t start = p->pos;
         int invalid = 0;
@@ -245,7 +245,7 @@ DFHashTable *CSSParserRules(CSSParser *p)
 
 DFArray *CSSParserSelectors(CSSParser *p)
 {
-    DFArray *result = DFArrayNew((DFCopyFunction)strdup,free);
+    DFArray *result = DFArrayNew((DFCopyFunction)xstrdup,free);
     while (p->pos < p->length) {
         size_t start = p->pos;
         int invalid = 0;
@@ -265,7 +265,7 @@ DFArray *CSSParserSelectors(CSSParser *p)
 
 DFHashTable *CSSParserProperties(CSSParser *p)
 {
-    DFHashTable *result = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFHashTable *result = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
     while (p->pos < p->length) {
         size_t start = p->pos;
         int invalid = 0;

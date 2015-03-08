@@ -613,7 +613,7 @@ void HTML_normalizeDocument(DFDocument *doc)
 
 static DFHashTable *extractInlineProperties(DFNode *paragraph)
 {
-    DFHashTable *inlineProperties = DFHashTableNew((DFCopyFunction)strdup,free);
+    DFHashTable *inlineProperties = DFHashTableNew((DFCopyFunction)xstrdup,free);
     const char *paraCSSText = DFGetAttribute(paragraph,HTML_STYLE);
     CSSProperties *paraProperties = CSSPropertiesNewWithString(paraCSSText);
     const char **allNames = CSSPropertiesCopyNames(paraProperties);

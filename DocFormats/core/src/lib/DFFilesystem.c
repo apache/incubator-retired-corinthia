@@ -177,7 +177,7 @@ static void freeDirEntryList(DFDirEntryList *list)
 
 static DFArray *arrayFromDirEntryList(DFDirEntryList *list)
 {
-    DFArray *array = DFArrayNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFArray *array = DFArrayNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
     for (DFDirEntryList *l = list; l != NULL; l = l->next)
         DFArrayAppend(array,l->name);
     return array;
@@ -224,10 +224,10 @@ char *DFPathDirName(const char *path)
     size_t pos = len;
     while (1) {
         if (pos == 0)
-            return strdup("");
+            return xstrdup("");
         if (path[pos-1] == '/') {
             if (pos == 1)
-                return strdup("/");
+                return xstrdup("/");
             else
                 return DFSubstring(path,0,pos-1);
         }
@@ -264,9 +264,9 @@ char *DFPathExtension(const char *path)
     size_t pos = len;
     while (1) {
         if (pos == 0)
-            return strdup("");
+            return xstrdup("");
         if (path[pos-1] == '/')
-            return strdup("");
+            return xstrdup("");
         if (path[pos-1] == '.')
             return DFSubstring(path,pos,len);
         pos--;
@@ -280,7 +280,7 @@ char *DFPathWithoutExtension(const char *path)
         len--;
 
     if (!strcmp(path,"/"))
-        return strdup("/");;
+        return xstrdup("/");;
 
     size_t pos = len;
     while (1) {
@@ -310,11 +310,11 @@ char *DFPathNormalize(const char *path)
 char *DFPathResolveAbsolute(const char *rawBase, const char *relative)
 {
     if (relative[0] == '/')
-        return strdup(relative);
+        return xstrdup(relative);
 
     char *base;
     if (rawBase[0] == '/') {
-        base = strdup(rawBase);
+        base = xstrdup(rawBase);
     }
     else {
         char cwd[4096];
@@ -322,7 +322,7 @@ char *DFPathResolveAbsolute(const char *rawBase, const char *relative)
         base = DFFormatString("%s/%s",cwd,rawBase);
     }
 
-    char *baseDirectory = DFStringHasSuffix(base,"/") ? strdup(base) : DFPathDirName(base);
+    char *baseDirectory = DFStringHasSuffix(base,"/") ? xstrdup(base) : DFPathDirName(base);
 
     DFBuffer *path = DFBufferNew();
     DFBufferAppendString(path,baseDirectory);

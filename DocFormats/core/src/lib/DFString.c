@@ -256,7 +256,7 @@ char *DFStringTrimLeadingWhitespace(const char *str)
         ch = DFNextChar(str,&pos);
     } while ((ch != 0) && DFCharIsWhitespaceOrNewline(ch));
 
-    return strdup(&str[startpos]);
+    return xstrdup(&str[startpos]);
 }
 
 char *DFStringNormalizeWhitespace(const char *input)
@@ -322,7 +322,7 @@ char *DFSubstring(const char *str, size_t start, size_t end)
 char *DFStrDup(const char *str)
 {
     if (str != NULL)
-        return strdup(str);
+        return xstrdup(str);
     else
         return NULL;
 }
@@ -334,7 +334,7 @@ char *DFUpperCase(const char *input)
     }
 
     size_t len = strlen(input);
-    char *result = strdup(input);
+    char *result = xstrdup(input);
     for (size_t i = 0; i < len; i++) {
         // Avoid calling toupper with chars from UTF-8 multibyte sequences
         if ((result[i] >= 'a') && result[i] <= 'z')
@@ -350,7 +350,7 @@ char *DFLowerCase(const char *input)
     }
 
     size_t len = strlen(input);
-    char *result = strdup(input);
+    char *result = xstrdup(input);
     for (size_t i = 0; i < len; i++) {
         // Avoid calling tolower with chars from UTF-8 multibyte sequences
         if ((result[i] >= 'A') && result[i] <= 'Z')
@@ -489,7 +489,7 @@ char *DFAppendPathComponent(const char *path1, const char *path2)
 {
     char *unnormalized;
     if (strlen(path1) == 0)
-        unnormalized = strdup(path2);
+        unnormalized = xstrdup(path2);
     else if (path1[strlen(path1)-1] == '/')
         unnormalized = DFFormatString("%s%s",path1,path2);
     else
@@ -512,7 +512,7 @@ char *DFStringReplace(const char *input, const char *match, const char *replacem
     size_t matchLen = strlen(match);
 
     if (matchLen == 0)
-        return strdup(input); // protect against infinite loop
+        return xstrdup(input); // protect against infinite loop
 
     struct DFBuffer *output = DFBufferNew();
 
@@ -528,7 +528,7 @@ char *DFStringReplace(const char *input, const char *match, const char *replacem
         }
     }
 
-    char *result = strdup(output->data);
+    char *result = xstrdup(output->data);
     DFBufferRelease(output);
     return result;
 }
@@ -598,7 +598,7 @@ char *DFUnquote(const char *in)
         return NULL;
 
     if ((in[0] != '"') && (in[0] != '\''))
-        return strdup(in);
+        return xstrdup(in);
     char quote = in[0];
 
     size_t inlen = strlen(in);
@@ -646,7 +646,7 @@ char *DFUnquote(const char *in)
 char *DFSpacesToUnderscores(const char *input)
 {
     size_t len = strlen(input);
-    char *output = strdup(input);
+    char *output = xstrdup(input);
     for (size_t i = 0; i < len; i++) {
         if (output[i] == ' ')
             output[i] = '_';
@@ -657,7 +657,7 @@ char *DFSpacesToUnderscores(const char *input)
 char *DFUnderscoresToSpaces(const char *input)
 {
     size_t len = strlen(input);
-    char *output = strdup(input);
+    char *output = xstrdup(input);
     for (size_t i = 0; i < len; i++) {
         if (output[i] == '_')
             output[i] = ' ';
@@ -739,7 +739,7 @@ char *DFStringReadFromFile(const char *filename, DFError **error)
     DFBuffer *buffer = DFBufferReadFromFile(filename,error);
     if (buffer == NULL)
         return NULL;
-    char *result = strdup(buffer->data);
+    char *result = xstrdup(buffer->data);
     DFBufferRelease(buffer);
     return result;
 }

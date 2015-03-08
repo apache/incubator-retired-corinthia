@@ -45,7 +45,7 @@ LaTeXConverter *LaTeXConverterNew(DFDocument *htmlDoc)
 {
     LaTeXConverter *conv = (LaTeXConverter *)xcalloc(1,sizeof(LaTeXConverter));
     conv->htmlDoc = DFDocumentRetain(htmlDoc);
-    conv->packages = DFHashTableNew((DFCopyFunction)strdup,free);
+    conv->packages = DFHashTableNew((DFCopyFunction)xstrdup,free);
     return conv;
 }
 
@@ -235,7 +235,7 @@ static void inlineToLaTeX(LaTeXConverter *conv, DFBuffer *output, DFNode *node)
             }
 
             if (texWidth == NULL)
-                texWidth = strdup("");;
+                texWidth = xstrdup("");;
 
             const char *src = DFGetAttribute(node,HTML_SRC);
             if (src != NULL) {
@@ -684,7 +684,7 @@ char *HTMLToLaTeX(DFDocument *htmlDoc)
 
     DFBufferFormat(mainOutput,"\\end{document}\n");
 
-    char *result = strdup(mainOutput->data);
+    char *result = xstrdup(mainOutput->data);
     DFBufferRelease(makeTitleOutput);
     DFBufferRelease(documentOutput);
     DFBufferRelease(mainOutput);

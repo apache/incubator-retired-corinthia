@@ -74,8 +74,8 @@ WordBookmark *WordBookmarkNew(const char *bookmarkId1, const char *bookmarkName1
 {
     WordBookmark *bookmark = (WordBookmark *)xcalloc(1,sizeof(WordBookmark));
     bookmark->retainCount = 1;
-    bookmark->bookmarkId = (bookmarkId1 != NULL) ? strdup(bookmarkId1) : NULL;
-    bookmark->bookmarkName = (bookmarkName1 != NULL) ? strdup(bookmarkName1) : NULL;
+    bookmark->bookmarkId = (bookmarkId1 != NULL) ? xstrdup(bookmarkId1) : NULL;
+    bookmark->bookmarkName = (bookmarkName1 != NULL) ? xstrdup(bookmarkName1) : NULL;
     bookmark->type = WordBookmarkUnknown;
     return bookmark;
 }
@@ -164,7 +164,7 @@ void findLabel(WordBookmark *bookmark)
             DFNodeTextToBuffer(child,buffer);
     }
     free(bookmark->label);
-    bookmark->label = strdup(buffer->data);
+    bookmark->label = xstrdup(buffer->data);
     DFBufferRelease(buffer);
 }
 
@@ -536,8 +536,8 @@ static void collapseRecursive(DFNode *node, DFHashTable *bookmarksById)
             case WORD_BOOKMARKEND: {
                 DFArray *startElements = DFArrayNew(NULL,NULL);
                 DFArray *endElements = DFArrayNew(NULL,NULL);
-                DFHashTable *startIds = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
-                DFHashTable *endIds = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+                DFHashTable *startIds = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
+                DFHashTable *endIds = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
                 DFNode *n;
                 for (n = child;
                      (n != NULL) && ((n->tag == WORD_BOOKMARKSTART) || (n->tag == WORD_BOOKMARKEND));

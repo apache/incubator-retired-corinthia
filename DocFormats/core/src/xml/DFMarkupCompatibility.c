@@ -86,7 +86,7 @@ void DFMarkupCompatibilityPush(DFMarkupCompatibility *mc, int nb_namespaces, con
         MCRecord *record = &mc->records[mc->depth-1];
         bzero(record,sizeof(MCRecord));
         if (nb_namespaces > 0) {
-            record->namespaces = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+            record->namespaces = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
             for (int i = 0; i < nb_namespaces; i++) {
                 const char *nsPrefix = namespaces[i*2];
                 const char *nsURI = namespaces[i*2+1];
@@ -155,7 +155,7 @@ void DFMarkupCompatibilityProcessAttr(DFMarkupCompatibility *mc, Tag attr, const
             localName = DFSubstring(component,colonPos+1,strlen(component));
         }
         else {
-            prefix = strdup(component);
+            prefix = xstrdup(component);
             localName = NULL;
         }
 

@@ -47,7 +47,7 @@ static void DFErrorMsgSetWin32(char **errmsg, DWORD code)
             (lpMsgBuf[len - 1] == '.')))
         len--;
     lpMsgBuf[len] = '\0';
-    *errmsg = strdup(lpMsgBuf);
+    *errmsg = xstrdup(lpMsgBuf);
     LocalFree(lpMsgBuf);
 }
 
@@ -122,7 +122,7 @@ int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DF
             entryName = relSubPath;
 
         *listptr = (DFDirEntryList *)xcalloc(1,sizeof(DFDirEntryList));
-        (*listptr)->name = strdup(entryName);
+        (*listptr)->name = xstrdup(entryName);
         listptr = &(*listptr)->next;
 
         if (recursive && (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
@@ -144,7 +144,7 @@ int DFGetImageDimensions(const void *data, size_t len, const char *ext,
     SDL_Surface *image = IMG_Load_RW(SDL_RWFromMem((void *)data,len),1);
     if (image == NULL) {
         if (errmsg != NULL)
-            *errmsg = strdup(IMG_GetError());
+            *errmsg = xstrdup(IMG_GetError());
         return 0;
     }
 

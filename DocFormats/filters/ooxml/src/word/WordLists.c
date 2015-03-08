@@ -546,10 +546,10 @@ static void fixWordLists(DFNode *node, WordConverter *conv)
             continue;
 
         if (!createdHashTables) {
-            replacementNumIds = DFHashTableNew((DFCopyFunction)strdup,free);
-            itemNoByListKey = DFHashTableNew((DFCopyFunction)strdup,free);
-            lastNumIdByIlvl = DFHashTableNew((DFCopyFunction)strdup,free);
-            itemNoByIlvl = DFHashTableNew((DFCopyFunction)strdup,free);
+            replacementNumIds = DFHashTableNew((DFCopyFunction)xstrdup,free);
+            itemNoByListKey = DFHashTableNew((DFCopyFunction)xstrdup,free);
+            lastNumIdByIlvl = DFHashTableNew((DFCopyFunction)xstrdup,free);
+            itemNoByIlvl = DFHashTableNew((DFCopyFunction)xstrdup,free);
             createdHashTables = 1;
         }
 
@@ -575,7 +575,7 @@ static void fixWordLists(DFNode *node, WordConverter *conv)
         char *listKey = DFFormatString("%s:%s",numId,ilvl);
         char *itemNo = DFStrDup(DFHashTableLookup(itemNoByListKey,listKey));
         if (itemNo == NULL) {
-            itemNo = strdup("1");
+            itemNo = xstrdup("1");
 
             if ((levelStart != NULL) && (atoi(levelStart) > 1) && (atoi(ilvl) <= maxIlvl)) {
                 const char *prevNumId = DFHashTableLookup(lastNumIdByIlvl,ilvl);

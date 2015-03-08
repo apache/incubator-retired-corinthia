@@ -129,7 +129,7 @@ void WordGetBorder(DFNode *concrete, const char *side, CSSProperties *properties
     if ((color != NULL) && isRRGGBB(color))
         value = DFFormatString("#%s",color);
     else
-        value = strdup("black");
+        value = xstrdup("black");
     CSSPut(properties,colorName,value);
     free(value);
 

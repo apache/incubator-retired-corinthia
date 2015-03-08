@@ -165,7 +165,7 @@ DFHashTable *CSSParseProperties(const char *input)
     DFHashTable *properties = CSSParserProperties(parser);
     CSSParserFree(parser);
     if (properties == NULL)
-        return DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+        return DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
     else
         return properties;
 }
@@ -190,7 +190,7 @@ char *CSSSerializeProperties(DFHashTable *cssProperties)
         count++;
     }
     free(allKeys);
-    char *result = strdup(output->data);
+    char *result = xstrdup(output->data);
     DFBufferRelease(output);
     return result;
 }
@@ -224,31 +224,31 @@ static int splitSides(const char *shorthand, SideValues *sides)
         count++;
     switch (count) {
         case 1:
-            sides->top = strdup(tokens[0]);
-            sides->bottom = strdup(tokens[0]);
-            sides->left = strdup(tokens[0]);
-            sides->right = strdup(tokens[0]);
+            sides->top = xstrdup(tokens[0]);
+            sides->bottom = xstrdup(tokens[0]);
+            sides->left = xstrdup(tokens[0]);
+            sides->right = xstrdup(tokens[0]);
             ok = 1;
             break;
         case 2:
-            sides->top = strdup(tokens[0]);
-            sides->bottom = strdup(tokens[0]);
-            sides->left = strdup(tokens[1]);
-            sides->right = strdup(tokens[1]);
+            sides->top = xstrdup(tokens[0]);
+            sides->bottom = xstrdup(tokens[0]);
+            sides->left = xstrdup(tokens[1]);
+            sides->right = xstrdup(tokens[1]);
             ok = 1;
             break;
         case 3:
-            sides->top = strdup(tokens[0]);
-            sides->left = strdup(tokens[1]);
-            sides->right = strdup(tokens[1]);
-            sides->bottom = strdup(tokens[2]);
+            sides->top = xstrdup(tokens[0]);
+            sides->left = xstrdup(tokens[1]);
+            sides->right = xstrdup(tokens[1]);
+            sides->bottom = xstrdup(tokens[2]);
             ok = 1;
             break;
         case 4:
-            sides->top = strdup(tokens[0]);
-            sides->right = strdup(tokens[1]);
-            sides->bottom = strdup(tokens[2]);
-            sides->left = strdup(tokens[3]);
+            sides->top = xstrdup(tokens[0]);
+            sides->right = xstrdup(tokens[1]);
+            sides->bottom = xstrdup(tokens[2]);
+            sides->left = xstrdup(tokens[3]);
             ok = 1;
             break;
     }
@@ -579,7 +579,7 @@ DFArray *CSSParseContent(const char *content)
 
 static DFHashTable *builtTextRules(DFHashTable *input)
 {
-    DFHashTable *result = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFHashTable *result = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
 
     const char **allSelectors = DFHashTableCopyKeys(input);
     for (int selIndex = 0; allSelectors[selIndex]; selIndex++) {
@@ -624,7 +624,7 @@ static DFHashTable *combineTextRules(DFHashTable *separate)
 
         DFArray *array = DFHashTableLookup(reverse,text);
         if (array == NULL) {
-            array = DFArrayNew((DFCopyFunction)strdup,free);
+            array = DFArrayNew((DFCopyFunction)xstrdup,free);
             DFHashTableAdd(reverse,text,array);
             DFArrayRelease(array);
         }
@@ -632,7 +632,7 @@ static DFHashTable *combineTextRules(DFHashTable *separate)
     }
     free(separateKeys);
 
-    DFHashTable *combined = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFHashTable *combined = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
     const char **reverseKeys = DFHashTableCopyKeys(reverse);
     for (int keyIndex = 0; reverseKeys[keyIndex]; keyIndex++) {
         const char *text = reverseKeys[keyIndex];
@@ -674,7 +674,7 @@ char *CSSCopyStylesheetTextFromRules(DFHashTable *rules)
     free(allSelectors);
     DFHashTableRelease(separate);
     DFHashTableRelease(textRules);
-    char *result = strdup(output->data);
+    char *result = xstrdup(output->data);
     DFBufferRelease(output);
     return result;
 }
@@ -785,7 +785,7 @@ char *CSSHexColor(const char *color, int includeHash)
     }
 
     if (!includeHash && (result != NULL)) {
-        char *nohash = strdup(&result[1]);
+        char *nohash = xstrdup(&result[1]);
         free(result);
         result = nohash;
     }
@@ -800,7 +800,7 @@ char *CSSEncodeFontFamily(const char *input)
     if (DFStringContainsWhitespace(input))
         return DFQuote(input);
     else
-        return strdup(input);
+        return xstrdup(input);
 }
 
 char *CSSDecodeFontFamily(const char *input)
@@ -1075,12 +1075,12 @@ void CSSParseSelector(const char *cinput, char **result, char **suffix)
         free(className);
     }
     else {
-        *result = strdup(elementName);
+        *result = xstrdup(elementName);
     }
 
     // Parse suffix
     // FIXME: ignore spaces at start?
-    *suffix = strdup(&cinput[pos]);
+    *suffix = xstrdup(&cinput[pos]);
 
     free(elementName);
 }

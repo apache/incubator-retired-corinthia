@@ -37,7 +37,7 @@ static void WordFieldPut(WordPutData *put, DFNode *abstract, DFNode *concrete);
 const char **Word_parseField(const char *str)
 {
     size_t len = strlen(str);
-    DFArray *components = DFArrayNew((DFCopyFunction)strdup,free);
+    DFArray *components = DFArrayNew((DFCopyFunction)xstrdup,free);
 
     size_t start = 0;
     int inString = 0;

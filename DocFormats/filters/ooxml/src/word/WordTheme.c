@@ -49,8 +49,8 @@ WordTheme *WordThemeNew(WordPackage *package)
 
     const char *majorFont = DFGetChildAttribute(majorFontElem,DML_MAIN_LATIN,NULL_TYPEFACE);
     const char *minorFont = DFGetChildAttribute(minorFontElem,DML_MAIN_LATIN,NULL_TYPEFACE);
-    theme->majorFont = (majorFont != NULL) ? strdup(majorFont) : NULL;
-    theme->minorFont = (minorFont != NULL) ? strdup(minorFont) : NULL;
+    theme->majorFont = (majorFont != NULL) ? xstrdup(majorFont) : NULL;
+    theme->minorFont = (minorFont != NULL) ? xstrdup(minorFont) : NULL;
 
     return theme;
 }

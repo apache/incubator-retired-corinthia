@@ -149,7 +149,7 @@ WordDrawing *WordDrawingNew(const char *drawingId)
 {
     WordDrawing *drawing = (WordDrawing *)xcalloc(1,sizeof(WordDrawing));
     drawing->retainCount = 1;
-    drawing->drawingId = strdup(drawingId);
+    drawing->drawingId = xstrdup(drawingId);
     return drawing;
 }
 
@@ -338,7 +338,7 @@ static char *genImageFilename(DFStorage *storage, const char *mediaRelDir, const
     if (paths == NULL)
         return NULL;;
 
-    DFHashTable *existingPaths = DFHashTableNew((DFCopyFunction)strdup,free);
+    DFHashTable *existingPaths = DFHashTableNew((DFCopyFunction)xstrdup,free);
     for (int i = 0; paths[i]; i++) {
         const char *path = paths[i];
         char *lowerPath = DFLowerCase(path);

@@ -44,7 +44,7 @@ static void test_collapseBookmarks(void)
         return;
     }
 
-    DFHashTable *parts = DFHashTableNew((DFCopyFunction)strdup,free);
+    DFHashTable *parts = DFHashTableNew((DFCopyFunction)xstrdup,free);
     DFHashTableAdd(parts,"document","");
 
     // Output the docx file
@@ -72,7 +72,7 @@ static void test_expandBookmarks(void)
         return;
     }
 
-    DFHashTable *parts = DFHashTableNew((DFCopyFunction)strdup,free);
+    DFHashTable *parts = DFHashTableNew((DFCopyFunction)xstrdup,free);
     DFHashTableAdd(parts,"document","");
 
     // Output the docx file
@@ -129,7 +129,7 @@ static DFHashTable *getFlags(void)
 {
     if (utgetargc() == 0)
         return NULL;;
-    DFHashTable *set = DFHashTableNew((DFCopyFunction)strdup,free);
+    DFHashTable *set = DFHashTableNew((DFCopyFunction)xstrdup,free);
     for (int i = 0; i < utgetargc(); i++) {
         const char *colon = strchr(utgetargv()[i],':');
         if (colon == NULL)

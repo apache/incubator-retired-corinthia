@@ -50,7 +50,7 @@ int DFMkdirIfAbsent(const char *path, char **errmsg)
     if ((mkdir(path,0777) != 0) && (errno != EEXIST)) {
         printf("DFMkdirIfAbsent: errno = %d (%s)\n",errno,strerror(errno));
         if (errmsg != NULL)
-            *errmsg = strdup(strerror(errno));
+            *errmsg = xstrdup(strerror(errno));
         return 0;
     }
     return 1;
@@ -65,7 +65,7 @@ int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DF
         if (errmsg != NULL) {
             char temp[1024];
             snprintf(temp,1024,"%s: %s",relPath,strerror(errno));
-            *errmsg = strdup(temp);
+            *errmsg = xstrdup(temp);
         }
         return 0;
     }
@@ -93,7 +93,7 @@ int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DF
             entryName = relSubPath;
 
         *listptr = (DFDirEntryList *)xcalloc(1,sizeof(DFDirEntryList));
-        (*listptr)->name = strdup(entryName);
+        (*listptr)->name = xstrdup(entryName);
         listptr = &(*listptr)->next;
 
         struct stat statbuf;

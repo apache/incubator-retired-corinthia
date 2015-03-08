@@ -16,6 +16,7 @@
 // under the License.
 
 #include "DFUnitTest.h"
+#include "DFPlatform.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -62,7 +63,7 @@ void utassert(int condition, const char *description)
 {
     if (!condition) {
         curtest.failed = 1;
-        curtest.reason = strdup(description);
+        curtest.reason = xstrdup(description);
     }
 }
 
@@ -70,14 +71,14 @@ void utexpect(const char *actual, const char *expected)
 {
     if (strcmp(actual,expected)) {
         curtest.failed = 1;
-        curtest.reason = strdup("Output mismatch");
+        curtest.reason = xstrdup("Output mismatch");
     }
 }
 
 void utfail(const char *reason)
 {
     curtest.failed = 1;
-    curtest.reason = strdup(reason);
+    curtest.reason = xstrdup(reason);
 }
 
 TestCase *utlookup(TestGroup **groups, const char *name)

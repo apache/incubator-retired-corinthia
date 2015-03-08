@@ -195,7 +195,7 @@ static void WordParagraphPut(WordPutData *put, DFNode *abstract, DFNode *concret
     // FIXME: Won't work with Word documents created in non-English languages
     if ((selector != NULL) && (abstract->tag == HTML_P) && DFStringEquals(className,"Caption")) {
         free(selector);
-        selector = strdup("caption");
+        selector = xstrdup("caption");
     }
 
     if (selector != NULL) {

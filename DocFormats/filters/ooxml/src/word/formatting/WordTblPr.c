@@ -107,13 +107,13 @@ static char *cssPctWidth(const char *type, const char *width, WordSection *secti
         // Units: 1/50ths of a percent
         double pct = atoi(width)/50.0;
         char buf[100];
-        return strdup(DFFormatDoublePct(buf,100,pct));
+        return xstrdup(DFFormatDoublePct(buf,100,pct));
     }
     else if (!strcmp(type,"dxa") && (WordSectionContentWidth(section) > 0)) {
         // Units: 1/20ths of a point
         double pct = 100.0*atoi(width)/(double)WordSectionContentWidth(section);
         char buf[100];
-        return strdup(DFFormatDoublePct(buf,100,pct));
+        return xstrdup(DFFormatDoublePct(buf,100,pct));
     }
     return NULL;
 }
@@ -208,7 +208,7 @@ static void WordGetTblCellMarSide(DFNode *concrete, CSSProperties *properties, c
         double pts = atoi(w)/20.0;
         char *name = DFFormatString("padding-%s",side);
         char buf[100];
-        char *value = strdup(DFFormatDoublePt(buf,100,pts));
+        char *value = xstrdup(DFFormatDoublePt(buf,100,pts));
         CSSPut(properties,name,value);
         free(name);
         free(value);

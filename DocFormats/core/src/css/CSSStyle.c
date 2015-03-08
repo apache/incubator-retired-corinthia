@@ -96,7 +96,7 @@ void CSSStyleRelease(CSSStyle *style)
 void CSSStyleSetSelector(CSSStyle *style, const char *newSelector)
 {
     // Take a copy of newSelector first, just in case it's one of the values we're about to free
-    char *selector = strdup(newSelector);
+    char *selector = xstrdup(newSelector);
 
     free(style->selector);
     free(style->elementName);
