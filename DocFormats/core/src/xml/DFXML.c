@@ -139,7 +139,7 @@ static void SAXStartElementNS(void *ctx, const xmlChar *localname,
         const xmlChar *attrURI = attributes[i*5+2];
         const xmlChar *attrValueStart = attributes[i*5+3];
         const xmlChar *attrValueEnd = attributes[i*5+4];
-        unsigned long attrValueLen = attrValueEnd - attrValueStart;
+        unsigned long attrValueLen = (unsigned long)(attrValueEnd - attrValueStart);
 
         Tag attrTag = DFNameMapTagForName(parser->document->map,(const char *)attrURI,(const char *)attrLocalName);
         const TagDecl *attrTagDecl = DFNameMapNameForTag(parser->document->map,attrTag);

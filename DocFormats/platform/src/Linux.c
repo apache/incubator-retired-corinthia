@@ -19,7 +19,7 @@
 
 // This file contains functions that are applicable to Linux (or more generally, any non-Apple Unix platform)
 
-#ifndef WIN32
+#ifndef _WINDOWS
 #ifndef __APPLE__
 
 #include <SDL2/SDL_image.h>

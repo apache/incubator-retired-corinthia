@@ -24,7 +24,7 @@
 
 // This file contains functions that are applicable to all Unix-based platforms, including Linux, iOS, and OS X
 
-#ifndef WIN32
+#ifndef _WINDOWS
 
 #include <pthread.h>
 #include <dirent.h>
