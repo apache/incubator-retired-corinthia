@@ -36,7 +36,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    set(CMAKE_C_FLAGS "-std=c99 -D_GNU_SOURCE -g")
+    set(CMAKE_C_FLAGS "-std=c99 -D_GNU_SOURCE -g -fPIC")
     set(LIBS ${LIBS} m pthread xml2 z SDL2 SDL2_image)
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
