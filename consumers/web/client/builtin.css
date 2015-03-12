@@ -1,0 +1,36 @@
+.uxwrite-autocorrect { background-color: #c0ffc0; }
+.uxwrite-selection { background-color: rgb(201,221,238); }
+.uxwrite-spelling { background-color: rgb(255,128,128); }
+.uxwrite-match { background-color: rgb(255,255,0); }
+
+span.footnote::before {
+    content: " [ ";
+    color: #157efb;
+    font-weight: bold;
+}
+
+span.footnote::after {
+    content: " ] ";
+    color: #157efb;
+    font-weight: bold;
+}
+
+span.footnote {
+    color: #606060;
+}
+
+span.endnote::before {
+    content: " [ ";
+    color: #ca1cff;
+    font-weight: bold;
+}
+
+span.endnote::after {
+    content: " ] ";
+    color: #ca1cff;
+    font-weight: bold;
+}
+
+span.endnote {
+    color: #606060;
+}
