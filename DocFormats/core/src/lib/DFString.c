@@ -53,7 +53,7 @@ static void DFArrayBuilderAdd(DFArrayBuilder *builder, const char *str, size_t s
     }
 
     builder->pointerIndex += 1;
-    builder->storageIndex += toklen + 1;
+    builder->storageIndex += (int)(toklen + 1);
 }
 
 static void DFArrayBuilderAllocate(DFArrayBuilder *builder)

@@ -14,31 +14,17 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+#include <QtGUi/QtGui>
+#include "editWindows.h"
 
-#include "DFPlatform.h"
 
-// This file contains functions that are applicable to Linux (or more generally, any non-Apple Unix platform)
 
-#ifndef _WINDOWS
-#ifndef __APPLE__
-
-#include <SDL2/SDL_image.h>
-
-int DFGetImageDimensions(const void *data, size_t len, const char *ext,
-                         unsigned int *width, unsigned int *height, char **errmsg)
+int main(int argc, char *argv[])
 {
-    SDL_Surface *image = IMG_Load_RW(SDL_RWFromMem((void *)data,len),1);
-    if (image == NULL) {
-        if (errmsg != NULL)
-            *errmsg = xstrdup(IMG_GetError());
-        return 0;
-    }
+    QApplication app(argc, argv);
 
-    *width = (unsigned int)image->w;
-    *height = (unsigned int)image->h;
-    SDL_FreeSurface(image);
-    return 1;
+    DesktopWindow desktop;
+    desktop.setUrl(QUrl("http://corinthia.apache.org"));
+    desktop.show();
+    return app.exec();
 }
-
-#endif
-#endif

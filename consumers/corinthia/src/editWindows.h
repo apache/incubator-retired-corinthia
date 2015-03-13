@@ -14,31 +14,23 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+#ifndef editWindows_h 
+#define editWindows_h
+#include <QtCore/QUrl>
+#include <QtWidgets/QWidget>
+#include "ui_desktop.h"
 
-#include "DFPlatform.h"
-
-// This file contains functions that are applicable to Linux (or more generally, any non-Apple Unix platform)
-
-#ifndef _WINDOWS
-#ifndef __APPLE__
-
-#include <SDL2/SDL_image.h>
-
-int DFGetImageDimensions(const void *data, size_t len, const char *ext,
-                         unsigned int *width, unsigned int *height, char **errmsg)
+class DesktopWindow : public QWidget, private Ui::DesktopWindow
 {
-    SDL_Surface *image = IMG_Load_RW(SDL_RWFromMem((void *)data,len),1);
-    if (image == NULL) {
-        if (errmsg != NULL)
-            *errmsg = xstrdup(IMG_GetError());
-        return 0;
-    }
+        Q_OBJECT
 
-    *width = (unsigned int)image->w;
-    *height = (unsigned int)image->h;
-    SDL_FreeSurface(image);
-    return 1;
-}
+    public:
+        DesktopWindow(QWidget *parent = 0);
+        void setUrl(const QUrl &url);
 
-#endif
+    public slots:
+        void on_elementLineEdit_returnPressed();
+        void on_highlightButton_clicked();
+};
+
 #endif

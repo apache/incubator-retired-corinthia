@@ -18,7 +18,7 @@
 #ifndef DocFormats_DFPlatform_h
 #define DocFormats_DFPlatform_h
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #include <direct.h>
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -34,7 +34,7 @@
 
 #else
 #include <unistd.h>
-#endif // WIN32
+#endif // _WINDOWS
 
 #ifndef ATTRIBUTE_FORMAT
 #ifdef _MSC_VER

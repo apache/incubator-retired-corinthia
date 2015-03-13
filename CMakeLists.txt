@@ -16,7 +16,7 @@
 ###
 ## global definitions
 ###
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.1)
 project(Corinthia)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -46,7 +46,11 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set(LIB_DIRS
 	${PROJECT_SOURCE_DIR}/external/download/lib)
     set(LIBS ${LIBS} libxml2 zdll iconv SDL2 SDL2_image)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4090 /wd4996")
+    if(${CMAKE_GENERATOR_PLATFORM} MATCHES "x64")
+        set(CMAKE_C_FLAGS "/DWIN64 /D_WINDOWS /W3 /wd4090 /wd4996")
+    else(${CMAKE_GENERATOR_PLATFORM} MATCHES "x64")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4090 /wd4996")
+    endif(${CMAKE_GENERATOR_PLATFORM} MATCHES "x64")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
 
@@ -58,3 +62,4 @@ add_subdirectory(DocFormats)
 add_subdirectory(consumers/dftest/src)
 add_subdirectory(consumers/dfconvert/src)
 add_subdirectory(consumers/dfutil/src)
+#TEST add_subdirectory(consumers/corinthia/src)

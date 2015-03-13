@@ -14,31 +14,40 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+#include <QtWebKit/QWebElement>
+#include <QtWebKitWidgets/QWebFrame>
+#include "editWindows.h"
 
-#include "DFPlatform.h"
 
-// This file contains functions that are applicable to Linux (or more generally, any non-Apple Unix platform)
 
-#ifndef _WINDOWS
-#ifndef __APPLE__
-
-#include <SDL2/SDL_image.h>
-
-int DFGetImageDimensions(const void *data, size_t len, const char *ext,
-                         unsigned int *width, unsigned int *height, char **errmsg)
+DesktopWindow::DesktopWindow(QWidget *parent)
+              : QWidget(parent)
 {
-    SDL_Surface *image = IMG_Load_RW(SDL_RWFromMem((void *)data,len),1);
-    if (image == NULL) {
-        if (errmsg != NULL)
-            *errmsg = xstrdup(IMG_GetError());
-        return 0;
-    }
-
-    *width = (unsigned int)image->w;
-    *height = (unsigned int)image->h;
-    SDL_FreeSurface(image);
-    return 1;
+    setupUi(this);
 }
 
-#endif
-#endif
+
+
+void DesktopWindow::on_elementLineEdit_returnPressed()
+{
+    QWebFrame *frame               = webView->page()->mainFrame();
+    QWebElement document           = frame->documentElement();
+    QWebElementCollection elements = document.findAll(elementLineEdit->text());
+
+    foreach (QWebElement element, elements)
+        element.setAttribute("style", "background-color: #f0f090");
+}
+
+
+
+void DesktopWindow::on_highlightButton_clicked()
+{
+    on_elementLineEdit_returnPressed();
+}
+
+
+
+void DesktopWindow::setUrl(const QUrl &url)
+{
+    webView->setUrl(url);
+}
