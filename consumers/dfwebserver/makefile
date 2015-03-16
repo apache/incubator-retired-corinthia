@@ -10,7 +10,7 @@
 #  cat files.txt | sudo xargs rm -rf      
 
 #develoment build
-#  make dev
+#  make clean dev
 #  python test.py
 
 LDFLAGS ?= ""
@@ -29,5 +29,7 @@ build_ext:
 clean:
 	- rm -rf build
 	- rm -rf consumers
-	- rm -f output.html
+	- rm -f output*.html
+	- rm -f output*.docx
+	- rm -f dummy*.docx
 	- find ./ -name '*.so' -delete
