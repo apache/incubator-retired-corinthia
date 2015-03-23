@@ -6,8 +6,6 @@ The Apache Software Foundation (http://www.apache.org/).
 
 This product includes software copyright 2011-2015 UX Productivity Pty Ltd.
 
-This product includes external unmodified libraries:
-- zlib version 1.2.8 www.zlib.net
-- SDL2 version 2.0.3 www.libsdl.org
+This product includes the zlib library version 1.2.8 www.zlib.net, unmodified.
 
 
