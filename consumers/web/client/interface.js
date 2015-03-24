@@ -255,17 +255,17 @@ function UXInterface(core)
         buttons.listOL.setValue(inOL);
     }
 
-    function setup(completion)
+    function setup(completion, iframeSrc, editorSrc, resources)
     {
         var toolbar = document.getElementById("_toolbar");
 
-        buttons.bold = new Button("images/bold");
-        buttons.italic = new Button("images/italic");
-        buttons.underline = new Button("images/underline");
-        buttons.listUL = new Button("images/list-ul");
-        buttons.listOL = new Button("images/list-ol");
-        buttons.listOutdent = new Button("images/outdent");
-        buttons.listIndent = new Button("images/indent");
+        buttons.bold = new Button(resources + "/images/bold");
+        buttons.italic = new Button(resources + "/images/italic");
+        buttons.underline = new Button(resources + "/images/underline");
+        buttons.listUL = new Button(resources + "/images/list-ul");
+        buttons.listOL = new Button(resources + "/images/list-ol");
+        buttons.listOutdent = new Button(resources + "/images/outdent");
+        buttons.listIndent = new Button(resources + "/images/indent");
 
         toolbar.appendChild(buttons.bold.element);
         toolbar.appendChild(buttons.italic.element);
@@ -301,7 +301,7 @@ function UXInterface(core)
 
             if (completion != null)
                 completion();
-        });
+        }, iframeSrc, editorSrc, resources);
     }
 
     callbacks = {
