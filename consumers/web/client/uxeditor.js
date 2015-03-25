@@ -16,6 +16,7 @@
 // under the License.
 
 var IMPL_DIR = "../../../Editor/src";
+var RESOURCES_DIR = ".";
 
 function UXEditor(element)
 {
@@ -30,9 +31,11 @@ function UXEditor(element)
     console.log("UXEditor: element = "+element);
     console.log("UXEditor: doc = "+doc);
 
-    function setup(completion)
+    function setup(completion, iframeSrc, editorSrc, resources)
     {
         setupCompletion = completion;
+        IMPL_DIR = editorSrc;
+        RESOURCES_DIR = resources;
         iframeWrapper = doc.createElement("div");
 //        iframeWrapper.setAttribute("id","_contentWrapper");
         iframeWrapper.setAttribute("tabindex","0");
@@ -41,7 +44,7 @@ function UXEditor(element)
         iframe = doc.createElement("iframe");
         iframe.setAttribute("id","_content");
         iframe.addEventListener("load",iframeLoaded);
-        iframe.setAttribute("src","sample.html");
+        iframe.setAttribute("src", iframeSrc); //"sample.html";
         iframe.style.border = "none";
 //        iframe.setAttribute("class","contentframe");
 
@@ -135,35 +138,8 @@ function UXEditor(element)
         if (!doneScriptInit) {
             doneScriptInit = true;
             console.log("Now we should init");
-/*
-            self.cwin.Editor_debug = Editor_debug;
-            self.cwin.Editor_error = Editor_error;
-            self.cwin.Editor_addOutlineItem = Editor_addOutlineItem;
-            self.cwin.Editor_updateOutlineItem = Editor_updateOutlineItem;
-            self.cwin.Editor_removeOutlineItem = Editor_removeOutlineItem;
-            self.cwin.Editor_outlineUpdated = Editor_outlineUpdated;
-            self.cwin.Editor_setCursor = Editor_setCursor;
-            self.cwin.Editor_setSelectionHandles = Editor_setSelectionHandles;
-            self.cwin.Editor_setTableSelection = Editor_setTableSelection;
-            self.cwin.Editor_setSelectionBounds = Editor_setSelectionBounds;
-            self.cwin.Editor_clearSelectionHandlesAndCursor = Editor_clearSelectionHandlesAndCursor;
-            self.cwin.Editor_updateAutoCorrect = Editor_updateAutoCorrect;
-            self.cwin.debug = Editor_debug;
-*/
-//            self.cwin.debug("loadedScript: before calling Main_init");
-//            self.cwin.eval("Main_init(800,150,'../uxwrite/resources/builtin.css',false)");
-            self.cwin.Main_init(800,150,"builtin.css",false);
-//            self.cwin.debug("loadedScript: after calling Main_init");
 
-//            self.cdoc.documentElement.addEventListener("mousedown",mouseDown,true);
-//            self.cdoc.documentElement.addEventListener("mouseup",mouseUp,true);
-//            self.cdoc.documentElement.addEventListener("mousemove",mouseMove,true);
-
-//            ifwrapper.addEventListener("keydown",keyDown,true);
-//            ifwrapper.addEventListener("keyup",keyUp,true);
-//            ifwrapper.addEventListener("keypress",keyPress,true);
-//            ifwrapper.focus();
-//            document.body.focus();
+            self.cwin.Main_init(800,150, RESOURCES_DIR + "/builtin.css",false);
 
             if (setupCompletion != null)
                 setupCompletion();
