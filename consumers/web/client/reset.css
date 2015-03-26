@@ -1,0 +1,209 @@
+blockquote {
+    font-style: italic;
+  }
+
+  body {
+    counter-reset: h1 h2 h3 h4 h5 h6 figure table;
+    font-family: Palatino;
+    xmargin: 10%;
+    text-align: justify;
+  }
+
+  caption {
+    caption-side: bottom;
+    counter-increment: table;
+  }
+
+  caption.Unnumbered {
+    counter-increment: table 0;
+  }
+
+  caption.Unnumbered::before, figcaption.Unnumbered::before {
+    content: "";
+  }
+
+  caption::before {
+    content: "Table " counter(table) ": ";
+  }
+
+  figcaption {
+    counter-increment: figure;
+  }
+
+  figcaption.Unnumbered {
+    counter-increment: figure 0;
+  }
+
+  figcaption::before {
+    content: "Figure " counter(figure) ": ";
+  }
+
+  figure {
+    margin-bottom: 12pt;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 12pt;
+    text-align: center;
+  }
+
+  h1 {
+    counter-increment: h1;
+    counter-reset: h2 h3 h4 h5 h6;
+  }
+
+  h1.Unnumbered, h2.Unnumbered, h3.Unnumbered, h4.Unnumbered, h5.Unnumbered, h6.Unnumbered {
+  }
+
+  h1::before {
+    content: counter(h1) " ";
+  }
+
+  h2 {
+    color: #585958;
+    counter-increment: h2;
+    counter-reset: h3 h4 h5 h6;
+  }
+
+  h2::before {
+    content: counter(h1) "." counter(h2) " ";
+  }
+
+  h3 {
+    counter-increment: h3;
+    counter-reset: h4 h5 h6;
+  }
+
+  h3::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) " ";
+  }
+
+  h4 {
+    counter-increment: h4;
+    counter-reset: h5 h6;
+  }
+
+  h4::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) " ";
+  }
+
+  h5 {
+    counter-increment: h5;
+    counter-reset: h6;
+  }
+
+  h5::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) " ";
+  }
+
+  h6 {
+    counter-increment: h6;
+  }
+
+  h6::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "." counter(h6) " ";
+  }
+
+  nav.listoffigures::before {
+    content: "List of Figures";
+    display: block;
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: .67em;
+    margin-top: .67em;
+  }
+
+  nav.listoftables::before {
+    content: "List of Tables";
+    display: block;
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: .67em;
+    margin-top: .67em;
+  }
+
+  nav.tableofcontents::before {
+    content: "Contents";
+    display: block;
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: .67em;
+    margin-top: .67em;
+  }
+
+  p {
+    line-height: 166%;
+  }
+
+  p.abstract {
+    font-style: italic;
+    margin-left: 20%;
+    margin-right: 20%;
+  }
+
+  p.author {
+    font-size: 18pt;
+    text-align: center;
+  }
+
+  p.NoSpacing {
+    margin: 0%;
+  }
+
+  p.SpecialNote {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  p.Tip {
+    background-color: #eeeeee;
+    border: hidden;
+    border-radius: 10px;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 10pt;
+  }
+
+  p.Title {
+    font-size: 36pt;
+    font-weight: bold;
+    margin-bottom: 24pt;
+    text-align: center;
+    text-decoration: underline;
+  }
+
+  p.toc1 {
+    margin-bottom: 6pt;
+    margin-left: 0pt;
+    margin-top: 12pt;
+  }
+
+  p.toc2 {
+    margin-bottom: 6pt;
+    margin-left: 24pt;
+    margin-top: 6pt;
+  }
+
+  p.toc3 {
+    margin-bottom: 6pt;
+    margin-left: 48pt;
+    margin-top: 6pt;
+  }
+
+  table {
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  td > :first-child, th > :first-child {
+    margin-top: 0;
+  }
+
+  td > :last-child, th > :last-child {
+    margin-bottom: 0;
+  }
+
+  td, th {
+    border: 1px solid black;
+  }

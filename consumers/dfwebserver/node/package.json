@@ -1,0 +1,16 @@
+{
+  "name": "docformats",
+  "version": "0.0.2",
+  "description": "Wrapper for DocFormats API",
+  "main": "src/docformats.js",
+  "dependencies": {
+    "mkdirp": "^0.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "franzdecopenhague",
+  "license": "apache2"
+}
+
