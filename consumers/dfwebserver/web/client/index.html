@@ -18,8 +18,13 @@
         iface.setup(function() {
             console.log("iface setup complete");
         }, 
-        "/consumers/web/client/sample.html", 
+        "", 
         "/Editor/src", "/consumers/web/client");
+    }
+    
+    function doDummyGet() {
+        document.getElementById("_content").src = "/consumers/dfwebserver/pool/sample.docx/sample.html";
+        
     }
 </script>
 <style>
@@ -35,6 +40,7 @@
         padding-top: 64px;
     }
     div.toolbar {
+        padding: 0;
         border: none;
         position: absolute;
         top: 0px;
@@ -53,6 +59,7 @@
         height: 14px;
         background-color: #ddd;
         xvisibility: hidden;
+        text-align: center;
     }
     
     iframe.contentframe {
@@ -68,6 +75,7 @@
     <div class="toolbar" id="_toolbar">
     </div>
     <div class="toolbar2" id="_toolbar2">
+        <a href="javascript:doDummyGet();">GET</a> 
     </div>
     <div style="border: 1px solid black; display: none">
         Formatting
