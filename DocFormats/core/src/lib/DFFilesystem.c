@@ -22,7 +22,6 @@
 #include "DFBuffer.h"
 #include <DocFormats/DFError.h>
 #include "DFCharacterSet.h"
-#include "DFPlatform.h"
 #include "DFCommon.h"
 #include <assert.h>
 #include <errno.h>
