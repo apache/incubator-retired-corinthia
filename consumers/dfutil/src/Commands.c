@@ -126,6 +126,34 @@ end:
     return ok;
 }
 
+static int prettyPrintODFFile(const char *filename, DFError **error)
+{
+    int ok = 0;
+    char *odf = NULL;
+    DFStorage *storage = NULL;
+
+    storage = DFStorageOpenZip(filename,error);
+
+    if (storage == NULL) {
+        DFErrorFormat(error,"%s: %s",filename,DFErrorMessage(error));
+        goto end;
+    }
+    /*
+    odf = ODF_toPlain(storage,NULL);
+    printf("%s",odt);
+    */
+    printf("ODF file support has not been implemented yet.\n");
+    ok = 1;
+
+end:
+    free(odf);
+    DFStorageRelease(storage);
+    return ok;
+
+}
+
+
+
 int prettyPrintFile(const char *filename, DFError **error)
 {
     int ok;
@@ -136,6 +164,8 @@ int prettyPrintFile(const char *filename, DFError **error)
         ok = prettyPrintXMLFile(filename,1,error);
     else if (DFStringEqualsCI(extension,"docx"))
         ok = prettyPrintWordFile(filename,error);
+    else if (DFStringEqualsCI(extension,"odt"))
+        ok = prettyPrintODFFile(filename,error);
     else {
         DFErrorFormat(error,"Unknown file type");
         ok = 0;
