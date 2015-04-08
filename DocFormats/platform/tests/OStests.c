@@ -18,7 +18,7 @@
 #include "DFUnitTest.h"
 #include "DFPlatform.h"
 #include <stddef.h>
-
+#include <stdlib.h>
 
 static void test_DFGetImageDimensions_gif(void)
 {
