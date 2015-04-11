@@ -14,40 +14,22 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-#include <QtWebKit/QWebElement>
-#include <QtWebKitWidgets/QWebFrame>
-#include "editWindows.h"
 
+#import <QWidget>
 
+class Editor;
+class EditorPrivate;
+class QWebView;
+class JSInterface;
 
-DesktopWindow::DesktopWindow(QWidget *parent)
-              : QWidget(parent)
+class Editor : public QWidget
 {
-    setupUi(this);
-}
-
-
-
-void DesktopWindow::on_elementLineEdit_returnPressed()
-{
-    QWebFrame *frame               = webView->page()->mainFrame();
-    QWebElement document           = frame->documentElement();
-    QWebElementCollection elements = document.findAll(elementLineEdit->text());
-
-    foreach (QWebElement element, elements)
-        element.setAttribute("style", "background-color: #f0f090");
-}
-
-
-
-void DesktopWindow::on_highlightButton_clicked()
-{
-    on_elementLineEdit_returnPressed();
-}
-
-
-
-void DesktopWindow::setUrl(const QUrl &url)
-{
-    webView->setUrl(url);
-}
+    Q_OBJECT
+public:
+    Editor(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    virtual ~Editor();
+    QWebView *webView() const;
+    JSInterface *js() const;
+private:
+    EditorPrivate *_p;
+};
