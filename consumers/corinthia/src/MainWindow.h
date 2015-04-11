@@ -14,23 +14,29 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-#ifndef editWindows_h 
-#define editWindows_h
-#include <QtCore/QUrl>
-#include <QtWidgets/QWidget>
-#include "ui_desktop.h"
 
-class DesktopWindow : public QWidget, private Ui::DesktopWindow
+#include <QWidget>
+
+class Toolbar;
+class Editor;
+
+class MainWindow : public QWidget
 {
-        Q_OBJECT
-
-    public:
-        DesktopWindow(QWidget *parent = 0);
-        void setUrl(const QUrl &url);
-
+    Q_OBJECT
+public:
+    MainWindow(QApplication *app);
+    ~MainWindow();
     public slots:
-        void on_elementLineEdit_returnPressed();
-        void on_highlightButton_clicked();
+    void insertTable();
+    void insertLink();
+    void insertCharacter();
+    void backspace();
+    void moveLeft();
+    void moveRight();
+    void undo();
+    void redo();
+private:
+    QApplication *_app;
+    Toolbar *_toolbar;
+    Editor *_editor;
 };
-
-#endif

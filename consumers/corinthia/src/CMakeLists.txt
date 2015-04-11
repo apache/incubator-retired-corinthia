@@ -24,11 +24,17 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 ## group source objects
 ###
 set(SOURCES
-    editWindows.h
-    desktop.cpp
-    main.cpp)
-set(UI_SOURCES
-    desktop.ui)
+    Editor.h
+    Editor.cpp
+    JSInterface.h
+    JSInterface.cpp
+    main.cpp
+    MainWindow.h
+    MainWindow.cpp
+    Toolbar.h
+    Toolbar.cpp)
+#set(UI_SOURCES
+#    desktop.ui)
 
 
 
@@ -45,12 +51,14 @@ link_directories(${LIB_DIRS})
 ###
 ## Qt magic
 ###
-set(CMAKE_PREFIX_PATH         "C:/Qt/5.4/msvc2013_64")
+set(CMAKE_PREFIX_PATH         "/usr/local/opt/qt5")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC             ON)
 
 find_package(Qt5Widgets REQUIRED)
-include_directories("C:/Qt/5.4/msvc2013_64/include")
+find_package(Qt5WebKit REQUIRED)
+find_package(Qt5WebKitWidgets REQUIRED)
+include_directories("/usr/local/opt/qt5/include")
 
 qt5_wrap_ui(UI_HEADERS ${UI_SOURCES})
 source_group("Generated UI Headers" FILES ${UI_HEADERS})
@@ -62,7 +70,18 @@ source_group("Generated UI Headers" FILES ${UI_HEADERS})
 # executable (release artifact)
 ###
 add_executable(corinthia ${SOURCES} ${UI_HEADERS} ${UI_FILES})
-qt5_use_modules(corinthia Widgets)
+qt5_use_modules(corinthia Widgets WebKit WebKitWidgets)
 target_link_libraries(corinthia DocFormats ${LIBS})
 source_group(src FILES ${SOURCES})
 set_property(TARGET corinthia PROPERTY FOLDER consumers)
+
+message(CMAKE_SOURCE_DIR " is " ${CMAKE_SOURCE_DIR})
+message(TARGET_FILE_DIR ":corinthia is " $<TARGET_FILE_DIR:corinthia>)
+message(CMAKE_BINARY_DIR " is " ${CMAKE_BINARY_DIR})
+
+add_custom_command(TARGET corinthia PRE_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                   ${CMAKE_SOURCE_DIR}/Editor/src ${CMAKE_BINARY_DIR}/share/corinthia/js)
+add_custom_command(TARGET corinthia PRE_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                   ${CMAKE_SOURCE_DIR}/consumers/corinthia/res ${CMAKE_BINARY_DIR}/share/corinthia)
