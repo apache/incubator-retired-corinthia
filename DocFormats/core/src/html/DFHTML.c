@@ -362,6 +362,56 @@ int isHashRRGGBB(const char *str)
     return (strlen(str) == 7) && (str[0] == '#') && isRRGGBB(&str[1]);
 }
 
+const char *HTMLMetaGet(DFDocument *htmlDoc, const char *name)
+{
+    assert(htmlDoc->root != NULL);
+    assert(htmlDoc->root->tag == HTML_HTML);
+    DFNode *head = DFChildWithTag(htmlDoc->root,HTML_HEAD);
+    if (head == NULL)
+        return NULL;
+    for (DFNode *meta = head->first; meta != NULL; meta = meta->next) {
+        if ((meta->tag == HTML_META) && DFStringEquals(DFGetAttribute(meta,HTML_NAME),name))
+            return DFGetAttribute(meta,HTML_CONTENT);
+    }
+    return NULL;
+}
+
+void HTMLMetaSet(DFDocument *htmlDoc, const char *name, const char *content)
+{
+    assert(htmlDoc->root != NULL);
+    assert(htmlDoc->root->tag == HTML_HTML);
+    DFNode *head = DFChildWithTag(htmlDoc->root,HTML_HEAD);
+    if (head == NULL) {
+        head = DFCreateElement(htmlDoc,HTML_HEAD);
+        DFNode *body = DFChildWithTag(htmlDoc->root,HTML_BODY);
+        DFInsertBefore(htmlDoc->root,head,body);
+    }
+    for (DFNode *meta = head->first; meta != NULL; meta = meta->next) {
+        if ((meta->tag == HTML_META) && DFStringEquals(DFGetAttribute(meta,HTML_NAME),name)) {
+            DFSetAttribute(meta,HTML_CONTENT,content);
+            return;
+        }
+    }
+    DFNode *meta = DFCreateChildElement(head,HTML_META);
+    DFSetAttribute(meta,HTML_NAME,name);
+    DFSetAttribute(meta,HTML_CONTENT,content);
+}
+
+void HTMLMetaRemove(DFDocument *htmlDoc, const char *name)
+{
+    assert(htmlDoc->root != NULL);
+    assert(htmlDoc->root->tag == HTML_HTML);
+    DFNode *head = DFChildWithTag(htmlDoc->root,HTML_HEAD);
+    if (head == NULL)
+        return;;
+    DFNode *next;
+    for (DFNode *meta = head->first; meta != NULL; meta = next) {
+        next = meta->next;
+        if ((meta->tag == HTML_META) && DFStringEquals(DFGetAttribute(meta,HTML_NAME),name))
+            DFRemoveNode(meta);
+    }
+}
+
 DFDocument *DFParseHTMLString(const char *str, int removeSpecial, DFError **error)
 {
     DFHTDocument *htdoc = DFHTDocumentNew();

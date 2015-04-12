@@ -50,6 +50,10 @@ CSSSize HTML_getImageDimensions(DFNode *img);
 int isRRGGBB(const char *str);
 int isHashRRGGBB(const char *str);
 
+const char *HTMLMetaGet(DFDocument *htmlDoc, const char *name);
+void HTMLMetaSet(DFDocument *htmlDoc, const char *name, const char *content);
+void HTMLMetaRemove(DFDocument *htmlDoc, const char *name);
+
 DFDocument *DFParseHTMLString(const char *str, int removeSpecial, DFError **error);
 DFDocument *DFParseHTMLFile(const char *filename, int removeSpecial, DFError **error);
 const char **DFHTMLGetImages(DFDocument *htmlDoc);

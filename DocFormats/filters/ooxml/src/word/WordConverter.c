@@ -707,6 +707,7 @@ int WordConverterGet(DFDocument *html, DFStorage *abstractStorage, WordPackage *
     get.conv = converter;
     DFNode *abstract = WordDocumentLens.get(&get,wordDocument);
     DFAppendChild(converter->html->docNode,abstract);
+    converter->html->root = abstract;
     Word_postProcessHTMLDoc(converter);
 
     HTMLAddExternalStyleSheet(converter->html,"reset.css");
