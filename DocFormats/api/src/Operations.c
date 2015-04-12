@@ -210,7 +210,6 @@ void DFAbstractDocumentSetHTML(DFAbstractDocument *abstract,
 
 int DFGet(DFConcreteDocument *concrete,
           DFAbstractDocument *abstract,
-          const char *idPrefix,
           DFError **error)
 {
     if (DFStorageFormat(abstract->storage) != DFFileFormatHTML) {
@@ -218,6 +217,20 @@ int DFGet(DFConcreteDocument *concrete,
                       "Abstract document must be in HTML format");
         return 0;
     }
+
+    DFHashCode hash = 0;
+    if (!computeXMLHash(concrete->storage,&hash,error))
+        return 0;
+    char hashstr[100];
+    snprintf(hashstr,100,"%X",hash);
+
+    char hashprefix[100];
+    snprintf(hashprefix,100,"%s-",hashstr);
+    const char *idPrefix;
+    if (DFStorageExists(abstract->storage,"test-mode"))
+        idPrefix = NULL;
+    else
+        idPrefix = hashprefix;
 
     DFDocument *htmlDoc = NULL;
     switch (DFStorageFormat(concrete->storage)) {
@@ -242,11 +255,6 @@ int DFGet(DFConcreteDocument *concrete,
         return 0;;
 
     // Store a hash of the concrete document in the HTML file, so we can check it in DFPut()
-    DFHashCode hash = 0;
-    if (!computeXMLHash(concrete->storage,&hash,error))
-        return 0;
-    char hashstr[100];
-    snprintf(hashstr,100,"%X",hash);
     HTMLMetaSet(htmlDoc,"corinthia-document-hash",hashstr);
 
     DFDocumentRelease(abstract->htmlDoc);
@@ -256,7 +264,6 @@ int DFGet(DFConcreteDocument *concrete,
 
 int DFPut(DFConcreteDocument *concreteDoc,
           DFAbstractDocument *abstractDoc,
-          const char *idPrefix,
           DFError **error)
 {
     if (DFStorageFormat(abstractDoc->storage) != DFFileFormatHTML) {
@@ -281,6 +288,14 @@ int DFPut(DFConcreteDocument *concreteDoc,
         DFErrorFormat(error,"HTML document was generated from a different file to the one being updated");
         return 0;
     }
+
+    char hashprefix[100];
+    snprintf(hashprefix,100,"%s-",hashstr);
+    const char *idPrefix;
+    if (DFStringEquals(hashstr,"ignore"))
+        idPrefix = NULL;
+    else
+        idPrefix = hashprefix;
 
     int ok = 0;
     switch (DFStorageFormat(concreteDoc->storage)) {
@@ -338,7 +353,6 @@ int DFCreate(DFConcreteDocument *concreteDoc,
 
 int DFGetFile(const char *concreteFilename,
               const char *abstractFilename,
-              const char *idPrefix,
               DFError **error)
 {
     int r = 0;
@@ -358,7 +372,7 @@ int DFGetFile(const char *concreteFilename,
 
     abstractDoc = DFAbstractDocumentNew(abstractStorage);
 
-    if (!DFGet(concreteDoc, abstractDoc, idPrefix, error)
+    if (!DFGet(concreteDoc, abstractDoc, error)
         || (abstractDoc->htmlDoc == NULL)) {
         DFErrorFormat(error, "%s: %s",
                       concreteFilename,
@@ -394,7 +408,6 @@ end:
 
 int DFPutFile(const char *concreteFilename,
               const char *abstractFilename,
-              const char *idPrefix,
               DFError **error)
 {
     int ok = 0;
@@ -424,7 +437,7 @@ int DFPutFile(const char *concreteFilename,
     abstractDoc = DFAbstractDocumentNew(abstractStorage2);
     abstractDoc->htmlDoc = DFDocumentRetain(htmlDoc2);
 
-    ok = DFPut(concreteDoc, abstractDoc, idPrefix, error);
+    ok = DFPut(concreteDoc, abstractDoc, error);
 
 end:
     DFDocumentRelease(htmlDoc2);

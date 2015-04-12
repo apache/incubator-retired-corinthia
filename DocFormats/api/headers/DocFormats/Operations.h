@@ -39,14 +39,14 @@ void DFAbstractDocumentRelease(DFAbstractDocument *abstract);
 DFDocument *DFAbstractDocumentGetHTML(DFAbstractDocument *abstract);
 void DFAbstractDocumentSetHTML(DFAbstractDocument *abstract, DFDocument *htmlDoc);
 
-int DFGet(DFConcreteDocument *concrete, DFAbstractDocument *abstract, const char *idPrefix, DFError **error);
-int DFPut(DFConcreteDocument *concrete, DFAbstractDocument *abstract, const char *idPrefix, DFError **error);
+int DFGet(DFConcreteDocument *concrete, DFAbstractDocument *abstract, DFError **error);
+int DFPut(DFConcreteDocument *concrete, DFAbstractDocument *abstract, DFError **error);
 int DFCreate(DFConcreteDocument *concrete, DFAbstractDocument *abstract, DFError **error);
 
 // Abstraction level 1
 
-int DFGetFile(const char *concrete, const char *abstract, const char *idPrefix, DFError **error);
-int DFPutFile(const char *concrete, const char *abstract, const char *idPrefix, DFError **error);
+int DFGetFile(const char *concrete, const char *abstract, DFError **error);
+int DFPutFile(const char *concrete, const char *abstract, DFError **error);
 int DFCreateFile(const char *concrete, const char *abstract, DFError **error);
 
 #endif
