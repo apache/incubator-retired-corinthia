@@ -18,13 +18,13 @@
 #include "DFPlatform.h"
 #include "ODFText.h"
 
-DFDocument *ODFTextGet(DFStorage *concreteStorage, DFStorage *abstractStorage, DFError **error)
+DFDocument *ODFTextGet(DFStorage *concreteStorage, DFStorage *abstractStorage, const char *idPrefix, DFError **error)
 {
     DFErrorFormat(error,"ODFTextGet: Not yet implemented");
     return NULL;
 }
 
-int ODFTextPut(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *htmlDoc, DFError **error)
+int ODFTextPut(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *htmlDoc, const char *idPrefix, DFError **error)
 {
     DFErrorFormat(error,"ODFTextPut: Not yet implemented");
     return 0;

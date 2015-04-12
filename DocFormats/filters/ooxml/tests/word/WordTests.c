@@ -100,7 +100,7 @@ static void test_get(void)
     abstractStorage = DFStorageNewMemory(DFFileFormatHTML);
     abstractDoc = DFAbstractDocumentNew(abstractStorage);
 
-    if (!DFGet(concreteDoc,abstractDoc,&error))
+    if (!DFGet(concreteDoc,abstractDoc,NULL,&error))
         goto end;;
 
     DFDocument *htmlDoc = DFAbstractDocumentGetHTML(abstractDoc);
@@ -217,7 +217,7 @@ static void test_put(void)
     DFAbstractDocumentSetHTML(abstractDoc,htmlDoc);
 
     // Update the docx file based on the contents of the HTML file
-    if (!DFPut(concreteDoc,abstractDoc,&error))
+    if (!DFPut(concreteDoc,abstractDoc,NULL,&error))
         goto end;
 
     // Output the updated docx file

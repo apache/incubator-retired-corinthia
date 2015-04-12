@@ -24,16 +24,19 @@ void usage(void)
 {
     printf("Usage:\n"
            "\n"
-           "dfconvert get concrete.docx abstract.html\n"
+           "dfconvert get concrete.docx abstract.html [idprefix]\n"
            "\n"
            "    Create a new HTML file from a Word document. The HTML file must not\n"
-           "    already exist.\n"
+           "    already exist. If idprefix is specified, this will be used for all\n"
+           "    id attributes in the HTML file.\n"
            "\n"
-           "dfconvert put concrete.docx abstract.html\n"
+           "dfconvert put concrete.docx abstract.html [idprefix]\n"
            "\n"
            "    Update an existing Word document based on a modified HTML file. The\n"
            "    Word document must already exist, and must be same document from\n"
-           "    which the HTML file was originally generated.\n"
+           "    which the HTML file was originally generated. If idprefix is specified,\n"
+           "    only those id attributes in the HTML file which have this same prefix\n"
+           "    will be treated as corresponding to existing elements in the docx file.\n"
            "\n"
            "    The put operation cannot be executed twice on the same Word\n"
            "    document, because after the first time, the fact that the document\n"
@@ -51,12 +54,14 @@ void usage(void)
 int main(int argc, const char **argv)
 {
     DFError *error = NULL;
-    if ((argc == 4) && !strcmp(argv[1],"get")) {
-        if (DFGetFile(argv[2],argv[3],&error))
+    if ((argc >= 4) && !strcmp(argv[1],"get")) {
+        const char *idPrefix = (argc >= 5) ? argv[4] : NULL;
+        if (DFGetFile(argv[2],argv[3],idPrefix,&error))
             return 0;
     }
-    else if ((argc == 4) && !strcmp(argv[1],"put")) {
-        if (DFPutFile(argv[2],argv[3],&error))
+    else if ((argc >= 4) && !strcmp(argv[1],"put")) {
+        const char *idPrefix = (argc >= 5) ? argv[4] : NULL;
+        if (DFPutFile(argv[2],argv[3],idPrefix,&error))
             return 0;
     }
     else if ((argc == 4) && !strcmp(argv[1],"create")) {

@@ -26,7 +26,7 @@
 #include "DFZipFile.h"
 #include <stdlib.h>
 
-DFDocument *WordGet(DFStorage *concreteStorage, DFStorage *abstractStorage, DFError **error)
+DFDocument *WordGet(DFStorage *concreteStorage, DFStorage *abstractStorage, const char *idPrefix, DFError **error)
 {
     int ok = 0;
     WordPackage *wordPackage = NULL;
@@ -37,7 +37,7 @@ DFDocument *WordGet(DFStorage *concreteStorage, DFStorage *abstractStorage, DFEr
         goto end;
 
     htmlDoc = DFDocumentNew();
-    if (!WordConverterGet(htmlDoc,abstractStorage,wordPackage,error))
+    if (!WordConverterGet(htmlDoc,abstractStorage,wordPackage,idPrefix,error))
         goto end;
 
     ok = 1;
@@ -53,7 +53,7 @@ end:
     }
 }
 
-int WordPut(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *htmlDoc, DFError **error)
+int WordPut(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *htmlDoc, const char *idPrefix, DFError **error)
 {
     int ok = 0;
     WordPackage *wordPackage = NULL;
@@ -62,7 +62,7 @@ int WordPut(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *
     if (wordPackage == NULL)
         goto end;
 
-    if (!WordConverterPut(htmlDoc,abstractStorage,wordPackage,error))
+    if (!WordConverterPut(htmlDoc,abstractStorage,wordPackage,idPrefix,error))
         goto end;
 
     if (!WordPackageSave(wordPackage,error))
@@ -90,7 +90,7 @@ int WordCreate(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocumen
     // a new word file from it.
     HTMLBreakBDTRefs(htmlDoc->docNode,"word");
 
-    if (!WordConverterPut(htmlDoc,abstractStorage,wordPackage,error))
+    if (!WordConverterPut(htmlDoc,abstractStorage,wordPackage,"word",error))
         goto end;
 
     if (!WordPackageSave(wordPackage,error))

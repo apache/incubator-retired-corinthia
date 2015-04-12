@@ -30,8 +30,8 @@
 
 CSSStyle *WordSetupTableGridStyle(CSSSheet *styleSheet, int *changed);
 
-DFDocument *WordGet(DFStorage *concreteStorage, DFStorage *abstractStorage, DFError **error);
-int WordPut(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *htmlDoc, DFError **error);
+DFDocument *WordGet(DFStorage *concreteStorage, DFStorage *abstractStorage, const char *idPrefix, DFError **error);
+int WordPut(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *htmlDoc, const char *idPrefix, DFError **error);
 int WordCreate(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *htmlDoc, DFError **error);
 int WordCollapseBookmarks(DFStorage *concreteStorage, DFError **error);
 int WordExpandBookmarks(DFStorage *concreteStorage, DFError **error);

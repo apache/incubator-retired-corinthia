@@ -159,6 +159,7 @@ void DFAbstractDocumentSetHTML(DFAbstractDocument *abstract,
 
 int DFGet(DFConcreteDocument *concrete,
           DFAbstractDocument *abstract,
+          const char *idPrefix,
           DFError **error)
 {
     if (DFStorageFormat(abstract->storage) != DFFileFormatHTML) {
@@ -172,11 +173,13 @@ int DFGet(DFConcreteDocument *concrete,
         case DFFileFormatDocx:
             htmlDoc = WordGet(concrete->storage,
                               abstract->storage,
+                              idPrefix,
                               error);
             break;
         case DFFileFormatOdt:
             htmlDoc = ODFTextGet(concrete->storage,
                                  abstract->storage,
+                                 idPrefix,
                                  error);
             break;
         default:
@@ -194,6 +197,7 @@ int DFGet(DFConcreteDocument *concrete,
 
 int DFPut(DFConcreteDocument *concreteDoc,
           DFAbstractDocument *abstractDoc,
+          const char *idPrefix,
           DFError **error)
 {
     if (DFStorageFormat(abstractDoc->storage) != DFFileFormatHTML) {
@@ -208,12 +212,14 @@ int DFPut(DFConcreteDocument *concreteDoc,
             ok = WordPut(concreteDoc->storage,
                          abstractDoc->storage,
                          abstractDoc->htmlDoc,
+                         idPrefix,
                          error);
             break;
         case DFFileFormatOdt:
             ok = ODFTextPut(concreteDoc->storage,
                             abstractDoc->storage,
                             abstractDoc->htmlDoc,
+                            idPrefix,
                             error);
             break;
         default:
@@ -256,6 +262,7 @@ int DFCreate(DFConcreteDocument *concreteDoc,
 
 int DFGetFile(const char *concreteFilename,
               const char *abstractFilename,
+              const char *idPrefix,
               DFError **error)
 {
     int r = 0;
@@ -275,7 +282,7 @@ int DFGetFile(const char *concreteFilename,
 
     abstractDoc = DFAbstractDocumentNew(abstractStorage);
 
-    if (!DFGet(concreteDoc, abstractDoc, error)
+    if (!DFGet(concreteDoc, abstractDoc, idPrefix, error)
         || (abstractDoc->htmlDoc == NULL)) {
         DFErrorFormat(error, "%s: %s",
                       concreteFilename,
@@ -311,6 +318,7 @@ end:
 
 int DFPutFile(const char *concreteFilename,
               const char *abstractFilename,
+              const char *idPrefix,
               DFError **error)
 {
     int ok = 0;
@@ -340,7 +348,7 @@ int DFPutFile(const char *concreteFilename,
     abstractDoc = DFAbstractDocumentNew(abstractStorage2);
     abstractDoc->htmlDoc = DFDocumentRetain(htmlDoc2);
 
-    ok = DFPut(concreteDoc, abstractDoc, error);
+    ok = DFPut(concreteDoc, abstractDoc, idPrefix, error);
 
 end:
     DFDocumentRelease(htmlDoc2);

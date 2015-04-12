@@ -560,13 +560,13 @@ static void Word_postProcessHTMLDoc(WordConverter *conv)
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static WordConverter *WordConverterNew(DFDocument *html, DFStorage *abstractStorage, WordPackage *package)
+static WordConverter *WordConverterNew(DFDocument *html, DFStorage *abstractStorage, WordPackage *package, const char *idPrefix)
 {
     WordConverter *converter = (WordConverter *)xcalloc(1,sizeof(WordConverter));
     converter->html = DFDocumentRetain(html);
     converter->abstractStorage = DFStorageRetain(abstractStorage);
     assert(DFStorageFormat(converter->abstractStorage) == DFFileFormatHTML);
-    converter->idPrefix = xstrdup("word");
+    converter->idPrefix = (idPrefix != NULL) ? xstrdup(idPrefix) : xstrdup("word");
     converter->package = WordPackageRetain(package);
     converter->styles = WordSheetNew(converter->package->styles);
     converter->numbering = WordNumberingNew(converter->package);
@@ -676,7 +676,7 @@ DFNode *WordConverterGetConcrete(WordPutData *put, DFNode *abstract)
     return node;
 }
 
-int WordConverterGet(DFDocument *html, DFStorage *abstractStorage, WordPackage *package, DFError **error)
+int WordConverterGet(DFDocument *html, DFStorage *abstractStorage, WordPackage *package, const char *idPrefix, DFError **error)
 {
     if (package->document == NULL) {
         DFErrorFormat(error,"document.xml not found");
@@ -692,7 +692,7 @@ int WordConverterGet(DFDocument *html, DFStorage *abstractStorage, WordPackage *
     int haveFields = Word_simplifyFields(package);
     Word_mergeRuns(package);
 
-    WordConverter *converter = WordConverterNew(html,abstractStorage,package);
+    WordConverter *converter = WordConverterNew(html,abstractStorage,package,idPrefix);
     converter->haveFields = haveFields;
     WordAddNbsps(converter->package->document);
     WordFixLists(converter);
@@ -810,7 +810,7 @@ static void addMissingDefaultStyles(WordConverter *converter)
     }
 }
 
-int WordConverterPut(DFDocument *html, DFStorage *abstractStorage, WordPackage *package, DFError **error)
+int WordConverterPut(DFDocument *html, DFStorage *abstractStorage, WordPackage *package, const char *idPrefix, DFError **error)
 {
     if (package->document == NULL) {
         DFErrorFormat(error,"document.xml not found");
@@ -826,7 +826,7 @@ int WordConverterPut(DFDocument *html, DFStorage *abstractStorage, WordPackage *
     HTML_normalizeDocument(html);
     HTML_pushDownInlineProperties(html->docNode);
 
-    WordConverter *converter = WordConverterNew(html,abstractStorage,package);
+    WordConverter *converter = WordConverterNew(html,abstractStorage,package,idPrefix);
 
     // FIXME: Need a more reliable way of telling whether this is a new document or not - it could be that the
     // document already existed (with styles set up) but did not have any content
