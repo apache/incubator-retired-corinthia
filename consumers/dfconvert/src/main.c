@@ -68,7 +68,7 @@ int main(int argc, const char **argv)
         return 0;
     }
 
-    fprintf(stderr,"%s\n",DFErrorMessage(&error));
+    fprintf(stderr,"Error: %s\n",DFErrorMessage(&error));
     DFErrorRelease(error);
     return 1;
 }
