@@ -27,6 +27,8 @@
 #include "DFXML.h"
 #include "DFZipFile.h"
 #include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 
 struct DFConcreteDocument {
     size_t retainCount;
@@ -38,6 +40,55 @@ struct DFAbstractDocument {
     DFStorage *storage;
     DFDocument *htmlDoc;
 };
+
+/**
+ * Compute a hash of the set of all XML files in the archive. When the get operation is executed,
+ * this hash is stored in the HTML file, as a record of the document from which it was generated.
+ * When the put operation is executed, the hash is compared with that of the HTML file, and an error
+ * reported if a mismatch occurs.
+ *
+ * This check ensures that put can only be executed with HTML documents that were genuinely
+ * generated from this exact (version of the) document, and thus can be safely assumed to have id
+ * attributes that correctly match elements in the HTML document to elements in the original XML
+ * file(s) from which they were generated, avoiding corruption during the update process.
+ *
+ * If someone tries to call put with a HTML document that was not originally created from this exact
+ * concrete document, the operation will fail.
+ */
+static int computeXMLHash(DFStorage *storage, DFHashCode *result, DFError **error)
+{
+    int ok = 0;
+    *result = 0;
+
+    DFHashCode hash = 0;
+    DFHashBegin(hash);
+    const char **filenames = DFStorageList(storage,error);
+    if (filenames == NULL)
+        goto end;
+    for (int i = 0; filenames[i]; i++) {
+        unsigned char *buf = NULL;
+        size_t nbytes = 0;
+        if (!DFStorageRead(storage,filenames[i],(void **)&buf,&nbytes,error)) {
+            DFErrorFormat(error,"%s: %s",filenames[i],DFErrorMessage(error));
+            goto end;
+        }
+        // The hash algorithm works on 32-bit integers; add 4 NULL bytes at the end of the buffer to
+        // ensure its entire contents are taken into account when computing the hash.
+        buf = xrealloc(buf,nbytes+4);
+        memset(&buf[nbytes],0,4);
+        uint32_t *intbuf = (uint32_t *)buf;
+        for (size_t pos = 0; pos < (nbytes+3)/4; pos++)
+            DFHashUpdate(hash,intbuf[pos]);
+        free(buf);
+    }
+    DFHashEnd(hash);
+    *result = hash;
+    ok = 1;
+
+end:
+    free(filenames);
+    return ok;
+}
 
 DFConcreteDocument *DFConcreteDocumentNew(DFStorage *storage)
 {
@@ -167,16 +218,32 @@ int DFGet(DFConcreteDocument *concrete,
         return 0;
     }
 
+    DFHashCode hash = 0;
+    if (!computeXMLHash(concrete->storage,&hash,error))
+        return 0;
+    char hashstr[100];
+    snprintf(hashstr,100,"%X",hash);
+
+    char hashprefix[100];
+    snprintf(hashprefix,100,"%s-",hashstr);
+    const char *idPrefix;
+    if (DFStorageExists(abstract->storage,"test-mode"))
+        idPrefix = NULL;
+    else
+        idPrefix = hashprefix;
+
     DFDocument *htmlDoc = NULL;
     switch (DFStorageFormat(concrete->storage)) {
         case DFFileFormatDocx:
             htmlDoc = WordGet(concrete->storage,
                               abstract->storage,
+                              idPrefix,
                               error);
             break;
         case DFFileFormatOdt:
             htmlDoc = ODFTextGet(concrete->storage,
                                  abstract->storage,
+                                 idPrefix,
                                  error);
             break;
         default:
@@ -185,7 +252,10 @@ int DFGet(DFConcreteDocument *concrete,
     }
 
     if (htmlDoc == NULL)
-        return 0;
+        return 0;;
+
+    // Store a hash of the concrete document in the HTML file, so we can check it in DFPut()
+    HTMLMetaSet(htmlDoc,"corinthia-document-hash",hashstr);
 
     DFDocumentRelease(abstract->htmlDoc);
     abstract->htmlDoc = htmlDoc;
@@ -202,18 +272,45 @@ int DFPut(DFConcreteDocument *concreteDoc,
         return 0;
     }
 
+    // Check that the document hash in the HTML file matches that of the concrete document. This
+    // ensures that we're using a HTML file that was generated from this exact document (see above)
+    // and can rely on the element mappings from the id attributes. This comparison is ignored
+    // for test cases, which specify the special value "ignore" in the meta tag.
+    DFHashCode expectedHash = 0;
+    if (!computeXMLHash(concreteDoc->storage,&expectedHash,error))
+        return 0;;
+    DFHashCode actualHash = 0;
+    int hashMatches = 0;
+    const char *hashstr = HTMLMetaGet(abstractDoc->htmlDoc,"corinthia-document-hash");
+    if ((hashstr != NULL) && (sscanf(hashstr,"%X",&actualHash) == 1))
+        hashMatches = (expectedHash == actualHash);
+    if (!hashMatches && !DFStringEquals(hashstr,"ignore")) {
+        DFErrorFormat(error,"HTML document was generated from a different file to the one being updated");
+        return 0;
+    }
+
+    char hashprefix[100];
+    snprintf(hashprefix,100,"%s-",hashstr);
+    const char *idPrefix;
+    if (DFStringEquals(hashstr,"ignore"))
+        idPrefix = NULL;
+    else
+        idPrefix = hashprefix;
+
     int ok = 0;
     switch (DFStorageFormat(concreteDoc->storage)) {
         case DFFileFormatDocx:
             ok = WordPut(concreteDoc->storage,
                          abstractDoc->storage,
                          abstractDoc->htmlDoc,
+                         idPrefix,
                          error);
             break;
         case DFFileFormatOdt:
             ok = ODFTextPut(concreteDoc->storage,
                             abstractDoc->storage,
                             abstractDoc->htmlDoc,
+                            idPrefix,
                             error);
             break;
         default:

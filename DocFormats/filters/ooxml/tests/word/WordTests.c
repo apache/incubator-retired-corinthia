@@ -22,6 +22,7 @@
 #include "Word.h"
 #include "HTMLPlain.h"
 #include "DFString.h"
+#include "DFHTML.h"
 #include <DocFormats/Operations.h>
 #include <stddef.h>
 #include <string.h>
@@ -98,6 +99,7 @@ static void test_get(void)
 
     concreteDoc = DFConcreteDocumentNew(concreteStorage);
     abstractStorage = DFStorageNewMemory(DFFileFormatHTML);
+    DFStorageWrite(abstractStorage,"test-mode",NULL,0,NULL);
     abstractDoc = DFAbstractDocumentNew(abstractStorage);
 
     if (!DFGet(concreteDoc,abstractDoc,&error))
@@ -109,6 +111,7 @@ static void test_get(void)
         goto end;
     }
 
+    HTMLMetaRemove(htmlDoc,"corinthia-document-hash");
     htmlPlain = HTML_toPlain(htmlDoc,abstractStorage,&error);
 
 end:
@@ -214,6 +217,7 @@ static void test_put(void)
     if (htmlDoc == NULL)
         goto end;
 
+    HTMLMetaSet(htmlDoc,"corinthia-document-hash","ignore");
     DFAbstractDocumentSetHTML(abstractDoc,htmlDoc);
 
     // Update the docx file based on the contents of the HTML file

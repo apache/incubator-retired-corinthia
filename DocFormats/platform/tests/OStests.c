@@ -18,7 +18,7 @@
 #include "DFUnitTest.h"
 #include "DFPlatform.h"
 #include <stddef.h>
-
+#include <stdlib.h>
 
 static void test_DFGetImageDimensions_gif(void)
 {
@@ -175,11 +175,16 @@ static void test_DFAddDirContents(void)
     char            *errmsg;
     int              rc;
 
-
     rc = DFAddDirContents(".", "", 1, &listptr, &errmsg);
     utassert((rc == 1), "could not read dir");
-}
 
+    DFDirEntryList *next;
+    for (DFDirEntryList *l = list; l != NULL; l = next) {
+        next = l->next;
+        free(l->name);
+        free(l);
+    }
+}
 
 
 TestGroup PlatformOSTests = {

@@ -14,17 +14,14 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-#include <QtGUi/QtGui>
-#include "editWindows.h"
 
-
+#include <QApplication>
+#include "MainWindow.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
-
-    DesktopWindow desktop;
-    desktop.setUrl(QUrl("http://corinthia.apache.org"));
-    desktop.show();
-    return app.exec();
+    QApplication *app = new QApplication(argc, argv);
+    MainWindow *window = new MainWindow(app);
+    window->show();
+    return app->exec();
 }
