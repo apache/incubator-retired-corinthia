@@ -239,7 +239,7 @@ static void SAXComment(void *ctx, const xmlChar *value)
 {
     DFSAXParser *parser = (DFSAXParser *)ctx;
     if (parser->ignoreDepth > 0)
-        return;
+        return;;
     DFNode *comment = DFCreateComment(parser->document,(const char *)value);
     assert(parser->parent != NULL);
     DFAppendChild(parser->parent,comment);
@@ -263,7 +263,7 @@ static void SAXProcessingInstruction(void *ctx, const xmlChar *target, const xml
 {
     DFSAXParser *parser = (DFSAXParser *)ctx;
     if (parser->ignoreDepth > 0)
-        return;
+        return;;
     DFNode *pi = DFCreateProcessingInstruction(parser->document,(const char *)target,(const char *)data);
     assert(parser->parent != NULL);
     DFAppendChild(parser->parent,pi);
@@ -334,7 +334,7 @@ static void writeNode(Serialization *serialization, DFNode *node, int depth);
 static void findUsedNamespaces(DFDocument *doc, DFNode *node, char *used, NamespaceID count)
 {
     if (node->tag < MIN_ELEMENT_TAG)
-        return;
+        return;;
     const TagDecl *tagDecl = DFNameMapNameForTag(doc->map,node->tag);
     assert(tagDecl != NULL);
     assert(tagDecl->namespaceID < count);
@@ -554,7 +554,7 @@ DFDocument *DFParseXMLFile(const char *filename, DFError **error)
 {
     DFBuffer *buf = DFBufferReadFromFile(filename,error);
     if (buf == NULL)
-        return NULL;
+        return NULL;;
     DFDocument *doc = DFParseXMLString(buf->data,error);
     DFBufferRelease(buf);
     return doc;
@@ -564,7 +564,7 @@ DFDocument *DFParseXMLStorage(DFStorage *storage, const char *filename, DFError 
 {
     DFBuffer *content = DFBufferReadFromStorage(storage,filename,error);
     if (content == NULL)
-        return NULL;
+        return NULL;;
     DFDocument *doc = DFParseXMLString(content->data,error);
     DFBufferRelease(content);
     return doc;
