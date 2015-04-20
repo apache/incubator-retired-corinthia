@@ -45,6 +45,8 @@ void usage(void)
            "\n"
            "    Create a new Word document from a HTML file. The Word document must\n"
            "    not already exist.\n"
+           "\n"
+           "dfconvert does not yet convert odf or latex files.\n"
            "\n");
 }
 
