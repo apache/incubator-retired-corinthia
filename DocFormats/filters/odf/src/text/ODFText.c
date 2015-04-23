@@ -18,6 +18,8 @@
 #include "DFPlatform.h"
 #include "ODFText.h"
 #include "ODFPackage.h"
+#include "ODF.h"
+#include "ODFConverter.h"
 
 DFDocument *ODFTextGet(DFStorage *concreteStorage, DFStorage *abstractStorage, const char *idPrefix, DFError **error)
 {
@@ -33,12 +35,11 @@ DFDocument *ODFTextGet(DFStorage *concreteStorage, DFStorage *abstractStorage, c
 
     htmlDoc = DFDocumentNew();
 
-    // WordConverterGet
     if (!ODFConverterGet(htmlDoc,abstractStorage,odfPackage,idPrefix,error))
         goto end;
 
     ok = 1;
-
+    
 end:
     /*
     ODFPackageRelease(odfPackage);
