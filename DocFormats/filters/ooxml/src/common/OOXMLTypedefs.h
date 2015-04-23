@@ -70,4 +70,61 @@ typedef struct WordDrawing WordDrawing;
 // word/lenses/WordLenses.h
 typedef struct WordLens WordLens;
 
+
+//////////////////////////////////////////////////////////////////
+// ODF experiment... ignore this for now. 
+//////////////////////////////////////////////////////////////////
+// ODF/OPC.h
+typedef struct OPCRelationship OPCRelationship;
+typedef struct OPCRelationshipSet OPCRelationshipSet;
+typedef struct OPCPart OPCPart;
+typedef struct OPCContentTypes OPCContentTypes;
+typedef struct OPCPackage OPCPackage;
+
+// ODF/ODFCaption.h
+typedef struct ODFCaption ODFCaption;
+
+// ODF/ODFConverter.h
+typedef struct ODFGetData ODFGetData;
+typedef struct ODFPutData ODFPutData;
+typedef struct ODFConverter ODFConverter;
+
+// ODF/ODFNotes.h
+typedef struct ODFNote ODFNote;
+typedef struct ODFNoteGroup ODFNoteGroup;
+
+// ODF/ODFNumbering.h
+typedef struct ODFNumLevel ODFNumLevel;
+typedef struct ODFAbstractNum ODFAbstractNum;
+typedef struct ODFConcreteNum ODFConcreteNum;
+typedef struct ODFNumbering ODFNumbering;
+
+// ODF/ODFObjects.h
+typedef struct ODFObjects ODFObjects;
+
+// ODF/ODFPackage.h
+typedef struct ODFPackage ODFPackage;
+
+// ODF/ODFSection.h
+typedef struct ODFSection ODFSection;
+
+// ODF/ODFSheet.h
+typedef struct ODFStyle ODFStyle;
+typedef struct ODFSheet ODFSheet;
+
+// ODF/ODFTheme.h
+typedef struct ODFTheme ODFTheme;
+
+// ODF/lenses/ODFBookmark.h
+typedef enum ODFBookmarkType ODFBookmarkType;
+typedef struct CaptionParts CaptionParts;
+typedef struct ODFBookmark ODFBookmark;
+
+// ODF/lenses/ODFDrawing.h
+typedef struct ODFDrawing ODFDrawing;
+
+// ODF/lenses/ODFLenses.h
+typedef struct ODFLens ODFLens;
+
+
 #endif
