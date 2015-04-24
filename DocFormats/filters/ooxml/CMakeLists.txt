@@ -29,6 +29,13 @@ set(GroupOOXMLODF
     src/odf/ODFConverter.c
     src/odf/ODFConverter.h)
 
+###
+## group ooxml odf lenses objects
+###
+set(GroupOOXMLODFLenses
+    src/odf/lenses/ODFField.c
+    src/odf/lenses/ODFField.h)
+    
 
 ###
 ## group ooxml word objects
@@ -160,7 +167,8 @@ add_library(ooxml OBJECT
     ${GroupOOXMLWordFormatting}
     ${GroupOOXMLWordLenses}
     ${GroupOOXMLWordTests}
-    ${GroupOOXMLODF})
+    ${GroupOOXMLODF}
+    ${GroupOOXMLODFLenses})
 
 source_group(src\\common           FILES ${GroupOOXMLCommon})
 source_group(src\\word             FILES ${GroupOOXMLWord})
