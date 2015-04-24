@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "WordSheet.h"
 #include "DFDOM.h"
@@ -18,6 +21,7 @@
 #include "DFString.h"
 #include "Word.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
@@ -29,7 +33,7 @@ static char *WordSheetIdentForType(const char *type, const char *styleId)
 
 char *WordStyleNameToClassName(const char *name)
 {
-    char *className = strdup(name);
+    char *className = xstrdup(name);
     for (char *c = className; *c != '\0'; c++) {
         if (*c == ' ')
             *c = '_';
@@ -39,7 +43,7 @@ char *WordStyleNameToClassName(const char *name)
 
 char *WordStyleNameFromClassName(const char *name)
 {
-    char *className = strdup(name);
+    char *className = xstrdup(name);
     for (char *c = className; *c != '\0'; c++) {
         if (*c == '_')
             *c = ' ';
@@ -60,16 +64,16 @@ static WordStyle *WordStyleNew(DFNode *element, const char *type, const char *st
     assert(styleId != NULL);
     assert(element->tag == WORD_STYLE);
 
-    WordStyle *style = (WordStyle *)calloc(1,sizeof(WordStyle));
+    WordStyle *style = (WordStyle *)xcalloc(1,sizeof(WordStyle));
     style->retainCount = 1;
     style->element = element;
-    style->type = (type != NULL) ? strdup(type) : NULL;
-    style->styleId = (styleId != NULL) ? strdup(styleId) : NULL;
+    style->type = (type != NULL) ? xstrdup(type) : NULL;
+    style->styleId = (styleId != NULL) ? xstrdup(styleId) : NULL;
     style->ident = WordSheetIdentForType(style->type,style->styleId);
     style->basedOn = DFStrDup(DFGetChildAttribute(style->element,WORD_BASEDON,WORD_VAL));
     DFNode *pPr = DFChildWithTag(style->element,WORD_PPR);
     style->outlineLvl = DFStrDup(DFGetChildAttribute(pPr,WORD_OUTLINELVL,WORD_VAL));
-    style->name = strdup(name);
+    style->name = xstrdup(name);
 
     return style;
 }
@@ -121,7 +125,7 @@ static void determineSelectors(WordSheet *sheet);
 
 WordSheet *WordSheetNew(DFDocument *doc)
 {
-    WordSheet *sheet = (WordSheet *)calloc(1,sizeof(WordSheet));
+    WordSheet *sheet = (WordSheet *)xcalloc(1,sizeof(WordSheet));
 
     sheet->stylesByIdent = DFHashTableNew((DFCopyFunction)WordStyleRetain,(DFFreeFunction)WordStyleRelease);
     sheet->stylesByName = DFHashTableNew((DFCopyFunction)WordStyleRetain,(DFFreeFunction)WordStyleRelease);
@@ -207,7 +211,7 @@ WordStyle *WordSheetAddStyle(WordSheet *sheet, const char *type, const char *sty
     DFSetAttribute(nameNode,WORD_VAL,name);
 
     WordStyle *style = WordStyleNew(element,type,styleId,name);
-    style->selector = strdup(selector);
+    style->selector = xstrdup(selector);
     DFHashTableAdd(sheet->stylesByIdent,style->ident,style);
     DFHashTableAdd(sheet->stylesByName,style->name,style);
     DFHashTableAdd(sheet->stylesBySelector,style->selector,style);
@@ -266,7 +270,7 @@ static void determineSelectors(WordSheet *sheet)
 
         // Compute inherited properties
         WordStyle *ancestor = style;
-        DFHashTable *visited = DFHashTableNew((DFCopyFunction)strdup,free);
+        DFHashTable *visited = DFHashTableNew((DFCopyFunction)xstrdup,free);
         while ((ancestor != NULL) && (DFHashTableLookup(visited,ancestor->ident) == NULL)) {
             DFHashTableAdd(visited,ancestor->ident,"");
 

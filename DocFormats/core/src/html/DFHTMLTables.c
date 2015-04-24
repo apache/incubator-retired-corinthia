@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFHTMLTables.h"
 #include "DFTable.h"
@@ -18,6 +21,7 @@
 #include "DFString.h"
 #include "CSSLength.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <assert.h>
 #include <stdlib.h>
 
@@ -55,7 +59,7 @@ static void getRowList(DFNode *table, RowList **listPtr)
     for (DFNode *tableChild = table->first; tableChild != NULL; tableChild = tableChild->next) {
         switch (tableChild->tag) {
             case HTML_TR: {
-                RowList *item = (RowList *)calloc(1,sizeof(RowList));
+                RowList *item = (RowList *)xcalloc(1,sizeof(RowList));
                 item->rowNode = tableChild;
                 *listPtr = item;
                 listPtr = &item->next;
@@ -66,7 +70,7 @@ static void getRowList(DFNode *table, RowList **listPtr)
             case HTML_TFOOT: {
                 for (DFNode *partChild = tableChild->first; partChild != NULL; partChild = partChild->next) {
                     if (partChild->tag == HTML_TR) {
-                        RowList *item = (RowList *)calloc(1,sizeof(RowList));
+                        RowList *item = (RowList *)xcalloc(1,sizeof(RowList));
                         item->rowNode = partChild;
                         *listPtr = item;
                         listPtr = &item->next;

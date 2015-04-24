@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "WordLists.h"
@@ -54,7 +57,7 @@ struct ListFrame {
 
 ListFrame *ListFrameNew(DFNode *element, ListFrame *parent, int numId, int ilvl, ListDimensions dimensions)
 {
-    ListFrame *frame = (ListFrame *)calloc(1,sizeof(ListFrame));
+    ListFrame *frame = (ListFrame *)xcalloc(1,sizeof(ListFrame));
     frame->element = element;
     frame->parent = parent;
     frame->numId = numId;
@@ -543,10 +546,10 @@ static void fixWordLists(DFNode *node, WordConverter *conv)
             continue;
 
         if (!createdHashTables) {
-            replacementNumIds = DFHashTableNew((DFCopyFunction)strdup,free);
-            itemNoByListKey = DFHashTableNew((DFCopyFunction)strdup,free);
-            lastNumIdByIlvl = DFHashTableNew((DFCopyFunction)strdup,free);
-            itemNoByIlvl = DFHashTableNew((DFCopyFunction)strdup,free);
+            replacementNumIds = DFHashTableNew((DFCopyFunction)xstrdup,free);
+            itemNoByListKey = DFHashTableNew((DFCopyFunction)xstrdup,free);
+            lastNumIdByIlvl = DFHashTableNew((DFCopyFunction)xstrdup,free);
+            itemNoByIlvl = DFHashTableNew((DFCopyFunction)xstrdup,free);
             createdHashTables = 1;
         }
 
@@ -572,7 +575,7 @@ static void fixWordLists(DFNode *node, WordConverter *conv)
         char *listKey = DFFormatString("%s:%s",numId,ilvl);
         char *itemNo = DFStrDup(DFHashTableLookup(itemNoByListKey,listKey));
         if (itemNo == NULL) {
-            itemNo = strdup("1");
+            itemNo = xstrdup("1");
 
             if ((levelStart != NULL) && (atoi(levelStart) > 1) && (atoi(ilvl) <= maxIlvl)) {
                 const char *prevNumId = DFHashTableLookup(lastNumIdByIlvl,ilvl);

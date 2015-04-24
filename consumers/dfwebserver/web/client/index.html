@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="../../../web/client/ui.js"></script>
+    <script src="../../../web/client/uxeditor.js"></script>
+    <script src="../../../web/client/interface.js"></script>
+</head>
+<script>
+    var core = null;
+    var iface = null;
+
+    function init() {
+        var element = document.getElementById("_editor");
+        core = new UXEditor(element);
+        iface = new UXInterface(core);
+        iface.setup(function() {
+            console.log("iface setup complete");
+        }, 
+        "", 
+        "/Editor/src", "/consumers/web/client");
+    }
+    
+    function doDummyGet() {
+        document.getElementById("_content").src = "/consumers/dfwebserver/pool/sample.docx/sample.html";
+        
+    }
+</script>
+<style>
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+    }
+    body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        padding-top: 64px;
+    }
+    div.toolbar {
+        padding: 0;
+        border: none;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 50px;
+        background-color: #eee;
+        xvisibility: hidden;
+    }
+    div.toolbar2 {
+        border: none;
+        position: absolute;
+        top: 50px;
+        left: 0px;
+        width: 100%;
+        height: 14px;
+        background-color: #ddd;
+        xvisibility: hidden;
+        text-align: center;
+    }
+    
+    iframe.contentframe {
+        border: none;
+    }
+    div#_contentWrapper {
+        border: none;
+    }
+</style>
+
+<body onload="init()">
+
+    <div class="toolbar" id="_toolbar">
+    </div>
+    <div class="toolbar2" id="_toolbar2">
+        <a href="javascript:doDummyGet();">GET</a> 
+    </div>
+    <div style="border: 1px solid black; display: none">
+        Formatting
+        <pre id="_formatting" style="background-color: #eee">
+</pre>
+    </div>
+
+    <div id="_editor"></div>
+
+
+</body>
+
+</html>

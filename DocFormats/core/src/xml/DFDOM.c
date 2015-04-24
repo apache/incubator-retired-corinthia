@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "DFDOM.h"
@@ -46,7 +49,7 @@ static DFNode *DocumentCreateNode(DFDocument *doc, Tag tag)
 {
     if (doc->nodesCount == doc->nodesAlloc) {
         doc->nodesAlloc *= 2;
-        doc->nodes = (DFNode **)realloc(doc->nodes,doc->nodesAlloc*sizeof(DFNode *));
+        doc->nodes = (DFNode **)xrealloc(doc->nodes,doc->nodesAlloc*sizeof(DFNode *));
     }
 
 //    Node *node = NodeNew(tag);
@@ -60,7 +63,7 @@ static DFNode *DocumentCreateNode(DFDocument *doc, Tag tag)
 
 DFDocument *DFDocumentNew(void)
 {
-    DFDocument *doc = (DFDocument *)calloc(1,sizeof(DFDocument));
+    DFDocument *doc = (DFDocument *)xcalloc(1,sizeof(DFDocument));
     doc->retainCount = 1;
     doc->allocator = DFAllocatorNew();
     doc->map = DFNameMapNew();
@@ -68,7 +71,7 @@ DFDocument *DFDocumentNew(void)
 
     doc->nodesCount = 0;
     doc->nodesAlloc = 1;
-    doc->nodes = (DFNode **)malloc(doc->nodesAlloc*sizeof(DFNode *));
+    doc->nodes = (DFNode **)xmalloc(doc->nodesAlloc*sizeof(DFNode *));
     doc->docNode = DocumentCreateNode(doc,DOM_DOCUMENT);
 
     return doc;
@@ -339,7 +342,7 @@ void DFSetAttribute(DFNode *element, Tag tag, const char *value)
     // No existing attribute with this tag - add it
     if (element->attrsCount == element->attrsAlloc) {
         element->attrsAlloc = (element->attrsAlloc == 0) ? 8 : (2*element->attrsAlloc);
-        element->attrs = (DFAttribute *)realloc(element->attrs,element->attrsAlloc*sizeof(DFAttribute));
+        element->attrs = (DFAttribute *)xrealloc(element->attrs,element->attrsAlloc*sizeof(DFAttribute));
     }
 
     element->attrs[element->attrsCount].tag = tag;
@@ -485,7 +488,7 @@ char *DFNodeTextToString(DFNode *node)
 {
     DFBuffer *buf = DFBufferNew();
     DFNodeTextToBuffer(node,buf);
-    char *result = strdup(buf->data);
+    char *result = xstrdup(buf->data);
     DFBufferRelease(buf);
     return result;
 }

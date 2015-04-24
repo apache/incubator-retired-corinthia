@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "DFHTMLNormalization.h"
@@ -120,7 +123,7 @@ typedef struct LeafEntry {
 static void findLeafNodes(DFNode *node, int depth, DFArray *leafEntries)
 {
     if (node->first == NULL) {
-        LeafEntry *entry = (LeafEntry *)calloc(1,sizeof(LeafEntry));
+        LeafEntry *entry = (LeafEntry *)xcalloc(1,sizeof(LeafEntry));
         entry->node = node;
         entry->depth = depth;
         DFArrayAppend(leafEntries,entry);
@@ -148,7 +151,7 @@ static void fixParagraphWhitespace(DFNode *paragraph)
 
         uint32_t *oldChars = DFUTF8To32(entry->node->value);
         size_t oldLen = DFUTF32Length(oldChars);
-        uint32_t *newChars = (uint32_t *)malloc((oldLen+1)*sizeof(uint32_t));
+        uint32_t *newChars = (uint32_t *)xmalloc((oldLen+1)*sizeof(uint32_t));
         size_t newLen = 0;
         int haveSpace = 0;
 
@@ -610,7 +613,7 @@ void HTML_normalizeDocument(DFDocument *doc)
 
 static DFHashTable *extractInlineProperties(DFNode *paragraph)
 {
-    DFHashTable *inlineProperties = DFHashTableNew((DFCopyFunction)strdup,free);
+    DFHashTable *inlineProperties = DFHashTableNew((DFCopyFunction)xstrdup,free);
     const char *paraCSSText = DFGetAttribute(paragraph,HTML_STYLE);
     CSSProperties *paraProperties = CSSPropertiesNewWithString(paraCSSText);
     const char **allNames = CSSPropertiesCopyNames(paraProperties);

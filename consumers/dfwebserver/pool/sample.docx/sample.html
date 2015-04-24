@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="UX Write 2.0.2 (build 4b4faea); iOS 7.1">
+
+  <title></title>
+  <style>
+blockquote {
+    font-style: italic;
+  }
+
+  body {
+    counter-reset: h1 h2 h3 h4 h5 h6 figure table;
+    font-family: Palatino;
+    xmargin: 10%;
+    text-align: justify;
+  }
+
+  caption {
+    caption-side: bottom;
+    counter-increment: table;
+  }
+
+  caption.Unnumbered {
+    counter-increment: table 0;
+  }
+
+  caption.Unnumbered::before, figcaption.Unnumbered::before {
+    content: "";
+  }
+
+  caption::before {
+    content: "Table " counter(table) ": ";
+  }
+
+  figcaption {
+    counter-increment: figure;
+  }
+
+  figcaption.Unnumbered {
+    counter-increment: figure 0;
+  }
+
+  figcaption::before {
+    content: "Figure " counter(figure) ": ";
+  }
+
+  figure {
+    margin-bottom: 12pt;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 12pt;
+    text-align: center;
+  }
+
+  h1 {
+    counter-increment: h1;
+    counter-reset: h2 h3 h4 h5 h6;
+  }
+
+  h1.Unnumbered, h2.Unnumbered, h3.Unnumbered, h4.Unnumbered, h5.Unnumbered, h6.Unnumbered {
+  }
+
+  h1::before {
+    content: counter(h1) " ";
+  }
+
+  h2 {
+    color: #585958;
+    counter-increment: h2;
+    counter-reset: h3 h4 h5 h6;
+  }
+
+  h2::before {
+    content: counter(h1) "." counter(h2) " ";
+  }
+
+  h3 {
+    counter-increment: h3;
+    counter-reset: h4 h5 h6;
+  }
+
+  h3::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) " ";
+  }
+
+  h4 {
+    counter-increment: h4;
+    counter-reset: h5 h6;
+  }
+
+  h4::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) " ";
+  }
+
+  h5 {
+    counter-increment: h5;
+    counter-reset: h6;
+  }
+
+  h5::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) " ";
+  }
+
+  h6 {
+    counter-increment: h6;
+  }
+
+  h6::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "." counter(h6) " ";
+  }
+
+  nav.listoffigures::before {
+    content: "List of Figures";
+    display: block;
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: .67em;
+    margin-top: .67em;
+  }
+
+  nav.listoftables::before {
+    content: "List of Tables";
+    display: block;
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: .67em;
+    margin-top: .67em;
+  }
+
+  nav.tableofcontents::before {
+    content: "Contents";
+    display: block;
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: .67em;
+    margin-top: .67em;
+  }
+
+  p {
+    line-height: 166%;
+  }
+
+  p.abstract {
+    font-style: italic;
+    margin-left: 20%;
+    margin-right: 20%;
+  }
+
+  p.author {
+    font-size: 18pt;
+    text-align: center;
+  }
+
+  p.NoSpacing {
+    margin: 0%;
+  }
+
+  p.SpecialNote {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  p.Tip {
+    background-color: #eeeeee;
+    border: hidden;
+    border-radius: 10px;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 10pt;
+  }
+
+  p.Title {
+    font-size: 36pt;
+    font-weight: bold;
+    margin-bottom: 24pt;
+    text-align: center;
+    text-decoration: underline;
+  }
+
+  p.toc1 {
+    margin-bottom: 6pt;
+    margin-left: 0pt;
+    margin-top: 12pt;
+  }
+
+  p.toc2 {
+    margin-bottom: 6pt;
+    margin-left: 24pt;
+    margin-top: 6pt;
+  }
+
+  p.toc3 {
+    margin-bottom: 6pt;
+    margin-left: 48pt;
+    margin-top: 6pt;
+  }
+
+  table {
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  td > :first-child, th > :first-child {
+    margin-top: 0;
+  }
+
+  td > :last-child, th > :last-child {
+    margin-bottom: 0;
+  }
+
+  td, th {
+    border: 1px solid black;
+  }
+  </style>
+</head>
+
+<body>
+
+  <h1 id="item9">Introduction</h1>
+
+  <p>UX Write is designed for long-form, professional writing tasks such as
+  reports, research papers, theses, and books. With an emphasis on technical
+  and academic writing, it provides tools to work with the <i>content</i> and
+  <i>structure</i> of your document separately from its <i>presentation</i>.
+  The latter is controlled by <i>styles</i>, such as headings, normal
+  paragraphs, and the document title.</p>
+
+  <h2 id="item19">What you see is what you mean</h2>
+
+  <p>The design philosophy of UX Write is “what you see is what you mean”, or
+  WYSIWYM. By separating content from presentation, and making the logical
+  structure of documents explicit, it is possible for the layout and rendering
+  of text to adapt to the output medium. This means your documents look just as
+  good on a 30“ desktop monitor as they do on a 7” tablet or the printed
+  page.</p>
+
+  <p>The structure of your document — such as the hierarchy of section headings
+  — also enables other useful features. A table of contents is generated
+  automatically, without you having to manually update text or page numbers.
+  Cross-references can be added and kept up-to-date as section numbers change.
+  The outline view, accessible from the toolbar, displays all the sections,
+  figures, and tables in your document, allowing you to navigate around
+  easily.</p>
+
+  <p>A contrasting approach is “what you see is what you get”, or WYSIWYG,
+  supported by programs like Microsoft Word and Pages. This attempts to
+  replicate the precise layout of a printed page on screen during editing,
+  regardless of whether you're using a desktop computer or a mobile phone.
+  While useful for some purposes, we believe it's the wrong approach for a
+  mobile word processor. UX Write is unapologetically WYSIWYM, and is optimised
+  for readability and ease-of-use across both iPhone and iPad.</p>
+
+  <p class="Tip">If you've got this document open for editing, take a moment
+  now to explore the document outline (third toolbar button from right). Try
+  adjusting the text size in the “Look &amp; feel” section of the settings menu
+  (second from right) to suit your reading preferences. Rotate your screen and
+  watch as the text reflows.</p>
+
+  <h2 id="item17">File formats</h2>
+
+  <p>The native file format of UX Write is HTML — the language of the web. You
+  can view HTML documents on any device or operating system out there, and
+  publish online without any need for file conversion. If you open a Microsoft
+  Word document, it is temporarily converted to HTML for editing, and then
+  saved back again afterwards. Any parts of the document that could not be
+  converted, such as embedded spreadsheets, are preserved in the original Word
+  document.</p>
+
+  <h1 id="item8">Basic features</h1>
+
+  <h2 id="item11">Accessing your Documents</h2>
+
+  <p>You can store your documents on your device only — under
+  “My iPad” or “My iPhone” — or sync them with a cloud service such as Dropbox.
+  In the former case, you can transfer files to your computer using <a href=
+  "http://support.apple.com/kb/HT4094">iTunes file sharing</a>, and in the
+  latter case you can either access your files through the respective service's
+  website, or by installing the service's software on your computer. Box,
+  Dropbox, Google Drive, and Microsoft OneDrive all have clients available for
+  Windows and Mac which you can install for free.</p>
+
+  <p>File synchronisation happens automatically. Whenever a
+  document is saved, it is uploaded&nbsp; in the background, while you continue
+  working. If you have your computer set up for syncing, you will usually see
+  these changes appear within a few seconds. Within UX Write, you can check for
+  updates to existing documents using the refresh button.</p>
+
+  <p>If you're working offline, you can still add and change documents in any
+  of the Box, Dropbox, Google Drive, OneDrive or WebDAV locations you have set
+  up. When you have an Internet connection available again, just launch UX
+  Write, and it will attempt to upload the documents. To move, copy, or delete
+  documents, simply tap the “Edit” button in the file browser.</p>
+
+  <p class="Tip"><b>Tip:</b> We recommend creating and storing all your
+  documents on Dropbox, because it keeps backup copies of every version
+  uploaded for 30 days. You can view and recover old versions of your document
+  if the need arises — see Section <a href="#item10">4.1</a>.</p>
+
+  <h2 id="item4">Editing</h2>
+
+  <p>Text editing works in much the same way as in any other iOS app, but with
+  a few enhancements:</p>
+
+  <ul>
+    <li>
+      <p>An extra row of keys above the keyboard provides access to common
+      punctuation symbols</p>
+    </li>
+
+    <li>
+      <p>The two leftmost keys let you move the cursor or select text by
+      holding them down to bring up a virtual trackpad. Swipe with one finger
+      to move slowly, and two fingers to move faster.</p>
+    </li>
+
+    <li>
+      <p>The formatting key, when held down, replaces the other top-row keys
+      with keys for basic formatting options like bold, italic, and lists</p>
+    </li>
+
+    <li>
+      <p>The autocorrect key allows you to confirm or revert the latest
+      autocorrect replacement (see Section <a href="#item2">2.5</a> for more
+      details)</p>
+    </li>
+
+    <li>
+      <p>You can triple-tap anywhere in the text to select the whole
+      paragraph</p>
+    </li>
+  </ul>
+
+  <p>Note: The keyboard extensions are only available on the iPad.</p>
+
+  <p>UX Write also includes full support for external bluetooth keyboards, and
+  supports all of the standard keyboard shortcuts:</p>
+
+  <table style="width: 100%;" id="item7">
+    <caption>
+      Keyboard shortcuts
+    </caption>
+
+    <colgroup>
+      <col width="50%">
+      <col width="50%">
+    </colgroup>
+
+    <tbody>
+      <tr>
+        <td>
+          <p>Cmd-B</p>
+        </td>
+
+        <td>
+          <p>Bold</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p>Cmd-I</p>
+        </td>
+
+        <td>
+          <p>Italic</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p>Cmd-U</p>
+        </td>
+
+        <td>
+          <p>Underline</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p>Cmd-X</p>
+        </td>
+
+        <td>
+          <p>Cut</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p>Cmd-C</p>
+        </td>
+
+        <td>
+          <p>Copy</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p>Cmd-V</p>
+        </td>
+
+        <td>
+          <p>Paste</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p>Cmd-A</p>
+        </td>
+
+        <td>
+          <p>Select all</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p>Option-Left/Right</p>
+        </td>
+
+        <td>
+          <p>Move back or forward one word</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p>Option-Up/Down</p>
+        </td>
+
+        <td>
+          <p>Move up or down one paragraph</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p>Cmd-Left/Right</p>
+        </td>
+
+        <td>
+          <p>Move to start or end of line</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p>Cmd-Up/Down</p>
+        </td>
+
+        <td>
+          <p>Move to start of end of document</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p>Shift-Arrow key (+ Cmd or Option)</p>
+        </td>
+
+        <td>
+          <p>Any of the above, but for selection</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 id="item5">Styles</h2>
+
+  <p>All formatting in UX Write, with the exception of
+  bold,&nbsp;italic, underline and lists, is controlled using <i>styles</i> —
+  such as headings and normal paragraphs. A style serves two purposes:</p>
+
+  <ol>
+    <li>
+      <p>It determines the <i>formatting</i> of the text, such
+      as the font, colour, and paragraph alignment. When a style is modified,
+      all text associated with that style automatically adopts the new
+      formatting, making it easy to ensure consistent presentation throughout
+      your document.</p>
+    </li>
+
+    <li>
+      <p>It indicates the <i>purpose</i> of a piece of text,
+      such as a heading or title. UX Write uses this information for various
+      purposes, such as building a table of contents, displaying the outline
+      view, and determining the possible targets for cross-references.</p>
+    </li>
+  </ol>
+
+  <p>UX Write Basic Edition provides a plain set of built-in styles for
+  headings, block quotes, a document title, and normal text. UX Write
+  Professional Edition allows you to modify the appearance of these built-in
+  styles, as well as create your own; see Section&nbsp;<a href=
+  "#item29">3.1</a> for details.</p>
+
+  <h2 id="item6">Auto correct</h2>
+
+  <p>Automatic correction of typing mistakes can sometimes lead to unexpected
+  results, since no piece of software can accurately guess what you meant to
+  type in every case. When UX Write makes a correction, it highlights it in
+  green, and gives you the opportunity to confirm whether or not it has made
+  the right replacement.</p>
+
+  <p>Tapping on a highlighted word brings up a menu that allows you to accept
+  the correction, revert to the original, or bring up a list of more
+  suggestions, with the option to add the word to the custom dictionary. Any
+  substitutions you explicitly accept are remembered by UX Write, and will
+  occur automatically the next time you make the same typing mistake. You can
+  access the custom dictionary and list of automatic substitutions via the
+  settings menu.</p>
+
+  <h2 id="item2">Outline Navigation</h2>
+
+  <p>You can use the outline view — the third toolbar button
+  from the right — to view the structure of your document and quickly jump
+  between sections. This is particularly useful for large documents, where
+  scrolling would be a hassle.</p>
+
+  <p>The outline view is based on the headings, figures, and
+  tables in your document. For headings to be included, you must mark them as
+  such using the formatting menu. Tables and figures are always included. As
+  you modify your document by adding, removing, or changing content, the
+  outline is automatically kept up-to-date. UX Write Professional Edition also
+  allows you to edit the outline — see Section <a href="#item30">3.4</a> for
+  details.</p>
+
+  <p>In landscape mode on the iPad, you can “pin” the outline to
+  the left of your screen, and it will be displayed alongside your document. To
+  pin or unpin it, use the button at the top of the outline. To hide the
+  outline when it is pinned, press the 'X' button.</p>
+
+  <p>The outline view corresponds directly to what in the table
+  of contents, list of figures, and list of tables, if you have added any of
+  these to your document. See Section&nbsp;<a href="#item32">3.9</a> for
+  details.</p>
+
+  <h1 id="item27">Professional features</h1>
+
+  <p>This section describes features that are only available in
+  UX Write Professional Edition. You can upgrade to this by either purchasing
+  it outright, or by subscribing on a monthly basis. Go to the settings menu
+  and select “View upgrade options” to see details.</p>
+
+  <h2 id="item29">Styles</h2>
+
+  <p>Styles, introduced in Section&nbsp;<a href=
+  "#item5">2.3</a>, define both the formatting and purpose of text in your
+  document. Heading styles, for instance, denote the document outline, and are
+  used for constructing the table of contents. Each style can have different
+  formatting properties, such as fonts, colours, margins, paragraph alignment,
+  borders, and more.</p>
+
+  <p>Using styles enables you to achieve consistent formatting
+  throughout your entire document. Instead of manually changing formatting on a
+  case-by-case basis — as many other word processors encourage you to do — you
+  adjust a style once and it applies to all text in the document associated
+  with the style. This is useful for ensuring your document complies with
+  requirements from your organisation or publisher.</p>
+
+  <p>UX Write provides a number of built-in styles, based on
+  those present in HTML. There are six levels of headings, in addition
+  to&nbsp;normal paragraphs and block quotes. You can change the way any of
+  these are formatted, and also add your own custom styles for specific
+  purposes. For example, this document contains a “Tip” style, which appears as
+  a light-grey box with rounded corners, and left and right margins that place
+  it in the center of the page.</p>
+
+  <p>To manage styles, go to the formatting menu, and select
+  “Edit Styles”. This will bring up the style manager, with a list of styles on
+  the left, and formatting properties on either the top or right of the screen
+  (depending on your screen orientation).</p>
+
+  <p>To edit an existing style, simply select it in the list, and change any of
+  the formatting properties. You will see a preview displayed below the
+  controls that shows an example piece of text as it would be displayed in the
+  document.</p>
+
+  <p>To add a new style, scroll down to the bottom of the list and tap next to
+  the green '+' button. Type in your style name and press enter. You can now
+  set up the formatting for this style, and subsequently select it from the
+  formatting menu in the editor.</p>
+
+  <p>Direct formatting is still available if you want it, via
+  the item near the bottom of the formatting menu. This gives you the same
+  properties as are available in the style editor, but the changes only apply
+  to the current selection.</p>
+
+  <p>Styles you create in UX Write are compatible with Word, and
+  you can also edit and use the styles in Word itself.</p>
+
+  <p class="Tip"><b>Tip:</b> If you want to re-use your styles with multiple
+  documents, you can set up a template for creating new documents. See Section
+  <a href="#item15">3.13</a> for details.</p>
+
+  <h2 id="item39">Formatting</h2>
+
+  <p>There are two ways to adjust formatting:</p>
+
+  <ul>
+    <li>
+      <p><b>Styles.</b> You can select these from the formatting
+      menu; they apply at the paragraph level. Generally, you should use styles
+      to control formatting, as this provides structural information about the
+      document (in the case of headings), and allows you to easily change
+      formatting throughout the whole document for any given style.</p>
+    </li>
+
+    <li>
+      <p><b>Direct formatting.</b> You can also select this from
+      the formatting menu; this is intended for “one-off” cases where you wish
+      to format a particular piece of text without defining a style, such as
+      highlighting something important. You have access to all the same
+      formatting options as you do for styles. Direct formatting corresponds to
+      what you would see in the toolbar of Microsoft Word; we've deliberately
+      de-emphasised it in the user interface to encourage the use of
+      styles.</p>
+    </li>
+  </ul>
+
+  <p>All of the formatting properties directly correspond to
+  those of CSS (Cascading Style Sheets), the web standard used in conjunction
+  with HTML. In most cases, the CSS formatting properties UX Write supports can
+  also be translated directly to those of Microsoft Word; the main exception is
+  that Word has a slightly different way of handling paragraph borders and
+  margins.</p>
+
+  <p>Formatting properties are divided into two categories:
+  <i>text</i> and <i>paragraph</i>. Text properties, in the case of direct
+  formatting, can be applied to only a portion of a paragraph. The rest apply
+  to the paragraph as a whole.</p>
+
+  <h2 id="item26">Document structure</h2>
+
+  <p>Most formal documents like reports and books are divided
+  into multiple levels of <b>sections</b>, with <b>cross-references</b> between
+  them, and a <b>table of contents</b> at the front. Styles are key to
+  achieving this, because the program needs to be told which pieces of text are
+  headings — it can't simply guess that “18 point bold” means a second-level
+  heading. By using styles to mark all your headings, you can take advantage of
+  the following features:</p>
+
+  <ul>
+    <li>
+      <p>Table of contents (Insert menu)</p>
+    </li>
+
+    <li>
+      <p>Cross-references (Insert menu)</p>
+    </li>
+
+    <li>
+      <p>Automatic numbering</p>
+    </li>
+
+    <li>
+      <p>Outline editor (Outline button on toolbar)</p>
+    </li>
+  </ul>
+
+  <p>Whenever a section number changes as a result of changes
+  earlier in the document, its number is automatically updated, as are those of
+  all references that point to it, and the table of contents. The same is true
+  of figures and tables. When you print or generate a PDF, page numbers are
+  automatically calculated for you and included in the table of contents.</p>
+
+  <h2 id="item30">Outline editing</h2>
+
+  <p>You can rearrange and delete sections in the outline by
+  pressing the “Edit button”. To change the order of sections, tap and drag the
+  section name to your desired position. To delete an item, just press the red
+  button on the left, and confirm by pressing the “Delete” button that appears.
+  All changes you make in the outline editor are immediately reflected in the
+  document, including updates to numbering.</p>
+
+  <h2 id="item35">Find and replace</h2>
+
+  <p>On iPad, a search bar is visible at the top of the screen,
+  and you can just type in your search term and hit enter. Tap the down arrow
+  to view options, including replacement text. On iPhone, the search bar and
+  options are accessible via the settings menu.</p>
+
+  <p>By default, searching will look for the exact text you have
+  entered, with case sensitivity determined by whether you have selected that
+  option. Alternatively, you can search and replace text using <i>regular
+  expressions</i>, which allow you to enter patterns that can match multiple
+  snippets of text. Regular expression support is mainly intended for advanced
+  users, such as programmers, who are already familiar with the concept. If you
+  would like to learn more, we recommend the tutorial at at&nbsp;<a href=
+  "http://regexone.com">regexone.com</a>.</p>
+
+  <h2 id="item36">Spell checking</h2>
+
+  <p>The spell checking option will search through your document
+  and highlight any instances of words it finds which are not in the system or
+  custom dictionaries.</p>
+
+  <p>The language&nbsp;used is determined by the following three
+  settings, in order:</p>
+
+  <ul>
+    <li>
+      <p>Language for the current document (Settings &gt; This
+      Document &gt; Language)</p>
+    </li>
+
+    <li>
+      <p>Default language for UX Write (Settings &gt;
+      Application &gt; Language)</p>
+    </li>
+
+    <li>
+      <p>System language (set in the Settings app of your iPad
+      or iPhone)</p>
+    </li>
+  </ul>
+
+  <p>There is currently no support for handling multiple
+  languages in a single document. The set of languages available for spell
+  checking is determined by the built-in dictionaries provided by the operating
+  system, which as of 7.1 are:</p>
+
+  <ul>
+    <li>
+      <p class="NoSpacing">Danish</p>
+    </li>
+
+    <li>
+      <p class="NoSpacing">Dutch</p>
+    </li>
+
+    <li>
+      <p class="NoSpacing">English (Australia)</p>
+    </li>
+
+    <li>
+      <p class="NoSpacing">English (Canada)</p>
+    </li>
+
+    <li>
+      <p class="NoSpacing">English (United Kingdom)</p>
+    </li>
+
+    <li>
+      <p class="NoSpacing">English (United States)</p>
+    </li>
+
+    <li>
+      <p class="NoSpacing">French</p>
+    </li>
+
+    <li>
+      <p class="NoSpacing">German</p>
+    </li>
+
+    <li>
+      <p class="NoSpacing">Italian</p>
+    </li>
+
+    <li>
+      <p class="NoSpacing">Portuguese (Brazil)</p>
+    </li>
+
+    <li>
+      <p class="NoSpacing">Portuguese (Portugal)</p>
+    </li>
+
+    <li>
+      <p class="NoSpacing">Russian</p>
+    </li>
+
+    <li>
+      <p class="NoSpacing">Spanish</p>
+    </li>
+
+    <li>
+      <p class="NoSpacing">Swedish</p>
+    </li>
+  </ul>
+
+  <h2 id="item37">Word count</h2>
+
+  <p>You can view the word count for your document from the
+  settings menu. This also includes the total number of characters and
+  paragraphs.</p>
+
+  <h2 id="item31">Automatic numbering</h2>
+
+  <p>UX Write can assign numbers to all headings, figures, and
+  tables automatically. For headings, you can turn this on using the “Heading
+  numbering” option in the settings menu. For figures and tables, you can set
+  this on an individual basis either at insertion time, or by tapping on the
+  item and selecting “Figure” or “Table” in the popup menu.</p>
+
+  <p>Numbering is updated automatically as the document changes.
+  If you add or remove a heading, change it's nesting level (e.g.
+  from&nbsp;Heading 2 to Heading 1), or move sections around using the outline
+  editor, the numbers will be updated to reflect the changes. The same is also
+  true for figures and tables.</p>
+
+  <p>All cross-references, plus the table of contents, list of
+  figures, and list of tables (if present) are also kept up to date whenever
+  the numbers change. This ensures that you never have out-of-date references
+  and you don't have to remember to manually update other parts of the
+  document.&nbsp;</p>
+
+  <h2 id="item32">Table of contents</h2>
+
+  <p>While it's possible to manually create a table of contents
+  in any word processor, doing so is tedious, particularly when keeping all the
+  section titles and page numbers up to date. In UX Write, inserting a table of
+  contents causes it to be constructed automatically based on the headings,
+  just like the outline view described in Section&nbsp;<a href=
+  "#item30">3.4</a>. And like automatic numbering and the outline view, every
+  time you add or remove a section, or change its title, the table of contents
+  automatically updates to reflect the change.</p>
+
+  <p>Page numbers are <i>not</i> displayed in the table of
+  contents during editing or when saving as a HTML file, as neither has any
+  concept of distinct pages. When you print or export to PDF, the correct page
+  numbers will be filled in for you. There's no need to do this manually.</p>
+
+  <p>You can also insert a list of figures or list of tables,
+  which work similarly to the table of contents. The text shown in these comes
+  from the captions, with the numbers shown in the same way as section numbers.
+  As with the table of contents, these are always kept in sync with the rest of
+  document.</p>
+
+  <p>If your document is in HTML format, the table of contents,
+  list of figures, and list of tables will appear as links that can be clicked
+  to jump to the appropriate section when viewed in a web browser.</p>
+
+  <h2 id="item1">Cross-references</h2>
+
+  <p>You can insert a cross-reference to any section heading,
+  figure, or table in your document. When you select this option from the
+  insert menu, you'll see a document outline (the same as in the outline view),
+  and can select a target of the cross-reference.</p>
+
+  <p>References appear as hyperlinks in the document. When you
+  tap on one, you'll have the option to either go to the target of the
+  reference, or change it to point to a different section, figure, or
+  table.</p>
+
+  <p>If your reference is to a numbered heading, figure, or
+  table, the number will be updated whenever that of its target changes. If the
+  target is not numbered, the reference will contain the text instead, and will
+  also update whenever the text changes.</p>
+
+  <h2 id="item3">Footnotes and endnotes</h2>
+
+  <p>Because UX Write uses a continuous layout for editing, in
+  which the document is not divided into separate pages, footnotes are
+  displayed inline with the text<span class="footnote">A footnote looks like
+  this</span>. For consistency, and to avoid the need to jump back and forth
+  between the content and the end of the document, endnotes are handled in the
+  same way<span class="endnote">An endnote looks like this</span>.</p>
+
+  <p>HTML does not have any explicit support for either
+  footnotes or endnotes, in the sense that there is no &lt;footnote&gt; element
+  that can clearly indicate its purpose. UX Write uses &lt;span&gt; elements
+  with a class of “footnote” or “endnote” to represent these.</p>
+
+  <p>Microsoft Word documents <i>do</i> have explicit support
+  for both, so when editing a .docx file, UX Write will save them in the
+  appropriate format. When you open the document in Word, you'll see footnotes
+  at the bottom of the page, and endnotes at the end of the document.</p>
+
+  <p>To have footnotes and endnotes appear in their correct
+  positions in a print or PDF output, you must use the LaTeX typesetting option
+  (see Section&nbsp;<a href="#item23">3.12</a>). WebKit does not have the
+  capabilities to support pagination features.</p>
+
+  <h2 id="item23">Printing and PDF export</h2>
+
+  <p>Two different typesetting systems are supported for
+  producing print and PDF output. You can choose between these using the
+  “Typesetting” option under the settings menu:</p>
+
+  <ul>
+    <li>
+      <p><b>WebKit</b> (recommended). Safari's layout engine,
+      optimised for on-screen rendering of HTML content.</p>
+
+      <p>This is the layout engine used for displaying your
+      documents during editing, and the PDF files it generates match exactly
+      the formatting you see on screen; though line breaks will be different
+      for the printed page.</p>
+    </li>
+
+    <li>
+      <p><b>LaTeX</b> (new). The de-facto standard in many
+      scientific disciplines, optimised for high-quality typography and
+      paginated output.</p>
+
+      <p>Support for LaTeX is new in 2.0. Currently, only
+      limited formatting options are supported, and English is the only
+      supported language. We'll be improving this throughout the 2.x release
+      cycle, with support for other languages and many other features, such as
+      equations, bibliographies, and headers/footers.</p>
+    </li>
+  </ul>
+
+  <p>Of these two, only LaTeX is capable of correctly
+  typesetting footnotes and endnotes, as well as other pagination-dependent
+  features we'll be adding in the future. If you print or export to PDF using
+  WebKit, footnotes and endnotes will appear inline with the text, as they do
+  during editing.</p>
+
+  <h2 id="item15">Creating Templates</h2>
+
+  <p>Often you'll want to create a series of documents which all have a
+  consistent look and feel, based on styles that you have set up, as described
+  in Section <a href="#item29">3.1</a>. While UX Write does not have a “proper”
+  template feature (yet), you can get the same effect by creating a normal
+  document with your desired settings, and treating that as a starting point
+  for new documents.</p>
+
+  <p>To create a template:</p>
+
+  <ol>
+    <li>
+      <p>Create a new document, calling it “My template” (or whatever you
+      like)</p>
+    </li>
+
+    <li>
+      <p>Open the document and use the style manager to change the default
+      fonts, colours, and other formatting properties that you want</p>
+    </li>
+
+    <li>
+      <p>Create any custom styles that you will use regularly — e.g. “Title” or
+      “Abstract”</p>
+    </li>
+  </ol>
+
+  <p>To create a new document based on a template:</p>
+
+  <ol>
+    <li>
+      <p>Tap and hold on the template document in the file manager</p>
+    </li>
+
+    <li>
+      <p>Select “Duplicate”</p>
+    </li>
+
+    <li>
+      <p>Type in the name for your new document</p>
+    </li>
+
+    <li>
+      <p>Open the new document and start writing</p>
+    </li>
+  </ol>
+
+  <p>We'll be adding a more sophisticated mechanism for browsing and previewing
+  template files, along with a few nice samples, in a future update.</p>
+
+  <h1 id="item13">Common Tasks</h1>
+
+  <h2 id="item10">Dropbox Versioning</h2>
+
+  <p>One of the best features of Dropbox is that it automatically keeps old
+  versions of every file that's uploaded to it. It's always been possible to
+  log into the Dropbox website and access these old versions via their web
+  interface, but now you can do it directly from within UX Write itself.</p>
+
+  <p>If you ever need to recover an older version of a document, simply tap and
+  hold on it in the file browser, and select “Versions” in the popup menu. You
+  can then browse through all the versions that Dropbox has kept, and restore
+  the one you want. UX Write autosaves every three minutes, so if you're
+  connected to the Internet while you're working, you'll have regular snapshots
+  of your documents.<b></b></p>
+
+  <h2 id="item12">Converting from HTML to docx</h2>
+
+  <p>If you've upgraded from a previous version of UX Write and wish to convert
+  your HTML documents to .docx so they can be used with Microsoft Word, you can
+  do so as follows:</p>
+
+  <ul>
+    <li>
+      <p>Tap and hold on the document in the file browser</p>
+    </li>
+
+    <li>
+      <p>Select <b>Convert to</b> <b>docx</b></p>
+    </li>
+  </ul>
+
+  <p>Note that due to differences between the two file formats, there may be
+  some loss of formatting during the transition — for example, the rounded
+  borders used in the “Tip” style in this document can't be represented in
+  docx. For this reason, the original HTML file will be kept as a backup.</p>
+
+  <h1 id="item16">Troubleshooting</h1>
+
+  <h2 id="item18">Reporting Bugs</h2>
+
+  <p>If you encounter a crash in UX Write, you will be asked if you would like
+  to submit a bug report. This report includes a crash log indicating exactly
+  where in the program the problem occurred, as well as a redacted copy of your
+  document in which all text and images have been removed. An email window will
+  appear where you can add comments about what happened, and the bug report
+  will be sent to us when you hit “Send”. You can CC yourself a copy for
+  reference if you like.</p>
+
+  <p><b>If we can't reproduce it, we can't fix it.</b> Many people send in bug
+  reports containing just the crash log. Often, we can to determine from this
+  what went wrong, but this isn't always the case. To increase the chances of
+  us being able to fix the problem, try to provide a detailed description of
+  what you were doing right before the crash occurred.</p>
+
+  <p>The best bug reports provide a clear set of steps that explain how to
+  reproduce the problem. During beta testing of 2.0, one particularly helpful
+  person even used iPad screen recording software to make a video demonstrating
+  how to trigger a bug, edited the video in iMovie, and added an audio track
+  with narration to explain what was going on. You certainly don't have to go
+  to this much effort, but a few simple instructions in your email which
+  explain how to reliably reproduce a problem will help a lot.</p>
+
+  <p>If you encounter any other issues that do not involve a crash, such as
+  formatting inconsistencies or strange user interface behaviour, just select
+  the <b>Submit bug report</b>&nbsp;option from the settings menu and send us a
+  note. Remember, the more information, the better.</p>
+
+  <p>The app store does not provide developers with any way to directly respond
+  to bug reports included in reviews. You can say whatever you want, but
+  <b>please also let us know about your problem</b> in case we need to ask you
+  for more information in order to fix it.</p>
+
+  <h2 id="item14">Purchase and Subscription</h2>
+
+  <p>Every time you install something from the app store, iOS
+  includes a <i>receipt file</i> which is accessible to the app. This file
+  includes information about the version number of the app that you originally
+  downloaded, as well as any in-app payments you have made. UX Write looks at
+  this file to determine whether or not to enable the features in the
+  professional edition.</p>
+
+  <p>If you buy a new iPad or iPhone and install UX Write on it
+  via iTunes, this receipt file might not be present. If you have purchased or
+  subscribed to the app, it's necessary for UX Write to request a copy of the
+  receipt file from the app store so it can verify your upgrade status. You can
+  do this either from the intro screen shown at first launch, or by selecting
+  “Reactivate existing upgrade” from the settings menu.</p>
+
+  <p>If you originally purchased UX Write prior to the release
+  of version 2.0 (when it was a paid-only app), you should automatically have
+  access to the professional edition. The way UX Write determines this is by
+  looking at the receipt file and checking what the version number of the app
+  was at the time of your purchase. So if you see the app running as basic
+  edition, select “Reactivate existing upgrade” from the settings menu.</p>
+
+  <p>If you have any problems with upgrades or payments,
+  <a href="http://www.uxproductivity.com/support">please contact us</a>.</p>
+
+  <h2 id="item20">The Field Update Problem</h2>
+
+  <p>If you open a .docx file in Word after editing it in UX Write, you'll see
+  the following message:</p>
+
+  <blockquote>
+    “This document contains fields that may refer to other files. Do you want
+    to update the fields in this document?”
+  </blockquote>
+
+  <p>When you see this message, just click <b>Yes</b> (or press the <b>Y</b>
+  key).</p>
+
+  <p>Sadly, this is a symptom of a design flaw in Word, and is something only
+  Microsoft can fix. Unlike UX Write, Word does not keep the table of contents,
+  cross references, or figure/table numbers (all collectively known as
+  <b>Fields</b>) up to date automatically. Instead, it forces you to manually
+  tell it when it to update the fields after you have made changes to your
+  document.</p>
+
+  <p>Despite the fact that UX Write never actually produces fields that refer
+  to other files, this message is still displayed in every version of Word that
+  we have tested with, including Word 2013. The only way we could prevent such
+  a dialog from appearing is to store a setting in the document that tells Word
+  that there is no need to update the fields — but this would simply leave you
+  with an invalid table of contents and incorrect cross-references. While we've
+  done our best to ensure that UX Write provides the best user experience
+  within the app itself, we're not able to fix Word.</p>
+
+  <h2 id="item22">Opening .doc files</h2>
+
+  <p>Microsoft Word has used a number of different file formats over the years,
+  and UX Write only supports the most recent version, .docx, which is a modern,
+  XML-based, well-documented open standard. The older .doc format is a
+  proprietary and very complex binary file format that would take a minimum of
+  six months to support. We've decided that time is better spent on other
+  useful features instead.</p>
+
+  <p>If you have a .doc file that you wish to edit in UX Write, you can convert
+  it to .docx by opening it in any recent version of Word (2007 and later), and
+  using “Save as” to convert it to docx. Doing so will maintain all of the
+  content and formatting, and provide exactly the same experience when working
+  with the document in Word itself. You will then have your document in a much
+  more portable format, and be able to edit it in Word, UX Write, and other
+  word processors such as LibreOffice.</p>
+
+  <h1 id="item28">More information</h1>
+
+  <p>If you have a question that isn't answered here, check out
+  our <a href="http://www.uxproductivity.com/support">support website</a> for
+  more info. We also maintain a <a href=
+  "http://blog.uxproductivity.com">blog</a> discussing the development of the
+  app and new features that are in the works. Many of our posts discuss various
+  questions people have had about UX Write and may provide you with a deeper
+  understanding of why certain aspects of the app are the way they are.</p>
+
+  <p>We value any feedback you have about the app, and you can
+  send it to us any time via the option on the settings menu. We receive a
+  <i>lot</i> of email, and can't guarantee to respond individually or add every
+  requested feature, but we certainly take into account your feedback when
+  deciding on priorities for future updates.</p>
+</body>
+</html>

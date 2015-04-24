@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "DFUnitTest.h"
@@ -19,6 +22,7 @@
 #include "Word.h"
 #include "HTMLPlain.h"
 #include "DFString.h"
+#include "DFHTML.h"
 #include <DocFormats/Operations.h>
 #include <stddef.h>
 #include <string.h>
@@ -41,7 +45,7 @@ static void test_collapseBookmarks(void)
         return;
     }
 
-    DFHashTable *parts = DFHashTableNew((DFCopyFunction)strdup,free);
+    DFHashTable *parts = DFHashTableNew((DFCopyFunction)xstrdup,free);
     DFHashTableAdd(parts,"document","");
 
     // Output the docx file
@@ -69,7 +73,7 @@ static void test_expandBookmarks(void)
         return;
     }
 
-    DFHashTable *parts = DFHashTableNew((DFCopyFunction)strdup,free);
+    DFHashTable *parts = DFHashTableNew((DFCopyFunction)xstrdup,free);
     DFHashTableAdd(parts,"document","");
 
     // Output the docx file
@@ -95,6 +99,7 @@ static void test_get(void)
 
     concreteDoc = DFConcreteDocumentNew(concreteStorage);
     abstractStorage = DFStorageNewMemory(DFFileFormatHTML);
+    DFStorageWrite(abstractStorage,"test-mode",NULL,0,NULL);
     abstractDoc = DFAbstractDocumentNew(abstractStorage);
 
     if (!DFGet(concreteDoc,abstractDoc,&error))
@@ -106,6 +111,7 @@ static void test_get(void)
         goto end;
     }
 
+    HTMLMetaRemove(htmlDoc,"corinthia-document-hash");
     htmlPlain = HTML_toPlain(htmlDoc,abstractStorage,&error);
 
 end:
@@ -126,7 +132,7 @@ static DFHashTable *getFlags(void)
 {
     if (utgetargc() == 0)
         return NULL;;
-    DFHashTable *set = DFHashTableNew((DFCopyFunction)strdup,free);
+    DFHashTable *set = DFHashTableNew((DFCopyFunction)xstrdup,free);
     for (int i = 0; i < utgetargc(); i++) {
         const char *colon = strchr(utgetargv()[i],':');
         if (colon == NULL)
@@ -211,6 +217,7 @@ static void test_put(void)
     if (htmlDoc == NULL)
         goto end;
 
+    HTMLMetaSet(htmlDoc,"corinthia-document-hash","ignore");
     DFAbstractDocumentSetHTML(abstractDoc,htmlDoc);
 
     // Update the docx file based on the contents of the HTML file

@@ -1,17 +1,21 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
+#include "DFPlatform.h"
 #include "DFAllocator.h"
 #include "DFCommon.h"
 #include <assert.h>
@@ -34,8 +38,8 @@ struct DFAllocator {
 DFAllocator *DFAllocatorNew(void)
 {
     size_t initialSize = 1;
-    DFAllocator *alc = (DFAllocator *)malloc(sizeof(DFAllocator));
-    alc->blocks = (DFAllocatorBlock *)malloc(sizeof(DFAllocatorBlock)+initialSize);
+    DFAllocator *alc = (DFAllocator *)xmalloc(sizeof(DFAllocator));
+    alc->blocks = (DFAllocatorBlock *)xmalloc(sizeof(DFAllocatorBlock)+initialSize);
     alc->blocks->next = NULL;
     alc->blocks->used = 0;
     alc->blocks->size = initialSize;
@@ -63,7 +67,7 @@ void *DFAllocatorAlloc(DFAllocator *alc, size_t size)
         size_t newSize = block->size*2;
         while (size > newSize)
             newSize *= 2;
-        block = (DFAllocatorBlock *)malloc(sizeof(DFAllocatorBlock)+newSize);
+        block = (DFAllocatorBlock *)xmalloc(sizeof(DFAllocatorBlock)+newSize);
         block->used = 0;
         block->size = newSize;
         block->next = alc->blocks;
@@ -73,6 +77,6 @@ void *DFAllocatorAlloc(DFAllocator *alc, size_t size)
     char *mem = block->mem + block->used;
     block->used += size;
     assert(block->used <= block->size);
-    assert((((unsigned long long)mem) % 8) == 0);
+    assert((((unsigned long)mem) % 8) == 0);
     return mem;
 }

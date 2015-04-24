@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "DFMarkupCompatibility.h"
@@ -56,7 +59,7 @@ struct DFMarkupCompatibility {
 
 DFMarkupCompatibility *DFMarkupCompatibilityNew(void)
 {
-    DFMarkupCompatibility *mc = (DFMarkupCompatibility *)calloc(1,sizeof(DFMarkupCompatibility));
+    DFMarkupCompatibility *mc = (DFMarkupCompatibility *)xcalloc(1,sizeof(DFMarkupCompatibility));
     return mc;
 }
 
@@ -70,7 +73,7 @@ void DFMarkupCompatibilityFree(DFMarkupCompatibility *mc)
 static void addDeclToRecord(MCRecord *record, NamespaceID nsId, Tag tag, MCAction action)
 {
     record->count++;
-    record->decls = (MCDecl *)realloc(record->decls,record->count*sizeof(MCDecl));
+    record->decls = (MCDecl *)xrealloc(record->decls,record->count*sizeof(MCDecl));
     record->decls[record->count-1].nsId = nsId;
     record->decls[record->count-1].tag = tag;
     record->decls[record->count-1].action = action;
@@ -83,7 +86,7 @@ void DFMarkupCompatibilityPush(DFMarkupCompatibility *mc, int nb_namespaces, con
         MCRecord *record = &mc->records[mc->depth-1];
         bzero(record,sizeof(MCRecord));
         if (nb_namespaces > 0) {
-            record->namespaces = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+            record->namespaces = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
             for (int i = 0; i < nb_namespaces; i++) {
                 const char *nsPrefix = namespaces[i*2];
                 const char *nsURI = namespaces[i*2+1];
@@ -152,7 +155,7 @@ void DFMarkupCompatibilityProcessAttr(DFMarkupCompatibility *mc, Tag attr, const
             localName = DFSubstring(component,colonPos+1,strlen(component));
         }
         else {
-            prefix = strdup(component);
+            prefix = xstrdup(component);
             localName = NULL;
         }
 

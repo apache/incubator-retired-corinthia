@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "DFFilesystem.h"
@@ -19,7 +22,6 @@
 #include "DFBuffer.h"
 #include <DocFormats/DFError.h>
 #include "DFCharacterSet.h"
-#include "DFPlatform.h"
 #include "DFCommon.h"
 #include <assert.h>
 #include <errno.h>
@@ -174,7 +176,7 @@ static void freeDirEntryList(DFDirEntryList *list)
 
 static DFArray *arrayFromDirEntryList(DFDirEntryList *list)
 {
-    DFArray *array = DFArrayNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFArray *array = DFArrayNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
     for (DFDirEntryList *l = list; l != NULL; l = l->next)
         DFArrayAppend(array,l->name);
     return array;
@@ -221,10 +223,10 @@ char *DFPathDirName(const char *path)
     size_t pos = len;
     while (1) {
         if (pos == 0)
-            return strdup("");
+            return xstrdup("");
         if (path[pos-1] == '/') {
             if (pos == 1)
-                return strdup("/");
+                return xstrdup("/");
             else
                 return DFSubstring(path,0,pos-1);
         }
@@ -261,9 +263,9 @@ char *DFPathExtension(const char *path)
     size_t pos = len;
     while (1) {
         if (pos == 0)
-            return strdup("");
+            return xstrdup("");
         if (path[pos-1] == '/')
-            return strdup("");
+            return xstrdup("");
         if (path[pos-1] == '.')
             return DFSubstring(path,pos,len);
         pos--;
@@ -277,7 +279,7 @@ char *DFPathWithoutExtension(const char *path)
         len--;
 
     if (!strcmp(path,"/"))
-        return strdup("/");;
+        return xstrdup("/");;
 
     size_t pos = len;
     while (1) {
@@ -294,7 +296,7 @@ char *DFPathWithoutExtension(const char *path)
 char *DFPathNormalize(const char *path)
 {
     size_t len = strlen(path);
-    char *result = (char *)malloc(len+1);
+    char *result = (char *)xmalloc(len+1);
     size_t outpos = 0;
     for (size_t pos = 0; pos < len; pos++) {
         if ((path[pos] != '/') || (pos == 0) || (path[pos-1] != '/'))
@@ -307,11 +309,11 @@ char *DFPathNormalize(const char *path)
 char *DFPathResolveAbsolute(const char *rawBase, const char *relative)
 {
     if (relative[0] == '/')
-        return strdup(relative);
+        return xstrdup(relative);
 
     char *base;
     if (rawBase[0] == '/') {
-        base = strdup(rawBase);
+        base = xstrdup(rawBase);
     }
     else {
         char cwd[4096];
@@ -319,7 +321,7 @@ char *DFPathResolveAbsolute(const char *rawBase, const char *relative)
         base = DFFormatString("%s/%s",cwd,rawBase);
     }
 
-    char *baseDirectory = DFStringHasSuffix(base,"/") ? strdup(base) : DFPathDirName(base);
+    char *baseDirectory = DFStringHasSuffix(base,"/") ? xstrdup(base) : DFPathDirName(base);
 
     DFBuffer *path = DFBufferNew();
     DFBufferAppendString(path,baseDirectory);
@@ -371,7 +373,7 @@ static int numFromHex(uint32_t ch)
 char *DFRemovePercentEncoding(const char *encoded)
 {
     size_t inlen = strlen(encoded);
-    char *output = (char *)malloc(inlen+1);
+    char *output = (char *)xmalloc(inlen+1);
     size_t outpos = 0;
     for (size_t inpos = 0; inpos < inlen; inpos++) {
         char ch = encoded[inpos];

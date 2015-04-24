@@ -1,16 +1,19 @@
-// Copyright 2011-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 var Position;
 var Position_assertValid;
@@ -27,6 +30,9 @@ var Position_closestMatchBackwards;
 var Position_track;
 var Position_untrack;
 var Position_rectAtPos;
+var Position_noteAncestor;
+var Position_captionAncestor;
+var Position_figureOrTableAncestor;
 var Position_displayRectAtPos;
 var Position_preferTextPosition;
 var Position_preferElementPosition;
@@ -440,6 +446,7 @@ var Position_atPoint;
                 return (haveNextChar &&
                         ((node.previousSibling == null) ||
                          (node.previousSibling._type == HTML_BR) ||
+                         isNoteNode(node.previousSibling) ||
                          (isParagraphNode(node.previousSibling)) ||
                          (getNodeText(node.previousSibling).match(/\s$/)) ||
                          isItemNumber(node.previousSibling) ||
@@ -450,6 +457,7 @@ var Position_atPoint;
             if (isWhitespaceString(followingText)) {
                 return (havePrevChar &&
                         ((node.nextSibling == null) ||
+                         isNoteNode(node.nextSibling) ||
                          (followingText.length > 0) ||
                          (spacesUntilNextContent(node) != 0)));
             }
@@ -475,6 +483,15 @@ var Position_atPoint;
             var nextNode = node.childNodes[offset];
             var prevType = (prevNode != null) ? prevNode._type : 0;
             var nextType = (nextNode != null) ? nextNode._type : 0;
+
+            var prevIsNote = (prevNode != null) && isNoteNode(prevNode);
+            var nextIsNote = (nextNode != null) && isNoteNode(nextNode);
+            if (((nextNode == null) || !nodeHasContent(nextNode)) && prevIsNote)
+                return true;
+            if (((prevNode == null) || !nodeHasContent(prevNode)) && nextIsNote)
+                return true;
+            if (prevIsNote && nextIsNote)
+                return true;
 
             if ((prevNode == null) && (nextNode == null) &&
                 (CONTAINERS_ALLOWING_CHILDREN[type] ||
@@ -676,6 +693,47 @@ var Position_atPoint;
                  height: rect.height };
     }
 
+    function zeroWidthMidRect(rect)
+    {
+        var mid = rect.left + rect.width/2;
+        return { left: mid,
+                 right: mid, // 0 width
+                 top: rect.top,
+                 bottom: rect.bottom,
+                 width: 0,
+                 height: rect.height };
+    }
+
+    Position_noteAncestor = function(pos)
+    {
+        var node = Position_closestActualNode(pos);
+        for (; node != null; node = node.parentNode) {
+            if (isNoteNode(node))
+                return node;
+        }
+        return null;
+    }
+
+    Position_captionAncestor = function(pos)
+    {
+        var node = Position_closestActualNode(pos);
+        for (; node != null; node = node.parentNode) {
+            if ((node._type == HTML_FIGCAPTION) || (node._type == HTML_CAPTION))
+                return node;
+        }
+        return null;
+    }
+
+    Position_figureOrTableAncestor = function(pos)
+    {
+        var node = Position_closestActualNode(pos);
+        for (; node != null; node = node.parentNode) {
+            if ((node._type == HTML_FIGURE) || (node._type == HTML_TABLE))
+                return node;
+        }
+        return null;
+    }
+
     function exactRectAtPos(pos)
     {
         var node = pos.node;
@@ -733,11 +791,54 @@ var Position_atPoint;
         }
     }
 
+    function tempSpaceRect(parentNode,nextSibling)
+    {
+        var space = DOM_createTextNode(document,String.fromCharCode(160));
+        DOM_insertBefore(parentNode,space,nextSibling);
+        var range = new Range(space,0,space,1);
+        var rects = Range_getClientRects(range);
+        DOM_deleteNode(space);
+        if (rects.length > 0)
+            return rects[0];
+        else
+            return nil;
+    }
+
     Position_displayRectAtPos = function(pos)
     {
         rect = exactRectAtPos(pos);
         if (rect != null)
             return rect;
+
+        var noteNode = Position_noteAncestor(pos);
+        if ((noteNode != null) && !nodeHasContent(noteNode)) // In empty footnote or endnote
+            return zeroWidthMidRect(noteNode.getBoundingClientRect());
+
+        // If we're immediately before or after a footnote or endnote, calculate the rect by
+        // temporarily inserting a space character, and getting the rect at the start of that.
+        // This avoids us instead getting a rect inside the note, which is what would otherwise
+        // happen if there was no adjacent text node outside the note.
+        if ((pos.node.nodeType == Node.ELEMENT_NODE)) {
+            var before = pos.node.childNodes[pos.offset-1];
+            var after = pos.node.childNodes[pos.offset];
+            if (((before != null) && isNoteNode(before)) ||
+                ((after != null) && isNoteNode(after))) {
+                var rect = tempSpaceRect(pos.node,pos.node.childNodes[pos.offset]);
+                if (rect != null)
+                    return zeroWidthLeftRect(rect);
+            }
+        }
+
+        var captionNode = Position_captionAncestor(pos);
+        if ((captionNode != null) && !nodeHasContent(captionNode)) {
+            // Even if an empty caption has generated content (e.g. "Figure X: ") preceding it,
+            // we can't directly get the rect of that generated content. So we temporarily insert
+            // a text node containing a single space character, get the position to the right of
+            // that character, and then remove the text node.
+            var rect = tempSpaceRect(captionNode,null);
+            if (rect != null)
+                return zeroWidthRightRect(rect);
+        }
 
         var paragraph = Text_findParagraphBoundaries(pos);
 
@@ -896,16 +997,30 @@ var Position_atPoint;
     // intended if the document's last text node is a direct child of the body (as it may be in some
     // HTML documents that users open).
 
+    function posOutsideSelection(pos)
+    {
+        pos = Position_preferElementPosition(pos);
+
+        if (!isSelectionSpan(pos.node))
+            return pos;
+
+        if (pos.offset == 0)
+            return new Position(pos.node.parentNode,DOM_nodeOffset(pos.node));
+        else if (pos.offset == pos.node.childNodes.length)
+            return new Position(pos.node.parentNode,DOM_nodeOffset(pos.node)+1);
+        else
+            return pos;
+    }
+
     Position_atPoint = function(x,y)
     {
         // In general, we can use document.caretRangeFromPoint(x,y) to determine the location of the
         // cursor based on screen coordinates. However, this doesn't work if the screen coordinates
         // are outside the bounding box of the document's body. So when this is true, we find either
         // the first or last non-whitespace text node, calculate a y value that is half-way between
-        // the top and bottom of its first or last rect (respectively), and then make a call to
-        // caretRangeFromPoint with the same x value but this new y value. This results in the
-        // cursor being placed on the first or last line when the user taps outside the document
-        // bounds.
+        // the top and bottom of its first or last rect (respectively), and use that instead. This
+        // results in the cursor being placed on the first or last line when the user taps outside
+        // the document bounds.
 
         var bodyRect = document.body.getBoundingClientRect();
         var boundaryRect = null;
@@ -914,12 +1029,8 @@ var Position_atPoint;
         else if (y >= bodyRect.bottom)
             boundaryRect = findLastTextRect();
 
-        if (boundaryRect != null) {
-            var boundaryY = boundaryRect.top + boundaryRect.height/2;
-            var range = document.caretRangeFromPoint(x,boundaryY);
-            if (range != null)
-                return new Position(range.startContainer,range.startOffset);
-        }
+        if (boundaryRect != null)
+            y = boundaryRect.top + boundaryRect.height/2;
 
         // We get here if the coordinates are inside the document's bounding rect, or if getting the
         // position from the first or last rect failed for some reason.
@@ -929,21 +1040,47 @@ var Position_atPoint;
             return null;
 
         var pos = new Position(range.startContainer,range.startOffset);
+        pos = Position_preferElementPosition(pos);
 
         if (pos.node.nodeType == Node.ELEMENT_NODE) {
-            var prev = pos.node.childNodes[pos.offset-1];
-            var next = pos.node.childNodes[pos.offset];
+            var outside = posOutsideSelection(pos);
+            var prev = outside.node.childNodes[outside.offset-1];
+            var next = outside.node.childNodes[outside.offset];
 
-            if ((prev != null) && (prev._type == HTML_IMG) && elementContainsPoint(prev,x,y))
+            if ((prev != null) && nodeMayContainPos(prev) && elementContainsPoint(prev,x,y))
                 return new Position(prev,0);
 
-            if ((next != null) && (next._type == HTML_IMG) && elementContainsPoint(next,x,y))
+            if ((next != null) && nodeMayContainPos(next) && elementContainsPoint(next,x,y))
                 return new Position(next,0);
+
+            if (next != null) {
+                var nextNode = outside.node;
+                var nextOffset = outside.offset+1;
+
+                if (isSelectionSpan(next) && (next.firstChild != null)) {
+                    nextNode = next;
+                    nextOffset = 1;
+                    next = next.firstChild;
+                }
+
+                if ((next != null) && isEmptyNoteNode(next)) {
+                    var rect = next.getBoundingClientRect();
+                    if (x > rect.right)
+                        return new Position(nextNode,nextOffset);
+                }
+            }
         }
 
         pos = adjustPositionForFigure(pos);
 
         return pos;
+    }
+
+    // This is used for nodes that can potentially be the right match for a hit test, but for
+    // which caretRangeFromPoint() returns the wrong result
+    function nodeMayContainPos(node)
+    {
+        return ((node._type == HTML_IMG) || isEmptyNoteNode(node));
     }
 
     function elementContainsPoint(element,x,y)

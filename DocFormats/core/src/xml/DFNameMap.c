@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "DFNameMap.h"
@@ -76,9 +79,9 @@ static void DFNameHashTableAdd(DFNameHashTable *table, const char *name, const c
     if (URI == NULL)
         URI = "";;
     uint32_t hash = DFNameHashTableHash(name,URI)%HASH_TABLE_SIZE;
-    DFNameEntry *entry = (DFNameEntry *)malloc(sizeof(DFNameEntry));
-    entry->name = strdup(name);
-    entry->URI = strdup(URI);
+    DFNameEntry *entry = (DFNameEntry *)xmalloc(sizeof(DFNameEntry));
+    entry->name = xstrdup(name);
+    entry->URI = xstrdup(URI);
     entry->tag = tag;
     entry->tagDecl.namespaceID = namespaceID;
     entry->tagDecl.localName = (const char *)entry->name;
@@ -88,7 +91,7 @@ static void DFNameHashTableAdd(DFNameHashTable *table, const char *name, const c
 
 static DFNameHashTable *DFNameHashTableNew()
 {
-    return (DFNameHashTable*)calloc(1,sizeof(DFNameHashTable));
+    return (DFNameHashTable*)xcalloc(1,sizeof(DFNameHashTable));
 }
 
 static void DFNameHashTableFree(DFNameHashTable *table)
@@ -121,11 +124,11 @@ struct DFNamespaceInfo {
 
 DFNamespaceInfo *DFNamespaceInfoNew(NamespaceID nsId, const char *URI, const char *prefix)
 {
-    DFNamespaceInfo *info = (DFNamespaceInfo *)calloc(1,sizeof(DFNamespaceInfo));
+    DFNamespaceInfo *info = (DFNamespaceInfo *)xcalloc(1,sizeof(DFNamespaceInfo));
     info->nsId = nsId;
-    info->decl = (NamespaceDecl *)malloc(sizeof(NamespaceDecl));
-    info->decl->namespaceURI = strdup(URI);
-    info->decl->prefix = strdup(prefix);
+    info->decl = (NamespaceDecl *)xmalloc(sizeof(NamespaceDecl));
+    info->decl->namespaceURI = xstrdup(URI);
+    info->decl->prefix = xstrdup(prefix);
     return info;
 }
 
@@ -152,11 +155,11 @@ struct DFTagInfo {
 
 DFTagInfo *DFTagInfoNew(Tag tag, NamespaceID nsId, const char *localName)
 {
-    DFTagInfo *info = (DFTagInfo *)calloc(1,sizeof(DFTagInfo));
+    DFTagInfo *info = (DFTagInfo *)xcalloc(1,sizeof(DFTagInfo));
     info->tag = tag;
-    info->decl = (TagDecl *)malloc(sizeof(TagDecl));
+    info->decl = (TagDecl *)xmalloc(sizeof(TagDecl));
     info->decl->namespaceID = nsId;
-    info->decl->localName = strdup(localName);
+    info->decl->localName = xstrdup(localName);
     return info;
 }
 
@@ -192,7 +195,7 @@ struct DFNameMap {
 
 DFNameMap *DFNameMapNew(void)
 {
-    DFNameMap *map = (DFNameMap *)calloc(1,sizeof(DFNameMap));
+    DFNameMap *map = (DFNameMap *)xcalloc(1,sizeof(DFNameMap));
     map->namespacesByID = DFHashTableNew2(NULL,NULL,997);
     map->namespacesByURI = DFHashTableNew2(NULL,(DFFreeFunction)DFNamespaceInfoFree,997);
     map->tagsByID = DFHashTableNew2(NULL,(DFFreeFunction)DFTagInfoFree,997);

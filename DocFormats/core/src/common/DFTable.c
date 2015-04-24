@@ -1,20 +1,24 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFTable.h"
 #include "DFDOM.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,7 +39,7 @@ DFTableDimensions DFTableDimensionsMake(unsigned int rows, unsigned int cols)
 
 DFCell *DFCellNew(DFNode *element, unsigned int row, unsigned int col)
 {
-    DFCell *cell = (DFCell *)calloc(1,sizeof(DFCell));
+    DFCell *cell = (DFCell *)xcalloc(1,sizeof(DFCell));
     cell->retainCount = 1;
     cell->element = element;
     cell->row = row;
@@ -67,16 +71,16 @@ void DFCellRelease(DFCell *cell)
 
 DFTable *DFTableNew(unsigned int rows, unsigned int cols)
 {
-    DFTable *table = (DFTable *)calloc(1,sizeof(DFTable));
+    DFTable *table = (DFTable *)xcalloc(1,sizeof(DFTable));
     table->retainCount = 1;
     table->rows = rows;
     table->cols = cols;
-    table->rowElements = (DFNode **)calloc(table->rows,sizeof(DFNode *));
-    table->colWidths = (double *)calloc(table->cols,sizeof(double));
+    table->rowElements = (DFNode **)xcalloc(table->rows,sizeof(DFNode *));
+    table->colWidths = (double *)xcalloc(table->cols,sizeof(double));
 
-    table->cells = (DFCell ***)calloc(rows,sizeof(DFCell **));
+    table->cells = (DFCell ***)xcalloc(rows,sizeof(DFCell **));
     for (unsigned int r = 0; r < table->rows; r++)
-        table->cells[r] = (DFCell **)calloc(cols,sizeof(DFCell *));
+        table->cells[r] = (DFCell **)xcalloc(cols,sizeof(DFCell *));
 
     return table;
 }

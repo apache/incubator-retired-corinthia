@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "WordStyles.h"
@@ -232,7 +235,7 @@ static void WordPutStyle(DFNode *concrete, CSSStyle *style, WordConverter *conve
             if ((style->tag != HTML_P) && (style->tag != HTML_SPAN) && (style->tag != HTML_TABLE)) {
                 CSSStyle *parentStyle = CSSSheetLookupElement(converter->styleSheet,style->elementName,NULL,0,0);
                 if ((parentStyle != NULL) && !parentStyle->latent)
-                    parentSelector = strdup(style->elementName);
+                    parentSelector = xstrdup(style->elementName);
             }
         }
     }
@@ -482,7 +485,7 @@ static void WordPutSectPr(DFNode *concrete, CSSSheet *styleSheet, WordSection *s
         }
     }
     replaceChildrenFromArray(concrete,children,WordSectPr_Children);
-    for (long i = DFArrayCount(extra)-1; i >= 0; i--) {
+    for (long i = (long)(DFArrayCount(extra)-1); i >= 0; i--) {
         DFNode *child = DFArrayItemAt(extra,i);
         DFInsertBefore(concrete,child,concrete->first);
     }
@@ -720,13 +723,13 @@ static char *WordStyleNameForStyle(CSSStyle *style)
         return WordStyleNameFromClassName(style->className);
 
     switch (style->tag) {
-        case HTML_H1: return strdup("heading 1");
-        case HTML_H2: return strdup("heading 2");
-        case HTML_H3: return strdup("heading 3");
-        case HTML_H4: return strdup("heading 4");
-        case HTML_H5: return strdup("heading 5");
-        case HTML_H6: return strdup("heading 6");
-        case HTML_FIGURE: return strdup("Figure");
+        case HTML_H1: return xstrdup("heading 1");
+        case HTML_H2: return xstrdup("heading 2");
+        case HTML_H3: return xstrdup("heading 3");
+        case HTML_H4: return xstrdup("heading 4");
+        case HTML_H5: return xstrdup("heading 5");
+        case HTML_H6: return xstrdup("heading 6");
+        case HTML_FIGURE: return xstrdup("Figure");
     }
 
     return NULL;
@@ -814,7 +817,7 @@ void WordUpdateStyles(WordConverter *converter, CSSSheet *styleSheet)
         char *styleId = WordStyleIdForStyle(style);
         char *name = WordStyleNameForStyle(style);
         if (name == NULL)
-            name = strdup(styleId);;
+            name = xstrdup(styleId);;
         WordStyle *wordStyle = WordSheetAddStyle(sheet,familyStr,styleId,name,selector);
         DFCreateChildElement(wordStyle->element,WORD_QFORMAT);
         free(styleId);

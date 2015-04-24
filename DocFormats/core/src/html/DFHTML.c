@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "DFHTML.h"
@@ -68,10 +71,10 @@ char *HTMLCopyCSSText(DFDocument *doc)
 {
     DFNode *head = DFChildWithTag(doc->root,HTML_HEAD);
     if (head == NULL)
-        return strdup("");;
+        return xstrdup("");;
     DFNode *style = DFChildWithTag(head,HTML_STYLE);
     if (style == NULL)
-        return strdup("");
+        return xstrdup("");
     return DFNodeTextToString(style);
 }
 
@@ -193,7 +196,7 @@ int HTML_nodeIsHyperlink(DFNode *node)
 
 static char *indentString(int depth)
 {
-    char *str = (char *)malloc(1+depth*2+1);
+    char *str = (char *)xmalloc(1+depth*2+1);
     str[0] = '\n';
     memset(&str[1],' ',depth*2);
     str[1+depth*2] = '\0';
@@ -357,6 +360,56 @@ int isRRGGBB(const char *str)
 int isHashRRGGBB(const char *str)
 {
     return (strlen(str) == 7) && (str[0] == '#') && isRRGGBB(&str[1]);
+}
+
+const char *HTMLMetaGet(DFDocument *htmlDoc, const char *name)
+{
+    assert(htmlDoc->root != NULL);
+    assert(htmlDoc->root->tag == HTML_HTML);
+    DFNode *head = DFChildWithTag(htmlDoc->root,HTML_HEAD);
+    if (head == NULL)
+        return NULL;
+    for (DFNode *meta = head->first; meta != NULL; meta = meta->next) {
+        if ((meta->tag == HTML_META) && DFStringEquals(DFGetAttribute(meta,HTML_NAME),name))
+            return DFGetAttribute(meta,HTML_CONTENT);
+    }
+    return NULL;
+}
+
+void HTMLMetaSet(DFDocument *htmlDoc, const char *name, const char *content)
+{
+    assert(htmlDoc->root != NULL);
+    assert(htmlDoc->root->tag == HTML_HTML);
+    DFNode *head = DFChildWithTag(htmlDoc->root,HTML_HEAD);
+    if (head == NULL) {
+        head = DFCreateElement(htmlDoc,HTML_HEAD);
+        DFNode *body = DFChildWithTag(htmlDoc->root,HTML_BODY);
+        DFInsertBefore(htmlDoc->root,head,body);
+    }
+    for (DFNode *meta = head->first; meta != NULL; meta = meta->next) {
+        if ((meta->tag == HTML_META) && DFStringEquals(DFGetAttribute(meta,HTML_NAME),name)) {
+            DFSetAttribute(meta,HTML_CONTENT,content);
+            return;
+        }
+    }
+    DFNode *meta = DFCreateChildElement(head,HTML_META);
+    DFSetAttribute(meta,HTML_NAME,name);
+    DFSetAttribute(meta,HTML_CONTENT,content);
+}
+
+void HTMLMetaRemove(DFDocument *htmlDoc, const char *name)
+{
+    assert(htmlDoc->root != NULL);
+    assert(htmlDoc->root->tag == HTML_HTML);
+    DFNode *head = DFChildWithTag(htmlDoc->root,HTML_HEAD);
+    if (head == NULL)
+        return;;
+    DFNode *next;
+    for (DFNode *meta = head->first; meta != NULL; meta = next) {
+        next = meta->next;
+        if ((meta->tag == HTML_META) && DFStringEquals(DFGetAttribute(meta,HTML_NAME),name))
+            DFRemoveNode(meta);
+    }
 }
 
 DFDocument *DFParseHTMLString(const char *str, int removeSpecial, DFError **error)

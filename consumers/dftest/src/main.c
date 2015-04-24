@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "DFUnitTest.h"
@@ -90,7 +93,7 @@ static char *getCommandFromCode(const char *code, DFError **error)
     for (int i = 0; lines[i]; i++) {
         if (!DFStringIsWhitespace(lines[i]) && strncmp(lines[i],"//",2)) {
             if (command == NULL)
-                command = strdup(lines[i]);
+                command = xstrdup(lines[i]);
             count++;
         }
     }
@@ -112,7 +115,7 @@ static const char **parseCommand(const char *command, DFError **error)
     const char *closebr = strrchr(command,')');
 
     if ((openbr == NULL) && (closebr == NULL)) {
-        DFArray *array = DFArrayNew((DFCopyFunction)strdup,free);
+        DFArray *array = DFArrayNew((DFCopyFunction)xstrdup,free);
         DFArrayAppend(array,(void *)command);
         const char **result = DFStringArrayFlatten(array);
         DFArrayRelease(array);
@@ -137,7 +140,7 @@ static const char **parseCommand(const char *command, DFError **error)
     char *arguments = DFSubstring(command,openpos+1,closepos);
 
     const char **components = DFStringSplit(arguments,",",0);
-    DFArray *array = DFArrayNew((DFCopyFunction)strdup,free);
+    DFArray *array = DFArrayNew((DFCopyFunction)xstrdup,free);
     DFArrayAppend(array,name);
     for (int i = 0; components[i]; i++) {
         char *trimmed = DFStringTrimWhitespace(components[i]);
@@ -275,7 +278,7 @@ static void TestGetFilenamesRecursive(const char *path, DFArray *result)
 
 void runTests(int argc, const char **argv, int diff)
 {
-    DFArray *tests = DFArrayNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFArray *tests = DFArrayNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
     for (int i = 0; i < argc; i++) {
         const char *path = argv[i];
         if (!DFFileExists(path)) {

@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "Commands.h"
@@ -53,7 +56,7 @@ static char *readString(const char *filename, DFError **error)
     DFBuffer *buffer = readData(filename,error);
     if (buffer == NULL)
         return NULL;
-    char *result = strdup(buffer->data);
+    char *result = xstrdup(buffer->data);
     DFBufferRelease(buffer);
     return result;
 }
@@ -123,6 +126,34 @@ end:
     return ok;
 }
 
+static int prettyPrintODFFile(const char *filename, DFError **error)
+{
+    int ok = 0;
+    char *odf = NULL;
+    DFStorage *storage = NULL;
+
+    storage = DFStorageOpenZip(filename,error);
+
+    if (storage == NULL) {
+        DFErrorFormat(error,"%s: %s",filename,DFErrorMessage(error));
+        goto end;
+    }
+    /*
+    odf = ODF_toPlain(storage,NULL);
+    printf("%s",odt);
+    */
+    printf("ODF file support has not been implemented yet.\n");
+    ok = 1;
+
+end:
+    free(odf);
+    DFStorageRelease(storage);
+    return ok;
+
+}
+
+
+
 int prettyPrintFile(const char *filename, DFError **error)
 {
     int ok;
@@ -133,6 +164,8 @@ int prettyPrintFile(const char *filename, DFError **error)
         ok = prettyPrintXMLFile(filename,1,error);
     else if (DFStringEqualsCI(extension,"docx"))
         ok = prettyPrintWordFile(filename,error);
+    else if (DFStringEqualsCI(extension,"odt"))
+        ok = prettyPrintODFFile(filename,error);
     else {
         DFErrorFormat(error,"Unknown file type");
         ok = 0;
@@ -174,7 +207,7 @@ int fromPlain(const char *inFilename, const char *outFilename, DFError **error)
     if (inStr == NULL)
         return 0;
 
-    char *inPath = fromStdin ? strdup(".") : DFPathDirName(inFilename);
+    char *inPath = fromStdin ? xstrdup(".") : DFPathDirName(inFilename);
     int ok = fromPlain2(inStr,inPath,outFilename,error);
     free(inPath);
     free(inStr);
@@ -296,7 +329,7 @@ int textPackageGet(const char *filename, const char *itemPath, DFError **error)
             return 0;
         }
         free(value);
-        value = strdup(DFHashTableLookup(package->items,name));
+        value = xstrdup(DFHashTableLookup(package->items,name));
         if (value == NULL) {
             DFErrorFormat(error,"%s: Item %s not found",filename,itemPath);
             TextPackageRelease(package);
@@ -341,7 +374,7 @@ int diffFiles(const char *filename1, const char *filename2, DFError **error)
 void parseContent(const char *content)
 {
     DFArray *parts = CSSParseContent(content);
-    printf("parts.count = %lu\n",DFArrayCount(parts));
+    printf("parts.count = %zu\n",DFArrayCount(parts));
     for (size_t i = 0; i < DFArrayCount(parts); i++) {
         ContentPart *part = DFArrayItemAt(parts,i);
         char *quotedValue = DFQuote(part->value);

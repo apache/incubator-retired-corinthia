@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    var range = Selection_get();
+    Range_trackWhileExecuting(range,function() {
+        Formatting_splitAroundSelection(range);
+    });
+    showRangeAsBrackets(range);
+}
+</script>
+</head>
+<body>
+  <p>one <span class="endnote">two three [four]</span> five</p>
+</body>
+</html>

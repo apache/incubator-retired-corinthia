@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "DFHashTable.h"
@@ -44,10 +47,10 @@ DFHashTable *DFHashTableNew(DFCopyFunction copy, DFFreeFunction free)
 
 DFHashTable *DFHashTableNew2(DFCopyFunction copy, DFFreeFunction free, int binsCount)
 {
-    DFHashTable *table = (DFHashTable *)calloc(1,sizeof(DFHashTable));
+    DFHashTable *table = (DFHashTable *)xcalloc(1,sizeof(DFHashTable));
     table->retainCount = 1;
     table->binsCount = binsCount;
-    table->bins = (DFHashEntry **)calloc(1,table->binsCount*sizeof(DFHashEntry *));
+    table->bins = (DFHashEntry **)xcalloc(1,table->binsCount*sizeof(DFHashEntry *));
     table->copy = copy;
     table->free = free;
     return table;
@@ -130,7 +133,7 @@ const char **DFHashTableCopyKeys(DFHashTable *table)
             numBytes += strlen(entry->key)+1;
     }
 
-    void *mem = malloc(numBytes);
+    void *mem = xmalloc(numBytes);
     char **pointers = mem;
     char *storage = (char *)mem + (count+1)*sizeof(char *);
 
@@ -205,7 +208,7 @@ void DFHashTableAdd(DFHashTable *table, const char *key, const void *constValue)
     }
     else {
         size_t len = strlen(key);
-        DFHashEntry *entry = (DFHashEntry *)malloc(sizeof(DFHashEntry)+len*sizeof(char)+1);
+        DFHashEntry *entry = (DFHashEntry *)xmalloc(sizeof(DFHashEntry)+len*sizeof(char)+1);
         entry->value = value;
         entry->hash = hash;
         memcpy(&entry->key[0],key,len);

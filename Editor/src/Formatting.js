@@ -1,16 +1,19 @@
-// Copyright 2011-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 var Formatting_splitTextBefore;
 var Formatting_splitTextAfter;
@@ -123,12 +126,12 @@ var Formatting_MERGEABLE_BLOCK_AND_INLINE;
                 range.start.offset = 0;
             }
             else if (range.start.node.nodeType == Node.ELEMENT_NODE) {
-                Formatting_movePreceding(range.start,isBlockNode);
+                Formatting_movePreceding(range.start,isBlockOrNoteNode);
             }
             else {
                 Formatting_movePreceding(new Position(range.start.node.parentNode,
                                                       DOM_nodeOffset(range.start.node)),
-                                         isBlockNode);
+                                         isBlockOrNoteNode);
             }
 
             // Save the start and end position of the range. The mutation listeners will move it
@@ -143,12 +146,12 @@ var Formatting_MERGEABLE_BLOCK_AND_INLINE;
                 Formatting_splitTextAfter(range.end);
             }
             else if (range.end.node.nodeType == Node.ELEMENT_NODE) {
-                Formatting_moveFollowing(range.end,isBlockNode);
+                Formatting_moveFollowing(range.end,isBlockOrNoteNode);
             }
             else {
                 Formatting_moveFollowing(new Position(range.end.node.parentNode,
                                                       DOM_nodeOffset(range.end.node)+1),
-                                         isBlockNode);
+                                         isBlockOrNoteNode);
             }
 
             range.start.node = startNode;
@@ -1038,7 +1041,10 @@ var Formatting_MERGEABLE_BLOCK_AND_INLINE;
         if (span._type == HTML_SPAN) {
             if (span.hasAttribute(Keys.ABSTRACT_ELEMENT))
                 return true;
-            if (DOM_getStringAttribute(span,"class").indexOf(Keys.UXWRITE_PREFIX) == 0)
+            var className = DOM_getStringAttribute(span,"class");
+            if (className.indexOf(Keys.UXWRITE_PREFIX) == 0)
+                return true;
+            if ((className == "footnote") || (className == "endnote"))
                 return true;
         }
         return false;

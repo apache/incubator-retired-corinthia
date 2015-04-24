@@ -1,16 +1,19 @@
-// Copyright 2011-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 var Cursor_ensurePositionVisible;
 var Cursor_ensureCursorVisible;
@@ -494,6 +497,39 @@ var Cursor_insertEndnote;
         Cursor_ensureCursorVisible();
     }
 
+    function tryDeleteEmptyCaption(pos)
+    {
+        var caption = Position_captionAncestor(pos);
+        if ((caption == null) || nodeHasContent(caption))
+            return false;
+
+        var container = Position_figureOrTableAncestor(pos);
+        if (container == null)
+            return false;
+
+        Cursor_set(container.parentNode,DOM_nodeOffset(container)+1);
+        Selection_preserveWhileExecuting(function() {
+            DOM_deleteNode(caption);
+        });
+
+        return true;
+    }
+
+    function tryDeleteEmptyNote(pos)
+    {
+        var note = Position_noteAncestor(pos);
+        if ((note == null) || nodeHasContent(note))
+            return false;
+
+        var parent = note.parentNode;
+        Cursor_set(note.parentNode,DOM_nodeOffset(note)+1);
+        Selection_preserveWhileExecuting(function() {
+            DOM_deleteNode(note);
+        });
+
+        return true;
+    }
+
     // public
     Cursor_deleteCharacter = function()
     {
@@ -511,7 +547,8 @@ var Cursor_insertEndnote;
         else {
             var currentPos = selRange.start;
 
-            // Special case of pressing backspace after a table, figure, or TOC
+            // Special cases of pressing backspace after a table, figure, TOC, hyperlink,
+            // footnote, or endnote. For each of these we delete the whole thing.
             var back = Position_closestMatchBackwards(currentPos,Position_okForMovement);
             if ((back != null) && (back.node.nodeType == Node.ELEMENT_NODE) && (back.offset > 0)) {
                 var prevNode = back.node.childNodes[back.offset-1];
@@ -524,7 +561,7 @@ var Cursor_insertEndnote;
                     Cursor_ensureCursorVisible();
                     return;
                 }
-                if (prevNode._type == HTML_A) {
+                if ((prevNode._type == HTML_A) || isNoteNode(prevNode)) {
                     Cursor_set(back.node,back.offset-1);
                     Selection_preserveWhileExecuting(function() {
                         DOM_deleteNode(prevNode);
@@ -533,8 +570,19 @@ var Cursor_insertEndnote;
                 }
             }
 
+            // Backspace inside an empty figure or table caption
+            if (tryDeleteEmptyCaption(currentPos))
+                return;
+
             currentPos = Position_preferTextPosition(currentPos);
             var prevPos = Position_prevMatch(currentPos,Position_okForMovement);
+
+            // Backspace inside or just after a footnote or endnote
+            if (tryDeleteEmptyNote(currentPos))
+                return;
+            if ((prevPos != null) && tryDeleteEmptyNote(prevPos))
+                return;
+
             if (prevPos != null) {
                 var startBlock = firstBlockAncestor(Position_closestActualNode(prevPos));
                 var endBlock = firstBlockAncestor(Position_closestActualNode(selRange.end));
@@ -604,6 +652,27 @@ var Cursor_insertEndnote;
                 }
                 break;
             }
+        }
+
+        // Are we inside a footnote or endnote? If so, move the cursor immediately after it
+        var note = null;
+        if (selRange.start.node.nodeType == Node.TEXT_NODE) {
+            note = Position_noteAncestor(selRange.start);
+        }
+        else {
+            // We can't use Position_noteAncestor in this case, because we want to to break
+            // the paragraph *before* the note, not after
+            var checkNode = selRange.start.node;
+            for (var anc = checkNode; anc != null; anc = anc.parentNode) {
+                if (isNoteNode(anc)) {
+                    note = anc;
+                    break;
+                }
+            }
+        }
+        if (note != null) {
+            var noteOffset = DOM_nodeOffset(note);
+            selRange = new Range(note.parentNode,noteOffset+1,note.parentNode,noteOffset+1);
         }
 
         var check = Position_preferElementPosition(selRange.start);
@@ -802,16 +871,31 @@ var Cursor_insertEndnote;
     Cursor_getAdjacentNodeWithType = function(type)
     {
         var selRange = Selection_get();
-        var position = selRange.start;
-        while (position != null) {
-            var node = Position_closestActualNode(position);
-            for (; node != null; node = node.parentNode) {
-                if (node._type == type)
-                    return node;
+        var pos = Position_preferElementPosition(selRange.start);
+        var node = pos.node;
+        var offset = pos.offset;
+
+        while (true) {
+
+            if (node._type == type)
+                return node;
+
+            if (node.nodeType == Node.ELEMENT_NODE) {
+                var before = node.childNodes[offset-1];
+                if ((before != null) && (before._type == type))
+                    return before;
+
+                var after = node.childNodes[offset];
+                if ((after != null) && (after._type == type))
+                    return after;
             }
-            position = Position_prev(position);
+
+            if (node.parentNode == null)
+                return null;
+
+            offset = DOM_nodeOffset(node);
+            node = node.parentNode;
         }
-        return null;
     }
 
     Cursor_getLinkProperties = function()
@@ -905,6 +989,22 @@ var Cursor_insertEndnote;
             cursorX = null;
     }
 
+    function moveRangeOutsideOfNote(range)
+    {
+        var node = range.start.node;
+        var offset = range.start.offset;
+
+        for (var anc = node; anc != null; anc = anc.parentNode) {
+            if (isNoteNode(anc) && (anc.parentNode != null)) {
+                node = anc.parentNode;
+                offset = DOM_nodeOffset(anc)+1;
+                return new Range(node,offset,node,offset);
+            }
+        }
+
+        return range;
+    }
+
     function insertNote(className,content)
     {
         var footnote = DOM_createElement(document,"span");
@@ -912,9 +1012,25 @@ var Cursor_insertEndnote;
         DOM_appendChild(footnote,DOM_createTextNode(document,content));
 
         var range = Selection_get();
+        range = moveRangeOutsideOfNote(range);
         Formatting_splitAroundSelection(range,false);
 
-        var pos = Position_preferElementPosition(range.start);
+        // If we're part-way through a text node, splitAroundSelection will give us an
+        // empty text node between the before and after text. For formatting purposes that's
+        // fine (not sure if necessary), but when inserting a footnote or endnote we want
+        // to avoid this as it causes problems with cursor movement - specifically, the cursor
+        // is allowed to go inside the empty text node, and this doesn't show up in the correct
+        // position on screen.
+        var pos = range.start;
+        if ((pos.node._type == HTML_TEXT) &&
+            (pos.node.nodeValue.length == 0)) {
+            var empty = pos.node;
+            pos = new Position(empty.parentNode,DOM_nodeOffset(empty));
+            DOM_deleteNode(empty);
+        }
+        else {
+            pos = Position_preferElementPosition(pos);
+        }
 
         DOM_insertBefore(pos.node,footnote,pos.node.childNodes[pos.offset]);
         Selection_set(footnote,0,footnote,footnote.childNodes.length);

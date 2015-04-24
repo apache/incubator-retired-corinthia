@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 
@@ -44,7 +47,7 @@ static void DFErrorMsgSetWin32(char **errmsg, DWORD code)
             (lpMsgBuf[len - 1] == '.')))
         len--;
     lpMsgBuf[len] = '\0';
-    *errmsg = strdup(lpMsgBuf);
+    *errmsg = xstrdup(lpMsgBuf);
     LocalFree(lpMsgBuf);
 }
 
@@ -89,7 +92,7 @@ int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DF
     HANDLE hFind = INVALID_HANDLE_VALUE;
 
     size_t patternLen = strlen(absPath) + 2;
-    char *pattern = (char *)malloc(patternLen+1);
+    char *pattern = (char *)xmalloc(patternLen+1);
     snprintf(pattern,patternLen+1,"%s/*",absPath);
     hFind = FindFirstFile(pattern,&ffd);
     if (hFind == INVALID_HANDLE_VALUE) {
@@ -106,8 +109,8 @@ int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DF
         size_t absSubPathLen = strlen(absPath) + 1 + strlen(ffd.cFileName);
         size_t relSubPathLen = strlen(relPath) + 1 + strlen(ffd.cFileName);
 
-        char *absSubPath = (char *)malloc(absSubPathLen+1);
-        char *relSubPath = (char *)malloc(relSubPathLen+1);
+        char *absSubPath = (char *)xmalloc(absSubPathLen+1);
+        char *relSubPath = (char *)xmalloc(relSubPathLen+1);
 
         snprintf(absSubPath,absSubPathLen+1,"%s/%s",absPath,ffd.cFileName);
         snprintf(relSubPath,relSubPathLen+1,"%s/%s",relPath,ffd.cFileName);
@@ -118,8 +121,8 @@ int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DF
         else
             entryName = relSubPath;
 
-        *listptr = (DFDirEntryList *)calloc(1,sizeof(DFDirEntryList));
-        (*listptr)->name = strdup(entryName);
+        *listptr = (DFDirEntryList *)xcalloc(1,sizeof(DFDirEntryList));
+        (*listptr)->name = xstrdup(entryName);
         listptr = &(*listptr)->next;
 
         if (recursive && (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
@@ -141,7 +144,7 @@ int DFGetImageDimensions(const void *data, size_t len, const char *ext,
     SDL_Surface *image = IMG_Load_RW(SDL_RWFromMem((void *)data,len),1);
     if (image == NULL) {
         if (errmsg != NULL)
-            *errmsg = strdup(IMG_GetError());
+            *errmsg = xstrdup(IMG_GetError());
         return 0;
     }
 

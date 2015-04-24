@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "DFXML.h"
@@ -70,7 +73,7 @@ struct DFSAXParser {
 
 DFSAXParser *DFSAXParserNew(void)
 {
-    DFSAXParser *parser = (DFSAXParser *)calloc(1,sizeof(DFSAXParser));
+    DFSAXParser *parser = (DFSAXParser *)xcalloc(1,sizeof(DFSAXParser));
     parser->document = DFDocumentNew();
     parser->parent = parser->document->docNode;
     parser->warnings = DFBufferNew();
@@ -136,11 +139,11 @@ static void SAXStartElementNS(void *ctx, const xmlChar *localname,
         const xmlChar *attrURI = attributes[i*5+2];
         const xmlChar *attrValueStart = attributes[i*5+3];
         const xmlChar *attrValueEnd = attributes[i*5+4];
-        unsigned long attrValueLen = attrValueEnd - attrValueStart;
+        unsigned long attrValueLen = (unsigned long)(attrValueEnd - attrValueStart);
 
         Tag attrTag = DFNameMapTagForName(parser->document->map,(const char *)attrURI,(const char *)attrLocalName);
         const TagDecl *attrTagDecl = DFNameMapNameForTag(parser->document->map,attrTag);
-        char *attrValue = (char *)malloc(attrValueLen+1);
+        char *attrValue = (char *)xmalloc(attrValueLen+1);
         memcpy(attrValue,attrValueStart,attrValueLen);
         attrValue[attrValueLen] = '\0';
         if (parser->compatibility != NULL) {
@@ -223,7 +226,7 @@ static void SAXCharacters(void *ctx, const xmlChar *ch, int len)
     DFSAXParser *parser = (DFSAXParser *)ctx;
     if (parser->ignoreDepth > 0)
         return;
-    char *data = (char *)malloc(len+1);
+    char *data = (char *)xmalloc(len+1);
     memcpy(data,ch,len);
     data[len] = '\0';
     DFNode *text = DFCreateTextNode(parser->document,data);
@@ -247,7 +250,7 @@ static void SAXCDATABlock(void *ctx, const xmlChar *value, int len)
     DFSAXParser *parser = (DFSAXParser *)ctx;
     if (parser->ignoreDepth > 0)
         return;
-    char *data = (char *)malloc(len+1);
+    char *data = (char *)xmalloc(len+1);
     memcpy(data,value,len);
     data[len] = '\0';
     DFNode *cdata = DFCreateTextNode(parser->document,data);
@@ -357,7 +360,7 @@ static void findUsedNamespaces(DFDocument *doc, DFNode *node, char *used, Namesp
 static void writeNamespaceDeclarations(Serialization *serialization, DFNode *node)
 {
     NamespaceID count = DFNameMapNamespaceCount(serialization->doc->map);
-    char *used = (char *)calloc(1,count);
+    char *used = (char *)xcalloc(1,count);
     findUsedNamespaces(serialization->doc,node,used,count);
     for (NamespaceID nsId = 1; nsId < count; nsId++) { // don't write null namespace
         if (used[nsId]) {
@@ -389,7 +392,7 @@ static void writeAttributes(Serialization *serialization, DFNode *element)
 {
     // Sort the keys by their tag, to ensure that we always write attributes out in the same order.
     // This is important for automated tests which rely on consistent output for a given XML tree.
-    DFAttribute *attrs = (DFAttribute *)malloc(element->attrsCount*sizeof(DFAttribute));
+    DFAttribute *attrs = (DFAttribute *)xmalloc(element->attrsCount*sizeof(DFAttribute));
     memcpy(attrs,element->attrs,element->attrsCount*sizeof(DFAttribute));
     qsort(attrs,element->attrsCount,sizeof(DFAttribute),compareAttrs);
 
@@ -608,7 +611,7 @@ char *DFSerializeXMLString(DFDocument *doc, NamespaceID defaultNS, int indent)
 {
     DFBuffer *buf = DFBufferNew();
     DFSerializeXMLBuffer(doc,defaultNS,indent,buf);
-    char *result = strdup(buf->data);
+    char *result = xstrdup(buf->data);
     DFBufferRelease(buf);
     return result;
 }

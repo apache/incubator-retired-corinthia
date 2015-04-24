@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "TextPackage.h"
@@ -29,10 +32,10 @@
 
 static TextPackage *TextPackageNew(void)
 {
-    TextPackage *package = (TextPackage *)calloc(1,sizeof(TextPackage));
+    TextPackage *package = (TextPackage *)xcalloc(1,sizeof(TextPackage));
     package->retainCount = 1;
-    package->items = DFHashTableNew((DFCopyFunction)strdup,free);
-    package->keys = (char **)calloc(1,sizeof(char *));
+    package->items = DFHashTableNew((DFCopyFunction)xstrdup,free);
+    package->keys = (char **)xcalloc(1,sizeof(char *));
     return package;
 }
 
@@ -98,7 +101,7 @@ static int parsePackage(TextPackage *package, const char *string, const char *pa
     }
 
 
-    char *currentKey = strdup("");
+    char *currentKey = xstrdup("");
     DFBuffer *currentValue = DFBufferNew();
     const char **lines = DFStringSplit(replaced->data,"\n",0);
     for (int lineno = 0; lines[lineno]; lineno++) {
@@ -108,8 +111,8 @@ static int parsePackage(TextPackage *package, const char *string, const char *pa
             DFBufferFormat(currentValue,"%s\n",line);
         }
         else if (DFStringHasPrefix(line,"#item ")) {
-            package->keys = (char **)realloc(package->keys,(package->nkeys+2)*sizeof(char *));
-            package->keys[package->nkeys++] = strdup(currentKey);
+            package->keys = (char **)xrealloc(package->keys,(package->nkeys+2)*sizeof(char *));
+            package->keys[package->nkeys++] = xstrdup(currentKey);
             package->keys[package->nkeys] = NULL;
             DFHashTableAdd(package->items,currentKey,currentValue->data);
             free(currentKey);
@@ -125,8 +128,8 @@ static int parsePackage(TextPackage *package, const char *string, const char *pa
             return 0;
         }
     }
-    package->keys = (char **)realloc(package->keys,(package->nkeys+2)*sizeof(char *));
-    package->keys[package->nkeys++] = strdup(currentKey);
+    package->keys = (char **)xrealloc(package->keys,(package->nkeys+2)*sizeof(char *));
+    package->keys[package->nkeys++] = xstrdup(currentKey);
     package->keys[package->nkeys] = NULL;
     DFHashTableAdd(package->items,currentKey,currentValue->data);
 

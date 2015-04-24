@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "OPC.h"
@@ -32,11 +35,11 @@
 
 static OPCRelationship *OPCRelationshipNew(const char *rId, const char *type, const char *target, int external)
 {
-    OPCRelationship *rel = (OPCRelationship *)calloc(1,sizeof(OPCRelationship));
+    OPCRelationship *rel = (OPCRelationship *)xcalloc(1,sizeof(OPCRelationship));
     rel->retainCount = 1;
-    rel->rId = (rId != NULL) ? strdup(rId) : NULL;
-    rel->type = (type != NULL) ? strdup(type) : NULL;
-    rel->target = (target != NULL) ? strdup(target) : NULL;
+    rel->rId = (rId != NULL) ? xstrdup(rId) : NULL;
+    rel->type = (type != NULL) ? xstrdup(type) : NULL;
+    rel->target = (target != NULL) ? xstrdup(target) : NULL;
     rel->external = external;
     return rel;
 }
@@ -73,7 +76,7 @@ struct OPCRelationshipSet {
 
 OPCRelationshipSet *OPCRelationshipSetNew(void)
 {
-    OPCRelationshipSet *set = (OPCRelationshipSet *)calloc(1,sizeof(OPCRelationshipSet));
+    OPCRelationshipSet *set = (OPCRelationshipSet *)xcalloc(1,sizeof(OPCRelationshipSet));
     set->relsById = DFHashTableNew((DFCopyFunction)OPCRelationshipRetain,(DFFreeFunction)OPCRelationshipRelease);
     set->relsByType = DFHashTableNew((DFCopyFunction)OPCRelationshipRetain,(DFFreeFunction)OPCRelationshipRelease);
     set->relsByDetail = DFHashTableNew((DFCopyFunction)OPCRelationshipRetain,(DFFreeFunction)OPCRelationshipRelease);
@@ -187,10 +190,10 @@ DFDocument *OPCRelationshipSetToDocument(OPCRelationshipSet *set)
 
 OPCPart *OPCPartNew(const char *URI, const char *contentType)
 {
-    OPCPart *part = (OPCPart *)calloc(1,sizeof(OPCPart));
+    OPCPart *part = (OPCPart *)xcalloc(1,sizeof(OPCPart));
     part->retainCount = 1;
-    part->URI = (URI != NULL) ? strdup(URI) : NULL;
-    part->contentType = (contentType != NULL) ? strdup(contentType) : NULL;
+    part->URI = (URI != NULL) ? xstrdup(URI) : NULL;
+    part->contentType = (contentType != NULL) ? xstrdup(contentType) : NULL;
     part->relationships = OPCRelationshipSetNew();
     return part;
 }
@@ -225,9 +228,9 @@ struct OPCContentTypes {
 
 static OPCContentTypes *OPCContentTypesNew(void)
 {
-    OPCContentTypes *ct = (OPCContentTypes *)calloc(1,sizeof(OPCContentTypes));
-    ct->defaultsByExtension = DFHashTableNew((DFCopyFunction)strdup,free);
-    ct->overridesByPartName = DFHashTableNew((DFCopyFunction)strdup,free);
+    OPCContentTypes *ct = (OPCContentTypes *)xcalloc(1,sizeof(OPCContentTypes));
+    ct->defaultsByExtension = DFHashTableNew((DFCopyFunction)xstrdup,free);
+    ct->overridesByPartName = DFHashTableNew((DFCopyFunction)xstrdup,free);
     return ct;
 }
 
@@ -351,7 +354,7 @@ void OPCContentTypesRemoveOverride(OPCContentTypes *ct, const char *partName)
 
 static OPCPackage *OPCPackageNew(DFStorage *storage)
 {
-    OPCPackage *pkg = (OPCPackage *)calloc(1,sizeof(OPCPackage));
+    OPCPackage *pkg = (OPCPackage *)xcalloc(1,sizeof(OPCPackage));
     pkg->storage = DFStorageRetain(storage);
     pkg->contentTypes = OPCContentTypesNew();
     pkg->relationships = OPCRelationshipSetNew();

@@ -1,16 +1,19 @@
-// Copyright 2011-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 // FIXME: The TOC/ItemList stuff won't work with Undo, because we're making DOM mutations in
 // response to other DOM mutations, so at undo time the changes will be made twice
@@ -1099,7 +1102,19 @@ var Outline_scheduleUpdateStructure;
             }
         });
 
+        // Ensure the cursor or selection start/end positions are valid positions that the
+        // user is allowed to move to. This ensures we get an accurate rect for each position,
+        // avoiding an ugly effect where the cursor occupies the entire height of the document
+        // and is displayed on the far-left edge of the editing area.
+        var selRange = Selection_get();
+        if (selRange != null) {
+            var start = Position_closestMatchForwards(selRange.start,Position_okForMovement);
+            var end = Position_closestMatchForwards(selRange.end,Position_okForMovement);
+            Selection_set(start.node,start.offset,end.node,end.offset);
+        }
+
         scheduleUpdateStructure();
+        PostponedActions_add(Cursor_ensureCursorVisible);
         PostponedActions_add(UndoManager_newGroup);
     }
 

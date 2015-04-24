@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include <errno.h>
@@ -21,7 +24,7 @@
 
 // This file contains functions that are applicable to all Unix-based platforms, including Linux, iOS, and OS X
 
-#ifndef WIN32
+#ifndef _WINDOWS
 
 #include <pthread.h>
 #include <dirent.h>
@@ -47,7 +50,7 @@ int DFMkdirIfAbsent(const char *path, char **errmsg)
     if ((mkdir(path,0777) != 0) && (errno != EEXIST)) {
         printf("DFMkdirIfAbsent: errno = %d (%s)\n",errno,strerror(errno));
         if (errmsg != NULL)
-            *errmsg = strdup(strerror(errno));
+            *errmsg = xstrdup(strerror(errno));
         return 0;
     }
     return 1;
@@ -62,7 +65,7 @@ int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DF
         if (errmsg != NULL) {
             char temp[1024];
             snprintf(temp,1024,"%s: %s",relPath,strerror(errno));
-            *errmsg = strdup(temp);
+            *errmsg = xstrdup(temp);
         }
         return 0;
     }
@@ -77,8 +80,8 @@ int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DF
         size_t absSubPathLen = strlen(absPath) + 1 + strlen(result->d_name);
         size_t relSubPathLen = strlen(relPath) + 1 + strlen(result->d_name);
 
-        char *absSubPath = (char *)malloc(absSubPathLen+1);
-        char *relSubPath = (char *)malloc(relSubPathLen+1);
+        char *absSubPath = (char *)xmalloc(absSubPathLen+1);
+        char *relSubPath = (char *)xmalloc(relSubPathLen+1);
 
         snprintf(absSubPath,absSubPathLen+1,"%s/%s",absPath,result->d_name);
         snprintf(relSubPath,relSubPathLen+1,"%s/%s",relPath,result->d_name);
@@ -89,8 +92,8 @@ int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DF
         else
             entryName = relSubPath;
 
-        *listptr = (DFDirEntryList *)calloc(1,sizeof(DFDirEntryList));
-        (*listptr)->name = strdup(entryName);
+        *listptr = (DFDirEntryList *)xcalloc(1,sizeof(DFDirEntryList));
+        (*listptr)->name = xstrdup(entryName);
         listptr = &(*listptr)->next;
 
         struct stat statbuf;

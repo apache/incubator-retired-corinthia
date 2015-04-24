@@ -1,17 +1,21 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
+#include "DFPlatform.h"
 #include "DFArray.h"
 #include "DFCommon.h"
 #include <assert.h>
@@ -29,7 +33,7 @@ struct DFArray {
 
 DFArray *DFArrayNew(DFCopyFunction copy, DFFreeFunction free)
 {
-    DFArray *array = (DFArray *)calloc(1,sizeof(DFArray));
+    DFArray *array = (DFArray *)xcalloc(1,sizeof(DFArray));
     array->retainCount = 1;
     array->copyFun = copy;
     array->freeFun = free;
@@ -86,7 +90,7 @@ void DFArrayAppend(DFArray *array, void *item)
             array->alloc = 1;
         else
             array->alloc *= 2;
-        array->items = (void **)realloc(array->items,array->alloc*sizeof(void *));
+        array->items = (void **)xrealloc(array->items,array->alloc*sizeof(void *));
     }
     array->items[array->count++] = item;
 }
@@ -127,7 +131,7 @@ static void DFSortInternal(char *base, size_t nel, size_t width,
 
 void DFSort(void *base, size_t nel, size_t width, void *thunk, int (*compar)(void *, const void *, const void *))
 {
-    void *work = malloc(nel*width);
+    void *work = xmalloc(nel*width);
     DFSortInternal(base,nel,width,thunk,compar,work);
     free(work);
 }

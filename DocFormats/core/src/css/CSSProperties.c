@@ -1,22 +1,26 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "CSSProperties.h"
 #include "CSS.h"
 #include "DFString.h"
 #include "DFHashTable.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -149,9 +153,9 @@ CSSProperties *CSSPropertiesNewWithExtra(CSSProperties *orig, const char *string
     DFHashTable *extra = CSSParseProperties(string);
     CSSExpandProperties(extra);
 
-    CSSProperties *result = (CSSProperties *)calloc(1,sizeof(CSSProperties));
+    CSSProperties *result = (CSSProperties *)xcalloc(1,sizeof(CSSProperties));
     result->retainCount = 1;
-    result->hashTable = DFHashTableNew((DFCopyFunction)strdup,free);
+    result->hashTable = DFHashTableNew((DFCopyFunction)xstrdup,free);
     const char **names = DFHashTableCopyKeys(orig->hashTable);
     for (int i = 0; names[i]; i++) {
         const char *value = DFHashTableLookup(orig->hashTable,names[i]);
@@ -173,10 +177,10 @@ CSSProperties *CSSPropertiesNewWithExtra(CSSProperties *orig, const char *string
 
 CSSProperties *CSSPropertiesNewWithRaw(DFHashTable *raw)
 {
-    CSSProperties *result = (CSSProperties *)calloc(1,sizeof(CSSProperties));
+    CSSProperties *result = (CSSProperties *)xcalloc(1,sizeof(CSSProperties));
     result->retainCount = 1;
 
-    result->hashTable = DFHashTableNew((DFCopyFunction)strdup,free);
+    result->hashTable = DFHashTableNew((DFCopyFunction)xstrdup,free);
     if (raw != NULL)
         CSSPropertiesUpdateFromRaw(result,raw);
 

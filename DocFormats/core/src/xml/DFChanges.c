@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "DFChanges.h"
@@ -27,7 +30,7 @@ static char *fullNameForTag(DFDocument *doc, Tag tag)
     const TagDecl *tagDecl = DFNameMapNameForTag(doc->map,tag);
     const NamespaceDecl *nsDecl = DFNameMapNamespaceForID(doc->map,tagDecl->namespaceID);
     if ((nsDecl->prefix == NULL) || (tagDecl->namespaceID == NAMESPACE_HTML))
-        return strdup(tagDecl->localName);
+        return xstrdup(tagDecl->localName);
     else
         return DFFormatString("%s:%s",nsDecl->prefix,tagDecl->localName);
 }
@@ -78,7 +81,7 @@ static void nodeDetailToBuffer(DFNode *node, DFBuffer *output)
                     if (strlen(quoted) >= 2)
                         sub = DFSubstring(quoted,1,strlen(quoted)-2);
                     else
-                        sub = strdup(quoted);
+                        sub = xstrdup(quoted);
                     DFBufferFormat(output,"%s</%s>",quoted,elementName);
                     free(sub);
                     free(quoted);
@@ -216,7 +219,7 @@ char *DFChangesToString(DFNode *root)
 {
     DFBuffer *output = DFBufferNew();
     DFChangesToStringRecursive(root,0,output);
-    char *result = strdup(output->data);
+    char *result = xstrdup(output->data);
     DFBufferRelease(output);
     return result;
 }

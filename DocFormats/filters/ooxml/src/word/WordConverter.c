@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "WordConverter.h"
@@ -455,7 +458,7 @@ static char *extractPrefix(DFNode *node, const char *counterName)
     int foundSeq = 0;
     int foundContent = 0;
     extractPrefixRecursive(node,counterName,result,&foundSeq,&foundContent);
-    char *str = strdup(result->data);
+    char *str = xstrdup(result->data);
     DFBufferRelease(result);
     return str;
 }
@@ -557,14 +560,13 @@ static void Word_postProcessHTMLDoc(WordConverter *conv)
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static WordConverter *WordConverterNew(DFDocument *html, DFStorage *abstractStorage,
-                                       const char *idPrefix, WordPackage *package)
+static WordConverter *WordConverterNew(DFDocument *html, DFStorage *abstractStorage, WordPackage *package, const char *idPrefix)
 {
-    WordConverter *converter = (WordConverter *)calloc(1,sizeof(WordConverter));
+    WordConverter *converter = (WordConverter *)xcalloc(1,sizeof(WordConverter));
     converter->html = DFDocumentRetain(html);
     converter->abstractStorage = DFStorageRetain(abstractStorage);
     assert(DFStorageFormat(converter->abstractStorage) == DFFileFormatHTML);
-    converter->idPrefix = DFStrDup(idPrefix);
+    converter->idPrefix = (idPrefix != NULL) ? xstrdup(idPrefix) : xstrdup("word");
     converter->package = WordPackageRetain(package);
     converter->styles = WordSheetNew(converter->package->styles);
     converter->numbering = WordNumberingNew(converter->package);
@@ -573,7 +575,7 @@ static WordConverter *WordConverterNew(DFDocument *html, DFStorage *abstractStor
     converter->objects = WordObjectsNew(converter->package);
     converter->footnotes = WordNoteGroupNewFootnotes(converter->package->footnotes);
     converter->endnotes = WordNoteGroupNewEndnotes(converter->package->endnotes);
-    converter->supportedContentTypes = DFHashTableNew((DFCopyFunction)strdup,free);
+    converter->supportedContentTypes = DFHashTableNew((DFCopyFunction)xstrdup,free);
     DFHashTableAdd(converter->supportedContentTypes,"jpg","image/jpeg");
     DFHashTableAdd(converter->supportedContentTypes,"jpeg","image/jpeg");
     DFHashTableAdd(converter->supportedContentTypes,"tif","image/tiff");
@@ -674,9 +676,7 @@ DFNode *WordConverterGetConcrete(WordPutData *put, DFNode *abstract)
     return node;
 }
 
-int WordConverterGet(DFDocument *html, DFStorage *abstractStorage,
-                     const char *idPrefix, WordPackage *package,
-                     DFError **error)
+int WordConverterGet(DFDocument *html, DFStorage *abstractStorage, WordPackage *package, const char *idPrefix, DFError **error)
 {
     if (package->document == NULL) {
         DFErrorFormat(error,"document.xml not found");
@@ -692,7 +692,7 @@ int WordConverterGet(DFDocument *html, DFStorage *abstractStorage,
     int haveFields = Word_simplifyFields(package);
     Word_mergeRuns(package);
 
-    WordConverter *converter = WordConverterNew(html,abstractStorage,idPrefix,package);
+    WordConverter *converter = WordConverterNew(html,abstractStorage,package,idPrefix);
     converter->haveFields = haveFields;
     WordAddNbsps(converter->package->document);
     WordFixLists(converter);
@@ -707,6 +707,7 @@ int WordConverterGet(DFDocument *html, DFStorage *abstractStorage,
     get.conv = converter;
     DFNode *abstract = WordDocumentLens.get(&get,wordDocument);
     DFAppendChild(converter->html->docNode,abstract);
+    converter->html->root = abstract;
     Word_postProcessHTMLDoc(converter);
 
     HTMLAddExternalStyleSheet(converter->html,"reset.css");
@@ -777,7 +778,7 @@ static void updateListTypes(WordPutData *put)
 
         if (!DFStringEquals(wordType,htmlType)) {
             // Make a copy of numId, as it may be freed during the first call to DFHashTableRemove
-            char *numIdCopy = strdup(numId);
+            char *numIdCopy = xstrdup(numId);
             DFHashTableRemove(put->numIdByHtmlId,htmlId);
             DFHashTableRemove(put->htmlIdByNumId,numIdCopy);
             free(numIdCopy);
@@ -810,9 +811,7 @@ static void addMissingDefaultStyles(WordConverter *converter)
     }
 }
 
-int WordConverterPut(DFDocument *html, DFStorage *abstractStorage,
-                     const char *idPrefix, WordPackage *package,
-                     DFError **error)
+int WordConverterPut(DFDocument *html, DFStorage *abstractStorage, WordPackage *package, const char *idPrefix, DFError **error)
 {
     if (package->document == NULL) {
         DFErrorFormat(error,"document.xml not found");
@@ -828,7 +827,7 @@ int WordConverterPut(DFDocument *html, DFStorage *abstractStorage,
     HTML_normalizeDocument(html);
     HTML_pushDownInlineProperties(html->docNode);
 
-    WordConverter *converter = WordConverterNew(html,abstractStorage,idPrefix,package);
+    WordConverter *converter = WordConverterNew(html,abstractStorage,package,idPrefix);
 
     // FIXME: Need a more reliable way of telling whether this is a new document or not - it could be that the
     // document already existed (with styles set up) but did not have any content
@@ -872,8 +871,8 @@ int WordConverterPut(DFDocument *html, DFStorage *abstractStorage,
     WordPutData put;
     put.conv = converter;
     put.contentDoc = converter->package->document;
-    put.numIdByHtmlId = DFHashTableNew((DFCopyFunction)strdup,free);
-    put.htmlIdByNumId = DFHashTableNew((DFCopyFunction)strdup,free);
+    put.numIdByHtmlId = DFHashTableNew((DFCopyFunction)xstrdup,free);
+    put.htmlIdByNumId = DFHashTableNew((DFCopyFunction)xstrdup,free);
 
     // Make sure we update styles.xml from the CSS stylesheet *before* doing any conversion of the content,
     // since the latter requires a full mapping of CSS selectors to styleIds to be in place.
@@ -931,13 +930,13 @@ char *WordStyleIdForStyle(CSSStyle *style)
     char *resStyleId = NULL;
 
     if (!strcmp(selector,"table.Normal_Table"))
-        return strdup("TableNormal");
+        return xstrdup("TableNormal");
     if (!strcmp(selector,"table.Table_Grid"))
-        return strdup("TableGrid");
+        return xstrdup("TableGrid");
     if (!strcmp(selector,"span.Default_Paragraph_Font"))
-        return strdup("DefaultParagraphFont");
+        return xstrdup("DefaultParagraphFont");
     if (!strcmp(selector,"p.List_Paragraph"))
-        return strdup("ListParagraph");
+        return xstrdup("ListParagraph");
 
     int headingLevel = CSSSelectorHeadingLevel(selector);
     if (headingLevel != 0) {
@@ -953,23 +952,23 @@ char *WordStyleIdForStyle(CSSStyle *style)
     }
 
     if (!strcmp(selector,"span.Heading1Char"))
-        return strdup("Heading1Char");
+        return xstrdup("Heading1Char");
     if (!strcmp(selector,"span.Heading2Char"))
-        return strdup("Heading2Char");
+        return xstrdup("Heading2Char");
     if (!strcmp(selector,"span.Heading3Char"))
-        return strdup("Heading3Char");
+        return xstrdup("Heading3Char");
     if (!strcmp(selector,"span.Heading4Char"))
-        return strdup("Heading4Char");
+        return xstrdup("Heading4Char");
     if (!strcmp(selector,"span.Heading5Char"))
-        return strdup("Heading5Char");
+        return xstrdup("Heading5Char");
     if (!strcmp(selector,"span.Heading6Char"))
-        return strdup("Heading6Char");
+        return xstrdup("Heading6Char");
     if (!strcmp(selector,"span.Heading7Char"))
-        return strdup("Heading7Char");
+        return xstrdup("Heading7Char");
     if (!strcmp(selector,"span.Heading8Char"))
-        return strdup("Heading8Char");
+        return xstrdup("Heading8Char");
     if (!strcmp(selector,"span.Heading9Char"))
-        return strdup("Heading9Char");
+        return xstrdup("Heading9Char");
 
     char *className = CSSSelectorCopyClassName(selector);
     switch (CSSSelectorGetTag(selector)) {
@@ -1015,7 +1014,7 @@ char *WordStyleIdForStyle(CSSStyle *style)
     if (resStyleId == NULL) {
         // Note: selector here may start with . (i.e. applies to all elements)
         // FIXME: not covered by tests
-        resStyleId = strdup(selector);
+        resStyleId = xstrdup(selector);
     }
 
     return resStyleId;

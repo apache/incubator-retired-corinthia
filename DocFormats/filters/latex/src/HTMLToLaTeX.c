@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "HTMLToLaTeX.h"
@@ -40,9 +43,9 @@ struct LaTeXConverter {
 
 LaTeXConverter *LaTeXConverterNew(DFDocument *htmlDoc)
 {
-    LaTeXConverter *conv = (LaTeXConverter *)calloc(1,sizeof(LaTeXConverter));
+    LaTeXConverter *conv = (LaTeXConverter *)xcalloc(1,sizeof(LaTeXConverter));
     conv->htmlDoc = DFDocumentRetain(htmlDoc);
-    conv->packages = DFHashTableNew((DFCopyFunction)strdup,free);
+    conv->packages = DFHashTableNew((DFCopyFunction)xstrdup,free);
     return conv;
 }
 
@@ -232,7 +235,7 @@ static void inlineToLaTeX(LaTeXConverter *conv, DFBuffer *output, DFNode *node)
             }
 
             if (texWidth == NULL)
-                texWidth = strdup("");;
+                texWidth = xstrdup("");;
 
             const char *src = DFGetAttribute(node,HTML_SRC);
             if (src != NULL) {
@@ -681,7 +684,7 @@ char *HTMLToLaTeX(DFDocument *htmlDoc)
 
     DFBufferFormat(mainOutput,"\\end{document}\n");
 
-    char *result = strdup(mainOutput->data);
+    char *result = xstrdup(mainOutput->data);
     DFBufferRelease(makeTitleOutput);
     DFBufferRelease(documentOutput);
     DFBufferRelease(mainOutput);

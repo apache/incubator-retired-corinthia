@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "WordBookmark.h"
 #include "WordLenses.h"
@@ -23,6 +26,7 @@
 #include "DFHTML.h"
 #include "DFString.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
@@ -68,10 +72,10 @@ int WordBookmarkTypeHasLabel(WordBookmarkType type)
 
 WordBookmark *WordBookmarkNew(const char *bookmarkId1, const char *bookmarkName1)
 {
-    WordBookmark *bookmark = (WordBookmark *)calloc(1,sizeof(WordBookmark));
+    WordBookmark *bookmark = (WordBookmark *)xcalloc(1,sizeof(WordBookmark));
     bookmark->retainCount = 1;
-    bookmark->bookmarkId = (bookmarkId1 != NULL) ? strdup(bookmarkId1) : NULL;
-    bookmark->bookmarkName = (bookmarkName1 != NULL) ? strdup(bookmarkName1) : NULL;
+    bookmark->bookmarkId = (bookmarkId1 != NULL) ? xstrdup(bookmarkId1) : NULL;
+    bookmark->bookmarkName = (bookmarkName1 != NULL) ? xstrdup(bookmarkName1) : NULL;
     bookmark->type = WordBookmarkUnknown;
     return bookmark;
 }
@@ -160,7 +164,7 @@ void findLabel(WordBookmark *bookmark)
             DFNodeTextToBuffer(child,buffer);
     }
     free(bookmark->label);
-    bookmark->label = strdup(buffer->data);
+    bookmark->label = xstrdup(buffer->data);
     DFBufferRelease(buffer);
 }
 
@@ -438,7 +442,7 @@ struct WordRawBookmark {
 
 WordRawBookmark *WordRawBookmarkNew(void)
 {
-    WordRawBookmark *bookmark = (WordRawBookmark *)calloc(1,sizeof(WordRawBookmark));
+    WordRawBookmark *bookmark = (WordRawBookmark *)xcalloc(1,sizeof(WordRawBookmark));
     bookmark->startOffset = -1;
     bookmark->endOffset = -1;
     return bookmark;
@@ -532,8 +536,8 @@ static void collapseRecursive(DFNode *node, DFHashTable *bookmarksById)
             case WORD_BOOKMARKEND: {
                 DFArray *startElements = DFArrayNew(NULL,NULL);
                 DFArray *endElements = DFArrayNew(NULL,NULL);
-                DFHashTable *startIds = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
-                DFHashTable *endIds = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+                DFHashTable *startIds = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
+                DFHashTable *endIds = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
                 DFNode *n;
                 for (n = child;
                      (n != NULL) && ((n->tag == WORD_BOOKMARKSTART) || (n->tag == WORD_BOOKMARKEND));

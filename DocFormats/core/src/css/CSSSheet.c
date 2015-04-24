@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "CSSSheet.h"
 #include "CSS.h"
@@ -22,6 +25,7 @@
 #include "DFHashTable.h"
 #include "DFBuffer.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
@@ -40,7 +44,7 @@ struct CSSSheet {
 
 CSSSheet *CSSSheetNew(void)
 {
-    CSSSheet *sheet = (CSSSheet *)calloc(1,sizeof(CSSSheet));
+    CSSSheet *sheet = (CSSSheet *)xcalloc(1,sizeof(CSSSheet));
     sheet->retainCount = 1;
     sheet->_styles = DFHashTableNew((DFCopyFunction)CSSStyleRetain,(DFFreeFunction)CSSStyleRelease);
     sheet->_defaultStyles = DFHashTableNew((DFCopyFunction)CSSStyleRetain,(DFFreeFunction)CSSStyleRelease);
@@ -107,7 +111,7 @@ CSSStyle *CSSSheetFlattenedStyle(CSSSheet *sheet, CSSStyle *orig)
     // FIXME: Need tests for parent cycles
     CSSStyle *ancestor = orig;
     CSSStyle *result = CSSStyleNew("temp");
-    DFHashTable *visited = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFHashTable *visited = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
     const char **allSuffixes = NULL;
     while (1) {
         free(allSuffixes);
@@ -157,7 +161,7 @@ DFHashTable *CSSSheetRules(CSSSheet *sheet)
             free(escapedClassName);
         }
         else {
-            baseSelector = strdup(elementName);
+            baseSelector = xstrdup(elementName);
         }
 
         CSSStyle *flattenedStyle = CSSSheetFlattenedStyle(sheet,origStyle);
@@ -221,7 +225,7 @@ char *CSSSheetCopyText(CSSSheet *sheet)
         free(sortedSuffixes);
     }
     free(allSelectors);
-    char *str = strdup(result->data);
+    char *str = xstrdup(result->data);
     DFBufferRelease(result);
     return str;
 }
@@ -233,7 +237,7 @@ static void breakCycles(CSSSheet *sheet)
     for (int i = 0; allSelectors[i]; i++) {
         const char *selector = allSelectors[i];
         CSSStyle *style = CSSSheetLookupSelector(sheet,selector,0,0);
-        DFHashTable *visited = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+        DFHashTable *visited = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
         int depth = 0;
 
         while (style != NULL) {
@@ -264,7 +268,7 @@ static const char **reverseTopologicalSortedSelectors(CSSSheet *sheet)
             depth++;
 
         while (DFArrayCount(selectorsByDepth) < depth+1) {
-            DFArray *array = DFArrayNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+            DFArray *array = DFArrayNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
             DFArrayAppend(selectorsByDepth,array);
             DFArrayRelease(array);
         }
@@ -274,7 +278,7 @@ static const char **reverseTopologicalSortedSelectors(CSSSheet *sheet)
     }
     free(allSelectors);
 
-    DFArray *sortedSelectors = DFArrayNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFArray *sortedSelectors = DFArrayNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
     for (size_t i = DFArrayCount(selectorsByDepth); i > 0; i--) {
         DFArray *atDepth = DFArrayItemAt(selectorsByDepth,i-1);
         for (size_t j = 0; j < DFArrayCount(atDepth); j++)
@@ -349,7 +353,7 @@ static void updateFromRawCSSRules(CSSSheet *sheet, DFHashTable *rules)
         if (!strncmp(constSelector,".",1))
             selector = DFFormatString("p%s",constSelector); // FIXME: Not covered by tests
         else
-            selector = strdup(constSelector);
+            selector = xstrdup(constSelector);
 
         DFHashTable *raw = DFHashTableLookup(rules,constSelector);
         char *baseId = NULL;
@@ -491,7 +495,7 @@ static DFHashTable *getStylesByHeadingLevel(CSSSheet *sheet)
         CSSStyle *style = CSSSheetLookupSelector(sheet,allSelectors[i],0,0);
         if (style->headingLevel > 0) {
             int headingLevel = style->headingLevel;
-            StyleList *item = (StyleList *)calloc(1,sizeof(StyleList));
+            StyleList *item = (StyleList *)xcalloc(1,sizeof(StyleList));
             item->style = CSSStyleRetain(style);
             item->next = DFHashTableLookupInt(stylesByHeadingLevel,headingLevel);
             DFHashTableAddInt(stylesByHeadingLevel,headingLevel,item);

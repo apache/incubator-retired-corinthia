@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "WordNumbering.h"
@@ -52,11 +55,11 @@ WordNumLevel *WordNumLevelNew(DFNode *element)
     if (ilvl == NULL)
         ilvl = "0";;
 
-    WordNumLevel *level = (WordNumLevel *)calloc(1,sizeof(WordNumLevel));
+    WordNumLevel *level = (WordNumLevel *)xcalloc(1,sizeof(WordNumLevel));
 
     level->ilvl = atoi(ilvl);
-    level->numFmt = (numFmt != NULL) ? strdup(numFmt) : NULL;
-    level->lvlText = (lvlText != NULL) ? strdup(lvlText) : NULL;
+    level->numFmt = (numFmt != NULL) ? xstrdup(numFmt) : NULL;
+    level->lvlText = (lvlText != NULL) ? xstrdup(lvlText) : NULL;
     level->element = element;
 
     return level;
@@ -116,8 +119,8 @@ const char *WordNumLevelToListStyleType(WordNumLevel *level)
 
 static WordAbstractNum *WordAbstractNumNew(const char *abstractNumId1, DFNode *element1)
 {
-    WordAbstractNum *abs = (WordAbstractNum *)calloc(1,sizeof(WordAbstractNum));
-    abs->abstractNumId = (abstractNumId1 != NULL) ? strdup(abstractNumId1) : NULL;
+    WordAbstractNum *abs = (WordAbstractNum *)xcalloc(1,sizeof(WordAbstractNum));
+    abs->abstractNumId = (abstractNumId1 != NULL) ? xstrdup(abstractNumId1) : NULL;
     abs->element = element1;
     abs->levels = DFHashTableNew(NULL,(DFFreeFunction)WordNumLevelFree);
     return abs;
@@ -148,8 +151,8 @@ WordNumLevel *WordAbstractNumGetLevel(WordAbstractNum *abs, int ilvl)
 
 static WordConcreteNum *WordConcreteNumNew(const char *numId, DFNode *element, WordAbstractNum *abstractNum)
 {
-    WordConcreteNum *con = (WordConcreteNum *)calloc(1,sizeof(WordConcreteNum));
-    con->numId = (numId != NULL) ? strdup(numId) : NULL;
+    WordConcreteNum *con = (WordConcreteNum *)xcalloc(1,sizeof(WordConcreteNum));
+    con->numId = (numId != NULL) ? xstrdup(numId) : NULL;
     con->element = element;
     con->abstractNum = abstractNum;
     return con;
@@ -192,13 +195,13 @@ static void WordNumberingRegisterType(WordNumbering *num, ListStyleType type, co
 
 WordNumbering *WordNumberingNew(WordPackage *package)
 {
-    WordNumbering *num = (WordNumbering *)calloc(1,sizeof(WordNumbering));
+    WordNumbering *num = (WordNumbering *)xcalloc(1,sizeof(WordNumbering));
     num->_package = WordPackageRetain(package);
     num->_abstractNums = DFHashTableNew(NULL,(DFFreeFunction)WordAbstractNumFree);
     num->_concreteNums = DFHashTableNew(NULL,(DFFreeFunction)WordConcreteNumFree);
     num->_nextAbstractId = 1;
     num->_nextConcreteId = 1;
-    num->_listStyleTypes = DFHashTableNew((DFCopyFunction)strdup,free);
+    num->_listStyleTypes = DFHashTableNew((DFCopyFunction)xstrdup,free);
 
     WordNumberingRegisterType(num,ListStyleTypeDecimal,"decimal");
     WordNumberingRegisterType(num,ListStyleTypeDecimalLeadingZero,"decimal-leading-zero");

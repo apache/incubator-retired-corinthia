@@ -1,22 +1,25 @@
-// Copyright 2011-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 var Tables_insertTable;
 var Tables_addAdjacentRow;
 var Tables_addAdjacentColumn;
-var Tables_deleteOneRow;
-var Tables_deleteOneColumn;
+var Tables_removeAdjacentRow;
+var Tables_removeAdjacentColumn;
 var Tables_deleteRegion;
 var Tables_clearCells;
 var Tables_mergeCells;
@@ -278,19 +281,84 @@ var TableRegion_splitCells;
         }
     }
 
+    function tableAtRightOfRange(range)
+    {
+        if (!Range_isEmpty(range))
+            return null;
+
+        var pos = Position_preferElementPosition(range.start);
+        if ((pos.node.nodeType == Node.ELEMENT_NODE) &&
+            (pos.offset < pos.node.childNodes.length) &&
+            (pos.node.childNodes[pos.offset]._type == HTML_TABLE)) {
+            var element = pos.node.childNodes[pos.offset];
+            var table = Tables_analyseStructure(element);
+            return table;
+        }
+        return null;
+    }
+
+    function tableAtLeftOfRange(range)
+    {
+        if (!Range_isEmpty(range))
+            return null;
+
+        var pos = Position_preferElementPosition(range.start);
+        if ((pos.node.nodeType == Node.ELEMENT_NODE) &&
+            (pos.offset > 0) &&
+            (pos.node.childNodes[pos.offset-1]._type == HTML_TABLE)) {
+            var element = pos.node.childNodes[pos.offset-1];
+            var table = Tables_analyseStructure(element);
+            return table;
+        }
+        return null;
+    }
+
+    function insertRowAbove(table,row)
+    {
+        var cell = Table_get(table,row,0);
+        var oldTR = cell.element.parentNode;
+        var newTR = DOM_createElement(document,"TR");
+        DOM_insertBefore(oldTR.parentNode,newTR,oldTR);
+        populateNewRow(table,newTR,row-1,row);
+    }
+
+    function insertRowBelow(table,row)
+    {
+        var cell = Table_get(table,row,0);
+        var oldTR = cell.element.parentNode;
+        var newTR = DOM_createElement(document,"TR");
+        DOM_insertBefore(oldTR.parentNode,newTR,oldTR.nextSibling);
+        populateNewRow(table,newTR,row+1,row);
+    }
+
+    function insertRowAdjacentToRange(range)
+    {
+        var table;
+
+        table = tableAtLeftOfRange(range);
+        if (table != null) {
+            insertRowBelow(table,table.numRows-1);
+            return;
+        }
+
+        table = tableAtRightOfRange(range);
+        if (table != null) {
+            insertRowAbove(table,0);
+            return;
+        }
+    }
+
     // public
     Tables_addAdjacentRow = function()
     {
         UndoManager_newGroup("Insert row below");
         Selection_preserveWhileExecuting(function() {
-            var region = Tables_regionFromRange(Selection_get(),true);
-            if (region != null) {
-                var cell = Table_get(region.structure,region.bottom,region.left);
-                var oldTR = cell.element.parentNode;
-                var newTR = DOM_createElement(document,"TR");
-                DOM_insertBefore(oldTR.parentNode,newTR,oldTR.nextSibling);
-                populateNewRow(region.structure,newTR,region.bottom+1,region.bottom);
-            }
+            var range = Selection_get();
+            var region = Tables_regionFromRange(range,true);
+            if (region != null)
+                insertRowBelow(region.structure,region.bottom);
+            else
+                insertRowAdjacentToRange(range);
         });
         UndoManager_newGroup();
     }
@@ -457,15 +525,40 @@ var TableRegion_splitCells;
         }
     }
 
+    function insertColumnAdjacentToRange(range)
+    {
+        var table;
+
+        table = tableAtLeftOfRange(range);
+        if (table != null) {
+            var right = table.numCols-1;
+            addColElement(table,right,right+1);
+            addColumnCells(table,right,true);
+            return;
+        }
+
+        table = tableAtRightOfRange(range);
+        if (table != null) {
+            var left = 0;
+            addColElement(table,left,left-1);
+            addColumnCells(table,left,false);
+            return;
+        }
+    }
+
     // public
     Tables_addAdjacentColumn = function()
     {
         UndoManager_newGroup("Insert column at right");
         Selection_preserveWhileExecuting(function() {
-            var region = Tables_regionFromRange(Selection_get(),true);
+            var range = Selection_get();
+            var region = Tables_regionFromRange(range,true);
             if (region != null) {
                 addColElement(region.structure,region.right,region.right+1);
                 addColumnCells(region.structure,region.right,true);
+            }
+            else {
+                insertColumnAdjacentToRange(range);
             }
         });
         UndoManager_newGroup();
@@ -529,10 +622,39 @@ var TableRegion_splitCells;
         return row;
     }
 
-    Tables_deleteOneRow = function()
+    function removeRowAdjacentToRange(range)
     {
-        var region = Tables_regionFromRange(Selection_get(),true);
-        if ((region == null) || (region.structure.numRows <= 1))
+        var table;
+
+        table = tableAtLeftOfRange(range);
+        if ((table != null) && (table.numRows >= 2)) {
+            UndoManager_newGroup("Delete one row");
+            var row = table.numRows-1;
+            Tables_deleteRegion(new TableRegion(table,row,row,0,table.numCols-1));
+            UndoManager_newGroup();
+            return;
+        }
+
+        table = tableAtRightOfRange(range);
+        if ((table != null) && (table.numRows >= 2)) {
+            UndoManager_newGroup("Delete one row");
+            Tables_deleteRegion(new TableRegion(table,0,0,0,table.numCols-1));
+            UndoManager_newGroup();
+            return;
+        }
+    }
+
+    Tables_removeAdjacentRow = function()
+    {
+        var range = Selection_get();
+        var region = Tables_regionFromRange(range,true);
+
+        if (region == null) {
+            removeRowAdjacentToRange(range);
+            return;
+        }
+
+        if (region.structure.numRows <= 1)
             return;
 
         UndoManager_newGroup("Delete one row");
@@ -585,10 +707,39 @@ var TableRegion_splitCells;
         UndoManager_newGroup();
     }
 
-    Tables_deleteOneColumn = function()
+    function removeColumnAdjacentToRange(range)
     {
-        var region = Tables_regionFromRange(Selection_get(),true);
-        if ((region == null) || (region.structure.numCols <= 1))
+        var table;
+
+        table = tableAtLeftOfRange(range);
+        if ((table != null) && (table.numCols >= 2)) {
+            UndoManager_newGroup("Delete one column");
+            var col = table.numCols-1;
+            Tables_deleteRegion(new TableRegion(table,0,table.numRows-1,col,col));
+            UndoManager_newGroup();
+            return;
+        }
+
+        table = tableAtRightOfRange(range);
+        if ((table != null) && (table.numCols >= 2)) {
+            UndoManager_newGroup("Delete one column");
+            Tables_deleteRegion(new TableRegion(table,0,table.numRows-1,0,0));
+            UndoManager_newGroup();
+            return;
+        }
+    }
+
+    Tables_removeAdjacentColumn = function()
+    {
+        var range = Selection_get();
+        var region = Tables_regionFromRange(range,true);
+
+        if (region == null) {
+            removeColumnAdjacentToRange(range);
+            return;
+        }
+
+        if (region.structure.numCols <= 1)
             return;
 
         UndoManager_newGroup("Delete one column");

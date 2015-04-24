@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include <DocFormats/DFStorage.h>
@@ -70,13 +73,13 @@ static int fsRead(DFStorage *storage, const char *path, void **buf, size_t *nbyt
 
     size_t balloc = 4096;
     size_t blen = 0;
-    char *mem = (char *)malloc(balloc);
+    char *mem = (char *)xmalloc(balloc);
 
     size_t r;
     while (0 < (r = fread(&mem[blen],1,4096,file))) {
         balloc += r;
         blen += r;
-        mem = (char *)realloc(mem,balloc);
+        mem = (char *)xrealloc(mem,balloc);
     }
     ok = 1;
 
@@ -142,7 +145,7 @@ const char **fsList(DFStorage *storage, DFError **error)
     if (allPaths == NULL)
         return NULL;;
 
-    DFArray *filesOnly = DFArrayNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFArray *filesOnly = DFArrayNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
     for (int i = 0; allPaths[i]; i++) {
         const char *relPath = allPaths[i];
         char *absPath = DFAppendPathComponent(storage->rootPath,relPath);
@@ -187,7 +190,7 @@ static int memRead(DFStorage *storage, const char *path, void **buf, size_t *nby
         return 0;
     }
 
-    *buf = malloc(buffer->len);
+    *buf = xmalloc(buffer->len);
     memcpy(*buf,buffer->data,buffer->len);
     *nbytes = buffer->len;
 
@@ -255,7 +258,7 @@ static int zipRead(DFStorage *storage, const char *path, void **buf, size_t *nby
         return 0;
     }
 
-    *buf = malloc(buffer->len);
+    *buf = xmalloc(buffer->len);
     memcpy(*buf,buffer->data,buffer->len);
     *nbytes = buffer->len;
 
@@ -312,16 +315,16 @@ static char *fixPath(const char *input)
     char *normalized = DFPathNormalize(input);
     char *result;
     if (normalized[0] == '/')
-        result = strdup(&normalized[1]);
+        result = xstrdup(&normalized[1]);
     else
-        result = strdup(normalized);
+        result = xstrdup(normalized);
     free(normalized);
     return result;
 }
 
 static DFStorage *DFStorageNew(DFFileFormat format, const DFStorageOps *ops)
 {
-    DFStorage *storage = (DFStorage *)calloc(1,sizeof(DFStorage));
+    DFStorage *storage = (DFStorage *)xcalloc(1,sizeof(DFStorage));
     storage->retainCount = 1;
     storage->format = format;
     storage->ops = ops;
@@ -333,7 +336,7 @@ DFStorage *DFStorageNewFilesystem(const char *rootPath, DFFileFormat format)
     if ((rootPath == NULL) || (strlen(rootPath) == 0))
         rootPath = ".";;
     DFStorage *storage = DFStorageNew(format,&fsOps);
-    storage->rootPath = strdup(rootPath);
+    storage->rootPath = xstrdup(rootPath);
     return storage;
 }
 
@@ -354,7 +357,7 @@ DFStorage *DFStorageCreateZip(const char *filename, DFError **error)
 
     DFStorage *storage = DFStorageNew(DFFileFormatFromFilename(filename),&zipOps);
     storage->files = DFHashTableNew((DFCopyFunction)DFBufferRetain,(DFFreeFunction)DFBufferRelease);
-    storage->zipFilename = strdup(filename);
+    storage->zipFilename = xstrdup(filename);
     return storage;
 }
 
@@ -367,7 +370,7 @@ DFStorage *DFStorageOpenZip(const char *filename, DFError **error)
 
     DFStorage *storage = DFStorageNew(DFFileFormatFromFilename(filename),&zipOps);
     storage->files = DFHashTableNew((DFCopyFunction)DFBufferRetain,(DFFreeFunction)DFBufferRelease);
-    storage->zipFilename = strdup(filename);
+    storage->zipFilename = xstrdup(filename);
 
     if (!DFUnzip(filename,storage,error)) {
         DFStorageRelease(storage);

@@ -1,0 +1,7 @@
+The code in this directory is just meant to give proof of concept, and do NOT adhere to the normal apache Policy.
+
+Remark we use third party software here, that are not and will not be part of a corinthia release.
+
+This directory is not being build with the standard corinthia build.
+
+

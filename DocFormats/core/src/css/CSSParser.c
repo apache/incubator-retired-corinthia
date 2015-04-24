@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "CSSParser.h"
 #include "CSS.h"
@@ -18,6 +21,7 @@
 #include "DFString.h"
 #include "DFCharacterSet.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
@@ -43,11 +47,11 @@ static void CSSParserSetError(CSSParser *p, const char *format, ...)
 
 CSSParser *CSSParserNew(const char *cinput)
 {
-    CSSParser *p = (CSSParser *)calloc(1,sizeof(CSSParser));
+    CSSParser *p = (CSSParser *)xcalloc(1,sizeof(CSSParser));
     if (cinput == NULL)
         cinput = "";
 
-    p->chars = strdup(cinput);
+    p->chars = xstrdup(cinput);
     p->length = strlen(cinput);
 
     return p;
@@ -206,7 +210,7 @@ static char *trimmedSubstring(CSSParser *p, size_t start, size_t pos)
 
 DFHashTable *CSSParserRules(CSSParser *p)
 {
-    DFHashTable *result = DFHashTableNew((DFCopyFunction)strdup,free);
+    DFHashTable *result = DFHashTableNew((DFCopyFunction)xstrdup,free);
     while (p->pos < p->length) {
         size_t start = p->pos;
         int invalid = 0;
@@ -241,7 +245,7 @@ DFHashTable *CSSParserRules(CSSParser *p)
 
 DFArray *CSSParserSelectors(CSSParser *p)
 {
-    DFArray *result = DFArrayNew((DFCopyFunction)strdup,free);
+    DFArray *result = DFArrayNew((DFCopyFunction)xstrdup,free);
     while (p->pos < p->length) {
         size_t start = p->pos;
         int invalid = 0;
@@ -261,7 +265,7 @@ DFArray *CSSParserSelectors(CSSParser *p)
 
 DFHashTable *CSSParserProperties(CSSParser *p)
 {
-    DFHashTable *result = DFHashTableNew((DFCopyFunction)strdup,(DFFreeFunction)free);
+    DFHashTable *result = DFHashTableNew((DFCopyFunction)xstrdup,(DFFreeFunction)free);
     while (p->pos < p->length) {
         size_t start = p->pos;
         int invalid = 0;

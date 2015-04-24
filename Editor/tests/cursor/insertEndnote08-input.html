@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function performTest()
+{
+    Cursor_insertEndnote("Endnote content");
+    Selection_preserveWhileExecuting(showEmptyTextNodes);
+    showSelection();
+}
+</script>
+</head>
+<body>
+  <p>before <span class="endnote">inside[]</span>after</p>
+</body>
+</html>

@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "CSSClassNames.h"
 #include "CSS.h"
@@ -26,6 +29,7 @@
 #include "WordStyles.h"
 #include "Word.h"
 #include "DFCommon.h"
+#include "DFPlatform.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -265,10 +269,10 @@ static void determineReplacements(CSSSheet *styleSheet, DFHashTable *repls)
         const char *selector = allSelectors[i];
         char *className = CSSSelectorCopyClassName(selector);
         if (className == NULL)
-            className = strdup("");;
+            className = xstrdup("");;
 
-        SelectorList *item = (SelectorList *)calloc(1,sizeof(SelectorList));
-        item->selector = strdup(selector);
+        SelectorList *item = (SelectorList *)xcalloc(1,sizeof(SelectorList));
+        item->selector = xstrdup(selector);
         item->next = DFHashTableLookup(selectorsByClassName,className);
         DFHashTableAdd(selectorsByClassName,className,item);
         free(className);
@@ -395,7 +399,7 @@ static void replaceSelectorsInSheet(DFHashTable *repls, CSSSheet *styleSheet)
 
 void CSSEnsureUnique(CSSSheet *styleSheet, DFDocument *htmlDoc, int creating)
 {
-    DFHashTable *repls = DFHashTableNew((DFCopyFunction)strdup,free);
+    DFHashTable *repls = DFHashTableNew((DFCopyFunction)xstrdup,free);
     determineReplacements(styleSheet,repls);
     replaceSelectorsInSheet(repls,styleSheet);
     replaceSelectorsInNode(repls,htmlDoc->root);

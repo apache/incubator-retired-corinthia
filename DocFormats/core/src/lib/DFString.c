@@ -1,16 +1,19 @@
-// Copyright 2012-2014 UX Productivity Pty Ltd
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
 //
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 #include "DFPlatform.h"
 #include "DFString.h"
@@ -50,13 +53,13 @@ static void DFArrayBuilderAdd(DFArrayBuilder *builder, const char *str, size_t s
     }
 
     builder->pointerIndex += 1;
-    builder->storageIndex += toklen + 1;
+    builder->storageIndex += (int)(toklen + 1);
 }
 
 static void DFArrayBuilderAllocate(DFArrayBuilder *builder)
 {
     int pointerBytes = (builder->pointerIndex + 1)*sizeof(char *);
-    void *mem = malloc(pointerBytes + builder->storageIndex);
+    void *mem = xmalloc(pointerBytes + builder->storageIndex);
     builder->pointers = mem;
     builder->storage = (char *)mem + pointerBytes;
 }
@@ -253,7 +256,7 @@ char *DFStringTrimLeadingWhitespace(const char *str)
         ch = DFNextChar(str,&pos);
     } while ((ch != 0) && DFCharIsWhitespaceOrNewline(ch));
 
-    return strdup(&str[startpos]);
+    return xstrdup(&str[startpos]);
 }
 
 char *DFStringNormalizeWhitespace(const char *input)
@@ -265,7 +268,7 @@ char *DFStringNormalizeWhitespace(const char *input)
     size_t inputLen = strlen(input);
     size_t outputLen = 0;
 
-    char *output = (char *)malloc(inputLen+1);
+    char *output = (char *)xmalloc(inputLen+1);
 
     size_t start = 0;
     while ((start < inputLen) && isspace(input[start]))
@@ -310,7 +313,7 @@ char *DFSubstring(const char *str, size_t start, size_t end)
     if (end < start)
         end = start;
 
-    char *substring = (char *)malloc(end-start+1);
+    char *substring = (char *)xmalloc(end-start+1);
     memcpy(substring,&str[start],end-start);
     substring[end-start] = '\0';
     return substring;
@@ -319,7 +322,7 @@ char *DFSubstring(const char *str, size_t start, size_t end)
 char *DFStrDup(const char *str)
 {
     if (str != NULL)
-        return strdup(str);
+        return xstrdup(str);
     else
         return NULL;
 }
@@ -331,7 +334,7 @@ char *DFUpperCase(const char *input)
     }
 
     size_t len = strlen(input);
-    char *result = strdup(input);
+    char *result = xstrdup(input);
     for (size_t i = 0; i < len; i++) {
         // Avoid calling toupper with chars from UTF-8 multibyte sequences
         if ((result[i] >= 'a') && result[i] <= 'z')
@@ -347,7 +350,7 @@ char *DFLowerCase(const char *input)
     }
 
     size_t len = strlen(input);
-    char *result = strdup(input);
+    char *result = xstrdup(input);
     for (size_t i = 0; i < len; i++) {
         // Avoid calling tolower with chars from UTF-8 multibyte sequences
         if ((result[i] >= 'A') && result[i] <= 'Z')
@@ -364,7 +367,7 @@ char *DFVFormatString(const char *format, va_list ap)
     size_t nchars = vsnprintf(NULL,0,format,ap2);
     va_end(ap2);
 
-    char *result = (char *)malloc(nchars+1);
+    char *result = (char *)xmalloc(nchars+1);
 
     va_copy(ap2,ap);
     vsnprintf(result,nchars+1,format,ap2);
@@ -486,7 +489,7 @@ char *DFAppendPathComponent(const char *path1, const char *path2)
 {
     char *unnormalized;
     if (strlen(path1) == 0)
-        unnormalized = strdup(path2);
+        unnormalized = xstrdup(path2);
     else if (path1[strlen(path1)-1] == '/')
         unnormalized = DFFormatString("%s%s",path1,path2);
     else
@@ -509,7 +512,7 @@ char *DFStringReplace(const char *input, const char *match, const char *replacem
     size_t matchLen = strlen(match);
 
     if (matchLen == 0)
-        return strdup(input); // protect against infinite loop
+        return xstrdup(input); // protect against infinite loop
 
     struct DFBuffer *output = DFBufferNew();
 
@@ -525,7 +528,7 @@ char *DFStringReplace(const char *input, const char *match, const char *replacem
         }
     }
 
-    char *result = strdup(output->data);
+    char *result = xstrdup(output->data);
     DFBufferRelease(output);
     return result;
 }
@@ -544,7 +547,7 @@ char *DFQuote(const char *in)
     // UTF-8 characters pass through untouched.
 
     size_t inlen = strlen(in);
-    char *out = (char*)malloc(2*inlen+3);
+    char *out = (char*)xmalloc(2*inlen+3);
     size_t outlen = 0;
     out[outlen++] = '"';
     for (size_t i = 0; i < inlen; i++) {
@@ -595,11 +598,11 @@ char *DFUnquote(const char *in)
         return NULL;
 
     if ((in[0] != '"') && (in[0] != '\''))
-        return strdup(in);
+        return xstrdup(in);
     char quote = in[0];
 
     size_t inlen = strlen(in);
-    char *out = (char *)malloc(inlen+1);
+    char *out = (char *)xmalloc(inlen+1);
     size_t outlen = 0;
     size_t i = 1;
     for (; i < inlen; i++) {
@@ -643,7 +646,7 @@ char *DFUnquote(const char *in)
 char *DFSpacesToUnderscores(const char *input)
 {
     size_t len = strlen(input);
-    char *output = strdup(input);
+    char *output = xstrdup(input);
     for (size_t i = 0; i < len; i++) {
         if (output[i] == ' ')
             output[i] = '_';
@@ -654,7 +657,7 @@ char *DFSpacesToUnderscores(const char *input)
 char *DFUnderscoresToSpaces(const char *input)
 {
     size_t len = strlen(input);
-    char *output = strdup(input);
+    char *output = xstrdup(input);
     for (size_t i = 0; i < len; i++) {
         if (output[i] == '_')
             output[i] = ' ';
@@ -736,7 +739,7 @@ char *DFStringReadFromFile(const char *filename, DFError **error)
     DFBuffer *buffer = DFBufferReadFromFile(filename,error);
     if (buffer == NULL)
         return NULL;
-    char *result = strdup(buffer->data);
+    char *result = xstrdup(buffer->data);
     DFBufferRelease(buffer);
     return result;
 }
@@ -770,7 +773,7 @@ uint32_t *DFUTF8To32(const char *input)
     while (DFNextChar(input,&inpos) != 0)
         outlen++;
 
-    uint32_t *output = (uint32_t *)malloc((outlen+1)*sizeof(uint32_t));
+    uint32_t *output = (uint32_t *)xmalloc((outlen+1)*sizeof(uint32_t));
     inpos = 0;
     for (size_t outpos = 0; outpos < outlen; outpos++)
         output[outpos] = DFNextChar(input,&inpos);
@@ -848,7 +851,7 @@ char *DFUTF32to8(const uint32_t *input)
     }
 
     size_t outlen = DFUTF32to8n(input,NULL);
-    char *output = (char *)malloc(outlen+1);
+    char *output = (char *)xmalloc(outlen+1);
     DFUTF32to8n(input,output);
     output[outlen] = '\0';
 
