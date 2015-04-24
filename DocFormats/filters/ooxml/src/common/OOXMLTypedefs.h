@@ -74,12 +74,6 @@ typedef struct WordLens WordLens;
 //////////////////////////////////////////////////////////////////
 // ODF experiment... ignore this for now. 
 //////////////////////////////////////////////////////////////////
-// ODF/OPC.h
-typedef struct OPCRelationship OPCRelationship;
-typedef struct OPCRelationshipSet OPCRelationshipSet;
-typedef struct OPCPart OPCPart;
-typedef struct OPCContentTypes OPCContentTypes;
-typedef struct OPCPackage OPCPackage;
 
 // ODF/ODFCaption.h
 typedef struct ODFCaption ODFCaption;
@@ -102,22 +96,14 @@ typedef struct ODFNumbering ODFNumbering;
 // ODF/ODFObjects.h
 typedef struct ODFObjects ODFObjects;
 
-// ODF/ODFPackage.h
-typedef struct ODFPackage ODFPackage;
-
 // ODF/ODFSection.h
 typedef struct ODFSection ODFSection;
-
-// ODF/ODFSheet.h
-typedef struct ODFStyle ODFStyle;
-typedef struct ODFSheet ODFSheet;
 
 // ODF/ODFTheme.h
 typedef struct ODFTheme ODFTheme;
 
 // ODF/lenses/ODFBookmark.h
 typedef enum ODFBookmarkType ODFBookmarkType;
-typedef struct CaptionParts CaptionParts;
 typedef struct ODFBookmark ODFBookmark;
 
 // ODF/lenses/ODFDrawing.h
