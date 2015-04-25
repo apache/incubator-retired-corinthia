@@ -42,7 +42,7 @@ struct DFAbstractDocument {
 };
 
 /**
- * Compute a hash of the set of all XML files in the archive. When the get operation is executed,
+ * Compute a hash of the set of all files in the archive. When the get operation is executed,
  * this hash is stored in the HTML file, as a record of the document from which it was generated.
  * When the put operation is executed, the hash is compared with that of the HTML file, and an error
  * reported if a mismatch occurs.
@@ -55,7 +55,7 @@ struct DFAbstractDocument {
  * If someone tries to call put with a HTML document that was not originally created from this exact
  * concrete document, the operation will fail.
  */
-static int computeXMLHash(DFStorage *storage, DFHashCode *result, DFError **error)
+static int computeDocumentHash(DFStorage *storage, DFHashCode *result, DFError **error)
 {
     int ok = 0;
     *result = 0;
@@ -65,6 +65,7 @@ static int computeXMLHash(DFStorage *storage, DFHashCode *result, DFError **erro
     const char **filenames = DFStorageList(storage,error);
     if (filenames == NULL)
         goto end;
+    DFSortStringsCaseSensitive(filenames);
     for (int i = 0; filenames[i]; i++) {
         unsigned char *buf = NULL;
         size_t nbytes = 0;
@@ -219,7 +220,7 @@ int DFGet(DFConcreteDocument *concrete,
     }
 
     DFHashCode hash = 0;
-    if (!computeXMLHash(concrete->storage,&hash,error))
+    if (!computeDocumentHash(concrete->storage,&hash,error))
         return 0;
     char hashstr[100];
     snprintf(hashstr,100,"%X",hash);
@@ -277,7 +278,7 @@ int DFPut(DFConcreteDocument *concreteDoc,
     // and can rely on the element mappings from the id attributes. This comparison is ignored
     // for test cases, which specify the special value "ignore" in the meta tag.
     DFHashCode expectedHash = 0;
-    if (!computeXMLHash(concreteDoc->storage,&expectedHash,error))
+    if (!computeDocumentHash(concreteDoc->storage,&expectedHash,error))
         return 0;;
     DFHashCode actualHash = 0;
     int hashMatches = 0;
