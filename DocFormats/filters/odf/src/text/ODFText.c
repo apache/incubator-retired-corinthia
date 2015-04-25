@@ -41,7 +41,7 @@ DFDocument *ODFTextGet(DFStorage *concreteStorage, DFStorage *abstractStorage, c
     ok = 1;
     
 end:
-
+    /*
     ODFPackageRelease(odfPackage);
     if (ok) {
         return htmlDoc;
@@ -50,7 +50,7 @@ end:
         DFDocumentRelease(htmlDoc);
         return NULL;
     }
-
+    */
     return NULL;
 }
 

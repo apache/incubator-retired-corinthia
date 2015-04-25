@@ -54,8 +54,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// 1i: debugging include --- remove
-#include <stdio.h>
 /*
 static int isWhitespaceRun(DFNode *run)
 {
@@ -690,21 +688,20 @@ DFNode *WordConverterGetConcrete(WordPutData *put, DFNode *abstract)
 
 int ODFConverterGet(DFDocument *html, DFStorage *abstractStorage, ODFPackage *package, const char *idPrefix, DFError **error)
 {
+    // 1i: contentDoc is a crude guess here.
     if (package->contentDoc == NULL) {
-        DFErrorFormat(error,"content.xml not found");
+        DFErrorFormat(error,"document.xml not found");
         return 0;
     }
     
-    // 1i: this line needs work on the xml tags.
-    printf("OFFICE_DOCUMENT is %d\n", OFFICE_DOCUMENT);
-    DFNode *odfDocument = DFChildWithTag(package->contentDoc->docNode,1469 /* magic number for what I found in gdb */);
+    // 1i: asssuming that OFFIC means AOO and so the WORD_DOCUMENT equivalent is OFFICE_DOCUMENT
+    DFNode *odfDocument = DFChildWithTag(package->contentDoc->docNode,OFFICE_DOCUMENT);
     if (odfDocument == NULL) {
         DFErrorFormat(error,"odf:document not found");
         return 0;
     }
-
-    int haveFields = ODF_simplifyFields(package);
     /*
+    int haveFields = Word_simplifyFields(package);
     Word_mergeRuns(package);
 
     WordConverter *converter = WordConverterNew(html,abstractStorage,package,idPrefix);
