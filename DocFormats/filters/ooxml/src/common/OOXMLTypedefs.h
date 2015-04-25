@@ -70,47 +70,4 @@ typedef struct WordDrawing WordDrawing;
 // word/lenses/WordLenses.h
 typedef struct WordLens WordLens;
 
-
-//////////////////////////////////////////////////////////////////
-// ODF experiment... ignore this for now. 
-//////////////////////////////////////////////////////////////////
-
-// ODF/ODFCaption.h
-typedef struct ODFCaption ODFCaption;
-
-// ODF/ODFConverter.h
-typedef struct ODFGetData ODFGetData;
-typedef struct ODFPutData ODFPutData;
-typedef struct ODFConverter ODFConverter;
-
-// ODF/ODFNotes.h
-typedef struct ODFNote ODFNote;
-typedef struct ODFNoteGroup ODFNoteGroup;
-
-// ODF/ODFNumbering.h
-typedef struct ODFNumLevel ODFNumLevel;
-typedef struct ODFAbstractNum ODFAbstractNum;
-typedef struct ODFConcreteNum ODFConcreteNum;
-typedef struct ODFNumbering ODFNumbering;
-
-// ODF/ODFObjects.h
-typedef struct ODFObjects ODFObjects;
-
-// ODF/ODFSection.h
-typedef struct ODFSection ODFSection;
-
-// ODF/ODFTheme.h
-typedef struct ODFTheme ODFTheme;
-
-// ODF/lenses/ODFBookmark.h
-typedef enum ODFBookmarkType ODFBookmarkType;
-typedef struct ODFBookmark ODFBookmark;
-
-// ODF/lenses/ODFDrawing.h
-typedef struct ODFDrawing ODFDrawing;
-
-// ODF/lenses/ODFLenses.h
-typedef struct ODFLens ODFLens;
-
-
 #endif

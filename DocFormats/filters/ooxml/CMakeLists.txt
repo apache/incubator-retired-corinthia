@@ -22,13 +22,6 @@ set(GroupOOXMLCommon
     src/common/OPC.h)
 
 
-###
-## group ooxml odf objects
-###
-set(GroupOOXMLODF
-    src/odf/ODFConverter.c
-    src/odf/ODFConverter.h)
-
 
 ###
 ## group ooxml word objects
@@ -159,13 +152,11 @@ add_library(ooxml OBJECT
     ${GroupOOXMLWord}
     ${GroupOOXMLWordFormatting}
     ${GroupOOXMLWordLenses}
-    ${GroupOOXMLWordTests}
-    ${GroupOOXMLODF})
+    ${GroupOOXMLWordTests})
 
 source_group(src\\common           FILES ${GroupOOXMLCommon})
 source_group(src\\word             FILES ${GroupOOXMLWord})
 source_group(src\\word\\formatting FILES ${GroupOOXMLWordFormatting})
 source_group(src\\word\\lenses     FILES ${GroupOOXMLWordLenses})
 source_group(tests\\word           FILES ${GroupOOXMLWordTests})
-source_group(src\\odf              FILES ${GroupOOXMLODF})
 set_property(TARGET ooxml PROPERTY FOLDER DocFormats/filters)
