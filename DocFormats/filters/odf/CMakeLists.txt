@@ -27,7 +27,9 @@ set(GroupSrc
 
 set(GroupSrcText
     src/text/ODFText.h
-    src/text/ODFText.c)
+    src/text/ODFText.c
+    src/text/ODFTextConverter.h
+    src/text/ODFTextConverter.c)
 
 set(GroupTests
     tests/ODFTests.c)
