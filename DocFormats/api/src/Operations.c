@@ -356,13 +356,13 @@ int DFGetFile(const char *concreteFilename,
               const char *abstractFilename,
               DFError **error)
 {
-    int success = 0;
+    int ok = 0;
 
     if (DFFileExists(abstractFilename)) {
         DFErrorFormat(error,
                       "%s: File already exists",
                       abstractFilename);
-        return success;
+        return ok;
     }
 
     char *abstractPath = DFPathDirName(abstractFilename);
@@ -398,14 +398,14 @@ int DFGetFile(const char *concreteFilename,
         goto end;
     }
 
-    success = 1;
+    ok = 1;
 
 end:
     free(abstractPath);
     DFStorageRelease(abstractStorage);
     DFConcreteDocumentRelease(concreteDoc);
     DFAbstractDocumentRelease(abstractDoc);
-    return success;
+    return ok;
 }
 
 int DFPutFile(const char *concreteFilename,
