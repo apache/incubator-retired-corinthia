@@ -356,7 +356,15 @@ int DFGetFile(const char *concreteFilename,
               const char *abstractFilename,
               DFError **error)
 {
-    int r = 0;
+    int success = 0;
+
+    if (DFFileExists(abstractFilename)) {
+        DFErrorFormat(error,
+                      "%s: File already exists",
+                      abstractFilename);
+        return success;
+    }
+
     char *abstractPath = DFPathDirName(abstractFilename);
     DFStorage *abstractStorage =
       DFStorageNewFilesystem(abstractPath, DFFileFormatHTML);
@@ -381,13 +389,6 @@ int DFGetFile(const char *concreteFilename,
         goto end;
     }
 
-    if (DFFileExists(abstractFilename)) {
-        DFErrorFormat(error,
-                      "%s: File already exists",
-                      abstractFilename);
-        goto end;
-    }
-
     if (!DFSerializeXMLFile(abstractDoc->htmlDoc,
                             0, 0,
                             abstractFilename,error)) {
@@ -397,14 +398,14 @@ int DFGetFile(const char *concreteFilename,
         goto end;
     }
 
-    r = 1;
+    success = 1;
 
 end:
     free(abstractPath);
     DFStorageRelease(abstractStorage);
     DFConcreteDocumentRelease(concreteDoc);
     DFAbstractDocumentRelease(abstractDoc);
-    return r;
+    return success;
 }
 
 int DFPutFile(const char *concreteFilename,
