@@ -34,24 +34,33 @@ typedef struct {
     DFHashTable *htmlIdByNumId;
 } ODFPutData;
 
-
 static void traverseContent(ODFTextConverter *conv, DFNode *odfNode, DFNode *htmlNode)
 {
-    for (DFNode *odfChild = odfNode->first; odfChild != NULL; odfChild = odfChild->next)
-        {
-            // printNode(odfChild);
-            if (odfChild->tag == 2) {
-                // we have some text here.
-            }
-            else {
-                Tag newTag = locate_HTML(odfChild);
-            }
-            traverseContent(conv,odfChild,htmlNode);
+    DFNode *child;
+
+    for (DFNode *odfChild = odfNode->first; odfChild != NULL; odfChild = odfChild->next) {
+        if (odfChild->tag == 2) { // we have some text here.
+            child = DFCreateChildElement(htmlNode, odfChild->tag);
+            child->value = xstrdup(odfChild->value);
         }
-        // TODO: Add a switch statement here to check the type of ODF element, and use
-        // DFCreateChildElement to create a new element in the HTML document as a child of htmlNode
-        // based on the type. As this function gets more complicated, it will likely be useful to
-        // split it up into several functions
+        else {
+            Tag newTag = locate_HTML(odfChild);
+            if (newTag) {  // we find an already mapped ODF -> HTML tag
+                child = DFCreateChildElement(htmlNode, newTag);
+            }
+            else {  // We found a missing tag
+                child = DFCreateChildElement(htmlNode, 2);
+                child->value = printMissingTag(odfChild->tag);
+                if (odfChild->attrs)
+                    DFSetAttribute(child, odfChild->attrs->tag, odfChild->attrs->value);
+            }
+        }
+        traverseContent(conv,odfChild,htmlNode);
+    }
+    // TODO: Add a switch statement here to check the type of ODF element, and use
+    // DFCreateChildElement to create a new element in the HTML document as a child of htmlNode
+    // based on the type. As this function gets more complicated, it will likely be useful to
+    // split it up into several functions
 }
 
 DFDocument *ODFTextGet(DFStorage *concreteStorage, DFStorage *abstractStorage, const char *idPrefix, DFError **error)
@@ -74,11 +83,18 @@ DFDocument *ODFTextGet(DFStorage *concreteStorage, DFStorage *abstractStorage, c
     // contentDoc is loaded from content.xml, and represents the most important information in
     // the document, i.e. the text, tables, lists, etc.
     tagSeen = " ";
-    // Tag newTag = locate_HTML(package->contentDoc->root);
+
     traverseContent(conv, package->contentDoc->root, body);
-    
-    if (REPORT_TAG_FOUND)
+
+    if (REPORT_TAG_FOUND) 
         free(tagSeen);
+
+    printf("============================================================\n"
+           "Showing the result of the traverseContent function\n"
+           "============================================================\n"
+           );
+    show_nodes(body);
+    
 
     // TODO: Once this basic traversal is implemented and is capable of producing paragraphs,
     // tables, lists, and spans, add ids to the HTML elements as they are created. That is, set

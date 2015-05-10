@@ -9,18 +9,6 @@
 #include "DFXMLNames.h"
 #include "gbg_test.h"
 
-void printNode(DFNode *node);  // temp func, just for some convenience
-/// Helper functions
-
-
-// it may be that the Tag Attribute is not needed.
-typedef struct {
-    Tag ODF_KEY;
-    Tag HTML_KEY;
-    Tag attribute;
-    char *attribute_value;
-} ODF_to_HTML_key;
-
 #define ENDMARKER 555555
 ODF_to_HTML_key ODF_to_HTML_keys [] = {
     { 1, HTML_A, 0, NULL},
@@ -111,7 +99,7 @@ ODF_to_HTML_key ODF_to_HTML_keys [] = {
     { TEXT_H, HTML_H6, 2310, "Heading_20_7" },
     { TEXT_H, HTML_H6, 2310, "Heading_20_8" },
     { TEXT_H, HTML_H6, 2310, "Heading_20_9" },
-    { TEXT_H, HTML_H6, 2310, "Heading_20_10" },
+    //    { TEXT_H, HTML_H6, 2310, "Heading_20_10" },
     { 1, HTML_HEAD, 0, NULL},
     { 1, HTML_HEADER, 0, NULL},
     { 1, HTML_HEADERS, 0, NULL},
@@ -329,7 +317,9 @@ ODF_to_HTML_key ODF_to_HTML_keys [] = {
     { 0,ENDMARKER, 0, NULL},
 };
 
-
+// strictly speaking because printing the generated node list out
+// gives the same information, this is no longer neccessary, but it is
+// an easier to read report.
 void report_tags_found(const char *name, Tag HTML, Tag missing_tag)
 {
     if (!REPORT_TAG_FOUND) return;
@@ -345,9 +335,9 @@ void report_tags_found(const char *name, Tag HTML, Tag missing_tag)
         snprintf(newTagSeen, len,"%s%s",tagSeen,name);
         tagSeen = xstrdup(newTagSeen);
         free(newTagSeen);
-        
+
         if (missing_tag == 1) {
-            printf("Missing: { %s,\"Add HTML key here\" },\n",name);
+            printf("ODF Key not matched: %s ---  %zu\n",name, HTML);
         }
         else if (missing_tag == 2) {
             printf("Error: No entry found in DFXMLNames: DFNodeName = %s  Tag: %d\n", name, HTML);
@@ -359,34 +349,45 @@ void report_tags_found(const char *name, Tag HTML, Tag missing_tag)
     }    
 }
 
+void listODF_keys(int how)
+{
+    for (int i = 0; ODF_to_HTML_keys[i].HTML_KEY != ENDMARKER; i++) {
+        if (ODF_to_HTML_keys[i].ODF_KEY > 3 && ODF_to_HTML_keys[i].HTML_KEY > 3) {
+            printf("%-16s <--->     %s\n", 
+                   translateXMLEnumName[ODF_to_HTML_keys[i].ODF_KEY],
+                   translateXMLEnumName[ODF_to_HTML_keys[i].HTML_KEY]);
+        } else if (ODF_to_HTML_keys[i].ODF_KEY > 3 && ODF_to_HTML_keys[i].HTML_KEY < 3)  {
+            printf("No suitable match found: %-16s\n", 
+                   translateXMLEnumName[ODF_to_HTML_keys[i].ODF_KEY]);
+        }
+    }
+}
+
+
 Tag locate_HTML(DFNode *odfNode)
 {
-    // subtract the offset of 10 in the enum defined in DFXMLNames.h
-    int index = (int)odfNode->tag - 10;
+    int index = (int)odfNode->tag;
     int attrib_not_found = 0;
 
     if (index > -1) {
         for (int i = 0; ODF_to_HTML_keys[i].HTML_KEY != ENDMARKER; i++) {
-            //printf("Seen: %s\n", translateXMLEnumName[ODF_to_HTML_keys[i].ODF_KEY - 10]);
-            if (ODF_to_HTML_keys[i].ODF_KEY - 10 == index) {
+            if (ODF_to_HTML_keys[i].ODF_KEY == index) {
                 if (ODF_to_HTML_keys[i].attribute_value) {
                     if (strcmp(odfNode->attrs->value, ODF_to_HTML_keys[i].attribute_value)) {
                         attrib_not_found = 1;
                         continue;
                     } else {
-                        report_tags_found(translateXMLEnumName[index], ODF_to_HTML_keys[i].HTML_KEY - 10, 0);
-                        attrib_not_found = 0;
+                        report_tags_found(translateXMLEnumName[index], ODF_to_HTML_keys[i].HTML_KEY, 0);
                         return ODF_to_HTML_keys[i].HTML_KEY;
                     }
                 }
-                if (attrib_not_found == 1) { // we have attribs, but one is missing
-                    report_tags_found(odfNode->attrs->value, ODF_to_HTML_keys[i-1].ODF_KEY - 10, 3);
+                if (attrib_not_found) { // we have attribs, but one is missing
+                    report_tags_found(odfNode->attrs->value, ODF_to_HTML_keys[i-1].ODF_KEY, 3);
                     return 0;
                 }
             }
-        }
-        // Valid Tag not found in array
-        report_tags_found(translateXMLEnumName[index], 0, 1);
+        }        
+        report_tags_found(translateXMLEnumName[index], index, 1);
         return 0;
     }
     else {  
@@ -397,18 +398,46 @@ Tag locate_HTML(DFNode *odfNode)
 }
 
 
+void show_nodes(DFNode *odfNode)
+{
+    for (DFNode *odfChild = odfNode->first; odfChild != NULL; odfChild = odfChild->next) {
+        printNode(odfChild);
+    }
+}
+
 void printNode(DFNode *n)
 {
     if (n == NULL) return;
-    //    printf("Tag = %d Attrcount = %d\t", n->tag, n->attrcount);
-    //    printf("seqNo = %zu \t", n->seqNo);
-    printf("value = %s \t\t", n->value);
+
+    printf("Tag tag: %zu\n",n->tag);
+    printf("unsigned int seqNo: %d\n",n->seqNo);
+    // printf("struct DFDocument *doc: %p\n",n->doc);
+    if (n->js)      printf("void *js: %p\n",n->js);
+    if (n->changed) printf("int changed: %d\n",n->changed);
+    if (n->childrenChanged) printf("int childrenChanged %d\n",n->childrenChanged);
+    if (n->seqNoHashNext) printf("DFNode *seqNoHashNext %p\n", n->seqNoHashNext);
     if (n->attrs) {
-        printf("HTML TAG = %d %s  \t", n->attrs->tag,
-               translateXMLEnumName[locate_HTML(n)-10]);
-        //        printf("attr value = %s \t", n->attrs->value);
+        printf("DFAttribute *attrs: %p ",n->attrs);
+        printf(", Tag tags: %zu ",n->attrs->tag);
+        printf(", char *value: %s ",n->attrs->value);
+        printf("HTML TAG = %d: %s \n", n->attrs->tag,
+               translateXMLEnumName[locate_HTML(n)]);
+
     }
+    if (n->attrsCount) printf("unsigned int attrsCount: %d\n",n->attrsCount);
+    if (n->attrsAlloc) printf("unsigned int attrsAlloc: %d\n", n->attrsAlloc);
+    if (n->target) printf("char *target: %s\n", n->target);
+    if (n->value) printf("char *value: %s\n", n->value);
     if (n->tag > 2)
-        printf("ODFKey = %s ", translateXMLEnumName[n->tag-10]);
-    printf("\n");
+        printf("Tag Text = %s ", translateXMLEnumName[n->tag]);
+    printf("\n==================================================\n");
+}
+
+char *printMissingTag(Tag tag)
+{
+    char *s = translateXMLEnumName[tag];
+    int len = strlen(s)+14;
+    char *r = malloc(len);
+    snprintf(r, len,"Missing tag: %s",s);
+    return r;
 }
