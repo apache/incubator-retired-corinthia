@@ -3,11 +3,6 @@
 
 void printNode(DFNode *node);  // temp func, just for some convenience
 
-#define REPORT_TAG_FOUND 0 // 0 for quiet, 1 for verbose, 2 for missing tags
-void report_tags_found(const char *name, Tag HTML, Tag missing_tag);
-
-void listODF_keys(int how);
-
 Tag locate_HTML(DFNode *odfNode);
 
 // show all the nodes in a node list
@@ -15,15 +10,15 @@ void show_nodes(DFNode *node);
 
 char *printMissingTag(Tag tag);
 
-// tags we already identified
-char *tagSeen; 
+// list of functions in ODF_TO_HTML_KEY []
+Tag no_op(DFNode *node);
+Tag text_h(DFNode *node);
 
 // it may be that the Tag Attribute is not needed.
 typedef struct {
     Tag ODF_KEY;
     Tag HTML_KEY;
-    Tag attribute;
-    char *attribute_value;
+    Tag (*attribute_function)(DFNode*);
 } ODF_to_HTML_key;
 
 static char* translateXMLEnumName[] = {

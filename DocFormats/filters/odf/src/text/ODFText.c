@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include "DFXMLNames.h"
 #include "gbg_test.h"
+#include "color.h"
 
 typedef struct {
     ODFTextConverter *conv;
@@ -49,7 +50,7 @@ static void traverseContent(ODFTextConverter *conv, DFNode *odfNode, DFNode *htm
                 child = DFCreateChildElement(htmlNode, newTag);
             }
             else {  // We found a missing tag
-                child = DFCreateChildElement(htmlNode, 2);
+                child = DFCreateChildElement(htmlNode, 0);
                 child->value = printMissingTag(odfChild->tag);
                 if (odfChild->attrs)
                     DFSetAttribute(child, odfChild->attrs->tag, odfChild->attrs->value);
@@ -82,19 +83,16 @@ DFDocument *ODFTextGet(DFStorage *concreteStorage, DFStorage *abstractStorage, c
     // TODO: Traverse the DOM tree of package->contentDoc, adding elements to the HTML document.
     // contentDoc is loaded from content.xml, and represents the most important information in
     // the document, i.e. the text, tables, lists, etc.
-    tagSeen = " ";
 
     traverseContent(conv, package->contentDoc->root, body);
 
-    if (REPORT_TAG_FOUND) 
-        free(tagSeen);
-
-    printf("============================================================\n"
+    printf(GREEN 
+           "============================================================\n"
            "Showing the result of the traverseContent function\n"
            "============================================================\n"
-           );
+           RESET);
+
     show_nodes(body);
-    
 
     // TODO: Once this basic traversal is implemented and is capable of producing paragraphs,
     // tables, lists, and spans, add ids to the HTML elements as they are created. That is, set
