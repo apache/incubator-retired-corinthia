@@ -16,7 +16,7 @@
 // under the License.
 
 #include "MainWindow.h"
-#include <QWebView.h>
+#include <QWebView>
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QCoreApplication>

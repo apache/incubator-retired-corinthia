@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#import <QWidget>
+#include <QWidget>
 
 class Editor;
 class EditorPrivate;

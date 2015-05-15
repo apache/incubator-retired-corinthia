@@ -86,7 +86,7 @@ JSArgs &JSArgs::operator<<(const char *value)
     if (value == NULL)
         _array.append(QJsonValue::Null);
     else
-        _array.append(value);
+        _array.append(QString(value));
     return *this;
 }
 
@@ -184,7 +184,7 @@ void testargs()
     << QString::null
     << QJsonArray()
     << QJsonObject()
-    << QJsonValue("value")
+    << QJsonValue(QString("value"))
     << QRect(1,2,3,4)
     << QPoint(5,6)
     << QSize(7,8)

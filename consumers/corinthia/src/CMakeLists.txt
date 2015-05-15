@@ -51,14 +51,12 @@ link_directories(${LIB_DIRS})
 ###
 ## Qt magic
 ###
-set(CMAKE_PREFIX_PATH         "/usr/local/opt/qt5")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC             ON)
 
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5WebKit REQUIRED)
 find_package(Qt5WebKitWidgets REQUIRED)
-include_directories("/usr/local/opt/qt5/include")
 
 qt5_wrap_ui(UI_HEADERS ${UI_SOURCES})
 source_group("Generated UI Headers" FILES ${UI_HEADERS})
@@ -74,10 +72,6 @@ qt5_use_modules(corinthia Widgets WebKit WebKitWidgets)
 target_link_libraries(corinthia DocFormats ${LIBS})
 source_group(src FILES ${SOURCES})
 set_property(TARGET corinthia PROPERTY FOLDER consumers)
-
-message(CMAKE_SOURCE_DIR " is " ${CMAKE_SOURCE_DIR})
-message(TARGET_FILE_DIR ":corinthia is " $<TARGET_FILE_DIR:corinthia>)
-message(CMAKE_BINARY_DIR " is " ${CMAKE_BINARY_DIR})
 
 add_custom_command(TARGET corinthia PRE_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
