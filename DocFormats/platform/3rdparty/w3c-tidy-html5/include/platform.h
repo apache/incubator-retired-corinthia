@@ -139,7 +139,7 @@ extern "C" {
 
 /* Convenience defines for Windows platforms */
  
-#if defined(WINDOWS) || defined(_WIN32)
+#if defined(_WINDOWS) || defined(_WIN32)
 
 #define WINDOWS_OS
 #ifndef PLATFORM_NAME
@@ -448,7 +448,7 @@ extern "C" {
   WINDOWS automatically set by Win16 compilers.
   _WIN32 automatically set by Win32 compilers.
 */
-#if defined(_WIN32) && !defined(__MSL__) && !defined(__BORLANDC__)
+#if defined(_WINDOWS) && !defined(__MSL__) && !defined(__BORLANDC__)
 
 #define futime _futime
 #define fstat _fstat
@@ -467,7 +467,7 @@ extern "C" {
   WINDOWS automatically set by Win16 compilers.
   _WIN32 automatically set by Win32 compilers.
 */
-#if defined(_WIN32) && !defined(__MSL__) && !defined(__BORLANDC__)
+#if defined(_WINDOWS) && !defined(__MSL__) && !defined(__BORLANDC__)
 
 #ifndef __WATCOMC__
 #define fileno _fileno
@@ -489,7 +489,7 @@ extern "C" {
 
 #endif /* _WIN32 */
 
-#if defined(_WIN32)
+#if defined(_WINDOWS)
 
 #if (defined(_USRDLL) || defined(_WINDLL)) && !defined(TIDY_EXPORT)
 #define TIDY_EXPORT __declspec( dllexport ) 
@@ -514,7 +514,7 @@ extern "C" {
 # undef uint
 typedef unsigned int uint;
 #endif
-#if defined(HPUX_OS) || defined(CYGWIN_OS) || defined(MAC_OS) || defined(BSD_BASED_OS) || defined(_WIN32)
+#if defined(HPUX_OS) || defined(CYGWIN_OS) || defined(MAC_OS) || defined(BSD_BASED_OS) || defined(_WINDOWS)
 # undef ulong
 typedef unsigned long ulong;
 #endif

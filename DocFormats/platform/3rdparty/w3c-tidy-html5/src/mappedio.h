@@ -8,7 +8,7 @@
 
 */
 
-#if defined(_WIN32)
+#if defined(_WINDOWS)
 int TY_(DocParseFileWithMappedFile)( TidyDocImpl* doc, ctmbstr filnam );
 #endif
 

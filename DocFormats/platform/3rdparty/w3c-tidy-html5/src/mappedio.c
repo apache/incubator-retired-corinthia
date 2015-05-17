@@ -96,7 +96,7 @@ void TY_(freeFileSource)( TidyInputSource* inp, Bool closeIt )
 #endif
 
 
-#if defined(_WIN32)
+#if defined(_WINDOWS)
 #include "streamio.h"
 #include "tidy-int.h"
 #include "message.h"

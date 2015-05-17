@@ -52,6 +52,7 @@ xcuserdata/
 x64/
 x86/
 build/
+build.32/
 bld/
 [Bb]in/
 [Oo]bj/

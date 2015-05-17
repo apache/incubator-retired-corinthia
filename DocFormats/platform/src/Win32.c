@@ -19,7 +19,7 @@
 
 // This file contains functions that are applicable to Windows
 
-#ifdef WIN32
+#ifdef _WINDOWS
 
 #include <windows.h>
 #include <SDL_image.h>
@@ -141,7 +141,7 @@ int DFAddDirContents(const char *absPath, const char *relPath, int recursive, DF
 int DFGetImageDimensions(const void *data, size_t len, const char *ext,
                          unsigned int *width, unsigned int *height, char **errmsg)
 {
-    SDL_Surface *image = IMG_Load_RW(SDL_RWFromMem((void *)data,len),1);
+    SDL_Surface *image = IMG_Load_RW(SDL_RWFromMem((void *)data,(int)len),1);
     if (image == NULL) {
         if (errmsg != NULL)
             *errmsg = xstrdup(IMG_GetError());
