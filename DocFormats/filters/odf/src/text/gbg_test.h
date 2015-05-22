@@ -1,30 +1,21 @@
 #ifndef GBG_TEST_H
 #define GBG_TEST_H
 
-void printNode(DFNode *node);  // temp func, just for some convenience
+#define TAG_NOT_FOUND 4040404
+#define TAG_NOT_MATCHED 777777
 
-Tag locate_HTML(DFNode *odfNode);
+Tag  find_HTML(DFNode *odfNode, DFNode *htmlNode);  
+void print_node_info(DFNode *node);  
+void show_nodes(DFNode *node); 
+char *node_id_info(DFNode *node);  
+char *missing_tag_info(DFNode *node);
+void print_line(int style);
 
-// show all the nodes in a node list
-void show_nodes(DFNode *node);
-
-char *printMissingTag(Tag tag);
-
-// list of functions in ODF_TO_HTML_KEY []
-Tag no_op(DFNode *node);
-Tag text_h(DFNode *node);
-
-// it may be that the Tag Attribute is not needed.
-typedef struct {
-    Tag ODF_KEY;
-    Tag HTML_KEY;
-    Tag (*attribute_function)(DFNode*);
-} ODF_to_HTML_key;
 
 static char* translateXMLEnumName[] = {
     "one",
     "two",
-    "three",
+    "DOM_TEXT",
     "four",
     "five",
     "six",
@@ -3376,6 +3367,8 @@ static char* translateXMLEnumName[] = {
     "XML_LANG",
     "XML_SPACE",
     "PREDEFINED_TAG_COUNT",
-};
+}
+;
+
 
 #endif

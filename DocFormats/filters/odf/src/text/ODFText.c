@@ -35,25 +35,42 @@ typedef struct {
     DFHashTable *htmlIdByNumId;
 } ODFPutData;
 
+// I'm not sure what ODFTextConverter ise used here for.  
 static void traverseContent(ODFTextConverter *conv, DFNode *odfNode, DFNode *htmlNode)
 {
-    DFNode *child;
-
     for (DFNode *odfChild = odfNode->first; odfChild != NULL; odfChild = odfChild->next) {
-        if (odfChild->tag == 2) { // we have some text here.
-            child = DFCreateChildElement(htmlNode, odfChild->tag);
-            child->value = xstrdup(odfChild->value);
+
+        if (odfChild->tag == DOM_TEXT) { // we have some text or a text modfier here.
+            // DFNode *check = 
+            DFCreateChildTextNode(htmlNode, odfChild->value);
+            printf(YELLOW "DOM_TEXT: %s \n" RESET,
+                   odfChild->value
+                   );
+
+            // print_node_info(check);
+            // print_line(1);          
         }
         else {
-            Tag newTag = locate_HTML(odfChild);
-            if (newTag) {  // we find an already mapped ODF -> HTML tag
-                child = DFCreateChildElement(htmlNode, newTag);
+            Tag newTag = find_HTML(odfChild, htmlNode);
+            if (newTag == TAG_NOT_FOUND) {
+                // We found a new tag that we need to add to
+                // find_HTML(), which reports this to stdout
+                // currently.
+                ; 
             }
-            else {  // We found a missing tag
-                child = DFCreateChildElement(htmlNode, 0);
-                child->value = printMissingTag(odfChild->tag);
-                if (odfChild->attrs)
-                    DFSetAttribute(child, odfChild->attrs->tag, odfChild->attrs->value);
+            else if (newTag == TAG_NOT_MATCHED) {  
+                // we find tag that we have not managed to match, but
+                // that is in find_HTML() already.
+
+                DFCreateChildTextNode(htmlNode, missing_tag_info(odfChild));
+                ;
+            }
+            else if (!newTag) {
+                ;  // we added an attribute node already in find_HTML (for now)
+                // DFNode *newChild =  DFCreateChildElement(htmlNode, newTag);
+            }
+            else {
+                DFCreateChildElement(htmlNode, newTag);
             }
         }
         traverseContent(conv,odfChild,htmlNode);
@@ -80,19 +97,33 @@ DFDocument *ODFTextGet(DFStorage *concreteStorage, DFStorage *abstractStorage, c
     body = DFCreateChildElement(html->root, HTML_BODY);
     conv = ODFTextConverterNew(html, abstractStorage, package, idPrefix);
 
+    printf(YELLOW
+           "============================================================\n"
+           "Showing ODF nodes prior to the traverseContent function\n"
+           "============================================================\n"
+           RESET);
+
+    show_nodes(package->contentDoc->root);
+    
+    print_line(2);
+    print_line(2);
+    print_line(2);
+
     // TODO: Traverse the DOM tree of package->contentDoc, adding elements to the HTML document.
     // contentDoc is loaded from content.xml, and represents the most important information in
     // the document, i.e. the text, tables, lists, etc.
 
     traverseContent(conv, package->contentDoc->root, body);
 
-    printf(GREEN 
+    // uncomment to see the result. (spammy!)
+    printf(GREEN
            "============================================================\n"
-           "Showing the result of the traverseContent function\n"
+           "Showing HTML nodes after the traverseContent function\n"
            "============================================================\n"
            RESET);
 
     show_nodes(body);
+
 
     // TODO: Once this basic traversal is implemented and is capable of producing paragraphs,
     // tables, lists, and spans, add ids to the HTML elements as they are created. That is, set

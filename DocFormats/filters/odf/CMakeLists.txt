@@ -27,6 +27,7 @@ set(GroupSrc
 
 set(GroupSrcText
     src/text/color.h
+    src/text/color.c
     src/text/gbg_test.h
     src/text/gbg_test.c
     src/text/ODFText.h
