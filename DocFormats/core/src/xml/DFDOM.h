@@ -166,14 +166,47 @@ struct DFDocument {
     unsigned int nextSeqNo;
 };
 
+/**
+ * Create a new DFDocument
+ *
+ * This document has no root node!
+ *
+ */
 DFDocument *DFDocumentNew(void);
+/**
+ * Create a new DFDocument with a root element of rootTag type
+ */
 DFDocument *DFDocumentNewWithRoot(Tag rootTag);
+/**
+ * Increment the document reference count
+ */
 DFDocument *DFDocumentRetain(DFDocument *doc);
+/**
+ * Decrement the document reference count and free if zero
+ */
 void DFDocumentRelease(DFDocument *doc);
 
+/**
+ * This restarts the sequence numbers associated with the
+ * document node.
+ *
+ * Not clear what these are for or when they are used
+ */
 void DFDocumentReassignSeqNos(DFDocument *doc);
 
+/**
+ * Find a DFNode given its sequence number
+ *
+ * Returns NULL if not found
+ */
 DFNode *DFNodeForSeqNo(DFDocument *doc, unsigned int seqNo);
+/**
+ * A DFDocument has an associated list of nodes indexed by the HTML_ID Attribute
+ *
+ * This function gets the DFNode that has HTML_ID attrbute value of idAttr.
+ *
+ * Returns NULL if not found.
+ */
 DFNode *DFElementForIdAttr(DFDocument *doc, const char *idAttr);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -184,59 +217,236 @@ DFNode *DFElementForIdAttr(DFDocument *doc, const char *idAttr);
 
 // Strings
 
+/**
+ * Allocate memory within the document and write the string to it
+ */
 char *DFCopyString(DFDocument *doc, const char *str);
 
 // Document methods
 
+/**
+ * Create a tagged DFNode within the document
+ *
+ * Note this node is floating in that it is not part of the
+ * document tree until inserted or appended somewhere.
+ */
 DFNode *DFCreateElement(DFDocument *doc, Tag tag);
+/**
+ * Create a text DFNode within the document with the data supplied
+ *
+ * Note this node is floating in that it is not part of the
+ * document tree until inserted or appended somewhere.
+ *
+ * Q. Are we relying on the allocated contents of the node being set to zero
+ * And there for the first, next, prev, and last pointers being NULL?
+ *
+ * Will this always be true?
+ */
 DFNode *DFCreateTextNode(DFDocument *doc, const char *data);
+/**
+ * Create a DOM comment DFNode within the document with the data supplied
+ *
+ * Note this node is floating in that it is not part of the
+ * document tree until inserted or appended somewhere.
+ */
 DFNode *DFCreateComment(DFDocument *doc, const char *data);
+/**
+ * Create a CDATA DFNode within the document with the data supplied
+ *
+ * Note this node is floating in that it is not part of the
+ * document tree until inserted or appended somewhere.
+ */
 DFNode *DFCreateCDATASection(DFDocument *doc, char *data);
+/**
+ * Create a Processing Instruction DFNode within the document with the data supplied
+ *
+ * Note this node is floating in that it is not part of the
+ * document tree until inserted or appended somewhere.
+ */
 DFNode *DFCreateProcessingInstruction(DFDocument *doc, const char *target, const char *content);
 
 // Node methods
 
+/**
+ * Insert the newChild DFNode before refChild below parent.
+ *
+ * There are a bunch of internal assertion checks here.
+ * Just don't mess up and all will be well, the newChild will be correctly
+ * inserted into the parent's doubly-linked list of children before refChild.
+ *
+ * If refChild is NULL and the newChild is appended to the list.
+ */
 void DFInsertBefore(DFNode *parent, DFNode *newChild, DFNode *refChild);
+/**
+ * Append newChild to the parent list.
+ */
 void DFAppendChild(DFNode *parent, DFNode *newChild);
+/**
+ * Create a tagged DFNode and append it to the parent
+ */
 DFNode *DFCreateChildElement(DFNode *parent, Tag tag);
+/**
+ * Create a text DFNode and append it to the parent
+ */
 DFNode *DFCreateChildTextNode(DFNode *parent, const char *data);
+/**
+ * Remove the node the the list in which it is contained.
+ *
+ * Looks like the node can be reused and does not need to be freed.
+ * If not reused directly is it allocated later ?
+ */
 void DFRemoveNode(DFNode *node);
+/**
+ * Bubble up the children of node to its parent.
+ *
+ * The first child will be located where node was in its parent's list.
+ *
+ * node is can then be reused.
+ */
 void DFRemoveNodeButKeepChildren(DFNode *node);
+/**
+ * Copy the input value to node.
+ *
+ * If a node already has a value is it leaked?
+ */
 void DFSetNodeValue(DFNode *node, const char *value);
 
 // Element methods
 
+/**
+ * A DFNode has an internal array of attributes.
+ * An attribute is an TAG value pair.
+ *
+ * This function gets the value of tag attrbute.
+ *
+ * Returns NULL if not found.
+ */
 const char *DFGetAttribute(DFNode *node, Tag tag);
+/**
+ * Get the attrTag value from parent's childTag node.
+ *
+ * Returns NULL if not found
+ */
 const char *DFGetChildAttribute(DFNode *parent, Tag childTag, Tag attrTag);
+/**
+ * Set or add the tag : value pair of the element DFNode
+ *
+ * If the tag is HTML_ID then correct or add an entry in the internal map of id attributes
+ *
+ * If value is NULL remove the attribute from the DFNode
+ *
+ */
 void DFSetAttribute(DFNode *element, Tag tag, const char *value);
+/**
+ * Set the elements tag attrbute to the variable formatted value.
+ *
+ * So set with a printf like value.
+ */
 void DFVFormatAttribute(DFNode *element, Tag tag, const char *format, va_list ap);
+/**
+ * Set the tag attrbute of the element node to the variable formatted value.
+ *
+ * So set with a printf like value.
+ */
 void DFFormatAttribute(DFNode *element, Tag tag, const char *format, ...) ATTRIBUTE_FORMAT(printf,3,4);
+/**
+ * Remove the tag attribute of the element node
+ */
 void DFRemoveAttribute(DFNode *element, Tag tag);
+/**
+ * Function name says it all.
+ */
 void DFRemoveAllAttributes(DFNode *element);
 
 // Tree traversal
 
+/**
+ * This function along with DFNextNodeAfter and DFNextNode
+ * provide a means of walking through the tree of DFNode elements
+ *
+ * Repeatedly calling DFPrevNode will perform a reverse walk of the elements under node
+ */
 DFNode *DFPrevNode(DFNode *node);
+/**
+ * Move to the next node. Which may be a child
+ * the next sibling
+ * or NULL
+ */
 DFNode *DFNextNodeAfter(DFNode *node);
+/**
+ * The next from node is either the first child
+ * or the sibling to the right in the tree
+ * or NULL if we are at the end of the list
+ *
+ * So repeatedly calling DFNextNode will walk the tree below node until the return value is NULL
+ */
 DFNode *DFNextNode(DFNode *node);
 
 // Names
 
+/**
+ * To be explained
+ */
 Tag DFLookupTag(DFDocument *doc, const char *URI, const char *name);
+/**
+ * For this doc return the name associated with tag
+ */
 const char *DFTagName(DFDocument *doc, Tag tag);
+/**
+ * To be explained
+ */
 const char *DFTagURI(DFDocument *doc, Tag tag);
+/**
+ * Return the name of the node
+ *
+ * or "#document", "#text", "#comment", "#cdata-section";
+ *
+ */
 const char *DFNodeName(DFNode *node);
+/**
+ * return the namespace URI of the node
+ */
 const char *DFNodeURI(DFNode *node);
 
 // Misc
 
+/**
+ * Get all of the text or CDATA below node into buf.
+ * One big lump...
+ */
 void DFNodeTextToBuffer(DFNode *node, DFBuffer *buf);
+/**
+ * Return all if the text or CDATA below node.
+ * Calle will have to free it.
+ */
 char *DFNodeTextToString(DFNode *node);
+/**
+ * Remove the HTML_ID tags from all elements below node
+ */
 void DFStripIds(DFNode *node);
+/**
+ * Get the first child DFNode of parent of type tag
+ *
+ * Returns NULL if not found
+ */
 DFNode *DFChildWithTag(DFNode *parent, Tag tag);
+/**
+ * Remove all whitespace child elements below node
+ */
 void DFRemoveWhitespaceNodes(DFNode *node);
+/**
+ * Name says it all
+ */
 int DFIsWhitespaceNode(DFNode *node);
+/**
+ * Work to be done on this one as except is ignored at the moment.
+ *
+ * Currently will compare the attribute of two nodes for an exact match
+ */
 int identicalAttributesExcept(DFNode *first, DFNode *second, Tag except);
+/**
+ * Trim the text nodes below (elements removed is all whitespace)
+ */
 void DFStripWhitespace(DFNode *node);
 
 #endif
