@@ -3,6 +3,9 @@
 #include "ODFPackage.h"
 #include "ODFTextConverter.h"
 #include "DFDOM.h"
+
+#include "CSS.h"
+#include "CSSSheet.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -189,11 +192,114 @@ Tag find_HTML(DFNode *odfNode, DFNode *htmlNode)
 /**
  * Dev tool: List all the nodes following the given one.  
  */
-void show_nodes(DFNode *odfNode)
+void show_nodes(DFNode *odfNode, int level)
 {
+    printf("Level: %d\n",level);
+    level++;
+    print_node_info(odfNode);
     for (DFNode *odfChild = odfNode->first; odfChild != NULL; odfChild = odfChild->next) {
-        print_node_info(odfChild);
-        print_line(0);
+	walkChildren(odfChild, level);
+    }
+}
+
+/**
+ * Dev tool: List all the nodes following the given one.  
+ */
+void walkChildren(DFNode *odfNode, int level)
+{
+    printf("Level: %d\n",level);
+    level++;
+    print_node_info(odfNode);
+    for (DFNode *odfChild = odfNode->first; odfChild != NULL; odfChild = odfChild->next) {
+	walkChildren(odfChild, level);
+    }
+}
+
+//give me the styles document
+void buildCSS_Styles(CSSSheet * cssSheet, DFNode *odfNode) 
+{
+  //walk through the nodes
+  // go to the office:styles can we find it?
+  //iterate each style:style
+  // make a css 
+  // dip down to get its attributes
+    printf("buildCSS_Styles\n");
+    printf("name = %s\n", translateXMLEnumName[odfNode->tag]);
+    
+    //manually play with the functions first
+    
+    
+/*    CSSStyle* cssStyle = CSSSheetLookupElement(cssSheet, 
+						 "elementName",
+						 "className",
+						1,
+						0);
+    CSSProperties * localproperties = CSSStyleRule(cssStyle);
+    CSSPut(localproperties,"font-weight","bold");*/
+
+    
+    
+    for (DFNode *odfChild = odfNode->first; odfChild != NULL; odfChild = odfChild->next) 
+    {
+      if(odfChild->tag == OFFICE_STYLES)
+      {
+	printf("Processing office styles\n");
+	for (DFNode *styleNode = odfChild->first; styleNode != NULL; styleNode = styleNode->next) 
+	{
+	  if(styleNode->tag == STYLE_STYLE)
+	  {
+	    for (unsigned int i = 0; i < styleNode->attrsCount; i++) 
+	    {
+	      Tag t = styleNode->attrs[i].tag;
+	      if(t == STYLE_NAME)
+	      {
+		  printf("Create CSS Properties for %s\n", styleNode->attrs[i].value);
+		  CSSStyle* cssStyle = CSSSheetLookupElement(cssSheet, 
+						 "div",
+						 styleNode->attrs[i].value,
+						1,
+						0);
+		  for (DFNode *styleInfo = styleNode->first; styleInfo != NULL; styleInfo = styleInfo->next) 
+		  {
+		    if(styleInfo->tag == STYLE_TEXT_PROPERTIES)
+		    {
+		      //just looking for bolds as a first cut
+		      for (unsigned int i = 0; i < styleInfo->attrsCount; i++) 
+		      {
+			Tag t = styleInfo->attrs[i].tag;
+			switch(t)
+			{
+			  case FO_FONT_WEIGHT:
+			  {
+			    CSSProperties * localproperties = CSSStyleRule(cssStyle);
+			    CSSPut(localproperties,"font-weight",styleInfo->attrs[i].value);
+			    break;
+			  }
+			  case FO_FONT_SIZE:
+			  {
+			    CSSProperties * localproperties = CSSStyleRule(cssStyle);
+			    CSSPut(localproperties,"font-size",styleInfo->attrs[i].value);
+			    break;
+			  }
+			  case STYLE_FONT_NAME:
+			  {
+			    CSSProperties * localproperties = CSSStyleRule(cssStyle);
+			    CSSPut(localproperties,"font-family",styleInfo->attrs[i].value);
+			    break;
+			  }
+			}
+		      }
+		    }
+		    else if(styleInfo->tag == STYLE_PARAGRAPH_PROPERTIES)
+		    {
+		      //TBD
+		    }
+		  }
+	      }
+	    }
+	  }
+	}
+      }
     }
 }
 

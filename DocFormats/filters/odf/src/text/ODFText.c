@@ -21,6 +21,9 @@
 #include "ODFPackage.h"
 #include "ODFTextConverter.h"
 #include "DFDOM.h"
+#include "DFHTML.h"
+#include "DFHTMLNormalization.h"
+#include "CSS.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -42,7 +45,7 @@ static void traverseContent(ODFTextConverter *conv, DFNode *odfNode, DFNode *htm
 
         if (odfChild->tag == DOM_TEXT) { // we have some text or a text modfier here.
             // DFNode *check = 
-            DFCreateChildTextNode(htmlNode, odfChild->value);
+//            DFCreateChildTextNode(htmlNode, odfChild->value);
             printf(YELLOW "DOM_TEXT: %s \n" RESET,
                    odfChild->value
                    );
@@ -70,8 +73,22 @@ static void traverseContent(ODFTextConverter *conv, DFNode *odfNode, DFNode *htm
                 // DFNode *newChild =  DFCreateChildElement(htmlNode, newTag);
             }
             else {
-                DFCreateChildElement(htmlNode, newTag);
-            }
+		
+                DFNode *node = DFCreateChildElement(htmlNode, HTML_DIV);
+		const char * styleName = DFGetAttribute(odfChild,TEXT_STYLE_NAME);
+		printf("Found style name %s\n", styleName);
+		DFSetAttribute(node, HTML_CLASS, styleName); //DFGetAttribute(odfNode,TEXT_STYLE_NAME));
+		for (DFNode *domChild = odfChild->first; domChild != NULL; domChild = domChild->next) 
+		{
+		  if (domChild->tag == DOM_TEXT) { // we have some text or a text modfier here.
+		    // DFNode *check = 
+		    DFCreateChildTextNode(node, domChild->value);
+		    printf(YELLOW "DOM_TEXT: %s \n" RESET,
+		    domChild->value
+		    );
+		  }
+		}
+           }
         }
         traverseContent(conv,odfChild,htmlNode);
     }
@@ -95,26 +112,53 @@ DFDocument *ODFTextGet(DFStorage *concreteStorage, DFStorage *abstractStorage, c
 
     html = DFDocumentNewWithRoot(HTML_HTML);
     body = DFCreateChildElement(html->root, HTML_BODY);
+    DFNode *head = DFChildWithTag(html->root,HTML_HEAD);
+    if (head == NULL) {
+        head = DFCreateElement(html,HTML_HEAD);
+        DFNode *body = DFChildWithTag(html->root,HTML_BODY);
+        DFInsertBefore(html->root,head,body);
+    }
     conv = ODFTextConverterNew(html, abstractStorage, package, idPrefix);
 
-    printf(YELLOW
+    printf(RED
            "============================================================\n"
-           "Showing ODF nodes prior to the traverseContent function\n"
+           "Process ODF style nodes prior to the traverseContent function\n"
            "============================================================\n"
            RESET);
 
-    show_nodes(package->contentDoc->root);
+    printf(GREEN "Number of style nodes: %lu\n" RESET, (unsigned long)package->stylesDoc->nodesCount);
+    show_nodes(package->stylesDoc->root, 0);
+    //we want to build up the CSS Stylesheet
+    CSSSheet * cssSheet = CSSSheetNew();
+    buildCSS_Styles(cssSheet, package->stylesDoc->root);
+    
+    printf(GREEN "CSS: %s\n" RESET, CSSSheetCopyCSSText(cssSheet));
+
     
     print_line(2);
     print_line(2);
     print_line(2);
+
+    printf(YELLOW
+           "============================================================\n"
+           "Showing ODF content nodes prior to the traverseContent function\n"
+           "============================================================\n"
+           RESET);
+
+    show_nodes(package->contentDoc->root, 0);
+    print_line(2);
+    print_line(2);
+    print_line(2);
+    
 
     // TODO: Traverse the DOM tree of package->contentDoc, adding elements to the HTML document.
     // contentDoc is loaded from content.xml, and represents the most important information in
     // the document, i.e. the text, tables, lists, etc.
 
     traverseContent(conv, package->contentDoc->root, body);
-
+    char *cssText = CSSSheetCopyCSSText(cssSheet);
+    HTMLAddInternalStyleSheet(conv->html, cssText);
+    HTML_safeIndent(conv->html->docNode,0);
     // uncomment to see the result. (spammy!)
     printf(GREEN
            "============================================================\n"
@@ -122,7 +166,7 @@ DFDocument *ODFTextGet(DFStorage *concreteStorage, DFStorage *abstractStorage, c
            "============================================================\n"
            RESET);
 
-    show_nodes(body);
+    show_nodes(body, 0);
 
 
     // TODO: Once this basic traversal is implemented and is capable of producing paragraphs,

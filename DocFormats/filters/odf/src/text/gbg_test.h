@@ -3,10 +3,14 @@
 
 #define TAG_NOT_FOUND 4040404
 #define TAG_NOT_MATCHED 777777
+#include "CSS.h"
+#include "CSSSheet.h"
 
 Tag  find_HTML(DFNode *odfNode, DFNode *htmlNode);  
 void print_node_info(DFNode *node);  
-void show_nodes(DFNode *node); 
+void show_nodes(DFNode *node, int level); 
+void walkChildren(DFNode *odfNode, int level);
+void buildCSS_Styles(CSSSheet * cssSheet, DFNode *odfNode);
 char *node_id_info(DFNode *node);  
 char *missing_tag_info(DFNode *node);
 void print_line(int style);
