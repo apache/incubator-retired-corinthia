@@ -248,7 +248,7 @@ void EditorPrivate::webViewloadFinished(bool ok)
 
     QString appPath = QCoreApplication::applicationDirPath();
     QString baseDir = appPath + "/../share/corinthia/js";
-    baseDir = QUrl::fromLocalFile(baseDir).path();
+    baseDir = QUrl::fromLocalFile(baseDir).toLocalFile();
     qStdOut() << "js base dir = " << baseDir << endl;
 
     for (int i = 0; jsSources[i] != NULL; i++) {
