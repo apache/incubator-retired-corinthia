@@ -18,7 +18,8 @@
 #include <QWidget>
 
 class Editor;
-class EditorPrivate;
+class EditorJSCallbacks;
+class EditorJSEvaluator;
 class QWebView;
 class JSInterface;
 
@@ -30,6 +31,13 @@ public:
     virtual ~Editor();
     QWebView *webView() const;
     JSInterface *js() const;
+
+public slots:
+    void webViewloadFinished(bool ok);
+
 private:
-    EditorPrivate *_p;
+    QWebView *_webView;
+    EditorJSCallbacks *_callbacks;
+    EditorJSEvaluator *_evaluator;
+    JSInterface *_js;
 };

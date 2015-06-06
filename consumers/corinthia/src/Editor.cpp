@@ -57,23 +57,6 @@ private:
     JSCallbacks *_callbacks;
 };
 
-class EditorPrivate : public QObject
-{
-    Q_OBJECT
-public:
-    EditorPrivate(Editor *editor);
-    virtual ~EditorPrivate();
-    public slots:
-    void webViewloadFinished(bool ok);
-public:
-
-    Editor *_editor;
-    QWebView *_webView;
-    EditorJSCallbacks *_callbacks;
-    EditorJSEvaluator *_evaluator;
-    JSInterface *_js;
-};
-
 
 
 const char *jsSources[] = {
@@ -221,16 +204,19 @@ QString EditorJSEvaluator::evaluate(const QString &script)
 
 
 
-EditorPrivate::EditorPrivate(Editor *editor) : _editor(editor)
+Editor::Editor(QWidget *parent, Qt::WindowFlags f) : QWidget(parent,f)
 {
-    _webView = new QWebView(editor);
-    _callbacks = new EditorJSCallbacks(editor);
+    _webView = new QWebView(this);
+    _callbacks = new EditorJSCallbacks(this);
     _evaluator = new EditorJSEvaluator(_webView,_callbacks);
     _js = new JSInterface(_evaluator);
     QObject::connect(_webView,SIGNAL(loadFinished(bool)),this,SLOT(webViewloadFinished(bool)));
+    QVBoxLayout *layout = new QVBoxLayout(this);
+    layout->addWidget(_webView);
+    setLayout(layout);
 }
 
-EditorPrivate::~EditorPrivate()
+Editor::~Editor()
 {
     delete _webView;
     delete _callbacks;
@@ -238,13 +224,23 @@ EditorPrivate::~EditorPrivate()
     delete _js;
 }
 
-void EditorPrivate::webViewloadFinished(bool ok)
+QWebView *Editor::webView() const
+{
+    return _webView;
+}
+
+JSInterface *Editor::js() const
+{
+    return _js;
+}
+
+void Editor::webViewloadFinished(bool ok)
 {
     qStdOut() << "webViewloadFinished: ok = " << ok << endl;
     if (!ok)
         return;
-    QWebFrame *frame = _editor->webView()->page()->mainFrame();
-    //    frame->evaluateJavaScript("alert('This is a test')");
+    QWebFrame *frame = _webView->page()->mainFrame();
+//    frame->evaluateJavaScript("alert('This is a test')");
 
     QString appPath = QCoreApplication::applicationDirPath();
     QString baseDir = appPath + "/../share/corinthia/js";
@@ -268,29 +264,6 @@ void EditorPrivate::webViewloadFinished(bool ok)
     frame->evaluateJavaScript("Main_init()");
 
     processCallbacks(_evaluator);
-}
-
-Editor::Editor(QWidget *parent, Qt::WindowFlags f) : QWidget(parent,f)
-{
-    _p = new EditorPrivate(this);
-    QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->addWidget(_p->_webView);
-    setLayout(layout);
-}
-
-Editor::~Editor()
-{
-    delete _p;
-}
-
-QWebView *Editor::webView() const
-{
-    return _p->_webView;
-}
-
-JSInterface *Editor::js() const
-{
-    return _p->_js;
 }
 
 #include <Editor.moc>

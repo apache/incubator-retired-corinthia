@@ -109,7 +109,7 @@ public:
  * the application, in that it provides the necessary access to call *in* to javascript, and to
  * respond (via callbacks) to calls *out* of javascript. Upon initialisation of a document window,
  * concrete implementations of both JSCallbacks and JSEvaluator are created, the latter maintaining
- * a reference to the former. See EditorPrivate::EditorPrivate() for where ths is actually done.
+ * a reference to the former. See Editor::Editor() for where ths is actually done.
  */
 class JSEvaluator
 {
