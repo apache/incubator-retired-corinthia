@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_WordCaption_h
-#define DocFormats_WordCaption_h
+#pragma once
 
 #include <DocFormats/DFXMLForward.h>
 #include "DFTypes.h"
@@ -41,5 +40,3 @@ struct WordCaption {
 WordCaption *WordCaptionNew(DFNode *element);
 WordCaption *WordCaptionRetain(WordCaption *caption);
 void WordCaptionRelease(WordCaption *caption);
-
-#endif

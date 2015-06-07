@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFHashTable_h
-#define DocFormats_DFHashTable_h
+#pragma once
 
 #include "DFTypes.h"
 
@@ -56,5 +55,3 @@ void DFHashTableRemove(DFHashTable *table, const char *key);
 void *DFHashTableLookupInt(DFHashTable *table, int key);
 void DFHashTableAddInt(DFHashTable *table, int key, void *value);
 void DFHashTableRemoveInt(DFHashTable *table, int key);
-
-#endif

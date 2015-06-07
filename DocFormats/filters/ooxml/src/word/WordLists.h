@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_WordLists_h
-#define DocFormats_WordLists_h
+#pragma once
 
 struct WordConverter;
 
@@ -31,5 +30,3 @@ double listDesiredIndent(struct WordConverter *conv, const char *numId, const ch
 void WordPostProcessHTMLLists(struct WordConverter *conv);
 void WordPreProcessHTMLLists(struct WordConverter *conv);
 void WordFixLists(struct WordConverter *conv);
-
-#endif

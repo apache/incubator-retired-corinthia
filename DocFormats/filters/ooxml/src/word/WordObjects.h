@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_WordObjects_h
-#define DocFormats_WordObjects_h
+#pragma once
 
 #include <DocFormats/DFXMLForward.h>
 #include "WordSheet.h"
@@ -48,5 +47,3 @@ void WordObjectsExpandBookmarks(WordObjects *objects);
 
 struct WordCaption *WordObjectsCaptionForTarget(WordObjects *objects, DFNode *target);
 void WordObjectsSetCaption(WordObjects *objects, struct WordCaption *caption, DFNode *target);
-
-#endif

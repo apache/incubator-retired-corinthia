@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_CSS_h
-#define DocFormats_CSS_h
+#pragma once
 
 #include "CSSProperties.h"
 #include "DFHashTable.h"
@@ -113,5 +112,3 @@ PageSize CSSParsePageSize(const char *input);
 char *CSSEscapeIdent(const char *unescaped);
 char *CSSUnescapeIdent(const char *escaped);
 void CSSParseSelector(const char *input, char **result, char **suffix);
-
-#endif

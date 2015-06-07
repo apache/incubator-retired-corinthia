@@ -15,13 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFXMLForward_h
-#define DocFormats_DFXMLForward_h
+#pragma once
 
 /** This class is described in DFDOM.h */
 typedef struct DFNode DFNode;
 
 /** This class is described in DFDOM.h */
 typedef struct DFDocument DFDocument;
-
-#endif

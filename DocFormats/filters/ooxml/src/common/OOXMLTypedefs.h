@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_OOXMLTypedefs_h
-#define DocFormats_OOXMLTypedefs_h
+#pragma once
 
 // word/OPC.h
 typedef struct OPCRelationship OPCRelationship;
@@ -69,5 +68,3 @@ typedef struct WordDrawing WordDrawing;
 
 // word/lenses/WordLenses.h
 typedef struct WordLens WordLens;
-
-#endif

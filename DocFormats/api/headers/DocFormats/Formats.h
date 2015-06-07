@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_Formats_h
-#define DocFormats_Formats_h
+#pragma once
 
 typedef enum {
     DFFileFormatUnknown  = 0,
@@ -37,5 +36,3 @@ typedef enum {
 DFFileFormat DFFileFormatFromFilename(const char *filename);
 DFFileFormat DFFileFormatFromExtension(const char *ext);
 const char *DFFileFormatToExtension(DFFileFormat format);
-
-#endif

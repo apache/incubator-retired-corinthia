@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFXML_h
-#define DocFormats_DFXML_h
+#pragma once
 
 #include "DFXMLNamespaces.h"
 #include "DFXMLNames.h"
@@ -35,5 +34,3 @@ int DFSerializeXMLFile(DFDocument *doc, NamespaceID defaultNS, int indent, const
 int DFSerializeXMLStorage(DFDocument *doc, NamespaceID defaultNS, int indent,
                           DFStorage *storage, const char *filename,
                           DFError **error);
-
-#endif

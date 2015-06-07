@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFCharacterSet_h
-#define DocFormats_DFCharacterSet_h
+#pragma once
 
 #include "DFTypes.h"
 
@@ -25,5 +24,3 @@ int DFCharIsWhitespace(uint32_t ch);
 int DFCharIsNewline(uint32_t ch);
 int DFCharIsWhitespaceOrNewline(uint32_t ch);
 int DFCharIsPunctuation(uint32_t ch);
-
-#endif

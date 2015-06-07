@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFBuffer_h
-#define DocFormats_DFBuffer_h
+#pragma once
 
 #include <DocFormats/DFError.h>
 #include "DFTypes.h"
@@ -56,5 +55,3 @@ int DFWriteDataToFile(const void *data, size_t len, const char *filename, DFErro
 
 char *binaryToString(DFBuffer *input);
 DFBuffer *stringToBinary(const char *str);
-
-#endif

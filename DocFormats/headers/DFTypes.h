@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFTypes_h
-#define DocFormats_DFTypes_h
+#pragma once
 
 #ifdef _MSC_VER
 #define ATTRIBUTE_ALIGNED(n) __declspec(align(8))
@@ -30,5 +29,3 @@
 #include <stdint.h>
 #include <stdarg.h>
 #include <stddef.h>
-
-#endif

@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFError_h
-#define DocFormats_DFError_h
+#pragma once
 
 #include <stdarg.h>
 
@@ -28,5 +27,3 @@ void DFErrorFormat(DFError **error, const char *format, ...) ATTRIBUTE_FORMAT(pr
 DFError *DFErrorRetain(DFError *error);
 void DFErrorRelease(DFError *error);
 const char *DFErrorMessage(DFError **error);
-
-#endif

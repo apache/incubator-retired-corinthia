@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_WordTblPr_h
-#define DocFormats_WordTblPr_h
+#pragma once
 
 #include "WordConverter.h"
 
@@ -29,5 +28,3 @@ void WordPutTrPr(DFNode *concrete, const char *oldJc, const char *newJc);
 void WordGetTcPr(DFNode *concrete, CSSProperties *properties);
 void WordPutTcPr2(DFNode *concrete, unsigned int gridSpan, const char *vMerge);
 void WordPutTcPr1(DFNode *concrete, CSSProperties *newp);
-
-#endif

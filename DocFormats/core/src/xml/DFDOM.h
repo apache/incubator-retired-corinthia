@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFDOM_h
-#define DocFormats_DFDOM_h
+#pragma once
 
 /** \file
 
@@ -448,5 +447,3 @@ int identicalAttributesExcept(DFNode *first, DFNode *second, Tag except);
  * Trim the text nodes below (elements removed is all whitespace)
  */
 void DFStripWhitespace(DFNode *node);
-
-#endif

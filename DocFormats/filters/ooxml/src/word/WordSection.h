@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_WordSection_h
-#define DocFormats_WordSection_h
+#pragma once
 
 #include "CSSProperties.h"
 #include "OOXMLTypedefs.h"
@@ -46,5 +45,3 @@ double WordSectionContentWidthPts(WordSection *section);
 double WordSectionContentHeightPts(WordSection *section);
 
 void WordSectionUpdateFromCSSPage(WordSection *section, CSSProperties *page, CSSProperties *body);
-
-#endif

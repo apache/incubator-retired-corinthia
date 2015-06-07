@@ -15,12 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_WordNumPr_h
-#define DocFormats_WordNumPr_h
+#pragma once
 
 #include "WordConverter.h"
 
 void WordGetNumPrStyle(DFNode *numPr, CSSStyle *style, WordConverter *converter);
 void updateNumbering(WordConverter *converter, CSSSheet *cssSheet);
-
-#endif

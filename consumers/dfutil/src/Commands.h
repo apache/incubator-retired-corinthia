@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef dfutil_Commands_h
-#define dfutil_Commands_h
+#pragma once
 
 #include <DocFormats/DFError.h>
 #include "DFBuffer.h"
@@ -35,5 +34,3 @@ int btosFile(const char *inFilename, const char *outFilename, DFError **error);
 int stobFile(const char *inFilename, const char *outFilename, DFError **error);
 int escapeCSSIdent(const char *filename, DFError **error);
 int unescapeCSSIdent(const char *filename, DFError **error);
-
-#endif

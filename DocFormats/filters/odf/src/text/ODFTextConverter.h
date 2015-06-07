@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_ODFTextConverter_h
-#define DocFormats_ODFTextConverter_h
+#pragma once
 
 #include <DocFormats/DFStorage.h>
 #include "DFDOM.h"
@@ -38,5 +37,3 @@ ODFTextConverter *ODFTextConverterNew(DFDocument *html,
                                       const char *idPrefix);
 ODFTextConverter *ODFTextConverterRetain(ODFTextConverter *conv);
 void ODFTextConverterRelease(ODFTextConverter *conv);
-
-#endif

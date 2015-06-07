@@ -15,12 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef dfutil_DFChanges_h
-#define dfutil_DFChanges_h
+#pragma once
 
 #include "DFDOM.h"
 
 void DFComputeChanges(DFNode *root1, DFNode *root2, Tag idAttr);
 char *DFChangesToString(DFNode *root);
-
-#endif

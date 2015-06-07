@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFNameMap_h
-#define DocFormats_DFNameMap_h
+#pragma once
 
 #include "DFXMLNamespaces.h"
 #include "DFXMLNames.h"
@@ -42,5 +41,3 @@ Tag DFNameMapTagForName(DFNameMap *map, const char *URI, const char *localName);
 
 const TagDecl *DFBuiltinMapNameForTag(Tag tag);
 Tag DFBuiltinMapTagForName(const char *URI, const char *localName);
-
-#endif

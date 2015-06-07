@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFHTDocument_h
-#define DocFormats_DFHTDocument_h
+#pragma once
 
 #include "tidy.h"
 #include "buffio.h"
@@ -40,5 +39,3 @@ DFHTDocument *DFHTDocumentNew();
 void DFHTDocumentFree(DFHTDocument *htd);
 int DFHTDocumentParseCString(DFHTDocument *htd, const char *str, DFError **error);
 void DFHTDocumentRemoveUXWriteSpecial(DFHTDocument *htd);
-
-#endif

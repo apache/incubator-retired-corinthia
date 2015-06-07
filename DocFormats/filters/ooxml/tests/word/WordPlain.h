@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_WordPlain_h
-#define DocFormats_WordPlain_h
+#pragma once
 
 #include <DocFormats/DFError.h>
 #include <DocFormats/DFStorage.h>
@@ -27,5 +26,3 @@ char *Word_toPlain(DFStorage *rawStorage, DFHashTable *parts);
 DFStorage *Word_fromPlain(const char *plain, const char *plainPath, DFError **error);
 
 DFStorage *TestCaseOpenPackage(DFError **error);
-
-#endif

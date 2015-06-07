@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFBDT_h
-#define DocFormats_DFBDT_h
+#pragma once
 
 #include <DocFormats/DFXMLForward.h>
 
@@ -56,5 +55,3 @@ typedef struct {
 DFNode *BDTContainerGet(void *ctx, DFLens *theLens, DFNode *abstract, DFNode *concrete);
 void BDTContainerPut(void *ctx, DFLens *theLens, DFNode *abstract, DFNode *concrete,
                      DFLookupConcreteFunction lookupConcrete);
-
-#endif

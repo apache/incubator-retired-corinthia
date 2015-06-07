@@ -15,13 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef dfutil_BDTTest_h
-#define dfutil_BDTTest_h
+#pragma once
 
 #include "DFBuffer.h"
 
 void BDT_testMove(int count, int from, int to, DFBuffer *output);
 void BDT_testRemove(int *indices, int count, DFBuffer *output);
 int BDT_Test(int argc, const char **argv);
-
-#endif

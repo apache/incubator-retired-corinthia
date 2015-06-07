@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFStorage_h
-#define DocFormats_DFStorage_h
+#pragma once
 
 #include <DocFormats/DFError.h>
 #include <DocFormats/Formats.h>
@@ -38,5 +37,3 @@ int DFStorageWrite(DFStorage *storage, const char *path, void *buf, size_t nbyte
 int DFStorageExists(DFStorage *storage, const char *path);
 int DFStorageDelete(DFStorage *storage, const char *path, DFError **error);
 const char **DFStorageList(DFStorage *storage, DFError **error);
-
-#endif

@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_WordConverter_h
-#define DocFormats_WordConverter_h
+#pragma once
 
 #include "WordPackage.h"
 #include "DFXMLNames.h"
@@ -113,5 +112,3 @@ DFNode *WordConverterGetConcrete(WordPutData *put, DFNode *abstract);
 
 void childrenToArray(DFNode *node, DFNode **children);
 void replaceChildrenFromArray(DFNode *node, DFNode **children, Tag *tags);
-
-#endif

@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFArray_h
-#define DocFormats_DFArray_h
+#pragma once
 
 #include "DFHashTable.h"
 #include "DFTypes.h"
@@ -34,5 +33,3 @@ void DFArrayAppend(DFArray *array, void *item);
 void DFArraySort(DFArray *array, void *thunk, int (*compar)(void *, const void *, const void *));
 
 void DFSort(void *base, size_t nel, size_t width, void *thunk, int (*compar)(void *, const void *, const void *));
-
-#endif

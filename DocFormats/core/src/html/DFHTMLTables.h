@@ -15,13 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFHTMLTables_h
-#define DocFormats_DFHTMLTables_h
+#pragma once
 
 #include <DocFormats/DFXMLForward.h>
 #include "DFTable.h"
 
 DFTable *HTML_tableStructure(DFNode *table);
 DFNode *HTML_createColgroup(DFDocument *doc, DFTable *structure);
-
-#endif

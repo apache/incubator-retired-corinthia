@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFUnitTest_h
-#define DocFormats_DFUnitTest_h
+#pragma once
 
 /*
  
@@ -91,5 +90,3 @@ void *utgetoutput(void);
 void utassert(int condition, const char *description);
 void utexpect(const char *actual, const char *expected);
 void utfail(const char *reason);
-
-#endif

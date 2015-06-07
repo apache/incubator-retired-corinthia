@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_CSSSelector_h
-#define DocFormats_CSSSelector_h
+#pragma once
 
 #include "DFXMLNames.h"
 #include <DocFormats/DFXMLForward.h>
@@ -56,5 +55,3 @@ char *CSSSelectorCopyClassName(const char *selector);
 int CSSSelectorHeadingLevel(const char *selector); // 0 for all non-heading styles, 1-6 otherwise
 int CSSSelectorIsHeading(const char *selector);
 StyleFamily CSSSelectorFamily(const char *selector);
-
-#endif

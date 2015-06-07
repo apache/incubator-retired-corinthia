@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFTable_h
-#define DocFormats_DFTable_h
+#pragma once
 
 #include <DocFormats/DFXMLForward.h>
 #include "DFTypes.h"
@@ -81,5 +80,3 @@ double DFTableWidthForCol(DFTable *table, unsigned int col);
 double DFTablePctWidthForCol(DFTable *table, unsigned int col);
 void DFTableSetColWidth(DFTable *table, unsigned int col, double width);
 void DFTableFixZeroWidthCols(DFTable *table);
-
-#endif

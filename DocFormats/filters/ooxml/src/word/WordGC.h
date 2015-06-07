@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_WordGC_h
-#define DocFormats_WordGC_h
+#pragma once
 
 #include "WordPackage.h"
 
@@ -27,5 +26,3 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void WordGarbageCollect(WordPackage *package);
-
-#endif

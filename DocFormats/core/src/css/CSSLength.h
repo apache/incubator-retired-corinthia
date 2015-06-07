@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_CSSLength_h
-#define DocFormats_CSSLength_h
+#pragma once
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
@@ -63,5 +62,3 @@ int CSSLengthIsAbsolute(CSSLength length);
 
 double CSSLengthToAbsolute(CSSLength length, double total, double valueUnits);
 double CSSLengthToPts(CSSLength length, double total);
-
-#endif

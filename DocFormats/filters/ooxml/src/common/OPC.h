@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_OPC_h
-#define DocFormats_OPC_h
+#pragma once
 
 #include <DocFormats/DFXMLForward.h>
 #include <DocFormats/DFError.h>
@@ -124,5 +123,3 @@ DFBuffer *OPCPackageReadPart(OPCPackage *pkg, OPCPart *part, DFError **error);
 int OPCPackageWritePart(OPCPackage *pkg, const char *data, size_t len, OPCPart *part, DFError **error);
 int OPCPackageDeletePart(OPCPackage *pkg, OPCPart *part, DFError **error);
 void OPCPackageReadRelationships(OPCPackage *pkg, OPCRelationshipSet *rels, const char *partURI, DFDocument *relDoc);
-
-#endif

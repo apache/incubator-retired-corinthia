@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_WordLenses_h
-#define DocFormats_WordLenses_h
+#pragma once
 
 #include "DFBDT.h"
 #include "WordConverter.h"
@@ -48,5 +47,3 @@ extern WordLens WordTableLens;
 
 DFNode *WordContainerGet(WordGetData *get, WordLens *childLens, DFNode *abstract, DFNode *concrete);
 void WordContainerPut(WordPutData *put, WordLens *childLens, DFNode *abstract, DFNode *concrete);
-
-#endif

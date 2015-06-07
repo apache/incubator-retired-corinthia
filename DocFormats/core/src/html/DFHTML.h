@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFHTML_h
-#define DocFormats_DFHTML_h
+#pragma once
 
 #include "DFXMLNames.h"
 #include "CSSSheet.h"
@@ -57,5 +56,3 @@ void HTMLMetaRemove(DFDocument *htmlDoc, const char *name);
 DFDocument *DFParseHTMLString(const char *str, int removeSpecial, DFError **error);
 DFDocument *DFParseHTMLFile(const char *filename, int removeSpecial, DFError **error);
 const char **DFHTMLGetImages(DFDocument *htmlDoc);
-
-#endif

@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_WordNotes_h
-#define DocFormats_WordNotes_h
+#pragma once
 
 #include "DFDOM.h"
 #include "DFHashTable.h"
@@ -93,5 +92,3 @@ void WordNoteGroupRelease(WordNoteGroup *group);
 WordNote *WordNoteGroupGet(WordNoteGroup *group, int noteId);
 WordNote *WordNoteGroupAddNew(WordNoteGroup *group);
 void WordNoteGroupRemove(WordNoteGroup *group, int noteId);
-
-#endif

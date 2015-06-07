@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_WordCommonPr_h
-#define DocFormats_WordCommonPr_h
+#pragma once
 
 #include "WordConverter.h"
 
@@ -31,5 +30,3 @@ void WordPutShd(DFDocument *doc, DFNode **shd, const char *hexColor);
 void WordGetBorder(DFNode *concrete, const char *side, CSSProperties *properties);
 void WordPutBorder(DFDocument *doc, CSSProperties *oldp, CSSProperties *newp, DFNode **childp,
                    Tag tag, const char *side);
-
-#endif

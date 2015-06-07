@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_ODFManifest_h
-#define DocFormats_ODFManifest_h
+#pragma once
 
 #include "DFDOM.h"
 #include "DFHashTable.h"
@@ -83,5 +82,3 @@ void ODFManifestRelease(ODFManifest *manifest);
 
 void ODFManifestAddEntry(ODFManifest *manifest, const char *path, const char *mediaType,
                          const char *version);
-
-#endif

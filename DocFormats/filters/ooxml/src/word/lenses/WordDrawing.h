@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_WordDrawing_h
-#define DocFormats_WordDrawing_h
+#pragma once
 
 #include "WordConverter.h"
 #include "DFDOM.h"
@@ -42,5 +41,3 @@ int WordDrawingIsVisible(WordPutData *put, DFNode *concrete);
 DFNode *WordDrawingCreate(WordPutData *put, DFNode *abstract);
 void WordDrawingPut(WordPutData *put, DFNode *abstract, DFNode *concrete);
 void WordDrawingRemove(WordPutData *put, DFNode *concrete);
-
-#endif
