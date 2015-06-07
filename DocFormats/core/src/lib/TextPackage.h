@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef dfutil_TextPackage_h
-#define dfutil_TextPackage_h
+#pragma once
 
 #include <DocFormats/DFError.h>
 #include "DFHashTable.h"
@@ -40,5 +39,3 @@ TextPackage *TextPackageNewWithFile(const char *filename, DFError **error);
 TextPackage *TextPackageNewWithString(const char *string, const char *path, DFError **error);
 TextPackage *TextPackageRetain(TextPackage *package);
 void TextPackageRelease(TextPackage *package);
-
-#endif

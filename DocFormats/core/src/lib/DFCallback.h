@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFCallback_h
-#define DocFormats_DFCallback_h
+#pragma once
 
 typedef void (*DFCallbackFunction)(void *ctx, void *object, void *data);
 
@@ -31,5 +30,3 @@ struct DFCallback {
 void DFCallbackAdd(DFCallback **list, DFCallbackFunction fun, void *ctx);
 void DFCallbackRemove(DFCallback **list, DFCallbackFunction fun, void *ctx);
 void DFCallbackInvoke(DFCallback *list, void *object, void *data);
-
-#endif

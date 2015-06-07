@@ -15,13 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFCommon_h
-#define DocFormats_DFCommon_h
+#pragma once
 
 #include "DFTypes.h"
 
 #ifndef S_ISDIR
 #define S_ISDIR(m)      (((m) & S_IFMT) == S_IFDIR)     /* directory */
-#endif
-
 #endif

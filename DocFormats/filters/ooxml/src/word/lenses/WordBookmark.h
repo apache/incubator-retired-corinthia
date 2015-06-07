@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_WordBookmark_h
-#define DocFormats_WordBookmark_h
+#pragma once
 
 #include <DocFormats/DFXMLForward.h>
 #include "WordSheet.h"
@@ -71,5 +70,3 @@ DFNode *WordFindContainingParagraph(DFNode *node);
 void WordBookmarks_collapseNew(DFDocument *doc);
 void WordBookmarks_expandNew(DFDocument *doc);
 void WordBookmarks_removeCaptionBookmarks(DFDocument *doc);
-
-#endif

@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_ODFText_h
-#define DocFormats_ODFText_h
+#pragma once
 
 #include <DocFormats/DFError.h>
 #include <DocFormats/DFStorage.h>
@@ -25,5 +24,3 @@
 DFDocument *ODFTextGet(DFStorage *concreteStorage, DFStorage *abstractStorage, const char *idPrefix, DFError **error);
 int ODFTextPut(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *htmlDoc, const char *idPrefix, DFError **error);
 int ODFTextCreate(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *htmlDoc, DFError **error);
-
-#endif

@@ -15,13 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_WordField_h
-#define DocFormats_WordField_h
+#pragma once
 
 #include "WordPackage.h"
 
 const char **Word_parseField(const char *cstr);
 
 int Word_simplifyFields(WordPackage *package);
-
-#endif

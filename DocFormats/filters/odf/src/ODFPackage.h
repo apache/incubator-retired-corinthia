@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_ODFPackage_h
-#define DocFormats_ODFPackage_h
+#pragma once
 
 #include <DocFormats/DFXMLForward.h>
 #include <DocFormats/DFError.h>
@@ -42,5 +41,3 @@ ODFPackage *ODFPackageOpenFrom(DFStorage *storage, DFError **error);
 ODFPackage *ODFPackageRetain(ODFPackage *package);
 void ODFPackageRelease(ODFPackage *package);
 int ODFPackageSave(ODFPackage *package, DFError **error);
-
-#endif

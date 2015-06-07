@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_WordTheme_h
-#define DocFormats_WordTheme_h
+#pragma once
 
 #include "WordPackage.h"
 #include "OOXMLTypedefs.h"
@@ -34,5 +33,3 @@ struct WordTheme {
 
 WordTheme *WordThemeNew(WordPackage *package);
 void WordThemeFree(WordTheme *theme);
-
-#endif

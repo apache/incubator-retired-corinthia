@@ -15,13 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFZipFile_h
-#define DocFormats_DFZipFile_h
+#pragma once
 
 #include <DocFormats/DFError.h>
 #include <DocFormats/DFStorage.h>
 
 int DFUnzip(const char *zipFilename, DFStorage *storage, DFError **error);
 int DFZip(const char *zipFilename, DFStorage *storage, DFError **error);
-
-#endif

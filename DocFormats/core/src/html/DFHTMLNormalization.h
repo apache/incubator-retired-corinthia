@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFHTMLNormalization_h
-#define DocFormats_DFHTMLNormalization_h
+#pragma once
 
 #include "DFXMLNames.h"
 #include <DocFormats/DFXMLForward.h>
@@ -24,5 +23,3 @@
 void HTML_normalizeDocument(DFDocument *doc);
 
 void HTML_pushDownInlineProperties(DFNode *node);
-
-#endif

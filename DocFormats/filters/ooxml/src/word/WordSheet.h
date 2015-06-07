@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_WordSheet_h
-#define DocFormats_WordSheet_h
+#pragma once
 
 #include <DocFormats/DFXMLForward.h>
 #include "DFHashTable.h"
@@ -69,5 +68,3 @@ WordStyle *WordSheetFootnoteReference(WordSheet *sheet);
 WordStyle *WordSheetFootnoteText(WordSheet *sheet);
 WordStyle *WordSheetEndnoteReference(WordSheet *sheet);
 WordStyle *WordSheetEndnoteText(WordSheet *sheet);
-
-#endif

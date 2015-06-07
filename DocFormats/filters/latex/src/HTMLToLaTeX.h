@@ -15,13 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_HTMLToLaTeX_h
-#define DocFormats_HTMLToLaTeX_h
+#pragma once
 
 #include "DFDOM.h"
 
 // Note: HTML document must be normalized first
 
 char *HTMLToLaTeX(DFDocument *htmlDoc);
-
-#endif

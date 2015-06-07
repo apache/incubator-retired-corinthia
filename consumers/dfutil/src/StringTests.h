@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef dfutil_StringTests_h
-#define dfutil_StringTests_h
+#pragma once
 
 #include <stdint.h>
 
@@ -27,7 +26,5 @@ int testDFPrevChar(const uint32_t *input32, size_t len32);
 uint32_t *genTestUTF32String(size_t len32);
 int testUnicode(void);
 int testStrings(void);
-
-#endif
 
 #endif

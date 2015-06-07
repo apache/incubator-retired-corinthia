@@ -15,13 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFTidyHelper_h
-#define DocFormats_DFTidyHelper_h
+#pragma once
 
 #include "DFDOM.h"
 #include "tidy.h"
 
 char *copyTidyNodeValue(TidyNode tnode, TidyDoc tdoc);
 DFNode *fromTidyNode(DFDocument *htmlDoc, TidyDoc tdoc, TidyNode tnode);
-
-#endif

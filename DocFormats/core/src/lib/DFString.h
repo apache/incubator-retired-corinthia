@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFString_h
-#define DocFormats_DFString_h
+#pragma once
 
 #include <DocFormats/DFError.h>
 #include "DFArray.h"
@@ -65,5 +64,3 @@ int DFStringWriteToFile(const char *str, const char *filename, DFError **error);
 size_t DFUTF32Length(const uint32_t *str);
 uint32_t *DFUTF8To32(const char *utf8);
 char *DFUTF32to8(const uint32_t *utf32);
-
-#endif

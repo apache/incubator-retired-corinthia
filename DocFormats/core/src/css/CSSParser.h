@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_CSSParser_h
-#define DocFormats_CSSParser_h
+#pragma once
 
 #include "DFHashTable.h"
 #include "DFArray.h"
@@ -36,5 +35,3 @@ DFHashTable *CSSParserRules(CSSParser *p);
 DFArray *CSSParserSelectors(CSSParser *p);
 DFHashTable *CSSParserProperties(CSSParser *p);
 DFArray *CSSParserContent(CSSParser *p);
-
-#endif

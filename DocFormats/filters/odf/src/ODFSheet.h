@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_ODFSheet_h
-#define DocFormats_ODFSheet_h
+#pragma once
 
 #include <DocFormats/DFXMLForward.h>
 #include "DFTypes.h"
@@ -51,5 +50,3 @@ ODFSheet *ODFSheetNew(DFDocument *stylesDoc, DFDocument *contentDoc);
 ODFSheet *ODFSheetRetain(ODFSheet *sheet);
 void ODFSheetRelease(ODFSheet *sheet);
 ODFStyle *ODFSheetStyleForSelector(ODFSheet *sheet, const char *selector);
-
-#endif

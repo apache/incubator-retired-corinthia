@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFPlatform_h
-#define DocFormats_DFPlatform_h
+#pragma once
 
 #ifdef _WINDOWS
 #include <direct.h>
@@ -106,5 +105,3 @@ void *xcalloc(size_t nmemb, size_t size);
 void *xrealloc(void *ptr, size_t size);
 
 char *xstrdup(const char *s);
-
-#endif // DocFormats_DFPlatform_h

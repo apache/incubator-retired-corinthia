@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_Operations_h
-#define DocFormats_Operations_h
+#pragma once
 
 #include <DocFormats/DFError.h>
 #include <DocFormats/DFStorage.h>
@@ -48,5 +47,3 @@ int DFCreate(DFConcreteDocument *concrete, DFAbstractDocument *abstract, DFError
 int DFGetFile(const char *concrete, const char *abstract, DFError **error);
 int DFPutFile(const char *concrete, const char *abstract, DFError **error);
 int DFCreateFile(const char *concrete, const char *abstract, DFError **error);
-
-#endif

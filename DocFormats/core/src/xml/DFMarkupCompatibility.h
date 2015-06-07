@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFMarkupCompatibility_h
-#define DocFormats_DFMarkupCompatibility_h
+#pragma once
 
 #include "DFXMLNamespaces.h"
 #include "DFXMLNames.h"
@@ -43,5 +42,3 @@ void DFMarkupCompatibilityPush(DFMarkupCompatibility *mc, int nb_namespaces, con
 void DFMarkupCompatibilityPop(DFMarkupCompatibility *mc);
 MCAction DFMarkupCompatibilityLookup(DFMarkupCompatibility *mc, NamespaceID nsId, Tag tag, int isElement);
 void DFMarkupCompatibilityProcessAttr(DFMarkupCompatibility *mc, Tag attr, const char *value, DFNameMap *map);
-
-#endif

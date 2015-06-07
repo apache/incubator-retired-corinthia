@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFUtil_h
-#define DocFormats_DFUtil_h
+#pragma once
 
 #include <DocFormats/DFError.h>
 #include "DFHashTable.h"
@@ -37,4 +36,3 @@ char *DFPathWithoutExtension(const char *path);
 char *DFPathResolveAbsolute(const char *base, const char *relative);
 char *DFPathNormalize(const char *path);
 char *DFRemovePercentEncoding(const char *encoded);
-#endif

@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_CSSSyntax_h
-#define DocFormats_CSSSyntax_h
+#pragma once
 
 int CSSValueIsNumber(const char *str);
 int CSSValueIsLength(const char *str);
@@ -24,5 +23,3 @@ int CSSValueIsColor(const char *str);
 int CSSValueIsBorderStyle(const char *str);
 int CSSValueIsBorderWidth(const char *str);
 int CSSValueIsBorderColor(const char *str);
-
-#endif

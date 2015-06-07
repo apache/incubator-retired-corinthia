@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_CSSSheet_h
-#define DocFormats_CSSSheet_h
+#pragma once
 
 /** \file
 
@@ -253,5 +252,3 @@ CSSStyle *CSSSheetGetStyleParent(CSSSheet *sheet, CSSStyle *style);
  */
 CSSStyle *CSSSheetParentOfStyle(CSSSheet *sheet, CSSStyle *style);
 int CSSIsBuiltinSelector(const char *selector);
-
-#endif

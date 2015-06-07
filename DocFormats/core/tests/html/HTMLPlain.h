@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_HTMLPlain_h
-#define DocFormats_HTMLPlain_h
+#pragma once
 
 #include <DocFormats/DFError.h>
 #include <DocFormats/DFStorage.h>
@@ -27,5 +26,3 @@ char *HTML_toPlain(DFDocument *doc, DFStorage *storage, DFError **error);
 DFDocument *HTML_fromPlain(const char *plain, const char *path, DFStorage *htmlStorage, DFError **error);
 
 DFDocument *TestCaseGetHTML(DFStorage *storage, DFError **error);
-
-#endif

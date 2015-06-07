@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_WordNumbering_h
-#define DocFormats_WordNumbering_h
+#pragma once
 
 #include "WordConverter.h"
 #include <DocFormats/DFXMLForward.h>
@@ -84,5 +83,3 @@ WordConcreteNum *WordNumberingConcreteWithId(WordNumbering *num, const char *num
 WordConcreteNum *WordNumberingAddConcreteWithAbstract(WordNumbering *num, WordAbstractNum *abstractNum);
 void WordNumberingRemoveConcrete(WordNumbering *num, WordConcreteNum *concrete);
 void WordNumberingRemoveUnusedAbstractNums(WordNumbering *num);
-
-#endif

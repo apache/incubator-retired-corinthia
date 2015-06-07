@@ -15,6 +15,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
+#pragma once
+
 #include <DocFormats/Operations.h>
 #include <DocFormats/Formats.h>
 #include <DocFormats/DFStorage.h>

@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_CSSClassNames_h
-#define DocFormats_CSSClassNames_h
+#pragma once
 
 #include <DocFormats/DFXMLForward.h>
 #include "CSSSheet.h"
@@ -24,5 +23,3 @@
 void CSSEnsureReferencedStylesPresent(DFDocument *htmlDoc, CSSSheet *styleSheet);
 void CSSSetHTMLDefaults(CSSSheet *styleSheet);
 void CSSEnsureUnique(CSSSheet *styleSheet, DFDocument *htmlDoc, int creating);
-
-#endif

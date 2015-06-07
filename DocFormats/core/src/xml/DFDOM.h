@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFDOM_h
-#define DocFormats_DFDOM_h
+#pragma once
 
 /** \file
 
@@ -238,5 +237,3 @@ void DFRemoveWhitespaceNodes(DFNode *node);
 int DFIsWhitespaceNode(DFNode *node);
 int identicalAttributesExcept(DFNode *first, DFNode *second, Tag except);
 void DFStripWhitespace(DFNode *node);
-
-#endif

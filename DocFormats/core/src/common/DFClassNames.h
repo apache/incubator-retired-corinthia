@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_DFClassNames_h
-#define DocFormats_DFClassNames_h
+#pragma once
 
 #define DFTableOfContentsClass  "tableofcontents"
 #define DFListOfFiguresClass    "listoffigures"
@@ -35,5 +34,3 @@
 #define DFPlaceholderClass      "uxwrite-placeholder"
 
 #define DFNbspChar              160
-
-#endif

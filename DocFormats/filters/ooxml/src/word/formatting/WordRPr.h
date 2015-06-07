@@ -15,12 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_WordRPr_h
-#define DocFormats_WordRPr_h
+#pragma once
 
 #include "WordConverter.h"
 
 void WordGetRPr(DFNode *concrete, CSSProperties *properties, const char **styleId, struct WordTheme *theme);
 void WordPutRPr(DFNode *concrete, CSSProperties *newp, const char *newStyleId, struct WordTheme *theme);
-
-#endif

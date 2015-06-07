@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_Word_h
-#define DocFormats_Word_h
+#pragma once
 
 #include <DocFormats/DFError.h>
 #include <DocFormats/DFStorage.h>
@@ -35,5 +34,3 @@ int WordPut(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *
 int WordCreate(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *htmlDoc, DFError **error);
 int WordCollapseBookmarks(DFStorage *concreteStorage, DFError **error);
 int WordExpandBookmarks(DFStorage *concreteStorage, DFError **error);
-
-#endif

@@ -15,8 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_CSSStyle_h
-#define DocFormats_CSSStyle_h
+#pragma once
 
 /**
 
@@ -260,5 +259,3 @@ CSSProperties *CSSStyleRuleForTableComponent(CSSStyle *style, const char *tableC
 void CSSStyleAddDefaultHTMLProperties(CSSStyle *style);
 
 void CSSStylePrint(CSSStyle *style, const char *indent);
-
-#endif
