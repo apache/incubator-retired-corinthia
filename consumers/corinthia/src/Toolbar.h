@@ -25,7 +25,7 @@ class Toolbar : public QWidget
     Q_OBJECT
 public:
     Toolbar(QWidget *parent = 0);
-    ~Toolbar();
+    virtual ~Toolbar();
 
     QPushButton *tableButton() { return _tableButton; }
     QPushButton *linkButton() { return _linkButton; }

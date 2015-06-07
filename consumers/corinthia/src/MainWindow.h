@@ -25,7 +25,7 @@ class MainWindow : public QWidget
     Q_OBJECT
 public:
     MainWindow(QApplication *app);
-    ~MainWindow();
+    virtual ~MainWindow();
     public slots:
     void insertTable();
     void insertLink();
