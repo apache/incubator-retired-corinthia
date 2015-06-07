@@ -23,6 +23,29 @@ class EditorJSEvaluator;
 class QWebView;
 class JSInterface;
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                //
+//                                             Cursor                                             //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class Cursor : public QWidget
+{
+    Q_OBJECT
+public:
+    Cursor(QWidget *parent = 0);
+    virtual ~Cursor();
+
+protected:
+    virtual void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                //
+//                                             Editor                                             //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class Editor : public QWidget
 {
     Q_OBJECT
@@ -31,13 +54,24 @@ public:
     virtual ~Editor();
     QWebView *webView() const;
     JSInterface *js() const;
+    Cursor *cursor() const { return _cursor; }
 
 public slots:
     void webViewloadFinished(bool ok);
+
+protected:
+    virtual void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    virtual void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    virtual void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    virtual void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    virtual void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    virtual bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
 
 private:
     QWebView *_webView;
     EditorJSCallbacks *_callbacks;
     EditorJSEvaluator *_evaluator;
     JSInterface *_js;
+    bool _selecting;
+    Cursor *_cursor;
 };

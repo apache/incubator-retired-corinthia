@@ -25,6 +25,33 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QCoreApplication>
+#include <QMouseEvent>
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                //
+//                                             Cursor                                             //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Cursor::Cursor(QWidget *parent)
+{
+}
+
+Cursor::~Cursor()
+{
+}
+
+void Cursor::paintEvent(QPaintEvent *event)
+{
+    QPainter painter(this);
+    painter.fillRect(0,0,size().width(),size().height(),QColor(0,0,255));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                //
+//                                        EditorJSCallbacks                                       //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class EditorJSCallbacks : public JSCallbacks
 {
@@ -127,17 +154,21 @@ void EditorJSCallbacks::outlineUpdated()
 void EditorJSCallbacks::setCursor(int x, int y, int width, int height)
 {
     qStdOut() << "CB setCursor " << x << " " << y << " " << width << " " << height << endl;
+    _editor->cursor()->setVisible(true);
+    _editor->cursor()->setGeometry(x,y,width,height);
 }
 
 void EditorJSCallbacks::setSelectionHandles(int x1, int y1, int height1, int x2, int y2, int height2)
 {
     qStdOut() << "CB setSelectionHandles " << x1 << " " << y1 << " " << height1 << " "
     << x2 << " " << y2 << " " << height2 << endl;
+    _editor->cursor()->setVisible(false);
 }
 
 void EditorJSCallbacks::setTableSelection(int x, int y, int width, int height)
 {
     qStdOut() << "CB setTableSelection" << x << " " << y << " " << width << " " << height << endl;
+    _editor->cursor()->setVisible(false);
 }
 
 void EditorJSCallbacks::setSelectionBounds(int left, int top, int right, int bottom)
@@ -160,6 +191,12 @@ void EditorJSCallbacks::error(const QString &message, const QString &operation)
     qStdOut() << "CB error \"" << message << "\" \"" << operation << "\"" << endl;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                //
+//                                        EditorJSEvaluator                                       //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QString EditorJSEvaluator::evaluate(const QString &script)
 {
     QWebFrame *frame = _webView->page()->mainFrame();
@@ -170,39 +207,11 @@ QString EditorJSEvaluator::evaluate(const QString &script)
         return result.toString();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                //
+//                                             Editor                                             //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Editor::Editor(QWidget *parent, Qt::WindowFlags f) : QWidget(parent,f)
 {
@@ -210,9 +219,17 @@ Editor::Editor(QWidget *parent, Qt::WindowFlags f) : QWidget(parent,f)
     _callbacks = new EditorJSCallbacks(this);
     _evaluator = new EditorJSEvaluator(_webView,_callbacks);
     _js = new JSInterface(_evaluator);
+    _selecting = false;
+    _cursor = new Cursor(this);
+    _cursor->setHidden(true);
+
     QObject::connect(_webView,SIGNAL(loadFinished(bool)),this,SLOT(webViewloadFinished(bool)));
+    _webView->installEventFilter(this);
+
     QVBoxLayout *layout = new QVBoxLayout(this);
+    layout->setContentsMargins(0,0,0,0);
     layout->addWidget(_webView);
+    layout->addWidget(_cursor);
     setLayout(layout);
 }
 
@@ -264,4 +281,52 @@ void Editor::webViewloadFinished(bool ok)
     frame->evaluateJavaScript("Main_init()");
 
     processCallbacks(_evaluator);
+}
+
+void Editor::mouseDoubleClickEvent(QMouseEvent *event)
+{
+}
+
+void Editor::mouseMoveEvent(QMouseEvent *event)
+{
+    if (_selecting) {
+        js()->selection.dragSelectionUpdate(event->x(),event->y(),false);
+    }
+}
+
+void Editor::mousePressEvent(QMouseEvent *event)
+{
+    if (event->buttons() & Qt::LeftButton) {
+        _selecting = true;
+        js()->selection.dragSelectionBegin(event->x(),event->y(),false);
+    }
+}
+
+void Editor::mouseReleaseEvent(QMouseEvent *event)
+{
+    _selecting = false;
+}
+
+void Editor::resizeEvent(QResizeEvent *event)
+{
+    QWidget::resizeEvent(event);
+    _js->viewport.setViewportWidth(size().width());
+}
+
+bool Editor::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == _webView) {
+        switch (event->type()) {
+            case QEvent::MouseButtonDblClick:
+            case QEvent::MouseButtonPress:
+            case QEvent::MouseButtonRelease:
+            case QEvent::MouseMove:
+            case QEvent::MouseTrackingChange:
+                this->event(event);
+                return true;
+            default:
+                break;
+        }
+    }
+    return QWidget::eventFilter(obj,event);
 }
