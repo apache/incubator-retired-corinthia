@@ -265,5 +265,3 @@ void Editor::webViewloadFinished(bool ok)
 
     processCallbacks(_evaluator);
 }
-
-#include <Editor.moc>
