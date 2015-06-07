@@ -52,8 +52,8 @@ class Editor : public QWidget
 public:
     Editor(QWidget *parent = 0, Qt::WindowFlags f = 0);
     virtual ~Editor();
-    QWebView *webView() const;
-    JSInterface *js() const;
+    QWebView *webView() const { return _webView; }
+    JSInterface *js() const { return _js; }
     Cursor *cursor() const { return _cursor; }
 
 public slots:

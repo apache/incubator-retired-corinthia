@@ -241,16 +241,6 @@ Editor::~Editor()
     delete _js;
 }
 
-QWebView *Editor::webView() const
-{
-    return _webView;
-}
-
-JSInterface *Editor::js() const
-{
-    return _js;
-}
-
 void Editor::webViewloadFinished(bool ok)
 {
     qStdOut() << "webViewloadFinished: ok = " << ok << endl;
