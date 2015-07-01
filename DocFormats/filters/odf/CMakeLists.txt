@@ -26,6 +26,10 @@ set(GroupSrc
     src/ODFSheet.h)
 
 set(GroupSrcText
+    src/text/color.h
+    src/text/color.c
+    src/text/gbg_test.h
+    src/text/gbg_test.c
     src/text/ODFText.h
     src/text/ODFText.c
     src/text/ODFTextConverter.h

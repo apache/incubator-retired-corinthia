@@ -1,0 +1,332 @@
+[32m============================================================
+Showing the result of the traverseContent function
+============================================================
+[0munsigned int seqNo: 3
+char *value: [31m Missing tag: OFFICE_SCRIPTS [0m
+================================================================================================
+unsigned int seqNo: 4
+char *value: [31m Missing tag: OFFICE_FONT_FACE_DECLS [0m
+================================================================================================
+unsigned int seqNo: 5
+DFAttribute *attrs: 0xa081200 , Tag tags: 1682 , char *value: DejaVu Sans1 HTML TAG = 1682 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: STYLE_FONT_FACE [0m
+================================================================================================
+unsigned int seqNo: 6
+DFAttribute *attrs: 0xa081760 , Tag tags: 1682 , char *value: Times New Roman HTML TAG = 1682 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: STYLE_FONT_FACE [0m
+================================================================================================
+unsigned int seqNo: 7
+DFAttribute *attrs: 0xa074118 , Tag tags: 1682 , char *value: Arial HTML TAG = 1682 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: STYLE_FONT_FACE [0m
+================================================================================================
+unsigned int seqNo: 8
+DFAttribute *attrs: 0xa093b00 , Tag tags: 1682 , char *value: DejaVu Sans HTML TAG = 1682 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: STYLE_FONT_FACE [0m
+================================================================================================
+unsigned int seqNo: 9
+DFAttribute *attrs: 0xa093b80 , Tag tags: 1682 , char *value: Droid Sans Fallback HTML TAG = 1682 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: STYLE_FONT_FACE [0m
+================================================================================================
+unsigned int seqNo: 10
+char *value: [31m Missing tag: OFFICE_AUTOMATIC_STYLES [0m
+================================================================================================
+unsigned int seqNo: 11
+DFAttribute *attrs: 0xa093c40 , Tag tags: 1682 , char *value: P1 HTML TAG = 1682 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: STYLE_STYLE [0m
+================================================================================================
+unsigned int seqNo: 12
+DFAttribute *attrs: 0xa08aeb0 , Tag tags: 617 , char *value: 28pt HTML TAG = 617 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: STYLE_TEXT_PROPERTIES [0m
+================================================================================================
+unsigned int seqNo: 13
+DFAttribute *attrs: 0xa08aef8 , Tag tags: 1682 , char *value: T1 HTML TAG = 1682 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: STYLE_STYLE [0m
+================================================================================================
+unsigned int seqNo: 14
+DFAttribute *attrs: 0xa08af80 , Tag tags: 620 , char *value: bold HTML TAG = 620 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: STYLE_TEXT_PROPERTIES [0m
+================================================================================================
+Tag tag: 683
+unsigned int seqNo: 15
+Tag Text = HTML_BODY
+================================================================================================
+Tag tag: 930
+unsigned int seqNo: 16
+Tag Text = HTML_TEXTAREA
+================================================================================================
+unsigned int seqNo: 17
+char *value: [31m Missing tag: TEXT_SEQUENCE_DECLS [0m
+================================================================================================
+unsigned int seqNo: 18
+DFAttribute *attrs: 0xa08b968 , Tag tags: 2144 , char *value: 0 HTML TAG = 2144 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_SEQUENCE_DECL [0m
+================================================================================================
+unsigned int seqNo: 19
+DFAttribute *attrs: 0xa08b9e8 , Tag tags: 2144 , char *value: 0 HTML TAG = 2144 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_SEQUENCE_DECL [0m
+================================================================================================
+unsigned int seqNo: 20
+DFAttribute *attrs: 0xa08ba68 , Tag tags: 2144 , char *value: 0 HTML TAG = 2144 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_SEQUENCE_DECL [0m
+================================================================================================
+unsigned int seqNo: 21
+DFAttribute *attrs: 0xa08bae8 , Tag tags: 2144 , char *value: 0 HTML TAG = 2144 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_SEQUENCE_DECL [0m
+================================================================================================
+Tag tag: 739
+unsigned int seqNo: 22
+Tag Text = HTML_H1
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 23
+char *value: Headline One
+================================================================================================
+unsigned int seqNo: 24
+DFAttribute *attrs: 0xa0894b8 , Tag tags: 2310 , char *value: Standard HTML TAG = 2310 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_P [0m
+================================================================================================
+unsigned int seqNo: 25
+DFAttribute *attrs: 0xa089500 , Tag tags: 2310 , char *value: Text_20_body HTML TAG = 2310 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_P [0m
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 26
+char *value: This is 
+================================================================================================
+unsigned int seqNo: 27
+char *value: [31m Missing tag: TEXT_S [0m
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 28
+char *value: paragraph one, 
+================================================================================================
+Tag tag: 740
+unsigned int seqNo: 29
+Tag Text = HTML_H2
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 30
+char *value: Headline Two
+================================================================================================
+unsigned int seqNo: 31
+DFAttribute *attrs: 0xa089560 , Tag tags: 2310 , char *value: Standard HTML TAG = 2310 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_P [0m
+================================================================================================
+unsigned int seqNo: 32
+DFAttribute *attrs: 0xa08afc8 , Tag tags: 2310 , char *value: Text_20_body HTML TAG = 2310 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_P [0m
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 33
+char *value: This is a paragraph two, 
+================================================================================================
+Tag tag: 741
+unsigned int seqNo: 34
+Tag Text = HTML_H3
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 35
+char *value: Headline Three
+================================================================================================
+unsigned int seqNo: 36
+DFAttribute *attrs: 0xa0896b0 , Tag tags: 2310 , char *value: Text_20_body HTML TAG = 2310 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_P [0m
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 37
+char *value: This is a bold 
+================================================================================================
+unsigned int seqNo: 38
+DFAttribute *attrs: 0xa089710 , Tag tags: 2310 , char *value: T1 HTML TAG = 2310 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_SPAN [0m
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 39
+char *value: paragraph
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 40
+char *value:  three, 
+================================================================================================
+Tag tag: 742
+unsigned int seqNo: 41
+Tag Text = HTML_H4
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 42
+char *value: Headline Four
+================================================================================================
+unsigned int seqNo: 43
+DFAttribute *attrs: 0xa089780 , Tag tags: 2310 , char *value: Text_20_body HTML TAG = 2310 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_P [0m
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 44
+char *value: This is a paragraph four, 
+================================================================================================
+Tag tag: 743
+unsigned int seqNo: 45
+Tag Text = HTML_H5
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 46
+char *value: Headline Five
+================================================================================================
+unsigned int seqNo: 47
+DFAttribute *attrs: 0xa089830 , Tag tags: 2310 , char *value: Text_20_body HTML TAG = 2310 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_P [0m
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 48
+char *value: This is a paragraph five, 
+================================================================================================
+Tag tag: 744
+unsigned int seqNo: 49
+Tag Text = HTML_H6
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 50
+char *value: Headline Six
+================================================================================================
+unsigned int seqNo: 51
+DFAttribute *attrs: 0xa065a00 , Tag tags: 2310 , char *value: Text_20_body HTML TAG = 2310 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_P [0m
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 52
+char *value: This is a paragraph six, 
+================================================================================================
+unsigned int seqNo: 53
+DFAttribute *attrs: 0xa065a98 , Tag tags: 2310 , char *value: Text_20_body HTML TAG = 2310 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_P [0m
+================================================================================================
+Tag tag: 739
+unsigned int seqNo: 54
+Tag Text = HTML_H1
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 55
+char *value: Wombat 20
+================================================================================================
+unsigned int seqNo: 56
+DFAttribute *attrs: 0xa065b10 , Tag tags: 2310 , char *value: P1 HTML TAG = 2310 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_P [0m
+================================================================================================
+Tag tag: 740
+unsigned int seqNo: 57
+Tag Text = HTML_H2
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 58
+char *value: Wombat 30
+================================================================================================
+unsigned int seqNo: 59
+DFAttribute *attrs: 0xa065b98 , Tag tags: 2310 , char *value: Text_20_body HTML TAG = 2310 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_P [0m
+================================================================================================
+Tag tag: 745
+unsigned int seqNo: 60
+Tag Text = HTML_HEAD
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 61
+char *value: H7
+================================================================================================
+unsigned int seqNo: 62
+DFAttribute *attrs: 0xa065c20 , Tag tags: 2310 , char *value: Text_20_body HTML TAG = 2310 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_P [0m
+================================================================================================
+Tag tag: 744
+unsigned int seqNo: 63
+Tag Text = HTML_H6
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 64
+char *value: h8
+================================================================================================
+unsigned int seqNo: 65
+DFAttribute *attrs: 0xa0895d8 , Tag tags: 2310 , char *value: Text_20_body HTML TAG = 2310 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_P [0m
+================================================================================================
+Tag tag: 744
+unsigned int seqNo: 66
+Tag Text = HTML_H6
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 67
+char *value: h9
+================================================================================================
+unsigned int seqNo: 68
+DFAttribute *attrs: 0xa089660 , Tag tags: 2310 , char *value: Text_20_body HTML TAG = 2310 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_P [0m
+================================================================================================
+Tag tag: 744
+unsigned int seqNo: 69
+Tag Text = HTML_H6
+================================================================================================
+Tag tag: 2
+unsigned int seqNo: 70
+char *value: h19
+================================================================================================
+unsigned int seqNo: 71
+DFAttribute *attrs: 0xa065c98 , Tag tags: 2310 , char *value: Text_20_body HTML TAG = 2310 
+unsigned int attrsCount: 1
+unsigned int attrsAlloc: 8
+char *value: [31m Missing tag: TEXT_P [0m
+================================================================================================

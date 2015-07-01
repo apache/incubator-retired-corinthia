@@ -3360,5 +3360,4 @@ typedef unsigned int Tag;
 #ifndef TAGS_C
 extern const TagDecl PredefinedTags[PREDEFINED_TAG_COUNT];
 #endif
-
 #endif

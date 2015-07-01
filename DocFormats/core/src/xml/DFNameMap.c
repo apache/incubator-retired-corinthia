@@ -33,20 +33,6 @@ static void NameMap_staticInit();
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define HASH_TABLE_SIZE 983
-
-typedef struct DFNameEntry {
-    char *name;
-    char *URI;
-    Tag tag;
-    unsigned int namespaceID;
-    TagDecl tagDecl;
-    struct DFNameEntry *next;
-} DFNameEntry;
-
-typedef struct DFNameHashTable {
-    DFNameEntry *bins[HASH_TABLE_SIZE];
-} DFNameHashTable;
 
 static uint32_t DFNameHashTableHash(const char *name, const char *URI)
 {
@@ -181,17 +167,6 @@ DFNameHashTable *defaultTagsByNameURI = NULL;
 
 static void DFNameMapAddNamespace(DFNameMap *map, NamespaceID nsId, const char *URI, const char *prefix);
 
-
-struct DFNameMap {
-    DFHashTable *namespacesByID;  // NSNumber -> NamespaceInfo
-    DFHashTable *namespacesByURI; // NSString -> NamespaceInfo
-    DFHashTable *tagsByID;        // NSNumber -> TagInfo
-
-
-    DFNameHashTable *localTagsByNameURI;
-    NamespaceID nextNamespaceId;
-    Tag nextTag;
-};
 
 DFNameMap *DFNameMapNew(void)
 {

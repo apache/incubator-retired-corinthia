@@ -19,6 +19,7 @@
 
 #include "DFXMLNamespaces.h"
 #include "DFXMLNames.h"
+#include "DFHashTable.h" 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
@@ -26,8 +27,40 @@
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/** TODO */
-typedef struct DFNameMap DFNameMap;
+
+/** TODO ...? :)  (1i: Maybe done?)
+*
+* 1i: Moved this section from DFNameMap.c
+*/
+#define HASH_TABLE_SIZE 983  // 1i: why is this not in DFHashTable.h?
+
+typedef struct DFNameEntry {
+    char *name;
+    char *URI;
+    Tag tag;
+    unsigned int namespaceID;
+    TagDecl tagDecl;
+    struct DFNameEntry *next;
+} DFNameEntry;
+
+typedef struct DFNameHashTable {
+    DFNameEntry *bins[HASH_TABLE_SIZE];
+} DFNameHashTable;
+
+typedef struct DFNameMap DFNameMap; // 1i: this was here already.
+
+struct DFNameMap {
+    DFHashTable *namespacesByID;  // NSNumber -> NamespaceInfo
+    DFHashTable *namespacesByURI; // NSString -> NamespaceInfo
+    DFHashTable *tagsByID;        // NSNumber -> TagInfo
+
+
+    DFNameHashTable *localTagsByNameURI;
+    NamespaceID nextNamespaceId;
+    Tag nextTag;
+};
+
+/* 1i: end of move section */
 
 DFNameMap *DFNameMapNew(void);
 void DFNameMapFree(DFNameMap *map);
