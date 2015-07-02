@@ -20,6 +20,7 @@
 #include <DocFormats/DFStorage.h>
 #include "DFDOM.h"
 #include "ODFPackage.h"
+#include "lenses/ODFLenses.h"
 
 typedef struct ODFTextConverter ODFTextConverter;
 

@@ -18,3 +18,42 @@
 #include "DFPlatform.h"
 #include "ODF.h"
 #include "DFCommon.h"
+#include "ODFConverter.h"
+
+#include <stdio.h>
+
+DFDocument *ODFGet(DFStorage *concreteStorage, DFStorage *abstractStorage, const char *idPrefix, DFError **error)
+{
+    int ok = 0;
+    DFDocument *html = NULL;
+    ODFPackage *package = NULL;
+    ODFConverter *conv = NULL;
+
+    printf("ODFGet\n");
+    package = ODFPackageOpenFrom(concreteStorage, error);
+    if (package == NULL)
+        goto end;
+    printf("ODFGet\n");
+    html = DFDocumentNewWithRoot(HTML_HTML);
+    if(ODFConverterGet(html, abstractStorage, package, idPrefix, error) == 0)
+        goto end;
+    ok = 1;
+
+end:
+    ODFPackageRelease(package);
+    if (!ok) {
+        DFDocumentRelease(html);
+        return NULL;
+    }
+    return html;
+}
+
+int ODFPut(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *htmlDoc, const char *idPrefix, DFError **error)
+{
+    //TBD
+}
+
+int ODFCreate(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *htmlDoc, DFError **error)
+{
+    //TBD
+}

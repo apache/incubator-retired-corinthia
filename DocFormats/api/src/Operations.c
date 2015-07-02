@@ -21,7 +21,7 @@
 #include "DFString.h"
 #include <DocFormats/DFStorage.h>
 #include "Word.h"
-#include "ODFText.h"
+#include "ODF.h"
 #include "DFHTML.h"
 #include "DFDOM.h"
 #include "DFXML.h"
@@ -242,10 +242,10 @@ int DFGet(DFConcreteDocument *concrete,
                               error);
             break;
         case DFFileFormatOdt:
-            htmlDoc = ODFTextGet(concrete->storage,
-                                 abstract->storage,
-                                 idPrefix,
-                                 error);
+            htmlDoc = ODFGet(concrete->storage,
+                             abstract->storage,
+                             idPrefix,
+                             error);
             break;
         default:
             DFErrorFormat(error,"Unsupported file format");
@@ -308,11 +308,11 @@ int DFPut(DFConcreteDocument *concreteDoc,
                          error);
             break;
         case DFFileFormatOdt:
-            ok = ODFTextPut(concreteDoc->storage,
-                            abstractDoc->storage,
-                            abstractDoc->htmlDoc,
-                            idPrefix,
-                            error);
+            ok = ODFPut(concreteDoc->storage,
+                        abstractDoc->storage,
+                        abstractDoc->htmlDoc,
+                        idPrefix,
+                        error);
             break;
         default:
             DFErrorFormat(error,"Unsupported file format");
@@ -340,7 +340,7 @@ int DFCreate(DFConcreteDocument *concreteDoc,
                             error);
             break;
         case DFFileFormatOdt:
-            ok = ODFTextCreate(concreteDoc->storage,
+            ok = ODFCreate(concreteDoc->storage,
                                abstractDoc->storage,
                                abstractDoc->htmlDoc,
                                error);

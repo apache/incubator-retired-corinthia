@@ -15,24 +15,59 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_ODFSheet_h
-#define DocFormats_ODFSheet_h
-
-#include <DocFormats/DFXMLForward.h>
-#include "DFTypes.h"
-#include "formatting/ODFStyles.h"
+#include "DFPlatform.h"
+#include "WordLenses.h"
+#include "DFDOM.h"
+#include "DFCommon.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
-//                                            ODFSheet                                            //
+//                                       ODFPresentationLens                                       //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef struct ODFSheet ODFSheet;
+static DFNode *ODFPresentationGet(WordGetData *get, DFNode *concrete)
+{
+    switch (concrete->tag) {
+        default:
+            return NULL;
+    }
+}
 
-ODFSheet *ODFSheetNew(DFDocument *stylesDoc, DFDocument *contentDoc);
-ODFSheet *ODFSheetRetain(ODFSheet *sheet);
-void ODFSheetRelease(ODFSheet *sheet);
-ODFStyle *ODFSheetStyleForSelector(ODFSheet *sheet, const char *selector);
+static int ODFPresentationIsVisible(WordPutData *put, DFNode *concrete)
+{
+    switch (concrete->tag) {
+        default:
+            return 0;
+    }
+}
 
-#endif
+static void ODFPresentationPut(WordPutData *put, DFNode *abstract, DFNode *concrete)
+{
+    switch (concrete->tag) {
+        default:
+            break;
+    }
+}
+
+static void ODFPresentationRemove(WordPutData *put, DFNode *concrete)
+{
+    switch (concrete->tag) {
+        default:
+            break;
+    }
+}
+
+static DFNode *ODFPresentationCreate(WordPutData *put, DFNode *abstract)
+{
+    DFNode *concrete = NULL;
+    return concrete;
+}
+
+WordLens ODFPresentationLens = {
+    .isVisible = ODFPresentationIsVisible,
+    .get = ODFPresentationGet,
+    .put = ODFPresentationPut,
+    .create = ODFPresentationCreate,
+    .remove = ODFPresentationRemove,
+};

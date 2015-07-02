@@ -93,9 +93,6 @@ ODFPackage *ODFPackageOpenNew(DFStorage *storage, DFError **error)
     ODFManifestAddEntry(package->manifest,"settings.xml","text/xml",NULL);
     ODFManifestAddEntry(package->manifest,"styles.xml","text/xml",NULL);
 
-    // Setup ODF objects
-    package->sheet = ODFSheetNew(package->stylesDoc,package->contentDoc);
-
     return package;
 }
 
@@ -106,21 +103,28 @@ ODFPackage *ODFPackageOpenFrom(DFStorage *storage, DFError **error)
     package->storage = DFStorageRetain(storage);
 
     // Read XML documents
-    if ((package->contentDoc = readDocument(package,"content.xml",error)) == NULL)
+    if ((package->contentDoc = readDocument(package,"content.xml",error)) == NULL) {
+        DFErrorFormat(error,"Unable to read content.xml");
         goto end;
-    if ((package->metaDoc = readDocument(package,"meta.xml",error)) == NULL)
+    }
+    if ((package->metaDoc = readDocument(package,"meta.xml",error)) == NULL) {
+        DFErrorFormat(error,"Unable to read meta.xml");
         goto end;
-    if ((package->settingsDoc = readDocument(package,"settings.xml",error)) == NULL)
+    }
+    if ((package->settingsDoc = readDocument(package,"settings.xml",error)) == NULL) {
+        DFErrorFormat(error,"Unable to read settings.xml");
         goto end;
-    if ((package->stylesDoc = readDocument(package,"styles.xml",error)) == NULL)
+    }
+    if ((package->stylesDoc = readDocument(package,"styles.xml",error)) == NULL) {
+        DFErrorFormat(error,"Unable to read styles.xml");
         goto end;
+    }
 
     // Read manifest
-    if ((package->manifest = readManifest(package,error)) == NULL)
+    if ((package->manifest = readManifest(package,error)) == NULL) {
+        DFErrorFormat(error,"Unable to read manifest.xml");
         goto end;
-
-    // Setup ODF objects
-    package->sheet = ODFSheetNew(package->stylesDoc,package->contentDoc);
+    }
 
     return package;
 
@@ -143,7 +147,6 @@ void ODFPackageRelease(ODFPackage *package)
 
     DFStorageRelease(package->storage);
     ODFManifestRelease(package->manifest);
-    ODFSheetRelease(package->sheet);
     DFDocumentRelease(package->contentDoc);
     DFDocumentRelease(package->metaDoc);
     DFDocumentRelease(package->settingsDoc);

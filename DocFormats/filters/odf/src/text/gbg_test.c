@@ -190,7 +190,7 @@ Tag find_HTML(DFNode *odfNode, DFNode *htmlNode)
 }
 
 /**
- * Dev tool: List all the nodes following the given one.  
+ * Dev tool: List all the nodes following the given one.
  */
 void show_nodes(DFNode *odfNode, int level)
 {
@@ -203,7 +203,7 @@ void show_nodes(DFNode *odfNode, int level)
 }
 
 /**
- * Dev tool: List all the nodes following the given one.  
+ * Dev tool: List all the nodes following the given one.
  */
 void walkChildren(DFNode *odfNode, int level)
 {
@@ -211,9 +211,21 @@ void walkChildren(DFNode *odfNode, int level)
     level++;
     print_node_info(odfNode);
     for (DFNode *odfChild = odfNode->first; odfChild != NULL; odfChild = odfChild->next) {
-	walkChildren(odfChild, level);
+        walkChildren(odfChild, level);
     }
 }
+
+/**
+ * Dev tool: List all the nodes below the given one.
+ */
+/*void show_nodes(DFNode *odfNode, int level)
+{
+    DFNode *nextNode = odfNode;
+    do {
+        print_node_info(nextNode);
+        nextNode = DFNextNode(nextNode);
+    }while(nextNode != NULL);
+}*/
 
 //give me the styles document
 void buildCSS_Styles(CSSSheet * cssSheet, DFNode *odfNode) 
@@ -226,80 +238,73 @@ void buildCSS_Styles(CSSSheet * cssSheet, DFNode *odfNode)
     printf("buildCSS_Styles\n");
     printf("name = %s\n", translateXMLEnumName[odfNode->tag]);
     
-    //manually play with the functions first
-    
-    
-/*    CSSStyle* cssStyle = CSSSheetLookupElement(cssSheet, 
-						 "elementName",
-						 "className",
-						1,
-						0);
-    CSSProperties * localproperties = CSSStyleRule(cssStyle);
-    CSSPut(localproperties,"font-weight","bold");*/
+    for (DFNode *odfChild = odfNode->first; odfChild != NULL; odfChild = odfChild->next) {
+        if(odfChild->tag == OFFICE_STYLES){
+            printf("Processing office styles\n");
+            for (DFNode *styleNode = odfChild->first; styleNode != NULL; styleNode = styleNode->next) {
+                if(styleNode->tag == STYLE_STYLE) {
+                    for (unsigned int i = 0; i < styleNode->attrsCount; i++) {
+                        Tag t = styleNode->attrs[i].tag;
+                        if(t == STYLE_NAME) {
+                            printf("Create CSS Properties for %s\n", styleNode->attrs[i].value);
 
-    
-    
-    for (DFNode *odfChild = odfNode->first; odfChild != NULL; odfChild = odfChild->next) 
-    {
-      if(odfChild->tag == OFFICE_STYLES)
-      {
-	printf("Processing office styles\n");
-	for (DFNode *styleNode = odfChild->first; styleNode != NULL; styleNode = styleNode->next) 
-	{
-	  if(styleNode->tag == STYLE_STYLE)
-	  {
-	    for (unsigned int i = 0; i < styleNode->attrsCount; i++) 
-	    {
-	      Tag t = styleNode->attrs[i].tag;
-	      if(t == STYLE_NAME)
-	      {
-		  printf("Create CSS Properties for %s\n", styleNode->attrs[i].value);
-		  CSSStyle* cssStyle = CSSSheetLookupElement(cssSheet, 
-						 "div",
-						 styleNode->attrs[i].value,
-						1,
-						0);
-		  for (DFNode *styleInfo = styleNode->first; styleInfo != NULL; styleInfo = styleInfo->next) 
-		  {
-		    if(styleInfo->tag == STYLE_TEXT_PROPERTIES)
-		    {
-		      //just looking for bolds as a first cut
-		      for (unsigned int i = 0; i < styleInfo->attrsCount; i++) 
-		      {
-			Tag t = styleInfo->attrs[i].tag;
-			switch(t)
-			{
-			  case FO_FONT_WEIGHT:
-			  {
-			    CSSProperties * localproperties = CSSStyleRule(cssStyle);
-			    CSSPut(localproperties,"font-weight",styleInfo->attrs[i].value);
-			    break;
-			  }
-			  case FO_FONT_SIZE:
-			  {
-			    CSSProperties * localproperties = CSSStyleRule(cssStyle);
-			    CSSPut(localproperties,"font-size",styleInfo->attrs[i].value);
-			    break;
-			  }
-			  case STYLE_FONT_NAME:
-			  {
-			    CSSProperties * localproperties = CSSStyleRule(cssStyle);
-			    CSSPut(localproperties,"font-family",styleInfo->attrs[i].value);
-			    break;
-			  }
-			}
-		      }
-		    }
-		    else if(styleInfo->tag == STYLE_PARAGRAPH_PROPERTIES)
-		    {
-		      //TBD
-		    }
-		  }
-	      }
-	    }
-	  }
-	}
-      }
+                            //if this is a heading look for the TEXT_OUTLINE_LEVEL
+
+                            // use the attrbute fetch thing...
+                            const char* outlevel = DFGetAttribute(styleNode, STYLE_DEFAULT_OUTLINE_LEVEL);
+                            CSSStyle* cssStyle = NULL;
+                            if(outlevel != NULL) {
+                                char hlevel[4] = "h";
+                                hlevel[1] = outlevel[0];
+                                hlevel[2] = 0;
+
+                                cssStyle = CSSSheetLookupElement(cssSheet,
+                                                                           hlevel,
+                                                                           styleNode->attrs[i].value,
+                                                                           1,
+                                                                           0);
+                            } else {
+                                cssStyle = CSSSheetLookupElement(cssSheet,
+                                                            "div",
+                                                            styleNode->attrs[i].value,
+                                                            1,
+                                                            0);
+                            }
+                            for (DFNode *styleInfo = styleNode->first; styleInfo != NULL; styleInfo = styleInfo->next) {
+                                if(styleInfo->tag == STYLE_TEXT_PROPERTIES) {
+                                    //just looking for bolds as a first cut
+                                    for (unsigned int i = 0; i < styleInfo->attrsCount; i++) {
+                                        Tag t = styleInfo->attrs[i].tag;
+                                        switch(t) {
+                                            case FO_FONT_WEIGHT: {
+                                                CSSProperties * localproperties = CSSStyleRule(cssStyle);
+                                                CSSPut(localproperties,"font-weight",styleInfo->attrs[i].value);
+                                                break;
+                                            }
+                                            case FO_FONT_SIZE: {
+                                                CSSProperties * localproperties = CSSStyleRule(cssStyle);
+                                                CSSPut(localproperties,"font-size",styleInfo->attrs[i].value);
+                                                break;
+                                            }
+                                            case STYLE_FONT_NAME:
+                                            {
+                                                CSSProperties * localproperties = CSSStyleRule(cssStyle);
+                                                CSSPut(localproperties,"font-family",styleInfo->attrs[i].value);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                else if(styleInfo->tag == STYLE_PARAGRAPH_PROPERTIES)
+                                {
+                                    //TBD
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

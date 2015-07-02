@@ -24,35 +24,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
-//                                            ODFStyle                                            //
-//                                                                                                //
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-ODFStyle *ODFStyleNew()
-{
-    ODFStyle *style = (ODFStyle *)xcalloc(1,sizeof(ODFStyle));
-    style->retainCount = 1;
-    return style;
-}
-
-ODFStyle *ODFStyleRetain(ODFStyle *style)
-{
-    if (style != NULL)
-        style->retainCount++;
-    return style;
-}
-
-void ODFStyleRelease(ODFStyle *style)
-{
-    if ((style == NULL) || (--style->retainCount > 0))
-        return;
-
-    free(style->selector);
-    free(style);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                //
 //                                            ODFSheet                                            //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////

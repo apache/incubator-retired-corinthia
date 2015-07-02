@@ -14,31 +14,31 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
-#ifndef DocFormats_ODFPackage_h
-#define DocFormats_ODFPackage_h
+#pragma once
 
 #include <DocFormats/DFXMLForward.h>
-#include <DocFormats/DFError.h>
-#include <DocFormats/DFStorage.h>
-#include "ODFManifest.h"
+#include "DFTypes.h"
+#include "ODFConverter.h"
+#include "CSS.h"
+#include "CSSSheet.h"
 
-typedef struct ODFPackage ODFPackage;
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                //
+//                                            ODFStyle                                            //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-struct ODFPackage {
+typedef struct ODFStyle ODFStyle;
+
+struct ODFStyle {
     size_t retainCount;
-    DFStorage *storage;
-    DFDocument *contentDoc;
-    DFDocument *metaDoc;
-    DFDocument *settingsDoc;
-    DFDocument *stylesDoc;
-    ODFManifest *manifest;
+    DFNode *element;
+    char *selector;
 };
 
-ODFPackage *ODFPackageOpenNew(DFStorage *storage, DFError **error);
-ODFPackage *ODFPackageOpenFrom(DFStorage *storage, DFError **error);
-ODFPackage *ODFPackageRetain(ODFPackage *package);
-void ODFPackageRelease(ODFPackage *package);
-int ODFPackageSave(ODFPackage *package, DFError **error);
+ODFStyle *ODFStyleNew();
+ODFStyle *ODFStyleRetain(ODFStyle *style);
+void ODFStyleRelease(ODFStyle *style);
 
-#endif
+CSSSheet *ODFStylesGet(ODFConverter *converter);
+

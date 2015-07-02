@@ -15,6 +15,17 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#pragma once
+#ifndef DocFormats_ODF_h
+#define DocFormats_ODF_h
+
+#include <DocFormats/DFError.h>
+#include <DocFormats/DFStorage.h>
 
 #include "ODFPackage.h"
+
+DFDocument *ODFGet(DFStorage *concreteStorage, DFStorage *abstractStorage, const char *idPrefix, DFError **error);
+int ODFPut(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *htmlDoc, const char *idPrefix, DFError **error);
+int ODFCreate(DFStorage *concreteStorage, DFStorage *abstractStorage, DFDocument *htmlDoc, DFError **error);
+
+
+#endif

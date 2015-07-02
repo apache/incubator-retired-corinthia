@@ -15,30 +15,38 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef DocFormats_ODFPackage_h
-#define DocFormats_ODFPackage_h
+#pragma once
 
-#include <DocFormats/DFXMLForward.h>
-#include <DocFormats/DFError.h>
 #include <DocFormats/DFStorage.h>
-#include "ODFManifest.h"
+#include "DFDOM.h"
+#include "ODFPackage.h"
 
-typedef struct ODFPackage ODFPackage;
+#include "CSS.h"
+#include "CSSSheet.h"
 
-struct ODFPackage {
-    size_t retainCount;
-    DFStorage *storage;
+typedef struct {
+    DFDocument *html;
+    DFNode *body; //just cos its easier for the moment
+    DFStorage *abstractStorage;
+    char *idPrefix;
+    ODFPackage *package;
+    struct ODFSheet *styles;
+    DFBuffer *warnings;
+    CSSSheet *styleSheet;
+} ODFConverter ;
+
+typedef struct {
+    ODFConverter *conv;
+} ODFGetData;
+
+typedef struct {
+    ODFConverter *conv;
     DFDocument *contentDoc;
-    DFDocument *metaDoc;
-    DFDocument *settingsDoc;
-    DFDocument *stylesDoc;
-    ODFManifest *manifest;
-};
+    DFHashTable *numIdByHtmlId;
+    DFHashTable *htmlIdByNumId;
+} ODFPutData;
 
-ODFPackage *ODFPackageOpenNew(DFStorage *storage, DFError **error);
-ODFPackage *ODFPackageOpenFrom(DFStorage *storage, DFError **error);
-ODFPackage *ODFPackageRetain(ODFPackage *package);
-void ODFPackageRelease(ODFPackage *package);
-int ODFPackageSave(ODFPackage *package, DFError **error);
+int ODFConverterGet(DFDocument *html, DFStorage *abstractStorage, ODFPackage *package, const char *idPrefix, DFError **error);
 
-#endif
+DFNode *ODFConverterCreateAbstract(ODFGetData *get, Tag tag, DFNode *concrete);
+DFNode *ODFConverterGetConcrete(ODFPutData *put, DFNode *abstract);
