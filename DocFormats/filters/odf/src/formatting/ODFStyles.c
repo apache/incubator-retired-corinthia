@@ -201,18 +201,6 @@ CSSSheet *ODFStylesGet(ODFConverter *converter)
     CSSStyle *bodyStyle = CSSSheetLookupElement(styleSheet,"body",NULL,1,0);
     CSSPut(CSSStyleRule(bodyStyle),"counter-reset","h1 h2 h3 h4 h5 h6 figure table");
 
-
-    DFNode *body = NULL;
-    body = DFCreateChildElement(converter->html->root, HTML_BODY);
-    converter->body = body;
-    DFNode *head = DFChildWithTag(converter->html->root,HTML_HEAD);
-    if (head == NULL) {
-        head = DFCreateElement(converter->html,HTML_HEAD);
-        DFNode *body = DFChildWithTag(converter->html->root,HTML_BODY);
-        converter->body = body;
-        DFInsertBefore(converter->html->root,head,body);
-    }
-
     printf(RED
     "============================================================\n"
     "Process ODF style nodes prior to the traverseContent function\n"
