@@ -25,4 +25,5 @@ typedef struct Grammar Grammar;
 Grammar *GrammarNew(void);
 void GrammarFree(Grammar *gram);
 void GrammarDefine(Grammar *gram, const char *name, Expression *expr);
+void GrammarResolve(Grammar *gram);
 void GrammarPrint(Grammar *gram);

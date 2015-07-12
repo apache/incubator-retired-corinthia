@@ -40,10 +40,20 @@ Expression *ExpressionNew(ExprKind kind, int count, Expression **children)
     return expr;
 }
 
-Expression *ExpressionNewValue(ExprKind kind, const char *value)
+Expression *ExpressionNewIdent(const char *ident)
+{
+    Expression *expr = (Expression *)calloc(1,sizeof(Expression)+1*sizeof(Expression *));
+    expr->kind = IdentExpr;
+    expr->value = strdup(ident);
+    expr->count = 1;
+    expr->children[0] = NULL;
+    return expr;
+}
+
+Expression *ExpressionNewLit(const char *value)
 {
     Expression *expr = (Expression *)calloc(1,sizeof(Expression));
-    expr->kind = kind;
+    expr->kind = LitExpr;
     expr->value = strdup(value);
     expr->count = 0;
     return expr;
@@ -60,9 +70,16 @@ Expression *ExpressionNewRange(int lo, int hi)
 
 void ExpressionFree(Expression *expr)
 {
+    if (expr == NULL)
+        return;
     free(expr->value);
-    for (int i = 0; i < expr->count; i++)
-        ExpressionFree(expr->children[i]);
+    // Don't free children of IdentExpr, since these are expressions referenced by grammar
+    // rules, which will be freed separately. We can't use reference counting here as there
+    // will generally by cycles.
+    if (expr->kind != IdentExpr) {
+        for (int i = 0; i < expr->count; i++)
+            ExpressionFree(expr->children[i]);
+    }
     free(expr);
 }
 
@@ -263,4 +280,12 @@ void ExpressionPrint(Expression *expr, int highestPrecedence, const char *indent
     }
     if (brackets)
         printf(")");
+}
+
+void ExpressionSetTarget(Expression *expr, Expression *target)
+{
+    assert(expr->kind == IdentExpr);
+    assert(expr->count == 1);
+    assert(expr->children[0] == NULL);
+    expr->children[0] = target;
 }

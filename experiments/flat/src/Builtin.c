@@ -19,7 +19,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
-#define ref(name)       ExpressionNewValue(IdentExpr,name)
+#define ref(name)       ExpressionNewIdent(name)
 #define seq(...)        makeExpression(SequenceExpr,__VA_ARGS__,NULL)
 #define choice(...)     makeExpression(ChoiceExpr,__VA_ARGS__,NULL)
 #define and(...)        makeExpression(AndExpr,__VA_ARGS__,NULL)
@@ -27,7 +27,7 @@
 #define opt(...)        makeExpression(OptExpr,__VA_ARGS__,NULL)
 #define star(...)       makeExpression(StarExpr,__VA_ARGS__,NULL)
 #define plus(...)       makeExpression(PlusExpr,__VA_ARGS__,NULL)
-#define lit(value)      ExpressionNewValue(LitExpr,value)
+#define lit(value)      ExpressionNewLit(value)
 #define cls(...)        makeExpression(ClassExpr,__VA_ARGS__,NULL)
 #define dot()           makeExpression(DotExpr,NULL)
 #define range(lo,hi)    ExpressionNewRange(lo,hi)
@@ -221,6 +221,8 @@ Grammar *GrammarNewBuiltin(void)
 
     // EndOfFile  <- !.
     GrammarDefine(gram,"EndOfFile",not(dot()));
+
+    GrammarResolve(gram);
 
     return gram;
 }

@@ -89,7 +89,8 @@ typedef enum {
 typedef struct Expression Expression;
 
 Expression *ExpressionNew(ExprKind kind, int count, Expression **children);
-Expression *ExpressionNewValue(ExprKind kind, const char *value);
+Expression *ExpressionNewIdent(const char *ident);
+Expression *ExpressionNewLit(const char *value);
 Expression *ExpressionNewRange(int lo, int hi);
 void ExpressionFree(Expression *expr);
 
@@ -100,3 +101,4 @@ const char *ExpressionValue(Expression *expr);
 int ExpressionStart(Expression *expr);
 int ExpressionEnd(Expression *expr);
 void ExpressionPrint(Expression *expr, int highestPrecedence, const char *indent);
+void ExpressionSetTarget(Expression *expr, Expression *target);
