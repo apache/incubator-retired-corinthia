@@ -30,18 +30,81 @@ struct Expression {
     Expression *children[];
 };
 
-Expression *ExpressionNew(ExprKind kind, int count, Expression **children)
+Expression *ExpressionNewChoice(int count, Expression **children)
 {
+    for (int i = 0; i < count; i++)
+        assert(children[i] != NULL);
     Expression *expr = (Expression *)calloc(1,sizeof(Expression)+count*sizeof(Expression *));
-    expr->kind = kind;
-    expr->value = NULL;
+    expr->kind = ChoiceExpr;
     expr->count = count;
     memcpy(expr->children,children,count*sizeof(Expression *));
     return expr;
 }
 
+Expression *ExpressionNewSequence(int count, Expression **children)
+{
+    for (int i = 0; i < count; i++)
+        assert(children[i] != NULL);
+    Expression *expr = (Expression *)calloc(1,sizeof(Expression)+count*sizeof(Expression *));
+    expr->kind = SequenceExpr;
+    expr->count = count;
+    memcpy(expr->children,children,count*sizeof(Expression *));
+    return expr;
+}
+
+Expression *ExpressionNewAnd(Expression *child)
+{
+    assert(child != NULL);
+    Expression *expr = (Expression *)calloc(1,sizeof(Expression)+1*sizeof(Expression *));
+    expr->kind = AndExpr;
+    expr->count = 1;
+    expr->children[0] = child;
+    return expr;
+}
+
+Expression *ExpressionNewNot(Expression *child)
+{
+    assert(child != NULL);
+    Expression *expr = (Expression *)calloc(1,sizeof(Expression)+1*sizeof(Expression *));
+    expr->kind = NotExpr;
+    expr->count = 1;
+    expr->children[0] = child;
+    return expr;
+}
+
+Expression *ExpressionNewOpt(Expression *child)
+{
+    assert(child != NULL);
+    Expression *expr = (Expression *)calloc(1,sizeof(Expression)+1*sizeof(Expression *));
+    expr->kind = OptExpr;
+    expr->count = 1;
+    expr->children[0] = child;
+    return expr;
+}
+
+Expression *ExpressionNewStar(Expression *child)
+{
+    assert(child != NULL);
+    Expression *expr = (Expression *)calloc(1,sizeof(Expression)+1*sizeof(Expression *));
+    expr->kind = StarExpr;
+    expr->count = 1;
+    expr->children[0] = child;
+    return expr;
+}
+
+Expression *ExpressionNewPlus(Expression *child)
+{
+    assert(child != NULL);
+    Expression *expr = (Expression *)calloc(1,sizeof(Expression)+1*sizeof(Expression *));
+    expr->kind = PlusExpr;
+    expr->count = 1;
+    expr->children[0] = child;
+    return expr;
+}
+
 Expression *ExpressionNewIdent(const char *ident)
 {
+    assert(ident != NULL);
     Expression *expr = (Expression *)calloc(1,sizeof(Expression)+1*sizeof(Expression *));
     expr->kind = IdentExpr;
     expr->value = strdup(ident);
@@ -52,10 +115,31 @@ Expression *ExpressionNewIdent(const char *ident)
 
 Expression *ExpressionNewLit(const char *value)
 {
+    assert(value != NULL);
     Expression *expr = (Expression *)calloc(1,sizeof(Expression));
     expr->kind = LitExpr;
     expr->value = strdup(value);
     expr->count = 0;
+    return expr;
+}
+
+Expression *ExpressionNewClass(int count, Expression **children)
+{
+    for (int i = 0; i < count; i++) {
+        assert(children[i] != NULL);
+        assert(children[i]->kind == RangeExpr);
+    }
+    Expression *expr = (Expression *)calloc(1,sizeof(Expression)+count*sizeof(Expression *));
+    expr->kind = ClassExpr;
+    expr->count = count;
+    memcpy(expr->children,children,count*sizeof(Expression *));
+    return expr;
+}
+
+Expression *ExpressionNewDot(void)
+{
+    Expression *expr = (Expression *)calloc(1,sizeof(Expression));
+    expr->kind = DotExpr;
     return expr;
 }
 
@@ -81,38 +165,6 @@ void ExpressionFree(Expression *expr)
             ExpressionFree(expr->children[i]);
     }
     free(expr);
-}
-
-ExprKind ExpressionKind(Expression *expr)
-{
-    return expr->kind;
-}
-
-Expression *ExpressionChild(Expression *expr, int index)
-{
-    if ((index < 0) || (index >= expr->count))
-        return NULL;
-    return expr->children[index];
-}
-
-int ExpressionCount(Expression *expr)
-{
-    return expr->count;
-}
-
-const char *ExpressionValue(Expression *expr)
-{
-    return expr->value;
-}
-
-int ExpressionStart(Expression *expr)
-{
-    return expr->start;
-}
-
-int ExpressionEnd(Expression *expr)
-{
-    return expr->end;
 }
 
 static int ExprKindPrecedence(ExprKind kind)
@@ -201,63 +253,55 @@ void ExpressionPrint(Expression *expr, int highestPrecedence, const char *indent
     }
     switch (expr->kind) {
         case ChoiceExpr:
-            for (int i = 0; i < ExpressionCount(expr); i++) {
+            for (int i = 0; i < ExprChoiceCount(expr); i++) {
                 if (i > 0) {
                     if (indent != NULL)
                         printf("\n%s/ ",indent);
                     else
                         printf(" / ");
                 }
-                ExpressionPrint(ExpressionChild(expr,i),highestPrecedence,NULL);
+                ExpressionPrint(ExprChoiceChildAt(expr,i),highestPrecedence,NULL);
             }
             break;
         case SequenceExpr: {
-            for (int i = 0; i < ExpressionCount(expr); i++) {
+            for (int i = 0; i < ExprSequenceCount(expr); i++) {
                 if (i > 0) {
                     printf(" ");
                 }
-                ExpressionPrint(ExpressionChild(expr,i),highestPrecedence,NULL);
+                ExpressionPrint(ExprSequenceChildAt(expr,i),highestPrecedence,NULL);
             }
             break;
         }
         case AndExpr:
-            assert(ExpressionCount(expr) == 1);
             printf("&");
-            ExpressionPrint(ExpressionChild(expr,0),highestPrecedence,NULL);
+            ExpressionPrint(ExprAndChild(expr),highestPrecedence,NULL);
             break;
         case NotExpr:
-            assert(ExpressionCount(expr) == 1);
             printf("!");
-            ExpressionPrint(ExpressionChild(expr,0),highestPrecedence,NULL);
+            ExpressionPrint(ExprNotChild(expr),highestPrecedence,NULL);
             break;
         case OptExpr:
-            assert(ExpressionCount(expr) == 1);
-            ExpressionPrint(ExpressionChild(expr,0),highestPrecedence,NULL);
+            ExpressionPrint(ExprOptChild(expr),highestPrecedence,NULL);
             printf("?");
             break;
         case StarExpr:
-            assert(ExpressionCount(expr) == 1);
-            ExpressionPrint(ExpressionChild(expr,0),highestPrecedence,NULL);
+            ExpressionPrint(ExprStarChild(expr),highestPrecedence,NULL);
             printf("*");
             break;
         case PlusExpr:
-            assert(ExpressionCount(expr) == 1);
-            ExpressionPrint(ExpressionChild(expr,0),highestPrecedence,NULL);
+            ExpressionPrint(ExprPlusChild(expr),highestPrecedence,NULL);
             printf("+");
             break;
         case IdentExpr:
-            assert(ExpressionValue(expr) != NULL);
-            printf("%s",ExpressionValue(expr));
+            printf("%s",ExprIdentValue(expr));
             break;
         case LitExpr:
-            assert(ExpressionValue(expr) != NULL);
-            printLiteral(ExpressionValue(expr));
+            printLiteral(ExprLitValue(expr));
             break;
         case ClassExpr:
             printf("[");
-            for (int i = 0; i < ExpressionCount(expr); i++) {
-                assert(ExpressionKind(ExpressionChild(expr,i)) == RangeExpr);
-                ExpressionPrint(ExpressionChild(expr,i),highestPrecedence,NULL);
+            for (int i = 0; i < ExprClassCount(expr); i++) {
+                ExpressionPrint(ExprClassChildAt(expr,i),highestPrecedence,NULL);
             }
             printf("]");
             break;
@@ -265,8 +309,8 @@ void ExpressionPrint(Expression *expr, int highestPrecedence, const char *indent
             printf(".");
             break;
         case RangeExpr: {
-            int start = ExpressionStart(expr);
-            int end = ExpressionEnd(expr);
+            int start = ExprRangeStart(expr);
+            int end = ExprRangeEnd(expr);
             if (start+1 == end) {
                 printEscapedRangeChar(start);
             }
@@ -282,10 +326,153 @@ void ExpressionPrint(Expression *expr, int highestPrecedence, const char *indent
         printf(")");
 }
 
-void ExpressionSetTarget(Expression *expr, Expression *target)
+ExprKind ExpressionKind(Expression *expr)
+{
+    return expr->kind;
+}
+
+int ExpressionCount(Expression *expr)
+{
+    return expr->count;
+}
+
+Expression *ExpressionChildAt(Expression *expr, int index)
+{
+    if ((index < 0) || (index >= expr->count))
+        return NULL;
+    return expr->children[index];
+}
+
+// Choice
+
+int ExprChoiceCount(Expression *expr)
+{
+    assert(expr->kind == ChoiceExpr);
+    return expr->count;
+}
+
+Expression *ExprChoiceChildAt(Expression *expr, int index)
+{
+    assert(expr->kind == ChoiceExpr);
+    assert(index >= 0);
+    assert(index < expr->count);
+    return expr->children[index];
+}
+
+// Sequence
+
+int ExprSequenceCount(Expression *expr)
+{
+    assert(expr->kind == SequenceExpr);
+    return expr->count;
+}
+
+Expression *ExprSequenceChildAt(Expression *expr, int index)
+{
+    assert(expr->kind == SequenceExpr);
+    assert(index >= 0);
+    assert(index < expr->count);
+    return expr->children[index];
+}
+
+// And, Not, Opt, Star, Plus
+
+Expression *ExprAndChild(Expression *expr)
+{
+    assert(expr->kind == AndExpr);
+    assert(expr->count == 1);
+    assert(expr->children[0] != NULL);
+    return expr->children[0];
+}
+
+Expression *ExprNotChild(Expression *expr)
+{
+    assert(expr->kind == NotExpr);
+    assert(expr->count == 1);
+    assert(expr->children[0] != NULL);
+    return expr->children[0];
+}
+
+Expression *ExprOptChild(Expression *expr)
+{
+    assert(expr->kind == OptExpr);
+    assert(expr->count == 1);
+    assert(expr->children[0] != NULL);
+    return expr->children[0];
+}
+
+Expression *ExprStarChild(Expression *expr)
+{
+    assert(expr->kind == StarExpr);
+    assert(expr->count == 1);
+    assert(expr->children[0] != NULL);
+    return expr->children[0];
+}
+
+Expression *ExprPlusChild(Expression *expr)
+{
+    assert(expr->kind == PlusExpr);
+    assert(expr->count == 1);
+    assert(expr->children[0] != NULL);
+    return expr->children[0];
+}
+
+// Ident, Lit
+
+const char *ExprIdentValue(Expression *expr)
+{
+    assert(expr->kind == IdentExpr);
+    return expr->value;
+}
+
+Expression *ExprIdentTarget(Expression *expr)
+{
+    assert(expr->kind == IdentExpr);
+    assert(expr->count == 1);
+    assert(expr->children[0] != NULL);
+    return expr->children[0];
+}
+
+void ExprIdentSetTarget(Expression *expr, Expression *target)
 {
     assert(expr->kind == IdentExpr);
     assert(expr->count == 1);
     assert(expr->children[0] == NULL);
     expr->children[0] = target;
+}
+
+const char *ExprLitValue(Expression *expr)
+{
+    assert(expr->kind == LitExpr);
+    return expr->value;
+}
+
+// Class
+
+int ExprClassCount(Expression *expr)
+{
+    assert(expr->kind == ClassExpr);
+    return expr->count;
+}
+
+Expression *ExprClassChildAt(Expression *expr, int index)
+{
+    assert(expr->kind == ClassExpr);
+    assert(index >= 0);
+    assert(index < expr->count);
+    return expr->children[index];
+}
+
+// Range
+
+int ExprRangeStart(Expression *expr)
+{
+    assert(expr->kind == RangeExpr);
+    return expr->start;
+}
+
+int ExprRangeEnd(Expression *expr)
+{
+    assert(expr->kind == RangeExpr);
+    return expr->end;
 }

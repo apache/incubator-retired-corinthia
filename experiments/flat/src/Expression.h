@@ -88,17 +88,56 @@ typedef enum {
 
 typedef struct Expression Expression;
 
-Expression *ExpressionNew(ExprKind kind, int count, Expression **children);
+Expression *ExpressionNewChoice(int count, Expression **children);
+Expression *ExpressionNewSequence(int count, Expression **children);
+Expression *ExpressionNewAnd(Expression *child);
+Expression *ExpressionNewNot(Expression *child);
+Expression *ExpressionNewOpt(Expression *child);
+Expression *ExpressionNewStar(Expression *child);
+Expression *ExpressionNewPlus(Expression *child);
 Expression *ExpressionNewIdent(const char *ident);
 Expression *ExpressionNewLit(const char *value);
+Expression *ExpressionNewClass(int count, Expression **children);
+Expression *ExpressionNewDot(void);
 Expression *ExpressionNewRange(int lo, int hi);
 void ExpressionFree(Expression *expr);
+void ExpressionPrint(Expression *expr, int highestPrecedence, const char *indent);
 
 ExprKind ExpressionKind(Expression *expr);
-Expression *ExpressionChild(Expression *expr, int index);
 int ExpressionCount(Expression *expr);
-const char *ExpressionValue(Expression *expr);
-int ExpressionStart(Expression *expr);
-int ExpressionEnd(Expression *expr);
-void ExpressionPrint(Expression *expr, int highestPrecedence, const char *indent);
-void ExpressionSetTarget(Expression *expr, Expression *target);
+Expression *ExpressionChildAt(Expression *expr, int index);
+
+// Choice
+
+int ExprChoiceCount(Expression *expr);
+Expression *ExprChoiceChildAt(Expression *expr, int index);
+
+// Sequence
+
+int ExprSequenceCount(Expression *expr);
+Expression *ExprSequenceChildAt(Expression *expr, int index);
+
+// And, Not, Opt, Star, Plus
+
+Expression *ExprAndChild(Expression *expr);
+Expression *ExprNotChild(Expression *expr);
+Expression *ExprOptChild(Expression *expr);
+Expression *ExprStarChild(Expression *expr);
+Expression *ExprPlusChild(Expression *expr);
+
+// Ident, Lit
+
+const char *ExprIdentValue(Expression *expr);
+Expression *ExprIdentTarget(Expression *expr);
+void ExprIdentSetTarget(Expression *expr, Expression *target);
+const char *ExprLitValue(Expression *expr);
+
+// Class
+
+int ExprClassCount(Expression *expr);
+Expression *ExprClassChildAt(Expression *expr, int index);
+
+// Range
+
+int ExprRangeStart(Expression *expr);
+int ExprRangeEnd(Expression *expr);

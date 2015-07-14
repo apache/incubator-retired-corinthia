@@ -20,29 +20,29 @@
 #include <stdlib.h>
 
 #define ref(name)       ExpressionNewIdent(name)
-#define seq(...)        makeExpression(SequenceExpr,__VA_ARGS__,NULL)
-#define choice(...)     makeExpression(ChoiceExpr,__VA_ARGS__,NULL)
-#define and(...)        makeExpression(AndExpr,__VA_ARGS__,NULL)
-#define not(...)        makeExpression(NotExpr,__VA_ARGS__,NULL)
-#define opt(...)        makeExpression(OptExpr,__VA_ARGS__,NULL)
-#define star(...)       makeExpression(StarExpr,__VA_ARGS__,NULL)
-#define plus(...)       makeExpression(PlusExpr,__VA_ARGS__,NULL)
+#define choice(...)     makeExpression(ExpressionNewChoice,__VA_ARGS__,NULL)
+#define seq(...)        makeExpression(ExpressionNewSequence,__VA_ARGS__,NULL)
+#define and(child)      ExpressionNewAnd(child)
+#define not(child)      ExpressionNewNot(child)
+#define opt(child)      ExpressionNewOpt(child)
+#define star(child)     ExpressionNewStar(child)
+#define plus(child)     ExpressionNewPlus(child)
 #define lit(value)      ExpressionNewLit(value)
-#define cls(...)        makeExpression(ClassExpr,__VA_ARGS__,NULL)
-#define dot()           makeExpression(DotExpr,NULL)
+#define cls(...)        makeExpression(ExpressionNewClass,__VA_ARGS__,NULL)
+#define dot()           ExpressionNewDot()
 #define range(lo,hi)    ExpressionNewRange(lo,hi)
 
-static Expression *makeExpression(ExprKind kind, ...)
+static Expression *makeExpression(Expression *(*fun)(int,Expression **), ...)
 {
     Expression *children[20];
     int count = 0;
     va_list ap;
-    va_start(ap,kind);
+    va_start(ap,fun);
     Expression *expr;
     while ((count < 20) && ((expr = va_arg(ap,Expression *)) != NULL))
         children[count++] = expr;
     va_end(ap);
-    return ExpressionNew(kind,count,children);
+    return fun(count,children);
 }
 
 Grammar *GrammarNewBuiltin(void)

@@ -85,17 +85,17 @@ static Rule *GrammarLookup(Grammar *gram, const char *name)
 static void GrammarResolveRecursive(Grammar *gram, Expression *expr, const char *ruleName)
 {
     if (ExpressionKind(expr) == IdentExpr) {
-        const char *targetName = ExpressionValue(expr);
+        const char *targetName = ExprIdentValue(expr);
         Rule *targetRule = GrammarLookup(gram,targetName);
         if (targetRule == NULL) {
             fprintf(stderr,"%s: Cannot resolve reference %s\n",ruleName,targetName);
             exit(1);
         }
-        ExpressionSetTarget(expr,targetRule->expr);
+        ExprIdentSetTarget(expr,targetRule->expr);
     }
     else {
         for (int i = 0; i < ExpressionCount(expr); i++)
-            GrammarResolveRecursive(gram,ExpressionChild(expr,i),ruleName);
+            GrammarResolveRecursive(gram,ExpressionChildAt(expr,i),ruleName);
     }
 }
 
