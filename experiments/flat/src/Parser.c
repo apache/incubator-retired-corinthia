@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+#include "Common.h"
 #include "Parser.h"
 #include "Util.h"
 #include <stdlib.h>

@@ -25,6 +25,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(SOURCES
     Builtin.c
     Builtin.h
+    Common.h
     Expression.c
     Expression.h
     Grammar.c

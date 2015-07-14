@@ -88,6 +88,8 @@ typedef enum {
 
 typedef struct Expression Expression;
 
+const char *ExprKindAsString(ExprKind kind);
+
 Expression *ExpressionNewChoice(int count, Expression **children);
 Expression *ExpressionNewSequence(int count, Expression **children);
 Expression *ExpressionNewAnd(Expression *child);

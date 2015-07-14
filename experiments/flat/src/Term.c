@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+#include "Common.h"
 #include "Term.h"
 #include "Util.h"
 #include <stdlib.h>
@@ -49,4 +50,48 @@ void TermListPtrAppend(TermList ***listPtr, Term *term)
     assert(**listPtr == NULL);
     **listPtr = TermListNew(term,NULL);
     *listPtr = &(**listPtr)->next;
+}
+
+void TermPrint(Term *term, const char *input, int indent)
+{
+    for (int i = 0; i < indent; i++)
+        printf("    ");
+
+    switch (ExpressionKind(term->type)) {
+        case IdentExpr:
+            printf("%s %s\n",ExprKindAsString(ExpressionKind(term->type)),ExprIdentValue(term->type));
+            break;
+        case LitExpr:
+        case RangeExpr:
+        case DotExpr: {
+            int start = term->start;
+            int end = term->end;
+            int inputLen = strlen(input);
+            if ((start >= 0) && (start <= inputLen) && (end >= 0) && (end <= inputLen) && (start <= end)) {
+                char *temp = (char*)malloc(end-start+1);
+                memcpy(temp,&input[start],end-start);
+                temp[end-start] = '\0';
+
+                printf("%s ",ExprKindAsString(ExpressionKind(term->type)));
+                printLiteral(temp);
+                printf("\n");
+
+                free(temp);
+            }
+            else {
+                printf("%s\n",ExprKindAsString(ExpressionKind(term->type)));
+            }
+            break;
+        }
+        default:
+            printf("%s\n",ExprKindAsString(ExpressionKind(term->type)));
+            break;
+    }
+
+    for (TermList *child = term->children; child != NULL; child = child->next) {
+        if (child->next != NULL)
+            TermPrint(child->term,input,indent+1);
+        else
+            TermPrint(child->term,input,indent+1);
+    }
 }

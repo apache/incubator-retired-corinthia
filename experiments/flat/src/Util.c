@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+#include "Common.h"
 #include "Util.h"
 #include <stdio.h>
 
@@ -74,4 +75,49 @@ uint32_t UTF8NextChar(const char *str, size_t *offsetp)
         *offsetp = pos;
         return 0;
     }
+}
+
+void printEscapedRangeChar(char c)
+{
+    switch (c) {
+        case '[':
+            printf("\\[");
+            break;
+        case ']':
+            printf("\\]");
+            break;
+        case '\\':
+            printf("\\\\");
+            break;
+        default:
+            printf("%c",c);
+            break;
+    }
+}
+
+void printLiteral(const char *value)
+{
+    printf("'");
+    for (int i = 0; value[i] != '\0'; i++) {
+        switch (value[i]) {
+            case '\r':
+                printf("\\r");
+                break;
+            case '\n':
+                printf("\\n");
+                break;
+            case '\t':
+                printf("\\t");
+                break;
+            case '\'':
+                printf("\\'");
+                break;
+            case '\\':
+                printf("\\\\");
+                break;
+            default:
+                printf("%c",value[i]);
+        }
+    }
+    printf("'");
 }

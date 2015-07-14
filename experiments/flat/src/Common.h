@@ -17,9 +17,10 @@
 
 #pragma once
 
-#include <sys/types.h>
-#include <stdint.h>
+// Ultimately we should use DFPlatform.h or a similarly-named shared header here. However currently
+// I want to keep the source tree for Flat separate from DocFormats so it can work as an independent
+// library, at least during the "experimental" phase of development.
 
-uint32_t UTF8NextChar(const char *str, size_t *offsetp);
-void printEscapedRangeChar(char c);
-void printLiteral(const char *value);
+#ifdef _WINDOWS
+#define snprintf _snprintf
+#endif // _WINDOWS

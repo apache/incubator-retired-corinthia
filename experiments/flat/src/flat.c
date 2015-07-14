@@ -15,14 +15,67 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#include <stdio.h>
+#include "Common.h"
 #include "Builtin.h"
+#include "Parser.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define READ_SIZE 1024
+
+static char *readStringFromFile(const char *filename)
+{
+    FILE *f = fopen(filename,"rb");
+    if (f == NULL) {
+        perror(filename);
+        return NULL;
+    }
+
+    char *data = (char *)malloc(READ_SIZE);
+    size_t len = 0;
+    size_t r;
+    while (0 < (r = fread(&data[len],1,READ_SIZE,f))) {
+        len += r;
+        data = (char*)realloc(data,len+READ_SIZE);
+    }
+    data = (char*)realloc(data,len+1);
+    data[len] = '\0';
+    fclose(f);
+    return data;
+}
 
 int main(int argc, const char **argv)
 {
-    // Build and print out the built-in PEG grammar
-    Grammar *gram = GrammarNewBuiltin();
-    GrammarPrint(gram);
-    GrammarFree(gram);
+
+    if ((argc == 2) && !strcmp(argv[1],"-g")) {
+        // Build and print out the built-in PEG grammar
+        Grammar *gram = GrammarNewBuiltin();
+        GrammarPrint(gram);
+        GrammarFree(gram);
+    }
+    else if ((argc == 3) && !strcmp(argv[1],"-p")) {
+        const char *filename = argv[2];
+        char *input = readStringFromFile(filename);
+        if (input == NULL) {
+            perror(filename);
+            exit(1);
+        }
+        Grammar *gram = GrammarNewBuiltin();
+        Term *term = parse(gram,"Grammar",input,0,strlen(input));
+        printf("Parsed term %p\n",term);
+        TermPrint(term,input,0);
+        free(input);
+        GrammarFree(gram);
+    }
+    else {
+        printf("Usage:\n"
+               "\n"
+               "flat -g            Print built-in PEG grammar\n"
+               "\n"
+               "flat -p FILENAME   Parse FILENAME using the built-in PEG grammar, and print\n"
+               "                   the resulting parse tree\n");
+        return 1;
+    }
     return 0;
 }

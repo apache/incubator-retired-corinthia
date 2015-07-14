@@ -15,7 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
+#include "Common.h"
 #include "Expression.h"
+#include "Util.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -29,6 +31,38 @@ struct Expression {
     int end;
     Expression *children[];
 };
+
+const char *ExprKindAsString(ExprKind kind)
+{
+    switch (kind) {
+        case ChoiceExpr:
+            return "Choice";
+        case SequenceExpr:
+            return "Sequence";
+        case AndExpr:
+            return "And";
+        case NotExpr:
+            return "Not";
+        case OptExpr:
+            return "Opt";
+        case StarExpr:
+            return "Star";
+        case PlusExpr:
+            return "Plus";
+        case IdentExpr:
+            return "Ident";
+        case LitExpr:
+            return "Lit";
+        case ClassExpr:
+            return "Class";
+        case DotExpr:
+            return "Dot";
+        case RangeExpr:
+            return "Range";
+        default:
+            return "?";
+    }
+}
 
 Expression *ExpressionNewChoice(int count, Expression **children)
 {
@@ -190,51 +224,6 @@ static int ExprKindPrecedence(ExprKind kind)
             return 6;
     }
     return 0;
-}
-
-static void printEscapedRangeChar(char c)
-{
-    switch (c) {
-        case '[':
-            printf("\\[");
-            break;
-        case ']':
-            printf("\\]");
-            break;
-        case '\\':
-            printf("\\\\");
-            break;
-        default:
-            printf("%c",c);
-            break;
-    }
-}
-
-static void printLiteral(const char *value)
-{
-    printf("'");
-    for (int i = 0; value[i] != '\0'; i++) {
-        switch (value[i]) {
-            case '\r':
-                printf("\\r");
-                break;
-            case '\n':
-                printf("\\n");
-                break;
-            case '\t':
-                printf("\\t");
-                break;
-            case '\'':
-                printf("\\'");
-                break;
-            case '\\':
-                printf("\\\\");
-                break;
-            default:
-                printf("%c",value[i]);
-        }
-    }
-    printf("'");
 }
 
 void ExpressionPrint(Expression *expr, int highestPrecedence, const char *indent)
