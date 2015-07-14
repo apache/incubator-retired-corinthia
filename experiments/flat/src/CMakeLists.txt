@@ -29,6 +29,12 @@ set(SOURCES
     Expression.h
     Grammar.c
     Grammar.h
+    Parser.c
+    Parser.h
+    Term.c
+    Term.h
+    Util.c
+    Util.h
     flat.c)
 
 ###

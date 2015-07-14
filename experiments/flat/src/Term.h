@@ -16,15 +16,25 @@
 // under the License.
 
 #pragma once
-#include <sys/types.h>
 
 #include "Expression.h"
 
-typedef struct Grammar Grammar;
+typedef struct Term Term;
+typedef struct TermList TermList;
 
-Grammar *GrammarNew(void);
-void GrammarFree(Grammar *gram);
-void GrammarDefine(Grammar *gram, const char *name, Expression *expr);
-Expression *GrammarLookup(Grammar *gram, const char *name);
-void GrammarResolve(Grammar *gram);
-void GrammarPrint(Grammar *gram);
+struct Term {
+    Expression *type;
+    int start;
+    int end;
+    TermList *children;
+};
+
+struct TermList {
+    Term *term;
+    TermList *next;
+};
+
+Term *TermNew(Expression *type, int start, int end, TermList *children);
+
+TermList *TermListNew(Term *term, TermList *next);
+void TermListPtrAppend(TermList ***listPtr, Term *term);

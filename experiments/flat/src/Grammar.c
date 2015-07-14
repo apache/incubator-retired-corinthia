@@ -73,11 +73,11 @@ void GrammarDefine(Grammar *gram, const char *name, Expression *expr)
     gram->nextDef = &def->next;
 }
 
-static Rule *GrammarLookup(Grammar *gram, const char *name)
+Expression *GrammarLookup(Grammar *gram, const char *name)
 {
     for (Rule *def = gram->defList; def != NULL; def = def->next) {
         if (!strcmp(def->name,name))
-            return def;
+            return def->expr;
     }
     return NULL;
 }
@@ -86,12 +86,12 @@ static void GrammarResolveRecursive(Grammar *gram, Expression *expr, const char 
 {
     if (ExpressionKind(expr) == IdentExpr) {
         const char *targetName = ExprIdentValue(expr);
-        Rule *targetRule = GrammarLookup(gram,targetName);
-        if (targetRule == NULL) {
+        Expression *targetExpr = GrammarLookup(gram,targetName);
+        if (targetExpr == NULL) {
             fprintf(stderr,"%s: Cannot resolve reference %s\n",ruleName,targetName);
             exit(1);
         }
-        ExprIdentSetTarget(expr,targetRule->expr);
+        ExprIdentSetTarget(expr,targetExpr);
     }
     else {
         for (int i = 0; i < ExpressionCount(expr); i++)

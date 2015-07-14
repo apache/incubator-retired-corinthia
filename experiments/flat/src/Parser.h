@@ -16,15 +16,8 @@
 // under the License.
 
 #pragma once
-#include <sys/types.h>
 
-#include "Expression.h"
+#include "Term.h"
+#include "Grammar.h"
 
-typedef struct Grammar Grammar;
-
-Grammar *GrammarNew(void);
-void GrammarFree(Grammar *gram);
-void GrammarDefine(Grammar *gram, const char *name, Expression *expr);
-Expression *GrammarLookup(Grammar *gram, const char *name);
-void GrammarResolve(Grammar *gram);
-void GrammarPrint(Grammar *gram);
+Term *parse(Grammar *gram, const char *rule, const char *input, int start, int end);
