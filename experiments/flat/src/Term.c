@@ -52,11 +52,8 @@ void TermListPtrAppend(TermList ***listPtr, Term *term)
     *listPtr = &(**listPtr)->next;
 }
 
-void TermPrint(Term *term, const char *input, int indent)
+void TermPrint(Term *term, const char *input, const char *indent)
 {
-    for (int i = 0; i < indent; i++)
-        printf("    ");
-
     switch (ExpressionKind(term->type)) {
         case IdentExpr:
             printf("%s %s\n",ExprKindAsString(ExpressionKind(term->type)),ExprIdentValue(term->type));
@@ -88,10 +85,21 @@ void TermPrint(Term *term, const char *input, int indent)
             break;
     }
 
+    int indentLen = strlen(indent);
+    char *nextIndent = (char *)malloc(indentLen+5);
+
     for (TermList *child = term->children; child != NULL; child = child->next) {
-        if (child->next != NULL)
-            TermPrint(child->term,input,indent+1);
-        else
-            TermPrint(child->term,input,indent+1);
+        if (child->next != NULL) {
+            printf("%s|-- ",indent);
+            snprintf(nextIndent,indentLen+5,"%s|   ",indent);
+            TermPrint(child->term,input,nextIndent);
+        }
+        else {
+            printf("%s\\-- ",indent);
+            snprintf(nextIndent,indentLen+5,"%s    ",indent);
+            TermPrint(child->term,input,nextIndent);
+        }
     }
+
+    free(nextIndent);
 }

@@ -63,8 +63,7 @@ int main(int argc, const char **argv)
         }
         Grammar *gram = GrammarNewBuiltin();
         Term *term = parse(gram,"Grammar",input,0,strlen(input));
-        printf("Parsed term %p\n",term);
-        TermPrint(term,input,0);
+        TermPrint(term,input,"");
         free(input);
         GrammarFree(gram);
     }

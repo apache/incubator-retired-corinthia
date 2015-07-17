@@ -39,4 +39,4 @@ Term *TermNew(Expression *type, int start, int end, TermList *children);
 TermList *TermListNew(Term *term, TermList *next);
 void TermListPtrAppend(TermList ***listPtr, Term *term);
 
-void TermPrint(Term *term, const char *input, int indent);
+void TermPrint(Term *term, const char *input, const char *indent);
