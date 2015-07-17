@@ -17,34 +17,7 @@
 
 #pragma once
 
-#include "Expression.h"
+#include "Grammar.h"
+#include "Term.h"
 
-typedef struct Term Term;
-typedef struct TermList TermList;
-
-struct Term {
-    Expression *type;
-    int start;
-    int end;
-    TermList *children;
-};
-
-struct TermList {
-    Term *term;
-    TermList *next;
-};
-
-Term *TermNew(Expression *type, int start, int end, TermList *children);
-
-ExprKind TermKind(Term *term);
-Expression *TermType(Term *term);
-int TermStart(Term *term);
-int TermEnd(Term *term);
-TermList *TermChildren(Term *term);
-int TermCount(Term *term);
-Term *TermChildAt(Term *term, int index);
-
-TermList *TermListNew(Term *term, TermList *next);
-void TermListPtrAppend(TermList ***listPtr, Term *term);
-
-void TermPrint(Term *term, const char *input, const char *indent);
+Grammar *grammarFromTerm(Term *term, const char *input);

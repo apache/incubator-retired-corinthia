@@ -16,6 +16,7 @@
 // under the License.
 
 #include "Common.h"
+#include "BuildGrammar.h"
 #include "Builtin.h"
 #include "Parser.h"
 #include <stdio.h>
@@ -67,13 +68,47 @@ int main(int argc, const char **argv)
         free(input);
         GrammarFree(gram);
     }
+    else if ((argc == 3) && !strcmp(argv[1],"-b")) {
+        const char *filename = argv[2];
+        char *input = readStringFromFile(filename);
+        if (input == NULL) {
+            perror(filename);
+            exit(1);
+        }
+
+        Grammar *gram = GrammarNewBuiltin();
+        Term *term = parse(gram,"Grammar",input,0,strlen(input));
+        if (term == NULL) {
+            fprintf(stderr,"%s: Parse failed\n",filename);
+            exit(1);
+        }
+
+
+        Grammar *built = grammarFromTerm(term,input);
+        GrammarPrint(built);
+
+        free(input);
+        GrammarFree(gram);
+        GrammarFree(built);
+    }
     else {
         printf("Usage:\n"
                "\n"
-               "flat -g            Print built-in PEG grammar\n"
+               "flat -g\n"
                "\n"
-               "flat -p FILENAME   Parse FILENAME using the built-in PEG grammar, and print\n"
-               "                   the resulting parse tree\n");
+               "    Print the built-in PEG grammar\n"
+               "\n"
+               "flat -p FILENAME\n"
+               "\n"
+               "    Parse FILENAME using the built-in PEG grammar, and print out the resulting\n"
+               "    parse tree\n"
+               "\n"
+               "flat -b FILENAME\n"
+               "\n"
+               "    Parse FILENAME using the built-in PEG grammar, then use the resulting parse\n"
+               "    tree to build a Grammar object, and print out the constructed grammar.\n"
+               "\n");
+
         return 1;
     }
     return 0;

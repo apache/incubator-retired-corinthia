@@ -34,6 +34,53 @@ Term *TermNew(Expression *type, int start, int end, TermList *children)
     return term;
 }
 
+ExprKind TermKind(Term *term)
+{
+    return ExpressionKind(TermType(term));
+}
+
+Expression *TermType(Term *term)
+{
+    return term->type;
+}
+
+int TermStart(Term *term)
+{
+    return term->start;
+}
+
+int TermEnd(Term *term)
+{
+    return term->end;
+}
+
+TermList *TermChildren(Term *term)
+{
+    return term->children;
+}
+
+int TermCount(Term *term)
+{
+    int count = 0;
+    for (TermList *item = term->children; item != NULL; item = item->next)
+        count++;
+    return count;
+}
+
+Term *TermChildAt(Term *term, int index)
+{
+    int count = 0;
+    for (TermList *item = term->children; item != NULL; item = item->next) {
+        if (count == index)
+            return item->term;
+        count++;
+    }
+    fprintf(stderr,"No child term of %s at index %d; max %d\n",ExprKindAsString(TermKind(term)),index,TermCount(term));
+    abort();
+    return NULL;
+}
+
+
 TermList *TermListNew(Term *term, TermList *next)
 {
     TermList *list = (TermList *)calloc(1,sizeof(TermList));

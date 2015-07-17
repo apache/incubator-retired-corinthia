@@ -23,6 +23,8 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 ## group source objects
 ###
 set(SOURCES
+    BuildGrammar.c
+    BuildGrammar.h
     Builtin.c
     Builtin.h
     Common.h
