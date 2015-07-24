@@ -146,11 +146,10 @@ set(GroupTestsXML
 # Common include for all core files
 ###
 include_directories()
-include_directories(/usr/include/libxml2)
-include_directories(../../DocFormats/platform/3rdparty/w3c-tidy-html5/include)
-include_directories(../../DocFormats/platform/3rdparty//w3c-tidy-html5/src)
 include_directories(SYSTEM ${INCLUDE_DIRS})
 include_directories(SYSTEM ../api/headers)
+include_directories(../../DocFormats/platform/3rdparty/w3c-tidy-html5/include)
+include_directories(../../DocFormats/platform/3rdparty//w3c-tidy-html5/src)
 include_directories(src/common)
 include_directories(src/css)
 include_directories(src/html)

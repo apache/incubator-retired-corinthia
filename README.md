@@ -77,8 +77,7 @@ your own program.
 
 # Platforms and dependencies
 
-Corinthia builds and runs on iOS, OS X, and Linux. Windows support is in the
-works.
+Corinthia builds and runs on iOS, OS X, Linux and Windows.
 
 To build DocFormats, you will need to have the following installed:
 
@@ -89,7 +88,7 @@ To build DocFormats, you will need to have the following installed:
 
 # Build instructions
 
-Corinthia currently builds on Linux and OS X (mac). See the [build  instructions](https://github.com/uxproductivity/Corinthia/wiki/Build-instructions).
+Corinthia currently builds on Linux, OS X (mac) and Windows. See the [build  instructions](https://cwiki.apache.org/confluence/display/Corinthia/Build+instructions).
 
 # Contributing
 
