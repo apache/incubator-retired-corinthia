@@ -16,5 +16,8 @@ build*/
 
 # External downloads
 
+# Finder directory status files (OS X)
+.DS_Store
+
 
 #                    *** end of .gitignore ***
