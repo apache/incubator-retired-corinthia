@@ -15,26 +15,26 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#include "AShared.h"
+#include "CShared.h"
 #include <assert.h>
 #include <stdio.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
-//                                             AShared                                            //
+//                                             CShared                                            //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-AShared::AShared()
+CShared::CShared()
     : _refCount(0)
 {
 }
 
-AShared::~AShared()
+CShared::~CShared()
 {
-    AWeakRefData *ref = _weakRefs.first;
+    CWeakRefData *ref = _weakRefs.first;
     while (ref != NULL) {
-        AWeakRefData *next = ref->next;
+        CWeakRefData *next = ref->next;
         ref->ptr = NULL;
         ref->prev = NULL;
         ref->next = NULL;
@@ -42,15 +42,15 @@ AShared::~AShared()
     }
 }
 
-int AShared::weakRefCount() const
+int CShared::weakRefCount() const
 {
     int count = 0;
-    for (AWeakRefData *d = _weakRefs.first; d != NULL; d = d->next)
+    for (CWeakRefData *d = _weakRefs.first; d != NULL; d = d->next)
         count++;
     return count;
 }
 
-void AShared::addWeakRef(AWeakRefData *ref)
+void CShared::addWeakRef(CWeakRefData *ref)
 {
     ref->ptr = this;
 
@@ -65,7 +65,7 @@ void AShared::addWeakRef(AWeakRefData *ref)
     }
 }
 
-void AShared::removeWeakRef(AWeakRefData *ref)
+void CShared::removeWeakRef(CWeakRefData *ref)
 {
     ref->ptr = NULL;
 

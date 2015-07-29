@@ -16,12 +16,12 @@
 // under the License.
 
 #include <stdio.h>
-#include "AView.h"
-#include "AString.h"
+#include "CView.h"
+#include "CString.h"
 
 int fooInstances = 0;
 
-class Foo : public AShared
+class Foo : public CShared
 {
 public:
     Foo(int value) : x(value) {
@@ -42,18 +42,18 @@ class StrongHolder
 {
 public:
     StrongHolder() { }
-    StrongHolder(const ARef<Foo> &_ref) : ref(_ref) { }
+    StrongHolder(const CRef<Foo> &_ref) : ref(_ref) { }
     StrongHolder(Foo *ptr) : ref(ptr) { }
-    ARef<Foo> ref;
+    CRef<Foo> ref;
 };
 
 class WeakHolder
 {
 public:
     WeakHolder() { }
-    WeakHolder(const AWeakRef<Foo> &_ref) : ref(_ref) { }
+    WeakHolder(const CWeakRef<Foo> &_ref) : ref(_ref) { }
     WeakHolder(Foo *ptr) : ref(ptr) { }
-    AWeakRef<Foo> ref;
+    CWeakRef<Foo> ref;
 };
 
 int main(int argc, const char **argv)

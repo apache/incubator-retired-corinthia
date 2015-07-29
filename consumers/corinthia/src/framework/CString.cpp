@@ -15,56 +15,56 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#include "AString.h"
+#include "CString.h"
 #include <string.h>
 
-class AStringImpl : public AShared
+class CStringImpl : public CShared
 {
 public:
-    AStringImpl() { }
-    ~AStringImpl() { delete chars; }
-    AChar *chars;
+    CStringImpl() { }
+    ~CStringImpl() { delete chars; }
+    CChar *chars;
     unsigned int len;
 };
 
-AString::AString()
+CString::CString()
 {
     _impl = NULL;
 }
 
-AString::AString(const char *utf8)
+CString::CString(const char *utf8)
 {
-    _impl = new AStringImpl();
+    _impl = new CStringImpl();
     _impl->len = strlen(utf8);
-    _impl->chars = new AChar[_impl->len];
+    _impl->chars = new CChar[_impl->len];
     // FIXME: Do propert UTF-8 decoding here
     for (unsigned int i = 0; i < _impl->len; i++)
         _impl->chars[i] = utf8[i];
 }
 
-AString::AString(AChar *chars, unsigned int length)
+CString::CString(CChar *chars, unsigned int length)
 {
-    _impl = new AStringImpl();
-    _impl->chars = new AChar[length];
+    _impl = new CStringImpl();
+    _impl->chars = new CChar[length];
     _impl->len = length;
 }
 
-AString::AString(const AString &other)
+CString::CString(const CString &other)
 {
     _impl = other._impl;
 }
 
-AString::~AString()
+CString::~CString()
 {
 }
 
-AString &AString::operator=(const AString &other)
+CString &CString::operator=(const CString &other)
 {
     _impl = other._impl;
     return *this;
 }
 
-unsigned int AString::length() const
+unsigned int CString::length() const
 {
     if (_impl.isNull())
         return 0;
@@ -72,7 +72,7 @@ unsigned int AString::length() const
         return _impl->len;
 }
 
-AChar AString::charAt(int index) const
+CChar CString::charAt(int index) const
 {
     if (_impl.isNull())
         return 0;

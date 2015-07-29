@@ -17,12 +17,10 @@
 
 #pragma once
 
-struct AColor
+struct CPoint
 {
-    AColor() : red(0.0), green(0.0), blue(0.0) { }
-    AColor(double _red, double _green, double _blue) :
-        red(_red), green(_green), blue(_blue) { }
-    double red;
-    double green;
-    double blue;
+    CPoint() : x(0), y(0) { }
+    CPoint(double _x, double _y) : x(_x), y(_y) { }
+    double x;
+    double y;
 };

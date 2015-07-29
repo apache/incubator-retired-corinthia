@@ -17,11 +17,12 @@
 
 #pragma once
 
-#include "AShared.h"
-
-class AEvent : public AShared
+struct CColor
 {
-public:
-    AEvent() { }
-    virtual ~AEvent() { }
+    CColor() : red(0.0), green(0.0), blue(0.0) { }
+    CColor(double _red, double _green, double _blue) :
+        red(_red), green(_green), blue(_blue) { }
+    double red;
+    double green;
+    double blue;
 };

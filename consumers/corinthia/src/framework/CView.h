@@ -17,29 +17,29 @@
 
 #pragma once
 
-#include "ARect.h"
-#include "AColor.h"
-#include "AEvent.h"
-#include "AShared.h"
+#include "CRect.h"
+#include "CColor.h"
+#include "CEvent.h"
+#include "CShared.h"
 
-class AView : public AShared
+class CView : public CShared
 {
 public:
-    AView() : _visible(true),
+    CView() : _visible(true),
               _enabled(true),
               _parent(NULL),
               _nextSibling(NULL),
               _prevSibling(NULL),
               _firstChild(NULL),
               _lastChild(NULL) { }
-    AView(const ARect &frame) : _frame(frame) { }
-    virtual ~AView() { }
+    CView(const CRect &frame) : _frame(frame) { }
+    virtual ~CView() { }
 
-    ARect frame() const { return _frame; }
-    void setFrame(const ARect &newFrame) { _frame = newFrame; }
+    CRect frame() const { return _frame; }
+    void setFrame(const CRect &newFrame) { _frame = newFrame; }
 
-    AColor backgroundColor() const { return _backgroundColor; }
-    void setBackgroundColor(const AColor &newBackgroundColor) { _backgroundColor = newBackgroundColor; }
+    CColor backgroundColor() const { return _backgroundColor; }
+    void setBackgroundColor(const CColor &newBackgroundColor) { _backgroundColor = newBackgroundColor; }
 
     bool visible() const { return _visible; }
     void setVisible(bool newVisible) { _visible = newVisible; }
@@ -48,13 +48,13 @@ public:
     void setEnabled(bool newEnabled) { _enabled = newEnabled; }
 
 private:
-    ARect _frame;
-    AColor _backgroundColor;
+    CRect _frame;
+    CColor _backgroundColor;
     bool _visible;
     bool _enabled;
-    AView *_parent;
-    AView *_nextSibling;
-    AView *_prevSibling;
-    AView *_firstChild;
-    AView *_lastChild;
+    CView *_parent;
+    CView *_nextSibling;
+    CView *_prevSibling;
+    CView *_firstChild;
+    CView *_lastChild;
 };

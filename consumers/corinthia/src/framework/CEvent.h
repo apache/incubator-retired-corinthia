@@ -17,10 +17,11 @@
 
 #pragma once
 
-struct APoint
+#include "CShared.h"
+
+class CEvent : public CShared
 {
-    APoint() : x(0), y(0) { }
-    APoint(double _x, double _y) : x(_x), y(_y) { }
-    double x;
-    double y;
+public:
+    CEvent() { }
+    virtual ~CEvent() { }
 };

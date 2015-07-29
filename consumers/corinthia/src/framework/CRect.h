@@ -17,15 +17,15 @@
 
 #pragma once
 
-#include "APoint.h"
-#include "ASize.h"
+#include "CPoint.h"
+#include "CSize.h"
 
-struct ARect
+struct CRect
 {
-    ARect() { }
-    ARect(const APoint &o, const ASize &s) : origin(o), size(s) { }
-    ARect(double x, double y, double width, double height)
-        : origin(APoint(x,y)), size(ASize(width,height)) { }
-    APoint origin;
-    ASize size;
+    CRect() { }
+    CRect(const CPoint &o, const CSize &s) : origin(o), size(s) { }
+    CRect(double x, double y, double width, double height)
+        : origin(CPoint(x,y)), size(CSize(width,height)) { }
+    CPoint origin;
+    CSize size;
 };

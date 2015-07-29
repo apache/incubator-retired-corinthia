@@ -15,38 +15,12 @@
 // specific language governing permissions and limitations
 // under the License.
 
-class AStringImpl;
+#pragma once
 
-#include <stdint.h>
-#include "AShared.h"
-
-typedef uint32_t AChar;
-
-class AString
+struct CSize
 {
-public:
-    AString();
-    AString(const char *utf8);
-    AString(AChar *chars, unsigned int length);
-    AString(const AString &other);
-    ~AString();
-
-    AString &operator=(const AString &other);
-
-    unsigned int length() const;
-    AChar charAt(int index) const;
-
-    /*
-    int compare(const AString &other) const;
-    bool hasPrefix(const AString &other) const;
-    bool hasSuffix(const AString &other) const;
-    AString substring(int start, int end) const;
-    AString substringTo(int start) const;
-    AString substringFrom(int end) const;
-    AString lowerCase() const;
-    AString upperCase() const;
-    */
-
- private:
-    ARef<AStringImpl> _impl;
+    CSize() : width(0), height(0) { }
+    CSize(double w, double h) : width(w), height(h) { }
+    double width;
+    double height;
 };
