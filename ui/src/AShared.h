@@ -18,6 +18,9 @@
 #pragma once
 
 #include <stddef.h>
+#include <stdio.h>
+
+class AShared;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
@@ -27,10 +30,18 @@
 
 struct AWeakRefData
 {
-    AWeakRefData() : ptr(NULL), prev(NULL), next(NULL) { }
-    void *ptr;
+    AWeakRefData(void *_back) : ptr(NULL), prev(NULL), next(NULL), back(_back) { }
+    AShared *ptr;
     AWeakRefData *prev;
     AWeakRefData *next;
+    void *back;
+};
+
+struct AWeakRefDataList
+{
+    AWeakRefDataList() : first(NULL), last(NULL) { }
+    AWeakRefData *first;
+    AWeakRefData *last;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,21 +53,20 @@ struct AWeakRefData
 class AShared
 {
 public:
-    AShared() : _refCount(0) { }
-    virtual ~AShared() { }
+    AShared();
+    virtual ~AShared();
 
-    void ref();
-    void deref();
+    void ref() { _refCount++; }
+    void deref() { _refCount--; if (_refCount == 0) delete this; }
+    int refCount() const { return _refCount; }
 
-    void addWeakRef(AWeakRefData *wref);
-    void removeWeakRef(AWeakRefData *wref);
+    void addWeakRef(AWeakRefData *ref);
+    void removeWeakRef(AWeakRefData *ref);
+    int weakRefCount() const;
 
 private:
     int _refCount;
-    struct {
-        AWeakRefData *first;
-        AWeakRefData *last;
-    } _weakRefs;
+    AWeakRefDataList _weakRefs;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,31 +117,30 @@ template<class T>
 class AWeakRef
 {
 public:
-    AWeakRef() : _ptr(NULL) { }
-    AWeakRef(T *ptr) : _ptr(NULL) { setPtr(ptr); }
-    AWeakRef(const AWeakRef<T> &other) : _ptr(NULL) { setPtr(other._ptr); }
+    AWeakRef() : _data(this) { }
+    AWeakRef(T *ptr) : _data(this) { setPtr(ptr); }
+    AWeakRef(const AWeakRef<T> &other) : _data(this) { setPtr(other._data.ptr); }
     ~AWeakRef() { setPtr(NULL); }
 
     AWeakRef &operator=(const AWeakRef<T> &other) {
-        setPtr(other._ptr);
+        setPtr(other._data.ptr);
         return *this;
     }
 
-    T &operator*() const { return *_ptr; }
-    T *operator->() const { return _ptr; }
-    T *ptr() const { return _ptr; }
-    bool isNull() const { return (_ptr == NULL); }
+    T &operator*() const { return *(static_cast<T*>(_data.ptr)); }
+    T *operator->() const { return static_cast<T*>(_data.ptr); }
+    T *ptr() const { return static_cast<T*>(_data.ptr); }
+    bool isNull() const { return (_data.ptr == NULL); }
 
-    void setPtr(T *newPtr) {
-        T *oldPtr = _ptr;
+    void setPtr(AShared *newPtr) {
+        AShared *oldPtr = _data.ptr;
         if (oldPtr != NULL)
             oldPtr->removeWeakRef(&_data);
         if (newPtr != NULL)
             newPtr->addWeakRef(&_data);
-        _ptr = newPtr;
+        _data.ptr = newPtr;
     }
 
- private:
-    T *_ptr;
+private:
     AWeakRefData _data;
 };

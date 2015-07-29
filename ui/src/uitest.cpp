@@ -19,11 +19,19 @@
 #include "AView.h"
 #include "AString.h"
 
+int fooInstances = 0;
+
 class Foo : public AShared
 {
 public:
-    Foo(int value) : x(value) { printf("%p Foo::Foo()\n",this); }
-    virtual ~Foo() { printf("%p Foo::~Foo()\n",this); }
+    Foo(int value) : x(value) {
+        printf("    %p Foo::Foo()\n",this);
+        fooInstances++;
+    }
+    virtual ~Foo() {
+        printf("    %p Foo::~Foo()\n",this);
+        fooInstances--;
+    }
     int x;
     void print() {
         printf("x = %d\n",x);
@@ -50,26 +58,43 @@ public:
 
 int main(int argc, const char **argv)
 {
-    printf("Hello World\n");
+    printf("step 0\n");
     Foo *f = new Foo(4);
-    printf("f = %p\n",f);
+    printf("    f = %p\n",f);
 
     StrongHolder *s1 = new StrongHolder();
-    /*
     StrongHolder *s2 = new StrongHolder();
-    StrongHolder *s3 = new StrongHolder();
+
     WeakHolder *w1 = new WeakHolder();
     WeakHolder *w2 = new WeakHolder();
-    WeakHolder *w3 = new WeakHolder();
-    */
-    printf("s1 = %p\n",s1);
 
-    printf("s1->ref.ptr() = %p\n",s1->ref.ptr());
-    printf("before\n");
-    s1->ref = f;
-    printf("after\n");
-    printf("s1->ref.ptr() = %p\n",s1->ref.ptr());
-    //    printf("s1->ref.ptr()->x = %d\n",s1->ref.ptr()->x);
+    printf("step 1\n");
+    printf("    instances=%d, strong=%d, weak=%d, w1=%p, w2=%p\n",
+           fooInstances,f->refCount(),f->weakRefCount(),w1->ref.ptr(),w2->ref.ptr());
+    s1->ref = f; // Should bring refCount to 1
+    printf("    instances=%d, strong=%d, weak=%d, w1=%p, w2=%p\n",
+           fooInstances,f->refCount(),f->weakRefCount(),w1->ref.ptr(),w2->ref.ptr());
+    printf("step 2\n");
+    s2->ref = f; // Should bring refCount to 2
+    printf("    instances=%d, strong=%d, weak=%d, w1=%p, w2=%p\n",
+           fooInstances,f->refCount(),f->weakRefCount(),w1->ref.ptr(),w2->ref.ptr());
+    printf("step 3\n");
+    w1->ref = f; // Should bring weakRefCount to 1
+    printf("    instances=%d, strong=%d, weak=%d, w1=%p, w2=%p\n",
+           fooInstances,f->refCount(),f->weakRefCount(),w1->ref.ptr(),w2->ref.ptr());
+    printf("step 4\n");
+    w2->ref = f; // Should bring weakRefCount to 2
+    printf("    instances=%d, strong=%d, weak=%d, w1=%p, w2=%p\n",
+           fooInstances,f->refCount(),f->weakRefCount(),w1->ref.ptr(),w2->ref.ptr());
+    printf("step 5\n");
+    delete s1; // Should bring refCount to 1
+    printf("    instances=%d, strong=%d, weak=%d, w1=%p, w2=%p\n",
+           fooInstances,f->refCount(),f->weakRefCount(),w1->ref.ptr(),w2->ref.ptr());
+    printf("step 6\n");
+    delete s2; // Should bring refCount to 0, deleting Foo, and clearing weak references
+    printf("    instances=%d w1=%p, w2=%p\n",
+           fooInstances,w1->ref.ptr(),w2->ref.ptr());
+    printf("done\n");
 
     return 0;
 }

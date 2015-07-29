@@ -25,24 +25,60 @@
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AShared::ref()
-{
-    _refCount++;
-    printf("%p ref():   now _refCount = %d\n",this,_refCount);
-}
-
-void AShared::deref()
-{
-    _refCount--;
-    printf("%p deref(): now _refCount = %d\n",this,_refCount);
-    if (_refCount == 0)
-        delete this;
-}
-
-void AShared::addWeakRef(AWeakRefData *wref)
+AShared::AShared()
+    : _refCount(0)
 {
 }
 
-void AShared::removeWeakRef(AWeakRefData *wref)
+AShared::~AShared()
 {
+    AWeakRefData *ref = _weakRefs.first;
+    while (ref != NULL) {
+        AWeakRefData *next = ref->next;
+        ref->ptr = NULL;
+        ref->prev = NULL;
+        ref->next = NULL;
+        ref = next;
+    }
+}
+
+int AShared::weakRefCount() const
+{
+    int count = 0;
+    for (AWeakRefData *d = _weakRefs.first; d != NULL; d = d->next)
+        count++;
+    return count;
+}
+
+void AShared::addWeakRef(AWeakRefData *ref)
+{
+    ref->ptr = this;
+
+    assert(!ref->prev && !ref->next);
+    if (_weakRefs.last) {
+        ref->prev = _weakRefs.last;
+        _weakRefs.last->next = ref;
+        _weakRefs.last = ref;
+    }
+    else {
+        _weakRefs.first = _weakRefs.last = ref;
+    }
+}
+
+void AShared::removeWeakRef(AWeakRefData *ref)
+{
+    ref->ptr = NULL;
+
+    assert(ref->prev || (_weakRefs.first == ref));
+    assert(ref->next || (_weakRefs.last == ref));
+    if (_weakRefs.first == ref)
+        _weakRefs.first = ref->next;
+    if (_weakRefs.last == ref)
+        _weakRefs.last = ref->prev;
+    if (ref->next)
+        ref->next->prev = ref->prev;
+    if (ref->prev)
+        ref->prev->next = ref->next;
+    ref->next = NULL;
+    ref->prev = NULL;
 }
