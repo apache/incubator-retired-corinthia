@@ -21,7 +21,7 @@
 #include "DFString.h"
 #include <DocFormats/DFStorage.h>
 #include "Word.h"
-#include "ODFText.h"
+//not in release 0.1 #include "ODFText.h"
 #include "DFHTML.h"
 #include "DFDOM.h"
 #include "DFXML.h"
@@ -241,12 +241,12 @@ int DFGet(DFConcreteDocument *concrete,
                               idPrefix,
                               error);
             break;
-        case DFFileFormatOdt:
-            htmlDoc = ODFTextGet(concrete->storage,
-                                 abstract->storage,
-                                 idPrefix,
-                                 error);
-            break;
+//not in release 0.1         case DFFileFormatOdt:
+//not in release 0.1 htmlDoc = ODFTextGet(concrete->storage,
+//not in release 0.1                                  abstract->storage,
+//not in release 0.1                                  idPrefix,
+//not in release 0.1                                  error);
+//not in release 0.1             break;
         default:
             DFErrorFormat(error,"Unsupported file format");
             break;
@@ -307,12 +307,12 @@ int DFPut(DFConcreteDocument *concreteDoc,
                          idPrefix,
                          error);
             break;
-        case DFFileFormatOdt:
-            ok = ODFTextPut(concreteDoc->storage,
-                            abstractDoc->storage,
-                            abstractDoc->htmlDoc,
-                            idPrefix,
-                            error);
+//not in release 0.1         case DFFileFormatOdt:
+//not in release 0.1             ok = ODFTextPut(concreteDoc->storage,
+//not in release 0.1                             abstractDoc->storage,
+//not in release 0.1                             abstractDoc->htmlDoc,
+//not in release 0.1                             idPrefix,
+//not in release 0.1                             error);
             break;
         default:
             DFErrorFormat(error,"Unsupported file format");
@@ -339,11 +339,11 @@ int DFCreate(DFConcreteDocument *concreteDoc,
                             abstractDoc->htmlDoc,
                             error);
             break;
-        case DFFileFormatOdt:
-            ok = ODFTextCreate(concreteDoc->storage,
-                               abstractDoc->storage,
-                               abstractDoc->htmlDoc,
-                               error);
+//not in release 0.1         case DFFileFormatOdt:
+//not in release 0.1             ok = ODFTextCreate(concreteDoc->storage,
+//not in release 0.1                                abstractDoc->storage,
+//not in release 0.1                                abstractDoc->htmlDoc,
+//not in release 0.1                                error);
             break;
         default:
             DFErrorFormat(error,"Unsupported file format");

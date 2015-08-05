@@ -30,7 +30,7 @@
 #include "DFFilesystem.h"
 #include "DFHTMLNormalization.h"
 #include "CSS.h"
-#include "HTMLToLaTeX.h"
+//not in release 0.1 #include "HTMLToLaTeX.h"
 #include "DFCommon.h"
 #include "DFZipFile.h"
 #include <DocFormats/DocFormats.h>

@@ -34,8 +34,8 @@ extern TestGroup CSSTests;
 extern TestGroup HTMLTests;
 extern TestGroup LibTests;
 extern TestGroup XMLTests;
-extern TestGroup LaTeXTests;
-extern TestGroup ODFTests;
+//not in release 0.1 extern TestGroup LaTeXTests;
+//not in release 0.1 extern TestGroup ODFTests;
 extern TestGroup WordTests;
 extern TestGroup PlatformOSTests;
 extern TestGroup PlatformWrapperTests;
@@ -48,8 +48,8 @@ TestGroup *allGroups[] = {
     &HTMLTests,
     &LibTests,
     &XMLTests,
-    &LaTeXTests,
-    &ODFTests,
+//not in release 0.1     &LaTeXTests,
+//not in release 0.1     &ODFTests,
     &WordTests,
     &PlatformOSTests,
     &PlatformWrapperTests,
