@@ -70,33 +70,32 @@ void DFInitOnce(DFOnce *once, DFOnceFunction fun);
 
 // Zip functions
 typedef struct {
-        void *handle;
-        int   zipFlag;
-        int   zipFirst;
-        } DFextZipHandle;
-
+	int   compressedSize;    // File size on disk
+	int   uncompressedSize;  // Real file size
+	int   compressionMethod; // Type of compression
+	long  offset;            // offset in file
+	char *fileName;          // filename zero terminated
+} DFextZipDirEntry;
+typedef DFextZipDirEntry * DFextZipDirEntryP;
+typedef struct {
+	void             *zipFile;        // file handle to zip file
+	int               zipFileCount;   // number of entries in array
+	int               zipCreateMode;  // > 0 signals create mode, # is allocation of array
+	DFextZipDirEntry *zipFileEntries; // array with filenames in zip
+} DFextZipHandle;
 typedef DFextZipHandle * DFextZipHandleP;
 
-DFextZipHandleP DFextZipOpen(const char *zipFilename, int doUnzip);
 
-int DFextZipClose(DFextZipHandleP zipHandle);
+DFextZipHandleP DFextZipOpen(const char *zipFilename);
+DFextZipHandleP DFextZipCreate(const char *zipFilename);
 
-int DFextZipOpenNextFile(DFextZipHandleP zipHandle,
-                         char *entryName,
-                         const int maxName);
+unsigned char     *DFextZipReadFile(DFextZipHandleP zipHandle, DFextZipDirEntryP zipEntry);
+DFextZipDirEntryP  DFextZipWriteFile(DFextZipHandleP zipHandle, const char *fileName, const void *buf, const int len);
 
-int DFextZipAppendNewFile(DFextZipHandleP zipHandle,
-                          const char *entryName);
+void DFextZipClose(DFextZipHandleP zipHandle);
 
-int DFextZipCloseFile(DFextZipHandleP zipHandle);
 
-int DFextZipReadCurrentFile(DFextZipHandleP zipHandle,
-                            void *buf,
-                            const int maxLen);
 
-int DFextZipWriteCurrentFile(DFextZipHandleP zipHandle,
-                             const void *buf,
-                             const int len);
 
 void *xmalloc(size_t size);
 

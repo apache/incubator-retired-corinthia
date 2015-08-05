@@ -38,40 +38,28 @@ static int zipError(DFError **error, const char *format, ...)
 
 int DFUnzip(const char *zipFilename, DFStorage *storage, DFError **error)
 {
-    char            entryName[4096];
-    DFextZipHandleP zipHandle;
+	unsigned char   *buf;
+    DFextZipHandleP  zipHandle;
+	int              i;
 
-    zipHandle = DFextZipOpen(zipFilename, 1);
+    zipHandle = DFextZipOpen(zipFilename);
     if (!zipHandle)
       return zipError(error,"Cannot open file");
 
-    int ret;
-    for (; (ret = DFextZipOpenNextFile(zipHandle, entryName, sizeof(entryName))) > 0;) {
-        DFBuffer *content = DFBufferNew();
+	for (i = 0; i < zipHandle->zipFileCount; i++) {
+		if ( (buf = DFextZipReadFile(zipHandle, &zipHandle->zipFileEntries[i])) == NULL)
+			return zipError(error, "Cannot read file in zip");
 
-        unsigned char buf[4096];
-        int r;
-        while (0 < (r = DFextZipReadCurrentFile(zipHandle, buf, sizeof(buf))))
-            DFBufferAppendData(content,(void *)buf,r);
-        if (0 > r) {
-            DFBufferRelease(content);
-            return zipError(error,"%s: decompression failed",entryName);
-        }
+		DFBuffer *content = DFBufferNew();
+		DFBufferAppendData(content, (void *)buf, zipHandle->zipFileEntries[i].uncompressedSize);
+		free(buf);
 
-        if (DFextZipCloseFile(zipHandle) < 0) {
-            DFBufferRelease(content);
-            return zipError(error,"%s: decompression failed",entryName);
-        }
-
-        if (!DFBufferWriteToStorage(content,storage,entryName,error)) {
-            DFBufferRelease(content);
-            return zipError(error,"%s: %s",entryName,DFErrorMessage(error));
-        }
-        DFBufferRelease(content);
-    }
-
-    if (ret < 0)
-        return zipError(error,"Zip directory is corrupt");
+		if (!DFBufferWriteToStorage(content, storage, zipHandle->zipFileEntries[i].fileName, error)) {
+			DFBufferRelease(content);
+			return zipError(error, "%s: %s", zipHandle->zipFileEntries[i].fileName, DFErrorMessage(error));
+		}
+		DFBufferRelease(content);
+	}
 
     DFextZipClose(zipHandle);
 
@@ -80,14 +68,8 @@ int DFUnzip(const char *zipFilename, DFStorage *storage, DFError **error)
 
 static int zipAddFile(DFextZipHandleP zipHandle, const char *dest, DFBuffer *content, DFError **error)
 {
-    if (DFextZipAppendNewFile(zipHandle, dest) < 0)
+    if (DFextZipWriteFile(zipHandle, dest, content->data, content->len) < 0)
         return zipError(error,"%s: Cannot create entry in zip file",dest);
-
-    if (DFextZipWriteCurrentFile(zipHandle, content->data, (unsigned int)content->len) < 0)
-        return zipError(error,"%s: Error writing to entry in zip file",dest);
-
-    if (DFextZipCloseFile(zipHandle) <0)
-        return zipError(error,"%s: Error closing entry in zip file",dest);
     return 1;
 }
 
@@ -101,7 +83,7 @@ int DFZip(const char *zipFilename, DFStorage *storage, DFError **error)
     DFextZipHandleP zipHandle = NULL;
 
     allPaths = DFStorageList(storage,error);
-    if (allPaths == NULL || !(zipHandle = DFextZipOpen(zipFilename, 0)))
+    if (allPaths == NULL || !(zipHandle = DFextZipCreate(zipFilename)))
     {
       DFErrorFormat(error,"Cannot create file");
     }

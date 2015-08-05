@@ -13,21 +13,6 @@
 
 
 ###
-## group minizip objects
-###
-set(GroupMinizip
-    3rdparty/minizip/crypt.h
-    3rdparty/minizip/ioapi.c
-    3rdparty/minizip/ioapi.h
-    3rdparty/minizip/unzip.c
-    3rdparty/minizip/unzip.h
-    3rdparty/minizip/zip.c
-    3rdparty/minizip/zip.h
-   )
-
-
-
-###
 ## group w3c-tidy-html5 objects
 ###
 set(GroupHtml5
@@ -93,7 +78,8 @@ set(GroupSrc
     src/Linux.c
     src/Unix.c
     src/Win32.c
-    src/Wrapper.c)
+    src/Wrapper.c
+    src/Wrapper_zip.c)
 
 set(GroupTests
     tests/OStests.c
@@ -105,7 +91,6 @@ set(GroupTests
 # Common include for all platform files
 ###
 include_directories()
-include_directories(3rdparty/minizip)
 include_directories(3rdparty/w3c-tidy-html5/include)
 include_directories(3rdparty/w3c-tidy-html5/src)
 include_directories(../../external/include)
@@ -119,12 +104,10 @@ include_directories(../unittest)
 # Prebuild library (needed to use different compile options)
 ###
 add_library(platform OBJECT
-    ${GroupMinizip}
     ${GroupHtml5}
     ${GroupSrc}
     ${GroupTests})
 source_group(src                 FILES ${GroupSrc})
 source_group(tests               FILES ${GroupTests})
-source_group(src\\minizip        FILES ${GroupMinizip})
 source_group(src\\w3c-tidy-html5 FILES ${GroupHtml5})
 set_property(TARGET platform PROPERTY FOLDER DocFormats)

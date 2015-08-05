@@ -1,4 +1,4 @@
-// Licensed to the Apache Software Foundation (ASF) under one
+﻿// Licensed to the Apache Software Foundation (ASF) under one
 // or more contributor license agreements.  See the NOTICE file
 // distributed with this work for additional information
 // regarding copyright ownership.  The ASF licenses this file
@@ -15,73 +15,70 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#include "DFUnitTest.h"
+#include <string.h>
+#include <stdlib.h>
 #include <stddef.h>
+#include <stdio.h>
+#include "DFUnitTest.h"
+#include "DFPlatform.h"
 
 
 
-static void test_DFextZipOpen(void)
-{
-#if 0
-    int DFextZipOpen(const char *zipFilename, int doUnzip) {
-#endif
+static void doZip(char *name) {
+	DFextZipHandleP   zip;
+	DFextZipDirEntryP zipDir;
+	int               inp, out;
+	unsigned char    *fileBuf[20];
+	char              fileName[20][200];
+	int               fileLen[20];
+	char              tmpName[100];
+
+
+	zip = DFextZipOpen(name);
+	utassert((zip != NULL), "cannot open/read zip");
+
+	for (inp = 0; inp < zip->zipFileCount; inp++) {
+		strcpy(fileName[inp], zip->zipFileEntries[inp].fileName);
+		fileLen[inp] = zip->zipFileEntries[inp].uncompressedSize;
+		fileBuf[inp] = DFextZipReadFile(zip, &zip->zipFileEntries[inp]);
+		utassert((fileBuf[inp] != NULL), "cannot read file in zip");
+	}
+	DFextZipClose(zip);
+	zip = NULL;
+
+
+	sprintf(tmpName, "new_%s", name);
+	zip = DFextZipCreate(tmpName);
+	utassert((zip != NULL), "cannot create zip");
+
+	for (out = 0; out < inp; out++) {
+		zipDir = DFextZipWriteFile(zip, fileName[out], fileBuf[out], fileLen[out]);
+		utassert((zipDir != NULL), "cannot write file in zip");
+		free(fileBuf[out]);
+	}
+	DFextZipClose(zip);
 }
 
 
 
-static void test_DFextZipClose(void)
+static void test_DFextZipOOXML(void)
 {
-#if 0
-    int DFextZipClose(void)
-#endif
+	doZip("test.docx");
 }
 
 
 
-static void test_DFextZipOpenNextFile(void)
+static void test_DFextZipODF(void)
 {
-#if 0
-    int DFextZipOpenNextFile(char *entryName, const int maxName)
-#endif
-}
-
-
-
-static void test_DFextZipCloseFile(void)
-{
-#if 0
-    int DFextZipCloseFile(void)
-#endif
-}
-
-
-
-static void test_DFextZipReadCurrentFile(void)
-{
-#if 0
-    int DFextZipReadCurrentFile(char *buf, const int maxLen)
-#endif
-}
-
-
-
-static void test_DFextZipWriteCurrentFile(void)
-{
-#if 0
-    int DFextZipWriteCurrentFile(char *buf, const int len)
-#endif
+	doZip("test.odt");
 }
 
 
 
 TestGroup PlatformWrapperTests = {
     "platform.wrapper", {
-            { "DFextZipOpen",            PlainTest, test_DFextZipOpen   },
-            { "DFextZipClose",           PlainTest, test_DFextZipClose },
-            { "DFextZipOpenNextFile",    PlainTest, test_DFextZipOpenNextFile },
-            { "DFextZipCloseFile",       PlainTest, test_DFextZipCloseFile },
-            { "DFextZipReadCurrentFile", PlainTest, test_DFextZipReadCurrentFile },
-            { "DFextZipWriteCurrentFile", PlainTest, test_DFextZipWriteCurrentFile },
-            { NULL, PlainTest, NULL }
+		    { "DFextZipOOXML", PlainTest, test_DFextZipOOXML },
+			{ "DFextZipODF",   PlainTest, test_DFextZipODF },
+			{ NULL,            PlainTest, NULL }
     }
 };
