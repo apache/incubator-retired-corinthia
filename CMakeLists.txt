@@ -60,7 +60,6 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 ###
 add_subdirectory(DocFormats)
 add_subdirectory(consumers/dftest/src)
-add_subdirectory(consumers/dfconvert/src)
 add_subdirectory(consumers/dfutil/src)
 if(DEFINED NONCONFORM_APACHE)
   add_subdirectory(consumers/corinthia/src)
