@@ -97,7 +97,7 @@ void printEscapedRangeChar(char c)
 
 void printLiteral(const char *value)
 {
-    printf("'");
+    printf("\"");
     for (int i = 0; value[i] != '\0'; i++) {
         switch (value[i]) {
             case '\r':
@@ -109,8 +109,8 @@ void printLiteral(const char *value)
             case '\t':
                 printf("\\t");
                 break;
-            case '\'':
-                printf("\\'");
+            case '\"':
+                printf("\\\"");
                 break;
             case '\\':
                 printf("\\\\");
@@ -119,5 +119,5 @@ void printLiteral(const char *value)
                 printf("%c",value[i]);
         }
     }
-    printf("'");
+    printf("\"");
 }

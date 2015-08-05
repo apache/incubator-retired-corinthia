@@ -463,7 +463,7 @@ static void buildGrammar(Builder *builder, Term *term)
         Term *defIdent = plusItem->term;
         assert(isIdent(defIdent,"Definition"));
         Term *defSeq = TermChildAt(defIdent,0);
-        assert(isSequence(defSeq,3));
+        assert(isSequence(defSeq,4));
         Term *identTerm = TermChildAt(defSeq,0);
         Term *exprTerm = TermChildAt(defSeq,2);
         assert(isIdent(identTerm,"Identifier"));

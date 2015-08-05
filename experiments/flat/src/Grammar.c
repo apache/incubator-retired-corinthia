@@ -115,18 +115,18 @@ void GrammarPrint(Grammar *gram)
             maxNameLen = nameLen;
     }
 
-    char *prefix = malloc(maxNameLen+3);
-    memset(prefix,' ',maxNameLen+2);
-    prefix[maxNameLen+2] = '\0';
+    char *prefix = malloc(maxNameLen+2);
+    memset(prefix,' ',maxNameLen+1);
+    prefix[maxNameLen+1] = '\0';
 
     for (Rule *def = gram->defList; def != NULL; def = def->next) {
         int nameLen = strlen(def->name);
         printf("%s",def->name);
         for (int i = nameLen; i < maxNameLen+1; i++)
             printf(" ");
-        printf("<- ");
+        printf(": ");
         ExpressionPrint(def->expr,0,prefix);
-        printf("\n");
+        printf(";\n");
     }
 
     free(prefix);

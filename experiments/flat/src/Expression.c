@@ -258,9 +258,9 @@ void ExpressionPrint(Expression *expr, int highestPrecedence, const char *indent
             for (int i = 0; i < ExprChoiceCount(expr); i++) {
                 if (i > 0) {
                     if (indent != NULL)
-                        printf("\n%s/ ",indent);
+                        printf("\n%s| ",indent);
                     else
-                        printf(" / ");
+                        printf(" | ");
                 }
                 ExpressionPrint(ExprChoiceChildAt(expr,i),highestPrecedence,NULL);
             }
