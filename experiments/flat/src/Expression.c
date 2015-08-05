@@ -59,9 +59,10 @@ const char *ExprKindAsString(ExprKind kind)
             return "Dot";
         case RangeExpr:
             return "Range";
-        default:
-            return "?";
+        case StringExpr:
+            return "String";
     }
+    return "?";
 }
 
 Expression *ExpressionNewChoice(int count, Expression **children)
@@ -186,6 +187,16 @@ Expression *ExpressionNewRange(int lo, int hi)
     return expr;
 }
 
+Expression *ExpressionNewString(Expression *child)
+{
+    assert(child != NULL);
+    Expression *expr = (Expression *)calloc(1,sizeof(Expression)+1*sizeof(Expression *));
+    expr->kind = StringExpr;
+    expr->count = 1;
+    expr->children[0] = child;
+    return expr;
+}
+
 void ExpressionFree(Expression *expr)
 {
     if (expr == NULL)
@@ -220,8 +231,10 @@ static int ExprKindPrecedence(ExprKind kind)
         case ClassExpr:
         case DotExpr:
             return 5;
-        case RangeExpr:
+        case StringExpr:
             return 6;
+        case RangeExpr:
+            return 7;
     }
     return 0;
 }
@@ -310,6 +323,12 @@ void ExpressionPrint(Expression *expr, int highestPrecedence, const char *indent
             }
             break;
         }
+        case StringExpr:
+            printf("$(");
+            highestPrecedence = 1; // because of brackets
+            ExpressionPrint(ExprStringChild(expr),highestPrecedence,NULL);
+            printf(")");
+            break;
     }
     if (brackets)
         printf(")");
@@ -464,4 +483,14 @@ int ExprRangeEnd(Expression *expr)
 {
     assert(expr->kind == RangeExpr);
     return expr->end;
+}
+
+// String
+
+Expression *ExprStringChild(Expression *expr)
+{
+    assert(expr->kind == StringExpr);
+    assert(expr->count == 1);
+    assert(expr->children[0] != NULL);
+    return expr->children[0];
 }

@@ -5,11 +5,12 @@ Sequence   <- Prefix*
 Prefix     <- (AND / NOT)? Suffix
 Suffix     <- Primary (QUESTION / STAR / PLUS)?
 Primary    <- Identifier !LEFTARROW
+            / DOLLAR OPEN Expression CLOSE
             / OPEN Expression CLOSE
             / Literal
             / Class
             / DOT
-Identifier <- IdentStart IdentCont* Spacing
+Identifier <- $(IdentStart IdentCont*) Spacing
 IdentStart <- [a-zA-Z_]
 IdentCont  <- IdentStart
             / [0-9]
@@ -32,7 +33,8 @@ PLUS       <- '+' Spacing
 OPEN       <- '(' Spacing
 CLOSE      <- ')' Spacing
 DOT        <- '.' Spacing
-Spacing    <- (Space / Comment)*
+DOLLAR     <- '$' Spacing
+Spacing    <- $((Space / Comment)*)
 Comment    <- '#' (!EndOfLine .)* EndOfLine
 Space      <- ' '
             / '\t'

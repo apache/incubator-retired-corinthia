@@ -107,7 +107,8 @@ void TermPrint(Term *term, const char *input, const char *indent)
             break;
         case LitExpr:
         case RangeExpr:
-        case DotExpr: {
+        case DotExpr:
+        case StringExpr: {
             int start = term->start;
             int end = term->end;
             int inputLen = strlen(input);

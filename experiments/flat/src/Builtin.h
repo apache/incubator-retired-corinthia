@@ -20,8 +20,8 @@
 #include "Grammar.h"
 
 /**
- * The GrammarNewBuiltin() function creates the following Grammar, which comes
- * from Ford's original PEG paper:
+ * The GrammarNewBuiltin() function creates the grammar shown below, which is based on the one from
+ * Ford's original PEG paper.
  *
  *     Grammar    <- Spacing Definition+ EndOfFile
  *     Definition <- Identifier LEFTARROW Expression
@@ -30,11 +30,12 @@
  *     Prefix     <- (AND / NOT)? Suffix
  *     Suffix     <- Primary (QUESTION / STAR / PLUS)?
  *     Primary    <- Identifier !LEFTARROW
+ *                 / DOLLAR OPEN Expression CLOSE
  *                 / OPEN Expression CLOSE
  *                 / Literal
  *                 / Class
  *                 / DOT
- *     Identifier <- IdentStart IdentCont* Spacing
+ *     Identifier <- $(IdentStart IdentCont*) Spacing
  *     IdentStart <- [a-zA-Z_]
  *     IdentCont  <- IdentStart
  *                 / [0-9]
@@ -57,7 +58,8 @@
  *     OPEN       <- '(' Spacing
  *     CLOSE      <- ')' Spacing
  *     DOT        <- '.' Spacing
- *     Spacing    <- (Space / Comment)*
+ *     DOLLAR     <- '$' Spacing
+ *     Spacing    <- $((Space / Comment)*)
  *     Comment    <- '#' (!EndOfLine .)* EndOfLine
  *     Space      <- ' '
  *                 / '\t'

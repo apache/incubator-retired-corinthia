@@ -204,6 +204,14 @@ static Term *parseExpr(Parser *p, Expression *expr)
                 return NULL;
             }
         }
+        case StringExpr: {
+            Term *term = parseExpr(p,ExprStringChild(expr));
+            if (term == NULL)
+                return NULL;
+            // We ignore the parsed term here, since we're only interested in the string content
+            // (which can be recovered from the input, and the start and end fields of the term).
+            return TermNew(expr,startPos,p->pos,NULL);
+        }
     }
     assert(!"unknown expression type");
     return NULL;

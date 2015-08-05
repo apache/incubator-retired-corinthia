@@ -28,10 +28,8 @@
 static char *readStringFromFile(const char *filename)
 {
     FILE *f = fopen(filename,"rb");
-    if (f == NULL) {
-        perror(filename);
+    if (f == NULL)
         return NULL;
-    }
 
     char *data = (char *)malloc(READ_SIZE);
     size_t len = 0;
@@ -64,6 +62,10 @@ int main(int argc, const char **argv)
         }
         Grammar *gram = GrammarNewBuiltin();
         Term *term = parse(gram,"Grammar",input,0,strlen(input));
+        if (term == NULL) {
+            fprintf(stderr,"%s: Parse failed\n",filename);
+            exit(1);
+        }
         TermPrint(term,input,"");
         free(input);
         GrammarFree(gram);

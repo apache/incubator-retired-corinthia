@@ -114,29 +114,16 @@ static char *termString(Builder *builder, Term *term)
     return str;
 }
 
-static char *termChildrenString(Builder *builder, Term *term, int firstIndex, int lastIndex)
-{
-    Term *firstChild = TermChildAt(term,firstIndex);
-    Term *lastChild = TermChildAt(term,lastIndex);
-    int start = firstChild->start;
-    int end = lastChild->end;
-
-    assert(start >= 0);
-    assert(end <= builder->len);
-    int len = end - start;
-    char *str = malloc(len+1);
-    memcpy(str,&builder->input[start],len);
-    str[len] = '\0';
-
-    return str;
-}
-
 static char *identifierString(Builder *builder, Term *term)
 {
     assert(isIdent(term,"Identifier"));
     Term *body = TermChildAt(term,0);
-    assert(isSequence(body,3));
-    return termChildrenString(builder,body,0,1);
+    assert(isSequence(body,2));
+    Term *content = TermChildAt(body,0);
+    Term *spacing = TermChildAt(body,1);
+    assert(TermKind(content) == StringExpr);
+    assert(isIdent(spacing,"Spacing"));
+    return termString(builder,content);
 }
 
 // For Terms of type ChoiceExpr, determine which of the choices the corresponding term is
@@ -310,15 +297,21 @@ static Expression *buildPrimary(Builder *builder, Term *term)
             return buildIdentifier(builder,identifier);
         }
         case 1: {
+            assert(isSequence(choice,4));
+            Term *expression = TermChildAt(choice,2);
+            Expression *result = buildExpression(builder,expression);
+            return ExpressionNewString(result);
+        }
+        case 2: {
             assert(isSequence(choice,3));
             Term *expression = TermChildAt(choice,1);
             return buildExpression(builder,expression);
         }
-        case 2:
-            return buildLiteral(builder,choice);
         case 3:
-            return buildClass(builder,choice);
+            return buildLiteral(builder,choice);
         case 4:
+            return buildClass(builder,choice);
+        case 5:
             return buildDot(builder,choice);
         default:
             assert(!"Invalid choice for Primary");

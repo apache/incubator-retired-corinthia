@@ -69,6 +69,10 @@
  *
  * RangeExpr - Matches again a character that is between a specified minimum and maximum. Evaluation
  * succeeds if the next input character c is such that start <= c < end.
+ *
+ * StringExpr - Instructs the parser to construct a single node in the parse tree representing
+ * everything within the child expression. Doesn't have any effect on what is or isn't accepted
+ * by the parser.
  */
 
 typedef enum {
@@ -84,6 +88,7 @@ typedef enum {
     ClassExpr,
     DotExpr,
     RangeExpr,
+    StringExpr,
 } ExprKind;
 
 typedef struct Expression Expression;
@@ -102,6 +107,7 @@ Expression *ExpressionNewLit(const char *value);
 Expression *ExpressionNewClass(int count, Expression **children);
 Expression *ExpressionNewDot(void);
 Expression *ExpressionNewRange(int lo, int hi);
+Expression *ExpressionNewString(Expression *child);
 void ExpressionFree(Expression *expr);
 void ExpressionPrint(Expression *expr, int highestPrecedence, const char *indent);
 
@@ -143,3 +149,7 @@ Expression *ExprClassChildAt(Expression *expr, int index);
 
 int ExprRangeStart(Expression *expr);
 int ExprRangeEnd(Expression *expr);
+
+// String
+
+Expression *ExprStringChild(Expression *expr);

@@ -31,6 +31,7 @@
 #define lit(value)      ExpressionNewLit(value)
 #define cls(...)        makeExpression(ExpressionNewClass,__VA_ARGS__,NULL)
 #define dot()           ExpressionNewDot()
+#define string(child)   ExpressionNewString(child)
 #define range(lo,hi)    ExpressionNewRange(lo,hi)
 
 static Expression *makeExpression(Expression *(*fun)(int,Expression **), ...)
@@ -90,6 +91,7 @@ Grammar *GrammarNewBuiltin(void)
     //             / DOT
     GrammarDefine(gram,"Primary",
                     choice(seq(ref("Identifier"),not(ref("LEFTARROW"))),
+                           seq(ref("DOLLAR"),ref("OPEN"),ref("Expression"),ref("CLOSE")),
                            seq(ref("OPEN"),ref("Expression"),ref("CLOSE")),
                            ref("Literal"),
                            ref("Class"),
@@ -97,8 +99,8 @@ Grammar *GrammarNewBuiltin(void)
 
     // Identifier <- IdentStart IdentCont* Spacing
     GrammarDefine(gram,"Identifier",
-                    seq(ref("IdentStart"),
-                        star(ref("IdentCont")),
+                    seq(string(seq(ref("IdentStart"),
+                                   star(ref("IdentCont")))),
                         ref("Spacing")));
 
     // IdentStart <- [a-zA-Z_]
@@ -195,8 +197,11 @@ Grammar *GrammarNewBuiltin(void)
     // DOT        <- '.' Spacing
     GrammarDefine(gram,"DOT",seq(lit("."),ref("Spacing")));
 
+    // DOLLAR     <- '$' Spacing
+    GrammarDefine(gram,"DOLLAR",seq(lit("$"),ref("Spacing")));
+
     // Spacing    <- (Space / Comment)*
-    GrammarDefine(gram,"Spacing",star(choice(ref("Space"),ref("Comment"))));
+    GrammarDefine(gram,"Spacing",string(star(choice(ref("Space"),ref("Comment")))));
 
     // Comment    <- '#' (!EndOfLine .)* EndOfLine
     GrammarDefine(gram,"Comment",
