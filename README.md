@@ -8,10 +8,10 @@ manipulating data in a wide range of formats via a consistent interface.
 
 This is the first public release of Corinthia, and consists of a single core
 library called DocFormats. The library provides two-way conversion between OOXML
-word processing documents (aka Microsoft Word .docx) and HTML. Basic support for
-converting HTML to LaTeX is also provided, and support for ODF is in its early
-stages. The Microsoft Word support has previously been used in commercial
-applications and is fairly mature.
+word processing documents (aka Microsoft Word .docx) and HTML.  The Microsoft
+Word support has previously been used in commercial applications and is fairly
+mature. Support for other file formats is in development, but not part of this
+release.
 
 The Corinthia project is part of the Apache Software Foundation
 [incubator](http://incubator.apache.org/incubation/Process_Description.html),
@@ -67,19 +67,26 @@ There are three major components, in their respective directories:
 * `dfconvert` - driver program for performing conversions
 * `dftest` - test harness
 
-Run dfutil without any command-line arguments to see a list of operations.
-Here is an example of converting a .docx file to HTML, modifying it, and then
-updating the original .docx. Note that it is important, due to how internal
-mapping works, that the .docx file being written is the same file as the
-original; using a new file won't work.
+Run dfconvert without any command-line arguments to see a list of possible
+operations. The following is an example of converting a .docx file to HTML,
+modifying it, and then updating the original .docx file based on the modified
+HTML file. Any content or formatting information that could not be converted to
+HTML (e.g.  embedded spreadsheets) will be left untouched.
 
-    dfutil filename.docx filename.html
-    vi filename.html # Make some changes
-    dfutil filename.html filename.docx
+    dfconvert get report.docx report.html
+    vi report.html # Make some changes
+    dfconvert put report.docx report.html
 
-If you examine the convertFile function in `dfutil/Commands.c`, you will see
-the main entry points to perform these conversions, which you can call from
-your own program.
+Note that when executing a put operation to update the document, the .docx file
+must be identical to that from which the HTML file was originally generated.
+This is because of assumptions the update process relies on about the
+relationship between elements in the HTML file and their counterparts in the
+.docx file. If you have modified the .docx file between get and put, or execute
+a put on the same file twice, this will be automatically detected and an error
+will be reported.
+
+Look at `consumers/dfconvert/src/main.c` to see how to use the API. The public
+API headers are in the `DocFormats/api/headers/DocFormats` directory.
 
 # Platforms and dependencies
 
