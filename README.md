@@ -1,18 +1,24 @@
 # About Apache Corinthia (incubating)
 
-Corinthia is a library for converting between different word-processing file
-formats. Initially, it supports .docx (part of the OOXML specification), HTML,
-and LaTeX (export-only). The Corinthia project also provides convenience
-executables.  The library has shipped as part of
-[UX Write](http://www.uxproductivity.com/) since February 2013.
+Corinthia is a set of libraries and tools for dealing with different file
+formats for productivity applications, with an initial focus on word processing.
+The goal of the project is to provide components which developers can easily
+integrate into their own applications and scripts for converting and
+manipulating data in a wide range of formats via a consistent interface.
 
-On December 8, 2014, Corinthia entered the Apache Software
-Foundation
-[incubator](http://incubator.apache.org/incubation/Process_Description.html).
-The
-[accepted proposal](http://wiki.apache.org/incubator/CorinthiaProposal) and
-[incubation status](http://incubator.apache.org/projects/corinthia.html)
-provide incubation background and progress information.
+This is the first public release of Corinthia, and consists of a single core
+library called DocFormats. The library provides two-way conversion between OOXML
+word processing documents (aka Microsoft Word .docx) and HTML. Basic support for
+converting HTML to LaTeX is also provided, and support for ODF is in its early
+stages. The Microsoft Word support has previously been used in commercial
+applications and is fairly mature.
+
+The Corinthia project is part of the Apache Software Foundation
+[incubator](http://incubator.apache.org/incubation/Process_Description.html),
+which it entered on December 8, 2014. The [accepted
+proposal](http://wiki.apache.org/incubator/CorinthiaProposal) and [incubation
+status](http://incubator.apache.org/projects/corinthia.html) provide incubation
+background and progress information.
 
 The communication hub of the project is the development mailing list,
 
@@ -26,17 +32,17 @@ from the email address to receive list messages at.  The reply from
 the list robot to that address provides confirmation instructions and
 information on managing the subscription.
 
-There are a [Corinthia incubator web
-site](http://corinthia.incubator.apache.org/), a
-[project wiki](http://incubator.apache.org/projects/corinthia.html), and a
-[JIRA issue tracker](https://issues.apache.org/jira/browse/COR).
+Further links:
 
+- [Corinthia incubator web site](http://corinthia.incubator.apache.org/)
+- [Project wiki](http://incubator.apache.org/projects/corinthia.html), and a
+- [JIRA issue tracker](https://issues.apache.org/jira/browse/COR).
 
-The sites and documentation for this project are at a preliminary
-stage. Content will be moved to Apache and improved as incubation moves
-along.
+These sites and the documentation for this project are at a preliminary stage.
+Content will be moved to Apache and improved as incubation moves along.
 
-Meanwhile, there is a [Facebook page](https://www.facebook.com/CorinthiaProject) and a Twitter account, [@ApacheCorinthia](https://twitter.com/ApacheCorinthia).
+There is also a [Facebook page](https://www.facebook.com/CorinthiaProject) and a
+Twitter account, [@ApacheCorinthia](https://twitter.com/ApacheCorinthia).
 
 # License
 
@@ -57,9 +63,9 @@ LICENSE.txt for details.
 
 There are three major components, in their respective directories:
 
-* `DocFormats` - the library itself
-* `dfutil` - a driver program used for running [...]
-* automated tests (located in the tests directory)
+* `DocFormats` - file format conversion library
+* `dfconvert` - driver program for performing conversions
+* `dftest` - test harness
 
 Run dfutil without any command-line arguments to see a list of operations.
 Here is an example of converting a .docx file to HTML, modifying it, and then
@@ -88,7 +94,7 @@ To build DocFormats, you will need to have the following installed:
 
 # Build instructions
 
-Corinthia currently builds on Linux, OS X (mac) and Windows. See the [build  instructions](https://cwiki.apache.org/confluence/display/Corinthia/Build+instructions).
+Corinthia currently builds on Linux, OS X and Windows. See the [build  instructions](https://cwiki.apache.org/confluence/display/Corinthia/Build+instructions).
 
 # Contributing
 
