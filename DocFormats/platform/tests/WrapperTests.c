@@ -25,60 +25,60 @@
 
 
 static void doZip(char *name) {
-	DFextZipHandleP   zip;
-	DFextZipDirEntryP zipDir;
-	int               inp, out;
-	unsigned char    *fileBuf[20];
-	char              fileName[20][200];
-	int               fileLen[20];
-	char              tmpName[100];
+    DFextZipHandleP   zip;
+    DFextZipDirEntryP zipDir;
+    int               inp, out;
+    unsigned char    *fileBuf[20];
+    char              fileName[20][200];
+    int               fileLen[20];
+    char              tmpName[100];
 
 
-	zip = DFextZipOpen(name);
-	utassert((zip != NULL), "cannot open/read zip");
+    zip = DFextZipOpen(name);
+    utassert((zip != NULL), "cannot open/read zip");
 
-	for (inp = 0; inp < zip->zipFileCount; inp++) {
-		strcpy(fileName[inp], zip->zipFileEntries[inp].fileName);
-		fileLen[inp] = zip->zipFileEntries[inp].uncompressedSize;
-		fileBuf[inp] = DFextZipReadFile(zip, &zip->zipFileEntries[inp]);
-		utassert((fileBuf[inp] != NULL), "cannot read file in zip");
-	}
-	DFextZipClose(zip);
-	zip = NULL;
+    for (inp = 0; inp < zip->zipFileCount; inp++) {
+        strcpy(fileName[inp], zip->zipFileEntries[inp].fileName);
+        fileLen[inp] = zip->zipFileEntries[inp].uncompressedSize;
+        fileBuf[inp] = DFextZipReadFile(zip, &zip->zipFileEntries[inp]);
+        utassert((fileBuf[inp] != NULL), "cannot read file in zip");
+    }
+    DFextZipClose(zip);
+    zip = NULL;
 
 
-	sprintf(tmpName, "new_%s", name);
-	zip = DFextZipCreate(tmpName);
-	utassert((zip != NULL), "cannot create zip");
+    sprintf(tmpName, "new_%s", name);
+    zip = DFextZipCreate(tmpName);
+    utassert((zip != NULL), "cannot create zip");
 
-	for (out = 0; out < inp; out++) {
-		zipDir = DFextZipWriteFile(zip, fileName[out], fileBuf[out], fileLen[out]);
-		utassert((zipDir != NULL), "cannot write file in zip");
-		free(fileBuf[out]);
-	}
-	DFextZipClose(zip);
+    for (out = 0; out < inp; out++) {
+        zipDir = DFextZipWriteFile(zip, fileName[out], fileBuf[out], fileLen[out]);
+        utassert((zipDir != NULL), "cannot write file in zip");
+        free(fileBuf[out]);
+    }
+    DFextZipClose(zip);
 }
 
 
 
 static void test_DFextZipOOXML(void)
 {
-	doZip("test.docx");
+    doZip("test.docx");
 }
 
 
 
 static void test_DFextZipODF(void)
 {
-	doZip("test.odt");
+    doZip("test.odt");
 }
 
 
 
 TestGroup PlatformWrapperTests = {
     "platform.wrapper", {
-		    { "DFextZipOOXML", PlainTest, test_DFextZipOOXML },
-			{ "DFextZipODF",   PlainTest, test_DFextZipODF },
-			{ NULL,            PlainTest, NULL }
+            { "DFextZipOOXML", PlainTest, test_DFextZipOOXML },
+            { "DFextZipODF",   PlainTest, test_DFextZipODF },
+            { NULL,            PlainTest, NULL }
     }
 };
