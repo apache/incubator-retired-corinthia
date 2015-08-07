@@ -8,10 +8,10 @@ manipulating data in a wide range of formats via a consistent interface.
 
 This is the first public release of Corinthia, and consists of a single core
 library called DocFormats. The library provides two-way conversion between OOXML
-word processing documents (aka Microsoft Word .docx) and HTML. Basic support for
-converting HTML to LaTeX is also provided, and support for ODF is in its early
-stages. The Microsoft Word support has previously been used in commercial
-applications and is fairly mature.
+word processing documents (aka Microsoft Word .docx) and HTML.  The Microsoft
+Word support has previously been used in commercial applications and is fairly
+mature. Support for other file formats is in development, but not part of this
+release.
 
 The Corinthia project is part of the Apache Software Foundation
 [incubator](http://incubator.apache.org/incubation/Process_Description.html),
