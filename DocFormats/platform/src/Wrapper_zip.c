@@ -346,8 +346,9 @@ DFextZipDirEntryP DFextZipWriteFile(DFextZipHandleP zipHandle, const char *fileN
 
     // deflate buffer
     strm.avail_in = strm.avail_out = len;
-    strm.next_in  = buf;
-    strm.next_out = outbuf = xmalloc(len);
+    strm.next_in  = (Bytef *)buf;
+    outbuf        = xmalloc(len);
+    strm.next_out = (Bytef *)outbuf;
     deflate(&strm, Z_FINISH);
     deflateEnd(&strm);
     entryPtr->compressedSize = len - strm.avail_out;
