@@ -70,18 +70,18 @@ void DFInitOnce(DFOnce *once, DFOnceFunction fun);
 
 // Zip functions
 typedef struct {
-	int   compressedSize;    // File size on disk
-	int   uncompressedSize;  // Real file size
-	int   compressionMethod; // Type of compression
-	long  offset;            // offset in file
-	char *fileName;          // filename zero terminated
+    int   compressedSize;    // File size on disk
+    int   uncompressedSize;  // Real file size
+    int   compressionMethod; // Type of compression
+    long  offset;            // offset in file
+    char *fileName;          // filename zero terminated
 } DFextZipDirEntry;
 typedef DFextZipDirEntry * DFextZipDirEntryP;
 typedef struct {
-	void             *zipFile;        // file handle to zip file
-	int               zipFileCount;   // number of entries in array
-	int               zipCreateMode;  // > 0 signals create mode, # is allocation of array
-	DFextZipDirEntry *zipFileEntries; // array with filenames in zip
+    void             *zipFile;        // file handle to zip file
+    int               zipFileCount;   // number of entries in array
+    int               zipCreateMode;  // > 0 signals create mode, # is allocation of array
+    DFextZipDirEntry *zipFileEntries; // array with filenames in zip
 } DFextZipHandle;
 typedef DFextZipHandle * DFextZipHandleP;
 

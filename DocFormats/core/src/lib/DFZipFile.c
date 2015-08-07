@@ -38,28 +38,28 @@ static int zipError(DFError **error, const char *format, ...)
 
 int DFUnzip(const char *zipFilename, DFStorage *storage, DFError **error)
 {
-	unsigned char   *buf;
+    unsigned char   *buf;
     DFextZipHandleP  zipHandle;
-	int              i;
+    int              i;
 
     zipHandle = DFextZipOpen(zipFilename);
     if (!zipHandle)
       return zipError(error,"Cannot open file");
 
-	for (i = 0; i < zipHandle->zipFileCount; i++) {
-		if ( (buf = DFextZipReadFile(zipHandle, &zipHandle->zipFileEntries[i])) == NULL)
-			return zipError(error, "Cannot read file in zip");
+    for (i = 0; i < zipHandle->zipFileCount; i++) {
+        if ( (buf = DFextZipReadFile(zipHandle, &zipHandle->zipFileEntries[i])) == NULL)
+            return zipError(error, "Cannot read file in zip");
 
-		DFBuffer *content = DFBufferNew();
-		DFBufferAppendData(content, (void *)buf, zipHandle->zipFileEntries[i].uncompressedSize);
-		free(buf);
+        DFBuffer *content = DFBufferNew();
+        DFBufferAppendData(content, (void *)buf, zipHandle->zipFileEntries[i].uncompressedSize);
+        free(buf);
 
-		if (!DFBufferWriteToStorage(content, storage, zipHandle->zipFileEntries[i].fileName, error)) {
-			DFBufferRelease(content);
-			return zipError(error, "%s: %s", zipHandle->zipFileEntries[i].fileName, DFErrorMessage(error));
-		}
-		DFBufferRelease(content);
-	}
+        if (!DFBufferWriteToStorage(content, storage, zipHandle->zipFileEntries[i].fileName, error)) {
+            DFBufferRelease(content);
+            return zipError(error, "%s: %s", zipHandle->zipFileEntries[i].fileName, DFErrorMessage(error));
+        }
+        DFBufferRelease(content);
+    }
 
     DFextZipClose(zipHandle);
 
