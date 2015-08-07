@@ -98,7 +98,7 @@ Corinthia currently builds on Linux, OS X and Windows. See the [build  instructi
 
 # Contributing
 
-Contributors are welcome and prized.  Details on how to participate on the
+Contributors are welcome.  Details on how to participate on the
 project will be posted soon.
 
 Meanwhile, the easiest way to contribute is by subscribing to the development
