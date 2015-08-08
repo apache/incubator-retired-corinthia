@@ -131,3 +131,11 @@ void GrammarPrint(Grammar *gram)
 
     free(prefix);
 }
+
+const char *GrammarFirstRuleName(Grammar *gram)
+{
+    if (gram->defList == NULL)
+        return NULL;
+    else
+        return gram->defList->name;
+}

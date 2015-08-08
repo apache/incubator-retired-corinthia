@@ -28,3 +28,4 @@ void GrammarDefine(Grammar *gram, const char *name, Expression *expr);
 Expression *GrammarLookup(Grammar *gram, const char *name);
 void GrammarResolve(Grammar *gram);
 void GrammarPrint(Grammar *gram);
+const char *GrammarFirstRuleName(Grammar *gram);

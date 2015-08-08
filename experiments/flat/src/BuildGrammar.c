@@ -474,6 +474,8 @@ static void buildGrammar(Builder *builder, Term *term)
         GrammarDefine(builder->gram,ruleName,ruleExpr);
         free(ruleName);
     }
+
+    GrammarResolve(builder->gram);
 }
 
 // This function creates a new Grammar object from the result of parsing a file usin the built-in

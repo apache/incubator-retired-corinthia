@@ -1,0 +1,22 @@
+# Note: The Term and Factor rules are right recursive. They are actually
+# supposed to be left recursive, but we don't support that yet.
+Start   : Expr !.;
+Expr    : Term;
+Term    : Factor PLUS Term
+        | Factor MINUS Term
+        | Factor;
+Factor  : Primary TIMES Factor
+        | Primary SLASH Factor
+        | Primary;
+Primary : ID
+        | INT
+        | OPEN Expr CLOSE;
+PLUS    : "+" Spacing;
+MINUS   : "-" Spacing;
+TIMES   : "*" Spacing;
+SLASH   : "/" Spacing;
+OPEN    : "(" Spacing;
+CLOSE   : ")" Spacing;
+ID      : $([a-zA-Z_] [a-zA-Z_0-9]*) Spacing;
+INT     : $([1-9] [0-9]*) Spacing;
+Spacing : $((" " | "\t" | "\r" | "\n")*);

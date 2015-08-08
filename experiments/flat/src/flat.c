@@ -44,6 +44,29 @@ static char *readStringFromFile(const char *filename)
     return data;
 }
 
+static Grammar *grammarFromFile(const char *filename)
+{
+    char *input = readStringFromFile(filename);
+    if (input == NULL) {
+        perror(filename);
+        exit(1);
+    }
+
+    Grammar *flatGrammar = GrammarNewBuiltin();
+    Term *term = parse(flatGrammar,"Grammar",input,0,strlen(input));
+    if (term == NULL) {
+        fprintf(stderr,"%s: Parse failed\n",filename);
+        exit(1);
+    }
+
+    Grammar *builtGrammar = grammarFromTerm(term,input);
+
+    free(input);
+    GrammarFree(flatGrammar);
+
+    return builtGrammar;
+}
+
 int main(int argc, const char **argv)
 {
 
@@ -71,27 +94,31 @@ int main(int argc, const char **argv)
         GrammarFree(gram);
     }
     else if ((argc == 3) && !strcmp(argv[1],"-b")) {
-        const char *filename = argv[2];
-        char *input = readStringFromFile(filename);
-        if (input == NULL) {
-            perror(filename);
-            exit(1);
-        }
-
-        Grammar *gram = GrammarNewBuiltin();
-        Term *term = parse(gram,"Grammar",input,0,strlen(input));
-        if (term == NULL) {
-            fprintf(stderr,"%s: Parse failed\n",filename);
-            exit(1);
-        }
-
-
-        Grammar *built = grammarFromTerm(term,input);
+        Grammar *built = grammarFromFile(argv[2]);
         GrammarPrint(built);
-
-        free(input);
-        GrammarFree(gram);
         GrammarFree(built);
+    }
+    else if (argc == 3) {
+        const char *grammarFilename = argv[1];
+        const char *inputFilename = argv[2];
+
+        char *inputStr = readStringFromFile(inputFilename);
+        if (inputStr == NULL) {
+            perror(inputFilename);
+            exit(1);
+        }
+
+        Grammar *builtGrammar = grammarFromFile(grammarFilename);
+        const char *firstRuleName = GrammarFirstRuleName(builtGrammar);
+        Term *inputTerm = parse(builtGrammar,firstRuleName,inputStr,0,strlen(inputStr));
+        if (inputTerm == NULL) {
+            fprintf(stderr,"%s: Parse failed\n",inputFilename);
+            exit(1);
+        }
+        TermPrint(inputTerm,inputStr,"");
+
+        free(inputStr);
+        GrammarFree(builtGrammar);
     }
     else {
         printf("Usage:\n"
@@ -109,6 +136,11 @@ int main(int argc, const char **argv)
                "\n"
                "    Parse FILENAME using the built-in PEG grammar, then use the resulting parse\n"
                "    tree to build a Grammar object, and print out the constructed grammar.\n"
+               "\n"
+               "flat GRAMMAR INPUT\n"
+               "\n"
+               "    Use the grammar defined in file GRAMMAR to parse the file INPUT, and print\n"
+               "    out the resulting parse tree\n"
                "\n");
 
         return 1;
