@@ -105,6 +105,9 @@ void TermPrint(Term *term, const char *input, const char *indent)
         case IdentExpr:
             printf("%s %s\n",ExprKindAsString(ExpressionKind(term->type)),ExprIdentValue(term->type));
             break;
+        case LabelExpr:
+            printf("%s %s\n",ExprKindAsString(ExpressionKind(term->type)),ExprLabelIdent(term->type));
+            break;
         case LitExpr:
         case RangeExpr:
         case DotExpr:

@@ -61,6 +61,8 @@ const char *ExprKindAsString(ExprKind kind)
             return "Range";
         case StringExpr:
             return "String";
+        case LabelExpr:
+            return "Label";
     }
     return "?";
 }
@@ -197,6 +199,17 @@ Expression *ExpressionNewString(Expression *child)
     return expr;
 }
 
+Expression *ExpressionNewLabel(const char *label, Expression *child)
+{
+    assert(child != NULL);
+    Expression *expr = (Expression *)calloc(1,sizeof(Expression)+1*sizeof(Expression *));
+    expr->kind = LabelExpr;
+    expr->value = strdup(label);
+    expr->count = 1;
+    expr->children[0] = child;
+    return expr;
+}
+
 void ExpressionFree(Expression *expr)
 {
     if (expr == NULL)
@@ -232,6 +245,7 @@ static int ExprKindPrecedence(ExprKind kind)
         case DotExpr:
             return 5;
         case StringExpr:
+        case LabelExpr:
             return 6;
         case RangeExpr:
             return 7;
@@ -327,6 +341,12 @@ void ExpressionPrint(Expression *expr, int highestPrecedence, const char *indent
             printf("$(");
             highestPrecedence = 1; // because of brackets
             ExpressionPrint(ExprStringChild(expr),highestPrecedence,NULL);
+            printf(")");
+            break;
+        case LabelExpr:
+            printf("$%s(",ExprLabelIdent(expr));
+            highestPrecedence = 1; // because of brackets
+            ExpressionPrint(ExprLabelChild(expr),highestPrecedence,NULL);
             printf(")");
             break;
     }
@@ -491,6 +511,26 @@ Expression *ExprStringChild(Expression *expr)
 {
     assert(expr->kind == StringExpr);
     assert(expr->count == 1);
+    assert(expr->children[0] != NULL);
+    return expr->children[0];
+}
+
+// Label
+
+const char *ExprLabelIdent(Expression *expr)
+{
+    assert(expr->kind == LabelExpr);
+    assert(expr->count == 1);
+    assert(expr->value != NULL);
+    assert(expr->children[0] != NULL);
+    return expr->value;
+}
+
+Expression *ExprLabelChild(Expression *expr)
+{
+    assert(expr->kind == LabelExpr);
+    assert(expr->count == 1);
+    assert(expr->value != NULL);
     assert(expr->children[0] != NULL);
     return expr->children[0];
 }

@@ -212,6 +212,12 @@ static Term *parseExpr(Parser *p, Expression *expr)
             // (which can be recovered from the input, and the start and end fields of the term).
             return TermNew(expr,startPos,p->pos,NULL);
         }
+        case LabelExpr: {
+            Term *term = parseExpr(p,ExprLabelChild(expr));
+            if (term == NULL)
+                return NULL;
+            return TermNew(expr,startPos,p->pos,TermListNew(term,NULL));
+        }
     }
     assert(!"unknown expression type");
     return NULL;

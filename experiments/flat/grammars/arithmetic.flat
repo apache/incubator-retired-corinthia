@@ -2,14 +2,14 @@
 # supposed to be left recursive, but we don't support that yet.
 Start   : Expr !.;
 Expr    : Term;
-Term    : Factor PLUS Term
-        | Factor MINUS Term
+Term    : $Add(Factor PLUS Term)
+        | $Sub(Factor MINUS Term)
         | Factor;
-Factor  : Primary TIMES Factor
-        | Primary SLASH Factor
+Factor  : $Mul(Primary TIMES Factor)
+        | $Div(Primary SLASH Factor)
         | Primary;
-Primary : ID
-        | INT
+Primary : $Ident(ID)
+        | $Integer(INT)
         | OPEN Expr CLOSE;
 PLUS    : "+" Spacing;
 MINUS   : "-" Spacing;
