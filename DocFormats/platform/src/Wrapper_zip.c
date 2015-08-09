@@ -45,7 +45,7 @@ typedef struct {
     uint16_t compressionMethod;           // NOT USED
     uint16_t lastModFileTime;             // NOT USED
     uint16_t lastModFileDate;             // NOT USED
-    uint32_t crc32;                       // NOT USED
+    uint32_t crc32;                       // crc32
     uint32_t compressedSize;              // NOT USED
     uint32_t uncompressedSize;            // NOT USED
     uint16_t fileNameLength;              // Only used to skip to next record 
@@ -83,7 +83,7 @@ static int readDirectory(FILE *zipFile, DFextZipHandleP zipHandle)
 {
     unsigned long fileSize, readBytes;
     unsigned char workBuf[4096];
-    int           i, zipOffset;
+    int           i, x, zipOffset;
 
 
     //***** Read EndRecord *****
@@ -136,20 +136,22 @@ static int readDirectory(FILE *zipFile, DFextZipHandleP zipHandle)
             || recDir->signature != ZipDirectoryRecord_signature)
             return -1;
 
-        // Skip extra info and store pointer at next entry
-        if (fseek(zipFile, recDir->extraFieldLength + recDir->fileCommentLength, SEEK_CUR))
-            return -1;
-
         dirEntry->compressedSize    = recDir->compressedSize;
         dirEntry->uncompressedSize  = recDir->uncompressedSize;
         dirEntry->compressionMethod = recDir->compressionMethod;
         dirEntry->offset            = recDir->relativeOffsetOflocalHeader;
+        dirEntry->crc32             = recDir->crc32;
 
         // Add filename
         dirEntry->fileName = xmalloc(recDir->fileNameLength + 1);
         if (fread(dirEntry->fileName, 1, recDir->fileNameLength, zipFile) < (unsigned long)recDir->fileNameLength)
             return -1;
         dirEntry->fileName[recDir->fileNameLength] = '\0';
+
+        // Skip extra info and store pointer at next entry
+        x = recDir->extraFieldLength + recDir->fileCommentLength;
+        if (x && fseek(zipFile, x, SEEK_CUR))
+            return -1;
     };
 
     return 0;
@@ -203,6 +205,7 @@ static void writeGlobalDirAndEndRecord(DFextZipHandleP zipHandle) {
         dirRecord.uncompressedSize            = zipHandle->zipFileEntries[i].uncompressedSize;
         dirRecord.fileNameLength              = strlen(zipHandle->zipFileEntries[i].fileName);
         dirRecord.relativeOffsetOflocalHeader = zipHandle->zipFileEntries[i].offset;
+        dirRecord.crc32                       = zipHandle->zipFileEntries[i].crc32;
         endRecord.centralDirectorySize       += sizeof(ZipDirectoryRecord) + dirRecord.fileNameLength;
         fwrite(&dirRecord, 1, sizeof(ZipDirectoryRecord), zipHandle->zipFile);
         fwrite(zipHandle->zipFileEntries[i].fileName, 1, dirRecord.fileNameLength, zipHandle->zipFile);
@@ -210,6 +213,7 @@ static void writeGlobalDirAndEndRecord(DFextZipHandleP zipHandle) {
 
     // and finally the end record
     fwrite(&endRecord, 1, sizeof(ZipEndRecord), zipHandle->zipFile);
+    fwrite(comment,    1, sizeof(comment),      zipHandle->zipFile);
 }
 
 
@@ -331,45 +335,53 @@ DFextZipDirEntryP DFextZipWriteFile(DFextZipHandleP zipHandle, const char *fileN
     }
 
     // prepare local and global file entry
-    DFextZipDirEntryP entryPtr = &zipHandle->zipFileEntries[zipHandle->zipFileCount++];
-    entryPtr->offset           = ftell(zipHandle->zipFile);
-    entryPtr->uncompressedSize = len;
-    entryPtr->fileName         = xmalloc(fileNameLength + 1);
+    DFextZipDirEntryP entryPtr  = &zipHandle->zipFileEntries[zipHandle->zipFileCount++];
+    entryPtr->offset            = ftell(zipHandle->zipFile);
+    entryPtr->uncompressedSize  = len;
+    entryPtr->fileName          = xmalloc(fileNameLength + 1);
+    entryPtr->compressionMethod = Z_DEFLATED;
+    entryPtr->crc32             = crc32(0L, Z_NULL, 0);
+    entryPtr->crc32             = crc32(entryPtr->crc32, buf, len);
+
     strcpy(entryPtr->fileName, fileName);
 
     // prepare to deflate
     strm.zalloc = Z_NULL;
-    strm.zfree  = strm.opaque = strm.next_in = Z_NULL;
-    strm.avail_in = 0;
-    if (deflateInit(&strm, Z_DEFLATED) != Z_OK)
+    strm.zfree  = strm.opaque = Z_NULL;
+    if (deflateInit2(&strm, Z_BEST_COMPRESSION, Z_DEFLATED, -MAX_WBITS, MAX_MEM_LEVEL, Z_DEFAULT_STRATEGY) != Z_OK)
         return NULL;
 
     // deflate buffer
-    strm.avail_in = strm.avail_out = len;
-    strm.next_in  = (Bytef *)buf;
-    outbuf        = xmalloc(len);
-    strm.next_out = (Bytef *)outbuf;
-    deflate(&strm, Z_FINISH);
+    strm.next_in   = buf;
+    strm.avail_in  = len;
+    strm.avail_out = deflateBound(&strm, len);
+    strm.next_out  = (Bytef *)xmalloc(strm.avail_out);
+    outbuf         = strm.next_out;
+    if (deflate(&strm, Z_FINISH) != Z_STREAM_END) {
+        free(outbuf);
+        return NULL;
+    }
     deflateEnd(&strm);
-    entryPtr->compressedSize = len - strm.avail_out;
+    entryPtr->compressedSize = strm.total_out;
 
     // prepare local header
-    header.versionNeededToExtract = header.generalPurposeBitFlag = header.lastModFileTime =
-    header.lastModFileDate        = header.extraFieldLength      = header.crc32 = 0;
+    header.versionNeededToExtract = 0x0014;
+    header.generalPurposeBitFlag  = 0x0006;
+    header.lastModFileTime        = header.lastModFileDate = header.extraFieldLength = header.crc32 = 0;
     header.signature              = ZipFileHeader_signature;
-    header.compressionMethod      = Z_DEFLATED;
+    header.compressionMethod      = entryPtr->compressionMethod;
     header.compressedSize         = entryPtr->compressedSize;
-    header.uncompressedSize       = len;
+    header.uncompressedSize       = entryPtr->uncompressedSize;
     header.fileNameLength         = fileNameLength;
+    header.crc32                  = entryPtr->crc32;
 
     // put data to file
     fwrite(&header,            1, sizeof(header),        zipHandle->zipFile);
     fwrite(entryPtr->fileName, 1, fileNameLength,        zipHandle->zipFile);
-    fwrite(outbuf,             1, header.compressedSize, zipHandle->zipFile);
+    fwrite(outbuf,             1, header.compressedSize, zipHandle->zipFile); // skip CMD bytes in front
 
     // cleanup
     free(outbuf);
-
     return entryPtr;
 }
 
@@ -377,7 +389,7 @@ DFextZipDirEntryP DFextZipWriteFile(DFextZipHandleP zipHandle, const char *fileN
 
 void DFextZipClose(DFextZipHandleP zipHandle)
 {
-    if (zipHandle->zipFileCount)
+    if (zipHandle->zipCreateMode)
         writeGlobalDirAndEndRecord(zipHandle);
 
     fclose(zipHandle->zipFile);

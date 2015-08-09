@@ -74,6 +74,7 @@ typedef struct {
     int   uncompressedSize;  // Real file size
     int   compressionMethod; // Type of compression
     long  offset;            // offset in file
+    long  crc32;             // copy from local header
     char *fileName;          // filename zero terminated
 } DFextZipDirEntry;
 typedef DFextZipDirEntry * DFextZipDirEntryP;
