@@ -73,6 +73,14 @@
  * StringExpr - Instructs the parser to construct a single node in the parse tree representing
  * everything within the child expression. Doesn't have any effect on what is or isn't accepted
  * by the parser.
+ *
+ * LabelExpr - Instructs the parser to construct a label node in the parse tree, indicating
+ * semantically important information. Many nodes in the parse tree are there simply because
+ * they formed part of the call tree used during parsing, but do not necessarily have any
+ * use for subsequent analysis of the tree. Label expressions are intended to, in the future,
+ * allow us to have simpler trees which only contain the information necessary for analysing
+ * a syntax tree. Like String expressions, Label expressions do not have any effect on what is or
+ * isn't accepted by the parser.
  */
 
 typedef enum {
@@ -89,6 +97,7 @@ typedef enum {
     DotExpr,
     RangeExpr,
     StringExpr,
+    LabelExpr,
 } ExprKind;
 
 typedef struct Expression Expression;
@@ -108,6 +117,7 @@ Expression *ExpressionNewClass(int count, Expression **children);
 Expression *ExpressionNewDot(void);
 Expression *ExpressionNewRange(int lo, int hi);
 Expression *ExpressionNewString(Expression *child);
+Expression *ExpressionNewLabel(const char *label, Expression *child);
 void ExpressionFree(Expression *expr);
 void ExpressionPrint(Expression *expr, int highestPrecedence, const char *indent);
 
@@ -153,3 +163,8 @@ int ExprRangeEnd(Expression *expr);
 // String
 
 Expression *ExprStringChild(Expression *expr);
+
+// Label
+
+const char *ExprLabelIdent(Expression *expr);
+Expression *ExprLabelChild(Expression *expr);

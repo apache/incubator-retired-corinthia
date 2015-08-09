@@ -31,6 +31,7 @@
  *     Suffix     : Primary (QUESTION | STAR | PLUS)?;
  *     Primary    : Identifier !COLON
  *                | DOLLAR OPEN Expression CLOSE
+ *                | DOLLAR Identifier OPEN Expression CLOSE
  *                | OPEN Expression CLOSE
  *                | Literal
  *                | Class

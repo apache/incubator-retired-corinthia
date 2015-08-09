@@ -303,15 +303,25 @@ static Expression *buildPrimary(Builder *builder, Term *term)
             return ExpressionNewString(result);
         }
         case 2: {
+            assert(isSequence(choice,5));
+            Term *ident = TermChildAt(choice,1);
+            char *label = identifierString(builder,ident);
+            Term *expression = TermChildAt(choice,3);
+            Expression *result = buildExpression(builder,expression);
+            result = ExpressionNewLabel(label,result);
+            free(label);
+            return result;
+        }
+        case 3: {
             assert(isSequence(choice,3));
             Term *expression = TermChildAt(choice,1);
             return buildExpression(builder,expression);
         }
-        case 3:
-            return buildLiteral(builder,choice);
         case 4:
-            return buildClass(builder,choice);
+            return buildLiteral(builder,choice);
         case 5:
+            return buildClass(builder,choice);
+        case 6:
             return buildDot(builder,choice);
         default:
             assert(!"Invalid choice for Primary");
@@ -474,6 +484,8 @@ static void buildGrammar(Builder *builder, Term *term)
         GrammarDefine(builder->gram,ruleName,ruleExpr);
         free(ruleName);
     }
+
+    GrammarResolve(builder->gram);
 }
 
 // This function creates a new Grammar object from the result of parsing a file usin the built-in

@@ -88,6 +88,7 @@ Grammar *GrammarNewBuiltin(void)
 
     // Primary : Identifier !COLON
     //         | DOLLAR OPEN Expression CLOSE
+    //         | DOLLAR Identifier OPEN Expression CLOSE
     //         | OPEN Expression CLOSE
     //         | Literal
     //         | Class
@@ -95,6 +96,7 @@ Grammar *GrammarNewBuiltin(void)
     GrammarDefine(gram,"Primary",
                   choice(seq(ref("Identifier"),not(ref("COLON"))),
                          seq(ref("DOLLAR"),ref("OPEN"),ref("Expression"),ref("CLOSE")),
+                         seq(ref("DOLLAR"),ref("Identifier"),ref("OPEN"),ref("Expression"),ref("CLOSE")),
                          seq(ref("OPEN"),ref("Expression"),ref("CLOSE")),
                          ref("Literal"),
                          ref("Class"),
