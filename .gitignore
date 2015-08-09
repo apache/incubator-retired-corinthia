@@ -1,4 +1,4 @@
-# .gitignore 0.06                     UTF-8                       2015-08-09
+# .gitignore 0.07                     UTF-8                       2015-08-09
 #
 #                                 CORINTHIA/ROOT
 #                                 ==============
@@ -20,25 +20,20 @@
 # Finder directory status files (OS X)
 .DS_Store
 
-## ELIMINATION OF VISUAL STUDIO SOLUTIONS
-## --------------------------------------
 
-# Do not include working solutions in the repository tree.  For Corinthia,
-# these will be built/extracted dynamically into the build/ folder as needed
-# and will not appear directly in the source tree.
 
-*.sln
-*.vcxproj
-*.vcxproj.filters
+## KEEP BUILD ARTIFACTS IN THE BUILD/ FOLDER AND OUT OUT OF THE REPOSITORY
+## -----------------------------------------------------------------------
 
-## KEEP BUILDS IN THE BUILD/ FOLDER
-## --------------------------------
 
 build*/
-# If all build operations are carried out in either the build/ folder or
+# If all build operations are confined to the build/ folder or are conducted
 # outside of the repository folder, they will be automatically excluded from
-# the repository.
+# the repository.  Nothing produced by editors, IDEs, or build tools should
+# be placed anywhere else in the repository but build/.
 
+# 0.07 2015-08-09T11:12 Replace explicit ignore of Visual Studio artifacts
+#      with a generic warning.
 # 0.06 2015-08-09T10:17 Removed now-obsolete use of external/ as part of
 #      build usage.
 # 0.05 2015-08-09T09:00 Add additional build exclusions based on recommended
