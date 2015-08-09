@@ -1,4 +1,4 @@
-# .gitignore 0.05                     UTF-8                       2015-08-09
+# .gitignore 0.06                     UTF-8                       2015-08-09
 #
 #                                 CORINTHIA/ROOT
 #                                 ==============
@@ -34,16 +34,15 @@
 ## KEEP BUILDS IN THE BUILD/ FOLDER
 ## --------------------------------
 
-external/*
-# Do not include any externals in the repository
-
 build*/
 # If all build operations are carried out in either the build/ folder or
 # outside of the repository folder, they will be automatically excluded from
 # the repository.
 
-# 0.05 2015-08-09 Add additional build exclusions based on the recommended
-#      for GitHub and experience with ephemeral artifacts on Windows.  Based
-#      on an 0.04 from another project (orcmid).
+# 0.06 2015-08-09T10:17 Removed now-obsolete use of external/ as part of
+#      build usage.
+# 0.05 2015-08-09T09:00 Add additional build exclusions based on recommended
+#      ones from GitHub and experience with ephemeral artifacts on Windows.
+#      Based on an 0.04 from another project (orcmid).
 #
 #                    *** end of .gitignore ***
