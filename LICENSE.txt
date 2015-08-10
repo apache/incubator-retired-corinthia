@@ -208,3 +208,14 @@ separate copyright notices and license terms. Your use of the source
 code for the these subcomponents is subject to the terms and
 conditions of the following licenses. 
 
+- included in source with modifications:
+w3c-tidy-html5 (WC3/BSD like license, see DocFormats\platform\3rdparty\w3c-tidy-html5)
+
+- Link dependency (binary version), not included in the release:
+libxml2 (MIT license)
+SDL2 (zlib license)
+SDL2_image (zlib license)
+zlib (zlib license)
+jquery.js (MIT license)
+
+

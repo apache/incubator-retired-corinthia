@@ -6,19 +6,3 @@ The Apache Software Foundation (http://www.apache.org/).
 
 This product includes software copyright 2011-2015 UX Productivity Pty Ltd.
 
-
----
-As part of the base system this product also includes the following third
-party libraries:
-
-w3c-tidy-html5, (DocFormats/platform/3rdparty/w3c-tidy-html5/license.html)
-
-And link with the following 3rdparty libraries:
-iconv
-libxmml2
-SDL2
-SDL2_image
-zlib
-
-
-
