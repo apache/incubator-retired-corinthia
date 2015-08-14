@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<grammar xmlns="http://relaxng.org/ns/structure/1.0">
-  <include href="shared-documentPropertiesExtended.rng"/>
-  <include href="shared-documentPropertiesVariantTypes.rng"/>
-  <include href="shared-commonSimpleTypes.rng"/>
-  <start>
-    <ref name="shdDcEP_Properties"/>
-  </start>
-</grammar>
