@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<grammar xmlns="http://relaxng.org/ns/structure/1.0">
-  <include href="shared-bibliography.rng"/>
-  <include href="shared-commonSimpleTypes.rng"/>
-  <start>
-    <ref name="shrdBib_Sources"/>
-  </start>
-</grammar>
