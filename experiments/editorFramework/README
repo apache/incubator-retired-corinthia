@@ -1,0 +1,18 @@
+The editor framework
+
+The purpose of this module is to provide a framework making it easy for others
+to build an editor.
+
+The framework is a layered model consisting of:
+- Layer 0: Javascripts that to the actual editing on the page
+- Layer 1: Toolkit implementation (specific to different toolkits)
+           included in the layer is the actual graphic setup
+           This code will only be suplied as example code
+- Layer 2: API to Layer 1
+- Layer 3: Editor handling (start JS receive input back)
+- Layer 4: Connection to DocFormats.
+
+The current idea is to develop the framework using Qt as Layer 1 (example code)
+and then test the API with a server implmentation.
+
+
