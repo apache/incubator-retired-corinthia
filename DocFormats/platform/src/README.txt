@@ -4,7 +4,7 @@ Reference: https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT
 
 
 "version made by" (2 bytes)
-    Fixed set to 0x2D
+    Fixed set to 0x0
 
     Upper byte mapping:
          0 - MS-DOS and OS/2 (FAT / VFAT / FAT32 file systems)
@@ -55,7 +55,7 @@ Reference: https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT
 
 "general purpose bit flag" (2 bytes)
 
-   Fixed set to 0x06
+   Fixed set to 0x00
 
 
    Bit 0: If set, indicates that the file is encrypted.
