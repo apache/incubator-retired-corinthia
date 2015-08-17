@@ -20,23 +20,41 @@
 
 
 
-toolkit * toolkit::createInstance(toolkit_callback *tk, int debug_level) {
-    return (toolkit *)new qt_toolkit();
+// Constructor/Destructor
+qt_toolkit::qt_toolkit(toolkit_callback *setCallback, int setDebugLevel) {
+    int    argc = 0;
+    char **argv = NULL;
+
+
+    callback   = setCallback;
+    debugLevel = setDebugLevel;
+    app        = new QApplication(argc, argv);
+}
+qt_toolkit::~qt_toolkit() {
+    if (window)
+        delete window;
+    if (app)
+        delete app;
 }
 
 
 
-bool qt_toolkit::startWindow() {
-    int    argc = 0;
-    char **argv = NULL;
+// Instanciate the derived class.
+toolkit * toolkit::createInstance(toolkit_callback *tk, int setDebugLevel) {
+    return (toolkit *)new qt_toolkit(tk, setDebugLevel);
+}
 
-    app    = new QApplication(argc, argv);
+
+
+// Prepare graphic
+bool qt_toolkit::startWindow() {
     window = new MainWindow(app);
     return true;
 }
 
 
 
+// Sart message loop, and to not return
 void qt_toolkit::run() {
     window->show();
     app->exec();
@@ -44,14 +62,7 @@ void qt_toolkit::run() {
 
 
 
+// Activate Javascript function
 bool qt_toolkit::callJavascript(const char *function) {
     return true;
 }
-
-
-
-#if 0
-{
-}
-
-#endif

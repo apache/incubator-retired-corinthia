@@ -14,31 +14,43 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 #pragma once
-#include "../toolkit.hpp"
-#include <QtWidgets/QApplication>
+#include <QtWidgets/QWidget>
 
-/*
- * Implementation of toolkit generic interface in Qt
- *
+
+
+/******************** WINDOWS.HPP ********************
+ * This file contain all the graphical classes 
+ * inherited from Qt
  */
 
 
-class qt_toolkit : toolkit
+
+// Main window, this adds all other widgets inside
+class MainWindow : public QWidget
 {
-    /* toolkit qt implementation */
-
+    Q_OBJECT
 public:
-    /* Inherited functions */
-    bool startWindow();
-    void run();
-    bool callJavascript(const char *function);
+    MainWindow(QApplication *app);
+    ~MainWindow();
 
-private: 
-    QApplication     *app;
-    MainWindow       *window;
-    toolkit_callback *callback;
-    int               debugLevel;
+
+    
+public slots:
+/*
+    void insertTable();
+    void insertLink();
+    void insertCharacter();
+    void backspace();
+    void moveLeft();
+    void moveRight();
+    void undo();
+    void redo();
+ */
+
+
+private:
+    QApplication *_app;
+//    Toolbar *_toolbar;
+//    Editor *_editor;
 };
-
