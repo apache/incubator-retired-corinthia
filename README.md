@@ -90,7 +90,7 @@ API headers are in the `DocFormats/api/headers/DocFormats` directory.
 
 # Platforms and dependencies
 
-Corinthia builds and runs on iOS, OS X, Linux and Windows.
+Corinthia builds and runs on OS X, Linux and Windows.
 
 To build DocFormats, you will need to have the following installed:
 
