@@ -6,51 +6,27 @@
 // "License"); you may not use this file except in compliance
 // with the License.  You may obtain a copy of the License at
 //
-//   http://www.apache.org/licenses/LICENSE-2.0
-//
+//   http://www.apache.org/licenses/LICENSE-2.//
 // Unless required by applicable law or agreed to in writing,
 // software distributed under the License is distributed on an
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
 #pragma once
-#include <QtWidgets/QWidget>
+#include "qt_classes.hpp"
 
 
+void Editor::webViewloadFinished(bool ok) {}
 
-/******************** WINDOWS.HPP ********************
- * This file contain all the graphical classes 
- * inherited from Qt
- */
-
+Editor::Editor(QWidget *parent, Qt::WindowFlags f) {}
+Editor::~Editor() {}
 
 
-// Main window, this adds all other widgets inside
-class MainWindow : public QWidget
-{
-    Q_OBJECT
-public:
-    MainWindow(QApplication *app);
-    ~MainWindow();
-
-
-    
-public slots:
-/*
-    void insertTable();
-    void insertLink();
-    void insertCharacter();
-    void backspace();
-    void moveLeft();
-    void moveRight();
-    void undo();
-    void redo();
- */
-
-
-private:
-    QApplication *_app;
-//    Toolbar *_toolbar;
-//    Editor *_editor;
-};
+void Editor::mouseDoubleClickEvent(QMouseEvent *event) {}
+void Editor::mouseMoveEvent(QMouseEvent *event) {}
+void Editor::mousePressEvent(QMouseEvent *event) {}
+void Editor::mouseReleaseEvent(QMouseEvent *event) {}
+void Editor::resizeEvent(QResizeEvent *event) {}
+bool Editor::eventFilter(QObject *obj, QEvent *event) { return true; }

@@ -13,30 +13,46 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 #pragma once
-#include "windows.hpp"
-#include "qt_toolkit.hpp"
+#include <QtWidgets/QApplication>
+#include "qt_classes.hpp"
+
+
+/*
+ * Implementation of
+ * Interface between implementation dependent toolkit and the API available for the handling.
+ *
+ * This file implements the smallest possible interface, in order to facilitate easier
+ * implementation of other toolkits.
+ *
+ * The Callbacks are handled through the signal/post function of Qt.
+ *
+ */
+
+
+
+// Static Variables
+QApplication * qt_toolkit::app;
 
 
 
 // Constructor/Destructor
-qt_toolkit::qt_toolkit(toolkit_callback *setCallback, int setDebugLevel) {
-    int    argc = 0;
-    char **argv = NULL;
+qt_toolkit::qt_toolkit(toolkit_callback *setCallback, int setDebugLevel) :
+    callback(setCallback),
+    debugLevel(setDebugLevel)
+{
+    // Application is only added once 
+    if (!app) {
+        int    argc = 0;
+        char **argv = NULL;
+        app         = new QApplication(argc, argv);
+    }
 
-
-    callback   = setCallback;
-    debugLevel = setDebugLevel;
-    app        = new QApplication(argc, argv);
+    // get notification, when user click on button
+    QObject::connect((const QObject *)window.toolbar.saveButton, SIGNAL(clicked()), this, SLOT(saveButton()));
+    QObject::connect((const QObject *)window.toolbar.saveAsButton, SIGNAL(clicked()), this, SLOT(saveAsButton()));
+    QObject::connect((const QObject *)window.toolbar.loadButton, SIGNAL(clicked()), this, SLOT(saveAsButton()));
 }
-qt_toolkit::~qt_toolkit() {
-    if (window)
-        delete window;
-    if (app)
-        delete app;
-}
-
 
 
 // Instanciate the derived class.
@@ -45,24 +61,35 @@ toolkit * toolkit::createInstance(toolkit_callback *tk, int setDebugLevel) {
 }
 
 
-
-// Prepare graphic
+// Prepare graphic (not used in the Qt implementation)
 bool qt_toolkit::startWindow() {
-    window = new MainWindow(app);
     return true;
 }
 
 
-
 // Sart message loop, and to not return
 void qt_toolkit::run() {
-    window->show();
+    window.show();
     app->exec();
 }
-
 
 
 // Activate Javascript function
 bool qt_toolkit::callJavascript(const char *function) {
     return true;
+}
+
+
+// Notify save was requested
+void qt_toolkit::save() {
+}
+
+
+// Notify saveAs was requested
+void qt_toolkit::saveAs() {
+}
+
+
+// Notify load was requested
+void qt_toolkit::load() {
 }

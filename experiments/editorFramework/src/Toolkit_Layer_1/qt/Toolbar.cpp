@@ -15,10 +15,10 @@
 // under the License.
 
 #pragma once
-#include "windows.hpp"
+#include "qt_classes.hpp"
 
 
-MainWindow::MainWindow(QApplication *app) {
+Toolbar::Toolbar() {
 }
-MainWindow::~MainWindow() {
+Toolbar::~Toolbar() {
 }

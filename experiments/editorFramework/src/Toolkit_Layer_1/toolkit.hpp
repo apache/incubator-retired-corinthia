@@ -17,7 +17,6 @@
 #pragma once
 
 
-
 /*
  * Interface between implementation dependent toolkit and the API available for the handling.
  *
@@ -50,6 +49,11 @@
 
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                //
+//                                        toolkit_callback                                        //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
 class toolkit_callback {
     /* Callback interface
      *
@@ -74,17 +78,14 @@ public:
     virtual void debug(int level, const char *message) = 0;
 
 
-
     // pass back Javascript result
     virtual void notifyJavascript(const char *message) = 0;
-
 
 
     // pass back Button action
     // button can have values as defined in toolkit class
     // (note windows actions are handled as special buttons)
     virtual void notifyButtonPressed(int button) = 0;
-
 
 
     // pass back Dialogbox action
@@ -94,9 +95,14 @@ public:
 
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                //
+//                                            toolkit                                             //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
 class toolkit
 {
-    /* toolkit interface
+    /* Toolkit interface
     *
     * this class is pure virtual, to make sure it gets implemented in toolkit implementation without any dependencies
     * from the generic layer.
@@ -104,7 +110,9 @@ class toolkit
     * Methods in this class activate graphical functions
     *
     * A static createInstance() is supplied to allow the TK implementation to instanciate the derived class
+    *
     */
+
 
 public:
     // Enumeration for DEBUG level
@@ -117,21 +125,17 @@ public:
     };
 
 
-
     // Function to create a new instance, this is needed to allow the implementation class
     // to have a derived class that contain implementation dependent functions and variables
     static toolkit *createInstance(toolkit_callback *callback, int setDebugLevel);
-
 
 
     // Start windows etc
     virtual bool startWindow() = 0;
 
 
-
     // Start message loop, does not return, unless main window is terminated
     virtual void run() = 0;
-
 
 
     // Start Javascript
