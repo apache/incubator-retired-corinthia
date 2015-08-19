@@ -20,85 +20,11 @@
 
 MainWindow::MainWindow() {
     toolbar.setParent(this);
+    editor.setParent(this);
+
+    this->setLayout(&vlayout);
+    vlayout.addWidget(&toolbar);
+    vlayout.addWidget(&editor);
+    vlayout.setSpacing(0);
+    vlayout.setContentsMargins(4, 4, 4, 4);
 }
-
-
-
-#if 0
-#include "MainWindow.h"
-#include <QWebView>
-#include <QVBoxLayout>
-#include <QPushButton>
-#include <QCoreApplication>
-#include "Editor.h"
-#include "JSInterface.h"
-#include "Toolbar.h"
-
-MainWindow::MainWindow(QApplication *app) : QWidget(0)
-{
-    _app = app;
-    _toolbar = new Toolbar(this);
-    _editor = new Editor(this);
-    QVBoxLayout *vlayout = new QVBoxLayout();
-    this->setLayout(vlayout);
-    vlayout->addWidget(_toolbar);
-    vlayout->addWidget(_editor);
-    vlayout->setSpacing(0);
-    vlayout->setContentsMargins(4, 4, 4, 4);
-
-
-    QString appPath = QCoreApplication::applicationDirPath();
-    QString docPath = appPath + "/../share/corinthia/sample.html";
-    QUrl url = QUrl::fromLocalFile(docPath);
-    qStdOut() << "sample document url = " << url.toString() << endl;
-    _editor->webView()->load(url);
-}
-
-MainWindow::~MainWindow()
-{
-    delete _toolbar;
-    delete _editor;
-}
-
-void MainWindow::insertTable()
-{
-    _editor->js()->tables.insertTable(4, 3, "50%", true, "Table caption", QString::null);
-}
-
-void MainWindow::insertLink()
-{
-    _editor->js()->cursor.insertLink("Corinthia website", "http://corinthia.incubator.apache.org");
-}
-
-void MainWindow::insertCharacter()
-{
-    _editor->js()->cursor.insertCharacter('X', true);
-}
-
-void MainWindow::backspace()
-{
-    _editor->js()->cursor.deleteCharacter();
-}
-
-void MainWindow::moveLeft()
-{
-    _editor->js()->cursor.moveLeft();
-}
-
-void MainWindow::moveRight()
-{
-    _editor->js()->cursor.moveRight();
-}
-
-void MainWindow::undo()
-{
-    _editor->js()->undoManager.undo();
-}
-
-void MainWindow::redo()
-{
-    _editor->js()->undoManager.redo();
-}
-
-//#include <MainWindow.moc>
-#endif

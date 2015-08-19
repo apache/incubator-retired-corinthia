@@ -17,6 +17,9 @@
 #pragma once
 #include "../toolkit.hpp"
 #include <QtWidgets/QWidget>
+#include <QtWidgets/QBoxLayout>
+#include <QtWidgets/QPushbutton>
+
 
 
 /*
@@ -32,58 +35,15 @@
  */
 
 
-class QPushButton;
 class QHBoxLayout;
-
-class Toolbar : public QWidget
-{
-    Q_OBJECT
-public:
-    Toolbar();
-    virtual ~Toolbar();
-
-    QPushButton *saveButton;
-    QPushButton *saveAsButton;
-    QPushButton *loadButton;
-    QHBoxLayout *_layout;
-};
-
-
-
-
-
-
-
-
-
-class Editor;
-class EditorJSEvaluator;
 class QWebView;
-class JSInterface;
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                //
-//                                             Cursor                                             //
-//                                                                                                //
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-class Cursor : public QWidget
-{
-    Q_OBJECT
-public:
-    Cursor(QWidget *parent = 0);
-    virtual ~Cursor();
-
-protected:
-    virtual void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
 //                                             Editor                                             //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-class EditorJSCallbacks;
 
 class Editor : public QWidget
 {
@@ -92,8 +52,7 @@ public:
     Editor(QWidget *parent = 0, Qt::WindowFlags f = 0);
     virtual ~Editor();
     QWebView *webView() const { return _webView; }
-    JSInterface *js() const { return _js; }
-    Cursor *cursor() const { return _cursor; }
+//    JSInterface *js() const { return _js; }
 
     public slots:
     void webViewloadFinished(bool ok);
@@ -108,16 +67,38 @@ protected:
 
 private:
     QWebView *_webView;
-    EditorJSCallbacks *_callbacks;
-    EditorJSEvaluator *_evaluator;
-    JSInterface *_js;
+//    EditorJSCallbacks *_callbacks;
+//    EditorJSEvaluator *_evaluator;
+//    JSInterface *_js;
     bool _selecting;
-    Cursor *_cursor;
 };
 
 
 
 
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                //
+//                                            Toolbar                                            //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+class Toolbar : public QWidget
+{
+    Q_OBJECT
+public:
+    // Constructor/Destructor
+    Toolbar();
+    ~Toolbar() {};
+
+
+    // Graphical elements
+    QPushButton saveButton;
+    QPushButton saveAsButton;
+    QPushButton loadButton;
+    QHBoxLayout layout;
+};
 
 
 
@@ -136,8 +117,10 @@ public:
     ~MainWindow() {};
 
 
-    Toolbar toolbar;
-    Editor  editor;
+    // Graphical elements
+    Toolbar     toolbar;
+    Editor      editor;
+    QVBoxLayout vlayout;
 };
 
 

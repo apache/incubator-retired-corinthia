@@ -49,9 +49,9 @@ qt_toolkit::qt_toolkit(toolkit_callback *setCallback, int setDebugLevel) :
     }
 
     // get notification, when user click on button
-    QObject::connect((const QObject *)window.toolbar.saveButton, SIGNAL(clicked()), this, SLOT(saveButton()));
-    QObject::connect((const QObject *)window.toolbar.saveAsButton, SIGNAL(clicked()), this, SLOT(saveAsButton()));
-    QObject::connect((const QObject *)window.toolbar.loadButton, SIGNAL(clicked()), this, SLOT(saveAsButton()));
+    QObject::connect((const QObject *)&window.toolbar.saveButton, SIGNAL(clicked()), this, SLOT(saveButton()));
+    QObject::connect((const QObject *)&window.toolbar.saveAsButton, SIGNAL(clicked()), this, SLOT(saveAsButton()));
+    QObject::connect((const QObject *)&window.toolbar.loadButton, SIGNAL(clicked()), this, SLOT(saveAsButton()));
 }
 
 
