@@ -19,6 +19,7 @@
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QBoxLayout>
 #include <QtWidgets/QPushbutton>
+#include <QtWebkitWidgets/QWebView>
 
 
 
@@ -47,30 +48,17 @@ class QWebView;
 
 class Editor : public QWidget
 {
+    // Editor is the html viewer / editor
     Q_OBJECT
 public:
-    Editor(QWidget *parent = 0, Qt::WindowFlags f = 0);
-    virtual ~Editor();
-    QWebView *webView() const { return _webView; }
-//    JSInterface *js() const { return _js; }
+    // Constructor/Destructor
+    Editor();
+    ~Editor() {};
 
-    public slots:
-    void webViewloadFinished(bool ok);
 
-protected:
-    virtual void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    virtual void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    virtual void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    virtual void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    virtual void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
-    virtual bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
-
-private:
-    QWebView *_webView;
-//    EditorJSCallbacks *_callbacks;
-//    EditorJSEvaluator *_evaluator;
-//    JSInterface *_js;
-    bool _selecting;
+    // Graphical elements
+    QWebView    webView;
+    QVBoxLayout layout;
 };
 
 
@@ -86,7 +74,10 @@ private:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 class Toolbar : public QWidget
 {
+    /* toolbar contains all buttons for the editor*/
     Q_OBJECT
+
+
 public:
     // Constructor/Destructor
     Toolbar();
@@ -111,6 +102,8 @@ class MainWindow : public QWidget
 {
     /* Main window, this adds all other widgets inside */
     Q_OBJECT
+
+
 public:
     // Constructor/Destructor
     MainWindow();
@@ -147,16 +140,15 @@ public:
     void run();
     bool callJavascript(const char *function);
 
+    static QApplication *app;
+    MainWindow           window;
+    toolkit_callback    *callback;
+    int                  debugLevel;
+
 
 public slots:
     void save();
     void saveAs();
     void load();
-
- 
-private:
-    static QApplication *app;
-    MainWindow           window;
-    toolkit_callback    *callback;
-    int                  debugLevel;
+    void webViewloadFinished(bool ok);
 };

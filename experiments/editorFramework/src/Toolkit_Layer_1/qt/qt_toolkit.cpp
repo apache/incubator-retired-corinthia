@@ -38,25 +38,26 @@ QApplication * qt_toolkit::app;
 
 // Constructor/Destructor
 qt_toolkit::qt_toolkit(toolkit_callback *setCallback, int setDebugLevel) :
+    window(),
     callback(setCallback),
     debugLevel(setDebugLevel)
 {
-    // Application is only added once 
-    if (!app) {
-        int    argc = 0;
-        char **argv = NULL;
-        app         = new QApplication(argc, argv);
-    }
-
     // get notification, when user click on button
-    QObject::connect((const QObject *)&window.toolbar.saveButton, SIGNAL(clicked()), this, SLOT(saveButton()));
-    QObject::connect((const QObject *)&window.toolbar.saveAsButton, SIGNAL(clicked()), this, SLOT(saveAsButton()));
-    QObject::connect((const QObject *)&window.toolbar.loadButton, SIGNAL(clicked()), this, SLOT(saveAsButton()));
+    QObject::connect((const QObject *)&window.toolbar.saveButton,   SIGNAL(clicked()),          this, SLOT(saveButton()));
+    QObject::connect((const QObject *)&window.toolbar.saveAsButton, SIGNAL(clicked()),          this, SLOT(saveAsButton()));
+    QObject::connect((const QObject *)&window.toolbar.loadButton,   SIGNAL(clicked()),          this, SLOT(saveAsButton()));
+    QObject::connect((const QObject *)&window.editor.webView,       SIGNAL(loadFinished(bool)), this, SLOT(webViewloadFinished(bool)));
 }
 
 
 // Instanciate the derived class.
 toolkit * toolkit::createInstance(toolkit_callback *tk, int setDebugLevel) {
+    // Application is only added once 
+    if (!qt_toolkit::app) {
+        int    argc = 0;
+        char **argv = NULL;
+        qt_toolkit::app = new QApplication(argc, argv);
+    }
     return (toolkit *)new qt_toolkit(tk, setDebugLevel);
 }
 
@@ -92,4 +93,9 @@ void qt_toolkit::saveAs() {
 
 // Notify load was requested
 void qt_toolkit::load() {
+}
+
+
+// Notify load was done
+void qt_toolkit::webViewloadFinished(bool ok) {
 }

@@ -18,15 +18,13 @@
 #include "qt_classes.hpp"
 
 
-void Editor::webViewloadFinished(bool ok) {}
 
-Editor::Editor(QWidget *parent, Qt::WindowFlags f) {}
-Editor::~Editor() {}
+Editor::Editor() {
+    webView.setParent(this);
+
+    layout.setContentsMargins(0, 0, 0, 0);
+    layout.addWidget(&webView);
+    setLayout(&layout);
+}
 
 
-void Editor::mouseDoubleClickEvent(QMouseEvent *event) {}
-void Editor::mouseMoveEvent(QMouseEvent *event) {}
-void Editor::mousePressEvent(QMouseEvent *event) {}
-void Editor::mouseReleaseEvent(QMouseEvent *event) {}
-void Editor::resizeEvent(QResizeEvent *event) {}
-bool Editor::eventFilter(QObject *obj, QEvent *event) { return true; }
