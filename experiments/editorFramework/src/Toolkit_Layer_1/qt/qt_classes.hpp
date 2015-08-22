@@ -17,6 +17,10 @@
 #pragma once
 #include "../toolkit.hpp"
 #include <QtWidgets/QWidget>
+#include <QtWidgets/QBoxLayout>
+#include <QtWidgets/QPushbutton>
+#include <QtWebkitWidgets/QWebView>
+
 
 
 /*
@@ -32,92 +36,60 @@
  */
 
 
-class QPushButton;
 class QHBoxLayout;
-
-class Toolbar : public QWidget
-{
-    Q_OBJECT
-public:
-    Toolbar();
-    virtual ~Toolbar();
-
-    QPushButton *saveButton;
-    QPushButton *saveAsButton;
-    QPushButton *loadButton;
-    QHBoxLayout *_layout;
-};
-
-
-
-
-
-
-
-
-
-class Editor;
-class EditorJSEvaluator;
 class QWebView;
-class JSInterface;
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                //
-//                                             Cursor                                             //
-//                                                                                                //
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-class Cursor : public QWidget
-{
-    Q_OBJECT
-public:
-    Cursor(QWidget *parent = 0);
-    virtual ~Cursor();
-
-protected:
-    virtual void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                //
 //                                             Editor                                             //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-class EditorJSCallbacks;
 
 class Editor : public QWidget
 {
+    // Editor is the html viewer / editor
     Q_OBJECT
 public:
-    Editor(QWidget *parent = 0, Qt::WindowFlags f = 0);
-    virtual ~Editor();
-    QWebView *webView() const { return _webView; }
-    JSInterface *js() const { return _js; }
-    Cursor *cursor() const { return _cursor; }
+    // Constructor/Destructor
+    Editor();
+    ~Editor() {};
 
-    public slots:
-    void webViewloadFinished(bool ok);
 
-protected:
-    virtual void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    virtual void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    virtual void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    virtual void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    virtual void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
-    virtual bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
-
-private:
-    QWebView *_webView;
-    EditorJSCallbacks *_callbacks;
-    EditorJSEvaluator *_evaluator;
-    JSInterface *_js;
-    bool _selecting;
-    Cursor *_cursor;
+    // Graphical elements
+    QWebView    webView;
+    QVBoxLayout layout;
 };
 
 
 
 
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                //
+//                                            Toolbar                                            //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+class Toolbar : public QWidget
+{
+    /* toolbar contains all buttons for the editor*/
+    Q_OBJECT
+
+
+public:
+    // Constructor/Destructor
+    Toolbar();
+    ~Toolbar() {};
+
+
+    // Graphical elements
+    QPushButton saveButton;
+    QPushButton saveAsButton;
+    QPushButton loadButton;
+    QHBoxLayout layout;
+};
 
 
 
@@ -130,14 +102,18 @@ class MainWindow : public QWidget
 {
     /* Main window, this adds all other widgets inside */
     Q_OBJECT
+
+
 public:
     // Constructor/Destructor
     MainWindow();
     ~MainWindow() {};
 
 
-    Toolbar toolbar;
-    Editor  editor;
+    // Graphical elements
+    Toolbar     toolbar;
+    Editor      editor;
+    QVBoxLayout vlayout;
 };
 
 
@@ -164,16 +140,15 @@ public:
     void run();
     bool callJavascript(const char *function);
 
+    static QApplication *app;
+    MainWindow           window;
+    toolkit_callback    *callback;
+    int                  debugLevel;
+
 
 public slots:
     void save();
     void saveAs();
     void load();
-
- 
-private:
-    static QApplication *app;
-    MainWindow           window;
-    toolkit_callback    *callback;
-    int                  debugLevel;
+    void webViewloadFinished(bool ok);
 };
