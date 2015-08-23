@@ -111,4 +111,15 @@ project will be posted soon.
 Meanwhile, the easiest way to contribute is by subscribing to the development
 list and asking your questions and offering suggestions there.
 
+# Link with third party libraries
+APACHE Corinthia links to a set of third party libraries, which are not
+included in the release, but are needed to build a binary.
+
+These libraries are not part of LICENSE, since they are not part of the
+release, and are therefore listed extra in this file:
+ 
+libxml2 (MIT license)
+SDL2 (zlib license)
+SDL2_image (zlib license)
+zlib (zlib license)
 
