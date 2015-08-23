@@ -356,7 +356,7 @@ DFextZipDirEntryP DFextZipWriteFile(DFextZipHandleP zipHandle, const char *fileN
         return NULL;
 
     // deflate buffer
-    strm.next_in   = buf;
+    strm.next_in   = (Bytef *)buf;
     strm.avail_in  = len;
     strm.avail_out = deflateBound(&strm, len);
     strm.next_out  = (Bytef *)xmalloc(strm.avail_out);
