@@ -44,106 +44,131 @@ static char *readStringFromFile(const char *filename)
     return data;
 }
 
-static Grammar *grammarFromFile(const char *filename)
+static Grammar *grammarFromStr(Grammar *flatGrammar, const char *filename, const char *input)
 {
-    char *input = readStringFromFile(filename);
-    if (input == NULL) {
-        perror(filename);
-        exit(1);
-    }
-
-    Grammar *flatGrammar = GrammarNewBuiltin();
     Term *term = parse(flatGrammar,"Grammar",input,0,strlen(input));
     if (term == NULL) {
         fprintf(stderr,"%s: Parse failed\n",filename);
         exit(1);
     }
 
-    Grammar *builtGrammar = grammarFromTerm(term,input);
+    return grammarFromTerm(term,input);
+}
 
-    free(input);
-    GrammarFree(flatGrammar);
+void usage(void)
+{
+    printf("Usage:\n"
+           "\n"
+           "flat -g\n"
+           "\n"
+           "    Print the built-in PEG grammar\n"
+           "\n"
+           "flat -p FILENAME\n"
+           "\n"
+           "    Parse FILENAME using the built-in PEG grammar, and print out the resulting\n"
+           "    parse tree\n"
+           "\n"
+           "flat -b FILENAME\n"
+           "\n"
+           "    Parse FILENAME using the built-in PEG grammar, then use the resulting parse\n"
+           "    tree to build a Grammar object, and print out the constructed grammar.\n"
+           "\n"
+           "flat GRAMMAR INPUT\n"
+           "\n"
+           "    Use the grammar defined in file GRAMMAR to parse the file INPUT, and print\n"
+           "    out the resulting parse tree\n"
+           "\n");
+    exit(1);
+}
 
-    return builtGrammar;
+char *maybeReadFile(const char *filename)
+{
+    if (filename == NULL)
+        return NULL;
+    char *str = readStringFromFile(filename);
+    if (str == NULL) {
+        perror(filename);
+        exit(1);
+    }
+    return str;
 }
 
 int main(int argc, const char **argv)
 {
+    const char *grammarFilename = NULL;
+    const char *inputFilename = NULL;
+    char *grammarStr = NULL;
+    char *inputStr = NULL;
+    int useBuiltinGrammar = 0;
+    int showGrammar = 0;
+    Grammar *builtGrammar = NULL;
+    Term *inputTerm = NULL;
 
     if ((argc == 2) && !strcmp(argv[1],"-g")) {
-        // Build and print out the built-in PEG grammar
-        Grammar *gram = GrammarNewBuiltin();
-        GrammarPrint(gram);
-        GrammarFree(gram);
+        useBuiltinGrammar = 1;
+        showGrammar = 1;
     }
     else if ((argc == 3) && !strcmp(argv[1],"-p")) {
-        const char *filename = argv[2];
-        char *input = readStringFromFile(filename);
-        if (input == NULL) {
-            perror(filename);
-            exit(1);
-        }
-        Grammar *gram = GrammarNewBuiltin();
-        Term *term = parse(gram,"Grammar",input,0,strlen(input));
-        if (term == NULL) {
-            fprintf(stderr,"%s: Parse failed\n",filename);
-            exit(1);
-        }
-        TermPrint(term,input,"");
-        free(input);
-        GrammarFree(gram);
+        useBuiltinGrammar = 1;
+        inputFilename = argv[2];
     }
     else if ((argc == 3) && !strcmp(argv[1],"-b")) {
-        Grammar *built = grammarFromFile(argv[2]);
-        GrammarPrint(built);
-        GrammarFree(built);
+        grammarFilename = argv[2];
+        showGrammar = 1;
     }
     else if (argc == 3) {
-        const char *grammarFilename = argv[1];
-        const char *inputFilename = argv[2];
+        grammarFilename = argv[1];
+        inputFilename = argv[2];
+    }
+    else {
+        usage();
+    }
 
-        char *inputStr = readStringFromFile(inputFilename);
-        if (inputStr == NULL) {
-            perror(inputFilename);
+    Grammar *flatGrammar = GrammarNewBuiltin();
+
+    inputStr = maybeReadFile(inputFilename);
+    grammarStr = maybeReadFile(grammarFilename);
+
+    if (grammarStr != NULL) {
+        builtGrammar = grammarFromStr(flatGrammar,grammarFilename,grammarStr);
+        if (builtGrammar == NULL) {
+            fprintf(stderr,"Cannot build grammar\n");
             exit(1);
         }
+    }
 
-        Grammar *builtGrammar = grammarFromFile(grammarFilename);
-        const char *firstRuleName = GrammarFirstRuleName(builtGrammar);
-        Term *inputTerm = parse(builtGrammar,firstRuleName,inputStr,0,strlen(inputStr));
+    Grammar *useGrammar = NULL;
+
+    if (useBuiltinGrammar)
+        useGrammar = flatGrammar;
+    else if (builtGrammar != NULL)
+        useGrammar = builtGrammar;
+    else
+        usage();
+
+    if (inputStr != NULL) {
+        const char *firstRuleName = GrammarFirstRuleName(useGrammar);
+        inputTerm = parse(useGrammar,firstRuleName,inputStr,0,strlen(inputStr));
         if (inputTerm == NULL) {
             fprintf(stderr,"%s: Parse failed\n",inputFilename);
             exit(1);
         }
-        TermPrint(inputTerm,inputStr,"");
+    }
 
-        free(inputStr);
-        GrammarFree(builtGrammar);
+    if (showGrammar) {
+        GrammarPrint(useGrammar);
+    }
+    else if (inputTerm != NULL) {
+        TermPrint(inputTerm,inputStr,"");
     }
     else {
-        printf("Usage:\n"
-               "\n"
-               "flat -g\n"
-               "\n"
-               "    Print the built-in PEG grammar\n"
-               "\n"
-               "flat -p FILENAME\n"
-               "\n"
-               "    Parse FILENAME using the built-in PEG grammar, and print out the resulting\n"
-               "    parse tree\n"
-               "\n"
-               "flat -b FILENAME\n"
-               "\n"
-               "    Parse FILENAME using the built-in PEG grammar, then use the resulting parse\n"
-               "    tree to build a Grammar object, and print out the constructed grammar.\n"
-               "\n"
-               "flat GRAMMAR INPUT\n"
-               "\n"
-               "    Use the grammar defined in file GRAMMAR to parse the file INPUT, and print\n"
-               "    out the resulting parse tree\n"
-               "\n");
-
-        return 1;
+        usage();
     }
+
+    free(grammarStr);
+    free(inputStr);
+    GrammarFree(flatGrammar);
+    if (builtGrammar != NULL)
+        GrammarFree(builtGrammar);
     return 0;
 }
