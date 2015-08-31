@@ -121,26 +121,6 @@ int main(int argc, const char **argv)
             usage();
     }
 
-//    if ((argc == 2) && !strcmp(argv[1],"-g")) {
-//        useBuiltinGrammar = 1;
-//        showGrammar = 1;
-//    }
-//    else if ((argc == 3) && !strcmp(argv[1],"-p")) {
-//        useBuiltinGrammar = 1;
-//        inputFilename = argv[2];
-//    }
-//    else if ((argc == 3) && !strcmp(argv[1],"-b")) {
-//        grammarFilename = argv[2];
-//        showGrammar = 1;
-//    }
-//    else if (argc == 3) {
-//        grammarFilename = argv[1];
-//        inputFilename = argv[2];
-//    }
-//    else {
-//        usage();
-//    }
-
     Grammar *flatGrammar = GrammarNewBuiltin();
 
     inputStr = maybeReadFile(inputFilename);
