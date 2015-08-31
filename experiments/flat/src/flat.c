@@ -57,27 +57,27 @@ static Grammar *grammarFromStr(Grammar *flatGrammar, const char *filename, const
 
 void usage(void)
 {
-    printf("Usage:\n"
+    printf("Usage: flat [options] GRAMMAR INPUT\n"
            "\n"
-           "flat -g\n"
+           "Options:\n"
            "\n"
-           "    Print the built-in PEG grammar\n"
+           "  -b, --builtin   Use the built-in grammar instead of a user-supplied one\n"
+           "  -g, --grammar   Don't parse input; just show the grammar that would be used\n"
+           "  -h, --help      Print this message\n"
            "\n"
-           "flat -p FILENAME\n"
+           "Arguments:\n"
            "\n"
-           "    Parse FILENAME using the built-in PEG grammar, and print out the resulting\n"
-           "    parse tree\n"
+           "  GRAMMAR         A file written in the Flat syntax that defines the syntax of\n"
+           "                  the language to be parsed. Should be omitted if -b is used.\n"
+           "  INPUT           A file written in the syntax of the language defined by\n"
+           "                  GRAMMAR. Should be omitted if -s is used.\n"
            "\n"
-           "flat -b FILENAME\n"
+           "Examples:\n"
            "\n"
-           "    Parse FILENAME using the built-in PEG grammar, then use the resulting parse\n"
-           "    tree to build a Grammar object, and print out the constructed grammar.\n"
-           "\n"
-           "flat GRAMMAR INPUT\n"
-           "\n"
-           "    Use the grammar defined in file GRAMMAR to parse the file INPUT, and print\n"
-           "    out the resulting parse tree\n"
-           "\n");
+           "  flat -b -s      Print out the built-in grammar\n"
+           "  flat arithmetic.flat test.exp\n"
+           "                  Parse the file test.exp using the language defined in\n"
+           "                  arithmetic.flat\n");
     exit(1);
 }
 
@@ -104,25 +104,42 @@ int main(int argc, const char **argv)
     Grammar *builtGrammar = NULL;
     Term *inputTerm = NULL;
 
-    if ((argc == 2) && !strcmp(argv[1],"-g")) {
-        useBuiltinGrammar = 1;
-        showGrammar = 1;
+    for (int i = 1; i < argc; i++) {
+        if (!strcmp(argv[i],"-b") || !strcmp(argv[i],"--builtin"))
+            useBuiltinGrammar = 1;
+        else if (!strcmp(argv[i],"-g") || !strcmp(argv[i],"--grammar"))
+            showGrammar = 1;
+        else if (!strcmp(argv[i],"-h") || !strcmp(argv[i],"--help"))
+            usage();
+        else if ((strlen(argv[i]) > 1) && argv[i][0] == '-')
+            usage();
+        else if ((grammarFilename == NULL) && !useBuiltinGrammar)
+            grammarFilename = argv[i];
+        else if ((inputFilename == NULL) && !showGrammar)
+            inputFilename = argv[i];
+        else
+            usage();
     }
-    else if ((argc == 3) && !strcmp(argv[1],"-p")) {
-        useBuiltinGrammar = 1;
-        inputFilename = argv[2];
-    }
-    else if ((argc == 3) && !strcmp(argv[1],"-b")) {
-        grammarFilename = argv[2];
-        showGrammar = 1;
-    }
-    else if (argc == 3) {
-        grammarFilename = argv[1];
-        inputFilename = argv[2];
-    }
-    else {
-        usage();
-    }
+
+//    if ((argc == 2) && !strcmp(argv[1],"-g")) {
+//        useBuiltinGrammar = 1;
+//        showGrammar = 1;
+//    }
+//    else if ((argc == 3) && !strcmp(argv[1],"-p")) {
+//        useBuiltinGrammar = 1;
+//        inputFilename = argv[2];
+//    }
+//    else if ((argc == 3) && !strcmp(argv[1],"-b")) {
+//        grammarFilename = argv[2];
+//        showGrammar = 1;
+//    }
+//    else if (argc == 3) {
+//        grammarFilename = argv[1];
+//        inputFilename = argv[2];
+//    }
+//    else {
+//        usage();
+//    }
 
     Grammar *flatGrammar = GrammarNewBuiltin();
 
