@@ -31,54 +31,54 @@ struct Rule {
 };
 
 struct Grammar {
-    Rule **nextDef;
-    Rule *defList;
+    Rule **nextRule;
+    Rule *ruleList;
 };
 
 Rule *RuleNew(const char *name, Expression *expr)
 {
-    Rule *def = (Rule *)calloc(1,sizeof(Rule));
-    def->name = strdup(name);
-    def->expr = expr;
-    return def;
+    Rule *rule = (Rule *)calloc(1,sizeof(Rule));
+    rule->name = strdup(name);
+    rule->expr = expr;
+    return rule;
 }
 
-void RuleFree(Rule *def)
+void RuleFree(Rule *rule)
 {
-    free(def->name);
-    ExpressionFree(def->expr);
-    free(def);
+    free(rule->name);
+    ExpressionFree(rule->expr);
+    free(rule);
 }
 
 Grammar *GrammarNew(void)
 {
     Grammar *gram = (Grammar *)calloc(1,sizeof(Grammar));
-    gram->nextDef = &gram->defList;
+    gram->nextRule = &gram->ruleList;
     return gram;
 }
 
 void GrammarFree(Grammar *gram)
 {
     Rule *next;
-    for (Rule *def = gram->defList; def != NULL; def = next) {
-        next = def->next;
-        RuleFree(def);
+    for (Rule *rule = gram->ruleList; rule != NULL; rule = next) {
+        next = rule->next;
+        RuleFree(rule);
     }
     free(gram);
 }
 
 void GrammarDefine(Grammar *gram, const char *name, Expression *expr)
 {
-    Rule *def = RuleNew(name,expr);
-    *gram->nextDef = def;
-    gram->nextDef = &def->next;
+    Rule *rule = RuleNew(name,expr);
+    *gram->nextRule = rule;
+    gram->nextRule = &rule->next;
 }
 
 Expression *GrammarLookup(Grammar *gram, const char *name)
 {
-    for (Rule *def = gram->defList; def != NULL; def = def->next) {
-        if (!strcmp(def->name,name))
-            return def->expr;
+    for (Rule *rule = gram->ruleList; rule != NULL; rule = rule->next) {
+        if (!strcmp(rule->name,name))
+            return rule->expr;
     }
     return NULL;
 }
@@ -102,15 +102,15 @@ static void GrammarResolveRecursive(Grammar *gram, Expression *expr, const char 
 
 void GrammarResolve(Grammar *gram)
 {
-    for (Rule *def = gram->defList; def != NULL; def = def->next)
-        GrammarResolveRecursive(gram,def->expr,def->name);
+    for (Rule *rule = gram->ruleList; rule != NULL; rule = rule->next)
+        GrammarResolveRecursive(gram,rule->expr,rule->name);
 }
 
 void GrammarPrint(Grammar *gram, int exprAsTree)
 {
     int maxNameLen = 0;
-    for (Rule *def = gram->defList; def != NULL; def = def->next) {
-        int nameLen = strlen(def->name);
+    for (Rule *rule = gram->ruleList; rule != NULL; rule = rule->next) {
+        int nameLen = strlen(rule->name);
         if (maxNameLen < nameLen)
             maxNameLen = nameLen;
     }
@@ -119,7 +119,7 @@ void GrammarPrint(Grammar *gram, int exprAsTree)
     memset(prefix,' ',maxNameLen+1);
     prefix[maxNameLen+1] = '\0';
 
-    for (Rule *def = gram->defList; def != NULL; def = def->next) {
+    for (Rule *def = gram->ruleList; def != NULL; def = def->next) {
         int nameLen = strlen(def->name);
         printf("%s",def->name);
         if (exprAsTree) {
@@ -145,8 +145,8 @@ void GrammarPrint(Grammar *gram, int exprAsTree)
 
 const char *GrammarFirstRuleName(Grammar *gram)
 {
-    if (gram->defList == NULL)
+    if (gram->ruleList == NULL)
         return NULL;
     else
-        return gram->defList->name;
+        return gram->ruleList->name;
 }
