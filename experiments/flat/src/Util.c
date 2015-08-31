@@ -77,47 +77,51 @@ uint32_t UTF8NextChar(const char *str, size_t *offsetp)
     }
 }
 
-void printEscapedRangeChar(char c)
+int printEscapedRangeChar(char c)
 {
+    int chars = 0;
     switch (c) {
         case '[':
-            printf("\\[");
+            chars += printf("\\[");
             break;
         case ']':
-            printf("\\]");
+            chars += printf("\\]");
             break;
         case '\\':
-            printf("\\\\");
+            chars += printf("\\\\");
             break;
         default:
-            printf("%c",c);
+            chars += printf("%c",c);
             break;
     }
+    return chars;
 }
 
-void printLiteral(const char *value)
+int printLiteral(const char *value)
 {
-    printf("\"");
+    int chars = 0;
+    chars += printf("\"");
     for (int i = 0; value[i] != '\0'; i++) {
         switch (value[i]) {
             case '\r':
-                printf("\\r");
+                chars += printf("\\r");
                 break;
             case '\n':
-                printf("\\n");
+                chars += printf("\\n");
                 break;
             case '\t':
-                printf("\\t");
+                chars += printf("\\t");
                 break;
             case '\"':
-                printf("\\\"");
+                chars += printf("\\\"");
                 break;
             case '\\':
-                printf("\\\\");
+                chars += printf("\\\\");
                 break;
             default:
-                printf("%c",value[i]);
+                chars += printf("%c",value[i]);
         }
     }
-    printf("\"");
+    chars += printf("\"");
+    return chars;
 }

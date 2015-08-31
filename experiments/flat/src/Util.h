@@ -21,5 +21,5 @@
 #include <stdint.h>
 
 uint32_t UTF8NextChar(const char *str, size_t *offsetp);
-void printEscapedRangeChar(char c);
-void printLiteral(const char *value);
+int printEscapedRangeChar(char c);
+int printLiteral(const char *value);

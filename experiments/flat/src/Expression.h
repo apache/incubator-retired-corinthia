@@ -120,6 +120,7 @@ Expression *ExpressionNewString(Expression *child);
 Expression *ExpressionNewLabel(const char *label, Expression *child);
 void ExpressionFree(Expression *expr);
 void ExpressionPrint(Expression *expr, int highestPrecedence, const char *indent);
+void ExpressionPrintTree(Expression *expr, const char *indent, int startCol);
 
 ExprKind ExpressionKind(Expression *expr);
 int ExpressionCount(Expression *expr);

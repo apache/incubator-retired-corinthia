@@ -354,6 +354,52 @@ void ExpressionPrint(Expression *expr, int highestPrecedence, const char *indent
         printf(")");
 }
 
+void ExpressionPrintTree(Expression *expr, const char *indent, int startCol)
+{
+    int col = startCol;
+    if (ExpressionKind(expr) == IdentExpr) {
+        col += printf("%s \"%s\"",ExprKindAsString(ExpressionKind(expr)),ExprIdentValue(expr));
+    }
+    else if (ExpressionKind(expr) == LabelExpr) {
+        col += printf("%s \"%s\"",ExprKindAsString(ExpressionKind(expr)),ExprLabelIdent(expr));
+    }
+    else if (ExpressionKind(expr) == LitExpr) {
+        col += printf("%s ",ExprKindAsString(ExpressionKind(expr)));
+        col += printLiteral(ExprLitValue(expr));
+    }
+    else {
+        col += printf("%s",ExprKindAsString(ExpressionKind(expr)));
+    }
+
+    // col is not currently used, but exists currently in anticipation of needing to display
+    // type information about each node in the tree on the right side of the output
+
+    printf("\n");
+
+    if (ExpressionKind(expr) == IdentExpr)
+        return;
+
+    int indentLen = strlen(indent);
+    char *nextIndent = (char *)malloc(indentLen+5);
+
+    int count = ExpressionCount(expr);
+    for (int i = 0; i < count; i++) {
+        Expression *child = ExpressionChildAt(expr,i);
+        if (i+1 < count) {
+            printf("%s|-- ",indent);
+            snprintf(nextIndent,indentLen+5,"%s|   ",indent);
+            ExpressionPrintTree(child,nextIndent,startCol+4);
+        }
+        else {
+            printf("%s\\-- ",indent);
+            snprintf(nextIndent,indentLen+5,"%s    ",indent);
+            ExpressionPrintTree(child,nextIndent,startCol+4);
+        }
+    }
+
+    free(nextIndent);
+}
+
 ExprKind ExpressionKind(Expression *expr)
 {
     return expr->kind;

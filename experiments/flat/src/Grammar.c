@@ -106,7 +106,7 @@ void GrammarResolve(Grammar *gram)
         GrammarResolveRecursive(gram,def->expr,def->name);
 }
 
-void GrammarPrint(Grammar *gram)
+void GrammarPrint(Grammar *gram, int exprAsTree)
 {
     int maxNameLen = 0;
     for (Rule *def = gram->defList; def != NULL; def = def->next) {
@@ -122,11 +122,22 @@ void GrammarPrint(Grammar *gram)
     for (Rule *def = gram->defList; def != NULL; def = def->next) {
         int nameLen = strlen(def->name);
         printf("%s",def->name);
-        for (int i = nameLen; i < maxNameLen+1; i++)
-            printf(" ");
-        printf(": ");
-        ExpressionPrint(def->expr,0,prefix);
-        printf(";\n");
+        if (exprAsTree) {
+            // Print the expression in tree format, with one line per node
+            printf("\n");
+            printf("\n");
+            printf("    ");
+            ExpressionPrintTree(def->expr,"    ",4);
+            printf("\n");
+        }
+        else {
+            // Print the expression in compact format, with one line per alternative
+            for (int i = nameLen; i < maxNameLen+1; i++)
+                printf(" ");
+            printf(": ");
+            ExpressionPrint(def->expr,0,prefix);
+            printf(";\n");
+        }
     }
 
     free(prefix);

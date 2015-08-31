@@ -62,6 +62,7 @@ void usage(void)
            "Options:\n"
            "\n"
            "  -b, --builtin   Use the built-in grammar instead of a user-supplied one\n"
+           "  -e, --exprtree  Print expressions as trees (only relevant if -g also given)\n"
            "  -g, --grammar   Don't parse input; just show the grammar that would be used\n"
            "  -h, --help      Print this message\n"
            "\n"
@@ -101,6 +102,7 @@ int main(int argc, const char **argv)
     char *inputStr = NULL;
     int useBuiltinGrammar = 0;
     int showGrammar = 0;
+    int exprAsTree = 0;
     Grammar *builtGrammar = NULL;
     Term *inputTerm = NULL;
 
@@ -109,6 +111,8 @@ int main(int argc, const char **argv)
             useBuiltinGrammar = 1;
         else if (!strcmp(argv[i],"-g") || !strcmp(argv[i],"--grammar"))
             showGrammar = 1;
+        else if (!strcmp(argv[i],"-e") || !strcmp(argv[i],"--exprtree"))
+            exprAsTree = 1;
         else if (!strcmp(argv[i],"-h") || !strcmp(argv[i],"--help"))
             usage();
         else if ((strlen(argv[i]) > 1) && argv[i][0] == '-')
@@ -153,7 +157,7 @@ int main(int argc, const char **argv)
     }
 
     if (showGrammar) {
-        GrammarPrint(useGrammar);
+        GrammarPrint(useGrammar,exprAsTree);
     }
     else if (inputTerm != NULL) {
         TermPrint(inputTerm,inputStr,"");
